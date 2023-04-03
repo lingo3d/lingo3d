@@ -1,6 +1,5 @@
 import { deg2Rad } from "@lincode/math"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import getActualScale from "../../display/utils/getActualScale"
@@ -27,7 +26,8 @@ export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
             PxControllerNonWalkableModeEnum,
             material,
             getPxControllerManager,
-            controllerHitCallback
+            controllerHitCallback,
+            destroy
         } = physxPtr[0]
 
         const ogParent = self.outerObject3d.parent

@@ -1,5 +1,4 @@
 import { deg2Rad } from "@lincode/math"
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import configSystem from "../utils/configSystem"
@@ -17,7 +16,8 @@ export const [addConfigRevoluteJointSystem] = configSystem(
         } = target
         if (!pxJoint) return
 
-        const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum } = physxPtr[0]
+        const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum, destroy } =
+            physxPtr[0]
 
         if (limited) {
             const limitPair = new PxJointAngularLimitPair(

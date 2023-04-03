@@ -1,4 +1,3 @@
-import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import { physxPtr } from "../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
@@ -15,7 +14,8 @@ export default (src: string, manager: PhysicsObjectManager) => {
         PxTriangleMeshDesc,
         getCooking,
         getInsertionCallback,
-        PxTriangleMeshGeometry
+        PxTriangleMeshGeometry,
+        destroy
     } = physxPtr[0]
 
     const [pointVector, count, index] = computeMergedPxVertices(manager)

@@ -1,6 +1,5 @@
 import { deg2Rad } from "@lincode/math"
 import { assertExhaustive } from "@lincode/utils"
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import D6Joint from "../../display/joints/D6Joint"
 import { CM2M } from "../../globals"
@@ -29,7 +28,8 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         PxD6AxisEnum,
         PxJointLimitCone,
         PxJointAngularLimitPair,
-        PxJointLinearLimitPair
+        PxJointLinearLimitPair,
+        destroy
     } = physxPtr[0]
     const {
         linearX,

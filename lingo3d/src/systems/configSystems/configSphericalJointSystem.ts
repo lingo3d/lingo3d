@@ -1,5 +1,4 @@
 import { deg2Rad } from "@lincode/math"
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import configSystem from "../utils/configSystem"
@@ -9,7 +8,8 @@ export const [addConfigSphericalJointSystem] = configSystem(
         const { pxJoint, limited, limitY, limitZ } = target
         if (!pxJoint) return
 
-        const { PxJointLimitCone, PxSphericalJointFlagEnum } = physxPtr[0]
+        const { PxJointLimitCone, PxSphericalJointFlagEnum, destroy } =
+            physxPtr[0]
         if (limited) {
             const cone = new PxJointLimitCone(
                 limitY * deg2Rad,

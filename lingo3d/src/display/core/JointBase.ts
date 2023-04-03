@@ -10,7 +10,6 @@ import { flushMultipleSelectionTargets } from "../../states/useMultipleSelection
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import HelperSphere from "./utils/HelperSphere"
@@ -96,7 +95,8 @@ export default abstract class JointBase
 
         this.createEffect(() => {
             const { _to, _from } = this
-            if (!physxPtr[0].physics || !_to || !_from) return
+            const { destroy } = physxPtr[0]
+            if (!destroy || !_to || !_from) return
 
             const [toManager] = getAppendables(_to)
             const [fromManager] = getAppendables(_from)

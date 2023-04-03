@@ -1,4 +1,5 @@
 type PhysX = {
+    destroy: (target: any) => void
     controllerHitCallback: any
     NativeArrayHelpers: any
     physics: any

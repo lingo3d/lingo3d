@@ -11,7 +11,6 @@ import {
     controllerManagerMap,
     managerContactMap
 } from "../../collections/pxCollections"
-import { destroyPtr } from "../../pointers/destroyPtr"
 import "./physxLoop"
 ;(async () => {
     const simdSupported = await simd()
@@ -189,7 +188,6 @@ import "./physxLoop"
         _emscripten_enum_PxQueryFlagEnum_eSTATIC
     } = PhysX
 
-    destroyPtr[0] = destroy
     const Px = PxTopLevelFunctions.prototype
 
     // create PxFoundation
@@ -596,6 +594,8 @@ import "./physxLoop"
     }
 
     physxPtr[0] = {
+        destroy: (target: any) =>
+            "release" in target ? target.release() : destroy(target),
         controllerHitCallback,
         NativeArrayHelpers,
         physics,

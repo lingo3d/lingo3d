@@ -1,4 +1,3 @@
-import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import { CM2M } from "../../globals"
@@ -10,7 +9,8 @@ export const [addConfigPrismaticJointSystem] = configSystem(
             target
         if (!pxJoint) return
 
-        const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
+        const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum, destroy } =
+            physxPtr[0]
 
         if (limited) {
             const linearLimit = new PxJointLinearLimitPair(

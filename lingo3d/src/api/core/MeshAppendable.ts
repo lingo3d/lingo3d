@@ -25,6 +25,7 @@ import { addLerpToSystem, deleteLerpToSystem } from "../../systems/lerpToSystem"
 import { addMoveToSystem, deleteMoveToSystem } from "../../systems/moveToSystem"
 import { addOnMoveSystem, deleteOnMoveSystem } from "../../systems/onMoveSystem"
 import { addLookToSystem, deleteLookToSystem } from "../../systems/lookToSystem"
+import { physxPtr } from "../../pointers/physxPtr"
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -323,5 +324,21 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public get worldDirection() {
         return getWorldDirection(this.object3d)
+    }
+
+    public queryNearby(radius: number) {
+        // assignPxVec(raycaster.ray.origin),
+        //     assignPxVec_(raycaster.ray.direction),
+        //     FAR
+
+        const { PxSphereGeometry, pxOverlap, destroy } = physxPtr[0]
+        if (!PxSphereGeometry) return []
+
+        const sphere = new PxSphereGeometry(radius)
+
+        // const pxHit = pxOverlap(
+        //     sphere
+        // )
+        destroy(sphere)
     }
 }
