@@ -64,7 +64,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(self)
-                    controllerManagerMap.delete(controller)
                     pxUpdateSet.delete(self)
                     self.actor = undefined
                 }
