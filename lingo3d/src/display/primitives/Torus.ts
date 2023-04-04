@@ -2,6 +2,7 @@ import { deg2Rad } from "@lincode/math"
 import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import {
+    TorusParams,
     allocateDefaultTorusGeometry,
     decreaseTorusGeometry,
     increaseTorusGeometry
@@ -9,7 +10,7 @@ import {
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
+const defaultParams: TorusParams = [0.5, 0.1, 16, 32, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
 const geometry = allocateDefaultTorusGeometry(defaultParams)
 
@@ -27,14 +28,8 @@ export default class Torus extends PooledPrimitve implements ITorus {
         )
     }
 
-    public getParams() {
-        return <const>[
-            0.5,
-            this.thickness,
-            16,
-            this.segments,
-            this.theta * deg2Rad
-        ]
+    public getParams(): TorusParams {
+        return [0.5, this.thickness, 16, this.segments, this.theta * deg2Rad]
     }
 
     private _segments?: number

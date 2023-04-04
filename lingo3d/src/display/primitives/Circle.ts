@@ -1,6 +1,7 @@
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { PI2 } from "../../globals"
 import {
+    CircleParams,
     allocateDefaultCircleGeometry,
     decreaseCircleGeometry,
     increaseCircleGeometry
@@ -9,7 +10,7 @@ import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 
-const defaultParams = <const>[0.5, 32, 0, PI2]
+const defaultParams: CircleParams = [0.5, 32, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
 const geometry = allocateDefaultCircleGeometry(defaultParams)
 
@@ -28,8 +29,8 @@ export default class Circle extends PooledPrimitve implements ICircle {
         this.object3d.scale.z = Number.EPSILON
     }
 
-    public getParams() {
-        return <const>[0.5, this.segments, 0, this.theta * deg2Rad]
+    public getParams(): CircleParams {
+        return [0.5, this.segments, 0, this.theta * deg2Rad]
     }
 
     private _theta?: number

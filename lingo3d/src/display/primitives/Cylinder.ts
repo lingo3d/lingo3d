@@ -4,6 +4,7 @@ import ICylinder, {
     cylinderSchema
 } from "../../interface/ICylinder"
 import {
+    CylinderParams,
     allocateDefaultCylinderGeometry,
     decreaseCylinderGeometry,
     increaseCylinderGeometry
@@ -11,7 +12,7 @@ import {
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-const defaultParams = <const>[0.5, 0.5, 1, 32, 1, false, 0, PI2]
+const defaultParams: CylinderParams = [0.5, 0.5, 1, 32, 1, false, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
 export const cylinderGeometry = allocateDefaultCylinderGeometry(defaultParams)
 
@@ -29,8 +30,8 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         )
     }
 
-    public getParams() {
-        return <const>[
+    public getParams(): CylinderParams {
+        return [
             this.radiusTop,
             this.radiusBottom,
             1,

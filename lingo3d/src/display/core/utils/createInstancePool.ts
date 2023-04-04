@@ -1,6 +1,8 @@
+import { Point } from "@lincode/math"
+
 export default <
     Type,
-    Params = Array<any> | ReadonlyArray<any>,
+    Params extends Array<string | number | boolean | Point | undefined>,
     Context extends object | void = void
 >(
     factory: (params: Params, context: Context) => Type,

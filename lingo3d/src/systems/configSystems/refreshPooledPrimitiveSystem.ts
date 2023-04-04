@@ -8,7 +8,7 @@ export const [
     target.decreaseGeometry(target.paramString)
     const params = target.getParams()
     target.object3d.geometry = target.increaseGeometry(
-        params,
+        params as any,
         (target.paramString = JSON.stringify(params))
     )
 })

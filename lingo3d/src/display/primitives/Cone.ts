@@ -1,6 +1,7 @@
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import {
+    ConeParams,
     allocateDefaultConeGeometry,
     decreaseConeGeometry,
     increaseConeGeometry
@@ -8,7 +9,7 @@ import {
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
+const defaultParams: ConeParams = [0.5, 1, 32, 1, false, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
 const geometry = allocateDefaultConeGeometry(defaultParams)
 
@@ -26,8 +27,8 @@ export default class Cone extends PooledPrimitve implements ICone {
         )
     }
 
-    public getParams() {
-        return <const>[0.5, 1, this.segments, 1, false, 0, PI2]
+    public getParams(): ConeParams {
+        return [0.5, 1, this.segments, 1, false, 0, PI2]
     }
 
     private _segments?: number
