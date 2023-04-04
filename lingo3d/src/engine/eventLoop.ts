@@ -5,7 +5,6 @@ import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
-import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { STANDARD_FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { onAfterRender } from "../events/onAfterRender"
@@ -41,7 +40,6 @@ const callbacks = new Set<() => void>()
 
 const clock = new Clock()
 let delta = 0
-let renderSlowCount = 0
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -57,10 +55,6 @@ createEffect(() => {
         dtPtr[0] = delta
         delta = 0
         for (const cb of callbacks) cb()
-        if (++renderSlowCount === 2) {
-            renderSlowCount = 0
-            emitRenderHalfRate()
-        }
     })
 }, [getFps, getRenderer, getFirstLoad, getFirstLoadBeforeRender])
 

@@ -2,7 +2,6 @@ import { CubeCamera, WebGLCubeRenderTarget } from "three"
 import MeshAppendable from "../api/core/MeshAppendable"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
-import { onRenderHalfRate } from "../events/onRenderHalfRate"
 import renderSystemWithLifeCycleAndData from "./utils/renderSystemWithLifeCycleAndData"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"
 import { rendererPtr } from "../pointers/rendererPtr"
@@ -33,6 +32,5 @@ export const [addReflectionSystem, deleteReflectionSystem] =
                 manager.outerObject3d.visible = false
             for (const manager of queued.keys())
                 manager.outerObject3d.visible = true
-        },
-        onRenderHalfRate
+        }
     )
