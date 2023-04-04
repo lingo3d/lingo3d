@@ -10,9 +10,9 @@ import { physxPtr } from "../../pointers/physxPtr"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import {
-    pxVYUpdateMap,
-    pxVXUpdateMap,
-    pxVZUpdateMap,
+    controllerVYUpdateMap,
+    controllerVXUpdateMap,
+    controllerVZUpdateMap,
     groundedControllerManagers,
     managerActorMap,
     managerControllerMap
@@ -46,11 +46,11 @@ createEffect(() => {
             const { x: px, y: py, z: pz } = manager.position
 
             let dy = 0
-            const vyUpdate = pxVYUpdateMap.get(manager)
-            pxVYUpdateMap.delete(manager)
+            const vyUpdate = controllerVYUpdateMap.get(manager)
+            controllerVYUpdateMap.delete(manager)
 
-            const dx = pxVXUpdateMap.get(manager) ?? 0
-            const dz = pxVZUpdateMap.get(manager) ?? 0
+            const dx = controllerVXUpdateMap.get(manager) ?? 0
+            const dz = controllerVZUpdateMap.get(manager) ?? 0
 
             if (manager.gravity !== false) {
                 const hit = lockHit(manager, vyUpdate !== undefined)
@@ -67,8 +67,8 @@ createEffect(() => {
                     dy = -manager.capsuleHeight!
                     vyMap.set(manager, 0)
                     groundedControllerManagers.add(manager)
-                    pxVXUpdateMap.delete(manager)
-                    pxVZUpdateMap.delete(manager)
+                    controllerVXUpdateMap.delete(manager)
+                    controllerVZUpdateMap.delete(manager)
                 } else {
                     const vy =
                         (vyUpdate ?? vyMap.get(manager) ?? 0) +

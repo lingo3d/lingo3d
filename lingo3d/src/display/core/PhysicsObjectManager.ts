@@ -21,9 +21,9 @@ import {
 } from "../../systems/configSystems/refreshPhysicsSystem"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import {
-    pxVXUpdateMap,
-    pxVYUpdateMap,
-    pxVZUpdateMap,
+    controllerVXUpdateMap,
+    controllerVYUpdateMap,
+    controllerVZUpdateMap,
     actorPtrManagerMap,
     controllerManagerContactMap,
     managerActorPtrMap,
@@ -70,7 +70,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (!actor) return
 
         if (this._physics === "character") {
-            pxVXUpdateMap.set(this, val)
+            controllerVXUpdateMap.set(this, val)
             return
         }
         const velocity = actor.getLinearVelocity()
@@ -86,7 +86,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (!actor) return
 
         if (this._physics === "character") {
-            pxVYUpdateMap.set(this, val)
+            controllerVYUpdateMap.set(this, val)
             return
         }
         const velocity = actor.getLinearVelocity()
@@ -102,7 +102,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (!actor) return
 
         if (this._physics === "character") {
-            pxVZUpdateMap.set(this, val)
+            controllerVZUpdateMap.set(this, val)
             return
         }
         const velocity = actor.getLinearVelocity()
