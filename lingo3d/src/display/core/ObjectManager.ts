@@ -15,7 +15,10 @@ export const getFoundManager = (
     hiddenFromSceneGraph?: boolean
 ) => {
     const childManager = getManager(child)
-    if (childManager instanceof FoundManager) return childManager
+    if (childManager) {
+        if (childManager instanceof FoundManager) return childManager
+        return undefined
+    }
 
     const result = setManager(child, new FoundManager(child, parentManager))
     !hiddenFromSceneGraph && parentManager.appendNode(result)
@@ -127,22 +130,27 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
-                result.push(getFoundManager(child, this))
+                const found = getFoundManager(child, this)
+                found && result.push(found)
             })
         else if (typeof name === "string") {
             const sanitized = PropertyBinding.sanitizeNodeName(name)
             this.outerObject3d.traverse((child) => {
-                child.name === sanitized &&
-                    result.push(getFoundManager(child, this))
+                if (child.name !== sanitized) return
+                const found = getFoundManager(child, this)
+                found && result.push(found)
             })
         } else if (typeof name === "function")
             this.outerObject3d.traverse((child) => {
-                name(child.name) && result.push(getFoundManager(child, this))
+                if (!name(child.name)) return
+                const found = getFoundManager(child, this)
+                found && result.push(found)
             })
         else
             this.outerObject3d.traverse((child) => {
-                name.test(child.name) &&
-                    result.push(getFoundManager(child, this))
+                if (!name.test(child.name)) return
+                const found = getFoundManager(child, this)
+                found && result.push(found)
             })
         return result
     }
