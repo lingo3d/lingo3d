@@ -2,7 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import "../eventLoop"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../states/useFirstLoad"
-import { assignPxTransform, setPxVec, setPxVec_ } from "./pxMath"
+import { setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import fpsAlpha from "../../display/utils/fpsAlpha"
 import { onPhysXLoop } from "../../events/onPhysXLoop"
@@ -19,7 +19,6 @@ import {
 } from "../../collections/pxCollections"
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
-import { pxUpdateSet } from "../../collections/pxUpdateSet"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
@@ -78,33 +77,13 @@ createEffect(() => {
                 }
             } else hitMap.set(manager, false)
 
-            if (pxUpdateSet.has(manager)) {
-                pxUpdateSet.delete(manager)
-
-                const { x: cx, y: cy, z: cz } = controller.getPosition()
-
-                controller.move(
-                    setPxVec(px - cx + dx, py - cy + dy, pz - cz + dz),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
-            } else
-                controller.move(
-                    setPxVec(dx, dy, dz),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
+            controller.move(
+                setPxVec(dx, dy, dz),
+                0.001,
+                dtPtr[0],
+                pxControllerFilters
+            )
         }
-        for (const manager of pxUpdateSet) {
-            manager.actor.setGlobalPose(assignPxTransform(manager))
-            if (!("setLinearVelocity" in manager.actor)) continue
-            manager.actor.setLinearVelocity(setPxVec(0, 0, 0))
-            manager.actor.setAngularVelocity(setPxVec(0, 0, 0))
-        }
-        pxUpdateSet.clear()
-
         pxScene.simulate(dtPtr[0])
         pxScene.fetchResults(true)
 

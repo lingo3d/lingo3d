@@ -11,7 +11,6 @@ import {
     managerActorMap,
     managerControllerMap
 } from "../../collections/pxCollections"
-import { pxUpdateSet } from "../../collections/pxUpdateSet"
 
 export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
     configMemoSystemWithCleanUpAndData(
@@ -64,7 +63,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(self)
-                    pxUpdateSet.delete(self)
                     self.actor = undefined
                 }
             }
@@ -87,7 +85,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
 
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(self)
-                pxUpdateSet.delete(self)
                 self.actor = undefined
                 self.emitPropertyChangedEvent("physics")
             }
