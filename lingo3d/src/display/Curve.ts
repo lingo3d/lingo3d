@@ -51,8 +51,6 @@ export default class Curve extends MeshAppendable implements ICurve {
 
     public constructor() {
         super()
-        scene.add(this.outerObject3d)
-
         this.createEffect(() => {
             const segments = this._points.length * this._subdivide
 

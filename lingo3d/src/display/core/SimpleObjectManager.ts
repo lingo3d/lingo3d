@@ -1,7 +1,6 @@
 import { Object3D } from "three"
 import ISimpleObjectManager from "../../interface/ISimpleObjectManager"
 import AnimatedObjectManager from "./AnimatedObjectManager"
-import scene from "../../engine/scene"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 
@@ -9,11 +8,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
     implements ISimpleObjectManager
 {
-    public constructor(object3d = new Object3D() as T, unmounted?: boolean) {
-        super(object3d)
-        !unmounted && scene.add(object3d)
-    }
-
     public get scaleX() {
         return this.outerObject3d.scale.x
     }
