@@ -6,7 +6,7 @@ import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
-import { pxUpdateShapeSet } from "../collections/pxCollections"
+import { pxUpdateShapeSet } from "../collections/pxUpdateShapeSet"
 
 export type TransformControlsPhase = "start" | "end" | "move"
 export type TransformControlsMode = "translate" | "rotate" | "scale"

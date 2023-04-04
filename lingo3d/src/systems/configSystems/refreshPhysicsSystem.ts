@@ -9,9 +9,9 @@ import {
     actorPtrManagerMap,
     controllerManagerMap,
     managerActorMap,
-    managerControllerMap,
-    pxUpdateSet
+    managerControllerMap
 } from "../../collections/pxCollections"
+import { pxUpdateSet } from "../../collections/pxUpdateSet"
 
 export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
     configMemoSystemWithCleanUpAndData(

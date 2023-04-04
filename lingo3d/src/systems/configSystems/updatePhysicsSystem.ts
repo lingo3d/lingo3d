@@ -1,5 +1,6 @@
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { pxUpdateSet, pxUpdateShapeSet } from "../../collections/pxCollections"
+import { pxUpdateSet } from "../../collections/pxUpdateSet"
+import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import configSystem from "../utils/configSystem"
 import { addRefreshPhysicsSystem } from "./refreshPhysicsSystem"

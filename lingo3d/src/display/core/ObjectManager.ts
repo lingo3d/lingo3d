@@ -7,7 +7,7 @@ import { CM2M, M2CM } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
-import { pxUpdateShapeSet } from "../../collections/pxCollections"
+import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 
 export const getFoundManager = (
     child: Object3D,

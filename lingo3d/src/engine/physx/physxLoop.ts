@@ -13,13 +13,13 @@ import {
     pxVYUpdateMap,
     pxVXUpdateMap,
     pxVZUpdateMap,
-    pxUpdateSet,
     groundedControllerManagers,
     managerActorMap,
     managerControllerMap
 } from "../../collections/pxCollections"
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
+import { pxUpdateSet } from "../../collections/pxUpdateSet"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()

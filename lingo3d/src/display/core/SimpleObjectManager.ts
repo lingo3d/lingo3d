@@ -3,7 +3,7 @@ import ISimpleObjectManager from "../../interface/ISimpleObjectManager"
 import AnimatedObjectManager from "./AnimatedObjectManager"
 import scene from "../../engine/scene"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
-import { pxUpdateShapeSet } from "../../collections/pxCollections"
+import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 
 export default class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
