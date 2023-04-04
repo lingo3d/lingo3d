@@ -8,6 +8,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
+import { hideManager } from "../utils/hideManager"
 
 export const getFoundManager = (
     child: Object3D,
@@ -19,10 +20,8 @@ export const getFoundManager = (
         if (childManager instanceof FoundManager) return childManager
         return undefined
     }
-
     const result = setManager(child, new FoundManager(child, parentManager))
-    !hiddenFromSceneGraph && parentManager.appendNode(result)
-
+    hiddenFromSceneGraph && hideManager(result)
     return result
 }
 

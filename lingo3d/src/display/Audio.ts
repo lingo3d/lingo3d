@@ -1,29 +1,12 @@
-import store, { createEffect, Reactive } from "@lincode/reactivity"
+import store, { Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
-import { getCameraRendered } from "../states/useCameraRendered"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
-import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
-
-const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
-    undefined
-)
-
-createEffect(() => {
-    const audioListener = getAudioListener()
-    if (!audioListener) return
-
-    const [cam] = cameraRenderedPtr
-    cam.add(audioListener)
-
-    return () => {
-        cam.remove(audioListener)
-    }
-}, [getCameraRendered, getAudioListener])
+import { getAudioListener, setAudioListener } from "../states/useAudioListener"
 
 export default class Audio
     extends MeshAppendable<PositionalAudio>

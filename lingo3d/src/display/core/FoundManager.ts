@@ -17,7 +17,6 @@ import {
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
-import { appendableRoot } from "../../collections/appendableRoot"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -29,7 +28,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         public owner: MeshAppendable
     ) {
         super(mesh, true)
-        appendableRoot.delete(this)
+        owner.append(this)
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults
