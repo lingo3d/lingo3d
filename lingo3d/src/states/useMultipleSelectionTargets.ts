@@ -3,7 +3,6 @@ import { onDispose } from "../events/onDispose"
 import { Object3D } from "three"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
-import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
@@ -58,10 +57,8 @@ createEffect(() => {
     const [targets] = getMultipleSelectionTargets()
     if (!targets.size) return
 
-    const group = new Object3D()
-    scene.add(group)
-
-    const groupManager = new SimpleObjectManager(group)
+    const groupManager = new SimpleObjectManager()
+    const group = groupManager.object3d
     hideManager(groupManager)
     setSelectionTarget(groupManager)
 
@@ -97,7 +94,6 @@ createEffect(() => {
             for (const [object, parent] of parentEntries) parent.attach(object)
 
         groupManager.dispose()
-        scene.remove(group)
         handle.cancel()
     }
 }, [getMultipleSelectionTargets])
