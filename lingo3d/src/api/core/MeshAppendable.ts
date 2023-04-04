@@ -29,9 +29,6 @@ import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import { forceGet } from "@lincode/utils"
-
-const radiusSphereMap = new Map<number, any>()
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -75,6 +72,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     protected override disposeNode() {
         super.disposeNode()
         this.outerObject3d.parent?.remove(this.outerObject3d)
+        this.querySphere && physxPtr[0].destroy(this.querySphere)
     }
 
     public override get name() {
@@ -332,19 +330,19 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         return getWorldDirection(this.object3d)
     }
 
+    private queryRadius?: number
+    private querySphere?: any
     public queryNearby(radius: number) {
-        const { PxSphereGeometry, pxOverlap } = physxPtr[0]
+        const { PxSphereGeometry, pxOverlap, destroy } = physxPtr[0]
         if (!PxSphereGeometry) return []
 
-        const sphere = forceGet(
-            radiusSphereMap,
-            radius,
-            () => new PxSphereGeometry(radius * CM2M)
-        )
-        const pxHit = pxOverlap(sphere, assignPxTransform(this))
-
+        if (radius !== this.queryRadius) {
+            this.queryRadius = radius
+            this.querySphere && destroy(this.querySphere)
+            this.querySphere = new PxSphereGeometry(radius * CM2M)
+        }
         const result: Array<PhysicsObjectManager> = []
-        for (const item of pxHit)
+        for (const item of pxOverlap(this.querySphere, assignPxTransform(this)))
             result.push(actorPtrManagerMap.get(item.actor.ptr)!)
         return result
     }

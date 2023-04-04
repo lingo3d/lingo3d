@@ -23,7 +23,7 @@ export default <
     const increaseCount = (
         params: Params,
         paramString = JSON.stringify(params),
-        context: Context
+        context = undefined as Context
     ): Type => {
         const defaultInstance = defaultParamsInstanceMap.get(paramString)
         if (defaultInstance) return defaultInstance
