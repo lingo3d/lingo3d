@@ -3,6 +3,7 @@ import ISimpleObjectManager from "../../interface/ISimpleObjectManager"
 import AnimatedObjectManager from "./AnimatedObjectManager"
 import scene from "../../engine/scene"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
+import { pxUpdateShapeSet } from "../../collections/pxCollections"
 
 export default class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -18,7 +19,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleX(val) {
         this.outerObject3d.scale.x = val
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 
@@ -27,7 +28,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleY(val) {
         this.outerObject3d.scale.y = val
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 
@@ -36,7 +37,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleZ(val) {
         this.outerObject3d.scale.z = val
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 

@@ -6,6 +6,7 @@ import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
+import { pxUpdateShapeSet } from "../collections/pxCollections"
 
 export type TransformControlsPhase = "start" | "end" | "move"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -25,7 +26,7 @@ onTransformControls((phase) => {
     if (getEditorMode() === "scale") {
         for (const target of targets) {
             if (!("object3d" in target)) continue
-            target.userData.updatePhysicsShape = true
+            pxUpdateShapeSet.add(target)
             addUpdatePhysicsSystem(target)
         }
         return

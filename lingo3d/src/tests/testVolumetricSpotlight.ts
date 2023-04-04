@@ -11,7 +11,6 @@ const ground = new Cube()
 ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
-ground.physics = "map"
 
 const light = new PointLight()
 light.castShadow = true
@@ -24,5 +23,5 @@ cube.y = -100
 cube.physics = "static"
 
 onBeforeRender(() => {
-    light.queryNearby(100)
+    console.log(light.queryNearby(100).length)
 })

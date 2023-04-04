@@ -7,6 +7,7 @@ import { CM2M, M2CM } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
+import { pxUpdateShapeSet } from "../../collections/pxCollections"
 
 export const getFoundManager = (
     child: Object3D,
@@ -87,7 +88,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set width(val) {
         this.object3d.scale.x = val * CM2M
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 
@@ -96,7 +97,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set height(val) {
         this.object3d.scale.y = val * CM2M
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 
@@ -105,7 +106,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set depth(val) {
         this.object3d.scale.z = val * CM2M
-        this.userData.updatePhysicsShape = true
+        pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
     }
 

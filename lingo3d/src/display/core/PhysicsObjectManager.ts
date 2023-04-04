@@ -24,7 +24,6 @@ import {
     pxVXUpdateMap,
     pxVYUpdateMap,
     pxVZUpdateMap,
-    pxUpdateSet,
     actorPtrManagerMap,
     controllerManagerContactMap,
     managerActorPtrMap,
@@ -204,13 +203,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set jointCount(val) {
         this._jointCount = val
         this.refreshPhysics()
-    }
-
-    public updatePhysicsTransform() {
-        this.actor && pxUpdateSet.add(this)
-    }
-    public updatePhysicsShape() {
-        this.actor && addRefreshPhysicsSystem(this, true)
     }
 
     //@ts-ignore

@@ -29,6 +29,9 @@ import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import { forceGet } from "@lincode/utils"
+
+const radiusSphereMap = new Map<number, any>()
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -330,12 +333,15 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public queryNearby(radius: number) {
-        const { PxSphereGeometry, pxOverlap, destroy } = physxPtr[0]
+        const { PxSphereGeometry, pxOverlap } = physxPtr[0]
         if (!PxSphereGeometry) return []
 
-        const sphere = new PxSphereGeometry(radius * CM2M)
+        const sphere = forceGet(
+            radiusSphereMap,
+            radius,
+            () => new PxSphereGeometry(radius * CM2M)
+        )
         const pxHit = pxOverlap(sphere, assignPxTransform(this))
-        destroy(sphere)
 
         const result: Array<PhysicsObjectManager> = []
         for (const item of pxHit)

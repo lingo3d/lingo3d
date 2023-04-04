@@ -19,3 +19,4 @@ export const controllerManagerContactMap = new WeakMap<
     PhysicsObjectManager,
     Set<PhysicsObjectManager>
 >()
+export const pxUpdateShapeSet = new WeakSet<MeshAppendable>()
