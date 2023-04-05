@@ -8,12 +8,10 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
-import { hideManager } from "../utils/hideManager"
 
 export const getFoundManager = (
     child: Object3D,
-    parentManager: MeshAppendable,
-    hiddenFromSceneGraph?: boolean
+    parentManager: MeshAppendable
 ) => {
     const childManager = getManager(child)
     if (childManager) {
@@ -21,7 +19,6 @@ export const getFoundManager = (
         return undefined
     }
     const result = setManager(child, new FoundManager(child, parentManager))
-    hiddenFromSceneGraph && hideManager(result)
     return result
 }
 
@@ -112,15 +109,12 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public find(
-        name: string,
-        hiddenFromSceneGraph?: boolean
-    ): FoundManager | undefined {
+    public find(name: string): FoundManager | undefined {
         const child = this.outerObject3d.getObjectByName(
             PropertyBinding.sanitizeNodeName(name)
         )
         if (!child) return
-        return getFoundManager(child, this, hiddenFromSceneGraph)
+        return getFoundManager(child, this)
     }
 
     public findAll(

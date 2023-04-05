@@ -28,7 +28,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         public owner: MeshAppendable
     ) {
         super(mesh, true)
-        owner.append(this)
+        owner.appendNode(this)
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults
