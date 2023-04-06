@@ -6,7 +6,6 @@ import { assignPxVec, assignPxVec_ } from "../../../../engine/physx/pxMath"
 import { FAR, M2CM } from "../../../../globals"
 import { cameraRenderedPtr } from "../../../../pointers/cameraRenderedPtr"
 import { physxPtr } from "../../../../pointers/physxPtr"
-import { mouseRaycastMeshPtr } from "../../../../pointers/mouseRaycastMeshPtr"
 import computePerFrameWithData from "../../../../utils/computePerFrameWithData"
 import { pt3d0 } from "../../../utils/reusables"
 import { vec2Point } from "../../../utils/vec2Point"
@@ -20,6 +19,7 @@ type RaycastResult = {
     distance: number
     normal: Point3d
     manager?: VisibleMixin
+    mesh: Object3D
 }
 type RaycastData = {
     x: number
@@ -53,23 +53,22 @@ export const mouseRaycast = computePerFrameWithData(
                 (manager && "loaded" in manager && manager.loaded.done))
         ) {
             const { x, y, z } = pxHit.normal
-            const manager = actorPtrManagerMap.get(pxHit.actor.ptr)
-            mouseRaycastMeshPtr[0] = manager?.object3d
+            const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
             return {
                 point: vec2Point(pxHit.position),
                 distance: pxHit.distance * M2CM,
                 normal: new Point3d(x, y, z),
-                manager
+                manager,
+                mesh: manager.object3d
             }
         }
-        if (intersection) {
-            mouseRaycastMeshPtr[0] = intersection.object
+        if (intersection)
             return {
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
-                manager
+                manager,
+                mesh: intersection.object
             }
-        }
     }
 )

@@ -24,7 +24,7 @@ createEffect(() => {
 
         const curve = new Curve()
         curve.helper = true
-        const focus = getSelectionFocus()
+        const prevSelectionFocus = getSelectionFocus()
         setSelectionFocus(curve)
 
         const handle1 = onMouseClick((e) => {
@@ -38,7 +38,7 @@ createEffect(() => {
             curve.helper = false
             curve.points.length < 2 && curve.dispose()
             handle1.cancel()
-            setSelectionFocus(focus)
+            setSelectionFocus(prevSelectionFocus)
         })
     })
     return () => {

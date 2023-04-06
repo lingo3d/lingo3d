@@ -4,12 +4,11 @@ import VisibleMixin from "../../mixins/VisibleMixin"
 import { onMouseDown } from "../../../../events/onMouseDown"
 import { mouseRaycast } from "./mouseRaycast"
 
-type Then = (obj: VisibleMixin, e: LingoMouseEvent) => void
-
 export default (
     onEvent: typeof onMouseDown,
     candidates: Set<Object3D>,
-    then: Then
+    dispatchEvent: (manager: VisibleMixin, e: LingoMouseEvent) => void,
+    cb?: (mesh: Object3D) => void
 ) =>
     onEvent((e) => {
         const result = mouseRaycast(candidates, {
@@ -18,9 +17,9 @@ export default (
         })
         if (!result) return
 
-        const { point, distance, manager, normal } = result
+        const { point, distance, manager, normal, mesh } = result
         manager &&
-            then(
+            dispatchEvent(
                 manager,
                 new LingoMouseEvent(
                     e.x,
@@ -35,4 +34,5 @@ export default (
                     manager
                 )
             )
+        cb?.(mesh)
     })
