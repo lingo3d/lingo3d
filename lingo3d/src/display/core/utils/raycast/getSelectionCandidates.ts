@@ -18,15 +18,12 @@ const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
     frozenSet: Set<Appendable>
 ) => {
-    for (const manager of targets)
-        if (
-            !frozenSet.has(manager) &&
-            "addToRaycastSet" in manager &&
-            !unselectableSet.has(manager)
-        ) {
+    for (const manager of targets) {
+        if (frozenSet.has(manager) || unselectableSet.has(manager)) continue
+        "addToRaycastSet" in manager &&
             manager.addToRaycastSet(selectionCandidates)
-            manager.children && traverse(manager.children, frozenSet)
-        }
+        manager.children && traverse(manager.children, frozenSet)
+    }
 }
 
 export const getSelectionCandidates = throttleTrailing(
