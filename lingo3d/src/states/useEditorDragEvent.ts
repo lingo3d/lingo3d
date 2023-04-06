@@ -58,12 +58,11 @@ createEffect(() => {
     if (!isDragEvent || !indicator) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const hit = raycast(
-        xNorm,
-        yNorm,
-        selectionCandidates,
-        getGrid() ? editorPlane : undefined
-    )
+    const hit = raycast(selectionCandidates, {
+        x: xNorm,
+        y: yNorm,
+        additionalCandidate: getGrid() ? editorPlane : undefined
+    })
     hitManagerRef.current = hit?.manager
     const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
     Object.assign(indicator, point)

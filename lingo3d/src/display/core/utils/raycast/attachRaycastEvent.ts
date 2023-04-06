@@ -15,6 +15,7 @@ import { assignPxVec, assignPxVec_ } from "../../../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../../../collections/pxCollections"
 import { cameraRenderedPtr } from "../../../../pointers/cameraRenderedPtr"
 import { onMouseDown } from "../../../../events/onMouseDown"
+import computePerFrameWithData from "../../../../utils/computePerFrameWithData"
 
 const raycaster = new Raycaster()
 
@@ -24,49 +25,59 @@ type RaycastResult = {
     normal: Point3d
     manager: VisibleMixin
 }
-
-export const raycast = (
-    x: number,
-    y: number,
-    candidates: Set<Object3D>,
+type RaycastData = {
+    x: number
+    y: number
     additionalCandidate?: Object3D
-): RaycastResult | undefined => {
-    raycaster.setFromCamera({ x, y }, cameraRenderedPtr[0])
-    const candidateArray = [...candidates]
-    additionalCandidate && candidateArray.push(additionalCandidate)
-    const intersection = raycaster.intersectObjects(candidateArray, false)[0]
-
-    const focusedManager = getSelectionFocus()
-    if (focusedManager) {
-        if (intersection) {
-            emitSelectionTarget(focusedManager, true)
-            setSelectionNativeTarget(intersection.object)
-            sceneGraphExpand(intersection.object)
-        }
-        return
-    }
-    const pxHit = physxPtr[0].pxRaycast?.(
-        assignPxVec(raycaster.ray.origin),
-        assignPxVec_(raycaster.ray.direction),
-        FAR
-    )
-    if (pxHit && (!intersection || pxHit.distance < intersection.distance)) {
-        const { x, y, z } = pxHit.normal
-        return {
-            point: vec2Point(pxHit.position),
-            distance: pxHit.distance * M2CM,
-            normal: new Point3d(x, y, z),
-            manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
-        }
-    }
-    if (intersection)
-        return {
-            point: vec2Point(intersection.point),
-            distance: intersection.distance * M2CM,
-            normal: intersection.face?.normal ?? pt3d0,
-            manager: getManager<VisibleMixin>(intersection.object)!
-        }
 }
+export const raycast = computePerFrameWithData(
+    (
+        candidates: Set<Object3D>,
+        { additionalCandidate, x, y }: RaycastData
+    ): RaycastResult | undefined => {
+        raycaster.setFromCamera({ x, y }, cameraRenderedPtr[0])
+        const candidateArray = [...candidates]
+        additionalCandidate && candidateArray.push(additionalCandidate)
+        const intersection = raycaster.intersectObjects(
+            candidateArray,
+            false
+        )[0]
+
+        const focusedManager = getSelectionFocus()
+        if (focusedManager) {
+            if (intersection) {
+                emitSelectionTarget(focusedManager, true)
+                setSelectionNativeTarget(intersection.object)
+                sceneGraphExpand(intersection.object)
+            }
+            return
+        }
+        const pxHit = physxPtr[0].pxRaycast?.(
+            assignPxVec(raycaster.ray.origin),
+            assignPxVec_(raycaster.ray.direction),
+            FAR
+        )
+        if (
+            pxHit &&
+            (!intersection || pxHit.distance < intersection.distance)
+        ) {
+            const { x, y, z } = pxHit.normal
+            return {
+                point: vec2Point(pxHit.position),
+                distance: pxHit.distance * M2CM,
+                normal: new Point3d(x, y, z),
+                manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
+            }
+        }
+        if (intersection)
+            return {
+                point: vec2Point(intersection.point),
+                distance: intersection.distance * M2CM,
+                normal: intersection.face?.normal ?? pt3d0,
+                manager: getManager<VisibleMixin>(intersection.object)!
+            }
+    }
+)
 
 type Then = (obj: VisibleMixin, e: LingoMouseEvent) => void
 
@@ -76,7 +87,10 @@ export default (
     then: Then
 ) =>
     onEvent((e) => {
-        const result = raycast(e.xNorm, e.yNorm, candidates)
+        const result = raycast(candidates, {
+            x: e.xNorm,
+            y: e.yNorm
+        })
         if (!result) return
 
         const { point, distance, manager, normal } = result
