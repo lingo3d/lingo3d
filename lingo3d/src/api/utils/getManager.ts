@@ -1,7 +1,6 @@
 import { Object3D } from "three"
 import MeshAppendable from "../core/MeshAppendable"
 import VisibleMixin from "../../display/core/mixins/VisibleMixin"
-import { assert } from "@lincode/utils"
 
 const objectManagerMap = new WeakMap<Object3D, MeshAppendable | VisibleMixin>()
 
@@ -11,7 +10,7 @@ export const setManager = <T extends MeshAppendable>(
     target: Object3D,
     manager: T
 ): T => {
-    assert(!objectManagerMap.has(target))
+    if (objectManagerMap.has(target)) return manager
     objectManagerMap.set(target, manager)
     return manager
 }
