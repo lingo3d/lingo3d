@@ -99,12 +99,12 @@ import clientToWorld from "./display/utils/clientToWorld"
 import { SimpleMouseEvent, LingoMouseEvent } from "./interface/IMouse"
 import { LingoKeyboardEvent } from "./interface/IKeyboard"
 import { HitEvent } from "./interface/IVisible"
-import { appendableRoot } from "./collections/appendableRoot"
 
 const keyboard = new Keyboard()
+keyboard.disableBehavior(true, true, true)
+
 const mouse = new Mouse()
-appendableRoot.delete(keyboard)
-appendableRoot.delete(mouse)
+mouse.disableBehavior(true, true, true)
 
 export {
     Cube,

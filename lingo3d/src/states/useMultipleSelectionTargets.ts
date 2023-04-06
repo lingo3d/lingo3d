@@ -6,7 +6,6 @@ import { box3, vector3 } from "../display/utils/reusables"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
-import { hideManager } from "../display/utils/hideManager"
 import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
 
@@ -58,8 +57,8 @@ createEffect(() => {
     if (!targets.size) return
 
     const groupManager = new SimpleObjectManager()
+    groupManager.disableBehavior(true, true, false)
     const group = groupManager.object3d
-    hideManager(groupManager)
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []

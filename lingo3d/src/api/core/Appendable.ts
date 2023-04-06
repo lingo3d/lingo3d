@@ -13,6 +13,8 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { uuidMap } from "../../collections/uuidCollections"
+import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
+import { hiddenAppendables } from "../../collections/hiddenAppendables"
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 
@@ -236,5 +238,15 @@ export default class Appendable extends Disposable implements IAppendable {
     public registerOnLoop(cb: () => void) {
         addLoopSystem(cb)
         return this.watch(new Cancellable(() => deleteLoopSystem(cb)))
+    }
+
+    public disableBehavior(
+        disableSceneGraph: boolean,
+        disableSerialize: boolean,
+        preventDeletion: boolean
+    ) {
+        disableSerialize && nonSerializedAppendables.add(this)
+        disableSceneGraph && hiddenAppendables.add(this)
+        preventDeletion && appendableRoot.delete(this)
     }
 }

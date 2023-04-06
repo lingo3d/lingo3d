@@ -3,7 +3,6 @@ import IKeyboard, {
     keyboardSchema,
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
-import Nullable from "../interface/utils/Nullable"
 import Appendable from "../api/core/Appendable"
 import { onKeyDown } from "../events/onKeyDown"
 import { onKeyPress } from "../events/onKeyPress"
@@ -15,32 +14,56 @@ export default class Keyboard extends Appendable implements IKeyboard {
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
 
-    public onKeyPress: Nullable<(e: LingoKeyboardEvent) => void>
-    public onKeyUp: Nullable<(e: LingoKeyboardEvent) => void>
-    public onKeyDown: Nullable<(e: LingoKeyboardEvent) => void>
-
-    public constructor() {
-        super()
-
-        this.watch(
-            onKeyPress(() =>
-                this.onKeyPress?.(
-                    new LingoKeyboardEvent(
-                        [...keyPressSet].at(-1) ?? "",
-                        keyPressSet
-                    )
-                )
-            )
+    private _onKeyPress?: (e: LingoKeyboardEvent) => void
+    public get onKeyPress() {
+        return this._onKeyPress
+    }
+    public set onKeyPress(val) {
+        this._onKeyPress = val
+        this.cancelHandle(
+            "onKeyPress",
+            val &&
+                (() =>
+                    onKeyPress(() =>
+                        val(
+                            new LingoKeyboardEvent(
+                                [...keyPressSet].at(-1) ?? "",
+                                keyPressSet
+                            )
+                        )
+                    ))
         )
-        this.watch(
-            onKeyUp((key) =>
-                this.onKeyUp?.(new LingoKeyboardEvent(key, keyPressSet))
-            )
+    }
+
+    private _onKeyUp?: (e: LingoKeyboardEvent) => void
+    public get onKeyUp() {
+        return this._onKeyUp
+    }
+    public set onKeyUp(val) {
+        this._onKeyUp = val
+        this.cancelHandle(
+            "onKeyUp",
+            val &&
+                (() =>
+                    onKeyUp((key) =>
+                        val(new LingoKeyboardEvent(key, keyPressSet))
+                    ))
         )
-        this.watch(
-            onKeyDown((key) =>
-                this.onKeyDown?.(new LingoKeyboardEvent(key, keyPressSet))
-            )
+    }
+
+    public _onKeyDown?: (e: LingoKeyboardEvent) => void
+    public get onKeyDown() {
+        return this._onKeyDown
+    }
+    public set onKeyDown(val) {
+        this._onKeyDown = val
+        this.cancelHandle(
+            "onKeyDown",
+            val &&
+                (() =>
+                    onKeyDown((key) =>
+                        val(new LingoKeyboardEvent(key, keyPressSet))
+                    ))
         )
     }
 }

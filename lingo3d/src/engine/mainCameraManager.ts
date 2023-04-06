@@ -9,16 +9,14 @@ import { M2CM } from "../globals"
 import { getEditorBehavior } from "../states/useEditorBehavior"
 import { container } from "./renderLoop/containers"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
-import { appendableRoot } from "../collections/appendableRoot"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
-
+mainCameraManager.disableBehavior(true, true, true)
 mainCameraManager.name = "camera"
 mainCameraManager.enableZoom = true
 mainCameraManager.enableFly = true
 mainCameraManager.mouseControl = false
-appendableRoot.delete(mainCameraManager)
 
 onEditorCenterView((manager) => {
     Object.assign(mainCameraManager, manager.worldPosition)

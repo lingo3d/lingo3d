@@ -1,5 +1,4 @@
 import Appendable from "../api/core/Appendable"
-import { hiddenAppendables } from "../collections/hiddenAppendables"
 import setupStruct from "../engine/setupStruct"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import unsafeGetValue from "../utils/unsafeGetValue"
@@ -15,7 +14,7 @@ class Setup extends Appendable {
 
     public constructor() {
         super()
-        hiddenAppendables.add(this)
+        this.disableBehavior(true, false, false)
         setup?.dispose()
         setup = this
     }

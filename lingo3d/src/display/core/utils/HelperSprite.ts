@@ -5,18 +5,17 @@ import {
     TransformControlsPhase
 } from "../../../events/onTransformControls"
 import Sprite from "../../Sprite"
-import { hideManager } from "../../utils/hideManager"
 
 export default class HelperSprite extends Sprite {
     public target?: MeshAppendable
 
     public constructor(type: "camera" | "light" | "audio") {
         super()
+        this.disableBehavior(true, true, false)
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
         this.castShadow = false
         this.receiveShadow = false
-        hideManager(this)
     }
 
     public override get onTransformControls() {

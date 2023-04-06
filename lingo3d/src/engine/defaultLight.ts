@@ -8,13 +8,12 @@ import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import { TEXTURES_URL } from "../api/assetsPath"
-import { appendableRoot } from "../collections/appendableRoot"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
+defaultEnvironment.disableBehavior(true, true, true)
 defaultEnvironment.texture = undefined
 defaultEnvironment.helper = false
-appendableRoot.delete(defaultEnvironment)
 
 export const environmentToUrl = (value: string) =>
     value in environmentPreset

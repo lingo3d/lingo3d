@@ -9,7 +9,6 @@ import ISpawnNode, {
 } from "../interface/ISpawnNode"
 import Connector, { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
-import { hideManager } from "../display/utils/hideManager"
 import { managerConnectorsMap } from "../collections/managerConnectorsMap"
 
 type CacheData = Array<
@@ -22,15 +21,13 @@ const spawnConnectors = (
     connectedUUIDs: Map<string, string>
 ) => {
     for (const { from, to, fromProp, toProp, xyz } of connectors)
-        hideManager(
-            Object.assign(new Connector(), {
-                from: connectedUUIDs.get(from!),
-                fromProp,
-                to: connectedUUIDs.get(to!),
-                toProp,
-                xyz
-            })
-        )
+        Object.assign(new Connector(), {
+            from: connectedUUIDs.get(from!),
+            fromProp,
+            to: connectedUUIDs.get(to!),
+            toProp,
+            xyz
+        }).disableBehavior(true, true, false)
 }
 
 const spawnCached = async (
@@ -48,7 +45,7 @@ const spawnCached = async (
             properties,
             patch.get(connected.uuid)
         )
-        hideManager(manager)
+        manager.disableBehavior(true, true, false)
         connectedUUIDs.set(connected.uuid, manager.uuid)
     }
     spawnConnectors(connectors, connectedUUIDs)
@@ -88,7 +85,7 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
                 properties,
                 this.patch.get(connected.uuid)
             )
-            hideManager(manager)
+            manager.disableBehavior(true, true, false)
             connectedUUIDs.set(connected.uuid, manager.uuid)
             data.push([connected, node.type, properties])
         }

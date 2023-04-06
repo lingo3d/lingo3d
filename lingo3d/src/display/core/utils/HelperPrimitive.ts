@@ -5,14 +5,13 @@ import {
     TransformControlsPhase
 } from "../../../events/onTransformControls"
 import Primitive from "../Primitive"
-import { hideManager } from "../../utils/hideManager"
 
 export default abstract class HelperPrimitive extends Primitive {
     public target?: MeshAppendable
 
     public constructor(geometry: BufferGeometry) {
         super(geometry)
-        hideManager(this)
+        this.disableBehavior(true, true, false)
         this.opacity = 0.5
         this.castShadow = false
         this.receiveShadow = false
