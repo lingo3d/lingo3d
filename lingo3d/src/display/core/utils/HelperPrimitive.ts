@@ -5,7 +5,6 @@ import {
     TransformControlsPhase
 } from "../../../events/onTransformControls"
 import Primitive from "../Primitive"
-import { additionalSelectionCandidates } from "../../../collections/selectionCollections"
 
 export default abstract class HelperPrimitive extends Primitive {
     public constructor(
@@ -22,12 +21,6 @@ export default abstract class HelperPrimitive extends Primitive {
 
         this.userData.selectionPointer = owner
         owner.append(this)
-        additionalSelectionCandidates.add(this.object3d)
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        additionalSelectionCandidates.delete(this.object3d)
     }
 
     public override get onTransformControls() {

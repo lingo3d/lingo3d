@@ -1,6 +1,5 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { additionalSelectionCandidates } from "../../../collections/selectionCollections"
 import {
     TransformControlsMode,
     TransformControlsPhase
@@ -21,12 +20,6 @@ export default class HelperSprite extends Sprite {
 
         this.userData.selectionPointer = owner
         owner.append(this)
-        additionalSelectionCandidates.add(this.object3d)
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        additionalSelectionCandidates.delete(this.object3d)
     }
 
     public override get onTransformControls() {

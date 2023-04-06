@@ -9,7 +9,6 @@ import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { appendableRoot } from "../../../../collections/appendableRoot"
 import {
-    additionalSelectionCandidates,
     unselectableSet,
     selectionCandidates,
     overrideSelectionCandidates
@@ -51,8 +50,6 @@ export const getSelectionCandidates = throttleTrailing(
         }
         const [frozenSet] = getSelectionFrozen()
         traverse(targets, frozenSet)
-        for (const candidate of additionalSelectionCandidates)
-            selectionCandidates.add(candidate)
     }
 )
 

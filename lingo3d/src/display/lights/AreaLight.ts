@@ -11,10 +11,7 @@ import { Reactive } from "@lincode/reactivity"
 import { setManager } from "../../api/utils/getManager"
 import { CM2M } from "../../globals"
 import { getEditorHelper } from "../../states/useEditorHelper"
-import {
-    selectionCandidates,
-    additionalSelectionCandidates
-} from "../../collections/selectionCollections"
+import { selectionCandidates } from "../../collections/selectionCollections"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 const lazyInit = lazy(async () => {
@@ -64,7 +61,6 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 setManager(helper, this)
 
                 selectionCandidates.add(helper)
-                additionalSelectionCandidates.add(helper)
 
                 return () => {
                     helper.dispose()
@@ -72,7 +68,6 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                     ssrExcludeSet.delete(helper)
 
                     selectionCandidates.delete(helper)
-                    additionalSelectionCandidates.delete(helper)
                 }
             }, [this.helperState.get, getEditorHelper])
         })
