@@ -10,8 +10,7 @@ import VisibleMixin from "../../mixins/VisibleMixin"
 import { appendableRoot } from "../../../../collections/appendableRoot"
 import {
     unselectableSet,
-    selectionCandidates,
-    overrideSelectionCandidates
+    selectionCandidates
 } from "../../../../collections/selectionCollections"
 
 const traverse = (
@@ -38,11 +37,6 @@ export const getSelectionCandidates = throttleTrailing(
                         child.material.userData.TextureManager &&
                         selectionCandidates.add(child)
                 )
-            return
-        }
-        if (overrideSelectionCandidates.size) {
-            for (const candidate of overrideSelectionCandidates)
-                selectionCandidates.add(candidate)
             return
         }
         const [frozenSet] = getSelectionFrozen()

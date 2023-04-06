@@ -1,5 +1,4 @@
 import { Point3d } from "@lincode/math"
-import scene from "../engine/scene"
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from "three"
 import getVecOnCurve from "./utils/getVecOnCurve"
 import { point2Vec } from "./utils/vec2Point"
@@ -9,7 +8,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
-import { overrideSelectionCandidates } from "../collections/selectionCollections"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -90,7 +88,6 @@ export default class Curve extends MeshAppendable implements ICurve {
                     const helper = new HelperSphere(undefined)
                     this.append(helper)
                     helper.scale = 0.1
-                    overrideSelectionCandidates.add(helper.outerObject3d)
                     helper.onTransformControls = (_, mode) => {
                         if (mode !== "translate") return
                         move = true
@@ -99,7 +96,6 @@ export default class Curve extends MeshAppendable implements ICurve {
                     }
                     cleanup.then(() => {
                         helper.dispose()
-                        overrideSelectionCandidates.delete(helper.outerObject3d)
                     })
                     return helper
                 }

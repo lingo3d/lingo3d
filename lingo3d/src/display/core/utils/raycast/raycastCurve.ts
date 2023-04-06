@@ -1,17 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { onSelectionTarget } from "../../../../events/onSelectionTarget"
-import { setEditorMode } from "../../../../states/useEditorMode"
 import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
-import {
-    getMultipleSelectionTargets,
-    clearMultipleSelectionTargets
-} from "../../../../states/useMultipleSelectionTargets"
+import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
-import { overrideSelectionCandidates } from "../../../../collections/selectionCollections"
 import { onMouseClick } from "../../../../events/onMouseClick"
 
 createEffect(() => {
@@ -20,40 +14,27 @@ createEffect(() => {
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
-    const handle0 = new Cancellable()
+    const handle = new Cancellable()
     import("../../../Curve").then(({ default: Curve }) => {
-        if (handle0.done) return
+        if (handle.done) return
 
         const curve = new Curve()
         curve.helper = true
-        handle0.then(() => {
+
+        const handle1 = onMouseClick((e) => {
+            const selected = getSelectionTarget()
+            setTimeout(() => {
+                if (handle.done || getSelectionTarget() || selected) return
+                curve.addPoint(e.point)
+            }, 10)
+        })
+        handle.then(() => {
             curve.helper = false
             curve.points.length < 2 && curve.dispose()
+            handle1.cancel()
         })
-
-        handle0.watch(
-            onMouseClick((e) => {
-                const selected = getSelectionTarget()
-                setTimeout(() => {
-                    if (handle0.done || getSelectionTarget() || selected) return
-                    curve.addPoint(e.point)
-                })
-            })
-        )
-    })
-    const handle1 = onSelectionTarget(({ target }) => {
-        if (
-            !target ||
-            ("outerObject3d" in target &&
-                overrideSelectionCandidates.has(target.outerObject3d)) ||
-            getMultipleSelectionTargets()[0].size
-        )
-            return
-
-        setEditorMode("translate")
     })
     return () => {
-        handle0.cancel()
-        handle1.cancel()
+        handle.cancel()
     }
 }, [getEditorModeComputed])
