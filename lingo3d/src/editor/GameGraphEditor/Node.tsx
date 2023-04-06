@@ -117,7 +117,7 @@ const Node = memo(
                     onDrop
                 }
             )
-            const handle1 = manager.propertyChangedEvent.on(
+            const handle1 = manager.events.on(
                 "runtimeSchema",
                 () => setRefresh({})
             )

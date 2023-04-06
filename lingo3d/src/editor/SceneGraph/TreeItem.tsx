@@ -50,7 +50,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const [name, setName] = useState("")
     useLayoutEffect(() => {
         setName(getDisplayName(appendable))
-        const handle = appendable.propertyChangedEvent.on("name", () =>
+        const handle = appendable.events.on("name", () =>
             setName(getDisplayName(appendable))
         )
         return () => {

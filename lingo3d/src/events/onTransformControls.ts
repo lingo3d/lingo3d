@@ -10,6 +10,10 @@ import Appendable from "../api/core/Appendable"
 
 export type TransformControlsPhase = "start" | "end" | "move"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
+export type OnTransformControls = (
+    phase: TransformControlsPhase,
+    mode: TransformControlsMode
+) => void
 
 export const [emitTransformControls, onTransformControls] =
     event<TransformControlsPhase>()

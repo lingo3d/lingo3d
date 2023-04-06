@@ -14,10 +14,7 @@ import getActualScale from "../../display/utils/getActualScale"
 import getCenter from "../../display/utils/getCenter"
 import getWorldQuaternion from "../../display/utils/getWorldQuaternion"
 import worldToCanvas from "../../display/utils/worldToCanvas"
-import {
-    TransformControlsPhase,
-    TransformControlsMode
-} from "../../events/onTransformControls"
+import { OnTransformControls } from "../../events/onTransformControls"
 import Nullable from "../../interface/utils/Nullable"
 import { fpsRatioPtr } from "../../pointers/fpsRatioPtr"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
@@ -147,14 +144,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public get onTransformControls() {
         return this.userData.onTransformControls
     }
-    public set onTransformControls(
-        cb:
-            | ((
-                  phase: TransformControlsPhase,
-                  mode: TransformControlsMode
-              ) => void)
-            | undefined
-    ) {
+    public set onTransformControls(cb: OnTransformControls | undefined) {
         this.userData.onTransformControls = cb
     }
 

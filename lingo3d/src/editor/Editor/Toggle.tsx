@@ -27,7 +27,7 @@ const Toggle = memo(
                         new Set())
                     if (val) runtimeIncludeKeys.add(property)
                     else runtimeIncludeKeys.delete(property)
-                    manager.emitPropertyChangedEvent("runtimeSchema")
+                    manager.emitEvent("runtimeSchema")
                 }}
             />
         )

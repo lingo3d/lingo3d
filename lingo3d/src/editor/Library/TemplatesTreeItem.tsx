@@ -29,7 +29,7 @@ const TemplatesTreeItem = ({ template }: TemplatesTreeItemProps) => {
     const [name, setName] = useState("")
     useLayoutEffect(() => {
         setName(getDisplayName(template))
-        const handle = template.propertyChangedEvent.on("name", () =>
+        const handle = template.events.on("name", () =>
             setName(getDisplayName(template))
         )
         return () => {

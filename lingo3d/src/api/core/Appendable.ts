@@ -27,6 +27,8 @@ export const getAppendablesById = (id: string) => {
 const isStringArray = (array: Array<unknown>): array is Array<string> =>
     typeof array[0] === "string"
 
+type EventName = "name" | "runtimeSchema" | "physics" | "transformControls"
+
 export const getAppendables = (
     val:
         | string
@@ -145,15 +147,12 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
-    private _propertyChangedEvent?: Events<
-        void,
-        "name" | "runtimeSchema" | "physics"
-    >
-    public get propertyChangedEvent() {
-        return (this._propertyChangedEvent ??= new Events())
+    private _events?: Events<void, EventName>
+    public get events() {
+        return (this._events ??= new Events())
     }
-    public emitPropertyChangedEvent(key: "name" | "runtimeSchema" | "physics") {
-        this._propertyChangedEvent?.emit(key)
+    public emitEvent(key: EventName) {
+        this._events?.emit(key)
     }
 
     protected _name?: string
@@ -162,7 +161,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set name(val) {
         this._name = val
-        this._propertyChangedEvent?.emit("name")
+        this._events?.emit("name")
     }
 
     protected _id?: string

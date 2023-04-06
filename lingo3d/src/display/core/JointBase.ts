@@ -110,10 +110,10 @@ export default abstract class JointBase
             fromManager.jointCount++
             toManager.jointCount++
 
-            const handle0 = fromManager.propertyChangedEvent.on("physics", () =>
+            const handle0 = fromManager.events.on("physics", () =>
                 this.refreshState.set({})
             )
-            const handle1 = toManager.propertyChangedEvent.on("physics", () =>
+            const handle1 = toManager.events.on("physics", () =>
                 this.refreshState.set({})
             )
 

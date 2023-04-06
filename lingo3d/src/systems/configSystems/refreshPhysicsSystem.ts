@@ -86,7 +86,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(self)
                 self.actor = undefined
-                self.emitPropertyChangedEvent("physics")
+                self.emitEvent("physics")
             }
         },
         (self) => {
