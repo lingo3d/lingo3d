@@ -19,7 +19,7 @@ type RaycastResult = {
     point: Point3d
     distance: number
     normal: Point3d
-    manager: VisibleMixin
+    manager?: VisibleMixin
 }
 type RaycastData = {
     x: number
@@ -34,10 +34,7 @@ export const mouseRaycast = computePerFrameWithData(
         raycaster.setFromCamera({ x, y }, cameraRenderedPtr[0])
         const candidateArray = [...candidates]
         additionalCandidate && candidateArray.push(additionalCandidate)
-        const intersection = raycaster.intersectObjects(
-            candidateArray,
-            false
-        )[0]
+        const [intersection] = raycaster.intersectObjects(candidateArray, false)
         const manager =
             intersection &&
             (getManager(intersection.object) as
@@ -56,8 +53,8 @@ export const mouseRaycast = computePerFrameWithData(
                 (manager && "loaded" in manager && manager.loaded.done))
         ) {
             const { x, y, z } = pxHit.normal
-            const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
-            raycastMeshPtr[0] = manager.object3d
+            const manager = actorPtrManagerMap.get(pxHit.actor.ptr)
+            raycastMeshPtr[0] = manager?.object3d
             return {
                 point: vec2Point(pxHit.position),
                 distance: pxHit.distance * M2CM,
@@ -65,13 +62,14 @@ export const mouseRaycast = computePerFrameWithData(
                 manager
             }
         }
-        raycastMeshPtr[0] = intersection?.object
-        if (manager)
+        if (intersection) {
+            raycastMeshPtr[0] = intersection.object
             return {
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
                 manager
             }
+        }
     }
 )

@@ -19,20 +19,20 @@ export default (
         if (!result) return
 
         const { point, distance, manager, normal } = result
-
-        then(
-            manager,
-            new LingoMouseEvent(
-                e.x,
-                e.y,
-                e.clientX,
-                e.clientY,
-                e.xNorm,
-                e.yNorm,
-                point,
-                normal,
-                distance,
-                manager
+        manager &&
+            then(
+                manager,
+                new LingoMouseEvent(
+                    e.x,
+                    e.y,
+                    e.clientX,
+                    e.clientY,
+                    e.xNorm,
+                    e.yNorm,
+                    point,
+                    normal,
+                    distance,
+                    manager
+                )
             )
-        )
     })
