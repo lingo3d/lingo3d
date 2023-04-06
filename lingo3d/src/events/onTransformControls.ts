@@ -1,12 +1,12 @@
 import { event } from "@lincode/events"
 import { filterBoolean } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
-import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../collections/pxUpdateShapeSet"
+import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../api/core/Appendable"
 
 export type TransformControlsPhase = "start" | "end" | "move"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -17,9 +17,9 @@ export const [emitTransformControls, onTransformControls] =
 onTransformControls((phase) => {
     if (phase !== "end") return
 
-    const [_targets] = getMultipleSelectionTargets()
-    const targets: Array<Appendable | PhysicsObjectManager> = [
-        ..._targets,
+    const [multipleSelectionTargets] = getMultipleSelectionTargets()
+    const targets: Array<MeshAppendable | Appendable> = [
+        ...multipleSelectionTargets,
         getSelectionTarget()
     ].filter(filterBoolean)
 
