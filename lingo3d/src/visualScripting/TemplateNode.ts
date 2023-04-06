@@ -1,9 +1,9 @@
 import Appendable from "../api/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
-import { unselectableSet } from "../collections/selectionCollections"
 import GameGraphChild from "./GameGraphChild"
 import { templateNodeSet } from "../collections/typeGuards"
+import { selectionDisabledSet } from "../collections/selectionDisabledSet"
 
 export default class TemplateNode extends GameGraphChild {
     public spawnNode!: string
@@ -11,7 +11,7 @@ export default class TemplateNode extends GameGraphChild {
     public constructor() {
         super()
         templateNodeSet.add(this)
-        unselectableSet.add(this)
+        selectionDisabledSet.add(this)
     }
 
     public set source(type: GameObjectType | Appendable) {

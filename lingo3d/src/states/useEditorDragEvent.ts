@@ -11,10 +11,8 @@ import { Mesh, PlaneGeometry } from "three"
 import { standardMaterial } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
-import {
-    unselectableSet,
-    selectionCandidates
-} from "../collections/selectionCollections"
+import { selectionCandidates } from "../collections/selectionCandidates"
+import { selectionDisabledSet } from "../collections/selectionDisabledSet"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -43,7 +41,7 @@ createEffect(() => {
     const indicator = createMemo(() => {
         if (!isDragEvent) return
         const indicator = new HelperSphere(undefined)
-        unselectableSet.add(indicator)
+        selectionDisabledSet.add(indicator)
         return indicator
     }, [isDragEvent])
 

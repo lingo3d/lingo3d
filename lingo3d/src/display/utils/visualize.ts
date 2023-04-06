@@ -2,7 +2,7 @@ import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 import { Sphere } from "../.."
 import IPrimitive from "../../interface/IPrimitive"
-import { unselectableSet } from "../../collections/selectionCollections"
+import { selectionDisabledSet } from "../../collections/selectionDisabledSet"
 
 const sphereMap = new Map<string, Sphere>()
 
@@ -13,7 +13,7 @@ export default (
 ) => {
     const sphere = forceGet(sphereMap, name, () => {
         const sphere = Object.assign(new Sphere(), properties)
-        unselectableSet.add(sphere)
+        selectionDisabledSet.add(sphere)
         return sphere
     })
     sphere.placeAt(pt)

@@ -8,17 +8,16 @@ import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { appendableRoot } from "../../../../collections/appendableRoot"
-import {
-    unselectableSet,
-    selectionCandidates
-} from "../../../../collections/selectionCollections"
+import { selectionCandidates } from "../../../../collections/selectionCandidates"
+import { selectionDisabledSet } from "../../../../collections/selectionDisabledSet"
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
     frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || unselectableSet.has(manager)) continue
+        if (frozenSet.has(manager) || selectionDisabledSet.has(manager))
+            continue
         "addToRaycastSet" in manager &&
             manager.addToRaycastSet(selectionCandidates)
         manager.children && traverse(manager.children, frozenSet)
