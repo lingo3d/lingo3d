@@ -8,7 +8,6 @@ import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import { getEditorHelper } from "../states/useEditorHelper"
-import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -30,13 +29,10 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
 
         this.createEffect(() => {
             if (!this.helperState.get() || !getEditorHelper()) return
-
-            const helper = new HelperCylinder()
-            const handle = addSelectionHelper(helper, this)
+            const helper = new HelperCylinder(this)
             helper.height = 10
-
             return () => {
-                handle.cancel()
+                helper.dispose()
             }
         }, [this.helperState.get, getEditorHelper])
     }

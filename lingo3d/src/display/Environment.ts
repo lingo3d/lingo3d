@@ -11,7 +11,6 @@ import IEnvironment, {
 import { Reactive } from "@lincode/reactivity"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
-import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 import MeshAppendable from "../api/core/MeshAppendable"
 
 export default class Environment
@@ -28,10 +27,9 @@ export default class Environment
 
         this.createEffect(() => {
             if (!getEditorHelper() || !this.helperState.get()) return
-
-            const handle = addSelectionHelper(new HelperSprite("light"), this)
+            const helper = new HelperSprite("light", this)
             return () => {
-                handle.cancel()
+                helper.dispose()
             }
         }, [getEditorHelper, this.helperState.get])
     }

@@ -16,7 +16,6 @@ import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { joints } from "../../collections/joints"
-import { addSelectionHelper } from "./utils/raycast/addSelectionHelper"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
 const getRelativeTransform = (
@@ -78,18 +77,17 @@ export default abstract class JointBase
         this.createEffect(() => {
             if (!getEditorHelper()) return
 
-            const sphere = new HelperSphere()
-            sphere.scale = 0.1
-            sphere.depthTest = false
-            const handle = addSelectionHelper(sphere, this)
+            const helper = new HelperSphere(this)
+            helper.scale = 0.1
+            helper.depthTest = false
 
-            sphere.onTransformControls = (phase, mode) =>
+            helper.onTransformControls = (phase, mode) =>
                 mode === "translate" &&
                 phase === "end" &&
                 this.setManualPosition()
 
             return () => {
-                handle.cancel()
+                helper.dispose()
             }
         }, [getEditorHelper])
 

@@ -42,7 +42,7 @@ createEffect(() => {
     const isDragEvent = e instanceof DragEvent
     const indicator = createMemo(() => {
         if (!isDragEvent) return
-        const indicator = new HelperSphere()
+        const indicator = new HelperSphere(undefined)
         unselectableSet.add(indicator)
         return indicator
     }, [isDragEvent])

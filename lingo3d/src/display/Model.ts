@@ -188,11 +188,8 @@ export default class Model extends Loaded<Group> implements IModel {
         return loadedObject3d
     }
 
-    public override find(
-        name: string,
-        hiddenFromSceneGraph?: boolean
-    ): FoundManager | undefined {
-        const child = super.find(name, hiddenFromSceneGraph)
+    public override find(name: string): FoundManager | undefined {
+        const child = super.find(name)
         child && (child.model = this)
         return child
     }

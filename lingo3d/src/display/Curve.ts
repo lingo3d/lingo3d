@@ -87,7 +87,7 @@ export default class Curve extends MeshAppendable implements ICurve {
             const helpers = createFor(
                 this.helperState.get() && getEditorHelper() ? this._points : [],
                 (pt, cleanup) => {
-                    const helper = new HelperSphere()
+                    const helper = new HelperSphere(undefined)
                     this.append(helper)
                     helper.scale = 0.1
                     overrideSelectionCandidates.add(helper.outerObject3d)

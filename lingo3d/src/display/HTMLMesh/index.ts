@@ -8,7 +8,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import HelperCube from "../core/utils/HelperCube"
 import { setManager } from "../../api/utils/getManager"
-import { addSelectionHelper } from "../core/utils/raycast/addSelectionHelper"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -35,9 +34,9 @@ export default class HTMLMesh
                         : `<div>${innerHTML}</div>`
                 )
             if (!element) {
-                const handle = addSelectionHelper(new HelperCube(), this)
+                const helper = new HelperCube(this)
                 return () => {
-                    handle.cancel()
+                    helper.dispose()
                 }
             }
 

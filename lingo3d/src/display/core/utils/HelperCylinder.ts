@@ -1,8 +1,9 @@
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import { cylinderGeometry } from "../../primitives/Cylinder"
 import HelperPrimitive from "./HelperPrimitive"
 
 export default class HelperCylinder extends HelperPrimitive {
-    public constructor() {
-        super(cylinderGeometry)
+    public constructor(owner: MeshAppendable) {
+        super(cylinderGeometry, owner)
     }
 }

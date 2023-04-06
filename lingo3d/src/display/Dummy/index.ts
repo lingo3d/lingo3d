@@ -50,7 +50,7 @@ export default class Dummy extends Model implements IDummy {
                 setType("other")
 
                 if (spineName) {
-                    setSpine(this.find(spineName, true))
+                    setSpine(this.find(spineName))
 
                     if (spineName === "mixamorigSpine") setType("mixamo")
                     else if (
@@ -65,11 +65,11 @@ export default class Dummy extends Model implements IDummy {
                     loaded.getObjectByName("Wolf3D_Body") ||
                     loaded.getObjectByName("Wolf3D_Avatar")
                 ) {
-                    setSpine(this.find("Spine", true))
+                    setSpine(this.find("Spine"))
                     setType("readyplayerme")
                     return
                 }
-                const spine = this.find("mixamorigSpine", true)
+                const spine = this.find("mixamorigSpine")
                 setSpine(spine)
                 spine && setType("mixamo")
             })

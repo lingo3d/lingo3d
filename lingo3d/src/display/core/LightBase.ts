@@ -19,7 +19,6 @@ import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 import { Cancellable } from "@lincode/promiselikes"
-import { addSelectionHelper } from "./utils/raycast/addSelectionHelper"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -51,22 +50,21 @@ export default abstract class LightBase<T extends Light>
         this.createEffect(() => {
             if (!getEditorHelper() || !this.helperState.get()) return
 
-            const sprite = new HelperSprite("light")
-            const handle = addSelectionHelper(sprite, this)
+            const sprite = new HelperSprite("light", this)
             if (Helper) {
                 const helper = new Helper(light as any)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
                 "update" in helper && addUpdateSystem(helper)
 
-                handle.then(() => {
+                sprite.then(() => {
                     helper.dispose()
                     scene.remove(helper)
                     "update" in helper && deleteUpdateSystem(helper)
                 })
             }
             return () => {
-                handle.cancel()
+                sprite.dispose()
             }
         }, [getEditorHelper, this.helperState.get])
     }

@@ -21,7 +21,6 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
-import { addSelectionHelper } from "../utils/raycast/addSelectionHelper"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 export default abstract class CameraBase<
@@ -49,13 +48,12 @@ export default abstract class CameraBase<
             const helper = new CameraHelper(camera)
             scene.add(helper)
 
-            const sprite = new HelperSprite("camera")
-            const handle = addSelectionHelper(sprite, this)
+            const sprite = new HelperSprite("camera", this)
             helper.add(sprite.outerObject3d)
             return () => {
                 helper.dispose()
                 scene.remove(helper)
-                handle.cancel()
+                sprite.dispose()
             }
         }, [getEditorHelper, getCameraRendered])
     }

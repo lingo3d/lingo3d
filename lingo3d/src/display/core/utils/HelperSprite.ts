@@ -1,5 +1,6 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { additionalSelectionCandidates } from "../../../collections/selectionCollections"
 import {
     TransformControlsMode,
     TransformControlsPhase
@@ -7,15 +8,25 @@ import {
 import Sprite from "../../Sprite"
 
 export default class HelperSprite extends Sprite {
-    public target?: MeshAppendable
-
-    public constructor(type: "camera" | "light" | "audio") {
+    public constructor(
+        type: "camera" | "light" | "audio",
+        private owner: MeshAppendable
+    ) {
         super()
         this.disableBehavior(true, true, false)
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
         this.castShadow = false
         this.receiveShadow = false
+
+        this.userData.selectionPointer = owner
+        owner.append(this)
+        additionalSelectionCandidates.add(this.object3d)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        additionalSelectionCandidates.delete(this.object3d)
     }
 
     public override get onTransformControls() {
@@ -30,6 +41,6 @@ export default class HelperSprite extends Sprite {
             | undefined
     ) {
         super.onTransformControls = cb
-        if (this.target) this.target.userData.onTransformControls = cb
+        this.owner.userData.onTransformControls = cb
     }
 }

@@ -4,7 +4,6 @@ import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
-import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getAudioListener, setAudioListener } from "../states/useAudioListener"
 
@@ -23,10 +22,9 @@ export default class Audio
 
         this.createEffect(() => {
             if (!getEditorHelper) return
-
-            const handle = addSelectionHelper(new HelperSprite("audio"), this)
+            const helper = new HelperSprite("audio", this)
             return () => {
-                handle.cancel()
+                helper.dispose()
             }
         }, [getEditorHelper])
 

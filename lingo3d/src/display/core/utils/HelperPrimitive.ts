@@ -5,16 +5,29 @@ import {
     TransformControlsPhase
 } from "../../../events/onTransformControls"
 import Primitive from "../Primitive"
+import { additionalSelectionCandidates } from "../../../collections/selectionCollections"
 
 export default abstract class HelperPrimitive extends Primitive {
-    public target?: MeshAppendable
-
-    public constructor(geometry: BufferGeometry) {
+    public constructor(
+        geometry: BufferGeometry,
+        private owner: MeshAppendable | undefined
+    ) {
         super(geometry)
         this.disableBehavior(true, true, false)
         this.opacity = 0.5
         this.castShadow = false
         this.receiveShadow = false
+
+        if (!owner) return
+
+        this.userData.selectionPointer = owner
+        owner.append(this)
+        additionalSelectionCandidates.add(this.object3d)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        additionalSelectionCandidates.delete(this.object3d)
     }
 
     public override get onTransformControls() {
@@ -29,6 +42,6 @@ export default abstract class HelperPrimitive extends Primitive {
             | undefined
     ) {
         super.onTransformControls = cb
-        if (this.target) this.target.userData.onTransformControls = cb
+        if (this.owner) this.owner.userData.onTransformControls = cb
     }
 }
