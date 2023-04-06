@@ -13,7 +13,7 @@ ground.scaleX = 1000
 ground.scaleZ = 1000
 
 const light = new PointLight()
-light.castShadow = true
+light.castShadow = "physics"
 
 // const spotLight = new SpotLight()
 // spotLight.castShadow = true

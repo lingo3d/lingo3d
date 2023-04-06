@@ -6,7 +6,6 @@ import {
     PointLightHelper,
     SpotLightHelper
 } from "three"
-import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import scene from "../../engine/scene"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase, { CastShadow } from "../../interface/ILightBase"
@@ -42,12 +41,11 @@ export default abstract class LightBase<T extends Light>
     implements ILightBase
 {
     public constructor(
-        light: T,
+        public light: T,
         Helper?:
             | typeof DirectionalLightHelper
             | typeof SpotLightHelper
             | typeof PointLightHelper
-            | typeof RectAreaLightHelper
     ) {
         super(light)
 
@@ -116,9 +114,11 @@ export default abstract class LightBase<T extends Light>
                 : val === "physics"
                 ? () => {
                       const handle = shadowResolution()
+                      this.light.shadow.autoUpdate = false
                       "distance" in this && addShadowPhysicsSystem(this as any)
                       return new Cancellable(() => {
                           handle.cancel()
+                          this.light.shadow.autoUpdate = true
                           "distance" in this &&
                               deleteShadowPhysicsSystem(this as any)
                       })

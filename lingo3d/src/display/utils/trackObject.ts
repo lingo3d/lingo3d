@@ -1,35 +1,34 @@
-import { Object3D } from "three"
+import { Object3D, Quaternion, Vector3 } from "three"
 import computePerFrame from "../../utils/computePerFrame"
 import getWorldPosition from "./getWorldPosition"
 import getWorldQuaternion from "./getWorldQuaternion"
 
+const positionCache = new WeakMap<Object3D, Vector3>()
+const positionXZCache = new WeakMap<Object3D, Vector3>()
+const quaternionCache = new WeakMap<Object3D, Quaternion>()
+
 export const positionChanged = computePerFrame((target: Object3D) => {
-    const { userData } = target
     const position = getWorldPosition(target)
-    const result = userData.positionOld
-        ? !position.equals(userData.positionOld)
-        : false
-    userData.positionOld = position
+    const positionOld = positionCache.get(target)
+    const result = positionOld ? !position.equals(positionOld) : false
+    positionCache.set(target, position)
     return result
 })
 
 export const positionChangedXZ = computePerFrame((target: Object3D) => {
-    const { userData } = target
     const position = getWorldPosition(target)
-    const result = userData.positionOldXZ
-        ? position.x !== userData.positionOldXZ.x ||
-          position.z !== userData.positionOldXZ.z
+    const positionOld = positionXZCache.get(target)
+    const result = positionOld
+        ? position.x !== positionOld.x || position.z !== positionOld.z
         : false
-    userData.positionOldXZ = position
+    positionXZCache.set(target, position)
     return result
 })
 
 export const quaternionChanged = computePerFrame((target: Object3D) => {
-    const { userData } = target
     const quaternion = getWorldQuaternion(target)
-    const result = userData.quaternionOld
-        ? !quaternion.equals(userData.quaternionOld)
-        : false
-    userData.quaternionOld = quaternion
+    const quaternionOld = quaternionCache.get(target)
+    const result = quaternionOld ? !quaternion.equals(quaternionOld) : false
+    quaternionCache.set(target, quaternion)
     return result
 })
