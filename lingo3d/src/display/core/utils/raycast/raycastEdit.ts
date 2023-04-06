@@ -30,6 +30,7 @@ import { rightClickPtr } from "../../../../pointers/rightClickPtr"
 import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseRightClick } from "../../../../events/onMouseRightClick"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
+import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -48,12 +49,14 @@ createEffect(() => {
     const handle3 = attachRaycastEvent(
         onMouseClick,
         selectionCandidates,
-        (target) => emitSelectionTarget(target)
+        (target) => emitSelectionTarget(target),
+        (native) => setSelectionNativeTarget(native)
     )
     const handle4 = attachRaycastEvent(
         onMouseRightClick,
         selectionCandidates,
-        (target) => emitSelectionTarget(target)
+        (target) => emitSelectionTarget(target),
+        (native) => setSelectionNativeTarget(native)
     )
     const handle5 = onSelectionTarget(({ target, noDeselect }) => {
         if (multipleSelection) {
