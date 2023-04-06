@@ -5,7 +5,7 @@ import {
     getSelectionTarget,
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
-import pickable from "./pickable"
+import attachRaycastEvent from "./attachRaycastEvent"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import {
     clickSet,
@@ -28,28 +28,28 @@ createEffect(() => {
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
-    const handle0 = pickable(onMouseClick, clickSet, (obj, e) =>
+    const handle0 = attachRaycastEvent(onMouseClick, clickSet, (obj, e) =>
         obj.onClick?.(e)
     )
-    const handle1 = pickable(onMouseDown, mouseDownSet, (obj, e) =>
+    const handle1 = attachRaycastEvent(onMouseDown, mouseDownSet, (obj, e) =>
         obj.onMouseDown?.(e)
     )
-    const handle2 = pickable(onMouseUp, mouseUpSet, (obj, e) =>
+    const handle2 = attachRaycastEvent(onMouseUp, mouseUpSet, (obj, e) =>
         obj.onMouseUp?.(e)
     )
 
     let moveSet = new Set<VisibleMixin>()
     let moveSetOld = new Set<VisibleMixin>()
 
-    const handle3 = pickable(onMouseMove, mouseOverSet, (obj, e) => {
+    const handle3 = attachRaycastEvent(onMouseMove, mouseOverSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })
-    const handle4 = pickable(onMouseMove, mouseOutSet, (obj, e) => {
+    const handle4 = attachRaycastEvent(onMouseMove, mouseOutSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })
-    const handle5 = pickable(onMouseMove, mouseMoveSet, (obj, e) => {
+    const handle5 = attachRaycastEvent(onMouseMove, mouseMoveSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })

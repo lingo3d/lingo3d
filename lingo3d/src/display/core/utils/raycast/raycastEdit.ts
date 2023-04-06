@@ -21,7 +21,7 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
-import pickable from "./pickable"
+import attachRaycastEvent from "./attachRaycastEvent"
 import { getSelectionCandidates } from "./getSelectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
@@ -45,11 +45,15 @@ createEffect(() => {
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
     const handle1 = onMouseClick(() => emitSelectionTarget(undefined))
     const handle2 = onMouseRightClick(() => emitSelectionTarget(undefined))
-    const handle3 = pickable(onMouseClick, selectionCandidates, (target) =>
-        emitSelectionTarget(target)
+    const handle3 = attachRaycastEvent(
+        onMouseClick,
+        selectionCandidates,
+        (target) => emitSelectionTarget(target)
     )
-    const handle4 = pickable(onMouseRightClick, selectionCandidates, (target) =>
-        emitSelectionTarget(target)
+    const handle4 = attachRaycastEvent(
+        onMouseRightClick,
+        selectionCandidates,
+        (target) => emitSelectionTarget(target)
     )
     const handle5 = onSelectionTarget(({ target, noDeselect }) => {
         if (multipleSelection) {
