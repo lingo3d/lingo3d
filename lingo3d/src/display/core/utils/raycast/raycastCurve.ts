@@ -7,6 +7,10 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { onMouseClick } from "../../../../events/onMouseClick"
+import {
+    getSelectionFocus,
+    setSelectionFocus
+} from "../../../../states/useSelectionFocus"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
@@ -20,6 +24,8 @@ createEffect(() => {
 
         const curve = new Curve()
         curve.helper = true
+        const focus = getSelectionFocus()
+        setSelectionFocus(curve)
 
         const handle1 = onMouseClick((e) => {
             const selected = getSelectionTarget()
@@ -32,6 +38,7 @@ createEffect(() => {
             curve.helper = false
             curve.points.length < 2 && curve.dispose()
             handle1.cancel()
+            setSelectionFocus(focus)
         })
     })
     return () => {
