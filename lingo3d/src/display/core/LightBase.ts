@@ -19,6 +19,10 @@ import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 import { Cancellable } from "@lincode/promiselikes"
+import {
+    addShadowPhysicsSystem,
+    deleteShadowPhysicsSystem
+} from "../../systems/shadowPhysicsSystem"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -101,24 +105,21 @@ export default abstract class LightBase<T extends Light>
         light.castShadow = !!val
         light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
 
+        const shadowResolution = () =>
+            getShadowResolution((res) =>
+                light.shadow.mapSize.setScalar(mapShadowResolution(res))
+            )
         this.cancelHandle(
             "castShadow",
             val === true
-                ? () =>
-                      getShadowResolution((res) =>
-                          light.shadow.mapSize.setScalar(
-                              mapShadowResolution(res)
-                          )
-                      )
-                : val === "static"
+                ? shadowResolution
+                : val === "physics"
                 ? () => {
-                      const handle = getShadowResolution((res) =>
-                          light.shadow.mapSize.setScalar(
-                              mapShadowResolution(res)
-                          )
-                      )
+                      const handle = shadowResolution()
+                      addShadowPhysicsSystem(this)
                       return new Cancellable(() => {
                           handle.cancel()
+                          deleteShadowPhysicsSystem(this)
                       })
                   }
                 : undefined

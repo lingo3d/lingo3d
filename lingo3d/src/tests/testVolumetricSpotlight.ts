@@ -21,7 +21,3 @@ light.castShadow = true
 const cube = new Cube()
 cube.y = -100
 cube.physics = "static"
-
-onBeforeRender(() => {
-    console.log(light.queryNearby(100).length)
-})

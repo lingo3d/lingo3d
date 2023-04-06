@@ -7,7 +7,7 @@ import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Choices from "./utils/Choices"
 
-export type CastShadow = boolean | "static"
+export type CastShadow = boolean | "physics"
 
 export default interface ILightBase extends IObjectManager {
     color: string
@@ -37,7 +37,11 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
     },
     {
         intensity: new Range(0, 10),
-        castShadow: new Choices({ true: true, false: false, static: "static" })
+        castShadow: new Choices({
+            true: true,
+            false: false,
+            physics: "physics"
+        })
     },
     { color: true, castShadow: true }
 )
