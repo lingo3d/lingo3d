@@ -13,6 +13,7 @@ import { getSplitView } from "../../states/useSplitView"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { emitResize } from "../../events/onResize"
 import { container, uiContainer, overlayContainer } from "./containers"
+import { rendererPtr } from "../../pointers/rendererPtr"
 
 container.appendChild(uiContainer)
 uiContainer.appendChild(overlayContainer)
@@ -86,10 +87,7 @@ createEffect(() => {
 }, [getAutoMount])
 
 createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer) return
-
-    const canvas = renderer.domElement
+    const canvas = rendererPtr[0].domElement
     container.prepend(canvas)
     canvas.classList.add("lingo3d-container")
     return () => {
@@ -98,18 +96,14 @@ createEffect(() => {
 }, [getRenderer])
 
 createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer) return
-
+    const [renderer] = rendererPtr
     const [w, h] = getResolution()
     renderer.setSize(w, h)
     renderer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
 }, [getRenderer, getResolution, getPixelRatio])
 
 createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer) return
-
+    const [renderer] = rendererPtr
     const exposure = getExposure()
     renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping
     renderer.toneMappingExposure = exposure
@@ -118,9 +112,7 @@ createEffect(() => {
 createEffect(() => {
     if (!getWebXR()) return
 
-    const renderer = getRenderer()
-    if (!renderer) return
-
+    const [renderer] = rendererPtr
     renderer.xr.enabled = true
 
     const button = VRButton.createButton(renderer)

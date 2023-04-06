@@ -79,8 +79,6 @@ export default class Water extends PhysicsObjectManager implements IWater {
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
                 })
-                setManager(water, this)
-
                 return () => {
                     handle.cancel()
                 }

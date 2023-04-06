@@ -13,8 +13,7 @@ createEffect(() => {
     })
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = PCFSoftShadowMap
-    setRenderer(renderer)
-    rendererPtr[0] = renderer
+    setRenderer((rendererPtr[0] = renderer))
 
     return () => {
         renderer.dispose()

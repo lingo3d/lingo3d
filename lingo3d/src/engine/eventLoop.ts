@@ -11,6 +11,7 @@ import { onAfterRender } from "../events/onAfterRender"
 import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
+import { rendererPtr } from "../pointers/rendererPtr"
 
 let firstRender = false
 const handle = onAfterRender(() => {
@@ -42,12 +43,11 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer || (getFirstLoadBeforeRender() && !getFirstLoad())) return
+    if (getFirstLoadBeforeRender() && !getFirstLoad()) return
 
     const targetDelta = (1 / fpsPtr[0]) * 0.9
 
-    renderer.setAnimationLoop(() => {
+    rendererPtr[0].setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta > 0.2) delta = 0
         if (delta < targetDelta) return

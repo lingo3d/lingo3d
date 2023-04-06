@@ -31,15 +31,11 @@ createEffect(() => {
 }, [getCameraRendered])
 
 createEffect(() => {
-    if (!getRenderer()) return
-
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
 }, [getRenderer, getResolution])
 
 createEffect(() => {
-    if (!getRenderer()) return
-
     const normalPass = getNormalPass()
     normalPass && effectComposer.addPass(normalPass)
 

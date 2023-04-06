@@ -11,6 +11,7 @@ import { getRenderer } from "../../states/useRenderer"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { planeGeometry } from "../primitives/Plane"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import { rendererPtr } from "../../pointers/rendererPtr"
 
 export default class Reflector
     extends PhysicsObjectManager
@@ -32,12 +33,11 @@ export default class Reflector
         import("./MeshReflectorMaterial").then(
             ({ default: MeshReflectorMaterial }) => {
                 this.createEffect(() => {
-                    const renderer = getRenderer()
-                    if (!renderer || this.done) return
+                    if (this.done) return
 
                     const [camera] = cameraRenderedPtr
                     const mat = (mesh.material = new MeshReflectorMaterial(
-                        renderer,
+                        rendererPtr[0],
                         camera,
                         scene,
                         this.object3d,
