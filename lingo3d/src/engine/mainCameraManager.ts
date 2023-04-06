@@ -40,3 +40,15 @@ createEffect(() => {
         container.style.cursor = "auto"
     }
 }, [getEditorBehavior, getTransformControlsDragging, getCameraRendered])
+
+export const resetMainCameraManager = () => {
+    mainCameraManager.x = 0
+    mainCameraManager.y = 0
+    mainCameraManager.z = 0
+    mainCameraManager.rotationX = 0
+    mainCameraManager.rotationY = 0
+    mainCameraManager.rotationZ = 0
+    mainCameraManager.polarAngle = 120
+    mainCameraManager.azimuthAngle = 0
+}
+resetMainCameraManager()
