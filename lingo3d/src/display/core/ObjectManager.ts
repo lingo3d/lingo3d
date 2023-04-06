@@ -18,8 +18,7 @@ export const getFoundManager = (
         if (childManager instanceof FoundManager) return childManager
         return undefined
     }
-    const result = setManager(child, new FoundManager(child, parentManager))
-    return result
+    return new FoundManager(child, parentManager)
 }
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>

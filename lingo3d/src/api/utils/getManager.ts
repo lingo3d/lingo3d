@@ -10,7 +10,6 @@ export const setManager = <T extends MeshAppendable>(
     target: Object3D,
     manager: T
 ): T => {
-    if (objectManagerMap.has(target)) return manager
     objectManagerMap.set(target, manager)
     return manager
 }
