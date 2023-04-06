@@ -30,6 +30,11 @@ const traverseNative = (
     frozenSet: Set<Appendable>
 ) => {
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
+        if (
+            child === selectionFocus.outerObject3d ||
+            child === selectionFocus.object3d
+        )
+            return
         const manager = getManager(child)
         if (manager) {
             if (frozenSet.has(manager) || selectionDisabledSet.has(manager))

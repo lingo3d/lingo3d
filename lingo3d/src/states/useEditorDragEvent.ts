@@ -2,7 +2,6 @@ import { deg2Rad, Point3d } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
-import { raycast } from "../display/core/utils/raycast/attachRaycastEvent"
 import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
@@ -13,6 +12,7 @@ import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { selectionDisabledSet } from "../collections/selectionDisabledSet"
+import { mouseRaycast } from "../display/core/utils/raycast/mouseRaycast"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -56,7 +56,7 @@ createEffect(() => {
     if (!isDragEvent || !indicator) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const hit = raycast(selectionCandidates, {
+    const hit = mouseRaycast(selectionCandidates, {
         x: xNorm,
         y: yNorm,
         additionalCandidate: getGrid() ? editorPlane : undefined
