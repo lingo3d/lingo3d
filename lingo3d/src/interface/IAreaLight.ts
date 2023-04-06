@@ -1,14 +1,28 @@
-import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
+import IPlane, { planeDefaults, planeSchema } from "./IPlane"
 import { extendDefaults } from "./utils/Defaults"
+import Range from "./utils/Range"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IAreaLight extends ILightBase {}
+export default interface IAreaLight extends IPlane {
+    intensity: number
+    enabled: boolean
+}
 
 export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
-    ...lightBaseSchema
+    ...planeSchema,
+    intensity: Number,
+    enabled: Boolean
 }
 
 export const areaLightDefaults = extendDefaults<IAreaLight>(
-    [lightBaseDefaults],
-    { depth: 0, scaleZ: 0 }
+    [planeDefaults],
+    {
+        intensity: 1,
+        enabled: true,
+        castShadow: false,
+        receiveShadow: false,
+        emissive: true
+    },
+    { intensity: new Range(0, 10) },
+    { color: true }
 )
