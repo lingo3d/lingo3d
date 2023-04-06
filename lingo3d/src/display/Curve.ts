@@ -87,7 +87,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                 (pt, cleanup) => {
                     const helper = new HelperSphere(undefined)
                     this.append(helper)
-                    helper.scale = 0.1
+                    helper.scale = 0.2
                     helper.onTransformControls = (_, mode) => {
                         if (mode !== "translate") return
                         move = true

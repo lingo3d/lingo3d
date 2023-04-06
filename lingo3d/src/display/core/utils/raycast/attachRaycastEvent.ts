@@ -74,7 +74,7 @@ export const raycast = computePerFrameWithData(
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
-                manager: getManager<VisibleMixin>(intersection.object)!
+                manager: getManager(intersection.object) as VisibleMixin
             }
     }
 )
