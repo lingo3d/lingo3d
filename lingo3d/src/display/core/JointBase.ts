@@ -1,8 +1,7 @@
 import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { extendFunction, omitFunction } from "@lincode/utils"
 import { Vector3, Quaternion, Object3D } from "three"
-import { TransformControlsPhase } from "../../events/onTransformControls"
+import { TransformControlsPayload } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getEditorHelper } from "../../states/useEditorHelper"
@@ -81,11 +80,13 @@ export default abstract class JointBase
             helper.scale = 0.1
             helper.depthTest = false
 
-            helper.onTransformControls = (phase, mode) =>
-                mode === "translate" &&
-                phase === "end" &&
-                this.setManualPosition()
-
+            helper.events.on(
+                "transformControls",
+                ({ phase, mode }: TransformControlsPayload) =>
+                    mode === "translate" &&
+                    phase === "end" &&
+                    this.setManualPosition()
+            )
             return () => {
                 helper.dispose()
             }
@@ -116,17 +117,16 @@ export default abstract class JointBase
             const handle1 = toManager.events.on("physics", () =>
                 this.refreshState.set({})
             )
-
-            const cb = (phase: TransformControlsPhase) =>
-                phase === "end" && this.refreshState.set({})
-
-            const fromCaller = (fromManager.onTransformControls =
-                extendFunction(fromManager.onTransformControls, cb))
-            const toCaller = (toManager.onTransformControls = extendFunction(
-                toManager.onTransformControls,
-                cb
-            ))
-
+            const handle2 = fromManager.events.on(
+                "transformControls",
+                ({ phase }: TransformControlsPayload) =>
+                    phase === "end" && this.refreshState.set({})
+            )
+            const handle3 = toManager.events.on(
+                "transformControls",
+                ({ phase }: TransformControlsPayload) =>
+                    phase === "end" && this.refreshState.set({})
+            )
             const joint = (this.pxJoint = this.createJoint(
                 getRelativeTransform(
                     this.outerObject3d,
@@ -148,8 +148,8 @@ export default abstract class JointBase
             return () => {
                 handle0.cancel()
                 handle1.cancel()
-                omitFunction(fromCaller, cb)
-                omitFunction(toCaller, cb)
+                handle2.cancel()
+                handle3.cancel()
                 this.pxJoint = undefined
                 destroy(joint)
                 fromManager.jointCount--

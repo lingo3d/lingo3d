@@ -5,10 +5,6 @@ import IAppendable, {
     appendableSchema
 } from "./IAppendable"
 import {
-    TransformControlsPhase,
-    TransformControlsMode
-} from "../events/onTransformControls"
-import {
     defaultMethod,
     defaultMethodPt3dArg,
     defaultMethodNumberArg
@@ -28,9 +24,6 @@ export default interface IMeshAppendable extends IAppendable {
     rotationZ: number
     rotation: number
 
-    onTransformControls: Nullable<
-        (phase: TransformControlsPhase, mode: TransformControlsMode) => void
-    >
     onMove: Nullable<() => void>
     onMoveToEnd: Nullable<() => void>
     onLookToEnd: Nullable<() => void>
@@ -58,7 +51,6 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     rotationZ: Number,
     rotation: Number,
 
-    onTransformControls: Function,
     onMove: Function,
     onMoveToEnd: Function,
     onLookToEnd: Function,
@@ -74,7 +66,7 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     lookAt: [Function, Array],
     lookTo: [Function, Array]
 }
-hideSchema(["onTransformControls", "rotation"])
+hideSchema(["rotation"])
 
 export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
     [appendableDefaults],
@@ -88,7 +80,6 @@ export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
         rotationZ: 0,
         rotation: 0,
 
-        onTransformControls: undefined,
         onMove: nullableCallback(),
         onMoveToEnd: nullableCallback(),
         onLookToEnd: nullableCallback(),

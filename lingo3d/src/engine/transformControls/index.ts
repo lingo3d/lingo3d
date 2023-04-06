@@ -2,8 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import {
     emitTransformControls,
     onTransformControls,
-    TransformControlsMode,
-    TransformControlsPhase
+    TransformControlsPayload
 } from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
@@ -21,6 +20,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import Appendable from "../../api/core/Appendable"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -48,8 +48,9 @@ const lazyTransformControls = lazy(async () => {
 
 createEffect(() => {
     const selectionTarget = getSelectionTarget()
+    const nativeTarget = getSelectionNativeTarget()
     const target =
-        getSelectionNativeTarget() ??
+        nativeTarget ??
         (selectionTarget && "outerObject3d" in selectionTarget
             ? selectionTarget.outerObject3d
             : undefined)
@@ -89,18 +90,15 @@ createEffect(() => {
         })
     })
 
-    const callbacks: Array<
-        (phase: TransformControlsPhase, mode: TransformControlsMode) => void
-    > = []
-    target.userData.onTransformControls &&
-        callbacks.push(target.userData.onTransformControls)
-
+    const eventTargets: Array<Appendable> = []
+    !nativeTarget && selectionTarget && eventTargets.push(selectionTarget)
     for (const target of getMultipleSelectionTargets()[0])
-        target.userData.onTransformControls &&
-            callbacks.push(target.userData.onTransformControls)
+        eventTargets.push(target)
 
     const handle1 = onTransformControls((phase) => {
-        for (const cb of callbacks) cb(phase, mode)
+        const payload: TransformControlsPayload = { phase, mode }
+        for (const target of eventTargets)
+            target.emitEvent("transformControls", payload)
     })
     return () => {
         handle.cancel()

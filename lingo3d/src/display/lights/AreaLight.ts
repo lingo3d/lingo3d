@@ -6,6 +6,7 @@ import IAreaLight, {
 import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
 import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
+import { TransformControlsPayload } from "../../events/onTransformControls"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -33,8 +34,13 @@ export default class AreaLight extends Plane implements IAreaLight {
             this.then(() => light.dispose())
             addConfigAreaLightSystem(this)
         })
-        this.onTransformControls = (_, mode) =>
-            mode === "scale" && addConfigAreaLightSystem(this)
+        this.watch(
+            this.events.on(
+                "transformControls",
+                ({ mode }: TransformControlsPayload) =>
+                    mode === "scale" && addConfigAreaLightSystem(this)
+            )
+        )
     }
 
     public override get color() {

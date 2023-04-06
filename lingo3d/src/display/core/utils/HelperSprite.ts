@@ -1,15 +1,11 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import {
-    TransformControlsMode,
-    TransformControlsPhase
-} from "../../../events/onTransformControls"
 import Sprite from "../../Sprite"
 
 export default class HelperSprite extends Sprite {
     public constructor(
         type: "camera" | "light" | "audio",
-        private owner: MeshAppendable
+        owner: MeshAppendable
     ) {
         super()
         this.disableBehavior(true, true, false)
@@ -20,20 +16,5 @@ export default class HelperSprite extends Sprite {
 
         this.userData.selectionPointer = owner
         owner.append(this)
-    }
-
-    public override get onTransformControls() {
-        return this.userData.onTransformControls
-    }
-    public override set onTransformControls(
-        cb:
-            | ((
-                  phase: TransformControlsPhase,
-                  mode: TransformControlsMode
-              ) => void)
-            | undefined
-    ) {
-        super.onTransformControls = cb
-        this.owner.userData.onTransformControls = cb
     }
 }

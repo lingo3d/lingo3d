@@ -8,6 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { TransformControlsPayload } from "../events/onTransformControls"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -88,14 +89,18 @@ export default class Curve extends MeshAppendable implements ICurve {
                     const helper = new HelperSphere(undefined)
                     this.append(helper)
                     helper.scale = 0.2
-                    helper.onTransformControls = (_, mode) => {
-                        if (mode !== "translate") return
-                        move = true
-                        Object.assign(pt, helper.worldPosition)
-                        this.refreshState.set({})
-                    }
+                    const handle = helper.events.on(
+                        "transformControls",
+                        ({ mode }: TransformControlsPayload) => {
+                            if (mode !== "translate") return
+                            move = true
+                            Object.assign(pt, helper.worldPosition)
+                            this.refreshState.set({})
+                        }
+                    )
                     cleanup.then(() => {
                         helper.dispose()
+                        handle.cancel()
                     })
                     return helper
                 }

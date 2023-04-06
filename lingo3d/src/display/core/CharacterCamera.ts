@@ -12,6 +12,7 @@ import {
     addCharacterCameraFollowSystem,
     deleteCharacterCameraFollowSystem
 } from "../../systems/characterCameraFollowSystem"
+import { TransformControlsPayload } from "../../events/onTransformControls"
 
 export default class CharacterCamera
     extends CameraBase
@@ -46,16 +47,19 @@ export default class CharacterCamera
             if (!(found instanceof MeshAppendable)) return
 
             let { lockTargetRotation } = this
-            found.onTransformControls = (phase, mode) => {
-                if (mode !== "rotate") return
-                if (phase === "start") {
-                    lockTargetRotation = this.lockTargetRotation
-                    this.lockTargetRotation = "follow"
-                } else if (phase === "end")
-                    this.lockTargetRotation = lockTargetRotation
-            }
+            const handle = found.events.on(
+                "transformControls",
+                ({ phase, mode }: TransformControlsPayload) => {
+                    if (mode !== "rotate") return
+                    if (phase === "start") {
+                        lockTargetRotation = this.lockTargetRotation
+                        this.lockTargetRotation = "follow"
+                    } else if (phase === "end")
+                        this.lockTargetRotation = lockTargetRotation
+                }
+            )
             return () => {
-                found.onTransformControls = undefined
+                handle.cancel()
             }
         }, [this.firstChildState.get])
     }

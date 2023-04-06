@@ -147,12 +147,12 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
-    private _events?: Events<void, EventName>
+    private _events?: Events<any, EventName>
     public get events() {
         return (this._events ??= new Events())
     }
-    public emitEvent(key: EventName) {
-        this._events?.emit(key)
+    public emitEvent(key: EventName, payload?: any) {
+        this._events?.emit(key, payload)
     }
 
     protected _name?: string
@@ -161,7 +161,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set name(val) {
         this._name = val
-        this._events?.emit("name")
+        this.emitEvent("name")
     }
 
     protected _id?: string
