@@ -14,7 +14,7 @@ import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
-import { joints } from "../../collections/joints"
+import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
 const getRelativeTransform = (
@@ -58,12 +58,12 @@ export default abstract class JointBase
 
     protected override disposeNode() {
         super.disposeNode()
-        joints.delete(this)
+        jointSet.delete(this)
     }
 
     public constructor() {
         super()
-        joints.add(this)
+        jointSet.add(this)
 
         this.createEffect(() => {
             if (!getWorldPlayComputed() || !getEditorBehavior()) return

@@ -1,11 +1,11 @@
-import { joints } from "../../../collections/joints"
+import { jointSet } from "../../../collections/jointSet"
 import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
 import { addMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 
 const findAllJointed = (
     target: PhysicsObjectManager,
     jointedSet = new Set<PhysicsObjectManager>(),
-    jointsCopy = new Set(joints)
+    jointsCopy = new Set(jointSet)
 ) => {
     jointedSet.add(target)
     for (const joint of jointsCopy)

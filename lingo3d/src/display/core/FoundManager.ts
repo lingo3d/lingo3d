@@ -22,10 +22,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static defaults = foundManagerDefaults
     public static schema = foundManagerSchema
 
-    public constructor(
-        mesh: Object3D | StandardMesh,
-        public owner: MeshAppendable
-    ) {
+    public constructor(mesh: Object3D | StandardMesh, owner: MeshAppendable) {
         super(mesh, true)
         owner.appendNode(this)
 
