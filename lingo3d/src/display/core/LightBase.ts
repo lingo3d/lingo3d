@@ -116,10 +116,11 @@ export default abstract class LightBase<T extends Light>
                 : val === "physics"
                 ? () => {
                       const handle = shadowResolution()
-                      addShadowPhysicsSystem(this)
+                      "distance" in this && addShadowPhysicsSystem(this as any)
                       return new Cancellable(() => {
                           handle.cancel()
-                          deleteShadowPhysicsSystem(this)
+                          "distance" in this &&
+                              deleteShadowPhysicsSystem(this as any)
                       })
                   }
                 : undefined
