@@ -51,6 +51,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
         this.userData = outerObject3d.userData
+        outerObject3d.castShadow = true
     }
 
     public declare parent?: MeshAppendable

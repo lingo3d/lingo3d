@@ -5,7 +5,6 @@ import IAreaLight, {
 } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
-import { CM2M } from "../../globals"
 import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 
 const lazyInit = lazy(async () => {
@@ -24,19 +23,18 @@ export default class AreaLight extends Plane implements IAreaLight {
 
     public constructor() {
         super()
-        this.castShadow = false
-        this.receiveShadow = false
+        this.object3d.castShadow = this.object3d.receiveShadow = false
         this.emissive = true
 
         lazyInit().then(() => {
             if (this.done) return
             const light = (this.light = new RectAreaLight())
-            this.object3d.add(light)
+            this.outerObject3d.add(light)
             this.then(() => light.dispose())
             addConfigAreaLightSystem(this)
-            this.onTransformControls = (_, mode) =>
-                mode === "scale" && addConfigAreaLightSystem(this)
         })
+        this.onTransformControls = (_, mode) =>
+            mode === "scale" && addConfigAreaLightSystem(this)
     }
 
     public override get color() {
@@ -102,6 +100,11 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set castShadow(_) {}
 
+    public override get receiveShadow() {
+        return false
+    }
+    public override set receiveShadow(_) {}
+
     private _enabled = true
     public get enabled() {
         return this._enabled
@@ -109,5 +112,12 @@ export default class AreaLight extends Plane implements IAreaLight {
     public set enabled(val) {
         this._enabled = val
         addConfigAreaLightSystem(this)
+    }
+
+    public override get visible() {
+        return this.object3d.visible
+    }
+    public override set visible(val) {
+        this.object3d.visible = val
     }
 }
