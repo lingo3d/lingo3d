@@ -64,9 +64,9 @@ createEffect(() => {
     const space = getTransformControlsSpaceComputed()
     const snap = !getTransformControlsSnap()
 
-    const handle = new Cancellable()
+    const handle0 = new Cancellable()
     lazyTransformControls().then((transformControls) => {
-        if (handle.done || !target.parent) return
+        if (handle0.done || !target.parent) return
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
@@ -81,7 +81,7 @@ createEffect(() => {
 
         ssrExcludeSet.add(transformControls)
 
-        handle.then(() => {
+        handle0.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
             //@ts-ignore
@@ -89,9 +89,12 @@ createEffect(() => {
             ssrExcludeSet.delete(transformControls)
         })
     })
-
+    if (nativeTarget)
+        return () => {
+            handle0.cancel()
+        }
     const eventTargets: Array<Appendable> = []
-    !nativeTarget && selectionTarget && eventTargets.push(selectionTarget)
+    selectionTarget && eventTargets.push(selectionTarget)
     for (const target of getMultipleSelectionTargets()[0])
         eventTargets.push(target)
 
@@ -101,7 +104,7 @@ createEffect(() => {
             target.emitEvent("transformControls", payload)
     })
     return () => {
-        handle.cancel()
+        handle0.cancel()
         handle1.cancel()
     }
 }, [
