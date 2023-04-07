@@ -29,7 +29,7 @@ export default class SpotLight
     public static defaults = spotLightDefaults
     public static schema = spotLightSchema
 
-    protected override shadowBiasCoeff = 1.5
+    public override shadowBiasCoeff = 0.5
 
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)

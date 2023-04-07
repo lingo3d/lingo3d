@@ -14,8 +14,6 @@ export default class PointLight
     public static defaults = pointLightDefaults
     public static schema = pointLightSchema
 
-    protected override shadowBiasCoeff = 0.15
-
     public constructor() {
         super(new ThreePointLight())
         this.distance = 1000

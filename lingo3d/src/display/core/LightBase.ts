@@ -6,7 +6,6 @@ import {
     SpotLightHelper
 } from "three"
 import scene from "../../engine/scene"
-import { SHADOW_BIAS } from "../../globals"
 import ILightBase, { CastShadow } from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
@@ -76,7 +75,7 @@ export default abstract class LightBase<T extends Light>
         this.helperState.set(val)
     }
 
-    protected shadowBiasCoeff = 1
+    public shadowBiasCoeff = 1
     private _castShadow: CastShadow = false
     public get castShadow() {
         return this._castShadow
@@ -86,7 +85,6 @@ export default abstract class LightBase<T extends Light>
 
         const light = this.object3d
         light.castShadow = !!val
-        light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
 
         this.cancelHandle(
             "castShadowResolution",
