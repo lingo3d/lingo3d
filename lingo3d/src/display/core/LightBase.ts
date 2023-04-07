@@ -102,11 +102,11 @@ export default abstract class LightBase<T extends Light>
             "castShadow",
             val === "physics"
                 ? () => {
-                      this.light.shadow.autoUpdate = false
+                      light.shadow.autoUpdate = false
                       "distance" in this &&
                           addShadowPhysicsSystem(this as any, { count: 0 })
                       return new Cancellable(() => {
-                          this.light.shadow.autoUpdate = true
+                          light.shadow.autoUpdate = true
                           "distance" in this &&
                               deleteShadowPhysicsSystem(this as any)
                       })
