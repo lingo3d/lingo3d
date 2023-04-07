@@ -1,21 +1,33 @@
+import { mapRange } from "@lincode/math"
 import PointLight from "../display/lights/PointLight"
 import getWorldPosition from "../display/utils/getWorldPosition"
+import { CM2M } from "../globals"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
 const resolutions = [512, 256, 128, 32, 16, 512]
 const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.005]
 
-export const [addShadowPointLightSystem, deleteShadowPointLightSystem] =
+export const [addPointLightSystem, deletePointLightSystem] =
     renderSystemWithData(
         (self: PointLight, data: { step: number | undefined }) => {
+            const camera = cameraRenderedPtr[0]
+            const distance = getWorldPosition(self.outerObject3d).distanceTo(
+                getWorldPosition(camera)
+            )
+            self.intensity = mapRange(
+                distance - self.distance * CM2M,
+                30,
+                50,
+                1,
+                0,
+                true
+            )
+            if (!self.castShadow) return
+
             let step = 4
             if (self.distance > 3000) step = 5
             else {
-                const camera = cameraRenderedPtr[0]
-                const distance = getWorldPosition(
-                    self.outerObject3d
-                ).distanceTo(getWorldPosition(camera))
                 if (distance < 10) step = 0
                 else if (distance < 20) step = 1
                 else if (distance < 30) step = 2

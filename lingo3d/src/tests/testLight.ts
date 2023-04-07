@@ -1,9 +1,5 @@
-import { onBeforeRender, PointLight, settings, SpotLight } from ".."
+import { PointLight, settings } from ".."
 import Cube from "../display/primitives/Cube"
-
-// const updateVolumeGeometry = (light, mesh, radiusTop) => {
-//     mesh.material.attenuation = light.distance
-// }
 
 settings.defaultLight = false
 
@@ -13,7 +9,6 @@ ground.scaleX = 1000
 ground.scaleZ = 1000
 
 const light = new PointLight()
-light.castShadow = true
 
 const cube = new Cube()
 cube.y = -100
