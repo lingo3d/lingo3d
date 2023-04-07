@@ -41,10 +41,6 @@ import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
 import { getSSAO, setSSAO } from "../states/useSSAO"
 import { getSSAOIntensity, setSSAOIntensity } from "../states/useSSAOIntensity"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
-import {
-    getShadowResolution,
-    setShadowResolution
-} from "../states/useShadowResolution"
 import { getEnvironment, setEnvironment } from "../states/useEnvironment"
 import { getStats, setStats } from "../states/useStats"
 import { getBokeh, setBokeh } from "../states/useBokeh"
@@ -125,13 +121,6 @@ export default {
     },
     set exposure(value) {
         setExposure(value)
-    },
-
-    get shadowResolution() {
-        return getShadowResolution()
-    },
-    set shadowResolution(value) {
-        setShadowResolution(value)
     },
 
     get bokehScale() {

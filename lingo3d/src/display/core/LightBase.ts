@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { assertExhaustive } from "@lincode/utils"
 import {
     DirectionalLightHelper,
     Light,
@@ -10,10 +9,6 @@ import scene from "../../engine/scene"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase, { CastShadow } from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
-import {
-    getShadowResolution,
-    ShadowResolution
-} from "../../states/useShadowResolution"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
@@ -22,19 +17,6 @@ import {
     addShadowPhysicsSystem,
     deleteShadowPhysicsSystem
 } from "../../systems/shadowPhysicsSystem"
-
-export const mapShadowResolution = (val: ShadowResolution) => {
-    switch (val) {
-        case "low":
-            return 512
-        case "medium":
-            return 1024
-        case "high":
-            return 2048
-        default:
-            assertExhaustive(val)
-    }
-}
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -48,6 +30,7 @@ export default abstract class LightBase<T extends Light>
             | typeof PointLightHelper
     ) {
         super(light)
+        light.shadow?.mapSize.setScalar(1024)
 
         this.createEffect(() => {
             if (!getEditorHelper() || !this.helperState.get()) return
@@ -103,22 +86,14 @@ export default abstract class LightBase<T extends Light>
         light.castShadow = !!val
         light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
 
-        const shadowResolution = () =>
-            getShadowResolution((res) =>
-                light.shadow.mapSize.setScalar(mapShadowResolution(res))
-            )
         this.cancelHandle(
             "castShadow",
-            val === true
-                ? shadowResolution
-                : val === "physics"
+            val === "physics"
                 ? () => {
-                      const handle = shadowResolution()
                       this.light.shadow.autoUpdate = false
                       "distance" in this &&
                           addShadowPhysicsSystem(this as any, { count: 0 })
                       return new Cancellable(() => {
-                          handle.cancel()
                           this.light.shadow.autoUpdate = true
                           "distance" in this &&
                               deleteShadowPhysicsSystem(this as any)
