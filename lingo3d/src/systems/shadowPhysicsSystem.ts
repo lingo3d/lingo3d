@@ -1,5 +1,6 @@
 import { mapRange } from "@lincode/math"
 import {
+    castShadowChanged,
     positionChanged,
     quaternionChanged
 } from "../display/utils/trackObject"
@@ -21,7 +22,8 @@ export const [addShadowPhysicsSystem, deleteShadowPhysicsSystem] =
             for (const manager of nearby)
                 if (
                     positionChanged(manager.object3d) ||
-                    quaternionChanged(manager.object3d)
+                    quaternionChanged(manager.object3d) ||
+                    castShadowChanged(manager.object3d)
                 ) {
                     self.light.shadow.needsUpdate = true
                     return
