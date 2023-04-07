@@ -17,6 +17,10 @@ import {
     addShadowPhysicsSystem,
     deleteShadowPhysicsSystem
 } from "../../systems/shadowPhysicsSystem"
+import {
+    addShadowResolutionSystem,
+    deleteShadowResolutionSystem
+} from "../../systems/shadowResolutionSystem"
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -30,8 +34,6 @@ export default abstract class LightBase<T extends Light>
             | typeof PointLightHelper
     ) {
         super(light)
-        light.shadow?.mapSize.setScalar(1024)
-
         this.createEffect(() => {
             if (!getEditorHelper() || !this.helperState.get()) return
 
@@ -87,7 +89,20 @@ export default abstract class LightBase<T extends Light>
         light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
 
         this.cancelHandle(
-            "castShadow",
+            "castShadowResolution",
+            val &&
+                light.shadow &&
+                (() => {
+                    addShadowResolutionSystem(this as any)
+                    // light.shadow.mapSize.setScalar(1024)
+                    return new Cancellable(() => {
+                        deleteShadowResolutionSystem(this as any)
+                    })
+                })
+        )
+
+        this.cancelHandle(
+            "castShadowPhysics",
             val === "physics"
                 ? () => {
                       this.light.shadow.autoUpdate = false
