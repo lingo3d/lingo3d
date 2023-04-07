@@ -115,7 +115,8 @@ export default abstract class LightBase<T extends Light>
                 ? () => {
                       const handle = shadowResolution()
                       this.light.shadow.autoUpdate = false
-                      "distance" in this && addShadowPhysicsSystem(this as any)
+                      "distance" in this &&
+                          addShadowPhysicsSystem(this as any, { count: 0 })
                       return new Cancellable(() => {
                           handle.cancel()
                           this.light.shadow.autoUpdate = true
