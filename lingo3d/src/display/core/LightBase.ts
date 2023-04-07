@@ -93,16 +93,15 @@ export default abstract class LightBase<T extends Light>
             val &&
                 light.shadow &&
                 (() => {
-                    addShadowResolutionSystem(this as any)
-                    // light.shadow.mapSize.setScalar(1024)
-                    return new Cancellable(() => {
+                    addShadowResolutionSystem(this as any, { step: undefined })
+                    return new Cancellable(() =>
                         deleteShadowResolutionSystem(this as any)
-                    })
+                    )
                 })
         )
 
         this.cancelHandle(
-            "castShadowPhysics",
+            "castShadow",
             val === "physics"
                 ? () => {
                       this.light.shadow.autoUpdate = false
