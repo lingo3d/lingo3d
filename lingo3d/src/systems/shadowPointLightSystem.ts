@@ -3,15 +3,14 @@ import getWorldPosition from "../display/utils/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
-const resolutions = [512, 256, 128, 32, 16, 512, 512]
-const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.01, -0.005]
+const resolutions = [512, 256, 128, 32, 16, 512]
+const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.005]
 
 export const [addShadowPointLightSystem, deleteShadowPointLightSystem] =
     renderSystemWithData(
         (self: PointLight, data: { step: number | undefined }) => {
             let step = 4
-            if (self.distance > 7000) step = 6
-            else if (self.distance > 2000) step = 5
+            if (self.distance > 3000) step = 5
             else {
                 const camera = cameraRenderedPtr[0]
                 const distance = getWorldPosition(
