@@ -17,7 +17,7 @@ export const [addPointLightSystem, deletePointLightSystem] =
             )
             self.intensity = mapRange(
                 distance - self.distance * CM2M,
-                30,
+                0,
                 50,
                 1,
                 0,
