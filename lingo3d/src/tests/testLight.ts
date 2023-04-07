@@ -1,8 +1,20 @@
-import { AreaLight, Cube } from ".."
+import { onBeforeRender, PointLight, settings, SpotLight } from ".."
+import Cube from "../display/primitives/Cube"
 
-let box = new Cube()
+// const updateVolumeGeometry = (light, mesh, radiusTop) => {
+//     mesh.material.attenuation = light.distance
+// }
 
-let light = new AreaLight()
-light.z = 3000
-light.y = 3000
-light.lookAt(box)
+settings.defaultLight = false
+
+const ground = new Cube()
+ground.y = -300
+ground.scaleX = 1000
+ground.scaleZ = 1000
+
+const light = new PointLight()
+light.castShadow = true
+
+const cube = new Cube()
+cube.y = -100
+cube.physics = "static"
