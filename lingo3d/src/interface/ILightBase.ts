@@ -5,14 +5,10 @@ import IObjectManager, {
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import Choices from "./utils/Choices"
-
-export type CastShadow = boolean | "physics"
 
 export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
-    castShadow: CastShadow
     enabled: boolean
     helper: boolean
 }
@@ -22,8 +18,7 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     enabled: Boolean,
     helper: Boolean,
     color: String,
-    intensity: Number,
-    castShadow: [Boolean, String]
+    intensity: Number
 }
 
 export const lightBaseDefaults = extendDefaults<ILightBase>(
@@ -31,17 +26,11 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
     {
         color: "#ffffff",
         intensity: 1,
-        castShadow: false,
         enabled: true,
         helper: true
     },
     {
-        intensity: new Range(0, 10),
-        castShadow: new Choices({
-            true: true,
-            false: false,
-            physics: "physics"
-        })
+        intensity: new Range(0, 10)
     },
-    { color: true, castShadow: true }
+    { color: true }
 )

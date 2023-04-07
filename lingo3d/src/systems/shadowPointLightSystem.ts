@@ -1,5 +1,4 @@
 import PointLight from "../display/lights/PointLight"
-import SpotLight from "../display/lights/SpotLight"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import renderSystemWithData from "./utils/renderSystemWithData"
@@ -7,9 +6,9 @@ import renderSystemWithData from "./utils/renderSystemWithData"
 const resolutions = [512, 256, 128, 32, 16]
 const biases = [-0.01, -0.02, -0.03, -0.04, -0.05]
 
-export const [addShadowResolutionSystem, deleteShadowResolutionSystem] =
+export const [addShadowPointLightSystem, deleteShadowPointLightSystem] =
     renderSystemWithData(
-        (self: PointLight | SpotLight, data: { step: number | undefined }) => {
+        (self: PointLight, data: { step: number | undefined }) => {
             const camera = cameraRenderedPtr[0]
             const distance = getWorldPosition(self.outerObject3d).distanceTo(
                 getWorldPosition(camera)

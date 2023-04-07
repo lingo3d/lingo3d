@@ -1,10 +1,20 @@
 import { PointLight as ThreePointLight } from "three"
 import { CM2M, M2CM } from "../../globals"
 import IPointLight, {
+    CastShadow,
     pointLightDefaults,
     pointLightSchema
 } from "../../interface/IPointLight"
 import LightBase from "../core/LightBase"
+import { Cancellable } from "@lincode/promiselikes"
+import {
+    addShadowPhysicsSystem,
+    deleteShadowPhysicsSystem
+} from "../../systems/shadowPhysicsSystem"
+import {
+    addShadowPointLightSystem,
+    deleteShadowPointLightSystem
+} from "../../systems/shadowPointLightSystem"
 
 export default class PointLight
     extends LightBase<ThreePointLight>
@@ -31,5 +41,43 @@ export default class PointLight
     }
     public set distance(val) {
         this.object3d.distance = val * CM2M
+    }
+
+    private _castShadow: CastShadow = false
+    public get castShadow() {
+        return this._castShadow
+    }
+    public set castShadow(val) {
+        this._castShadow = val
+
+        const light = this.object3d
+        light.castShadow = !!val
+
+        this.cancelHandle(
+            "castShadowResolution",
+            val &&
+                light.shadow &&
+                (() => {
+                    addShadowPointLightSystem(this, { step: undefined })
+                    return new Cancellable(() =>
+                        deleteShadowPointLightSystem(this)
+                    )
+                })
+        )
+
+        this.cancelHandle(
+            "castShadow",
+            val === "physics"
+                ? () => {
+                      light.shadow.autoUpdate = false
+                      "distance" in this &&
+                          addShadowPhysicsSystem(this, { count: 0 })
+                      return new Cancellable(() => {
+                          light.shadow.autoUpdate = true
+                          "distance" in this && deleteShadowPhysicsSystem(this)
+                      })
+                  }
+                : undefined
+        )
     }
 }

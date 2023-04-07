@@ -6,20 +6,11 @@ import {
     SpotLightHelper
 } from "three"
 import scene from "../../engine/scene"
-import ILightBase, { CastShadow } from "../../interface/ILightBase"
+import ILightBase from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
-import { Cancellable } from "@lincode/promiselikes"
-import {
-    addShadowPhysicsSystem,
-    deleteShadowPhysicsSystem
-} from "../../systems/shadowPhysicsSystem"
-import {
-    addShadowResolutionSystem,
-    deleteShadowResolutionSystem
-} from "../../systems/shadowResolutionSystem"
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -73,45 +64,6 @@ export default abstract class LightBase<T extends Light>
     }
     public set helper(val) {
         this.helperState.set(val)
-    }
-
-    private _castShadow: CastShadow = false
-    public get castShadow() {
-        return this._castShadow
-    }
-    public set castShadow(val) {
-        this._castShadow = val
-
-        const light = this.object3d
-        light.castShadow = !!val
-
-        this.cancelHandle(
-            "castShadowResolution",
-            val &&
-                light.shadow &&
-                (() => {
-                    addShadowResolutionSystem(this as any, { step: undefined })
-                    return new Cancellable(() =>
-                        deleteShadowResolutionSystem(this as any)
-                    )
-                })
-        )
-
-        this.cancelHandle(
-            "castShadow",
-            val === "physics"
-                ? () => {
-                      light.shadow.autoUpdate = false
-                      "distance" in this &&
-                          addShadowPhysicsSystem(this as any, { count: 0 })
-                      return new Cancellable(() => {
-                          light.shadow.autoUpdate = true
-                          "distance" in this &&
-                              deleteShadowPhysicsSystem(this as any)
-                      })
-                  }
-                : undefined
-        )
     }
 
     public get color() {
