@@ -27,7 +27,7 @@ export const [addShadowResolutionSystem, deleteShadowResolutionSystem] =
             const { shadow } = light
             shadow.map?.dispose()
             shadow.mapSize.setScalar(resolutions[step])
-            shadow.bias = biases[step] * self.shadowBiasCoeff
+            shadow.bias = biases[step]
             //@ts-ignore
             shadow.map = null
         }

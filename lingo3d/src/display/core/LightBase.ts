@@ -75,7 +75,6 @@ export default abstract class LightBase<T extends Light>
         this.helperState.set(val)
     }
 
-    public shadowBiasCoeff = 1
     private _castShadow: CastShadow = false
     public get castShadow() {
         return this._castShadow
