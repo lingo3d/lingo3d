@@ -55,13 +55,6 @@ export default class SpotLight
         this.object3d.penumbra = val
     }
 
-    public get decay() {
-        return this.object3d.decay
-    }
-    public set decay(val) {
-        this.object3d.decay = val
-    }
-
     public get distance() {
         return this.object3d.distance * M2CM
     }

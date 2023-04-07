@@ -29,13 +29,6 @@ export default class PointLight
         this.distance = 1000
     }
 
-    public get decay() {
-        return this.object3d.decay
-    }
-    public set decay(val) {
-        this.object3d.decay = val
-    }
-
     public get distance() {
         return this.object3d.distance * M2CM
     }

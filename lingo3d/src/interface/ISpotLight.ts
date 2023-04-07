@@ -2,12 +2,11 @@ import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import { lightDecayRange, lightDistanceRange } from "./IPointLight"
+import { lightDistanceRange } from "./IPointLight"
 
 export default interface ISpotLight extends ILightBase {
     angle: number
     penumbra: number
-    decay: number
     distance: number
     volumetric: boolean
     volumetricDistance: number
@@ -17,7 +16,6 @@ export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
     ...lightBaseSchema,
     angle: Number,
     penumbra: Number,
-    decay: Number,
     distance: Number,
     volumetric: Boolean,
     volumetricDistance: Number
@@ -28,7 +26,6 @@ export const spotLightDefaults = extendDefaults<ISpotLight>(
     {
         angle: 45,
         penumbra: 0.2,
-        decay: 2,
         distance: 1000,
         volumetric: false,
         volumetricDistance: 1
@@ -36,7 +33,6 @@ export const spotLightDefaults = extendDefaults<ISpotLight>(
     {
         angle: new Range(5, 180),
         penumbra: new Range(0, 1),
-        decay: lightDecayRange,
         distance: lightDistanceRange,
         volumetricDistance: new Range(0, 1)
     }

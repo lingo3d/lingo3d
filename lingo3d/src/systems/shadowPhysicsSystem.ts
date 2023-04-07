@@ -1,4 +1,3 @@
-import { mapRange } from "@lincode/math"
 import {
     castShadowChanged,
     positionChanged,
@@ -11,9 +10,7 @@ import renderSystemWithData from "./utils/renderSystemWithData"
 export const [addShadowPhysicsSystem, deleteShadowPhysicsSystem] =
     renderSystemWithData(
         (self: PointLight | SpotLight, data: { count: number }) => {
-            const nearby = self.queryNearby(
-                self.distance * mapRange(self.decay, 0, 10, 1, 0)
-            )
+            const nearby = self.queryNearby(self.distance)
             if (data.count !== nearby.length) {
                 data.count = nearby.length
                 self.light.shadow.needsUpdate = true
