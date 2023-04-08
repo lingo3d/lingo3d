@@ -1,4 +1,4 @@
-import getActualScale from "../../display/utils/getActualScale"
+import getActualScale from "../../utilsCached/getActualScale"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import {
     decreasePhysxConvexGeometry,

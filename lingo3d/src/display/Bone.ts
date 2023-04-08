@@ -2,7 +2,7 @@ import { distance3d } from "@lincode/math"
 import randomColor from "randomcolor"
 import { Object3D } from "three"
 import Octahedron from "./primitives/Octahedron"
-import getWorldPosition from "./utils/getWorldPosition"
+import getWorldPosition from "../utilsCached/getWorldPosition"
 import { vec2Point } from "./utils/vec2Point"
 
 export default class Bone extends Octahedron {

@@ -1,6 +1,6 @@
 import { Object3D, Vector3 } from "three"
-import getWorldPosition from "../display/utils/getWorldPosition"
-import computePerFrame from "../utils/computePerFrame"
+import getWorldPosition from "./getWorldPosition"
+import computePerFrame from "./utils/computePerFrame"
 
 const positionXZCache = new WeakMap<Object3D, Vector3>()
 

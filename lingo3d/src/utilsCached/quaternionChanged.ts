@@ -1,6 +1,6 @@
 import { Object3D, Quaternion } from "three"
-import getWorldQuaternion from "../display/utils/getWorldQuaternion"
-import computePerFrame from "../utils/computePerFrame"
+import getWorldQuaternion from "./getWorldQuaternion"
+import computePerFrame from "./utils/computePerFrame"
 
 const quaternionCache = new WeakMap<Object3D, Quaternion>()
 

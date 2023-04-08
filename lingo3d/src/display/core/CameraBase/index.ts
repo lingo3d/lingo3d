@@ -12,9 +12,9 @@ import {
     pullCameraStack,
     pushCameraStack
 } from "../../../states/useCameraStack"
-import getWorldPosition from "../../utils/getWorldPosition"
-import getWorldQuaternion from "../../utils/getWorldQuaternion"
-import getWorldDirection from "../../utils/getWorldDirection"
+import getWorldPosition from "../../../utilsCached/getWorldPosition"
+import getWorldQuaternion from "../../../utilsCached/getWorldQuaternion"
+import getWorldDirection from "../../../utilsCached/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"

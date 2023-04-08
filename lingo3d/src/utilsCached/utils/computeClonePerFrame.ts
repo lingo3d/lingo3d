@@ -1,4 +1,4 @@
-import { addClearSystem } from "../systems/configSystems/clearSystem"
+import { addClearSystem } from "../../systems/configSystems/clearSystem"
 
 export default <Item extends object, Return extends { clone: () => Return }>(
     cb: (item: Item) => Return

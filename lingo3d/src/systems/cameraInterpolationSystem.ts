@@ -1,7 +1,7 @@
 import { PerspectiveCamera, Vector3, Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
-import getWorldPosition from "../display/utils/getWorldPosition"
-import getWorldQuaternion from "../display/utils/getWorldQuaternion"
+import getWorldPosition from "../utilsCached/getWorldPosition"
+import getWorldQuaternion from "../utilsCached/getWorldQuaternion"
 import interpolationCamera from "../engine/interpolationCamera"
 import renderSystemWithData from "./utils/renderSystemWithData"
 

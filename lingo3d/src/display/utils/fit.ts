@@ -1,5 +1,5 @@
 import { Object3D, Vector3 } from "three"
-import getCenter from "./getCenter"
+import getCenter from "../../utilsCached/getCenter"
 import measure from "./measure"
 
 const cache = new Map<string, [number, Vector3, Vector3]>()

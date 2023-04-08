@@ -2,7 +2,7 @@ import { deg2Rad } from "@lincode/math"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
-import getActualScale from "../../display/utils/getActualScale"
+import getActualScale from "../../utilsCached/getActualScale"
 import scene from "../../engine/scene"
 import configMemoSystemWithCleanUpAndData from "../utils/configMemoSystemWithCleanUpAndData"
 import {

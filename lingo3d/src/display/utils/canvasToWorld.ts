@@ -1,6 +1,6 @@
 import { CM2M } from "../../globals"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
-import getWorldPosition from "./getWorldPosition"
+import getWorldPosition from "../../utilsCached/getWorldPosition"
 import normalizeCanvasPosition from "./normalizeCanvasPosition"
 import { vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"

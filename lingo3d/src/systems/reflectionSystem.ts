@@ -1,6 +1,6 @@
 import { CubeCamera, WebGLCubeRenderTarget } from "three"
 import MeshAppendable from "../api/core/MeshAppendable"
-import getWorldPosition from "../display/utils/getWorldPosition"
+import getWorldPosition from "../utilsCached/getWorldPosition"
 import scene from "../engine/scene"
 import renderSystemWithLifeCycleAndData from "./utils/renderSystemWithLifeCycleAndData"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"

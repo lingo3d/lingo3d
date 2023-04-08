@@ -1,5 +1,5 @@
 import MeshAppendable from "../api/core/MeshAppendable"
-import getCenter from "../display/utils/getCenter"
+import getCenter from "../utilsCached/getCenter"
 import { vec2Point } from "../display/utils/vec2Point"
 import renderSystemWithData from "./utils/renderSystemWithData"
 

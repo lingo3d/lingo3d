@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import getWorldPosition from "./getWorldPosition"
-import { box3, vector3 } from "./reusables"
-import computeClonePerFrame from "../../utils/computeClonePerFrame"
+import { box3, vector3 } from "../display/utils/reusables"
+import computeClonePerFrame from "./utils/computeClonePerFrame"
 
 export default computeClonePerFrame((target: Object3D) => {
     if ("isBone" in target) return getWorldPosition(target)

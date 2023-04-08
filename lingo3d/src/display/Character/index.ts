@@ -4,7 +4,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import IModel, { modelDefaults, modelSchema } from "../../interface/IModel"
 import Bone from "../Bone"
 import Model from "../Model"
-import getWorldQuaternion from "../utils/getWorldQuaternion"
+import getWorldQuaternion from "../../utilsCached/getWorldQuaternion"
 import {
     complementQuaternion,
     diffQuaternions,

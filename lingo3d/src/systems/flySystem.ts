@@ -1,5 +1,5 @@
 import ObjectManager from "../display/core/ObjectManager"
-import getWorldPosition from "../display/utils/getWorldPosition"
+import getWorldPosition from "../utilsCached/getWorldPosition"
 import { vec2Point } from "../display/utils/vec2Point"
 import renderSystemWithData from "./utils/renderSystemWithData"
 

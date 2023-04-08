@@ -13,7 +13,7 @@ import {
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
-import getWorldPosition from "../../utils/getWorldPosition"
+import getWorldPosition from "../../../utilsCached/getWorldPosition"
 import { vector3_1 } from "../../utils/reusables"
 import "../utils/raycast"
 import {
