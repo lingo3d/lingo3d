@@ -12,7 +12,7 @@ import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { selectionDisabledSet } from "../collections/selectionDisabledSet"
-import { mouseRaycast } from "../display/core/utils/raycast/mouseRaycast"
+import { mouseRaycast } from "../cachedUtils/mouseRaycast"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent

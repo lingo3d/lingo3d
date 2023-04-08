@@ -1,7 +1,7 @@
 import { Frustum, PerspectiveCamera } from "three"
-import computePerFrame from "../../utils/computePerFrame"
+import computePerFrame from "../utils/computePerFrame"
 import { forceGetInstance } from "@lincode/utils"
-import { matrix4 } from "./reusables"
+import { matrix4 } from "../display/utils/reusables"
 
 const cameraFrustumMap = new WeakMap<PerspectiveCamera, Frustum>()
 

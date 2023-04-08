@@ -8,12 +8,10 @@ import {
     Vector2,
     WebGLRenderTarget
 } from "three"
-import {
-    positionChanged,
-    quaternionChanged
-} from "../../../../../../display/utils/trackObject"
 import { TemporalResolveMaterial } from "../material/TemporalResolveMaterial"
 import { VelocityPass } from "./VelocityPass"
+import { positionChanged } from "../../../../../../cachedUtils/positionChanged"
+import { quaternionChanged } from "../../../../../../cachedUtils/quaternionChanged"
 
 const zeroVec2 = new Vector2()
 

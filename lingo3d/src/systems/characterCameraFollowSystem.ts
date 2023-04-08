@@ -2,10 +2,10 @@ import MeshAppendable from "../api/core/MeshAppendable"
 import CharacterCamera from "../display/core/CharacterCamera"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
-import { positionChangedXZ } from "../display/utils/trackObject"
 import { PI } from "../globals"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { addGyrateResetSystem } from "./configSystems/gyrateResetSystem"
+import { positionChangedXZ } from "../cachedUtils/positionChangedXZ"
 
 const followTargetRotation = (
     self: CharacterCamera,

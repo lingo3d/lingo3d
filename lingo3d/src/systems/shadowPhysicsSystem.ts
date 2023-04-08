@@ -1,8 +1,6 @@
-import {
-    castShadowChanged,
-    positionChanged,
-    quaternionChanged
-} from "../display/utils/trackObject"
+import { castShadowChanged } from "../cachedUtils/castShadowChanged"
+import { positionChanged } from "../cachedUtils/positionChanged"
+import { quaternionChanged } from "../cachedUtils/quaternionChanged"
 import PointLight from "../display/lights/PointLight"
 import SpotLight from "../display/lights/SpotLight"
 import renderSystemWithData from "./utils/renderSystemWithData"
