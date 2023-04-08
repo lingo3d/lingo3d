@@ -10,8 +10,8 @@ import {
 } from "three"
 import { TemporalResolveMaterial } from "../material/TemporalResolveMaterial"
 import { VelocityPass } from "./VelocityPass"
-import { positionChanged } from "../../../../../../cachedUtils/positionChanged"
-import { quaternionChanged } from "../../../../../../cachedUtils/quaternionChanged"
+import { positionChanged } from "../../../../../../utilsCached/positionChanged"
+import { quaternionChanged } from "../../../../../../utilsCached/quaternionChanged"
 
 const zeroVec2 = new Vector2()
 

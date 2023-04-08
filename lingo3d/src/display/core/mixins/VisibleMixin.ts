@@ -29,7 +29,7 @@ import {
     mouseOverSet,
     mouseUpSet
 } from "../../../collections/mouseSets"
-import getFrustumVisible from "../../../cachedUtils/getFrustumVisible"
+import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
