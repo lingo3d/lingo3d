@@ -22,6 +22,15 @@ import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
 } from "../../../systems/lightIntensitySystem"
+import { CastShadow } from "../../../interface/IPointLight"
+import {
+    addLightShadowResolutionSystem,
+    deleteLightShadowResolutionSystem
+} from "../../../systems/lightShadowResolutionSystem"
+import {
+    addShadowPhysicsSystem,
+    deleteShadowPhysicsSystem
+} from "../../../systems/shadowPhysicsSystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -50,6 +59,42 @@ export default class SpotLight
     protected override disposeNode() {
         super.disposeNode()
         deleteLightIntensitySystem(this)
+    }
+
+    private _castShadow: CastShadow = false
+    public get castShadow() {
+        return this._castShadow
+    }
+    public set castShadow(val) {
+        this._castShadow = val
+
+        const light = this.object3d
+        light.castShadow = !!val
+
+        this.cancelHandle(
+            "castShadowResolution",
+            val &&
+                (() => {
+                    addLightShadowResolutionSystem(this, { step: undefined })
+                    return new Cancellable(() =>
+                        deleteLightShadowResolutionSystem(this)
+                    )
+                })
+        )
+        this.cancelHandle(
+            "castShadowPhysics",
+            val === "physics"
+                ? () => {
+                      light.shadow.autoUpdate = false
+                      "distance" in this &&
+                          addShadowPhysicsSystem(this, { count: 0 })
+                      return new Cancellable(() => {
+                          light.shadow.autoUpdate = true
+                          "distance" in this && deleteShadowPhysicsSystem(this)
+                      })
+                  }
+                : undefined
+        )
     }
 
     public get angle() {
