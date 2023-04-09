@@ -18,6 +18,10 @@ import {
 } from "../../../systems/volumetricSpotLightSystem"
 import { Cancellable } from "@lincode/promiselikes"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import {
+    addLightIntensitySystem,
+    deleteLightIntensitySystem
+} from "../../../systems/lightIntensitySystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -39,6 +43,13 @@ export default class SpotLight
         this.outerObject3d.add(light.target)
         light.position.y = 0
         light.target.position.y = -0.1
+
+        addLightIntensitySystem(this)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteLightIntensitySystem(this)
     }
 
     public get angle() {
