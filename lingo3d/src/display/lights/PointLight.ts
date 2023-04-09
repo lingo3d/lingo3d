@@ -12,9 +12,13 @@ import {
     deleteShadowPhysicsSystem
 } from "../../systems/shadowPhysicsSystem"
 import {
-    addPointLightSystem,
-    deletePointLightSystem
-} from "../../systems/pointLightSystem"
+    addLightIntensitySystem,
+    deleteLightIntensitySystem
+} from "../../systems/lightIntensitySystem"
+import {
+    addLightShadowResolutionSystem,
+    deleteLightShadowResolutionSystem
+} from "../../systems/lightShadowResolutionSystem"
 
 export default class PointLight
     extends LightBase<ThreePointLight>
@@ -27,12 +31,12 @@ export default class PointLight
     public constructor() {
         super(new ThreePointLight())
         this.distance = 1000
-        addPointLightSystem(this, { step: undefined })
+        addLightIntensitySystem(this)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        deletePointLightSystem(this)
+        deleteLightIntensitySystem(this)
     }
 
     public get distance() {
@@ -53,7 +57,17 @@ export default class PointLight
         light.castShadow = !!val
 
         this.cancelHandle(
-            "castShadow",
+            "castShadowResolution",
+            val &&
+                (() => {
+                    addLightShadowResolutionSystem(this, { step: undefined })
+                    return new Cancellable(() =>
+                        deleteLightShadowResolutionSystem(this)
+                    )
+                })
+        )
+        this.cancelHandle(
+            "castShadowPhysics",
             val === "physics"
                 ? () => {
                       light.shadow.autoUpdate = false
