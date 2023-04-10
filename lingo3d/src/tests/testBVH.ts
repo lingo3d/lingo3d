@@ -4,7 +4,7 @@ import Dummy from "../display/Dummy"
 import stateMachine from "./stateMachine"
 import { interpret } from "xstate"
 import { createEffect, store } from "@lincode/reactivity"
-import { keyboard } from ".."
+import { PointLight, keyboard } from ".."
 
 //create map model
 const map = new Model()
@@ -122,3 +122,7 @@ const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
+
+for (let i = 0; i < 50; ++i) {
+    const light = new PointLight()
+}
