@@ -109,7 +109,7 @@ const Stage = ({ onEdit }: Props) => {
             }}
             onDragOver={(e) => {
                 e.preventDefault()
-                if (!treeContext.draggingItem) return
+                if (!(treeContext.draggingItem instanceof Appendable)) return
 
                 getGameGraph()!.mergeData({
                     [treeContext.draggingItem.uuid]: {

@@ -1,8 +1,9 @@
 import { useState } from "preact/hooks"
 import treeContext from "./treeContext"
+import Appendable from "../../../api/core/Appendable"
 
 type Props = {
-    onDrop?: (draggingItem?: any) => void
+    onDrop?: (draggingItem?: Appendable) => void
 }
 
 const EmptyTreeItem = ({ onDrop }: Props) => {
@@ -27,7 +28,8 @@ const EmptyTreeItem = ({ onDrop }: Props) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-                treeContext.draggingItem && onDrop?.(treeContext.draggingItem)
+                treeContext.draggingItem instanceof Appendable &&
+                    onDrop?.(treeContext.draggingItem)
             }}
             style={{
                 background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none",

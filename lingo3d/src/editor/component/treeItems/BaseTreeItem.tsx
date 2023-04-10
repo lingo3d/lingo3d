@@ -7,6 +7,7 @@ import Appendable from "../../../api/core/Appendable"
 import { setDragImage } from "../../utils/drag"
 import treeContext from "./treeContext"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { Object3D } from "three"
 
 export type Props = {
     label?: string
@@ -20,7 +21,7 @@ export type Props = {
     onDrop?: (draggingItem: Appendable | MeshAppendable) => void
     onDragStart?: () => void
     onDragEnd?: () => void
-    myDraggingItem?: Appendable | MeshAppendable
+    myDraggingItem?: Appendable | MeshAppendable | Object3D
     draggable?: boolean
     expanded?: boolean
     expandable?: boolean
@@ -121,7 +122,7 @@ const BaseTreeItem = ({
                 setDragOver(false)
 
                 if (
-                    treeContext.draggingItem &&
+                    treeContext.draggingItem instanceof Appendable &&
                     !treeContext.draggingItem.traverseSome(
                         (child: Appendable) => myDraggingItem === child
                     )
