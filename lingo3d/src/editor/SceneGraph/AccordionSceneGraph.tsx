@@ -24,6 +24,8 @@ import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { hiddenAppendables } from "../../collections/hiddenAppendables"
 import { isTemplate } from "../../collections/typeGuards"
+import Appendable from "../../api/core/Appendable"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -87,10 +89,11 @@ const AccordionSceneGraph = () => {
                     )
                 )}
                 <EmptyTreeItem
-                    onDrop={(child) => {
+                    onDrop={(child: Appendable | MeshAppendable) => {
                         emitSceneGraphChange()
                         appendableRoot.add(child)
-                        scene.attach(child.outerObject3d)
+                        "outerObject3d" in child &&
+                            scene.attach(child.outerObject3d)
                         child.parent?.children?.delete(child)
                         child.parent = undefined
                     }}

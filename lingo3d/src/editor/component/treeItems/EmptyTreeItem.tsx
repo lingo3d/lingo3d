@@ -3,7 +3,7 @@ import treeContext from "./treeContext"
 import Appendable from "../../../api/core/Appendable"
 
 type Props = {
-    onDrop?: (draggingItem?: Appendable) => void
+    onDrop?: (draggingItem: Appendable) => void
 }
 
 const EmptyTreeItem = ({ onDrop }: Props) => {

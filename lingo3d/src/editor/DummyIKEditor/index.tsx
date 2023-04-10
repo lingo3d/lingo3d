@@ -6,7 +6,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
 
-const Retargeter = () => {
+const DummyIKEditor = () => {
     useInitCSS()
     useInitEditor()
 
@@ -77,4 +77,4 @@ const Retargeter = () => {
         </>
     )
 }
-export default Retargeter
+export default DummyIKEditor

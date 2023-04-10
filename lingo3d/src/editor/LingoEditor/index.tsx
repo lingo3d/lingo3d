@@ -11,7 +11,7 @@ import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
-import Retargeter from "../Retargeter"
+import DummyIKEditor from "../DummyIKEditor"
 import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getDummyIK } from "../../states/useDummyIK"
@@ -36,7 +36,7 @@ const LingoEditor = () => {
             <Toolbar />
             <SceneGraph />
             {dummyIK ? (
-                <Retargeter />
+                <DummyIKEditor />
             ) : gameGraph ? (
                 <GameGraphEditor />
             ) : (
