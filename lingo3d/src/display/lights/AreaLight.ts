@@ -7,6 +7,10 @@ import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
 import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 import { TransformControlsPayload } from "../../events/onTransformControls"
+import {
+    addAreaLightIntensitySystem,
+    deleteAreaLightIntensitySystem
+} from "../../systems/areaLightIntensitySystem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -41,6 +45,12 @@ export default class AreaLight extends Plane implements IAreaLight {
                     mode === "scale" && addConfigAreaLightSystem(this)
             )
         )
+        addAreaLightIntensitySystem(this)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteAreaLightIntensitySystem(this)
     }
 
     public override get color() {

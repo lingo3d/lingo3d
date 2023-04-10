@@ -15,10 +15,9 @@ export const [
         if (distance < 10) step = 0
         else if (distance < 20) step = 1
         else if (distance < 30) step = 2
+
         if (step === data.step) return
         data.step = step
-
-        console.log(step)
 
         const { light } = self
         const { shadow } = light
