@@ -28,6 +28,7 @@ const objectNames = [
     "group",
     "model",
     "dummy",
+    { dummyIK: "dummy" },
     "svgMesh",
     "htmlMesh",
     // { reticle: "htmlMesh" },

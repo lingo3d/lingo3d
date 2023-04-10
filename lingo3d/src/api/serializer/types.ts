@@ -5,6 +5,7 @@ export type GameObjectType =
     | "group"
     | "model"
     | "dummy"
+    | "dummyIK"
     | "tree"
     | "svgMesh"
     | "htmlMesh"

@@ -1,5 +1,6 @@
 import Model from "../../display/Model"
 import Dummy from "../../display/Dummy"
+import DummyIK from "../../display/DummyIK"
 import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
 import HTMLMesh from "../../display/HTMLMesh"
@@ -73,6 +74,7 @@ export const createObjectRecord = {
     mouse: () => new Mouse(),
     keyboard: () => new Keyboard(),
     dummy: () => new Dummy(),
+    dummyIK: () => new DummyIK(),
     tree: () => new Tree(),
     reflector: () => new Reflector(),
     water: () => new Water(),

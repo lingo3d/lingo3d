@@ -201,7 +201,7 @@ const allocate = (x: number, z: number) => {
 }
 
 const collapse = async (x: number, z: number) => {
-    await new Promise(resolve => setTimeout(resolve))
+    await new Promise((resolve) => setTimeout(resolve))
 
     const [tilesCenter, tilesTop, tilesBottom, tilesLeft, tilesRight] =
         allocate(x, z)
@@ -240,11 +240,10 @@ const collapse = async (x: number, z: number) => {
     const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
     await collapse(xNext, yNext)
 }
-(async () => {
+;(async () => {
     await collapse(0, 0)
-while (tilesPositionMap.size) {
-    const [[x, z]] = tilesPositionMap.values()
-    await collapse(x, z)
-}
-
+    while (tilesPositionMap.size) {
+        const [[x, z]] = tilesPositionMap.values()
+        await collapse(x, z)
+    }
 })()
