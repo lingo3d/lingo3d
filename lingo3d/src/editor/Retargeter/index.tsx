@@ -1,6 +1,6 @@
 import { Point } from "@lincode/math"
 import { useState } from "preact/hooks"
-import { EDITOR_WIDTH } from "../../globals"
+import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import Tooltip from "../component/Tooltip"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
@@ -16,7 +16,7 @@ const Retargeter = () => {
         <>
             <div
                 className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcenter"
-                style={{ width: EDITOR_WIDTH }}
+                style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
             >
                 <div
                     style={{

@@ -122,7 +122,3 @@ const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
-
-for (let i = 0; i < 50; ++i) {
-    const light = new PointLight()
-}

@@ -1,4 +1,6 @@
-import Character from "../display/Character"
+import Dummy from "../display/Dummy"
 
-const character = new Character()
-character.src = "player2.glb"
+const player = new Dummy()
+player.onLoad = () => {
+    console.log("loaded")
+}

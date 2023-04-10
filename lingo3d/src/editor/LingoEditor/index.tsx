@@ -26,7 +26,7 @@ const LingoEditor = () => {
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
 
-    const retargeter = false
+    const retargeter = true
 
     return (
         <div
@@ -42,8 +42,8 @@ const LingoEditor = () => {
             ) : (
                 <Editor />
             )}
-            {!gameGraph && <Library />}
-            {!gameGraph && <Panels />}
+            {!gameGraph && !retargeter && <Library />}
+            {!gameGraph && !retargeter && <Panels />}
 
             <WorldBar />
             <div
