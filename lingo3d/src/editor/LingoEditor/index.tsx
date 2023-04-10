@@ -14,6 +14,7 @@ import { getStats } from "../../states/useStats"
 import Retargeter from "../Retargeter"
 import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
+import { getDummyIK } from "../../states/useDummyIK"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -25,8 +26,7 @@ const LingoEditor = () => {
 
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
-
-    const retargeter = true
+    const dummyIK = useSyncState(getDummyIK)
 
     return (
         <div
@@ -35,15 +35,15 @@ const LingoEditor = () => {
         >
             <Toolbar />
             <SceneGraph />
-            {retargeter ? (
+            {dummyIK ? (
                 <Retargeter />
             ) : gameGraph ? (
                 <GameGraphEditor />
             ) : (
                 <Editor />
             )}
-            {!gameGraph && !retargeter && <Library />}
-            {!gameGraph && !retargeter && <Panels />}
+            {!gameGraph && !dummyIK && <Library />}
+            {!gameGraph && !dummyIK && <Panels />}
 
             <WorldBar />
             <div
