@@ -1,4 +1,3 @@
-import PointLight from "../display/lights/PointLight"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
@@ -7,10 +6,10 @@ const resolutions = [512, 256, 128, 32, 16, 512]
 const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.005]
 
 export const [
-    addLightShadowResolutionSystem,
-    deleteLightShadowResolutionSystem
+    addSpotLightShadowResolutionSystem,
+    deleteSpotLightShadowResolutionSystem
 ] = renderSystemWithData(
-    (self: PointLight | SpotLight, data: { step: number | undefined }) => {
+    (self: SpotLight, data: { step: number | undefined }) => {
         const distance = getDistanceFromCamera(self)
         let step = 4
         if (self.distance > 3000) step = 5

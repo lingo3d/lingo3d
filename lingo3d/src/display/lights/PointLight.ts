@@ -16,9 +16,9 @@ import {
     deleteLightIntensitySystem
 } from "../../systems/lightIntensitySystem"
 import {
-    addLightShadowResolutionSystem,
-    deleteLightShadowResolutionSystem
-} from "../../systems/lightShadowResolutionSystem"
+    addPointLightShadowResolutionSystem,
+    deletePointLightShadowResolutionSystem
+} from "../../systems/pointLightShadowResolutionSystem"
 
 export default class PointLight
     extends LightBase<ThreePointLight>
@@ -60,9 +60,11 @@ export default class PointLight
             "castShadowResolution",
             val &&
                 (() => {
-                    addLightShadowResolutionSystem(this, { step: undefined })
+                    addPointLightShadowResolutionSystem(this, {
+                        step: undefined
+                    })
                     return new Cancellable(() =>
-                        deleteLightShadowResolutionSystem(this)
+                        deletePointLightShadowResolutionSystem(this)
                     )
                 })
         )

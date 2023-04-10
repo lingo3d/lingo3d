@@ -24,13 +24,13 @@ import {
 } from "../../../systems/lightIntensitySystem"
 import { CastShadow } from "../../../interface/IPointLight"
 import {
-    addLightShadowResolutionSystem,
-    deleteLightShadowResolutionSystem
-} from "../../../systems/lightShadowResolutionSystem"
-import {
     addShadowPhysicsSystem,
     deleteShadowPhysicsSystem
 } from "../../../systems/shadowPhysicsSystem"
+import {
+    addSpotLightShadowResolutionSystem,
+    deleteSpotLightShadowResolutionSystem
+} from "../../../systems/spotLightShadowResolutionSystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -75,9 +75,11 @@ export default class SpotLight
             "castShadowResolution",
             val &&
                 (() => {
-                    addLightShadowResolutionSystem(this, { step: undefined })
+                    addSpotLightShadowResolutionSystem(this, {
+                        step: undefined
+                    })
                     return new Cancellable(() =>
-                        deleteLightShadowResolutionSystem(this)
+                        deleteSpotLightShadowResolutionSystem(this)
                     )
                 })
         )
