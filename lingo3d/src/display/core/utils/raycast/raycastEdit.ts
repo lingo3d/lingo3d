@@ -16,10 +16,7 @@ import {
     deleteMultipleSelectionTargets,
     clearMultipleSelectionTargets
 } from "../../../../states/useMultipleSelectionTargets"
-import {
-    getSelectionTarget,
-    setSelectionTarget
-} from "../../../../states/useSelectionTarget"
+import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 import attachRaycastEvent from "./attachRaycastEvent"
 import { getSelectionCandidates } from "./getSelectionCandidates"
@@ -31,6 +28,7 @@ import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseRightClick } from "../../../../events/onMouseRightClick"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
+import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -63,7 +61,7 @@ createEffect(() => {
             if (!(target instanceof MeshAppendable) || rightClickPtr[0]) return
 
             if (firstMultipleSelection.current) {
-                const currentTarget = getSelectionTarget()
+                const [currentTarget] = selectionTargetPtr
                 currentTarget instanceof MeshAppendable &&
                     !hiddenAppendables.has(currentTarget) &&
                     addMultipleSelectionTargets(currentTarget)
@@ -83,7 +81,7 @@ createEffect(() => {
         setSelectionTarget(
             rightClickPtr[0] || noDeselect
                 ? target
-                : target === getSelectionTarget()
+                : target === selectionTargetPtr[0]
                 ? undefined
                 : target
         )

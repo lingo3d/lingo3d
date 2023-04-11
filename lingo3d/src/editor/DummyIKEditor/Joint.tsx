@@ -55,6 +55,7 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
                 e.stopPropagation()
                 setDragOver(false)
                 if (!(draggingItemPtr[0] instanceof Object3D)) return
+                // if (dummyIK.target && dummyIK.target !== getSelectionTarget())
                 unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
                 setRefresh({})
             }}

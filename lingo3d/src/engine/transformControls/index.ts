@@ -21,6 +21,7 @@ import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import Appendable from "../../api/core/Appendable"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -47,7 +48,7 @@ const lazyTransformControls = lazy(async () => {
 })
 
 createEffect(() => {
-    const selectionTarget = getSelectionTarget()
+    const [selectionTarget] = selectionTargetPtr
     const nativeTarget = getSelectionNativeTarget()
     const target =
         nativeTarget ??

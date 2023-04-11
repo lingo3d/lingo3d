@@ -1,10 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
-import {
-    getSelectionTarget,
-    setSelectionTarget
-} from "../../../../states/useSelectionTarget"
+import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import attachRaycastEvent from "./attachRaycastEvent"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import {
@@ -19,11 +16,12 @@ import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseDown } from "../../../../events/onMouseDown"
 import { onMouseUp } from "../../../../events/onMouseUp"
 import { onMouseMove } from "../../../../events/onMouseMove"
+import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return
 
-    const selectionTargetBackup = getSelectionTarget()
+    const [selectionTargetBackup] = selectionTargetPtr
 
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -74,6 +72,6 @@ createEffect(() => {
         handle4.cancel()
         handle5.cancel()
         handle6.cancel()
-        !getSelectionTarget() && setSelectionTarget(selectionTargetBackup)
+        !selectionTargetPtr[0] && setSelectionTarget(selectionTargetBackup)
     }
 }, [getWorldPlayComputed])

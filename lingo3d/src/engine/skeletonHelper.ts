@@ -5,9 +5,10 @@ import { getEditorHelper } from "../states/useEditorHelper"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
 import { skinnedMeshSet } from "../collections/skinnedMeshSet"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 createEffect(() => {
-    const target = getSelectionTarget()
+    const [target] = selectionTargetPtr
     if (
         !(target instanceof Loaded) ||
         !("outerObject3d" in target) ||

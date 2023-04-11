@@ -22,6 +22,7 @@ import {
 import settings from "../../api/settings"
 import { container } from "../renderLoop/containers"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -81,7 +82,7 @@ createEffect(() => {
             return
         }
 
-        const target = getSelectionTarget()
+        const [target] = selectionTargetPtr
 
         if (e.metaKey || e.ctrlKey) {
             if (keyLowerCase === "z") {

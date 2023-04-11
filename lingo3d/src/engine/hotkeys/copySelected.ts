@@ -2,11 +2,11 @@ import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import spawn from "../../api/spawn"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import {
     getMultipleSelectionTargets,
     flushMultipleSelectionTargets
 } from "../../states/useMultipleSelectionTargets"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const copy = <T extends Appendable | MeshAppendable>(target: T) => {
     const item = spawn(target)!
@@ -15,7 +15,7 @@ const copy = <T extends Appendable | MeshAppendable>(target: T) => {
 }
 
 export default () => {
-    const target = getSelectionTarget()
+    const [target] = selectionTargetPtr
     const [targets] = getMultipleSelectionTargets()
     if (targets.size) {
         flushMultipleSelectionTargets((targets) => {

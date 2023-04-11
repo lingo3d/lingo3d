@@ -8,6 +8,7 @@ import {
     setSelectionTarget
 } from "../states/useSelectionTarget"
 import { onDispose } from "./onDispose"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 type Event = {
     target?: Appendable | MeshAppendable
@@ -30,7 +31,7 @@ export const emitSelectionTarget = throttleTrailing(
 )
 
 createEffect(() => {
-    const target = getSelectionTarget()
+    const [target] = selectionTargetPtr
     if (!target) return
 
     const handle = onDispose(

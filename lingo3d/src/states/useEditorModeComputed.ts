@@ -2,13 +2,14 @@ import store, { createEffect } from "@lincode/reactivity"
 import { EditorMode, getEditorMode } from "./useEditorMode"
 import { getSelectionTarget } from "./useSelectionTarget"
 import { getWorldPlay } from "./useWorldPlay"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 export const [setEditorModeComputed, getEditorModeComputed] = store<
     EditorMode | "play"
 >(getEditorMode())
 
 createEffect(() => {
-    const target = getSelectionTarget()
+    const [target] = selectionTargetPtr
     const mode = getEditorMode()
 
     if (getWorldPlay()) {

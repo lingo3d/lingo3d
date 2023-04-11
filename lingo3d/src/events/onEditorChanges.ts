@@ -15,6 +15,7 @@ import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { throttleTrailing } from "@lincode/utils"
 import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 export type Changes = Array<readonly [Appendable, ChangedProperties]>
 
@@ -31,7 +32,7 @@ createEffect(() => {
             instances.add(target)
 
         if (instances.size) return
-        const target = getSelectionTarget()
+        const [target] = selectionTargetPtr
         target && instances.add(target)
     })
     const handle0 = getSelectionTarget(getInstances)

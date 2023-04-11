@@ -5,9 +5,10 @@ import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 createEffect(() => {
-    const selectionTarget = getSelectionTarget()
+    const [selectionTarget] = selectionTargetPtr
     const isMeshAppendable =
         selectionTarget && "outerObject3d" in selectionTarget
     if (isMeshAppendable && !selectionTarget.outerObject3d.parent) return

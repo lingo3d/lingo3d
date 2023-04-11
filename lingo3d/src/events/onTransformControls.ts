@@ -2,11 +2,11 @@ import { event } from "@lincode/events"
 import { filterBoolean } from "@lincode/utils"
 import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../collections/pxUpdateShapeSet"
 import MeshAppendable from "../api/core/MeshAppendable"
 import Appendable from "../api/core/Appendable"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 type TransformControlsPhase = "start" | "end" | "move"
 type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -24,7 +24,7 @@ onTransformControls((phase) => {
     const [multipleSelectionTargets] = getMultipleSelectionTargets()
     const targets: Array<MeshAppendable | Appendable> = [
         ...multipleSelectionTargets,
-        getSelectionTarget()
+        selectionTargetPtr[0]
     ].filter(filterBoolean)
 
     if (getEditorMode() === "scale") {
