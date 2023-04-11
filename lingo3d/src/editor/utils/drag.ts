@@ -37,7 +37,7 @@ export default <T>(
 
 const dragImage = document.createElement("img")
 dragImage.src =
-    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAANpJREFUWEftV0EOwjAMs98FV25sz4BnAM+Ab2w3rvCuoKAWTUVrqm2oTEqPdeVZietmROXFyt+HC1hPBURkA2AXPHMn+Rz6x8LHvFZUARHZA+gSkpbke8/Cc0YvFXAFcEiIbiSPQUAWX0LAGcApIbqQ1H2tQBZfQoD2/5EQbaMPQv9H8dkCBn1uAlkf+x/JRUQx9YqujmRfEnJFHighmnpmPQKse27hv8iBJvbZc8BzIOSE58CkLCoOIuueW3iNHPjkxOzHSER8Hvi7eeDrvfd5YFIIAP5rVr8CLzMRtCGSCwBVAAAAAElFTkSuQmCC"
 dragImage.width = 0
 dragImage.height = 0
 
