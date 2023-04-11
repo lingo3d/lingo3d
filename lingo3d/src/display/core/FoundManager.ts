@@ -4,7 +4,6 @@ import IFoundManager, {
     foundManagerDefaults,
     foundManagerSchema
 } from "../../interface/IFoundManager"
-import Model from "../Model"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 import TextureManager from "./TextureManager"
@@ -16,13 +15,17 @@ import {
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
+import type Model from "../Model"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
     public static defaults = foundManagerDefaults
     public static schema = foundManagerSchema
 
-    public constructor(mesh: Object3D | StandardMesh, owner: MeshAppendable) {
+    public constructor(
+        mesh: Object3D | StandardMesh,
+        private owner: MeshAppendable | Model
+    ) {
         super(mesh, true)
         owner.appendNode(this)
 
@@ -38,9 +41,11 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this.addRefreshParamsSystem = addRefreshParamsSystem
     }
 
-    public model?: Model
+    private retargeted?: boolean
     private retargetAnimations() {
-        const state = this.model?.lazyStates()
+        if (this.retargeted || !("loadAnimation" in this.owner)) return
+
+        const state = this.owner.lazyStates()
         if (!state) return
 
         const {
@@ -58,7 +63,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
                     finishEventState
                 )
             )
-        this.model = undefined
+        this.retargeted = true
     }
 
     public override get animation() {

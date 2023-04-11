@@ -178,21 +178,6 @@ export default class Model extends Loaded<Group> implements IModel {
         return loadedObject3d
     }
 
-    public override find(name: string): FoundManager | undefined {
-        const child = super.find(name)
-        child && (child.model = this)
-        return child
-    }
-
-    public override findAll(
-        name?: string | RegExp | ((name: string) => boolean)
-    ): Array<FoundManager> {
-        const children = super.findAll(name)
-        for (const child of children) child.model = this
-
-        return children
-    }
-
     protected override disposeNode() {
         super.disposeNode()
         reflectionDataMap.get(this)?.[1].cancel()
