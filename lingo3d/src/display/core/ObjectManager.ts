@@ -108,7 +108,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public find(name: string): FoundManager | undefined {
+    public find(name: string) {
         const child = this.outerObject3d.getObjectByName(
             PropertyBinding.sanitizeNodeName(name)
         )
@@ -116,9 +116,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         return getFoundManager(child, this)
     }
 
-    public findAll(
-        name?: string | RegExp | ((name: string) => boolean)
-    ): Array<FoundManager> {
+    public findAll(name?: string | RegExp | ((name: string) => boolean)) {
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
