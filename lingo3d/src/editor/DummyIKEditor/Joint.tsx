@@ -1,3 +1,6 @@
+import { useState } from "preact/hooks"
+import treeContext from "../component/treeItems/treeContext"
+
 type JointProps = {
     x: number
     y: number
@@ -6,6 +9,8 @@ type JointProps = {
 }
 
 const Joint = ({ x, y, onMouseMove, onMouseLeave }: JointProps) => {
+    const [dragOver, setDragOver] = useState(false)
+
     return (
         <div
             style={{
@@ -21,6 +26,24 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave }: JointProps) => {
             }}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
+            onDragOver={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                treeContext.draggingItem && setDragOver(true)
+            }}
+            onDragEnter={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                treeContext.draggingItem && setDragOver(true)
+            }}
+            onDragLeave={(e) => {
+                e.stopPropagation()
+                setDragOver(false)
+            }}
+            onDrop={(e) => {
+                e.stopPropagation()
+                console.log(treeContext.draggingItem)
+            }}
         />
     )
 }

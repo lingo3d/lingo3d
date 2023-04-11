@@ -94,18 +94,13 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.lazyStates().onFinishState.set(value)
     }
 
-    protected playAnimation(name?: string | number) {
-        const { managerState, pausedState } = this.lazyStates()
-        pausedState.set(false)
+    protected setAnimationManager(name?: string | number) {
+        const { managerState } = this.lazyStates()
         managerState.set(
             typeof name === "string"
                 ? this.animations[name]
                 : Object.values(this.animations)[name ?? 0]
         )
-    }
-
-    public stopAnimation() {
-        this.lazyStates().pausedState.set(true)
     }
 
     private createAnimation(name: string): AnimationManager {
@@ -137,21 +132,22 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
-            this.playAnimation(val)
+            this.setAnimationManager(val)
             return
         }
         if (typeof val === "boolean") {
-            val ? this.playAnimation(undefined) : this.stopAnimation()
+            if (val) this.setAnimationManager(undefined)
+            else this.animationPaused = true
             return
         }
         if (!val) {
-            this.stopAnimation()
+            this.animationPaused = true
             return
         }
         const name = "animation"
         const anim = this.createAnimation(name)
         anim.data = animationValueToData(val)
-        this.playAnimation(name)
+        this.setAnimationManager(name)
     }
 
     private _animation?: Animation

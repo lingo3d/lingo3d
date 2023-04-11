@@ -34,22 +34,12 @@ export default class Model extends Loaded<Group> implements IModel {
 
     private loadingState = new Reactive(0)
 
-    public override playAnimation(name?: string | number) {
-        this.cancelHandle("modelPlayAnimation", () =>
+    protected override setAnimationManager(name?: string | number) {
+        this.cancelHandle("modelSetAnimationManager", () =>
             this.loadingState.get((count, handle) => {
                 if (count) return
                 handle.cancel()
-                super.playAnimation(name)
-            })
-        )
-    }
-
-    public override stopAnimation() {
-        this.cancelHandle("modelStopAnimation", () =>
-            this.loadingState.get((count, handle) => {
-                if (count) return
-                handle.cancel()
-                super.stopAnimation()
+                super.setAnimationManager(name)
             })
         )
     }
