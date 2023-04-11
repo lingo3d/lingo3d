@@ -2,12 +2,12 @@ import { ComponentChildren } from "preact"
 import { useState, useRef, useMemo, useEffect } from "preact/hooks"
 import CollapseIcon from "../icons/CollapseIcon"
 import ExpandIcon from "../icons/ExpandIcon"
-import useClick from "../../hooks/useClick"
 import Appendable from "../../../api/core/Appendable"
 import { setDragImage } from "../../utils/drag"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { Object3D } from "three"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
+import useMouseDown from "../../hooks/useMouseDown"
 
 export type Props = {
     label?: string
@@ -60,7 +60,7 @@ const BaseTreeItem = ({
         setExpanded(!!expandedProp)
     }, [expandedProp])
 
-    const startRef = useClick(onClick)
+    const startRef = useMouseDown(onClick)
     const endRef = useRef<HTMLDivElement>(null)
 
     const highlightWidth = useMemo(() => {
