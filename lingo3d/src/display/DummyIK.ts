@@ -1,5 +1,6 @@
 import Appendable from "../api/core/Appendable"
 import IDummyIK, { dummyIKDefaults, dummyIKSchema } from "../interface/IDummyIK"
+import { addConfigDummyIKSystem } from "../systems/configSystems/configDummyIKSystem"
 
 export default class DummyIK extends Appendable implements IDummyIK {
     public static componentName = "dummyIK"
@@ -12,6 +13,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set target(val) {
         this._target = val
+        addConfigDummyIKSystem(this)
     }
 
     private _hips?: string
@@ -20,6 +22,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set hips(val) {
         this._hips = val
+        addConfigDummyIKSystem(this)
     }
 
     private _spine0?: string
@@ -28,6 +31,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set spine0(val) {
         this._spine0 = val
+        addConfigDummyIKSystem(this)
     }
 
     private _spine1?: string
@@ -36,6 +40,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set spine1(val) {
         this._spine1 = val
+        addConfigDummyIKSystem(this)
     }
 
     private _spine2?: string
@@ -44,6 +49,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set spine2(val) {
         this._spine2 = val
+        addConfigDummyIKSystem(this)
     }
 
     private _neck?: string
@@ -52,6 +58,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set neck(val) {
         this._neck = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftShoulder?: string
@@ -60,6 +67,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftShoulder(val) {
         this._leftShoulder = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftArm?: string
@@ -68,6 +76,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftArm(val) {
         this._leftArm = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftForeArm?: string
@@ -76,6 +85,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftForeArm(val) {
         this._leftForeArm = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftHand?: string
@@ -84,6 +94,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftHand(val) {
         this._leftHand = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightShoulder?: string
@@ -92,6 +103,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightShoulder(val) {
         this._rightShoulder = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightArm?: string
@@ -100,6 +112,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightArm(val) {
         this._rightArm = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightForeArm?: string
@@ -108,6 +121,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightForeArm(val) {
         this._rightForeArm = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightHand?: string
@@ -116,6 +130,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightHand(val) {
         this._rightHand = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftThigh?: string
@@ -124,6 +139,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftThigh(val) {
         this._leftThigh = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftLeg?: string
@@ -132,6 +148,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftLeg(val) {
         this._leftLeg = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftFoot?: string
@@ -140,6 +157,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftFoot(val) {
         this._leftFoot = val
+        addConfigDummyIKSystem(this)
     }
 
     private _leftToeBase?: string
@@ -148,6 +166,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set leftToeBase(val) {
         this._leftToeBase = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightThigh?: string
@@ -156,6 +175,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightThigh(val) {
         this._rightThigh = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightLeg?: string
@@ -164,6 +184,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightLeg(val) {
         this._rightLeg = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightFoot?: string
@@ -172,6 +193,7 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightFoot(val) {
         this._rightFoot = val
+        addConfigDummyIKSystem(this)
     }
 
     private _rightToeBase?: string
@@ -180,5 +202,6 @@ export default class DummyIK extends Appendable implements IDummyIK {
     }
     public set rightToeBase(val) {
         this._rightToeBase = val
+        addConfigDummyIKSystem(this)
     }
 }
