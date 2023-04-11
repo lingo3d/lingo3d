@@ -9,14 +9,18 @@ import prevent from "./prevent"
 
 createEffect(() => {
     if (!getEditorBehavior()) return
-
     container.addEventListener("dragenter", prevent)
     container.addEventListener("dragover", prevent)
     container.addEventListener("dragleave", prevent)
     container.addEventListener("drop", prevent)
     document.addEventListener("drop", prevent)
-
-    return () => {}
+    return () => {
+        container.removeEventListener("dragenter", prevent)
+        container.removeEventListener("dragover", prevent)
+        container.removeEventListener("dragleave", prevent)
+        container.removeEventListener("drop", prevent)
+        document.removeEventListener("drop", prevent)
+    }
 }, [getEditorBehavior])
 
 export default <T>(
