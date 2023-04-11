@@ -4,6 +4,7 @@ import { ComponentChildren } from "preact"
 import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
 import { stopPropagation } from "../utils/stopPropagation"
 import TextOptionsInput from "./TextOptionsInput"
+import prevent from "../utils/prevent"
 
 interface ContextMenuProps {
     positionSignal?: Signal<Point | undefined>
@@ -41,7 +42,7 @@ const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
             ref={stopPropagation}
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
-            onContextMenu={(e) => e.preventDefault()}
+            onContextMenu={prevent}
         >
             <div
                 className="lingo3d-absfull"

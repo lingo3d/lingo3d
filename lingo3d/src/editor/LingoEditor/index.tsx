@@ -15,6 +15,7 @@ import DummyIKEditor from "../DummyIKEditor"
 import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getDummyIK } from "../../states/useDummyIK"
+import prevent from "../utils/prevent"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -31,7 +32,7 @@ const LingoEditor = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-lingoeditor lingo3d-absfull"
-            onContextMenu={DEBUG ? undefined : (e) => e.preventDefault()}
+            onContextMenu={DEBUG ? undefined : prevent}
         >
             <Toolbar />
             <SceneGraph />

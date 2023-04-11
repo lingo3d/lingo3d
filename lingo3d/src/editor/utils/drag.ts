@@ -1,14 +1,23 @@
+import { createEffect } from "@lincode/reactivity"
 import Appendable from "../../api/core/Appendable"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { container } from "../../engine/renderLoop/containers"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
+import { getEditorBehavior } from "../../states/useEditorBehavior"
+import prevent from "./prevent"
 
-container.addEventListener("dragenter", (e) => e.preventDefault())
-container.addEventListener("dragover", (e) => e.preventDefault())
-container.addEventListener("dragleave", (e) => e.preventDefault())
-container.addEventListener("drop", (e) => e.preventDefault())
-document.addEventListener("drop", (e) => e.preventDefault())
+createEffect(() => {
+    if (!getEditorBehavior()) return
+
+    container.addEventListener("dragenter", prevent)
+    container.addEventListener("dragover", prevent)
+    container.addEventListener("dragleave", prevent)
+    container.addEventListener("drop", prevent)
+    document.addEventListener("drop", prevent)
+
+    return () => {}
+}, [getEditorBehavior])
 
 export default <T>(
     onDrop: (
