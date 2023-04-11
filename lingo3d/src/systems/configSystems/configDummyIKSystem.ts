@@ -1,8 +1,11 @@
+import { Bone } from "three"
 import { uuidMap } from "../../collections/uuidCollections"
 import DummyIK from "../../display/DummyIK"
 import Model from "../../display/Model"
+import { getSkeleton } from "../../utilsCached/getSkeleton"
 import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
 import configSystem from "../utils/configSystem"
+import { getBoneIndexMap } from "../../utilsCached/getBoneIndexMap"
 
 export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
     const { target, hips, spine0 } = self
@@ -18,15 +21,16 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
         return
     }
 
-    const nameMeshMap = indexChilrenNames(dummy.loadedObject3d)
+    const skeleton = getSkeleton(dummy.loadedObject3d)
+    if (!skeleton) return
+
+    const nameChildMap = indexChilrenNames(dummy.loadedObject3d)
+    const boneIndexMap = getBoneIndexMap(skeleton)
 
     if (hips && spine0) {
-        const hipsMesh = nameMeshMap.get(hips)
-        const spine0Mesh = nameMeshMap.get(spine0)
+        const hipsBone = nameChildMap.get(hips) as Bone
+        const spine0Bone = nameChildMap.get(spine0) as Bone
 
-        if (hips && spine0) {
-            console.log("here")
-            console.log(hipsMesh, spine0Mesh)
-        }
+        console.log(boneIndexMap.get(hipsBone), boneIndexMap.get(spine0Bone))
     }
 })
