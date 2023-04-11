@@ -37,40 +37,41 @@ const DummyIKEditor = () => {
                     <Joint
                         x={0}
                         y={30}
+                        name="neck"
                         onMouseMove={(e) =>
                             setPosition({ x: e.clientX, y: e.clientY })
                         }
                         onMouseLeave={() => setPosition(undefined)}
                     />
 
-                    <Joint x={-6} y={33} />
-                    <Joint x={6} y={33} />
+                    <Joint x={-6} y={33} name="leftShoulder" />
+                    <Joint x={6} y={33} name="rightShoulder" />
 
-                    <Joint x={-14} y={34} />
-                    <Joint x={14} y={34} />
+                    <Joint x={-14} y={34} name="leftArm" />
+                    <Joint x={14} y={34} name="rightArm" />
 
-                    <Joint x={-27} y={34} />
-                    <Joint x={27} y={34} />
+                    <Joint x={-27} y={34} name="leftForeArm" />
+                    <Joint x={27} y={34} name="rightForeArm" />
 
-                    <Joint x={-41} y={34} />
-                    <Joint x={41} y={34} />
+                    <Joint x={-41} y={34} name="leftHand" />
+                    <Joint x={41} y={34} name="rightHand" />
 
-                    <Joint x={0} y={35} />
-                    <Joint x={0} y={38.5} />
-                    <Joint x={0} y={43} />
-                    <Joint x={0} y={47} />
+                    <Joint x={0} y={35} name="spine2" />
+                    <Joint x={0} y={38.5} name="spine1" />
+                    <Joint x={0} y={43} name="spine0" />
+                    <Joint x={0} y={47} name="hips" />
 
-                    <Joint x={-6} y={48} />
-                    <Joint x={6} y={48} />
+                    <Joint x={-6} y={48} name="leftThigh" />
+                    <Joint x={6} y={48} name="rightThigh" />
 
-                    <Joint x={-5} y={59} />
-                    <Joint x={5} y={59} />
+                    <Joint x={-5} y={59} name="leftLeg" />
+                    <Joint x={5} y={59} name="rightLeg" />
 
-                    <Joint x={-5} y={68} />
-                    <Joint x={5} y={68} />
+                    <Joint x={-5} y={68} name="leftFoot" />
+                    <Joint x={5} y={68} name="rightFoot" />
 
-                    <Joint x={-6} y={72} />
-                    <Joint x={6} y={72} />
+                    <Joint x={-6} y={72} name="leftToeBase" />
+                    <Joint x={6} y={72} name="rightToeBase" />
                 </div>
             </div>
             <Tooltip position={position} />

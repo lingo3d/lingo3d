@@ -1,15 +1,19 @@
 import { useState } from "preact/hooks"
 import treeContext from "../component/treeItems/treeContext"
+import useSyncState from "../hooks/useSyncState"
+import { getDummyIK } from "../../states/useDummyIK"
 
 type JointProps = {
     x: number
     y: number
+    name: string
     onMouseMove?: (e: MouseEvent) => void
     onMouseLeave?: (e: MouseEvent) => void
 }
 
-const Joint = ({ x, y, onMouseMove, onMouseLeave }: JointProps) => {
+const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
     const [dragOver, setDragOver] = useState(false)
+    const dummyIK = useSyncState(getDummyIK)
 
     return (
         <div
