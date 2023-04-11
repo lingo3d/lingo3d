@@ -17,6 +17,7 @@ type JointProps = {
 const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
     const [dragOver, setDragOver] = useState(false)
     const dummyIK = useSyncState(getDummyIK)
+    const [, setRefresh] = useState({})
     if (!dummyIK) return null
 
     return (
@@ -30,7 +31,9 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
                 transform: "translateX(-50%)",
                 borderRadius: 20,
                 border: "1px solid rgba(255, 255, 255, 0.5)",
-                background: "rgba(255, 255, 255, 0.2)"
+                background: dummyIK[name]
+                    ? "rgb(127, 127, 255)"
+                    : `rgba(255, 255, 255, ${dragOver ? 0.5 : 0.2})`
             }}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
@@ -50,8 +53,10 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             }}
             onDrop={(e) => {
                 e.stopPropagation()
-                draggingItemPtr[0] instanceof Object3D &&
-                    unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
+                setDragOver(false)
+                if (!(draggingItemPtr[0] instanceof Object3D)) return
+                unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
+                setRefresh({})
             }}
         />
     )
