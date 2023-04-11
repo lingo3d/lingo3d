@@ -8,6 +8,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
+import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
 
 export const getFoundManager = (
     child: Object3D,
@@ -109,7 +110,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
 
     public find(name: string) {
-        const child = this.outerObject3d.getObjectByName(
+        const child = indexChilrenNames(this.outerObject3d).get(
             PropertyBinding.sanitizeNodeName(name)
         )
         if (!child) return

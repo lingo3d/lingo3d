@@ -19,6 +19,7 @@ import {
     addDummyGroundedSystem,
     deleteDummyGroundedSystem
 } from "../../systems/dummyGroundedSystem"
+import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -57,15 +58,15 @@ export default class Dummy extends Model implements IDummy {
                     if (spineName === "mixamorigSpine") setType("mixamo")
                     else if (
                         spineName === "Spine" &&
-                        (loaded.getObjectByName("Wolf3D_Body") ||
-                            loaded.getObjectByName("Wolf3D_Avatar"))
+                        (indexChilrenNames(loaded).get("Wolf3D_Body") ||
+                            indexChilrenNames(loaded).get("Wolf3D_Avatar"))
                     )
                         setType("readyplayerme")
                     return
                 }
                 if (
-                    loaded.getObjectByName("Wolf3D_Body") ||
-                    loaded.getObjectByName("Wolf3D_Avatar")
+                    indexChilrenNames(loaded).get("Wolf3D_Body") ||
+                    indexChilrenNames(loaded).get("Wolf3D_Avatar")
                 ) {
                     setSpine(this.find("Spine"))
                     setType("readyplayerme")
