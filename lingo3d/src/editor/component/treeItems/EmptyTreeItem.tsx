@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks"
-import treeContext from "./treeContext"
 import Appendable from "../../../api/core/Appendable"
+import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 
 type Props = {
     onDrop?: (draggingItem: Appendable) => void
@@ -14,12 +14,12 @@ const EmptyTreeItem = ({ onDrop }: Props) => {
             onDragOver={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                treeContext.draggingItem && setDragOver(true)
+                draggingItemPtr[0] && setDragOver(true)
             }}
             onDragEnter={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                treeContext.draggingItem && setDragOver(true)
+                draggingItemPtr[0] && setDragOver(true)
             }}
             onDragLeave={(e) => {
                 e.stopPropagation()
@@ -28,8 +28,8 @@ const EmptyTreeItem = ({ onDrop }: Props) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-                treeContext.draggingItem instanceof Appendable &&
-                    onDrop?.(treeContext.draggingItem)
+                draggingItemPtr[0] instanceof Appendable &&
+                    onDrop?.(draggingItemPtr[0])
             }}
             style={{
                 background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none",

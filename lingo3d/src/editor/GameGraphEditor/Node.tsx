@@ -10,7 +10,6 @@ import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
-import treeContext from "../component/treeItems/treeContext"
 import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
 import addTargetInputs from "../Editor/addTargetInputs"
 import { getOriginalInstance } from "../Editor/createParams"
@@ -27,6 +26,7 @@ import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
 import { uuidMap } from "../../collections/uuidCollections"
+import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 
 let panningUUID: string | undefined
 
@@ -117,9 +117,8 @@ const Node = memo(
                     onDrop
                 }
             )
-            const handle1 = manager.events.on(
-                "runtimeSchema",
-                () => setRefresh({})
+            const handle1 = manager.events.on("runtimeSchema", () =>
+                setRefresh({})
             )
             return () => {
                 handle0.cancel()
@@ -202,8 +201,8 @@ const Node = memo(
     },
     (prev) => {
         if (prev.uuid === panningUUID) return false
-        if (!treeContext.draggingItem) return true
-        return treeContext.draggingItem.uuid !== prev.uuid
+        if (!draggingItemPtr[0]) return true
+        return draggingItemPtr[0].uuid !== prev.uuid
     }
 )
 export default Node

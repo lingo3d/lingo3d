@@ -5,7 +5,6 @@ import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph } from "../../../states/useGameGraph"
 import { getGameGraphData } from "../../../states/useGameGraphData"
 import Connector from "../../../visualScripting/Connector"
-import treeContext from "../../component/treeItems/treeContext"
 import mergeRefs from "../../hooks/mergeRefs"
 import useBoundingClientRect from "../../hooks/useBoundingClientRect"
 import usePan from "../../hooks/usePan"
@@ -22,6 +21,7 @@ import {
     getStagePosition
 } from "./stageSignals"
 import { managerConnectorsMap } from "../../../collections/managerConnectorsMap"
+import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 
 type Props = {
     onEdit?: (manager: Appendable) => void
@@ -109,10 +109,10 @@ const Stage = ({ onEdit }: Props) => {
             }}
             onDragOver={(e) => {
                 e.preventDefault()
-                if (!(treeContext.draggingItem instanceof Appendable)) return
+                if (!(draggingItemPtr[0] instanceof Appendable)) return
 
                 getGameGraph()!.mergeData({
-                    [treeContext.draggingItem.uuid]: {
+                    [draggingItemPtr[0].uuid]: {
                         type: "node",
                         ...getStagePosition(e.clientX, e.clientY)
                     }

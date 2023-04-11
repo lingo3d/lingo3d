@@ -5,9 +5,9 @@ import { GameObjectType } from "../../api/serializer/types"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { LIBRARY_WIDTH, APPBAR_HEIGHT } from "../../globals"
 import Drawer from "../component/Drawer"
-import treeContext from "../component/treeItems/treeContext"
 import Library from "../Library"
 import LibraryIcon from "./icons/LibraryIcon"
+import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 
 const GameGraphLibrary = () => {
     const showSignal = useSignal(true)
@@ -33,9 +33,7 @@ const GameGraphLibrary = () => {
                 if (!draggingName.current) return
                 showSignal.value = false
                 emitSelectionTarget(
-                    (treeContext.draggingItem = createObject(
-                        draggingName.current
-                    ))
+                    (draggingItemPtr[0] = createObject(draggingName.current))
                 )
             }}
         >
@@ -57,7 +55,7 @@ const GameGraphLibrary = () => {
                 onDragStart={(name) => (draggingName.current = name)}
                 onDragEnd={() => {
                     draggingName.current = undefined
-                    treeContext.draggingItem = undefined
+                    draggingItemPtr[0] = undefined
                 }}
             />
         </Drawer>

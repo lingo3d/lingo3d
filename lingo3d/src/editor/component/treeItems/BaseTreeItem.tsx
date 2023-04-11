@@ -5,9 +5,9 @@ import ExpandIcon from "../icons/ExpandIcon"
 import useClick from "../../hooks/useClick"
 import Appendable from "../../../api/core/Appendable"
 import { setDragImage } from "../../utils/drag"
-import treeContext from "./treeContext"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { Object3D } from "three"
+import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 
 export type Props = {
     label?: string
@@ -81,9 +81,7 @@ const BaseTreeItem = ({
     }
 
     const canSetDragOver = () =>
-        draggable &&
-        treeContext.draggingItem &&
-        treeContext.draggingItem !== myDraggingItem
+        draggable && draggingItemPtr[0] && draggingItemPtr[0] !== myDraggingItem
 
     const [dragOver, setDragOver] = useState(false)
 
@@ -92,13 +90,13 @@ const BaseTreeItem = ({
             draggable={draggable}
             onDragStart={(e) => {
                 e.stopPropagation()
-                treeContext.draggingItem = myDraggingItem
+                draggingItemPtr[0] = myDraggingItem
                 setDragImage(e)
                 onDragStart?.()
             }}
             onDragEnd={(e) => {
                 e.stopPropagation()
-                treeContext.draggingItem = undefined
+                draggingItemPtr[0] = undefined
                 onDragEnd?.()
             }}
             onDragOver={(e) => {
@@ -122,12 +120,12 @@ const BaseTreeItem = ({
                 setDragOver(false)
 
                 if (
-                    treeContext.draggingItem instanceof Appendable &&
-                    !treeContext.draggingItem.traverseSome(
+                    draggingItemPtr[0] instanceof Appendable &&
+                    !draggingItemPtr[0].traverseSome(
                         (child: Appendable) => myDraggingItem === child
                     )
                 )
-                    onDrop?.(treeContext.draggingItem)
+                    onDrop?.(draggingItemPtr[0])
             }}
             style={{
                 color: "rgba(255, 255, 255, 0.75)",
