@@ -2,11 +2,12 @@ import { useState } from "preact/hooks"
 import treeContext from "../component/treeItems/treeContext"
 import useSyncState from "../hooks/useSyncState"
 import { getDummyIK } from "../../states/useDummyIK"
+import IDummyIK from "../../interface/IDummyIK"
 
 type JointProps = {
     x: number
     y: number
-    name: string
+    name: keyof IDummyIK
     onMouseMove?: (e: MouseEvent) => void
     onMouseLeave?: (e: MouseEvent) => void
 }
@@ -14,6 +15,7 @@ type JointProps = {
 const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
     const [dragOver, setDragOver] = useState(false)
     const dummyIK = useSyncState(getDummyIK)
+    if (!dummyIK) return null
 
     return (
         <div
@@ -46,6 +48,8 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             }}
             onDrop={(e) => {
                 e.stopPropagation()
+                //@ts-ignore
+                dummyIK[name] = ""
                 console.log(treeContext.draggingItem)
             }}
         />

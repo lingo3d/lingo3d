@@ -7,6 +7,8 @@ import Nullable from "./utils/Nullable"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IDummyIK extends IAppendable {
+    target: Nullable<string>
+
     hips: Nullable<string>
     spine0: Nullable<string>
     spine1: Nullable<string>
@@ -36,6 +38,9 @@ export default interface IDummyIK extends IAppendable {
 
 export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
     ...appendableSchema,
+
+    target: String,
+
     hips: String,
     spine0: String,
     spine1: String,
@@ -64,6 +69,8 @@ export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
 }
 
 export const dummyIKDefaults = extendDefaults<IDummyIK>([appendableDefaults], {
+    target: undefined,
+
     hips: undefined,
     spine0: undefined,
     spine1: undefined,
