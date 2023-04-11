@@ -5,6 +5,7 @@ import IDummyIK from "../../interface/IDummyIK"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import { Object3D } from "three"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 
 type JointProps = {
     x: number
@@ -54,8 +55,15 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-                if (!(draggingItemPtr[0] instanceof Object3D)) return
-                // if (dummyIK.target && dummyIK.target !== getSelectionTarget())
+                if (
+                    !(draggingItemPtr[0] instanceof Object3D) ||
+                    !selectionTargetPtr[0] ||
+                    (dummyIK.target &&
+                        dummyIK.target !== selectionTargetPtr[0].uuid)
+                )
+                    return
+
+                dummyIK.target = selectionTargetPtr[0].uuid
                 unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
                 setRefresh({})
             }}
