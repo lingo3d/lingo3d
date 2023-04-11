@@ -3,6 +3,8 @@ import useSyncState from "../hooks/useSyncState"
 import { getDummyIK } from "../../states/useDummyIK"
 import IDummyIK from "../../interface/IDummyIK"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
+import { Object3D } from "three"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 type JointProps = {
     x: number
@@ -48,9 +50,8 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             }}
             onDrop={(e) => {
                 e.stopPropagation()
-                //@ts-ignore
-                dummyIK[name] = ""
-                console.log(draggingItemPtr[0])
+                draggingItemPtr[0] instanceof Object3D &&
+                    unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
             }}
         />
     )
