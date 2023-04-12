@@ -19,6 +19,9 @@ dependencies:
   '@lincode/utils':
     specifier: ^1.3.19
     version: 1.3.19
+  '@mediapipe/tasks-vision':
+    specifier: 0.1.0-alpha-9
+    version: 0.1.0-alpha-9
   '@pmndrs/vanilla':
     specifier: ^1.3.1
     version: 1.3.1(three@0.150.1)
@@ -638,6 +641,10 @@ packages:
     dependencies:
       '@types/lodash': 4.14.192
       lodash: 4.17.21
+    dev: false
+
+  /@mediapipe/tasks-vision@0.1.0-alpha-9:
+    resolution: {integrity: sha512-hpgY13d3zwbKEyEEG03m1rpEYM56CGPcMGgHwveZ4+SfDjmMLaev14bvlVpog51UNDE7abJTRL6Q4OtIJsSxXQ==}
     dev: false
 
   /@pmndrs/vanilla@1.3.1(three@0.150.1):
