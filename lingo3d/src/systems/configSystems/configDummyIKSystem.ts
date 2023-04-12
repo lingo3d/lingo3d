@@ -6,9 +6,11 @@ import { getSkeleton } from "../../utilsCached/getSkeleton"
 import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
 import configSystem from "../utils/configSystem"
 import { getBoneIndexMap } from "../../utilsCached/getBoneIndexMap"
+import { CCDIKSolver } from "three/examples/jsm/animation/CCDIKSolver"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
-    const { target, hips, spine0 } = self
+    const { target, hips, spine0, spine1, spine2, neck } = self
     if (!target) return
 
     const dummy = uuidMap.get(target)
@@ -27,10 +29,41 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
     const nameChildMap = indexChilrenNames(dummy.loadedObject3d)
     const boneIndexMap = getBoneIndexMap(skeleton)
 
-    if (hips && spine0) {
+    if (hips && spine0 && spine1 && spine2 && neck) {
         const hipsBone = nameChildMap.get(hips) as Bone
         const spine0Bone = nameChildMap.get(spine0) as Bone
+        const spine1Bone = nameChildMap.get(spine1) as Bone
+        const spine2Bone = nameChildMap.get(spine2) as Bone
+        const neckBone = nameChildMap.get(neck) as Bone
 
-        console.log(boneIndexMap.get(hipsBone), boneIndexMap.get(spine0Bone))
+        const hipsIndex = boneIndexMap.get(hipsBone)
+        const spine0Index = boneIndexMap.get(spine0Bone)
+        const spine1Index = boneIndexMap.get(spine1Bone)
+        const spine2Index = boneIndexMap.get(spine2Bone)
+        const neckIndex = boneIndexMap.get(neckBone)
+
+        if (
+            hipsIndex !== undefined &&
+            spine0Index !== undefined &&
+            spine1Index !== undefined &&
+            spine2Index !== undefined &&
+            neckIndex !== undefined
+        ) {
+            console.log("done")
+            const ikSolver = new CCDIKSolver({ skeleton } as any, [
+                {
+                    target: neckIndex,
+                    effector: spine2Index,
+                    links: [
+                        { index: spine1Index },
+                        { index: spine0Index },
+                        { index: hipsIndex }
+                    ]
+                } as any
+            ])
+            onBeforeRender(() => {
+                ikSolver.update()
+            })
+        }
     }
 })
