@@ -8,6 +8,7 @@ import configSystem from "../utils/configSystem"
 import { getBoneIndexMap } from "../../utilsCached/getBoneIndexMap"
 import { CCDIKSolver } from "three/examples/jsm/animation/CCDIKSolver"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import scene from "../../engine/scene"
 
 export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
     const { target, hips, spine0, spine1, spine2, neck } = self
@@ -49,21 +50,20 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
             spine2Index !== undefined &&
             neckIndex !== undefined
         ) {
-            console.log("done")
-            const ikSolver = new CCDIKSolver({ skeleton } as any, [
-                {
-                    target: neckIndex,
-                    effector: spine2Index,
-                    links: [
-                        { index: spine1Index },
-                        { index: spine0Index },
-                        { index: hipsIndex }
-                    ]
-                } as any
-            ])
-            onBeforeRender(() => {
-                ikSolver.update()
-            })
+            // const ikSolver = new CCDIKSolver({ skeleton } as any, [
+            //     {
+            //         target: neckIndex,
+            //         effector: spine2Index,
+            //         links: [
+            //             { index: spine1Index },
+            //             { index: spine0Index },
+            //             { index: hipsIndex }
+            //         ]
+            //     } as any
+            // ])
+            // onBeforeRender(() => {
+            //     ikSolver.update()
+            // })
         }
     }
 })
