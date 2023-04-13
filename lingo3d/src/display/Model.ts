@@ -5,7 +5,6 @@ import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
-import measure from "./utils/measure"
 import { getExtensionIncludingObjectURL } from "./core/utils/objectURL"
 import {
     decreaseLoadingCount,
@@ -20,6 +19,7 @@ import {
     reflectionDataMap,
     reflectionChangedSet
 } from "../collections/reflectionCollections"
+import { measure } from "../utilsCached/measure"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
@@ -165,7 +165,7 @@ export default class Model extends Loaded<Group> implements IModel {
         }
         const { x, y, z } =
             this._resize === false
-                ? measure(loadedObject3d, src)
+                ? measure(src, { target: loadedObject3d })
                 : fit(loadedObject3d, src)
 
         this.runtimeDefaults = {

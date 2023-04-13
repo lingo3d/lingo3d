@@ -6,7 +6,6 @@ import TexturedStandardMixin, {
     StandardMesh
 } from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
-import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
 import {
     decreaseLoadingCount,
@@ -16,6 +15,7 @@ import toResolvable from "./utils/toResolvable"
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
+import { measure } from "../utilsCached/measure"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -93,7 +93,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                 testGroup.add(new Mesh(geom))
             }
 
-            const { y } = measure(testGroup, src)
+            const { y } = measure(src, { target: testGroup })
             const result: Array<ExtrudeGeometry> = []
             for (const shape of shapes)
                 result.push(

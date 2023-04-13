@@ -1,6 +1,6 @@
 import { Object3D, Vector3 } from "three"
 import getCenter from "../../utilsCached/getCenter"
-import measure from "./measure"
+import { measure } from "../../utilsCached/measure"
 
 const cache = new Map<string, [number, Vector3, Vector3]>()
 
@@ -12,7 +12,7 @@ export default (gltf: Object3D, src: string) => {
         return result
     }
 
-    const measuredSize = measure(gltf, src).clone()
+    const measuredSize = measure(src, { target: gltf }).clone()
 
     const ratio = 1 / measuredSize.y
     gltf.scale.multiplyScalar(ratio)
