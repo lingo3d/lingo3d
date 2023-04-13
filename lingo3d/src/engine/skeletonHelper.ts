@@ -25,5 +25,6 @@ createEffect(() => {
 
     return () => {
         scene.remove(helper)
+        helper.dispose()
     }
 }, [getSelectionTarget, getEditorHelper])

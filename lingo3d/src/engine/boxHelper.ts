@@ -27,6 +27,7 @@ createEffect(() => {
         cancelAnimationFrame(frame)
         scene.remove(boxHelper)
         deleteUpdateSystem(boxHelper)
+        boxHelper.dispose()
     }
 }, [getSelectionTarget, getSelectionNativeTarget])
 
@@ -47,6 +48,7 @@ createEffect(() => {
         for (const boxHelper of boxHelpers) {
             deleteUpdateSystem(boxHelper)
             scene.remove(boxHelper)
+            boxHelper.dispose()
         }
     }
 }, [getMultipleSelectionTargets])

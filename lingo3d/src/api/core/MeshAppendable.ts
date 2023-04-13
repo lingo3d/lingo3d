@@ -155,6 +155,21 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
+    public rotateX(val: number) {
+        this.outerObject3d.rotateX(val * deg2Rad * fpsRatioPtr[0])
+        addUpdatePhysicsSystem(this)
+    }
+
+    public rotateY(val: number) {
+        this.outerObject3d.rotateY(val * deg2Rad * fpsRatioPtr[0])
+        addUpdatePhysicsSystem(this)
+    }
+
+    public rotateZ(val: number) {
+        this.outerObject3d.rotateZ(val * deg2Rad * fpsRatioPtr[0])
+        addUpdatePhysicsSystem(this)
+    }
+
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
