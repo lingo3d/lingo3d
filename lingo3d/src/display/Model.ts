@@ -147,19 +147,21 @@ export default class Model extends Loaded<Group> implements IModel {
     protected resolveLoaded(loadedObject3d: Group, src: string) {
         if (this.unmounted) return loadedObject3d
 
-        const { onFinishState, repeatState, finishEventState } =
-            this.lazyStates()
-        for (const clip of loadedObject3d.animations) {
-            const animation = (this.animations[clip.name] =
-                new AnimationManager(
-                    clip.name,
-                    clip,
-                    loadedObject3d,
-                    repeatState,
-                    onFinishState,
-                    finishEventState
-                ))
-            this.append(animation)
+        if (loadedObject3d.animations.length) {
+            const { onFinishState, repeatState, finishEventState } =
+                this.lazyStates()
+            for (const clip of loadedObject3d.animations) {
+                const animation = (this.animations[clip.name] =
+                    new AnimationManager(
+                        clip.name,
+                        clip,
+                        loadedObject3d,
+                        repeatState,
+                        onFinishState,
+                        finishEventState
+                    ))
+                this.append(animation)
+            }
         }
         const { x, y, z } =
             this._resize === false

@@ -7,7 +7,7 @@ import renderSystem from "./utils/renderSystem"
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 export const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: VisibleMixin) => {
-        for (const target of getAppendables(manager.hitTarget!)) {
+        for (const target of getAppendables(manager.hitTarget)) {
             if (!("object3d" in target!)) return
             const cache = forceGetInstance(hitCache, manager, WeakSet)
             if (manager.hitTest(target)) {
