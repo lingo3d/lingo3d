@@ -19,5 +19,8 @@ import mainCamera from "../engine/mainCamera"
 // settings.environment = "studio"
 // settings.defaultLight = false
 
-settings.skybox = "day"
-settings.ssr = true
+// settings.skybox = "day"
+// settings.ssr = true
+
+const model = new Model()
+model.src = "parrot.glb"
