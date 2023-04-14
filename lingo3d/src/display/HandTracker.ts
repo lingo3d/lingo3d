@@ -4,8 +4,42 @@ import { HandLandmarker, FilesetResolver } from "@mediapipe/tasks-vision"
 import { range } from "@lincode/utils"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { onBeforeRender } from "../events/onBeforeRender"
-;import Model from "./Model"
-(async () => {
+import Model from "./Model"
+import { Vector, Vector3 } from "three"
+import { quaternion } from "./utils/reusables"
+import FoundManager from "./core/FoundManager"
+import scene from "../engine/scene"
+import { LowPassFilter, mapRange } from "@lincode/math"
+
+const model = new Model()
+model.src = "hand.glb"
+model.innerRotationY = 275
+model.innerRotationZ = 90
+model.scaleX = -1
+
+const up = new Vector3(0, 1, 0)
+
+const getDirection = (fromPoint: MeshAppendable, toPoint: MeshAppendable) =>
+    toPoint.outerObject3d.position
+        .clone()
+        .sub(fromPoint.outerObject3d.position)
+        .normalize()
+
+const setRotationFromDirection = (model: MeshAppendable, direction: Vector3) =>
+    model.outerObject3d.setRotationFromQuaternion(
+        quaternion.setFromUnitVectors(up, direction)
+    )
+
+const sceneAttach = (object: FoundManager) => {
+    object.userData.ogParent = object.outerObject3d.parent
+    scene.attach(object.outerObject3d)
+}
+
+const sceneDetach = (object: FoundManager) => {
+    object.userData.ogParent.attach(object.outerObject3d)
+}
+
+;(async () => {
     const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
     )
@@ -32,26 +66,94 @@ import { onBeforeRender } from "../events/onBeforeRender"
     const cubes = range(21).map(() => {
         const cube = new Cube()
         cube.scale = 0.05
+        cube.visible = false
         return cube
     })
+    const alpha = 0.5
+    const lowPassList = range(21).map(() => [
+        new LowPassFilter(alpha),
+        new LowPassFilter(alpha),
+        new LowPassFilter(alpha)
+    ])
 
-    const model = new Model()
-    model.src = "hand.glb"
+    model.onLoad = () => {
+        const thumb1 = model.find("Thumb1_18")!
+        const thumb2 = model.find("Thumb2_17")!
 
-    onBeforeRender(() => {
-        let nowInMs = Date.now()
-        const results = handLandmarker.detectForVideo(video, nowInMs)
+        const index1 = model.find("Index1_16")!
+        const index2 = model.find("Index2_15")!
+        const index3 = model.find("Index3_14")!
 
-        if (!results.landmarks.length) return
+        const middle1 = model.find("Middle1_13")!
+        const middle2 = model.find("Middle2_12")!
+        const middle3 = model.find("Middle3_11")!
 
-        let i = 0
-        for (const landmark of results.worldLandmarks[0]) {
-            const cube = cubes[i++]
-            cube.x = landmark.x * -1000
-            cube.y = landmark.y * -1000
-            cube.z = landmark.z * -1000
+        const ring1 = model.find("Ring1_10")!
+        const ring2 = model.find("Ring2_9")!
+        const ring3 = model.find("Ring3_8")!
+
+        const pinky1 = model.find("Pinky1_7")!
+        const pinky2 = model.find("Pinky2_6")!
+        const pinky3 = model.find("Pinky3_5")!
+
+        const setFinger = (
+            fingerManager: FoundManager,
+            fromIndex: number,
+            toIndex: number
+        ) => {
+            sceneAttach(fingerManager)
+            setRotationFromDirection(
+                fingerManager,
+                getDirection(cubes[fromIndex], cubes[toIndex])
+            )
+            sceneDetach(fingerManager)
         }
-    })
+
+        onBeforeRender(() => {
+            let nowInMs = Date.now()
+            const results = handLandmarker.detectForVideo(video, nowInMs)
+
+            if (!results.landmarks.length) return
+
+            let i = 0
+            for (const landmark of results.worldLandmarks[0]) {
+                const [lowpassX, lowpassY, lowpassZ] = lowPassList[i]
+                landmark.x = lowpassX.next(landmark.x)
+                landmark.y = lowpassY.next(landmark.y)
+                landmark.z = lowpassZ.next(landmark.z)
+
+                const cube = cubes[i++]
+                cube.x = landmark.x * -1000
+                cube.y = landmark.y * -1000
+                cube.z = landmark.z * -1000
+            }
+
+            const rollPitch = getDirection(cubes[0], cubes[9])
+            setRotationFromDirection(model, rollPitch)
+
+            const yaw = getDirection(cubes[3], cubes[17])
+            model.rotationY = mapRange(yaw.x, 1, -1, 0, -180)
+
+            setFinger(thumb1, 2, 3)
+            setFinger(thumb2, 3, 4)
+
+            setFinger(index1, 5, 6)
+            setFinger(index2, 6, 7)
+            setFinger(index3, 7, 8)
+
+            setFinger(middle1, 9, 10)
+            setFinger(middle2, 10, 11)
+            setFinger(middle3, 11, 12)
+
+            setFinger(ring1, 13, 14)
+            setFinger(ring2, 14, 15)
+            setFinger(ring3, 15, 16)
+
+            setFinger(pinky1, 17, 18)
+            setFinger(pinky2, 18, 19)
+            setFinger(pinky3, 19, 20)
+        })
+    }
 })()
 
 export default class HandTracker extends MeshAppendable {
