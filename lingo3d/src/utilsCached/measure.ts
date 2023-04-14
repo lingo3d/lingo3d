@@ -13,7 +13,8 @@ const expandByObject = (object: any) => {
             const position = geometry.attributes.position
             for (let i = 0, il = position.count; i < il; i++) {
                 vector3.fromBufferAttribute(position, i)
-                object.boneTransform(i, vector3)
+                //@ts-ignore
+                object.applyBoneTransform(i, vector3)
                 object.localToWorld(vector3)
                 box3.expandByPoint(vector3)
             }

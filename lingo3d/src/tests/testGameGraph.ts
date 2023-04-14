@@ -23,5 +23,6 @@ import mainCamera from "../engine/mainCamera"
 // settings.ssr = true
 
 const model = new Model()
-model.src = "hand.glb"
+model.src = "glove.glb"
+model.metalnessFactor = -50
 // model.resetSkeleton = true
