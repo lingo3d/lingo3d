@@ -9,13 +9,12 @@ import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
-    const isMeshAppendable =
-        selectionTarget && "outerObject3d" in selectionTarget
-    if (isMeshAppendable && !selectionTarget.outerObject3d.parent) return
+    const isMeshAppendable = selectionTarget && "object3d" in selectionTarget
+    if (isMeshAppendable && !selectionTarget.object3d.parent) return
 
     const target =
         getSelectionNativeTarget() ??
-        (isMeshAppendable ? selectionTarget.outerObject3d : undefined)
+        (isMeshAppendable ? selectionTarget.object3d : undefined)
 
     if (!target) return
 
@@ -37,7 +36,7 @@ createEffect(() => {
 
     const boxHelpers: Array<BoxHelper> = []
     for (const target of targets) {
-        const boxHelper = new BoxHelper(target.outerObject3d)
+        const boxHelper = new BoxHelper(target.object3d)
         scene.add(boxHelper)
         boxHelpers.push(boxHelper)
     }
