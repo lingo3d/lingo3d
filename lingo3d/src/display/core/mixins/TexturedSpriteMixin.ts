@@ -9,6 +9,7 @@ import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { SpriteMaterialParams } from "../../../pools/spriteMaterialPool"
 import { addRefreshTexturedSpriteSystem } from "../../../systems/configSystems/refreshTexturedSpriteSystem"
+import { ColorString } from "../../../interface/ITexturedStandard"
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [
@@ -39,9 +40,9 @@ export default abstract class TexturedSpriteMixin
     public materialParamString?: string
 
     public get color() {
-        return this.materialParams[0]
+        return this.materialParams[0] as ColorString
     }
-    public set color(val: string | undefined) {
+    public set color(val: ColorString | undefined) {
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : defaults.color

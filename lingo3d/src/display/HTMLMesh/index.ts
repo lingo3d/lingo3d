@@ -8,6 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import HelperCube from "../core/utils/HelperCube"
 import { setManager } from "../../api/utils/getManager"
+import { ColorString } from "../../interface/ITexturedStandard"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -101,7 +102,7 @@ export default class HTMLMesh
         this.spriteState.set(val)
     }
 
-    private cssColorState = new Reactive("#ffffff")
+    private cssColorState = new Reactive<ColorString>("#ffffff")
     public get cssColor() {
         return this.cssColorState.get()
     }

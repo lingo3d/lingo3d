@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { Raycaster, Object3D } from "three"
+import { Raycaster, Object3D, Vector2 } from "three"
 import { getManager } from "../api/utils/getManager"
 import { actorPtrManagerMap } from "../collections/pxCollections"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"
@@ -7,7 +7,7 @@ import { FAR, M2CM } from "../globals"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { physxPtr } from "../pointers/physxPtr"
 import computePerFrameWithData from "./utils/computePerFrameWithData"
-import { pt3d0 } from "../display/utils/reusables"
+import { pt3d0, vector2 } from "../display/utils/reusables"
 import { vec2Point } from "../display/utils/vec2Point"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import Loaded from "../display/core/Loaded"
@@ -31,7 +31,7 @@ export const mouseRaycast = computePerFrameWithData(
         candidates: Set<Object3D>,
         { additionalCandidate, x, y }: RaycastData
     ): RaycastResult | undefined => {
-        raycaster.setFromCamera({ x, y }, cameraRenderedPtr[0])
+        raycaster.setFromCamera(vector2.set(x, y), cameraRenderedPtr[0])
         const candidateArray = [...candidates]
         additionalCandidate && candidateArray.push(additionalCandidate)
         const [intersection] = raycaster.intersectObjects(candidateArray, false)

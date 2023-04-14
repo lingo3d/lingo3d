@@ -11,6 +11,7 @@ import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
+import { ColorString } from "../../interface/ITexturedStandard"
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -67,9 +68,9 @@ export default abstract class LightBase<T extends Light>
     }
 
     public get color() {
-        return "#" + this.object3d.color.getHexString()
+        return ("#" + this.object3d.color.getHexString()) as ColorString
     }
-    public set color(val) {
+    public set color(val: ColorString) {
         this.object3d.color.set(val)
     }
 

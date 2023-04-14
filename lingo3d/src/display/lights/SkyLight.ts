@@ -21,6 +21,7 @@ import {
 } from "../../systems/skyBackLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { Color } from "three"
+import { ColorString } from "../../interface/ITexturedStandard"
 
 export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"
@@ -103,7 +104,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         this.intensityState.set(Math.max(val, 0.1))
     }
 
-    private colorState = new Reactive("#ffffff")
+    private colorState = new Reactive<ColorString>("#ffffff")
     public get color() {
         return this.colorState.get()
     }

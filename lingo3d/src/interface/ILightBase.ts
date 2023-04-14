@@ -5,9 +5,10 @@ import IObjectManager, {
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
+import { ColorString } from "./ITexturedStandard"
 
 export default interface ILightBase extends IObjectManager {
-    color: string
+    color: ColorString
     intensity: number
     enabled: boolean
     helper: boolean

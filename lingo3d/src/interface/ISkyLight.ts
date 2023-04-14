@@ -5,10 +5,11 @@ import ISimpleObjectManager, {
     simpleObjectManagerSchema
 } from "./ISimpleObjectManager"
 import Range from "./utils/Range"
+import { ColorString } from "./ITexturedStandard"
 
 export default interface ISkyLight extends ISimpleObjectManager {
     intensity: number
-    color: string
+    color: ColorString
     castShadow: boolean
 }
 

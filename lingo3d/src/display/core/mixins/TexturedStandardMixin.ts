@@ -1,6 +1,7 @@
 import { Point } from "@lincode/math"
 import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
 import ITexturedStandard, {
+    ColorString,
     texturedStandardDefaults,
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
@@ -50,7 +51,7 @@ export default abstract class TexturedStandardMixin
     public get color() {
         return this.materialParams[0]
     }
-    public set color(val: string | undefined) {
+    public set color(val: ColorString | undefined) {
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : standardDefaults.color

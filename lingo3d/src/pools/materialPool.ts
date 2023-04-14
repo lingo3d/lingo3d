@@ -4,9 +4,10 @@ import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "../display/core/utils/createInstancePool"
+import { ColorString } from "../interface/ITexturedStandard"
 
 export type MaterialParams = [
-    color: string,
+    color: ColorString,
     opacity: number,
     texture: string,
     alphaMap: string,

@@ -1,3 +1,4 @@
+import { ColorString } from "./ITexturedStandard"
 import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
@@ -10,7 +11,7 @@ import Nullable from "./utils/Nullable"
 export default interface IHTMLMesh extends IVisibleObjectManager {
     element: Nullable<Element>
     innerHTML: Nullable<string>
-    cssColor: string
+    cssColor: ColorString
     sprite: boolean
 }
 

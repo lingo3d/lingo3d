@@ -1,6 +1,8 @@
 import { Point } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
-import ITexturedStandard from "../../interface/ITexturedStandard"
+import ITexturedStandard, {
+    ColorString
+} from "../../interface/ITexturedStandard"
 import { MaterialParams } from "../../pools/materialPool"
 import { color } from "../utils/reusables"
 import {
@@ -36,7 +38,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     public get color() {
         return this.materialParams[0]
     }
-    public set color(val: string | undefined) {
+    public set color(val: ColorString | undefined) {
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : this.defaults.color

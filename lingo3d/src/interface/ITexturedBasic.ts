@@ -4,9 +4,10 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
+import { ColorString } from "./ITexturedStandard"
 
 export default interface ITexturedBasic {
-    color: Nullable<string>
+    color: Nullable<ColorString>
     opacity: Nullable<number>
     texture: Nullable<string>
     alphaMap: Nullable<string>
