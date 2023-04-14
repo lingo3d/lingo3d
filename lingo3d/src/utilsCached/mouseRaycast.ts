@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { Raycaster, Object3D, Vector2 } from "three"
+import { Raycaster, Object3D } from "three"
 import { getManager } from "../api/utils/getManager"
 import { actorPtrManagerMap } from "../collections/pxCollections"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"

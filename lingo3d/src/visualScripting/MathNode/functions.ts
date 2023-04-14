@@ -1,4 +1,4 @@
-import { mapRange, Point3d } from "@lincode/math"
+import { deg2Rad, mapRange, Point3d, rad2Deg } from "@lincode/math"
 import { random } from "nanoid"
 
 export default {
@@ -20,8 +20,8 @@ export default {
     acos: Math.acos,
     atan: Math.atan,
     atan2: Math.atan2,
-    radToDeg: (rad: number) => rad * (180 / Math.PI),
-    degToRad: (deg: number) => deg * (Math.PI / 180),
+    radToDeg: (rad: number) => rad * rad2Deg,
+    degToRad: (deg: number) => deg * deg2Rad,
     mToCM: (m: number) => m * 100,
     cmToM: (cm: number) => cm / 100,
     lerp: (a: number, b: number, t: number) => a + (b - a) * t,
