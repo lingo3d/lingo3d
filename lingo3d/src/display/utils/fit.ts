@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from "three"
+import { Object3D, SkeletonHelper, Vector3 } from "three"
 import getCenter from "../../utilsCached/getCenter"
 import { measure } from "../../utilsCached/measure"
 
@@ -13,14 +13,17 @@ export default (gltf: Object3D, src: string) => {
     }
 
     const measuredSize = measure(src, { target: gltf }).clone()
-
     const ratio = 1 / measuredSize.y
-    gltf.scale.multiplyScalar(ratio)
 
-    const center = getCenter(gltf)
-    gltf.position.copy(center).multiplyScalar(-1)
+    const skeleton = new SkeletonHelper(gltf)
+    skeleton.updateMatrixWorld()
+    const center = getCenter(skeleton.bones.length ? skeleton : gltf)
 
+    center.multiplyScalar(ratio)
     measuredSize.multiplyScalar(ratio)
+
+    gltf.scale.multiplyScalar(ratio)
+    gltf.position.copy(center).multiplyScalar(-1)
 
     cache.set(src, [ratio, center, measuredSize])
     return measuredSize
