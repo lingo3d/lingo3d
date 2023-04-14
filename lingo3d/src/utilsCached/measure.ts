@@ -4,8 +4,11 @@ import computeOnceWithData from "./utils/computeOnceWithData"
 
 export const measure = computeOnceWithData(
     (_: string, data: { target: Object3D }) => {
-        const measuredSize = new Vector3()
-        box3.setFromObject(data.target).getSize(measuredSize)
-        return measuredSize
+        const size = new Vector3()
+        const center = new Vector3()
+        box3.setFromObject(data.target)
+        box3.getSize(size)
+        box3.getCenter(center)
+        return [size, center]
     }
 )

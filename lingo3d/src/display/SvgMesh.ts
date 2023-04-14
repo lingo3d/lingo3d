@@ -93,7 +93,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                 testGroup.add(new Mesh(geom))
             }
 
-            const { y } = measure(src, { target: testGroup })
+            const [{ y }] = measure(src, { target: testGroup })
             const result: Array<ExtrudeGeometry> = []
             for (const shape of shapes)
                 result.push(
@@ -112,7 +112,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             loadedObject3d.add(mesh)
         }
 
-        const { x, y, z } = fit(loadedObject3d, src)
+        const [{ x, y, z }] = fit(loadedObject3d, src)
         this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,

@@ -163,7 +163,7 @@ export default class Model extends Loaded<Group> implements IModel {
                 this.append(animation)
             }
         }
-        const { x, y, z } =
+        const [{ x, y, z }] =
             this._resize === false
                 ? measure(src, { target: loadedObject3d })
                 : fit(loadedObject3d, src)
