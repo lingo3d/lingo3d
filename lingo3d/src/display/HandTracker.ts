@@ -108,7 +108,7 @@ const getDirection = (fromPoint: MeshAppendable, toPoint: MeshAppendable) =>
             model.setRotationFromDirection(getDirection(cubes[0], cubes[9]))
 
             const yaw = getDirection(cubes[3], cubes[17])
-            model.rotationY = mapRange(yaw.x, 1, -1, 0, -180)
+            model.rotationY = mapRange(yaw.x, 1, -1, 0, -180) - 30
 
             setFinger(thumb1, 2, 3)
             setFinger(thumb2, 3, 4)
