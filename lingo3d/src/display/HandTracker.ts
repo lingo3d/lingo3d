@@ -82,9 +82,8 @@ const getDirection = (fromPoint: MeshAppendable, toPoint: MeshAppendable) =>
             fromIndex: number,
             toIndex: number
         ) =>
-            fingerManager.setRotationFromDirection(
-                getDirection(cubes[fromIndex], cubes[toIndex]),
-                true
+            fingerManager.setRotationFromWorldDirection(
+                getDirection(cubes[fromIndex], cubes[toIndex])
             )
 
         onBeforeRender(() => {

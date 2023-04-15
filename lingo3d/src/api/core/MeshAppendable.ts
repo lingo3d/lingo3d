@@ -172,15 +172,17 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public setRotationFromDirection(direction: Point3d, worldSpace?: boolean) {
-        let ogParent = this.outerObject3d.parent
-        const computeWorldSpace = worldSpace && ogParent && ogParent !== scene
-        computeWorldSpace && scene.attach(this.outerObject3d)
-
+    public setRotationFromDirection(direction: Point3d) {
         this.outerObject3d.setRotationFromQuaternion(
             quaternion.setFromUnitVectors(up, direction as Vector3)
         )
-        computeWorldSpace && ogParent!.attach(this.outerObject3d)
+    }
+
+    public setRotationFromWorldDirection(direction: Point3d) {
+        const ogParent = this.outerObject3d.parent
+        ogParent !== scene && scene.attach(this.outerObject3d)
+        this.setRotationFromDirection(direction)
+        ogParent !== scene && ogParent!.attach(this.outerObject3d)
     }
 
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
