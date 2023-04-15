@@ -1,30 +1,37 @@
-﻿import { GLSL3, Matrix3, ShaderMaterial, TangentSpaceNormalMap, Uniform, Vector2 } from "three"
+﻿import {
+    GLSL3,
+    Matrix3,
+    ShaderMaterial,
+    TangentSpaceNormalMap,
+    Uniform,
+    Vector2
+} from "three"
 
 // WebGL1: will render normals to RGB channel and roughness to A channel
 // WebGL2: will render normals to RGB channel of "gNormal" buffer, roughness to A channel of "gNormal" buffer, depth to RGBA channel of "gDepth" buffer
 // and velocity to "gVelocity" buffer
 
 export class MRTMaterial extends ShaderMaterial {
-	constructor() {
-		super({
-			type: "MRTMaterial",
+    constructor() {
+        super({
+            type: "MRTMaterial",
 
-			defines: {
-				USE_UV: "",
-				TEMPORAL_RESOLVE: ""
-			},
+            defines: {
+                USE_UV: "",
+                TEMPORAL_RESOLVE: ""
+            },
 
-			uniforms: {
-				opacity: new Uniform(1),
-				normalMap: new Uniform(null),
-				normalScale: new Uniform(new Vector2(1, 1)),
-				uvTransform: new Uniform(new Matrix3()),
-				roughness: new Uniform(1),
-				roughnessMap: new Uniform(null)
-			},
-			vertexShader: /* glsl */ `
+            uniforms: {
+                opacity: new Uniform(1),
+                normalMap: new Uniform(null),
+                normalScale: new Uniform(new Vector2(1, 1)),
+                uvTransform: new Uniform(new Matrix3()),
+                roughness: new Uniform(1),
+                roughnessMap: new Uniform(null)
+            },
+            vertexShader: /* glsl */ `
                 #ifdef USE_MRT
-                 varying vec2 vHighPrecisionZW;
+                    varying vec2 vHighPrecisionZW;
                 #endif
                 #define NORMAL
                 #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
@@ -38,6 +45,9 @@ export class MRTMaterial extends ShaderMaterial {
                 #include <skinning_pars_vertex>
                 #include <logdepthbuf_pars_vertex>
                 #include <clipping_planes_pars_vertex>
+                #ifdef USE_UV
+                    uniform mat3 uvTransform;
+                #endif
                 void main() {
                     #include <uv_vertex>
                     #include <beginnormal_vertex>
@@ -65,8 +75,8 @@ export class MRTMaterial extends ShaderMaterial {
                 }
             `,
 
-			fragmentShader: /* glsl */ `
-                 #define NORMAL
+            fragmentShader: /* glsl */ `
+                #define NORMAL
                 #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
                     varying vec3 vViewPosition;
                 #endif
@@ -116,17 +126,17 @@ export class MRTMaterial extends ShaderMaterial {
                 }
             `,
 
-			toneMapped: false
-		})
+            toneMapped: false
+        })
 
-		this.normalMapType = TangentSpaceNormalMap
-		this.normalScale = new Vector2(1, 1)
+        this.normalMapType = TangentSpaceNormalMap
+        this.normalScale = new Vector2(1, 1)
 
-		Object.defineProperty(this, "glslVersion", {
-			get() {
-				return "USE_MRT" in this.defines ? GLSL3 : null
-			},
-			set(_) {}
-		})
-	}
+        Object.defineProperty(this, "glslVersion", {
+            get() {
+                return "USE_MRT" in this.defines ? GLSL3 : null
+            },
+            set(_) {}
+        })
+    }
 }
