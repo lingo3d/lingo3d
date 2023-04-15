@@ -173,15 +173,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public setRotationFromDirection(direction: Point3d) {
+        const ogParent = this.outerObject3d.parent
+        ogParent !== scene && scene.attach(this.outerObject3d)
+
         this.outerObject3d.setRotationFromQuaternion(
             quaternion.setFromUnitVectors(up, direction as Vector3)
         )
-    }
-
-    public setRotationFromWorldDirection(direction: Point3d) {
-        const ogParent = this.outerObject3d.parent
-        ogParent !== scene && scene.attach(this.outerObject3d)
-        this.setRotationFromDirection(direction)
         ogParent !== scene && ogParent!.attach(this.outerObject3d)
     }
 

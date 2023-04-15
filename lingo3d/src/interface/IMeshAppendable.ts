@@ -36,6 +36,12 @@ export default interface IMeshAppendable extends IAppendable {
     translateY: Function | Array<any>
     translateZ: Function | Array<any>
 
+    rotateX: Function | Array<any>
+    rotateY: Function | Array<any>
+    rotateZ: Function | Array<any>
+
+    setRotationFromDirection: Function | Array<any>
+
     lookAt: Function | Array<any>
     lookTo: Function | Array<any>
 }
@@ -62,6 +68,12 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     translateX: [Function, Array],
     translateY: [Function, Array],
     translateZ: [Function, Array],
+
+    rotateX: [Function, Array],
+    rotateY: [Function, Array],
+    rotateZ: [Function, Array],
+
+    setRotationFromDirection: [Function, Array],
 
     lookAt: [Function, Array],
     lookTo: [Function, Array]
@@ -91,6 +103,12 @@ export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
         translateX: defaultMethod(defaultMethodNumberArg),
         translateY: defaultMethod(defaultMethodNumberArg),
         translateZ: defaultMethod(defaultMethodNumberArg),
+
+        rotateX: defaultMethod(defaultMethodNumberArg),
+        rotateY: defaultMethod(defaultMethodNumberArg),
+        rotateZ: defaultMethod(defaultMethodNumberArg),
+
+        setRotationFromDirection: defaultMethod(defaultMethodPt3dArg),
 
         lookAt: defaultMethod(defaultMethodPt3dArg),
         lookTo: defaultMethod(defaultMethodPt3dArg)
