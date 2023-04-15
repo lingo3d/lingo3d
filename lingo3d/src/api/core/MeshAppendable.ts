@@ -1,7 +1,7 @@
 import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
 import getWorldDirection from "../../utilsCached/getWorldDirection"
 import getWorldPosition from "../../utilsCached/getWorldPosition"
-import { ray, vector3 } from "../../display/utils/reusables"
+import { quaternion, ray, vector3 } from "../../display/utils/reusables"
 import { point2Vec, vec2Point } from "../../display/utils/vec2Point"
 import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
@@ -26,6 +26,8 @@ import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import scene from "../../engine/scene"
+
+const up = new Vector3(0, 1, 0)
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -168,6 +170,17 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public rotateZ(val: number) {
         this.outerObject3d.rotateZ(val * deg2Rad * fpsRatioPtr[0])
         addUpdatePhysicsSystem(this)
+    }
+
+    public setRotationFromDirection(direction: Point3d, worldSpace?: boolean) {
+        let ogParent = this.outerObject3d.parent
+        const computeWorldSpace = worldSpace && ogParent && ogParent !== scene
+        computeWorldSpace && scene.attach(this.outerObject3d)
+
+        this.outerObject3d.setRotationFromQuaternion(
+            quaternion.setFromUnitVectors(up, direction as Vector3)
+        )
+        computeWorldSpace && ogParent!.attach(this.outerObject3d)
     }
 
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {

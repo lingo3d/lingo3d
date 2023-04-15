@@ -5,10 +5,7 @@ import { range } from "@lincode/utils"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import Model from "./Model"
-import { Vector, Vector3 } from "three"
-import { quaternion } from "./utils/reusables"
 import FoundManager from "./core/FoundManager"
-import scene from "../engine/scene"
 import { LowPassFilter, mapRange } from "@lincode/math"
 
 const model = new Model()
@@ -17,27 +14,11 @@ model.innerRotationY = 275
 model.innerRotationZ = 90
 model.scaleX = -1
 
-const up = new Vector3(0, 1, 0)
-
 const getDirection = (fromPoint: MeshAppendable, toPoint: MeshAppendable) =>
     toPoint.outerObject3d.position
         .clone()
         .sub(fromPoint.outerObject3d.position)
         .normalize()
-
-const setRotationFromDirection = (model: MeshAppendable, direction: Vector3) =>
-    model.outerObject3d.setRotationFromQuaternion(
-        quaternion.setFromUnitVectors(up, direction)
-    )
-
-const sceneAttach = (object: FoundManager) => {
-    object.userData.ogParent = object.outerObject3d.parent
-    scene.attach(object.outerObject3d)
-}
-
-const sceneDetach = (object: FoundManager) => {
-    object.userData.ogParent.attach(object.outerObject3d)
-}
 
 ;(async () => {
     const vision = await FilesetResolver.forVisionTasks(
@@ -100,14 +81,11 @@ const sceneDetach = (object: FoundManager) => {
             fingerManager: FoundManager,
             fromIndex: number,
             toIndex: number
-        ) => {
-            sceneAttach(fingerManager)
-            setRotationFromDirection(
-                fingerManager,
-                getDirection(cubes[fromIndex], cubes[toIndex])
+        ) =>
+            fingerManager.setRotationFromDirection(
+                getDirection(cubes[fromIndex], cubes[toIndex]),
+                true
             )
-            sceneDetach(fingerManager)
-        }
 
         onBeforeRender(() => {
             let nowInMs = Date.now()
@@ -128,8 +106,7 @@ const sceneDetach = (object: FoundManager) => {
                 cube.z = landmark.z * -1000
             }
 
-            const rollPitch = getDirection(cubes[0], cubes[9])
-            setRotationFromDirection(model, rollPitch)
+            model.setRotationFromDirection(getDirection(cubes[0], cubes[9]))
 
             const yaw = getDirection(cubes[3], cubes[17])
             model.rotationY = mapRange(yaw.x, 1, -1, 0, -180)
