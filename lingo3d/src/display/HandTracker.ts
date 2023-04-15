@@ -6,6 +6,7 @@ import { LowPassFilter, Point3d, mapRange } from "@lincode/math"
 import { vector3 } from "./utils/reusables"
 import { event } from "@lincode/events"
 import { HandLandmarkerResult } from "@mediapipe/tasks-vision"
+import { Cancellable } from "@lincode/promiselikes"
 
 const getDirection = (fromPoint: Point3d, toPoint: Point3d) =>
     vector3
@@ -51,6 +52,42 @@ const loadHandLandmarker = lazy(async () => {
 })
 
 export default class HandTracker extends Model {
+    public thumb1?: FoundManager
+    public thumb2?: FoundManager
+
+    public index1?: FoundManager
+    public index2?: FoundManager
+    public index3?: FoundManager
+
+    public middle1?: FoundManager
+    public middle2?: FoundManager
+    public middle3?: FoundManager
+
+    public ring1?: FoundManager
+    public ring2?: FoundManager
+    public ring3?: FoundManager
+
+    public pinky1?: FoundManager
+    public pinky2?: FoundManager
+    public pinky3?: FoundManager
+
+    private points = range(21).map(() => new Point3d(0, 0, 0))
+    private lowPassFilters = range(21).map(() => [
+        new LowPassFilter(0.5),
+        new LowPassFilter(0.5),
+        new LowPassFilter(0.5)
+    ])
+
+    private setFinger(
+        fingerManager: FoundManager,
+        fromIndex: number,
+        toIndex: number
+    ) {
+        fingerManager.setRotationFromDirection(
+            getDirection(this.points[fromIndex], this.points[toIndex])
+        )
+    }
+
     public constructor() {
         super()
 
@@ -58,87 +95,92 @@ export default class HandTracker extends Model {
         this.innerRotationY = 275
         this.innerRotationZ = 90
 
-        const points = range(21).map(() => new Point3d(0, 0, 0))
-        const alpha = 0.5
-        const lowPassList = range(21).map(() => [
-            new LowPassFilter(alpha),
-            new LowPassFilter(alpha),
-            new LowPassFilter(alpha)
-        ])
-
         this.scaleX = -1
 
         this.loaded.then(() => {
-            const thumb1 = this.find("Thumb1_18")!
-            const thumb2 = this.find("Thumb2_17")!
+            this.thumb1 = this.find("Thumb1_18")
+            this.thumb2 = this.find("Thumb2_17")
 
-            const index1 = this.find("Index1_16")!
-            const index2 = this.find("Index2_15")!
-            const index3 = this.find("Index3_14")!
+            this.index1 = this.find("Index1_16")
+            this.index2 = this.find("Index2_15")
+            this.index3 = this.find("Index3_14")
 
-            const middle1 = this.find("Middle1_13")!
-            const middle2 = this.find("Middle2_12")!
-            const middle3 = this.find("Middle3_11")!
+            this.middle1 = this.find("Middle1_13")
+            this.middle2 = this.find("Middle2_12")
+            this.middle3 = this.find("Middle3_11")
 
-            const ring1 = this.find("Ring1_10")!
-            const ring2 = this.find("Ring2_9")!
-            const ring3 = this.find("Ring3_8")!
+            this.ring1 = this.find("Ring1_10")
+            this.ring2 = this.find("Ring2_9")
+            this.ring3 = this.find("Ring3_8")
 
-            const pinky1 = this.find("Pinky1_7")!
-            const pinky2 = this.find("Pinky2_6")!
-            const pinky3 = this.find("Pinky3_5")!
-
-            const setFinger = (
-                fingerManager: FoundManager,
-                fromIndex: number,
-                toIndex: number
-            ) =>
-                fingerManager.setRotationFromDirection(
-                    getDirection(points[fromIndex], points[toIndex])
-                )
-
-            loadHandLandmarker().then((onDetect) => {
-                onDetect((results) => {
-                    let i = 0
-                    for (const landmark of results.worldLandmarks[0]) {
-                        const [lowpassX, lowpassY, lowpassZ] = lowPassList[i]
-                        landmark.x = lowpassX.next(landmark.x)
-                        landmark.y = lowpassY.next(landmark.y)
-                        landmark.z = lowpassZ.next(landmark.z)
-
-                        const cube = points[i++]
-                        cube.x = landmark.x * -1000
-                        cube.y = landmark.y * -1000
-                        cube.z = landmark.z * -1000
-                    }
-
-                    this.setRotationFromDirection(
-                        getDirection(points[0], points[9])
-                    )
-
-                    const yaw = getDirection(points[3], points[17])
-                    this.rotationY = mapRange(yaw.x, 1, -1, 0, -180) - 30
-
-                    setFinger(thumb1, 2, 3)
-                    setFinger(thumb2, 3, 4)
-
-                    setFinger(index1, 5, 6)
-                    setFinger(index2, 6, 7)
-                    setFinger(index3, 7, 8)
-
-                    setFinger(middle1, 9, 10)
-                    setFinger(middle2, 10, 11)
-                    setFinger(middle3, 11, 12)
-
-                    setFinger(ring1, 13, 14)
-                    setFinger(ring2, 14, 15)
-                    setFinger(ring3, 15, 16)
-
-                    setFinger(pinky1, 17, 18)
-                    setFinger(pinky2, 18, 19)
-                    setFinger(pinky3, 19, 20)
-                })
-            })
+            this.pinky1 = this.find("Pinky1_7")
+            this.pinky2 = this.find("Pinky2_6")
+            this.pinky3 = this.find("Pinky3_5")
         })
+    }
+
+    private _track = false
+    public get track() {
+        return this._track
+    }
+    public set track(value) {
+        this.cancelHandle(
+            "track",
+            value &&
+                (() => {
+                    const handle = new Cancellable()
+                    loadHandLandmarker().then((onDetect) => {
+                        handle.watch(
+                            onDetect((results) => {
+                                let i = 0
+                                for (const landmark of results
+                                    .worldLandmarks[0]) {
+                                    const [lowpassX, lowpassY, lowpassZ] =
+                                        this.lowPassFilters[i]
+                                    landmark.x = lowpassX.next(landmark.x)
+                                    landmark.y = lowpassY.next(landmark.y)
+                                    landmark.z = lowpassZ.next(landmark.z)
+
+                                    const cube = this.points[i++]
+                                    cube.x = landmark.x * -1000
+                                    cube.y = landmark.y * -1000
+                                    cube.z = landmark.z * -1000
+                                }
+
+                                this.setRotationFromDirection(
+                                    getDirection(this.points[0], this.points[9])
+                                )
+
+                                const yaw = getDirection(
+                                    this.points[3],
+                                    this.points[17]
+                                )
+                                this.rotationY =
+                                    mapRange(yaw.x, 1, -1, 0, -180) - 30
+
+                                this.setFinger(this.thumb1!, 2, 3)
+                                this.setFinger(this.thumb2!, 3, 4)
+
+                                this.setFinger(this.index1!, 5, 6)
+                                this.setFinger(this.index2!, 6, 7)
+                                this.setFinger(this.index3!, 7, 8)
+
+                                this.setFinger(this.middle1!, 9, 10)
+                                this.setFinger(this.middle2!, 10, 11)
+                                this.setFinger(this.middle3!, 11, 12)
+
+                                this.setFinger(this.ring1!, 13, 14)
+                                this.setFinger(this.ring2!, 14, 15)
+                                this.setFinger(this.ring3!, 15, 16)
+
+                                this.setFinger(this.pinky1!, 17, 18)
+                                this.setFinger(this.pinky2!, 18, 19)
+                                this.setFinger(this.pinky3!, 19, 20)
+                            })
+                        )
+                    })
+                    return handle
+                })
+        )
     }
 }
