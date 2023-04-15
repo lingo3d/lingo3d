@@ -1,4 +1,4 @@
-import { Group } from "three"
+import { Group, Object3D, PropertyBinding } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -20,8 +20,15 @@ import {
     reflectionChangedSet
 } from "../collections/reflectionCollections"
 import { measure } from "../utilsCached/measure"
+import { indexChilrenNames } from "../utilsCached/indexChildrenNames"
+import MeshAppendable from "../api/core/MeshAppendable"
+import { getManager } from "../api/utils/getManager"
 
 const supported = new Set(["fbx", "glb", "gltf"])
+
+const getFoundManager = (child: Object3D, parentManager: MeshAppendable) =>
+    (getManager(child) ??
+        new FoundManager(child, parentManager)) as FoundManager
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -235,5 +242,34 @@ export default class Model extends Loaded<Group> implements IModel {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
         this.refreshFactors()
+    }
+
+    public find(name: string) {
+        if (!this.loadedObject3d) return
+        const child = indexChilrenNames(this.loadedObject3d).get(
+            PropertyBinding.sanitizeNodeName(name)
+        )
+        if (child) return getFoundManager(child, this)
+    }
+
+    public findAll(name?: string | RegExp) {
+        const result: Array<FoundManager> = []
+        if (!this.loadedObject3d) return result
+
+        const children = indexChilrenNames(this.loadedObject3d)
+        if (name === undefined)
+            for (const child of children.values())
+                result.push(getFoundManager(child, this))
+        else if (typeof name === "string") {
+            const sanitized = PropertyBinding.sanitizeNodeName(name)
+            for (const child of children.values())
+                child.name.startsWith(sanitized) &&
+                    result.push(getFoundManager(child, this))
+        } else
+            for (const child of children.values())
+                name.test(child.name) &&
+                    result.push(getFoundManager(child, this))
+
+        return result
     }
 }

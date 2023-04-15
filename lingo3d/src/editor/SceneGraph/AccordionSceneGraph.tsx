@@ -1,12 +1,8 @@
 import { useMemo } from "preact/hooks"
-import ObjectManager, {
-    getFoundManager
-} from "../../display/core/ObjectManager"
 import Model from "../../display/Model"
 import scene from "../../engine/scene"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -41,12 +37,13 @@ const AccordionSceneGraph = () => {
     const nativeTarget = useSyncState(getSelectionNativeTarget)
 
     const handleFind = () => {
-        if (nativeTarget?.name && selectionTarget instanceof ObjectManager)
-            setTimeout(() =>
-                emitSelectionTarget(
-                    getFoundManager(nativeTarget, selectionTarget)
-                )
-            )
+        //mark
+        // if (nativeTarget?.name && selectionTarget instanceof ObjectManager)
+        //     setTimeout(() =>
+        //         emitSelectionTarget(
+        //             getFoundManager(nativeTarget, selectionTarget)
+        //         )
+        //     )
     }
 
     return (

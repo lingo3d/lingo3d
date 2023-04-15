@@ -1,26 +1,11 @@
-import { Object3D, PropertyBinding } from "three"
+import { Object3D } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import IObjectManager from "../../interface/IObjectManager"
-import FoundManager from "./FoundManager"
-import { getManager, setManager } from "../../api/utils/getManager"
+import { setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
-import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
-import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
-
-export const getFoundManager = (
-    child: Object3D,
-    parentManager: MeshAppendable
-) => {
-    const childManager = getManager(child)
-    if (childManager) {
-        if (childManager instanceof FoundManager) return childManager
-        return undefined
-    }
-    return new FoundManager(child, parentManager)
-}
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -107,42 +92,5 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         this.object3d.scale.z = val * CM2M
         pxUpdateShapeSet.add(this)
         addUpdatePhysicsSystem(this)
-    }
-
-    public find(name: string) {
-        const child = indexChilrenNames(this.outerObject3d).get(
-            PropertyBinding.sanitizeNodeName(name)
-        )
-        if (!child) return
-        return getFoundManager(child, this)
-    }
-
-    public findAll(name?: string | RegExp | ((name: string) => boolean)) {
-        const result: Array<FoundManager> = []
-        if (name === undefined)
-            this.outerObject3d.traverse((child) => {
-                const found = getFoundManager(child, this)
-                found && result.push(found)
-            })
-        else if (typeof name === "string") {
-            const sanitized = PropertyBinding.sanitizeNodeName(name)
-            this.outerObject3d.traverse((child) => {
-                if (child.name !== sanitized) return
-                const found = getFoundManager(child, this)
-                found && result.push(found)
-            })
-        } else if (typeof name === "function")
-            this.outerObject3d.traverse((child) => {
-                if (!name(child.name)) return
-                const found = getFoundManager(child, this)
-                found && result.push(found)
-            })
-        else
-            this.outerObject3d.traverse((child) => {
-                if (!name.test(child.name)) return
-                const found = getFoundManager(child, this)
-                found && result.push(found)
-            })
-        return result
     }
 }
