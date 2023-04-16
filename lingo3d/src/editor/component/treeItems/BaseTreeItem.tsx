@@ -8,6 +8,7 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import { Object3D } from "three"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 import useMouseDown from "../../hooks/useMouseDown"
+import { TREE_ITEM_HEIGHT } from "../../../globals"
 
 export type Props = {
     label?: string
@@ -48,7 +49,7 @@ const BaseTreeItem = ({
     expandable = !!children,
     outlined,
     IconComponent,
-    height
+    height = TREE_ITEM_HEIGHT
 }: Props) => {
     const expandIconStyle = {
         opacity: expandable ? 0.5 : 0.05,

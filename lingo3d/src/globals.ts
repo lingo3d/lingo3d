@@ -30,3 +30,4 @@ export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
 export const LIBRARY_WIDTH = 200
 export const EDITOR_WIDTH = 300
+export const TREE_ITEM_HEIGHT = 18
