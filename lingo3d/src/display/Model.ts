@@ -1,4 +1,4 @@
-import { Group, Object3D, PropertyBinding } from "three"
+import { Group, PropertyBinding } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -21,14 +21,10 @@ import {
 } from "../collections/reflectionCollections"
 import { measure } from "../utilsCached/measure"
 import { indexChilrenNames } from "../utilsCached/indexChildrenNames"
-import { getManager } from "../api/utils/getManager"
 import { modelSet } from "../collections/typeGuards"
+import { getFoundManager } from "../api/utils/getFoundManager"
 
 const supported = new Set(["fbx", "glb", "gltf"])
-
-const getFoundManager = (child: Object3D, parentManager: Model) =>
-    (getManager(child) ??
-        new FoundManager(child, parentManager)) as FoundManager
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
