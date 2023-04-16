@@ -7,7 +7,6 @@ import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
-import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
 import {
     updateLightDirection,
@@ -22,8 +21,9 @@ import {
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { Color } from "three"
 import { ColorString } from "../../interface/ITexturedStandard"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
-export default class SkyLight extends SimpleObjectManager implements ISkyLight {
+export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static componentName = "skyLight"
     public static defaults = skyLightDefaults
     public static schema = skyLightSchema

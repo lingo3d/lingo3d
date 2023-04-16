@@ -1,27 +1,27 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import ISimpleObjectManager, {
-    simpleObjectManagerDefaults,
-    simpleObjectManagerSchema
-} from "./ISimpleObjectManager"
 import Range from "./utils/Range"
 import { ColorString } from "./ITexturedStandard"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 
-export default interface ISkyLight extends ISimpleObjectManager {
+export default interface ISkyLight extends IMeshAppendable {
     intensity: number
     color: ColorString
     castShadow: boolean
 }
 
 export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
-    ...simpleObjectManagerSchema,
+    ...meshAppendableSchema,
     intensity: Number,
     color: String,
     castShadow: Boolean
 }
 
 export const skyLightDefaults = extendDefaults<ISkyLight>(
-    [simpleObjectManagerDefaults],
+    [meshAppendableDefaults],
     { intensity: 1, color: "#ffffff", castShadow: true },
     { intensity: new Range(0, 10) },
     { color: true, castShadow: true }
