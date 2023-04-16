@@ -1,5 +1,4 @@
 import { ComponentChild } from "preact"
-import { Object3D } from "three"
 import Appendable from "../../../api/core/Appendable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import downloadBlob from "../../../api/files/downloadBlob"
@@ -35,6 +34,7 @@ import VisibleObjectManager from "../../../display/core/VisibleObjectManager"
 import { librarySignal } from "../../Library/librarySignal"
 import { selectTab } from "../../component/tabs/Tab"
 import { sceneGraphContextMenuSignal } from "."
+import Model from "../../../display/Model"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -123,7 +123,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                 </MenuButton>
             )
         else if (selectionTarget instanceof MeshAppendable) {
-            if (selectionTarget instanceof VisibleObjectManager) {
+            if (selectionTarget instanceof Model)
                 children.push(
                     <MenuButton
                         onClick={() =>
@@ -135,8 +135,10 @@ const MenuItems = ({ selectionTarget }: Props) => {
                         }
                     >
                         Search children
-                    </MenuButton>,
-
+                    </MenuButton>
+                )
+            if (selectionTarget instanceof VisibleObjectManager) {
+                children.push(
                     <MenuButton
                         onClick={() => {
                             const template = new Template()

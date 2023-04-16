@@ -21,6 +21,7 @@ import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { isTemplate } from "../../collections/typeGuards"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import FoundManager from "../../display/core/FoundManager"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -34,26 +35,25 @@ const AccordionSceneGraph = () => {
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionTarget = useSyncState(getSelectionTarget)
 
-    const handleFind = () => {
-        //mark
-        // if (nativeTarget?.name && selectionTarget instanceof ObjectManager)
-        //     setTimeout(() =>
-        //         emitSelectionTarget(
-        //             getFoundManager(nativeTarget, selectionTarget)
-        //         )
-        //     )
-    }
-
     return (
         <div className="lingo3d-absfull lingo3d-flexcol">
             <TitleBar title="scenegraph">
-                {/* <IconButton
+                <IconButton
                     borderless
-                    disabled={!nativeTarget}
-                    onClick={handleFind}
+                    disabled={
+                        !(
+                            selectionTarget instanceof FoundManager &&
+                            selectionTarget.disableSceneGraph
+                        )
+                    }
+                    onClick={() => {
+                        selectionTarget!.disableSceneGraph = false
+                        selectionTarget!.disableSerialize = false
+                        emitSceneGraphChange()
+                    }}
                 >
                     <FindIcon />
-                </IconButton> */}
+                </IconButton>
                 <IconButton
                     borderless
                     disabled={!multipleSelectionTargets.size}
