@@ -5,27 +5,37 @@ import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
 import useSyncState from "../hooks/useSyncState"
-import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
+import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getManager } from "../../api/utils/getManager"
+import FoundManager from "../../display/core/FoundManager"
 
-type NativeTreeItemProps = TreeItemProps & {
+type NativeTreeItemProps = Omit<TreeItemProps, "appendable"> & {
     object3d: Object3D | Bone
 }
 
-const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
+const NativeTreeItem = ({ object3d }: NativeTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
-    const nativeTarget = useSyncState(getSelectionNativeTarget)
 
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
     useEffect(() => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
     }, [sceneGraphExpanded])
 
-    const selected = nativeTarget === object3d
+    const appendable = useMemo(
+        () => getManager(object3d) ?? new FoundManager(object3d),
+        [object3d]
+    )
+    const selectionTarget = useSyncState(getSelectionTarget)
+    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
+    const selected =
+        selectionTarget === appendable ||
+        multipleSelectionTargets.has(appendable)
 
     const IconComponent = useMemo(() => {
         if ("isBone" in object3d) return BoneIcon
@@ -39,10 +49,8 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
             draggable
             myDraggingItem={object3d}
             onCollapse={() => setSceneGraphExpanded(undefined)}
-            onClick={(e) => handleTreeItemClick(e, object3d, false, appendable)}
-            onContextMenu={(e) =>
-                handleTreeItemClick(e, object3d, true, appendable)
-            }
+            onClick={(e) => handleTreeItemClick(e, appendable)}
+            onContextMenu={(e) => handleTreeItemClick(e, appendable, true)}
             expanded={expanded}
             expandable={!!object3d.children.length}
             outlined
@@ -50,11 +58,7 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
         >
             {() =>
                 object3d.children.map((child) => (
-                    <NativeTreeItem
-                        key={child.uuid}
-                        object3d={child}
-                        appendable={appendable}
-                    />
+                    <NativeTreeItem key={child.uuid} object3d={child} />
                 ))
             }
         </BaseTreeItem>

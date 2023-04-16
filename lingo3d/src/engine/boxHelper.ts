@@ -1,7 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
@@ -12,10 +11,7 @@ createEffect(() => {
     const isMeshAppendable = selectionTarget && "object3d" in selectionTarget
     if (isMeshAppendable && !selectionTarget.object3d.parent) return
 
-    const target =
-        getSelectionNativeTarget() ??
-        (isMeshAppendable ? selectionTarget.object3d : undefined)
-
+    const target = isMeshAppendable ? selectionTarget.object3d : undefined
     if (!target) return
 
     const boxHelper = new BoxHelper(target)
@@ -28,7 +24,7 @@ createEffect(() => {
         deleteUpdateSystem(boxHelper)
         boxHelper.dispose()
     }
-}, [getSelectionTarget, getSelectionNativeTarget])
+}, [getSelectionTarget])
 
 createEffect(() => {
     const [targets] = getMultipleSelectionTargets()

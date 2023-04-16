@@ -11,7 +11,9 @@ import { CCDIKSolver } from "three/examples/jsm/animation/CCDIKSolver"
 import { standardMaterial } from "../display/utils/reusables"
 import { onBeforeRender } from "../events/onBeforeRender"
 import scene from "../engine/scene"
-import { setSelectionNativeTarget } from "../states/useSelectionNativeTarget"
+import { setSelectionTarget } from "../states/useSelectionTarget"
+import { getManager } from "../api/utils/getManager"
+import FoundManager from "../display/core/FoundManager"
 
 function createGeometry(sizing: any) {
     const geometry = new CylinderGeometry(
@@ -98,7 +100,7 @@ targetBone.position.y = 24 + 8
 rootBone.add(targetBone)
 bones.push(targetBone)
 
-setSelectionNativeTarget(targetBone)
+setSelectionTarget(getManager(targetBone) ?? new FoundManager(targetBone))
 
 //
 // skinned mesh

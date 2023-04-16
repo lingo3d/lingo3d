@@ -12,7 +12,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { setTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
@@ -49,12 +48,10 @@ const lazyTransformControls = lazy(async () => {
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
-    const nativeTarget = getSelectionNativeTarget()
     const target =
-        nativeTarget ??
-        (selectionTarget && "outerObject3d" in selectionTarget
+        selectionTarget && "outerObject3d" in selectionTarget
             ? selectionTarget.outerObject3d
-            : undefined)
+            : undefined
 
     if (!target) return
 
@@ -90,10 +87,6 @@ createEffect(() => {
             ssrExcludeSet.delete(transformControls)
         })
     })
-    if (nativeTarget)
-        return () => {
-            handle0.cancel()
-        }
     const eventTargets: Array<Appendable> = []
     selectionTarget && eventTargets.push(selectionTarget)
     for (const target of getMultipleSelectionTargets()[0])
@@ -110,7 +103,6 @@ createEffect(() => {
     }
 }, [
     getSelectionTarget,
-    getSelectionNativeTarget,
     getEditorModeComputed,
     getTransformControlsSpaceComputed,
     getTransformControlsSnap

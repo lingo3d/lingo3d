@@ -11,6 +11,7 @@ import { pt3d0, vector2 } from "../display/utils/reusables"
 import { vec2Point } from "../display/utils/vec2Point"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import Loaded from "../display/core/Loaded"
+import FoundManager from "../display/core/FoundManager"
 
 const raycaster = new Raycaster()
 
@@ -18,8 +19,7 @@ type RaycastResult = {
     point: Point3d
     distance: number
     normal: Point3d
-    manager?: VisibleMixin
-    mesh: Object3D
+    manager: VisibleMixin
 }
 type RaycastData = {
     x: number
@@ -35,12 +35,13 @@ export const mouseRaycast = computePerFrameWithData(
         const candidateArray = [...candidates]
         additionalCandidate && candidateArray.push(additionalCandidate)
         const [intersection] = raycaster.intersectObjects(candidateArray, false)
-        const manager =
-            intersection &&
-            (getManager(intersection.object) as
-                | VisibleMixin
-                | Loaded
-                | undefined)
+        const manager = (
+            intersection
+                ? getManager(intersection.object) ??
+                  new FoundManager(intersection.object)
+                : undefined
+        ) as VisibleMixin | Loaded | undefined
+
         const pxHit = physxPtr[0].pxRaycast?.(
             assignPxVec(raycaster.ray.origin),
             assignPxVec_(raycaster.ray.direction),
@@ -53,22 +54,19 @@ export const mouseRaycast = computePerFrameWithData(
                 (manager && "loaded" in manager && manager.loaded.done))
         ) {
             const { x, y, z } = pxHit.normal
-            const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
             return {
                 point: vec2Point(pxHit.position),
                 distance: pxHit.distance * M2CM,
                 normal: new Point3d(x, y, z),
-                manager,
-                mesh: manager.object3d
+                manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
             }
         }
-        if (intersection)
+        if (intersection && manager)
             return {
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
-                manager,
-                mesh: intersection.object
+                manager
             }
     }
 )

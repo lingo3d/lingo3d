@@ -21,12 +21,12 @@ import {
 } from "../collections/reflectionCollections"
 import { measure } from "../utilsCached/measure"
 import { indexChilrenNames } from "../utilsCached/indexChildrenNames"
-import MeshAppendable from "../api/core/MeshAppendable"
 import { getManager } from "../api/utils/getManager"
+import { modelSet } from "../collections/typeGuards"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
-const getFoundManager = (child: Object3D, parentManager: MeshAppendable) =>
+const getFoundManager = (child: Object3D, parentManager: Model) =>
     (getManager(child) ??
         new FoundManager(child, parentManager)) as FoundManager
 
@@ -37,6 +37,7 @@ export default class Model extends Loaded<Group> implements IModel {
 
     public constructor(private unmounted?: boolean) {
         super(unmounted)
+        modelSet.add(this)
     }
 
     private loadingState = new Reactive(0)
@@ -252,7 +253,24 @@ export default class Model extends Loaded<Group> implements IModel {
         if (child) return getFoundManager(child, this)
     }
 
-    public findAll(name?: string | RegExp) {
+    public findOne(name: string | RegExp | ((childName: string) => boolean)) {
+        if (!this.loadedObject3d) return
+
+        const children = indexChilrenNames(this.loadedObject3d)
+        if (typeof name === "string") {
+            const sanitized = PropertyBinding.sanitizeNodeName(name)
+            for (const child of children.values())
+                if (child.name.startsWith(sanitized))
+                    return getFoundManager(child, this)
+        } else if (typeof name === "function") {
+            for (const child of children.values())
+                if (name(child.name)) return getFoundManager(child, this)
+        } else
+            for (const child of children.values())
+                if (name.test(child.name)) return getFoundManager(child, this)
+    }
+
+    public findAll(name?: string | RegExp | ((childName: string) => boolean)) {
         const result: Array<FoundManager> = []
         if (!this.loadedObject3d) return result
 
@@ -265,6 +283,9 @@ export default class Model extends Loaded<Group> implements IModel {
             for (const child of children.values())
                 child.name.startsWith(sanitized) &&
                     result.push(getFoundManager(child, this))
+        } else if (typeof name === "function") {
+            for (const child of children.values())
+                name(child.name) && result.push(getFoundManager(child, this))
         } else
             for (const child of children.values())
                 name.test(child.name) &&

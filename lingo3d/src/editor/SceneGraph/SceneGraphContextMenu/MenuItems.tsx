@@ -38,10 +38,9 @@ import { sceneGraphContextMenuSignal } from "."
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
-    nativeTarget: Object3D | undefined
 }
 
-const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
+const MenuItems = ({ selectionTarget }: Props) => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
@@ -108,7 +107,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
         )
     else if (selectionTarget instanceof Connector) {
         //todo: connector context menu
-    } else if (selectionTarget && !nativeTarget) {
+    } else if (selectionTarget) {
         if (selectionTarget instanceof SpriteSheet)
             children.push(
                 <MenuButton

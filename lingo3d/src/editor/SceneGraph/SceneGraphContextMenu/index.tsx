@@ -4,11 +4,11 @@ import ContextMenu from "../../component/ContextMenu"
 import useSyncState from "../../hooks/useSyncState"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import search from "./search"
-import { getSelectionNativeTarget } from "../../../states/useSelectionNativeTarget"
 import MenuItems from "./MenuItems"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { rightClickPtr } from "../../../pointers/rightClickPtr"
+import Model from "../../../display/Model"
 
 export const sceneGraphContextMenuSignal: Signal<
     | (Point & {
@@ -20,7 +20,6 @@ export const sceneGraphContextMenuSignal: Signal<
 
 const SceneGraphContextMenu = () => {
     const selectionTarget = useSyncState(getSelectionTarget)
-    const nativeTarget = useSyncState(getSelectionNativeTarget)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -40,7 +39,7 @@ const SceneGraphContextMenu = () => {
         return () => {
             clearTimeout(timeout)
         }
-    }, [selectionTarget, nativeTarget])
+    }, [selectionTarget])
 
     if (!sceneGraphContextMenuSignal.value || !ready) return null
 
@@ -55,10 +54,7 @@ const SceneGraphContextMenu = () => {
                 }
             }
         >
-            <MenuItems
-                selectionTarget={selectionTarget}
-                nativeTarget={nativeTarget}
-            />
+            <MenuItems selectionTarget={selectionTarget} />
         </ContextMenu>
     )
 }

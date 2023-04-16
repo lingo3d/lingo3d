@@ -1,25 +1,15 @@
-import { Object3D } from "three"
-import Appendable from "../../../api/core/Appendable"
-import MeshAppendable from "../../../api/core/MeshAppendable"
-import Loaded from "../../../display/core/Loaded"
 import { sceneGraphExpand } from "../../../states/useSceneGraphExpanded"
-import { setSelectionNativeTarget } from "../../../states/useSelectionNativeTarget"
+import Model from "../../../display/Model"
+import { setSelectionTarget } from "../../../states/useSelectionTarget"
+import Appendable from "../../../api/core/Appendable"
 
-export default (n: string, target: Loaded | Appendable | MeshAppendable) => {
+export default (n: string, target: Appendable) => {
+    if (!(target instanceof Model)) return
     const name = n.toLowerCase()
-    let found: Object3D | undefined
-    if (target instanceof Loaded)
-        target.loadedGroup.traverse((item) => {
-            if (found || !item.name.toLowerCase().includes(name)) return
-            found = item
-        })
-    else if ("outerObject3d" in target)
-        target.outerObject3d.traverse((item) => {
-            if (found || !item.name.toLowerCase().includes(name)) return
-            found = item
-        })
+    const found = target.findOne((childName) =>
+        childName.toLowerCase().includes(name)
+    )
     if (!found) return
-
-    setSelectionNativeTarget(found)
-    sceneGraphExpand(found)
+    setSelectionTarget(found)
+    sceneGraphExpand(found.outerObject3d)
 }

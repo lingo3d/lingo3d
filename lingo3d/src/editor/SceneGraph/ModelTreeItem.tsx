@@ -24,12 +24,7 @@ const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
 
     return (
         <TreeItem appendable={appendable} expandable={!!loadedObject3d}>
-            {loadedObject3d && (
-                <NativeTreeItem
-                    appendable={appendable}
-                    object3d={loadedObject3d}
-                />
-            )}
+            {loadedObject3d && <NativeTreeItem object3d={loadedObject3d} />}
         </TreeItem>
     )
 }

@@ -4,7 +4,6 @@ import scene from "../../engine/scene"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
 import IconButton from "../component/IconButton"
@@ -34,7 +33,6 @@ const AccordionSceneGraph = () => {
     )
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionTarget = useSyncState(getSelectionTarget)
-    const nativeTarget = useSyncState(getSelectionNativeTarget)
 
     const handleFind = () => {
         //mark
@@ -49,13 +47,13 @@ const AccordionSceneGraph = () => {
     return (
         <div className="lingo3d-absfull lingo3d-flexcol">
             <TitleBar title="scenegraph">
-                <IconButton
+                {/* <IconButton
                     borderless
                     disabled={!nativeTarget}
                     onClick={handleFind}
                 >
                     <FindIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                     borderless
                     disabled={!multipleSelectionTargets.size}
