@@ -9,9 +9,7 @@ import { physxPtr } from "../pointers/physxPtr"
 import computePerFrameWithData from "./utils/computePerFrameWithData"
 import { pt3d0, vector2 } from "../display/utils/reusables"
 import { vec2Point } from "../display/utils/vec2Point"
-import VisibleMixin from "../display/core/mixins/VisibleMixin"
-import Loaded from "../display/core/Loaded"
-import FoundManager from "../display/core/FoundManager"
+import type VisibleMixin from "../display/core/mixins/VisibleMixin"
 
 const raycaster = new Raycaster()
 
@@ -35,12 +33,7 @@ export const mouseRaycast = computePerFrameWithData(
         const candidateArray = [...candidates]
         additionalCandidate && candidateArray.push(additionalCandidate)
         const [intersection] = raycaster.intersectObjects(candidateArray, false)
-        const manager = (
-            intersection
-                ? getManager(intersection.object) ??
-                  new FoundManager(intersection.object)
-                : undefined
-        ) as VisibleMixin | Loaded | undefined
+        const manager = intersection && getManager(intersection.object)
 
         const pxHit = physxPtr[0].pxRaycast?.(
             assignPxVec(raycaster.ray.origin),
@@ -66,7 +59,8 @@ export const mouseRaycast = computePerFrameWithData(
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
-                manager
+                //mark
+                manager: manager as any
             }
     }
 )

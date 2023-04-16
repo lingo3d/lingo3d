@@ -1,8 +1,12 @@
 import { Object3D } from "three"
 import MeshAppendable from "../core/MeshAppendable"
 import VisibleMixin from "../../display/core/mixins/VisibleMixin"
+import Loaded from "../../display/core/Loaded"
 
-const objectManagerMap = new WeakMap<Object3D, MeshAppendable | VisibleMixin>()
+const objectManagerMap = new WeakMap<
+    Object3D,
+    MeshAppendable | VisibleMixin | Loaded
+>()
 
 export const getManager = (target: Object3D) => objectManagerMap.get(target)
 
