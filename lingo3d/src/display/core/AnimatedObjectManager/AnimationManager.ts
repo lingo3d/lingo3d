@@ -26,7 +26,6 @@ import FoundManager from "../FoundManager"
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
-import { disableSerialize } from "../../../collections/disableSerialize"
 import { uuidMap } from "../../../collections/uuidCollections"
 import { dtPtr } from "../../../pointers/dtPtr"
 
@@ -108,12 +107,10 @@ export default class AnimationManager
         target: object | undefined,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
-        finishEventState?: Reactive<EventFunctions | undefined>,
-        serialized?: boolean
+        finishEventState?: Reactive<EventFunctions | undefined>
     ) {
         super()
-        !serialized && disableSerialize.add(this)
-
+        this.disableSerialize = true
         this.name = name
 
         const mixer = (this.mixer = forceGetInstance(

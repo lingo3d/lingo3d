@@ -24,9 +24,8 @@ export default class Timeline extends AnimationManager implements ITimeline {
             undefined,
             {},
             new Reactive(0),
-            new Reactive<(() => void) | undefined>(undefined),
-            undefined,
-            true
+            new Reactive<(() => void) | undefined>(undefined)
         )
+        this.disableSerialize = false
     }
 }
