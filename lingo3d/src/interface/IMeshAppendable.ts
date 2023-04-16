@@ -11,8 +11,8 @@ import {
 } from "./utils/DefaultMethod"
 import Nullable from "./utils/Nullable"
 import { nullableCallback } from "./utils/NullableCallback"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Range from "./utils/Range"
+import { disableSchema } from "../collections/disableSchema"
 
 export default interface IMeshAppendable extends IAppendable {
     x: number
@@ -78,7 +78,7 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     lookAt: [Function, Array],
     lookTo: [Function, Array]
 }
-hideSchema(["rotation"])
+disableSchema.add("rotation")
 
 export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
     [appendableDefaults],

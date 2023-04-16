@@ -2,7 +2,6 @@ import { isPoint } from "../../utils/isPoint"
 import getDefaultValue, {
     FunctionPtr
 } from "../../interface/utils/getDefaultValue"
-import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
@@ -19,6 +18,7 @@ import {
     isNullableCallbackParam,
     nullableCallbackParams
 } from "../../collections/typeGuards"
+import { disableSchema } from "../../collections/disableSchema"
 
 export class PassthroughCallback {
     public constructor(
@@ -85,7 +85,7 @@ export default (
     for (const schemaKey of Object.keys(
         filterSchema(schema, manager.runtimeSchema, includeKeys)
     )) {
-        if (nonEditorSchemaSet.has(schemaKey)) continue
+        if (disableSchema.has(schemaKey)) continue
 
         const functionPtr: FunctionPtr = [undefined]
         const [defaultValue, isDefaultValue] = structuredCloneDefaultValue(

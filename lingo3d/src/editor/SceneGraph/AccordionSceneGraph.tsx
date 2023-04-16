@@ -18,7 +18,7 @@ import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { isTemplate } from "../../collections/typeGuards"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
@@ -28,7 +28,7 @@ const AccordionSceneGraph = () => {
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter(
-                (item) => !hiddenAppendables.has(item) && !isTemplate(item)
+                (item) => !disableSceneGraph.has(item) && !isTemplate(item)
             ),
         [refresh]
     )

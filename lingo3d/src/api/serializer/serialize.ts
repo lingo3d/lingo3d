@@ -9,7 +9,7 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
+import { disableSerialize } from "../../collections/disableSerialize"
 import { isTemplate, isTemplateNode } from "../../collections/typeGuards"
 
 const serialize = (
@@ -19,7 +19,7 @@ const serialize = (
 ) => {
     const dataParent: Array<AppendableNode> = []
     for (const child of children) {
-        if (nonSerializedAppendables.has(child)) continue
+        if (disableSerialize.has(child)) continue
         const { componentName, schema } = getStaticProperties(child)
 
         const data: Record<string, any> = skipTemplateCheck

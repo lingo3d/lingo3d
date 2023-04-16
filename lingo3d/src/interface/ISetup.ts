@@ -1,9 +1,9 @@
+import { disableSchema } from "../collections/disableSchema"
 import setupStruct from "../engine/setupStruct"
 import { environmentChoices } from "./IEnvironment"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Range from "./utils/Range"
 
 type Type = typeof setupStruct
@@ -41,7 +41,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema(["antiAlias", "pixelRatio", "ssaoIntensity"])
+for (const key of ["antiAlias", "pixelRatio", "ssaoIntensity"])
+    disableSchema.add(key)
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],

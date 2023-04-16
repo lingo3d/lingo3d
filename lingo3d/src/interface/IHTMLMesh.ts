@@ -1,3 +1,4 @@
+import { disableSchema } from "../collections/disableSchema"
 import { ColorString } from "./ITexturedStandard"
 import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
@@ -5,7 +6,6 @@ import IVisibleObjectManager, {
 } from "./IVisibleObjectManager"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export default interface IHTMLMesh extends IVisibleObjectManager {
@@ -22,7 +22,7 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
     cssColor: String,
     sprite: Boolean
 }
-hideSchema(["element"])
+disableSchema.add("element")
 
 export const htmlMeshDefaults = extendDefaults<IHTMLMesh>(
     [visibleObjectManagerDefaults],

@@ -21,7 +21,7 @@ import { getTransformControlsDragging } from "../../../../states/useTransformCon
 import attachRaycastEvent from "./attachRaycastEvent"
 import { getSelectionCandidates } from "./getSelectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
-import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
+import { disableSceneGraph } from "../../../../collections/disableSceneGraph"
 import { selectionCandidates } from "../../../../collections/selectionCandidates"
 import { rightClickPtr } from "../../../../pointers/rightClickPtr"
 import { onMouseClick } from "../../../../events/onMouseClick"
@@ -63,14 +63,14 @@ createEffect(() => {
             if (firstMultipleSelection.current) {
                 const [currentTarget] = selectionTargetPtr
                 currentTarget instanceof MeshAppendable &&
-                    !hiddenAppendables.has(currentTarget) &&
+                    !disableSceneGraph.has(currentTarget) &&
                     addMultipleSelectionTargets(currentTarget)
             }
             firstMultipleSelection.current = false
 
             if (getMultipleSelectionTargets()[0].has(target))
                 deleteMultipleSelectionTargets(target)
-            else if (!hiddenAppendables.has(target))
+            else if (!disableSceneGraph.has(target))
                 addMultipleSelectionTargets(target)
 
             return

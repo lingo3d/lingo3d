@@ -1,11 +1,11 @@
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import ISimpleObjectManager, {
     simpleObjectManagerDefaults,
     simpleObjectManagerSchema
 } from "./ISimpleObjectManager"
+import { disableSchema } from "../collections/disableSchema"
 
 export default interface IObjectManager extends ISimpleObjectManager {
     innerRotationX: number
@@ -38,7 +38,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
     height: Number,
     depth: Number
 }
-hideSchema(["innerRotation"])
+disableSchema.add("innerRotation")
 
 export const objectManagerDefaults = extendDefaults<IObjectManager>(
     [simpleObjectManagerDefaults],

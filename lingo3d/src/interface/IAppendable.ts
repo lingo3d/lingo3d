@@ -1,7 +1,7 @@
 import Appendable from "../api/core/Appendable"
+import { disableSchema } from "../collections/disableSchema"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import {
     nullableCallback,
@@ -25,7 +25,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     name: String,
     runtimeData: Object
 }
-hideSchema(["proxy", "runtimeData", "uuid"])
+for (const key of ["proxy", "runtimeData", "uuid"]) disableSchema.add(key)
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: nullableCallback(nullableCallbackDtParam),

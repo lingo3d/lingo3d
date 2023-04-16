@@ -17,7 +17,7 @@ import {
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { disableSceneGraph } from "../../collections/disableSceneGraph"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -29,7 +29,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const appendableChildren = useMemo(() => {
         return appendable.children
             ? [...appendable.children].filter(
-                  (item) => !hiddenAppendables.has(item)
+                  (item) => !disableSceneGraph.has(item)
               )
             : undefined
     }, [appendable.children?.size])

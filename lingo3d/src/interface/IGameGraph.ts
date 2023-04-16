@@ -1,10 +1,10 @@
+import { disableSchema } from "../collections/disableSchema"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
 } from "./IAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export type GameGraphNode = { type: "node"; x: number; y: number }
@@ -24,7 +24,7 @@ export const gameGraphSchema: Required<ExtractProps<IGameGraph>> = {
     paused: Boolean,
     data: Object
 }
-hideSchema(["data"])
+disableSchema.add("data")
 
 export const gameGraphDefaults = extendDefaults<IGameGraph>(
     [appendableDefaults],

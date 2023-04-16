@@ -13,8 +13,8 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { uuidMap } from "../../collections/uuidCollections"
-import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
-import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { disableSerialize } from "../../collections/disableSerialize"
+import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { disableUnload } from "../../collections/disableUnload"
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
@@ -241,19 +241,17 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public get disableSerialize() {
-        return nonSerializedAppendables.has(this)
+        return disableSerialize.has(this)
     }
     public set disableSerialize(val) {
-        val
-            ? nonSerializedAppendables.add(this)
-            : nonSerializedAppendables.delete(this)
+        val ? disableSerialize.add(this) : disableSerialize.delete(this)
     }
 
     public get disableSceneGraph() {
-        return hiddenAppendables.has(this)
+        return disableSceneGraph.has(this)
     }
     public set disableSceneGraph(val) {
-        val ? hiddenAppendables.add(this) : hiddenAppendables.delete(this)
+        val ? disableSceneGraph.add(this) : disableSceneGraph.delete(this)
     }
 
     public get disableUnload() {

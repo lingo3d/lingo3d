@@ -26,7 +26,7 @@ import FoundManager from "../FoundManager"
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
-import { nonSerializedAppendables } from "../../../collections/nonSerializedAppendables"
+import { disableSerialize } from "../../../collections/disableSerialize"
 import { uuidMap } from "../../../collections/uuidCollections"
 import { dtPtr } from "../../../pointers/dtPtr"
 
@@ -112,7 +112,7 @@ export default class AnimationManager
         serialized?: boolean
     ) {
         super()
-        !serialized && nonSerializedAppendables.add(this)
+        !serialized && disableSerialize.add(this)
 
         this.name = name
 
