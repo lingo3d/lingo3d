@@ -32,12 +32,14 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         super()
 
         const backLight = new DirectionalLight()
-        backLight.disableBehavior(true, true, false)
+        backLight.disableSceneGraph = true
+        backLight.disableSerialize = true
         backLight.helper = false
         addSkyBackLightSystem(this, { backLight })
 
         const ambientLight = new AmbientLight()
-        ambientLight.disableBehavior(true, true, false)
+        ambientLight.disableSceneGraph = true
+        ambientLight.disableSerialize = true
         ambientLight.helper = false
 
         this.then(() => {
@@ -58,7 +60,8 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
 
             if (!this.castShadowState.get()) {
                 const light = new DirectionalLight()
-                light.disableBehavior(true, true, false)
+                light.disableSceneGraph = true
+                light.disableSerialize = true
                 light.intensity = intensity
                 light.color = color
                 this.append(light)

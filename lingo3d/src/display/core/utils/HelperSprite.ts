@@ -8,7 +8,8 @@ export default class HelperSprite extends Sprite {
         owner: MeshAppendable
     ) {
         super()
-        this.disableBehavior(true, true, false)
+        this.disableSceneGraph = true
+        this.disableSerialize = true
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
         this.castShadow = false

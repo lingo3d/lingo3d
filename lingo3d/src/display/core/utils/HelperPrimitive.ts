@@ -8,7 +8,8 @@ export default abstract class HelperPrimitive extends Primitive {
         owner: MeshAppendable | undefined
     ) {
         super(geometry)
-        this.disableBehavior(true, true, false)
+        this.disableSceneGraph = true
+        this.disableSerialize = true
         this.opacity = 0.5
         this.castShadow = false
         this.receiveShadow = false

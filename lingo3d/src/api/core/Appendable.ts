@@ -15,6 +15,7 @@ import { appendableRoot } from "../../collections/appendableRoot"
 import { uuidMap } from "../../collections/uuidCollections"
 import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
 import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { disableUnload } from "../../collections/disableUnload"
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 
@@ -239,13 +240,26 @@ export default class Appendable extends Disposable implements IAppendable {
         return this.watch(new Cancellable(() => deleteLoopSystem(cb)))
     }
 
-    public disableBehavior(
-        disableSceneGraph: boolean,
-        disableSerialize: boolean,
-        preventDeletion: boolean
-    ) {
-        disableSerialize && nonSerializedAppendables.add(this)
-        disableSceneGraph && hiddenAppendables.add(this)
-        preventDeletion && appendableRoot.delete(this)
+    public get disableSerialize() {
+        return nonSerializedAppendables.has(this)
+    }
+    public set disableSerialize(val) {
+        val
+            ? nonSerializedAppendables.add(this)
+            : nonSerializedAppendables.delete(this)
+    }
+
+    public get disableSceneGraph() {
+        return hiddenAppendables.has(this)
+    }
+    public set disableSceneGraph(val) {
+        val ? hiddenAppendables.add(this) : hiddenAppendables.delete(this)
+    }
+
+    public get disableUnload() {
+        return disableUnload.has(this)
+    }
+    public set disableUnload(val) {
+        val ? disableUnload.add(this) : disableUnload.delete(this)
     }
 }

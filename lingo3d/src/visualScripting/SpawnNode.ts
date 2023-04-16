@@ -20,14 +20,17 @@ const spawnConnectors = (
     connectors: Set<Connector>,
     connectedUUIDs: Map<string, string>
 ) => {
-    for (const { from, to, fromProp, toProp, xyz } of connectors)
-        Object.assign(new Connector(), {
+    for (const { from, to, fromProp, toProp, xyz } of connectors) {
+        const connector = Object.assign(new Connector(), {
             from: connectedUUIDs.get(from!),
             fromProp,
             to: connectedUUIDs.get(to!),
             toProp,
             xyz
-        }).disableBehavior(true, true, false)
+        })
+        connector.disableSceneGraph = true
+        connector.disableSerialize = true
+    }
 }
 
 const spawnCached = async (

@@ -50,7 +50,9 @@ import { getGravity, setGravity } from "../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
 
 const defaultSkybox = new Skybox()
-defaultSkybox.disableBehavior(true, true, true)
+defaultSkybox.disableSceneGraph = true
+defaultSkybox.disableSerialize = true
+defaultSkybox.disableUnload = true
 
 export default {
     get defaultLight() {
