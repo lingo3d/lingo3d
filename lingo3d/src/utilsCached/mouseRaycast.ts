@@ -54,13 +54,12 @@ export const mouseRaycast = computePerFrameWithData(
                 manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
             }
         }
-        if (intersection && manager)
+        if (intersection)
             return {
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
                 normal: intersection.face?.normal ?? pt3d0,
-                //mark
-                manager: manager as any
+                manager: manager as VisibleMixin
             }
     }
 )
