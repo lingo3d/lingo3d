@@ -8,15 +8,12 @@ import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
-import useSyncState from "../hooks/useSyncState"
-import {
-    getSceneGraphExpanded,
-    setSceneGraphExpanded
-} from "../../states/useSceneGraphExpanded"
+import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import useSelected from "./useSelected"
+import useExpanded from "./useExpanded"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -34,8 +31,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     }, [appendable.children?.size])
 
     const selected = useSelected(appendable)
-
-    const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
+    const expanded = useExpanded(appendable)
 
     const IconComponent = useMemo(() => {
         if (appendable instanceof AnimationManager) return PlayIcon
@@ -64,10 +60,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
                     ? appendable.attach(draggingItem)
                     : appendable.append(draggingItem)
             }
-            expanded={
-                "outerObject3d" in appendable &&
-                sceneGraphExpanded?.has(appendable.outerObject3d)
-            }
+            expanded={expanded}
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
             onClick={(e) => handleTreeItemClick(e, appendable)}

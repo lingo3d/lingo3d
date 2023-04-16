@@ -1,18 +1,15 @@
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 import { Bone, Object3D } from "three"
 import { TreeItemProps } from "./TreeItem"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
-import useSyncState from "../hooks/useSyncState"
-import {
-    getSceneGraphExpanded,
-    setSceneGraphExpanded
-} from "../../states/useSceneGraphExpanded"
+import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import { getFoundManager } from "../../api/utils/getFoundManager"
 import Model from "../../display/Model"
 import useSelected from "./useSelected"
+import useExpanded from "./useExpanded"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone
@@ -20,13 +17,6 @@ type NativeTreeItemProps = TreeItemProps & {
 }
 
 const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
-    const [expanded, setExpanded] = useState(false)
-
-    const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
-    useEffect(() => {
-        sceneGraphExpanded?.has(object3d) && setExpanded(true)
-    }, [sceneGraphExpanded])
-
     const manager = useMemo(() => {
         const manager = getFoundManager(object3d, appendable)
         manager.disableSceneGraph = true
@@ -35,6 +25,7 @@ const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
     }, [object3d])
 
     const selected = useSelected(manager)
+    const expanded = useExpanded(manager)
 
     const IconComponent = useMemo(() => {
         if ("isBone" in object3d) return BoneIcon
