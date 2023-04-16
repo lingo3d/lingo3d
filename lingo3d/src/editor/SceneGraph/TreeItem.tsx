@@ -14,6 +14,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import useSelected from "./useSelected"
 import useExpanded from "./useExpanded"
+import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -22,13 +23,16 @@ export type TreeItemProps = {
 }
 
 const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
-    const appendableChildren = useMemo(() => {
-        return appendable.children
-            ? [...appendable.children].filter(
-                  (item) => !disableSceneGraph.has(item)
-              )
-            : undefined
-    }, [appendable.children?.size])
+    const refresh = useSceneGraphRefresh()
+    const appendableChildren = useMemo(
+        () =>
+            appendable.children
+                ? [...appendable.children].filter(
+                      (item) => !disableSceneGraph.has(item)
+                  )
+                : undefined,
+        [refresh]
+    )
 
     const selected = useSelected(appendable)
     const expandedSignal = useExpanded(appendable)
