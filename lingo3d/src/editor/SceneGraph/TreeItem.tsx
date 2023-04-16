@@ -3,14 +3,12 @@ import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getDisplayName from "../utils/getDisplayName"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
 import useSyncState from "../hooks/useSyncState"
-import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
@@ -18,6 +16,7 @@ import {
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
+import useSelected from "./useSelected"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -34,11 +33,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             : undefined
     }, [appendable.children?.size])
 
-    const selectionTarget = useSyncState(getSelectionTarget)
-    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
-    const selected =
-        selectionTarget === appendable ||
-        multipleSelectionTargets.has(appendable as any)
+    const selected = useSelected(appendable)
 
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
 

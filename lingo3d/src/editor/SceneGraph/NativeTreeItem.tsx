@@ -10,10 +10,9 @@ import {
     setSceneGraphExpanded
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
-import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getFoundManager } from "../../api/utils/getFoundManager"
 import Model from "../../display/Model"
+import useSelected from "./useSelected"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone
@@ -28,14 +27,14 @@ const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
     }, [sceneGraphExpanded])
 
-    const manager = useMemo(
-        () => getFoundManager(object3d, appendable),
-        [object3d]
-    )
-    const selectionTarget = useSyncState(getSelectionTarget)
-    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
-    const selected =
-        selectionTarget === manager || multipleSelectionTargets.has(manager)
+    const manager = useMemo(() => {
+        const manager = getFoundManager(object3d, appendable)
+        manager.disableSceneGraph = true
+        manager.disableSerialize = true
+        return manager
+    }, [object3d])
+
+    const selected = useSelected(manager)
 
     const IconComponent = useMemo(() => {
         if ("isBone" in object3d) return BoneIcon
