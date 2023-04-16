@@ -8,6 +8,7 @@ import FolderIcon from "./icons/FolderIcon"
 import { useMemo } from "preact/hooks"
 import { pathObjMap } from "../../collections/pathCollections"
 import { firstFolderNamePtr } from "../../pointers/firstFolderNamePtr"
+import { useSignal } from "@preact/signals"
 
 type FileTreeItemProps = {
     fileStructure: any
@@ -25,6 +26,7 @@ const FileTreeItem = ({
         [fileStructure]
     )
     const fileBrowserDir = useSyncState(getFileBrowserDir)
+    const expandedSignal = useSignal(true)
 
     const children = () =>
         fileEntries.map(([name, fileOrFolder]) =>
@@ -44,7 +46,7 @@ const FileTreeItem = ({
     return (
         <BaseTreeItem
             label={folderName}
-            expanded
+            expandedSignal={expandedSignal}
             selected={myPath === fileBrowserDir}
             onClick={() => setFileBrowserDir(myPath)}
             IconComponent={FolderIcon}

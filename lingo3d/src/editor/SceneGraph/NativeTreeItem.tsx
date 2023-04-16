@@ -25,7 +25,7 @@ const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
     }, [object3d])
 
     const selected = useSelected(manager)
-    const expanded = useExpanded(manager)
+    const expandedSignal = useExpanded(manager)
 
     const IconComponent = useMemo(() => {
         if ("isBone" in object3d) return BoneIcon
@@ -41,7 +41,7 @@ const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
             onCollapse={() => setSceneGraphExpanded(undefined)}
             onClick={(e) => handleTreeItemClick(e, manager)}
             onContextMenu={(e) => handleTreeItemClick(e, manager, true)}
-            expanded={expanded}
+            expandedSignal={expandedSignal}
             expandable={!!object3d.children.length}
             outlined
             IconComponent={IconComponent}

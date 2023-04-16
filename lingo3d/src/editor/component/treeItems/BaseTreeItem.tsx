@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact"
-import { useState, useRef, useMemo, useEffect } from "preact/hooks"
+import { useState, useRef, useMemo } from "preact/hooks"
 import CollapseIcon from "../icons/CollapseIcon"
 import ExpandIcon from "../icons/ExpandIcon"
 import Appendable from "../../../api/core/Appendable"
@@ -9,6 +9,7 @@ import { Object3D } from "three"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 import useMouseDown from "../../hooks/useMouseDown"
 import { TREE_ITEM_HEIGHT } from "../../../globals"
+import { Signal } from "@preact/signals"
 
 export type Props = {
     label?: string
@@ -24,7 +25,7 @@ export type Props = {
     onDragEnd?: () => void
     myDraggingItem?: Appendable | MeshAppendable | Object3D
     draggable?: boolean
-    expanded?: boolean
+    expandedSignal?: Signal<boolean>
     expandable?: boolean
     outlined?: boolean
     IconComponent?: any
@@ -45,7 +46,7 @@ const BaseTreeItem = ({
     onDragEnd,
     myDraggingItem,
     draggable,
-    expanded: expandedProp,
+    expandedSignal,
     expandable = !!children,
     outlined,
     IconComponent,
@@ -55,29 +56,22 @@ const BaseTreeItem = ({
         opacity: expandable ? 0.5 : 0.05,
         cursor: "pointer"
     }
-
-    const [expanded, setExpanded] = useState(!!expandedProp)
-    useEffect(() => {
-        setExpanded(!!expandedProp)
-    }, [expandedProp])
-
     const startRef = useMouseDown(onClick)
     const endRef = useRef<HTMLDivElement>(null)
 
     const highlightWidth = useMemo(() => {
         if (!selected || !startRef.current || !endRef.current) return
-
         const boundsStart = startRef.current.getBoundingClientRect()
         const boundsEnd = endRef.current.getBoundingClientRect()
         return boundsEnd.right - boundsStart.left + 4
-    }, [selected, expanded])
+    }, [selected, expandedSignal?.value])
 
     const collapse = () => {
-        setExpanded(false)
+        if (expandedSignal) expandedSignal.value = false
         onCollapse?.()
     }
     const expand = () => {
-        setExpanded(true)
+        if (expandedSignal) expandedSignal.value = true
         onExpand?.()
     }
 
@@ -140,7 +134,7 @@ const BaseTreeItem = ({
             <div
                 ref={startRef}
                 onMouseDown={onMouseDown}
-                onDblClick={expanded ? collapse : expand}
+                onDblClick={expandedSignal?.value ? collapse : expand}
                 onContextMenu={onContextMenu}
                 style={{
                     display: "flex",
@@ -158,7 +152,7 @@ const BaseTreeItem = ({
                     height
                 }}
             >
-                {expanded ? (
+                {expandedSignal?.value ? (
                     <CollapseIcon style={expandIconStyle} onClick={collapse} />
                 ) : (
                     <ExpandIcon style={expandIconStyle} onClick={expand} />
@@ -168,7 +162,7 @@ const BaseTreeItem = ({
                     {label}
                 </div>
             </div>
-            {expanded &&
+            {expandedSignal?.value &&
                 (typeof children === "function" ? children() : children)}
         </div>
     )

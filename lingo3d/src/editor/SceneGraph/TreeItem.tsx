@@ -31,7 +31,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     }, [appendable.children?.size])
 
     const selected = useSelected(appendable)
-    const expanded = useExpanded(appendable)
+    const expandedSignal = useExpanded(appendable)
 
     const IconComponent = useMemo(() => {
         if (appendable instanceof AnimationManager) return PlayIcon
@@ -60,7 +60,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
                     ? appendable.attach(draggingItem)
                     : appendable.append(draggingItem)
             }
-            expanded={expanded}
+            expandedSignal={expandedSignal}
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
             onClick={(e) => handleTreeItemClick(e, appendable)}
