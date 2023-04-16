@@ -132,7 +132,9 @@ const BaseTreeItem = ({
                 color: "rgba(255, 255, 255, 0.75)",
                 marginLeft: 8,
                 borderLeft: "1px solid rgba(255, 255, 255, 0.05)",
-                background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none"
+                backgroundColor: dragOver
+                    ? "rgba(255, 255, 255, 0.5)"
+                    : undefined
             }}
         >
             <div

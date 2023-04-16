@@ -1,6 +1,7 @@
 import { useState } from "preact/hooks"
 import Appendable from "../../../api/core/Appendable"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
+import { TREE_ITEM_HEIGHT } from "../../../globals"
 
 type Props = {
     onDrop?: (draggingItem: Appendable) => void
@@ -32,9 +33,11 @@ const EmptyTreeItem = ({ onDrop }: Props) => {
                     onDrop?.(draggingItemPtr[0])
             }}
             style={{
-                background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none",
+                backgroundColor: dragOver
+                    ? "rgba(255, 255, 255, 0.5)"
+                    : undefined,
                 width: "100%",
-                height: 18
+                height: TREE_ITEM_HEIGHT
             }}
         />
     )
