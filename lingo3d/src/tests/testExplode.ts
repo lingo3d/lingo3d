@@ -8,7 +8,9 @@ model.onLoad = () => {
     for (const part of model.findAll()) {
         const direction = mathFn.normalize(part.getCenter())
         part.onLoop = () => {
-            part.moveDirection(direction, 0.1)
+            part.translateX(direction.x * 0.1)
+            part.translateY(direction.y * 0.1)
+            part.translateZ(direction.z * 0.1)
         }
     }
 }

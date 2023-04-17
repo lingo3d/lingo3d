@@ -16,7 +16,7 @@ export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
         const z = Math.abs(quaternion.z - quaternionNew.z)
         const w = Math.abs(quaternion.w - quaternionNew.w)
         if (x + y + z + w < 0.001) {
-            self.cancelHandle("lookTo", undefined)
+            deleteLookToSystem(self)
             self.onLookToEnd?.()
 
             quaternion.copy(quaternionNew)

@@ -34,7 +34,7 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
         )
 
         if (data.z > rotated.y) {
-            self.cancelHandle("lerpTo", undefined)
+            deleteMoveToSystem(self)
             self.onMoveToEnd?.()
         }
         addUpdatePhysicsSystem(self)

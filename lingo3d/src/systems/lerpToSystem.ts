@@ -21,7 +21,7 @@ export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
             Math.abs(self.y - y) < 0.1 &&
             Math.abs(self.z - z) < 0.1
         ) {
-            self.cancelHandle("lerpTo", undefined)
+            deleteLerpToSystem(self)
             self.onMoveToEnd?.()
         }
         self.x = x

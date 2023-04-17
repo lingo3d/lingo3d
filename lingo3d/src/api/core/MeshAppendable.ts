@@ -20,7 +20,7 @@ import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysic
 import { addLerpToSystem, deleteLerpToSystem } from "../../systems/lerpToSystem"
 import { addMoveToSystem, deleteMoveToSystem } from "../../systems/moveToSystem"
 import { addOnMoveSystem, deleteOnMoveSystem } from "../../systems/onMoveSystem"
-import { addLookToSystem, deleteLookToSystem } from "../../systems/lookToSystem"
+import { addLookToSystem } from "../../systems/lookToSystem"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
@@ -217,24 +217,14 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public moveDirection(direction: Point3dType, distance: number) {
-        this.position.addScaledVector(
-            direction as any,
-            distance * CM2M * fpsRatioPtr[0]
-        )
-        addUpdatePhysicsSystem(this)
-    }
-
     public onMoveToEnd: Nullable<() => void>
 
     public lerpTo(x: number, y: number, z: number, alpha = 0.05) {
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
-        this.cancelHandle("lerpTo", () => {
-            addLerpToSystem(this, { from, to, alpha })
-            return new Cancellable(() => deleteLerpToSystem(this))
-        })
+        deleteMoveToSystem(this)
+        addLerpToSystem(this, { from, to, alpha })
     }
 
     public moveTo(x: number, y: number | undefined, z: number, speed = 5) {
@@ -256,10 +246,8 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
         const quad = quadrant(x, z, this.x, this.z)
 
-        this.cancelHandle("lerpTo", () => {
-            addMoveToSystem(this, { sx, sy, sz, x, y, z, quad })
-            return new Cancellable(() => deleteMoveToSystem(this))
-        })
+        deleteLerpToSystem(this)
+        addMoveToSystem(this, { sx, sy, sz, x, y, z, quad })
     }
 
     protected getRay() {
@@ -349,10 +337,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
         quaternion.copy(quaternionOld)
 
-        this.cancelHandle("lookTo", () => {
-            addLookToSystem(this, { quaternion, quaternionNew, a1 })
-            return new Cancellable(() => deleteLookToSystem(this))
-        })
+        addLookToSystem(this, { quaternion, quaternionNew, a1 })
     }
 
     private queryRadius?: number
