@@ -38,12 +38,10 @@ export default class AreaLight extends Plane implements IAreaLight {
             this.then(() => light.dispose())
             addConfigAreaLightSystem(this)
         })
-        this.watch(
-            this.events.on(
-                "transformControls",
-                ({ mode }: TransformControlsPayload) =>
-                    mode === "scale" && addConfigAreaLightSystem(this)
-            )
+        this.events.on(
+            "transformControls",
+            ({ mode }: TransformControlsPayload) =>
+                mode === "scale" && addConfigAreaLightSystem(this)
         )
         addAreaLightIntensitySystem(this)
     }

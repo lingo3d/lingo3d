@@ -1,4 +1,3 @@
-import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { Vector3, Quaternion, Object3D } from "three"
 import { TransformControlsPayload } from "../../events/onTransformControls"
@@ -80,13 +79,6 @@ export default abstract class JointBase
             helper.scale = 0.1
             helper.depthTest = false
 
-            helper.events.on(
-                "transformControls",
-                ({ phase, mode }: TransformControlsPayload) =>
-                    mode === "translate" &&
-                    phase === "end" &&
-                    this.setManualPosition()
-            )
             return () => {
                 helper.dispose()
             }
@@ -104,9 +96,6 @@ export default abstract class JointBase
                 !(fromManager instanceof PhysicsObjectManager)
             )
                 return
-
-            !this.manualPosition &&
-                Object.assign(this, centroid3d([fromManager, toManager]))
 
             fromManager.jointCount++
             toManager.jointCount++
@@ -206,35 +195,5 @@ export default abstract class JointBase
     public set from(val) {
         this._from = val
         this.refreshState.set({})
-    }
-
-    private manualPosition?: boolean
-    private setManualPosition() {
-        this.manualPosition = true
-        this.refreshState.set({})
-    }
-
-    public override get x() {
-        return super.x
-    }
-    public override set x(val) {
-        super.x = val
-        this.setManualPosition()
-    }
-
-    public override get y() {
-        return super.y
-    }
-    public override set y(val) {
-        super.y = val
-        this.setManualPosition()
-    }
-
-    public override get z() {
-        return super.z
-    }
-    public override set z(val) {
-        super.z = val
-        this.setManualPosition()
     }
 }

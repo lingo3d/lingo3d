@@ -8,13 +8,13 @@ ground.y = -350
 ground.color = "blue"
 ground.physics = "map"
 
-const head = new Cube()
-head.scale = 0.5
-head.y = 110
+// const head = new Cube()
+// head.scale = 0.5
+// head.y = 110
 
-const body = new Cube()
-body.height = 150
-body.depth = 50
+// const body = new Cube()
+// body.height = 150
+// body.depth = 50
 
 // const leftArm = new Cube()
 // leftArm.x = -70
