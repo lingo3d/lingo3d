@@ -8,12 +8,12 @@ import MenuItems from "./MenuItems"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { rightClickPtr } from "../../../pointers/rightClickPtr"
-import Model from "../../../display/Model"
 
 export const sceneGraphContextMenuSignal: Signal<
     | (Point & {
           search?: boolean
           createJoint?: boolean
+          hideId?: boolean
       })
     | undefined
 > = signal(undefined)
@@ -47,11 +47,17 @@ const SceneGraphContextMenu = () => {
         <ContextMenu
             positionSignal={sceneGraphContextMenuSignal}
             input={
-                sceneGraphContextMenuSignal.value.search &&
-                selectionTarget && {
-                    label: "Child name",
-                    onInput: (value) => search(value, selectionTarget)
-                }
+                sceneGraphContextMenuSignal.value.search && selectionTarget
+                    ? {
+                          label: "Child name",
+                          onInput: (value) => search(value, selectionTarget)
+                      }
+                    : sceneGraphContextMenuSignal.value.hideId
+                    ? {
+                          label: "Object id",
+                          onInput: (value) => console.log(value)
+                      }
+                    : undefined
             }
         >
             <MenuItems selectionTarget={selectionTarget} />
