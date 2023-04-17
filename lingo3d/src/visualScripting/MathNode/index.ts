@@ -5,7 +5,7 @@ import IMathNode, {
 } from "../../interface/IMathNode"
 import GameGraphChild from "../GameGraphChild"
 import { extractParenthesisTree, compile } from "./compile"
-import functions from "./functions"
+import mathFn from "../../math/mathFn"
 import { Token, TokenList, tokenize } from "./tokenize"
 
 export default class MathNode extends GameGraphChild implements IMathNode {
@@ -14,7 +14,7 @@ export default class MathNode extends GameGraphChild implements IMathNode {
     public static schema = mathNodeSchema
     public static includeKeys = ["expression"]
 
-    protected functions = functions
+    protected mathFn = mathFn
 
     private setRuntimeData(
         runtimeDefaults?: Record<string, any>,

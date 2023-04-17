@@ -1,4 +1,4 @@
-import { Point, Point3d } from "@lincode/math"
+import { Point } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { LingoKeyboardEvent } from "../IKeyboard"
@@ -8,6 +8,7 @@ import {
     isNullableCallbackParam,
     nullableCallbackParams
 } from "../../collections/typeGuards"
+import { Point3dType } from "../../utils/isPoint"
 
 export class NullableCallbackParam {
     public constructor(
@@ -19,7 +20,7 @@ export class NullableCallbackParam {
 }
 
 export type NullableCallbackParamType =
-    | Point3d
+    | Point3dType
     | Point
     | HitEvent
     | LingoMouseEvent

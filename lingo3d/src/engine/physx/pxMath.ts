@@ -1,8 +1,8 @@
-import { Point3d } from "@lincode/math"
 import { Quaternion } from "three"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physxPtr } from "../../pointers/physxPtr"
+import { Point3dType } from "../../utils/isPoint"
 
 let pxVec: any
 let pxVec_: any
@@ -44,9 +44,9 @@ export const setPxVec__ = (x: number, y: number, z: number) => {
     return pxVec__
 }
 
-export const assignPxVec = (pt: Point3d) => setPxVec(pt.x, pt.y, pt.z)
+export const assignPxVec = (pt: Point3dType) => setPxVec(pt.x, pt.y, pt.z)
 
-export const assignPxVec_ = (pt: Point3d) => setPxVec_(pt.x, pt.y, pt.z)
+export const assignPxVec_ = (pt: Point3dType) => setPxVec_(pt.x, pt.y, pt.z)
 
 export const setPxQuat = (x: number, y: number, z: number, w: number) => {
     pxQuat.set_x(x)

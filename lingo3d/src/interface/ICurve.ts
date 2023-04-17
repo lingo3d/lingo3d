@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import IMeshAppendable, {
     meshAppendableDefaults,
     meshAppendableSchema
@@ -7,9 +6,10 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 import { disableSchema } from "../collections/disableSchema"
+import { Point3dType } from "../utils/isPoint"
 
 export default interface ICurve extends IMeshAppendable {
-    points: Array<Point3d>
+    points: Array<Point3dType>
     helper: boolean
     subdivide: number
 }

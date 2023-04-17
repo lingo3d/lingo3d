@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from "three"
 import getVecOnCurve from "./utils/getVecOnCurve"
 import { point2Vec } from "./utils/vec2Point"
@@ -9,6 +8,7 @@ import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { TransformControlsPayload } from "../events/onTransformControls"
+import { Point3dType } from "../utils/isPoint"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -94,7 +94,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                         ({ mode }: TransformControlsPayload) => {
                             if (mode !== "translate") return
                             move = true
-                            Object.assign(pt, helper.worldPosition)
+                            Object.assign(pt, helper.getWorldPosition())
                             this.refreshState.set({})
                         }
                     )
@@ -132,7 +132,7 @@ export default class Curve extends MeshAppendable implements ICurve {
         this.refreshState.set({})
     }
 
-    private _points: Array<Point3d> = []
+    private _points: Array<Point3dType> = []
     public get points() {
         return this._points
     }
@@ -141,7 +141,7 @@ export default class Curve extends MeshAppendable implements ICurve {
         this.refreshState.set({})
     }
 
-    public addPoint(pt: Point3d) {
+    public addPoint(pt: Point3dType) {
         this._points.push(pt)
         this.refreshState.set({})
     }

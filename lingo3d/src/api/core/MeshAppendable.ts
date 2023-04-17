@@ -7,7 +7,7 @@ import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "../utils/getManager"
 import Appendable, { getAppendablesById } from "./Appendable"
-import { Point3d, deg2Rad, quadrant, rad2Deg } from "@lincode/math"
+import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import SpawnPoint from "../../display/SpawnPoint"
 import getActualScale from "../../utilsCached/getActualScale"
@@ -26,6 +26,8 @@ import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import scene from "../../engine/scene"
+import Point3d from "../../math/Point3d"
+import { Point3dType } from "../../utils/isPoint"
 
 const up = new Vector3(0, 1, 0)
 
@@ -176,7 +178,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public setRotationFromDirection(direction: Point3d) {
+    public setRotationFromDirection(direction: Point3dType) {
         const ogParent = this.outerObject3d.parent
         ogParent !== scene && scene.attach(this.outerObject3d)
 
@@ -186,7 +188,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         ogParent !== scene && ogParent!.attach(this.outerObject3d)
     }
 
-    public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
+    public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
             if (!(found instanceof MeshAppendable)) return
@@ -294,10 +296,10 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.rotationZ = val
     }
 
-    public lookAt(target: MeshAppendable | Point3d): void
+    public lookAt(target: MeshAppendable | Point3dType): void
     public lookAt(x: number, y: number | undefined, z: number): void
     public lookAt(
-        a0: MeshAppendable | Point3d | number,
+        a0: MeshAppendable | Point3dType | number,
         a1?: number,
         a2?: number
     ) {
@@ -312,7 +314,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public onLookToEnd: (() => void) | undefined
 
-    public lookTo(target: MeshAppendable | Point3d, alpha?: number): void
+    public lookTo(target: MeshAppendable | Point3dType, alpha?: number): void
     public lookTo(
         x: number,
         y: number | undefined,
@@ -320,7 +322,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         alpha?: number
     ): void
     public lookTo(
-        a0: MeshAppendable | Point3d | number,
+        a0: MeshAppendable | Point3dType | number,
         a1: number | undefined,
         a2?: number,
         a3?: number

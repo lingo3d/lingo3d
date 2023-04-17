@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import { Raycaster, Object3D } from "three"
 import { getManager } from "../api/utils/getManager"
 import { actorPtrManagerMap } from "../collections/pxCollections"
@@ -10,13 +9,15 @@ import computePerFrameWithData from "./utils/computePerFrameWithData"
 import { pt3d0, vector2 } from "../display/utils/reusables"
 import { vec2Point } from "../display/utils/vec2Point"
 import type VisibleMixin from "../display/core/mixins/VisibleMixin"
+import { Point3dType } from "../utils/isPoint"
+import Point3d from "../math/Point3d"
 
 const raycaster = new Raycaster()
 
 type RaycastResult = {
-    point: Point3d
+    point: Point3dType
     distance: number
-    normal: Point3d
+    normal: Point3dType
     manager: VisibleMixin
 }
 type RaycastData = {

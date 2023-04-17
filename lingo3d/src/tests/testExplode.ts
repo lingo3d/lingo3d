@@ -6,4 +6,5 @@ model.src = "bentley1.glb"
 
 model.onLoad = () => {
     const door = model.find("DoorLeft_169")!
+    console.log(door.getCenter())
 }

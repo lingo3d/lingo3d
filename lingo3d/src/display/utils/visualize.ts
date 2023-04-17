@@ -1,14 +1,14 @@
-import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 import { Sphere } from "../.."
 import IPrimitive from "../../interface/IPrimitive"
 import { selectionDisabledSet } from "../../collections/selectionDisabledSet"
+import { Point3dType } from "../../utils/isPoint"
 
 const sphereMap = new Map<string, Sphere>()
 
 export default (
     name: string,
-    pt: Point3d,
+    pt: Point3dType,
     properties?: Partial<IPrimitive>
 ) => {
     const sphere = forceGet(sphereMap, name, () => {

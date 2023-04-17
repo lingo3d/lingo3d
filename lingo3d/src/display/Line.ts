@@ -1,9 +1,9 @@
-import { Point3d } from "@lincode/math"
 import Appendable from "../api/core/Appendable"
 import {
     addConfigLineSystem,
     deleteConfigLineSystem
 } from "../systems/configSystems/configLineSystem"
+import { Point3dType } from "../utils/isPoint"
 
 export default class Line extends Appendable {
     protected override disposeNode() {
@@ -20,7 +20,7 @@ export default class Line extends Appendable {
         addConfigLineSystem(this)
     }
 
-    private _from?: Point3d
+    private _from?: Point3dType
     public get from() {
         return this._from
     }
@@ -29,7 +29,7 @@ export default class Line extends Appendable {
         addConfigLineSystem(this)
     }
 
-    private _to?: Point3d
+    private _to?: Point3dType
     public get to() {
         return this._to
     }

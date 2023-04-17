@@ -94,8 +94,10 @@ import FoundManager from "./display/core/FoundManager"
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
 
-import { Point3d, Point } from "@lincode/math"
+import { Point } from "@lincode/math"
+import Point3d from "./math/Point3d"
 import clientToWorld from "./display/utils/clientToWorld"
+import mathFn from "./math/mathFn"
 
 import { SimpleMouseEvent, LingoMouseEvent } from "./interface/IMouse"
 import { LingoKeyboardEvent } from "./interface/IKeyboard"
@@ -199,6 +201,7 @@ export {
     Point3d,
     Point,
     clientToWorld,
+    mathFn,
     SimpleMouseEvent,
     LingoMouseEvent,
     LingoKeyboardEvent,

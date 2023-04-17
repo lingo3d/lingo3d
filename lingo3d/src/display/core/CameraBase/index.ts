@@ -2,7 +2,7 @@ import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { ray, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
-import { deg2Rad, Point3d } from "@lincode/math"
+import { deg2Rad } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
@@ -22,6 +22,7 @@ import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
+import { Point3dType } from "../../../utils/isPoint"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -59,7 +60,7 @@ export default abstract class CameraBase<
     }
 
     //@ts-ignore
-    public override lookAt(target: MeshAppendable | Point3d): void
+    public override lookAt(target: MeshAppendable | Point3dType): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)

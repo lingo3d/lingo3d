@@ -1,10 +1,11 @@
-import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import {
     isDefaultMethodArg,
     defaultMethodArgs
 } from "../../collections/typeGuards"
+import { Point3dType } from "../../utils/isPoint"
+import Point3d from "../../math/Point3d"
 
 export class DefaultMethodArg {
     public constructor(
@@ -15,7 +16,7 @@ export class DefaultMethodArg {
     }
 }
 
-export type DefaultMethodArgType = Point3d | DefaultMethodArg
+export type DefaultMethodArgType = Point3dType | DefaultMethodArg
 
 export const defaultMethodVoidArg = new DefaultMethodArg()
 export const defaultMethodNumberArg = new DefaultMethodArg(0)

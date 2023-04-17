@@ -1,6 +1,6 @@
-import { Point3d } from "@lincode/math"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { pt3d0 } from "../display/utils/reusables"
+import { Point3dType } from "../utils/isPoint"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -18,8 +18,8 @@ export class LingoMouseEvent {
         public clientY: number,
         public xNorm: number,
         public yNorm: number,
-        public point: Point3d,
-        public normal: Point3d,
+        public point: Point3dType,
+        public normal: Point3dType,
         public distance: number,
         public target: VisibleMixin | undefined
     ) {}

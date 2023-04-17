@@ -1,4 +1,4 @@
-import { deg2Rad, endPoint, Point3d, rad2Deg } from "@lincode/math"
+import { deg2Rad, endPoint, rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import { onRender } from "../../events/onRender"
@@ -20,6 +20,7 @@ import {
     deleteDummyGroundedSystem
 } from "../../systems/dummyGroundedSystem"
 import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
+import { Point3dType } from "../../utils/isPoint"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -174,7 +175,7 @@ export default class Dummy extends Model implements IDummy {
 
                 const quaternionOld = loadedObject3d.quaternion.clone()
 
-                let spinePoint: Point3d | undefined
+                let spinePoint: Point3dType | undefined
                 if (strideMode === "aim" && spine && spineQuaternion) {
                     loadedObject3d.quaternion.copy(loadedItemQuaternion)
                     spine.quaternion.copy(spineQuaternion)

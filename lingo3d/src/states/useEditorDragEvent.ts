@@ -1,4 +1,4 @@
-import { deg2Rad, Point3d } from "@lincode/math"
+import { deg2Rad } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
@@ -13,6 +13,7 @@ import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { selectionDisabledSet } from "../collections/selectionDisabledSet"
 import { mouseRaycast } from "../utilsCached/mouseRaycast"
+import { Point3dType } from "../utils/isPoint"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -20,7 +21,7 @@ export const [setEditorDragEvent, getEditorDragEvent] = store<
     | undefined
 >(undefined)
 
-const snap = (point: Point3d) => {
+const snap = (point: Point3dType) => {
     point.x = Math.round(point.x / 10) * 10
     point.y = Math.round(point.y / 10) * 10
     point.z = Math.round(point.z / 10) * 10
@@ -34,7 +35,7 @@ scene.add(editorPlane)
 
 createEffect(() => {
     const e = getEditorDragEvent()
-    const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
+    const pointRef = createRef<Point3dType>({ x: 0, y: 0, z: 0 })
     const hitManagerRef = createRef<VisibleMixin | undefined>()
 
     const isDragEvent = e instanceof DragEvent

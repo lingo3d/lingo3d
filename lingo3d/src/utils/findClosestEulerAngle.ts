@@ -1,8 +1,12 @@
-import { Point3d } from "@lincode/math"
 import { PI2 } from "../globals"
 import { PI } from "../globals"
+import Point3d from "../math/Point3d"
+import { Point3dType } from "./isPoint"
 
-export const findClosestEulerAngle = (euler1: Point3d, euler2: Point3d) => {
+export const findClosestEulerAngle = (
+    euler1: Point3dType,
+    euler2: Point3dType
+) => {
     // Compute the difference between the two Euler angles
     let diff = [euler2.x - euler1.x, euler2.y - euler1.y, euler2.z - euler1.z]
 

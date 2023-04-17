@@ -2,13 +2,15 @@ import createElement from "../utils/createElement"
 import { lazy, range } from "@lincode/utils"
 import Model from "./Model"
 import FoundManager from "./core/FoundManager"
-import { LowPassFilter, Point3d, mapRange } from "@lincode/math"
+import { LowPassFilter, mapRange } from "@lincode/math"
 import { vector3 } from "./utils/reusables"
 import { event } from "@lincode/events"
 import { HandLandmarkerResult } from "@mediapipe/tasks-vision"
 import { Cancellable } from "@lincode/promiselikes"
+import Point3d from "../math/Point3d"
+import { Point3dType } from "../utils/isPoint"
 
-const getDirection = (fromPoint: Point3d, toPoint: Point3d) =>
+const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3
         .copy(toPoint as any)
         .sub(fromPoint as any)

@@ -1,4 +1,4 @@
-import functions from "./functions"
+import mathFn from "../../math/mathFn"
 import { Token, TokenList } from "./tokenize"
 
 export const extractParenthesisTree = (
@@ -10,7 +10,7 @@ export const extractParenthesisTree = (
     ] of openCloseParenthesisTokens) {
         const { prev } = openParenthesisToken
         if (prev?.type === "text")
-            if (!(prev.value in functions))
+            if (!(prev.value in mathFn))
                 throw new Error(`Invalid function call: ${prev.value}`)
             else prev.type = "function"
 
@@ -29,7 +29,7 @@ export const compile = (tokenList: TokenList, varTokens: Array<Token>) => {
     let result = ""
     for (const token of tokenList) {
         if (token.type === "sign") result += " "
-        else if (token.type === "function") result += "this.functions."
+        else if (token.type === "function") result += "this.mathFn."
         else if (token.type === "text") {
             varTokens.push(token)
             result += "this.runtimeData."

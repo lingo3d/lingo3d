@@ -1,5 +1,7 @@
-import { deg2Rad, mapRange, Point3d, rad2Deg } from "@lincode/math"
+import { deg2Rad, mapRange, rad2Deg } from "@lincode/math"
 import { random } from "nanoid"
+import { Point3dType } from "../utils/isPoint"
+import Point3d from "./Point3d"
 
 export default {
     abs: Math.abs,
@@ -32,21 +34,21 @@ export default {
         Math.min(Math.max(val, min), max),
     fraction: (val: number) => val - Math.floor(val),
     trunc: (val: number) => Math.trunc(val),
-    cross: (a: Point3d, b: Point3d) =>
+    cross: (a: Point3dType, b: Point3dType) =>
         new Point3d(
             a.y * b.z - a.z * b.y,
             a.z * b.x - a.x * b.z,
             a.x * b.y - a.y * b.x
         ),
-    dot: (a: Point3d, b: Point3d) => a.x * b.x + a.y * b.y + a.z * b.z,
-    length: (a: Point3d) => Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z),
-    distance: (a: Point3d, b: Point3d) =>
+    dot: (a: Point3dType, b: Point3dType) => a.x * b.x + a.y * b.y + a.z * b.z,
+    length: (a: Point3dType) => Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z),
+    distance: (a: Point3dType, b: Point3dType) =>
         Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2),
-    normalize: (a: Point3d) => {
+    normalize: (a: Point3dType) => {
         const length = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
         return new Point3d(a.x / length, a.y / length, a.z / length)
     },
-    reflect: (a: Point3d, b: Point3d) => {
+    reflect: (a: Point3dType, b: Point3dType) => {
         const dot = a.x * b.x + a.y * b.y + a.z * b.z
         return new Point3d(
             a.x - 2 * dot * b.x,
@@ -54,18 +56,18 @@ export default {
             a.z - 2 * dot * b.z
         )
     },
-    project: (a: Point3d, b: Point3d) => {
+    project: (a: Point3dType, b: Point3dType) => {
         const dot = a.x * b.x + a.y * b.y + a.z * b.z
         return new Point3d(dot * b.x, dot * b.y, dot * b.z)
     },
-    angle: (a: Point3d, b: Point3d) => {
+    angle: (a: Point3dType, b: Point3dType) => {
         const dot = a.x * b.x + a.y * b.y + a.z * b.z
         const length =
             Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z) *
             Math.sqrt(b.x * b.x + b.y * b.y + b.z * b.z)
         return Math.acos(dot / length)
     },
-    rotate: (a: Point3d, axis: Point3d, angle: number) => {
+    rotate: (a: Point3dType, axis: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         const dot = a.x * axis.x + a.y * axis.y + a.z * axis.z
@@ -81,32 +83,32 @@ export default {
                 (-axis.y * a.x + axis.x * a.y) * sin
         )
     },
-    rotateX: (a: Point3d, angle: number) => {
+    rotateX: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x, a.y * cos - a.z * sin, a.y * sin + a.z * cos)
     },
-    rotateY: (a: Point3d, angle: number) => {
+    rotateY: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x * cos + a.z * sin, a.y, -a.x * sin + a.z * cos)
     },
-    rotateZ: (a: Point3d, angle: number) => {
+    rotateZ: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x * cos - a.y * sin, a.x * sin + a.y * cos, a.z)
     },
-    rotateXY: (a: Point3d, angle: number) => {
+    rotateXY: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x * cos - a.y * sin, a.x * sin + a.y * cos, a.z)
     },
-    rotateXZ: (a: Point3d, angle: number) => {
+    rotateXZ: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x * cos + a.z * sin, a.y, -a.x * sin + a.z * cos)
     },
-    rotateYZ: (a: Point3d, angle: number) => {
+    rotateYZ: (a: Point3dType, angle: number) => {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x, a.y * cos - a.z * sin, a.y * sin + a.z * cos)

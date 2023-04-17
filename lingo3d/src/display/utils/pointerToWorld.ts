@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import { CM2M } from "../../globals"
 import { LingoMouseEvent } from "../../interface/IMouse"
 import { getCameraPointerLock } from "../../states/useCameraPointerLock"
@@ -7,6 +6,7 @@ import normalizeClientPosition from "./normalizeClientPosition"
 import { pt3d0, vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import Point3d from "../../math/Point3d"
 
 export default (ev: { clientX: number; clientY: number }) => {
     const distance = 500

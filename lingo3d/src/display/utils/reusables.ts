@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import {
     Box3,
     Quaternion,
@@ -12,6 +11,7 @@ import {
     DoubleSide,
     Color
 } from "three"
+import Point3d from "../../math/Point3d"
 
 export const vector2 = new Vector2()
 

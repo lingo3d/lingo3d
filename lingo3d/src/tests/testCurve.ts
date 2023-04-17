@@ -1,5 +1,5 @@
-import { Point3d } from "@lincode/math"
 import Curve from "../display/Curve"
+import Point3d from "../math/Point3d"
 
 const curve = new Curve()
 curve.points = [

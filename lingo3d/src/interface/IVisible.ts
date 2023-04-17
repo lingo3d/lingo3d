@@ -1,5 +1,5 @@
-import { Point3d } from "@lincode/math"
 import MeshAppendable from "../api/core/MeshAppendable"
+import { Point3dType } from "../utils/isPoint"
 import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -10,8 +10,8 @@ import { nullableDefault } from "./utils/NullableDefault"
 export class HitEvent {
     public constructor(
         public target: MeshAppendable,
-        public point?: Point3d,
-        public normal?: Point3d
+        public point?: Point3dType,
+        public normal?: Point3dType
     ) {}
 }
 export const hitEvent = new HitEvent(undefined as any)

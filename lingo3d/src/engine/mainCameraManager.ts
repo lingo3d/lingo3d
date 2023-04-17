@@ -21,7 +21,7 @@ mainCameraManager.enableFly = true
 mainCameraManager.mouseControl = false
 
 onEditorCenterView((manager) => {
-    Object.assign(mainCameraManager, manager.worldPosition)
+    Object.assign(mainCameraManager, manager.getWorldPosition())
     const size = getActualScale(manager)
     mainCameraManager.innerZ = Math.max(size.x, size.y, size.z, 1) * M2CM + 50
 })
