@@ -21,7 +21,7 @@ import {
 } from "three"
 
 const ratio = 0.5
-const translatePlaneSize = 0.2
+const translatePlaneSize = 0.15
 const hexRed = 0xcc4444
 const hexGreen = 0x44cc44
 const hexBlue = 0x4444cc
@@ -893,15 +893,15 @@ class TransformControlsGizmo extends Object3D {
                 // ],
                 [new Mesh(lineGeometry2, matBlue), null, [Math.PI / 2, 0, 0]]
             ],
-            XYZ: [
-                [
-                    new Mesh(
-                        new OctahedronGeometry(0.1 * ratio, 0),
-                        matWhiteTransparent.clone()
-                    ),
-                    [0, 0, 0]
-                ]
-            ],
+            // XYZ: [
+            //     [
+            //         new Mesh(
+            //             new OctahedronGeometry(0.1 * ratio, 0),
+            //             matWhiteTransparent.clone()
+            //         ),
+            //         [0, 0, 0]
+            //     ]
+            // ],
             XY: [
                 [
                     new Mesh(
@@ -999,9 +999,9 @@ class TransformControlsGizmo extends Object3D {
                 //     [-Math.PI / 2, 0, 0]
                 // ]
             ],
-            XYZ: [
-                [new Mesh(new OctahedronGeometry(0.2 * ratio, 0), matInvisible)]
-            ],
+            // XYZ: [
+            //     [new Mesh(new OctahedronGeometry(0.2 * ratio, 0), matInvisible)]
+            // ],
             XY: [
                 [
                     new Mesh(
