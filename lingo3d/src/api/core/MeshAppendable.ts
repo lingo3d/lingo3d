@@ -112,16 +112,20 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
-    public get worldPosition() {
+    public getWorldPosition() {
         return vec2Point(getWorldPosition(this.object3d))
     }
 
-    public get canvasX() {
-        return worldToCanvas(this.object3d).x
+    public getCenter() {
+        return vec2Point(getCenter(this.object3d))
     }
 
-    public get canvasY() {
-        return worldToCanvas(this.object3d).y
+    public getWorldDirection() {
+        return getWorldDirection(this.object3d)
+    }
+
+    public getProjectedPosition() {
+        return worldToCanvas(this.object3d)
     }
 
     private _onMove?: () => void
@@ -339,10 +343,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             addLookToSystem(this, { quaternion, quaternionNew, a1 })
             return new Cancellable(() => deleteLookToSystem(this))
         })
-    }
-
-    public get worldDirection() {
-        return getWorldDirection(this.object3d)
     }
 
     private queryRadius?: number

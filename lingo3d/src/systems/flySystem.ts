@@ -1,6 +1,4 @@
 import ObjectManager from "../display/core/ObjectManager"
-import getWorldPosition from "../utilsCached/getWorldPosition"
-import { vec2Point } from "../display/utils/vec2Point"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
@@ -23,7 +21,7 @@ export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
             downSet.has("a") ||
             downSet.has("d")
         ) {
-            const worldPos = vec2Point(getWorldPosition(manager.object3d))
+            const worldPos = manager.getWorldPosition()
             manager.innerZ = 0
             manager.placeAt(worldPos)
         }
