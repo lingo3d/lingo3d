@@ -21,12 +21,11 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static defaults = foundManagerDefaults
     public static schema = foundManagerSchema
 
-    public constructor(mesh: Object3D | StandardMesh, private owner: Model) {
+    public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
         super(mesh, true)
-        owner.appendNode(this)
+        owner?.appendNode(this)
         this.disableSceneGraph = true
         this.disableSerialize = true
-        this.name = mesh.name
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults
@@ -44,7 +43,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     private retargetAnimations() {
         if (this.retargeted) return
 
-        const state = this.owner.lazyStates()
+        const state = (this.parent as Model).lazyStates()
         if (!state) return
 
         const {
