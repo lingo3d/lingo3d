@@ -217,6 +217,14 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         addUpdatePhysicsSystem(this)
     }
 
+    public moveDirection(direction: Point3dType, distance: number) {
+        this.position.addScaledVector(
+            direction as any,
+            distance * CM2M * fpsRatioPtr[0]
+        )
+        addUpdatePhysicsSystem(this)
+    }
+
     public onMoveToEnd: Nullable<() => void>
 
     public lerpTo(x: number, y: number, z: number, alpha = 0.05) {

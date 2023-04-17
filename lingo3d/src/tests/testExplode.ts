@@ -1,10 +1,14 @@
 import Model from "../display/Model"
-import { onBeforeRender } from "../events/onBeforeRender"
+import mathFn from "../math/mathFn"
 
 const model = new Model()
 model.src = "bentley1.glb"
 
 model.onLoad = () => {
-    const door = model.find("DoorLeft_169")!
-    console.log(door.getCenter())
+    for (const part of model.findAll()) {
+        const direction = mathFn.normalize(part.getCenter())
+        part.onLoop = () => {
+            part.moveDirection(direction, 0.1)
+        }
+    }
 }
