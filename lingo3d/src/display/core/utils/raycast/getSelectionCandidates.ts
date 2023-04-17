@@ -10,7 +10,6 @@ import VisibleMixin from "../../mixins/VisibleMixin"
 import { appendableRoot } from "../../../../collections/appendableRoot"
 import { selectionCandidates } from "../../../../collections/selectionCandidates"
 import { selectionDisabledSet } from "../../../../collections/selectionDisabledSet"
-import { getManager } from "../../../../api/utils/getManager"
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
@@ -25,27 +24,22 @@ const traverse = (
     }
 }
 
-const traverseNative = (
+const traverseNative = async (
     selectionFocus: MeshAppendable,
     frozenSet: Set<Appendable>
 ) => {
+    const { getFoundManager } = await import(
+        "../../../../api/utils/getFoundManager"
+    )
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
             child === selectionFocus.outerObject3d ||
             child === selectionFocus.object3d
         )
             return
-        const manager = getManager(child)
-        if (manager) {
-            if (frozenSet.has(manager) || selectionDisabledSet.has(manager))
-                return
-            "addToRaycastSet" in manager &&
-                manager.addToRaycastSet(selectionCandidates)
-            return
-        }
-        "material" in child &&
-            child.material.userData.TextureManager &&
-            selectionCandidates.add(child)
+        const manager = getFoundManager(child, selectionFocus as any)
+        if (frozenSet.has(manager) || selectionDisabledSet.has(manager)) return
+        manager.addToRaycastSet(selectionCandidates)
     })
 }
 
