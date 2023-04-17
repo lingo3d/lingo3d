@@ -3,7 +3,7 @@ import { uuidMap } from "../../collections/uuidCollections"
 import DummyIK from "../../display/DummyIK"
 import Model from "../../display/Model"
 import { getSkeleton } from "../../utilsCached/getSkeleton"
-import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
+import { indexChildrenNames } from "../../utilsCached/indexChildrenNames"
 import configSystem from "../utils/configSystem"
 import { getBoneIndexMap } from "../../utilsCached/getBoneIndexMap"
 import { CCDIKSolver } from "three/examples/jsm/animation/CCDIKSolver"
@@ -27,7 +27,7 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
     const skeleton = getSkeleton(dummy.loadedObject3d)
     if (!skeleton) return
 
-    const nameChildMap = indexChilrenNames(dummy.loadedObject3d)
+    const nameChildMap = indexChildrenNames(dummy.loadedObject3d)
     const boneIndexMap = getBoneIndexMap(skeleton)
 
     if (hips && spine0 && spine1 && spine2 && neck) {

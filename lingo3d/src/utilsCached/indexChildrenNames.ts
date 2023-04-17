@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import computeOnce from "./utils/computeOnce"
 
-export const indexChilrenNames = computeOnce((parent: Object3D) => {
+export const indexChildrenNames = computeOnce((parent: Object3D) => {
     const result = new Map<string, Object3D>()
     parent.traverse((child) => result.set(child.name, child))
     return result

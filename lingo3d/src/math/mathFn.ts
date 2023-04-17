@@ -1,7 +1,7 @@
 import { deg2Rad, mapRange, rad2Deg } from "@lincode/math"
-import { random } from "nanoid"
 import { Point3dType } from "../utils/isPoint"
 import Point3d from "./Point3d"
+import { random } from "@lincode/utils"
 
 export default {
     abs: Math.abs,
@@ -112,5 +112,9 @@ export default {
         const cos = Math.cos(angle)
         const sin = Math.sin(angle)
         return new Point3d(a.x, a.y * cos - a.z * sin, a.y * sin + a.z * cos)
+    },
+    multiply: (a: Point3dType, b: Point3dType | number) => {
+        if (typeof b === "number") return new Point3d(a.x * b, a.y * b, a.z * b)
+        return new Point3d(a.x * b.x, a.y * b.y, a.z * b.z)
     }
 }

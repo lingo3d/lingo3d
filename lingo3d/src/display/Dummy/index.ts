@@ -19,7 +19,7 @@ import {
     addDummyGroundedSystem,
     deleteDummyGroundedSystem
 } from "../../systems/dummyGroundedSystem"
-import { indexChilrenNames } from "../../utilsCached/indexChildrenNames"
+import { indexChildrenNames } from "../../utilsCached/indexChildrenNames"
 import { Point3dType } from "../../utils/isPoint"
 
 export default class Dummy extends Model implements IDummy {
@@ -57,15 +57,15 @@ export default class Dummy extends Model implements IDummy {
                     if (spineName === "mixamorigSpine") setType("mixamo")
                     else if (
                         spineName === "Spine" &&
-                        (indexChilrenNames(loaded).get("Wolf3D_Body") ||
-                            indexChilrenNames(loaded).get("Wolf3D_Avatar"))
+                        (indexChildrenNames(loaded).get("Wolf3D_Body") ||
+                            indexChildrenNames(loaded).get("Wolf3D_Avatar"))
                     )
                         setType("readyplayerme")
                     return
                 }
                 if (
-                    indexChilrenNames(loaded).get("Wolf3D_Body") ||
-                    indexChilrenNames(loaded).get("Wolf3D_Avatar")
+                    indexChildrenNames(loaded).get("Wolf3D_Body") ||
+                    indexChildrenNames(loaded).get("Wolf3D_Avatar")
                 ) {
                     setSpine(this.find("Spine"))
                     setType("readyplayerme")

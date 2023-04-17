@@ -1,4 +1,4 @@
-import { Group, PropertyBinding } from "three"
+import { Group, Object3D, PropertyBinding } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -20,8 +20,9 @@ import {
     reflectionChangedSet
 } from "../collections/reflectionCollections"
 import { measure } from "../utilsCached/measure"
-import { indexChilrenNames } from "../utilsCached/indexChildrenNames"
+import { indexChildrenNames } from "../utilsCached/indexChildrenNames"
 import { getFoundManager } from "../api/utils/getFoundManager"
+import { indexMeshChildrenNames } from "../utilsCached/indexMeshChildrenNames"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
@@ -241,16 +242,16 @@ export default class Model extends Loaded<Group> implements IModel {
 
     public find(name: string) {
         if (!this.loadedObject3d) return
-        const child = indexChilrenNames(this.loadedObject3d).get(
+        const child = indexChildrenNames(this.loadedObject3d).get(
             PropertyBinding.sanitizeNodeName(name)
         )
         if (child) return getFoundManager(child, this)
     }
 
-    public findOne(name: string | RegExp | ((childName: string) => boolean)) {
-        if (!this.loadedObject3d) return
-
-        const children = indexChilrenNames(this.loadedObject3d)
+    private _findFirst(
+        name: string | RegExp | ((childName: string) => boolean),
+        children: Map<string, Object3D>
+    ) {
         if (typeof name === "string") {
             const sanitized = PropertyBinding.sanitizeNodeName(name)
             for (const child of children.values())
@@ -263,12 +264,25 @@ export default class Model extends Loaded<Group> implements IModel {
             for (const child of children.values())
                 if (name.test(child.name)) return getFoundManager(child, this)
     }
+    public findFirst(name: string | RegExp | ((childName: string) => boolean)) {
+        if (!this.loadedObject3d) return
+        return this._findFirst(name, indexChildrenNames(this.loadedObject3d))
+    }
+    public findFirstMesh(
+        name: string | RegExp | ((childName: string) => boolean)
+    ) {
+        if (!this.loadedObject3d) return
+        return this._findFirst(
+            name,
+            indexMeshChildrenNames(this.loadedObject3d)
+        )
+    }
 
-    public findAll(name?: string | RegExp | ((childName: string) => boolean)) {
+    private _findAll(
+        name: string | RegExp | ((childName: string) => boolean) | undefined,
+        children: Map<string, Object3D>
+    ) {
         const result: Array<FoundManager> = []
-        if (!this.loadedObject3d) return result
-
-        const children = indexChilrenNames(this.loadedObject3d)
         if (name === undefined)
             for (const child of children.values())
                 result.push(getFoundManager(child, this))
@@ -286,5 +300,15 @@ export default class Model extends Loaded<Group> implements IModel {
                     result.push(getFoundManager(child, this))
 
         return result
+    }
+    public findAll(name?: string | RegExp | ((childName: string) => boolean)) {
+        if (!this.loadedObject3d) return []
+        return this._findAll(name, indexChildrenNames(this.loadedObject3d))
+    }
+    public findAllMeshes(
+        name?: string | RegExp | ((childName: string) => boolean)
+    ) {
+        if (!this.loadedObject3d) return []
+        return this._findAll(name, indexMeshChildrenNames(this.loadedObject3d))
     }
 }
