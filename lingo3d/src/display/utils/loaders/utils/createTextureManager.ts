@@ -1,12 +1,14 @@
 import { rad2Deg } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
-import { createReferenceMaterialPool } from "../../../../pools/referenceMaterialPool"
-import { MaterialParams } from "../../../../pools/materialPool"
+import {
+    ReferenceMaterialParams,
+    allocateDefaultReferenceMaterial
+} from "../../../../pools/referenceMaterialPool"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
 import Model from "../../../Model"
 import { blackColor } from "../../reusables"
-import configSystem from "../../../../systems/utils/configSystem"
+import { addRefreshTexturedReferenceSystem } from "../../../../systems/configSystems/refreshTexturedReferenceSystem"
 
 const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
     const defaults = {
@@ -39,31 +41,23 @@ const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
         roughness: referenceMaterial.roughness,
         normalMap: "",
         normalScale: referenceMaterial.normalScale?.x ?? 1,
-        depthTest: referenceMaterial.depthTest
+        depthTest: referenceMaterial.depthTest,
+        uuid: referenceMaterial.uuid
     }
-    const defaultParams = Object.values(defaults) as MaterialParams
+    const defaultParams = Object.values(defaults) as ReferenceMaterialParams
     return <const>[defaults, defaultParams]
 }
 
 export default (referenceMaterial: MeshStandardMaterial) => {
     const [defaults, defaultParams] = makeDefaults(referenceMaterial)
+    allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
-    const [addRefreshParamsSystem] = configSystem(
-        (target: MyTextureManager) => {
-            if (target.materialParamString)
-                decreaseReferenceMaterial(target.materialParamString)
-            else
-                target.owner.then(() =>
-                    decreaseReferenceMaterial(target.materialParamString!)
-                )
-            const paramString = JSON.stringify(target.materialParams)
-            target.material = increaseReferenceMaterial(
-                target.materialParams,
-                paramString
-            )
-            target.materialParamString = paramString
-        }
-    )
+    const addRefreshParamsSystem = (target: TextureManager) =>
+        addRefreshTexturedReferenceSystem(target, {
+            referenceMaterial,
+            defaults,
+            MyTextureManager
+        })
 
     class MyTextureManager extends TextureManager {
         public constructor(public object3d: StandardMesh, public owner: Model) {
@@ -78,18 +72,6 @@ export default (referenceMaterial: MeshStandardMaterial) => {
         public static override defaultParams = defaultParams
         public static override addRefreshParamsSystem = addRefreshParamsSystem
     }
-
-    const [
-        increaseReferenceMaterial,
-        decreaseReferenceMaterial,
-        allocateDefaultReferenceMaterial
-    ] = createReferenceMaterialPool(
-        referenceMaterial,
-        defaults,
-        MyTextureManager
-    )
-
-    allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
     return MyTextureManager
 }
