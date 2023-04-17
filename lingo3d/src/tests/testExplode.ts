@@ -3,7 +3,7 @@ import Model from "../display/Model"
 import mathFn from "../math/mathFn"
 import loadJSON from "../display/utils/loaders/loadJSON"
 import deserialize from "../api/serializer/deserialize"
-import { getAppendablesById } from "../api/core/Appendable"
+import { getAppendablesById } from "../collections/uuidCollections"
 
 const data: any = await loadJSON("car/bentley.json")
 deserialize(data)

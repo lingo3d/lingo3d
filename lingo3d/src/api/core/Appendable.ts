@@ -12,18 +12,10 @@ import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { uuidMap } from "../../collections/uuidCollections"
+import { userIdMap, uuidMap } from "../../collections/uuidCollections"
 import { disableSerialize } from "../../collections/disableSerialize"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { disableUnload } from "../../collections/disableUnload"
-
-const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
-
-export const getAppendablesById = (id: string) => {
-    const uuidInstance = uuidMap.get(id)
-    if (uuidInstance) return [uuidInstance]
-    return userIdMap.get(id) ?? []
-}
 
 type EventName =
     | "name"

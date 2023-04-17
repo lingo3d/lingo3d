@@ -6,7 +6,7 @@ import { point2Vec, vec2Point } from "../../display/utils/vec2Point"
 import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "../utils/getManager"
-import Appendable, { getAppendablesById } from "./Appendable"
+import Appendable from "./Appendable"
 import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import SpawnPoint from "../../display/SpawnPoint"
@@ -28,6 +28,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
+import { getAppendablesById } from "../../collections/uuidCollections"
 
 const up = new Vector3(0, 1, 0)
 
