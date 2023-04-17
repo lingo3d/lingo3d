@@ -164,18 +164,6 @@ const MenuItems = ({ selectionTarget }: Props) => {
                         }}
                     >
                         Convert to template
-                    </MenuButton>,
-
-                    <MenuButton
-                        onClick={() =>
-                            (sceneGraphContextMenuSignal.value = {
-                                x: sceneGraphContextMenuSignal.value?.x ?? 0,
-                                y: sceneGraphContextMenuSignal.value?.y ?? 0,
-                                hideId: true
-                            })
-                        }
-                    >
-                        Hide objects by id
                     </MenuButton>
                 )
                 if (selectionTarget instanceof PhysicsObjectManager)
@@ -229,6 +217,19 @@ const MenuItems = ({ selectionTarget }: Props) => {
             </MenuButton>
         )
     }
+    children.push(
+        <MenuButton
+            onClick={() =>
+                (sceneGraphContextMenuSignal.value = {
+                    x: sceneGraphContextMenuSignal.value?.x ?? 0,
+                    y: sceneGraphContextMenuSignal.value?.y ?? 0,
+                    hideId: true
+                })
+            }
+        >
+            Hide objects by id
+        </MenuButton>
+    )
     if (!selectionTarget)
         children.push(
             <MenuButton
