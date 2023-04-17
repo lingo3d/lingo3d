@@ -20,7 +20,7 @@ export const [addRefreshTexturedReferenceSystem] = configSystemWithData(
         if (target.materialParamString)
             decreaseReferenceMaterial(target.materialParamString)
         else
-            (target as any).owner.then(() =>
+            ((target as any).owner ?? target).then(() =>
                 decreaseReferenceMaterial(target.materialParamString!)
             )
         const paramString = JSON.stringify(target.materialParams)

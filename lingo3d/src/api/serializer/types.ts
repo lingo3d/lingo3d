@@ -63,15 +63,9 @@ export type GameObjectType =
     | "loopNode"
     | "templateNode"
 
-type VersionNode = {
-    type: "lingo3d"
-    version: string
-}
-
-type Node = {
-    type: GameObjectType
-    children?: Array<AppendableNode>
-}
+type VersionNode = { type: "lingo3d"; version: string }
+type FindNode = { type: "find"; name: string; children?: Array<AppendableNode> }
+type Node = { type: GameObjectType; children?: Array<AppendableNode> }
 export type AppendableNode = Partial<IModel & IPrimitive & { source: string }> &
     Node
-export type SceneGraphNode = AppendableNode | VersionNode
+export type SceneGraphNode = AppendableNode | VersionNode | FindNode
