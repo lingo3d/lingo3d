@@ -10,16 +10,13 @@ export const [addUpdatePhysicsSystem] = configSystem(
         if (!("physics" in self)) return
 
         const mode = self.physics || !!self.jointCount
-        const init = mode && !self.userData.physicsMode
+        let modeChanged = mode !== self.userData.physicsMode
+        if (modeChanged && !mode && !self.userData.physicsMode)
+            modeChanged = false
         self.userData.physicsMode = mode
 
-        if (!mode) return
-
-        if (pxUpdateShapeSet.has(self) || init) {
-            pxUpdateShapeSet.delete(self)
+        if ((self.actor && pxUpdateShapeSet.has(self)) || modeChanged)
             addRefreshPhysicsSystem(self)
-            return
-        }
-        addUpdatePhysicsTransformSystem(self)
+        else if (self.actor) addUpdatePhysicsTransformSystem(self)
     }
 )
