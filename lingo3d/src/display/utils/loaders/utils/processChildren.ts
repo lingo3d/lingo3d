@@ -1,4 +1,11 @@
-import { Light, Bone, Object3D, Mesh, MeshStandardMaterial } from "three"
+import {
+    Light,
+    Bone,
+    Object3D,
+    Mesh,
+    MeshStandardMaterial,
+    DoubleSide
+} from "three"
 import createTextureManager from "./createTextureManager"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
@@ -10,6 +17,8 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
         if ("material" in child) {
             if (Array.isArray(child.material))
                 child.material = child.material[0]
+
+            child.material.side = DoubleSide
 
             if (child.material.opacity === 1) {
                 child.castShadow = true
