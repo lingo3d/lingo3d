@@ -48,7 +48,7 @@ export default class Dummy extends Model implements IDummy {
             setSpine(undefined)
             setType(undefined)
 
-            const handle = this.loaded.then((loaded) => {
+            const handle = this.events.on("loaded", (loaded) => {
                 setType("other")
 
                 if (spineName) {

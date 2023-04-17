@@ -30,7 +30,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
     public set innerHTML(val: string | undefined) {
         this._innerHTML = val
-        if (this.loaded.done) {
+        if (this.loadedObject3d) {
             this.loadedGroup.clear()
             this.loadedObject3d = undefined
         }
@@ -53,7 +53,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                         this.loadedGroup.add(
                             (this.loadedObject3d = loadedObject3d)
                         )
-                        this.loaded.resolve(loadedObject3d)
+                        this.events.setState("loaded", loadedObject3d)
                     }))
         )
     }

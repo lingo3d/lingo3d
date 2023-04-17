@@ -59,7 +59,9 @@ export default class Model extends Loaded<Group> implements IModel {
         const animation = (this.animations[name] = new AnimationManager(
             name,
             clip,
-            await this.loaded,
+            await new Promise<Object3D>((resolve) =>
+                this.events.once("loaded", resolve)
+            ),
             repeatState,
             onFinishState,
             finishEventState
@@ -100,7 +102,11 @@ export default class Model extends Loaded<Group> implements IModel {
                 throw new Error("uuid doesn't point to a model or primitive")
             }
             const result = (
-                "loaded" in instance ? await instance.loaded : instance.object3d
+                "loadedObject3d" in instance
+                    ? await new Promise<Object3D>((resolve) =>
+                          instance.events.once("loaded", resolve)
+                      )
+                    : instance.object3d
             ).clone() as Group
 
             resolvable.resolve()
@@ -144,7 +150,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set resize(val) {
         this._resize = val
-        this.loaded.done && (this.src = this._src)
+        this.loadedObject3d && (this.src = this._src)
     }
 
     protected resolveLoaded(loadedObject3d: Group, src: string) {
@@ -190,7 +196,7 @@ export default class Model extends Loaded<Group> implements IModel {
 
     private refreshFactors() {
         this.cancelHandle("refreshFactors", () =>
-            this.loaded.then(() => addRefreshFactorsSystem(this))
+            this.events.on("loaded", () => addRefreshFactorsSystem(this))
         )
     }
 

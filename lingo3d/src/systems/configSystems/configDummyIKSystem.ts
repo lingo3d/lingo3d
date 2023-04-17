@@ -17,10 +17,7 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
     const dummy = uuidMap.get(target)
     if (!(dummy instanceof Model)) return
     if (!dummy.loadedObject3d) {
-        const handle = dummy.loaded.then(() => {
-            handle.cancel()
-            addConfigDummyIKSystem(self)
-        })
+        dummy.events.once("loaded", () => addConfigDummyIKSystem(self))
         return
     }
 

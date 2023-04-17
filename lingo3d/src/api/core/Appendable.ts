@@ -25,7 +25,12 @@ export const getAppendablesById = (id: string) => {
     return userIdMap.get(id) ?? []
 }
 
-type EventName = "name" | "runtimeSchema" | "physics" | "transformControls"
+type EventName =
+    | "name"
+    | "runtimeSchema"
+    | "physics"
+    | "transformControls"
+    | "loaded"
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

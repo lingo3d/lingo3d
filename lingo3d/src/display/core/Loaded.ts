@@ -1,6 +1,5 @@
 import { Group, Mesh, MeshStandardMaterial, Object3D } from "three"
 import ILoaded from "../../interface/ILoaded"
-import Reresolvable from "./utils/Reresolvable"
 import toResolvable from "../utils/toResolvable"
 import {
     addOutline,
@@ -41,8 +40,6 @@ export default abstract class Loaded<T = Object3D>
         ssrExcludeSet.delete(this.object3d)
     }
 
-    public loaded = new Reresolvable<Object3D>()
-
     protected abstract load(src: string): Promise<T>
 
     protected abstract resolveLoaded(data: T, src: string): Group
@@ -53,7 +50,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public set src(val) {
         this._src = val
-        if (this.loaded.done) {
+        if (this.loadedObject3d) {
             this.loadedGroup.clear()
             this.loadedObject3d = undefined
         }
@@ -66,7 +63,7 @@ export default abstract class Loaded<T = Object3D>
                         this.loadedGroup.add(
                             (this.loadedObject3d = loadedObject3d)
                         )
-                        this.loaded.resolve(loadedObject3d)
+                        this.events.setState("loaded", loadedObject3d)
                     }))
         )
     }
@@ -77,10 +74,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public set onLoad(cb) {
         this._onLoad = cb
-        this.cancelHandle(
-            "onLoad",
-            cb && (() => this.loaded.then(() => void cb()))
-        )
+        this.cancelHandle("onLoad", cb && (() => this.events.on("loaded", cb)))
     }
 
     protected widthSet?: boolean
@@ -171,9 +165,7 @@ export default abstract class Loaded<T = Object3D>
     public override set castShadow(val) {
         this.outerObject3d.castShadow = val
         this.cancelHandle("castShadow", () =>
-            this.loaded.then(() => {
-                super.castShadow = val
-            })
+            this.events.on("loaded", () => (super.castShadow = val))
         )
     }
 
@@ -184,9 +176,7 @@ export default abstract class Loaded<T = Object3D>
         //@ts-ignore
         this._receiveShadow = val
         this.cancelHandle("receiveShadow", () =>
-            this.loaded.then(() => {
-                super.receiveShadow = val
-            })
+            this.events.on("loaded", () => (super.receiveShadow = val))
         )
     }
 
@@ -203,16 +193,14 @@ export default abstract class Loaded<T = Object3D>
     public override set outline(val) {
         //@ts-ignore
         this._outline = val
-
-        this.cancelHandle("outline", () =>
-            this.loaded.then((loaded) => {
-                if (!val) return
-
-                addOutline(loaded)
-                return () => {
-                    deleteOutline(loaded)
-                }
-            })
+        this.cancelHandle(
+            "outline",
+            val &&
+                (() => {
+                    const handle = this.events.on("loaded", addOutline)
+                    handle.then(() => deleteOutline(this.loadedObject3d!))
+                    return handle
+                })
         )
     }
 
@@ -222,16 +210,16 @@ export default abstract class Loaded<T = Object3D>
     public override set bloom(val) {
         //@ts-ignore
         this._bloom = val
-
-        this.cancelHandle("bloom", () =>
-            this.loaded.then((loaded) => {
-                if (!val) return
-
-                addSelectiveBloom(loaded)
-                return () => {
-                    deleteSelectiveBloom(loaded)
-                }
-            })
+        this.cancelHandle(
+            "bloom",
+            val &&
+                (() => {
+                    const handle = this.events.on("loaded", addSelectiveBloom)
+                    handle.then(() =>
+                        deleteSelectiveBloom(this.loadedObject3d!)
+                    )
+                    return handle
+                })
         )
     }
 
@@ -239,13 +227,13 @@ export default abstract class Loaded<T = Object3D>
         target: MeshAppendable | Point3dType | SpawnPoint | string
     ) {
         this.cancelHandle("placeAt", () =>
-            this.loaded.then(() => void super.placeAt(target))
+            this.events.once("loaded", () => super.placeAt(target))
         )
     }
 
     protected override addUpdatePhysicsSystem() {
         this.cancelHandle("addUpdatePhysicsSystem", () =>
-            this.loaded.then(() => super.addUpdatePhysicsSystem())
+            this.events.once("loaded", () => super.addUpdatePhysicsSystem())
         )
     }
 

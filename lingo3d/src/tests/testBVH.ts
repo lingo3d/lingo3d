@@ -34,7 +34,7 @@ player2.physics = "character"
 
 //set player and map hit detection
 //useful for detecting when player has landed
-player.hitTarget = map
+player.hitTarget = map.uuid
 
 //instantiate state machine
 const service = interpret(stateMachine)

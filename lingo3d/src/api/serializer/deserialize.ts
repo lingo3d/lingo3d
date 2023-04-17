@@ -11,17 +11,14 @@ const nodeToObjectManager = (
 ) => {
     if (node.type === "lingo3d") return
     if (node.type === "find") {
-        const handle = (parent as Model).loaded.then(() => {
-            queueMicrotask(() => {
-                handle.cancel()
-                const object = (parent as Model).find(node.name)!
-                object.disableSceneGraph = false
-                object.disableSerialize = false
-                Object.assign(object, omit(node, nonSerializedProperties))
-                node.children
-                    ?.map((n) => nodeToObjectManager(n, object))
-                    .forEach((c) => c && object.append(c as any))
-            })
+        ;(parent as Model).events.once("loaded", () => {
+            const object = (parent as Model).find(node.name)!
+            object.disableSceneGraph = false
+            object.disableSerialize = false
+            Object.assign(object, omit(node, nonSerializedProperties))
+            node.children
+                ?.map((n) => nodeToObjectManager(n, object))
+                .forEach((c) => c && object.append(c as any))
         })
         return
     }

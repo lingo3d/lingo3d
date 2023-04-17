@@ -99,7 +99,7 @@ export default class HandTracker extends Model {
 
         this.scaleX = -1
 
-        this.loaded.then(() => {
+        this.events.once("loaded", () => {
             this.thumb1 = this.find("Thumb1_18")
             this.thumb2 = this.find("Thumb2_17")
 
