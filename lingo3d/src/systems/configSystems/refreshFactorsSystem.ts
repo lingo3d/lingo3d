@@ -54,9 +54,7 @@ export const [addRefreshFactorsSystem] = configSystem((model: Model) => {
 
         if (reflection) {
             const reflectionHandle = new Cancellable()
-            const cubeRenderTarget = new WebGLCubeRenderTarget(
-                reflection ? 128 : 16
-            )
+            const cubeRenderTarget = new WebGLCubeRenderTarget(128)
             const { texture: reflectionTexture } = cubeRenderTarget
             reflectionTexture.type = HalfFloatType
             reflectionDataMap.set(model, [reflectionTexture, reflectionHandle])
