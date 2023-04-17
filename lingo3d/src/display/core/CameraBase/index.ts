@@ -23,6 +23,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
+import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -47,12 +48,14 @@ export default abstract class CameraBase<
             if (!getEditorHelper() || cameraRenderedPtr[0] === camera) return
 
             const helper = new CameraHelper(camera)
+            ssrExcludeSet.add(helper)
             scene.add(helper)
 
             const sprite = new HelperSprite("camera", this)
             helper.add(sprite.outerObject3d)
             return () => {
                 helper.dispose()
+                ssrExcludeSet.delete(helper)
                 scene.remove(helper)
                 sprite.dispose()
             }

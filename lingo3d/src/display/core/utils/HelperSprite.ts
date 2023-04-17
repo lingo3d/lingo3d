@@ -1,5 +1,6 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"
 
 export default class HelperSprite extends Sprite {
@@ -8,6 +9,7 @@ export default class HelperSprite extends Sprite {
         owner: MeshAppendable
     ) {
         super()
+        ssrExcludeSet.add(this.outerObject3d)
         this.disableSceneGraph = true
         this.disableSerialize = true
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
@@ -17,5 +19,10 @@ export default class HelperSprite extends Sprite {
 
         this.userData.selectionPointer = owner
         owner.append(this)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 }

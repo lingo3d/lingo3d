@@ -12,6 +12,7 @@ import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { planeGeometry } from "../primitives/Plane"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 export default class Reflector
     extends PhysicsObjectManager
@@ -27,6 +28,7 @@ export default class Reflector
         mesh.receiveShadow = true
 
         super(mesh)
+        ssrExcludeSet.add(this.outerObject3d)
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
 
@@ -68,6 +70,11 @@ export default class Reflector
                 ])
             }
         )
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 
     public override get depth() {

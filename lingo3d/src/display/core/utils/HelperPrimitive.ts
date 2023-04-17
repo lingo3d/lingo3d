@@ -1,6 +1,7 @@
 import { BufferGeometry } from "three"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import Primitive from "../Primitive"
+import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 
 export default abstract class HelperPrimitive extends Primitive {
     public constructor(
@@ -8,6 +9,7 @@ export default abstract class HelperPrimitive extends Primitive {
         owner: MeshAppendable | undefined
     ) {
         super(geometry)
+        ssrExcludeSet.add(this.outerObject3d)
         this.disableSceneGraph = true
         this.disableSerialize = true
         this.opacity = 0.5
@@ -18,5 +20,10 @@ export default abstract class HelperPrimitive extends Primitive {
 
         this.userData.selectionPointer = owner
         owner.append(this)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 }

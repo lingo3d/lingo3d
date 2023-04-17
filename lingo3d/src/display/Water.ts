@@ -4,10 +4,10 @@ import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
-import { setManager } from "../api/utils/getManager"
 import { WATERNORMALS_URL } from "../api/assetsPath"
 import { addWaterSystem, deleteWaterSystem } from "../systems/waterSystem"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 
 export default class Water extends PhysicsObjectManager implements IWater {
     public static componentName = "water"
@@ -48,6 +48,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
 
     public constructor() {
         super()
+        ssrExcludeSet.add(this.outerObject3d)
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
 
@@ -89,6 +90,11 @@ export default class Water extends PhysicsObjectManager implements IWater {
                 this.speedState.get
             ])
         })
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 
     public override get depth() {
