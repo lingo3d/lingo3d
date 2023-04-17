@@ -1,10 +1,6 @@
 import { rad2Deg } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
-import {
-    allocateDefaultReferenceMaterial,
-    decreaseReferenceMaterial,
-    increaseReferenceMaterial
-} from "../../../../pools/referenceMaterialPool"
+import { createReferenceMaterialPool } from "../../../../pools/referenceMaterialPool"
 import { MaterialParams } from "../../../../pools/materialPool"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
@@ -51,7 +47,6 @@ const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
 
 export default (referenceMaterial: MeshStandardMaterial) => {
     const [defaults, defaultParams] = makeDefaults(referenceMaterial)
-    allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
     const [addRefreshParamsSystem] = configSystem(
         (target: MyTextureManager) => {
@@ -64,8 +59,7 @@ export default (referenceMaterial: MeshStandardMaterial) => {
             const paramString = JSON.stringify(target.materialParams)
             target.material = increaseReferenceMaterial(
                 target.materialParams,
-                paramString,
-                { referenceMaterial, defaults, MyTextureManager }
+                paramString
             )
             target.materialParamString = paramString
         }
@@ -84,6 +78,18 @@ export default (referenceMaterial: MeshStandardMaterial) => {
         public static override defaultParams = defaultParams
         public static override addRefreshParamsSystem = addRefreshParamsSystem
     }
+
+    const [
+        increaseReferenceMaterial,
+        decreaseReferenceMaterial,
+        allocateDefaultReferenceMaterial
+    ] = createReferenceMaterialPool(
+        referenceMaterial,
+        defaults,
+        MyTextureManager
+    )
+
+    allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
     return MyTextureManager
 }
