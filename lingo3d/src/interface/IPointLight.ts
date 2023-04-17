@@ -18,17 +18,18 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
 }
 
 export const lightDistanceRange = new Range(100, 2000)
+export const castShadowChoices = new Choices({
+    true: true,
+    false: false,
+    physics: "physics"
+})
 
 export const pointLightDefaults = extendDefaults<IPointLight>(
     [lightBaseDefaults],
     { distance: 1000, castShadow: false },
     {
         distance: lightDistanceRange,
-        castShadow: new Choices({
-            true: true,
-            false: false,
-            physics: "physics"
-        })
+        castShadow: castShadowChoices
     },
     { castShadow: true }
 )
