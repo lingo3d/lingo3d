@@ -49,7 +49,6 @@ const AccordionSceneGraph = () => {
                     onClick={() => {
                         selectionTarget!.disableSceneGraph = false
                         selectionTarget!.disableSerialize = false
-                        emitSceneGraphChange()
                     }}
                 >
                     <FindIcon />

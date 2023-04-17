@@ -141,17 +141,6 @@ const MenuItems = ({ selectionTarget }: Props) => {
                 children.push(
                     <MenuButton
                         onClick={() => {
-                            const template = new Template()
-                            template.source = selectionTarget
-                            selectTab(librarySignal, "templates")
-                            sceneGraphContextMenuSignal.value = undefined
-                        }}
-                    >
-                        Convert to Template
-                    </MenuButton>,
-
-                    <MenuButton
-                        onClick={() => {
                             setSelectionFocus(
                                 selectionFocus === selectionTarget
                                     ? undefined
@@ -162,8 +151,19 @@ const MenuItems = ({ selectionTarget }: Props) => {
                         }}
                     >
                         {selectionFocus === selectionTarget
-                            ? "Exit selected"
-                            : "Enter selected"}
+                            ? "Unfocus children"
+                            : "Focus children"}
+                    </MenuButton>,
+
+                    <MenuButton
+                        onClick={() => {
+                            const template = new Template()
+                            template.source = selectionTarget
+                            selectTab(librarySignal, "templates")
+                            sceneGraphContextMenuSignal.value = undefined
+                        }}
+                    >
+                        Convert to Template
                     </MenuButton>
                 )
                 if (selectionTarget instanceof PhysicsObjectManager)
@@ -237,7 +237,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                     sceneGraphContextMenuSignal.value = undefined
                 }}
             >
-                Exit all
+                Unfocus all
             </MenuButton>
         )
     else

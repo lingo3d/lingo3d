@@ -227,6 +227,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set disableSceneGraph(val) {
         val ? disableSceneGraph.add(this) : disableSceneGraph.delete(this)
+        emitSceneGraphChange()
     }
 
     public get disableUnload() {
