@@ -14,9 +14,6 @@ const finalFragmentShader = finalSSRShader
     .replace("#include <helperFunctions>", helperFunctions)
     .replace("#include <boxBlur>", boxBlur)
 
-// all the properties for which we don't have to resample
-const noResetSamplesProperties = ["blur", "blurSharpness", "blurKernel"]
-
 export class SSREffect extends Effect {
     haltonSequence = generateHalton23Points(1024)
     haltonIndex = 0
@@ -98,14 +95,6 @@ export class SSREffect extends Effect {
                     if (options[key] === value && needsUpdate) return
 
                     options[key] = value
-
-                    if (!noResetSamplesProperties.includes(key)) {
-                        this.setSize(
-                            this.lastSize.width,
-                            this.lastSize.height,
-                            true
-                        )
-                    }
 
                     switch (key) {
                         case "resolutionScale":

@@ -28,7 +28,6 @@ export class ReflectionsMaterial extends ShaderMaterial {
                 jitter: new Uniform(0),
                 jitterRoughness: new Uniform(0),
                 maxRoughness: new Uniform(0),
-                samples: new Uniform(0),
                 viewMatrix: new Uniform(new Matrix4())
             },
 

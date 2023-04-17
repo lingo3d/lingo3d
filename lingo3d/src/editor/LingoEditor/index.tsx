@@ -16,6 +16,7 @@ import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getDummyIK } from "../../states/useDummyIK"
 import prevent from "../utils/prevent"
+import { getWorldExpanded } from "../../states/useWorldExpanded"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -28,23 +29,28 @@ const LingoEditor = () => {
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
     const dummyIK = useSyncState(getDummyIK)
+    const worldExpanded = useSyncState(getWorldExpanded)
 
     return (
         <div
             className="lingo3d-ui lingo3d-lingoeditor lingo3d-absfull"
             onContextMenu={DEBUG ? undefined : prevent}
         >
-            <Toolbar />
-            <SceneGraph />
-            {dummyIK ? (
-                <DummyIKEditor />
-            ) : gameGraph ? (
-                <GameGraphEditor />
-            ) : (
-                <Editor />
+            {!worldExpanded && (
+                <>
+                    <Toolbar />
+                    <SceneGraph />
+                    {dummyIK ? (
+                        <DummyIKEditor />
+                    ) : gameGraph ? (
+                        <GameGraphEditor />
+                    ) : (
+                        <Editor />
+                    )}
+                    {!gameGraph && !dummyIK && <Library />}
+                    {!gameGraph && !dummyIK && <Panels />}
+                </>
             )}
-            {!gameGraph && !dummyIK && <Library />}
-            {!gameGraph && !dummyIK && <Panels />}
 
             <WorldBar />
             <div

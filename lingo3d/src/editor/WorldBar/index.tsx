@@ -16,6 +16,10 @@ import usePane from "../Editor/usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
 import { stopPropagation } from "../utils/stopPropagation"
+import {
+    getWorldExpanded,
+    setWorldExpanded
+} from "../../states/useWorldExpanded"
 
 const Tabs = () => {
     useInitCSS()
@@ -23,6 +27,7 @@ const Tabs = () => {
 
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
+    const worldExpanded = useSyncState(getWorldExpanded)
     const elRef = useRef<HTMLDivElement>(null)
     const [pane, setContainer] = usePane()
 
@@ -84,6 +89,11 @@ const Tabs = () => {
                     label="ui"
                     on={uiLayer}
                     onChange={(val) => setUILayer(val)}
+                />
+                <Switch
+                    label="expand"
+                    on={worldExpanded}
+                    onChange={(val) => setWorldExpanded(val)}
                 />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <WorldControls />

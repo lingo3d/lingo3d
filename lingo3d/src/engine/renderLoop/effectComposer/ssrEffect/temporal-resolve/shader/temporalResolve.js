@@ -8,7 +8,6 @@ uniform sampler2D lastVelocityTexture;
 uniform float blend;
 uniform float correction;
 uniform float exponent;
-uniform float samples;
 uniform vec2 invTexSize;
 
 uniform mat4 curInverseProjectionMatrix;

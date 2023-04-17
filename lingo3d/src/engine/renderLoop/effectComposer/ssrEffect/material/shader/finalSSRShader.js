@@ -10,8 +10,6 @@
 uniform sampler2D inputTexture;
 uniform sampler2D reflectionsTexture;
 
-uniform float samples;
-
 #include <boxBlur>
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {

@@ -237,8 +237,6 @@ export class ReflectionsPass extends Pass {
 
         this.fullscreenMaterial.uniforms.inputTexture.value =
             inputBuffer.texture
-        this.fullscreenMaterial.uniforms.samples.value =
-            this.ssrEffect.temporalResolvePass.samples
         this.fullscreenMaterial.uniforms.cameraNear.value = this._camera.near
         this.fullscreenMaterial.uniforms.cameraFar.value = this._camera.far
 

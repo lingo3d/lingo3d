@@ -21,8 +21,6 @@ uniform float fade;
 uniform float thickness;
 uniform float ior;
 
-uniform float samples;
-
 uniform float jitter;
 uniform float jitterRoughness;
 
@@ -82,7 +80,7 @@ void main() {
     vec3 jitt = vec3(0.0);
 
     if (jitterRoughness != 0.0 || jitter != 0.0) {
-        vec3 randomJitter = hash(50.0 * samples * worldPos) - 0.5;
+        vec3 randomJitter = hash(50.0 * worldPos) - 0.5;
         float spread = ((2.0 - specular) + roughness * jitterRoughness);
         float jitterMix = jitter * 0.25 + jitterRoughness * roughness;
         if (jitterMix > 1.0) jitterMix = 1.0;

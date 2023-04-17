@@ -22,7 +22,6 @@ const zeroVec2 = new Vector2()
 export class TemporalResolvePass extends Pass {
     velocityPass = null
     velocityResolutionScale = 1
-    samples = 1
 
     constructor(scene, camera, customComposeShader, options = {}) {
         super("TemporalResolvePass")
@@ -164,16 +163,7 @@ export class TemporalResolvePass extends Pass {
         )
     }
 
-    checkNeedsResample() {
-        if (positionChanged(this._camera) || quaternionChanged(this._camera))
-            this.samples = 1
-    }
-
     render(renderer) {
-        this.samples++
-        this.checkNeedsResample()
-        this.fullscreenMaterial.uniforms.samples.value = this.samples
-
         // const isUsingSharedVelocityTexture = this.checkCanUseSharedVelocityTexture()
         // if (!isUsingSharedVelocityTexture) this.velocityPass.render(renderer)
 
