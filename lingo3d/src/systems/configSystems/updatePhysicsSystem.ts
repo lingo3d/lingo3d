@@ -1,5 +1,4 @@
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import configSystem from "../utils/configSystem"
 import { addRefreshPhysicsSystem } from "./refreshPhysicsSystem"
@@ -15,8 +14,7 @@ export const [addUpdatePhysicsSystem] = configSystem(
             modeChanged = false
         self.userData.physicsMode = mode
 
-        if ((self.actor && pxUpdateShapeSet.has(self)) || modeChanged)
-            addRefreshPhysicsSystem(self)
+        if (modeChanged) addRefreshPhysicsSystem(self)
         else if (self.actor) addUpdatePhysicsTransformSystem(self)
     }
 )

@@ -5,7 +5,6 @@ import { setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
-import { pxUpdateShapeSet } from "../../collections/pxUpdateShapeSet"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -72,7 +71,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set width(val) {
         this.object3d.scale.x = val * CM2M
-        pxUpdateShapeSet.add(this)
+        this.userData.physicsMode = undefined
         addUpdatePhysicsSystem(this)
     }
 
@@ -81,7 +80,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set height(val) {
         this.object3d.scale.y = val * CM2M
-        pxUpdateShapeSet.add(this)
+        this.userData.physicsMode = undefined
         addUpdatePhysicsSystem(this)
     }
 
@@ -90,7 +89,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set depth(val) {
         this.object3d.scale.z = val * CM2M
-        pxUpdateShapeSet.add(this)
+        this.userData.physicsMode = undefined
         addUpdatePhysicsSystem(this)
     }
 }

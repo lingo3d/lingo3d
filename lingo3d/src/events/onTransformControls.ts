@@ -3,7 +3,6 @@ import { filterBoolean } from "@lincode/utils"
 import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
-import { pxUpdateShapeSet } from "../collections/pxUpdateShapeSet"
 import MeshAppendable from "../api/core/MeshAppendable"
 import Appendable from "../api/core/Appendable"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
@@ -30,7 +29,7 @@ onTransformControls((phase) => {
     if (getEditorMode() === "scale") {
         for (const target of targets) {
             if (!("object3d" in target)) continue
-            pxUpdateShapeSet.add(target)
+            target.userData.physicsMode = undefined
             addUpdatePhysicsSystem(target)
         }
         return
