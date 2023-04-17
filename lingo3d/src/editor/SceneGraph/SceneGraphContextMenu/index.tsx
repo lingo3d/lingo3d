@@ -8,6 +8,7 @@ import MenuItems from "./MenuItems"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { rightClickPtr } from "../../../pointers/rightClickPtr"
+import { addSelectionHideId } from "../../../states/useSelectionHideId"
 
 export const sceneGraphContextMenuSignal: Signal<
     | (Point & {
@@ -55,7 +56,7 @@ const SceneGraphContextMenu = () => {
                     : sceneGraphContextMenuSignal.value.hideId
                     ? {
                           label: "Object id",
-                          onInput: (value) => console.log(value)
+                          onInput: addSelectionHideId
                       }
                     : undefined
             }

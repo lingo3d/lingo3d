@@ -35,6 +35,10 @@ import { librarySignal } from "../../Library/librarySignal"
 import { selectTab } from "../../component/tabs/Tab"
 import { sceneGraphContextMenuSignal } from "."
 import Model from "../../../display/Model"
+import {
+    clearSelectionHideId,
+    getSelectionHideId
+} from "../../../states/useSelectionHideId"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -47,6 +51,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
     const gameGraph = useSyncState(getGameGraph)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
+    const [selectionHideId] = useSyncState(getSelectionHideId)
 
     if (sceneGraphContextMenuSignal.value?.createJoint)
         return <CreateJointItems />
@@ -254,7 +259,9 @@ const MenuItems = ({ selectionTarget }: Props) => {
             </MenuButton>,
 
             <MenuButton
+                disabled={!selectionHideId.size}
                 onClick={() => {
+                    clearSelectionHideId()
                     sceneGraphContextMenuSignal.value = undefined
                 }}
             >
