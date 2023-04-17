@@ -1,43 +1,15 @@
-import { Reactive } from "@lincode/reactivity"
-import { Vector3, Quaternion, Object3D } from "three"
-import { TransformControlsPayload } from "../../events/onTransformControls"
+import { Vector3, Quaternion } from "three"
 import IJointBase from "../../interface/IJointBase"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import { physxPtr } from "../../pointers/physxPtr"
-import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import HelperSphere from "./utils/HelperSphere"
-import { getAppendables } from "../../api/core/Appendable"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
-
-const getRelativeTransform = (
-    thisObject: Object3D,
-    fromObject: Object3D,
-    setPxTransform: typeof setPxTransform_
-) => {
-    const fromScale = fromObject.scale
-    const clone = new Object3D()
-    clone.position.copy(thisObject.position)
-    clone.quaternion.copy(thisObject.quaternion)
-    fromObject.attach(clone)
-    const fromPxTransform = setPxTransform(
-        clone.position.x * fromScale.x,
-        clone.position.y * fromScale.y,
-        clone.position.z * fromScale.z,
-        clone.quaternion.x,
-        clone.quaternion.y,
-        clone.quaternion.z,
-        clone.quaternion.w
-    )
-    fromObject.remove(clone)
-    return fromPxTransform
-}
+import { addRefreshJointSystem } from "../../systems/configSystems/refreshJointSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -46,7 +18,7 @@ export default abstract class JointBase
     public fromManager?: PhysicsObjectManager
     public toManager?: PhysicsObjectManager
 
-    protected abstract createJoint(
+    public abstract createJoint(
         fromPxTransfrom: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
@@ -83,70 +55,6 @@ export default abstract class JointBase
                 helper.dispose()
             }
         }, [getEditorHelper])
-
-        this.createEffect(() => {
-            const { _to, _from } = this
-            const { destroy } = physxPtr[0]
-            if (!destroy || !_to || !_from) return
-
-            const [toManager] = getAppendables(_to)
-            const [fromManager] = getAppendables(_from)
-            if (
-                !(toManager instanceof PhysicsObjectManager) ||
-                !(fromManager instanceof PhysicsObjectManager)
-            )
-                return
-
-            fromManager.jointCount++
-            toManager.jointCount++
-
-            const handle0 = fromManager.events.on("physics", () =>
-                this.refreshState.set({})
-            )
-            const handle1 = toManager.events.on("physics", () =>
-                this.refreshState.set({})
-            )
-            const handle2 = fromManager.events.on(
-                "transformControls",
-                ({ phase }: TransformControlsPayload) =>
-                    phase === "end" && this.refreshState.set({})
-            )
-            const handle3 = toManager.events.on(
-                "transformControls",
-                ({ phase }: TransformControlsPayload) =>
-                    phase === "end" && this.refreshState.set({})
-            )
-            const joint = (this.pxJoint = this.createJoint(
-                getRelativeTransform(
-                    this.outerObject3d,
-                    fromManager.outerObject3d,
-                    setPxTransform_
-                ),
-                getRelativeTransform(
-                    this.outerObject3d,
-                    toManager.outerObject3d,
-                    setPxTransform__
-                ),
-                fromManager,
-                toManager
-            ))
-
-            this.fromManager = fromManager
-            this.toManager = toManager
-
-            return () => {
-                handle0.cancel()
-                handle1.cancel()
-                handle2.cancel()
-                handle3.cancel()
-                this.pxJoint = undefined
-                destroy(joint)
-                fromManager.jointCount--
-                toManager.jointCount--
-                this.fromManager = undefined
-                this.toManager = undefined
-            }
-        }, [this.refreshState.get, getPhysXLoaded])
     }
 
     private fromPos: Vector3 | undefined
@@ -172,12 +80,10 @@ export default abstract class JointBase
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
-        this.refreshState.set({})
+        addRefreshJointSystem(this)
         addUpdatePhysicsSystem(fromManager)
         addUpdatePhysicsSystem(toManager)
     }
-
-    protected refreshState = new Reactive({})
 
     private _to?: string | PhysicsObjectManager
     public get to() {
@@ -185,7 +91,7 @@ export default abstract class JointBase
     }
     public set to(val) {
         this._to = val
-        this.refreshState.set({})
+        addRefreshJointSystem(this)
     }
 
     private _from?: string | PhysicsObjectManager
@@ -194,6 +100,6 @@ export default abstract class JointBase
     }
     public set from(val) {
         this._from = val
-        this.refreshState.set({})
+        addRefreshJointSystem(this)
     }
 }

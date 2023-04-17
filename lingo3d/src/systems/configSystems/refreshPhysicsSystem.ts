@@ -11,6 +11,25 @@ import {
     managerActorMap,
     managerControllerMap
 } from "../../collections/pxCollections"
+import { lazy } from "@lincode/utils"
+import {
+    increaseLoadingUnpkgCount,
+    decreaseLoadingUnpkgCount
+} from "../../states/useLoadingUnpkgCount"
+import { getPhysXLoaded } from "../../states/usePhysXLoaded"
+
+export const importPhysX = lazy(async () => {
+    increaseLoadingUnpkgCount()
+    await import("../../engine/physx")
+    await new Promise<void>((resolve) =>
+        getPhysXLoaded((loaded, handle) => {
+            if (!loaded) return
+            handle.cancel()
+            resolve()
+        })
+    )
+    decreaseLoadingUnpkgCount()
+})
 
 export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
     configMemoSystemWithCleanUp(
@@ -94,5 +113,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
             if (self.userData.physicsMode === mode) return false
             self.userData.physicsMode = mode
             return true
-        }
+        },
+        [importPhysX]
     )

@@ -17,7 +17,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     public static defaults = revoluteJointDefaults
     public static schema = revoluteJointSchema
 
-    protected createJoint(
+    public createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,

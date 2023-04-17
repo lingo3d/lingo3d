@@ -4,11 +4,13 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
     const queued = new Set<T>()
 
+    const execute = () => {
+        for (const target of queued) cb(target)
+    }
+
     let handle: Cancellable | undefined
     const start = () => {
-        handle = ticker(() => {
-            for (const target of queued) cb(target)
-        })
+        handle = ticker(execute)
     }
     return <const>[
         (item: T) => {

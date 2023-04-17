@@ -7,11 +7,13 @@ export default <T, Data extends Record<string, any>>(
 ) => {
     const queued = new Map<T, Data>()
 
+    const execute = () => {
+        for (const [target, data] of queued) cb(target, data)
+    }
+
     let handle: Cancellable | undefined
     const start = () => {
-        handle = ticker(() => {
-            for (const [target, data] of queued) cb(target, data)
-        })
+        handle = ticker(execute)
     }
     return <const>[
         (item: T, data: Data) => {

@@ -9,17 +9,11 @@ import cookConvexGeometry, {
     decreaseConvexGeometryCount
 } from "../../engine/physx/cookConvexGeometry"
 import { physxPtr } from "../../pointers/physxPtr"
-import { lazy } from "@lincode/utils"
-import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../states/useLoadingUnpkgCount"
 import VisibleObjectManager from "./VisibleObjectManager"
 import {
     addRefreshPhysicsSystem,
     deleteRefreshPhysicsSystem
 } from "../../systems/configSystems/refreshPhysicsSystem"
-import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import {
     controllerVXUpdateMap,
     controllerVYUpdateMap,
@@ -29,19 +23,6 @@ import {
     managerActorPtrMap,
     managerContactMap
 } from "../../collections/pxCollections"
-
-const importPhysX = lazy(async () => {
-    increaseLoadingUnpkgCount()
-    await import("../../engine/physx")
-    await new Promise<void>((resolve) =>
-        getPhysXLoaded((loaded, handle) => {
-            if (!loaded) return
-            handle.cancel()
-            resolve()
-        })
-    )
-    decreaseLoadingUnpkgCount()
-})
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -183,8 +164,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    public refreshPhysics() {
-        importPhysX().then(() => addRefreshPhysicsSystem(this))
+    protected refreshPhysics() {
+        addRefreshPhysicsSystem(this)
     }
 
     private _physics?: PhysicsOptions

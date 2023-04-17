@@ -6,19 +6,21 @@ export default <T extends object>(
 ) => {
     const queued = new Set<T>()
 
+    const execute = () => {
+        for (const target of queued) {
+            //@ts-ignore
+            if (target.done) continue
+            cb(target)
+        }
+        queued.clear()
+        started = false
+    }
+
     let started = false
     const start = () => {
         if (started) return
         started = true
-        ticker(() => {
-            for (const target of queued) {
-                //@ts-ignore
-                if (target.done) continue
-                cb(target)
-            }
-            queued.clear()
-            started = false
-        }, true)
+        ticker(execute, true)
     }
 
     return <const>[

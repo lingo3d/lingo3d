@@ -9,13 +9,15 @@ export default <T, Data extends Record<string, any>>(
 ) => {
     const queued = new Map<T, Data>()
 
+    const execute = () => {
+        onEnterTick(queued)
+        for (const [target, data] of queued) cb(target, data)
+        onExitTick(queued)
+    }
+
     let handle: Cancellable | undefined
     const start = () => {
-        handle = ticker(() => {
-            onEnterTick(queued)
-            for (const [target, data] of queued) cb(target, data)
-            onExitTick(queued)
-        })
+        handle = ticker(execute)
     }
     return <const>[
         (item: T, data: Data) => {

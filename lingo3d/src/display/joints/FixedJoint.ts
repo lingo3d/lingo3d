@@ -20,7 +20,7 @@ export default class FixedJoint extends JointBase implements IFixedJoint {
     public static defaults = fixedJointDefaults
     public static schema = fixedJointSchema
 
-    protected createJoint(
+    public createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
