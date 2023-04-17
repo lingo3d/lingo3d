@@ -17,12 +17,10 @@ type NativeTreeItemProps = TreeItemProps & {
 }
 
 const NativeTreeItem = ({ object3d, appendable }: NativeTreeItemProps) => {
-    const manager = useMemo(() => {
-        const manager = getFoundManager(object3d, appendable)
-        manager.disableSceneGraph = true
-        manager.disableSerialize = true
-        return manager
-    }, [object3d])
+    const manager = useMemo(
+        () => getFoundManager(object3d, appendable),
+        [object3d, appendable]
+    )
 
     const selected = useSelected(manager)
     const expandedSignal = useExpanded(manager)

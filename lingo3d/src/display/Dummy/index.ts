@@ -39,13 +39,7 @@ export default class Dummy extends Model implements IDummy {
             "mixamo" | "readyplayerme" | "other" | undefined
         >(undefined)
         const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
-        this.watch(
-            getSpine((spine) => {
-                if (!spine) return
-                spine.disableSceneGraph = true
-                spine.disableSerialize = true
-            })
-        )
+
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
             super.src = this.srcState.get() || YBOT_URL()
