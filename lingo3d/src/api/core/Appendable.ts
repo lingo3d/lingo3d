@@ -25,32 +25,7 @@ export const getAppendablesById = (id: string) => {
     return userIdMap.get(id) ?? []
 }
 
-const isStringArray = (array: Array<unknown>): array is Array<string> =>
-    typeof array[0] === "string"
-
 type EventName = "name" | "runtimeSchema" | "physics" | "transformControls"
-
-export const getAppendables = (
-    val:
-        | string
-        | Array<string>
-        | Appendable
-        | MeshAppendable
-        | Array<Appendable | MeshAppendable>
-        | undefined
-) => {
-    if (typeof val === "string") return getAppendablesById(val)
-    if (Array.isArray(val)) {
-        const result: Array<Appendable | MeshAppendable> = []
-        if (isStringArray(val))
-            for (const id of val)
-                for (const appendable of getAppendablesById(id))
-                    result.push(appendable)
-        else for (const appendable of val) result.push(appendable)
-        return result
-    }
-    return [val]
-}
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

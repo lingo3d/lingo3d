@@ -1,6 +1,5 @@
 import { memo } from "preact/compat"
 import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
-import { getAppendables } from "../../api/core/Appendable"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import unsafeGetValue from "../../utils/unsafeGetValue"
@@ -27,12 +26,13 @@ const Connection = memo(
         const manager = useMemo(() => uuidMap.get(uuid) as Connector, [])
 
         useLayoutEffect(() => {
-            if (!manager.fromProp || !manager.toProp) return
-            const [from] = getAppendables(manager.from)
-            const [to] = getAppendables(manager.to)
-            if (!from || !to) return
-            ;(from.runtimeIncludeKeys ??= new Set()).add(manager.fromProp)
-            ;(to.runtimeIncludeKeys ??= new Set()).add(manager.toProp)
+            const { fromProp, toProp, from, to } = manager
+            if (!fromProp || !toProp || !from || !to) return
+            const fromManager = uuidMap.get(from)
+            const toManager = uuidMap.get(to)
+            if (!fromManager || !toManager) return
+            ;(fromManager.runtimeIncludeKeys ??= new Set()).add(fromProp)
+            ;(toManager.runtimeIncludeKeys ??= new Set()).add(toProp)
         }, [])
 
         useEffect(() => {

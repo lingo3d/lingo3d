@@ -89,7 +89,7 @@ export default abstract class JointBase
         addUpdatePhysicsSystem(toManager)
     }
 
-    private _to?: string | PhysicsObjectManager
+    private _to?: string
     public get to() {
         return this._to
     }
@@ -98,7 +98,7 @@ export default abstract class JointBase
         addRefreshJointSystem(this)
     }
 
-    private _from?: string | PhysicsObjectManager
+    private _from?: string
     public get from() {
         return this._from
     }

@@ -35,9 +35,7 @@ export default interface IVisible {
     onHitStart: Nullable<(e: HitEvent) => void>
     onHitEnd: Nullable<(e: HitEvent) => void>
 
-    hitTarget: Nullable<
-        string | Array<string> | MeshAppendable | Array<MeshAppendable>
-    >
+    hitTarget: Nullable<string | Array<string>>
 }
 
 export const visibleSchema: Required<ExtractProps<IVisible>> = {
@@ -49,7 +47,7 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     castShadow: Boolean,
     receiveShadow: Boolean,
 
-    hitTarget: [String, Array, Object],
+    hitTarget: [String, Array],
 
     onClick: Function,
     onMouseDown: Function,

@@ -1,8 +1,18 @@
 import { forceGetInstance } from "@lincode/utils"
-import { getAppendables } from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { HitEvent } from "../interface/IVisible"
 import renderSystem from "./utils/renderSystem"
+import Appendable, { getAppendablesById } from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
+
+const getAppendables = (val: string | Array<string> | undefined) => {
+    if (!val) return []
+    if (typeof val === "string") return getAppendablesById(val)
+    const result: Array<Appendable | MeshAppendable> = []
+    for (const id of val)
+        for (const appendable of getAppendablesById(id)) result.push(appendable)
+    return result
+}
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 export const [addHitTestSystem, deleteHitTestSystem] = renderSystem(

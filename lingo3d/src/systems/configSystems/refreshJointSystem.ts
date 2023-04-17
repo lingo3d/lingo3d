@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import { getAppendables } from "../../api/core/Appendable"
 import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
@@ -7,6 +6,7 @@ import { TransformControlsPayload } from "../../events/onTransformControls"
 import { physxPtr } from "../../pointers/physxPtr"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./refreshPhysicsSystem"
+import { uuidMap } from "../../collections/uuidCollections"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -38,8 +38,8 @@ export const [addRefreshJointSystem, deleteRefreshJointSystem] =
             const { destroy } = physxPtr[0]
             if (!destroy || !to || !from) return
 
-            const [toManager] = getAppendables(to)
-            const [fromManager] = getAppendables(from)
+            const toManager = uuidMap.get(to)
+            const fromManager = uuidMap.get(from)
             if (
                 !(toManager instanceof PhysicsObjectManager) ||
                 !(fromManager instanceof PhysicsObjectManager)

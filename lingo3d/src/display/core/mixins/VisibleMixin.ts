@@ -205,11 +205,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         return thisOBB.intersectsOBB(targetOBB)
     }
 
-    private _hitTarget?:
-        | string
-        | Array<string>
-        | MeshAppendable
-        | Array<MeshAppendable>
+    private _hitTarget?: string | Array<string>
     public get hitTarget() {
         return this._hitTarget
     }
