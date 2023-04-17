@@ -4,7 +4,6 @@ import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import getActualScale from "../../utilsCached/getActualScale"
 import scene from "../../engine/scene"
-import configMemoSystemWithCleanUp from "../utils/configMemoSystemWithCleanUp"
 import {
     actorPtrManagerMap,
     controllerManagerMap,
@@ -17,6 +16,7 @@ import {
     decreaseLoadingUnpkgCount
 } from "../../states/useLoadingUnpkgCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
+import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -32,7 +32,7 @@ export const importPhysX = lazy(async () => {
 })
 
 export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
-    configMemoSystemWithCleanUp(
+    configSystemWithCleanUp(
         (self: PhysicsObjectManager) => {
             const mode = self.physics || !!self.jointCount
             if (!mode) return
@@ -108,11 +108,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                 self.emitEvent("physics")
             }
         },
-        (self) => {
-            const mode = self.physics || !!self.jointCount
-            if (self.userData.physicsMode === mode) return false
-            self.userData.physicsMode = mode
-            return true
-        },
+
         [importPhysX]
     )

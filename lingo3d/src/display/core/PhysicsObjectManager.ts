@@ -10,10 +10,7 @@ import cookConvexGeometry, {
 } from "../../engine/physx/cookConvexGeometry"
 import { physxPtr } from "../../pointers/physxPtr"
 import VisibleObjectManager from "./VisibleObjectManager"
-import {
-    addRefreshPhysicsSystem,
-    deleteRefreshPhysicsSystem
-} from "../../systems/configSystems/refreshPhysicsSystem"
+import { deleteRefreshPhysicsSystem } from "../../systems/configSystems/refreshPhysicsSystem"
 import {
     controllerVXUpdateMap,
     controllerVYUpdateMap,
@@ -23,6 +20,7 @@ import {
     managerActorPtrMap,
     managerContactMap
 } from "../../collections/pxCollections"
+import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -164,8 +162,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    protected refreshPhysics() {
-        addRefreshPhysicsSystem(this)
+    protected addUpdatePhysicsSystem() {
+        addUpdatePhysicsSystem(this)
     }
 
     private _physics?: PhysicsOptions
@@ -174,7 +172,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
-        this.refreshPhysics()
+        this.addUpdatePhysicsSystem()
     }
 
     private _jointCount?: number
@@ -183,7 +181,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set jointCount(val) {
         this._jointCount = val
-        this.refreshPhysics()
+        this.addUpdatePhysicsSystem()
     }
 
     //@ts-ignore
