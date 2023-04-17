@@ -5,6 +5,7 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
@@ -17,12 +18,14 @@ createEffect(() => {
     const boxHelper = new BoxHelper(target)
     const frame = requestAnimationFrame(() => scene.add(boxHelper))
     addUpdateSystem(boxHelper)
+    ssrExcludeSet.add(boxHelper)
 
     return () => {
         cancelAnimationFrame(frame)
         scene.remove(boxHelper)
         deleteUpdateSystem(boxHelper)
         boxHelper.dispose()
+        ssrExcludeSet.delete(boxHelper)
     }
 }, [getSelectionTarget])
 
@@ -37,13 +40,17 @@ createEffect(() => {
         boxHelpers.push(boxHelper)
     }
 
-    for (const boxHelper of boxHelpers) addUpdateSystem(boxHelper)
+    for (const boxHelper of boxHelpers) {
+        addUpdateSystem(boxHelper)
+        ssrExcludeSet.add(boxHelper)
+    }
 
     return () => {
         for (const boxHelper of boxHelpers) {
             deleteUpdateSystem(boxHelper)
             scene.remove(boxHelper)
             boxHelper.dispose()
+            ssrExcludeSet.delete(boxHelper)
         }
     }
 }, [getMultipleSelectionTargets])
