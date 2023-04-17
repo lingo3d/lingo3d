@@ -21,7 +21,6 @@ import {
 } from "../collections/reflectionCollections"
 import { measure } from "../utilsCached/measure"
 import { indexChilrenNames } from "../utilsCached/indexChildrenNames"
-import { modelSet } from "../collections/typeGuards"
 import { getFoundManager } from "../api/utils/getFoundManager"
 
 const supported = new Set(["fbx", "glb", "gltf"])
@@ -33,7 +32,6 @@ export default class Model extends Loaded<Group> implements IModel {
 
     public constructor(private unmounted?: boolean) {
         super(unmounted)
-        modelSet.add(this)
     }
 
     private loadingState = new Reactive(0)

@@ -15,16 +15,15 @@ import {
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
-import { isModel } from "../../collections/typeGuards"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
     public static defaults = foundManagerDefaults
     public static schema = foundManagerSchema
 
-    public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
+    public constructor(mesh: Object3D | StandardMesh, private owner: Model) {
         super(mesh, true)
-        owner?.appendNode(this)
+        owner.appendNode(this)
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults
@@ -40,9 +39,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     private retargeted?: boolean
     private retargetAnimations() {
-        if (this.retargeted || !isModel(this.parent)) return
+        if (this.retargeted) return
 
-        const state = this.parent.lazyStates()
+        const state = this.owner.lazyStates()
         if (!state) return
 
         const {

@@ -20,6 +20,3 @@ export const nullableCallbackParams = new WeakSet<NullableCallbackParamType>()
 export const isNullableCallbackParam = (
     val: any
 ): val is NullableCallbackParamType => val && nullableCallbackParams.has(val)
-
-export const modelSet = new WeakSet<Model>()
-export const isModel = (val: any): val is Model => val && modelSet.has(val)
