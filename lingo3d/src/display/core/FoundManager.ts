@@ -26,6 +26,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         owner?.appendNode(this)
         this.disableSceneGraph = true
         this.disableSerialize = true
+        this._name = mesh.name
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults

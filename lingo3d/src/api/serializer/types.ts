@@ -64,7 +64,12 @@ export type GameObjectType =
     | "templateNode"
 
 type VersionNode = { type: "lingo3d"; version: string }
-type FindNode = { type: "find"; name: string; children?: Array<AppendableNode> }
+type FindNode = {
+    type: "find"
+    name: string
+    id?: string
+    children?: Array<AppendableNode>
+}
 type Node = { type: GameObjectType; children?: Array<AppendableNode> }
 export type AppendableNode = Partial<IModel & IPrimitive & { source: string }> &
     Node
