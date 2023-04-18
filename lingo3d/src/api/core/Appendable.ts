@@ -16,6 +16,7 @@ import { userIdMap, uuidMap } from "../../collections/uuidCollections"
 import { disableSerialize } from "../../collections/disableSerialize"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { disableUnload } from "../../collections/disableUnload"
+import { emitId } from "../../events/onId"
 
 type EventName =
     | "name"
@@ -145,6 +146,7 @@ export default class Appendable extends Disposable implements IAppendable {
         this._id && userIdMap.get(this._id)!.delete(this)
         this._id = val
         val && forceGetInstance(userIdMap, val, Set).add(this)
+        emitId(this)
     }
 
     private _uuid?: string
