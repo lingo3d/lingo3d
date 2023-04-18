@@ -23,6 +23,7 @@ type EventName =
     | "runtimeSchema"
     | "physics"
     | "transformControls"
+    | "edit"
     | "loaded"
 
 export default class Appendable extends Disposable implements IAppendable {
