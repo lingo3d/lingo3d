@@ -24,30 +24,6 @@ export const [emitEditorChanges, onEditorChanges] = event<Changes>()
 createEffect(() => {
     if (!getEditorBehavior()) return
 
-    const [selectionTarget] = selectionTargetPtr
-
-    const eventTargets: Array<Appendable> = []
-    selectionTarget && eventTargets.push(selectionTarget)
-    for (const target of getMultipleSelectionTargets()[0])
-        eventTargets.push(target)
-
-    const handle0 = onEditorEdit((phase) => {
-        if (phase === "end")
-            for (const target of eventTargets) target.emitEvent("edit")
-    })
-    const handle1 = onTransformControls((phase) => {
-        if (phase === "end")
-            for (const target of eventTargets) target.emitEvent("edit")
-    })
-    return () => {
-        handle0.cancel()
-        handle1.cancel()
-    }
-}, [getEditorBehavior, getSelectionTarget])
-
-createEffect(() => {
-    if (!getEditorBehavior()) return
-
     const instances = new Set<Appendable>()
     const getInstances = throttleTrailing(() => {
         if (multipleSelectionTargetsFlushingPtr[0]) return
