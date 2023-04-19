@@ -5,7 +5,7 @@ import FoundManager from "./core/FoundManager"
 import { LowPassFilter, mapRange } from "@lincode/math"
 import { vector3 } from "./utils/reusables"
 import { event } from "@lincode/events"
-import { HandLandmarkerResult } from "@mediapipe/tasks-vision"
+import type { GestureRecognizerResult } from "@mediapipe/tasks-vision"
 import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../math/Point3d"
 import { Point3dType } from "../utils/isPoint"
@@ -17,19 +17,23 @@ const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
         .normalize()
 
 const loadHandLandmarker = lazy(async () => {
-    const { HandLandmarker, FilesetResolver } = await import(
+    const { GestureRecognizer, FilesetResolver } = await import(
         "@mediapipe/tasks-vision"
     )
     const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
     )
-    const handLandmarker = await HandLandmarker.createFromOptions(vision, {
-        baseOptions: {
-            modelAssetPath: `https://storage.googleapis.com/mediapipe-assets/hand_landmarker.task`
-        },
-        runningMode: "VIDEO",
-        numHands: 2
-    })
+    const gestureRecognizer = await GestureRecognizer.createFromOptions(
+        vision,
+        {
+            baseOptions: {
+                modelAssetPath:
+                    "https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task"
+            },
+            runningMode: "VIDEO",
+            numHands: 1
+        }
+    )
     const video = createElement<HTMLVideoElement>(`
         <video style="background-color: black" autoplay></video>
     `)
@@ -42,11 +46,10 @@ const loadHandLandmarker = lazy(async () => {
     await new Promise<void>((resolve) =>
         video.addEventListener("loadeddata", () => resolve())
     )
-
-    const [emitDetect, onDetect] = event<HandLandmarkerResult>()
+    const [emitDetect, onDetect] = event<GestureRecognizerResult>()
 
     setInterval(() => {
-        const results = handLandmarker.detectForVideo(video, Date.now())
+        const results = gestureRecognizer.recognizeForVideo(video, Date.now())
         if (!results.landmarks.length) return
         emitDetect(results)
     }, 34)
@@ -121,6 +124,8 @@ export default class HandTracker extends Model {
         })
     }
 
+    public gesture = ""
+
     private _track = false
     public get track() {
         return this._track
@@ -134,6 +139,9 @@ export default class HandTracker extends Model {
                     loadHandLandmarker().then((onDetect) => {
                         handle.watch(
                             onDetect((results) => {
+                                this.gesture =
+                                    results.gestures[0][0].categoryName
+
                                 let i = 0
                                 for (const landmark of results
                                     .worldLandmarks[0]) {
