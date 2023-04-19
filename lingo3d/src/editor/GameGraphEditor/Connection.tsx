@@ -34,7 +34,6 @@ const Connection = memo(
             ;(from.runtimeIncludeKeys ??= new Set()).add(manager.fromProp)
             ;(to.runtimeIncludeKeys ??= new Set()).add(manager.toProp)
         }, [])
-
         useEffect(() => {
             //todo: refactor this with a map
             //todo: also other events like this one
@@ -47,12 +46,14 @@ const Connection = memo(
                 handle.cancel()
             }
         }, [])
-
+        const isBoundingClientRectEmpty = (element: HTMLElement) => {
+            const { x, y, width, height } = element.getBoundingClientRect()
+            return x === 0 && y === 0 && width === 0 && height === 0
+        }
         useEffect(() => {
             let done = false
             queueMicrotask(() => {
                 if (done) return
-
                 const connectorFrom = unsafeGetValue(
                     window,
                     `${formatFrom(manager)} out`
@@ -61,21 +62,28 @@ const Connection = memo(
                     window,
                     manager.to + " " + manager.toProp + " in"
                 )
-
                 if (!connectorFrom || !connectorTo) return
-
-                const boundsFrom = connectorFrom.getBoundingClientRect()
-                const boundsTo = connectorTo.getBoundingClientRect()
-
+                //@ts-ignore
+                const isFormEmpty = isBoundingClientRectEmpty(connectorFrom)
+                const isToEmpty = isBoundingClientRectEmpty(connectorTo)
+                const boundsFrom = isFormEmpty
+                    ? connectorFrom.parentNode.parentNode.parentNode.getBoundingClientRect()
+                    : connectorFrom.getBoundingClientRect()
+                const boundsTo = isToEmpty
+                    ? connectorTo.parentNode.parentNode.parentNode.getBoundingClientRect()
+                    : connectorTo.getBoundingClientRect()
                 setStart(
                     getStagePosition(
-                        boundsFrom.left + boundsFrom.width * 0.5,
+                        boundsFrom.left +
+                            boundsFrom.width * (isFormEmpty ? 1.0 : 0.5),
                         boundsFrom.top + boundsFrom.height * 0.5
                     )
                 )
                 setEnd(
                     getStagePosition(
-                        boundsTo.left + boundsTo.width * 0.5,
+                        isToEmpty
+                            ? boundsTo.left - boundsTo.width * 0.01 // 空位置信息，往左偏移 0.01 * 宽度
+                            : boundsTo.left + boundsTo.width * 0.5,
                         boundsTo.top + boundsTo.height * 0.5
                     )
                 )
@@ -89,20 +97,22 @@ const Connection = memo(
         const selectionTarget = useSyncState(getSelectionTarget)
 
         return (
-            <Bezier
-                start={start}
-                end={end}
-                hoverOpacity={
-                    selectionTarget === manager ? 0.3 : over ? 0.2 : 0
-                }
-                onMouseOver={() => setOver(true)}
-                onMouseOut={() => setOver(false)}
-                onMouseDown={() => emitSelectionTarget(manager, true)}
-                onContextMenu={(e) => {
-                    toggleRightClick(e.clientX, e.clientY)
-                    emitSelectionTarget(manager, true)
-                }}
-            />
+            <>
+                <Bezier
+                    start={start}
+                    end={end}
+                    hoverOpacity={
+                        selectionTarget === manager ? 0.3 : over ? 0.2 : 0
+                    }
+                    onMouseOver={() => setOver(true)}
+                    onMouseOut={() => setOver(false)}
+                    onMouseDown={() => emitSelectionTarget(manager, true)}
+                    onContextMenu={(e) => {
+                        toggleRightClick(e.clientX, e.clientY)
+                        emitSelectionTarget(manager, true)
+                    }}
+                />
+            </>
         )
     },
     () => true
