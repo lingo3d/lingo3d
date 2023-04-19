@@ -8,7 +8,7 @@ import SpotLight from "../display/lights/SpotLight"
 export const [addLightIntensitySystem, deleteLightIntensitySystem] =
     renderSystem((self: PointLight | SpotLight) => {
         const distance = getDistanceFromCamera(self)
-        self.intensity = mapRange(
+        self._intensityFactor = mapRange(
             distance - self.distance * CM2M,
             0,
             50,
@@ -16,5 +16,10 @@ export const [addLightIntensitySystem, deleteLightIntensitySystem] =
             0,
             true
         )
-        self.enabled = !!self.intensity
+        self._enabledFactor = !!self._intensityFactor
+        self.object3d.intensity = self.intensity * self._intensityFactor
+        self.object3d.visible = !!(
+            (self.enabled as any) * (self._enabledFactor as any)
+        )
+        console.log(self.object3d.visible)
     })
