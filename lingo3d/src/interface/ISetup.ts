@@ -12,6 +12,7 @@ export default interface ISetup extends Type {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: Boolean,
+    lightDistance: Number,
     environment: String,
     skybox: [String, Array],
     grid: Boolean,
@@ -48,6 +49,7 @@ export const setupDefaults = extendDefaults<ISetup>(
     [],
     { ...setupStruct },
     {
+        lightDistance: new Range(500, 5000),
         environment: environmentChoices,
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),

@@ -48,6 +48,8 @@ import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
+import { lightDistancePtr } from "../pointers/lightDistancePtr"
+import { CM2M, M2CM } from "../globals"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.disableSceneGraph = true
@@ -60,6 +62,13 @@ export default {
     },
     set defaultLight(value) {
         setDefaultLight(value)
+    },
+
+    get lightDistance() {
+        return lightDistancePtr[0] * M2CM
+    },
+    set lightDistance(value) {
+        lightDistancePtr[0] = value * CM2M
     },
 
     get environment() {
