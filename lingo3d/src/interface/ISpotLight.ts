@@ -5,7 +5,8 @@ import Range from "./utils/Range"
 import {
     CastShadow,
     castShadowChoices,
-    lightDistanceRange
+    lightDistanceRange,
+    lightIntensityRange
 } from "./IPointLight"
 
 export default interface ISpotLight extends ILightBase {
@@ -33,6 +34,7 @@ export const spotLightDefaults = extendDefaults<ISpotLight>(
         angle: 45,
         penumbra: 0.2,
         distance: 500,
+        intensity: 10,
         castShadow: false,
         volumetric: false,
         volumetricDistance: 1

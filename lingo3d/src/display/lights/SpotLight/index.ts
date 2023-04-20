@@ -46,6 +46,7 @@ export default class SpotLight
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)
         this.distance = 500
+        this.intensity = 10
         this.angle = 45
         this.penumbra = 0.2
 

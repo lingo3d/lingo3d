@@ -30,8 +30,6 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
         enabled: true,
         helper: true
     },
-    {
-        intensity: new Range(0, 10)
-    },
+    { intensity: new Range(0, 20) },
     { color: true }
 )

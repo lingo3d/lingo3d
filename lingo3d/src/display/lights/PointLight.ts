@@ -31,6 +31,7 @@ export default class PointLight
     public constructor() {
         super(new ThreePointLight())
         this.distance = 500
+        this.intensity = 10
         addLightIntensitySystem(this)
     }
 
