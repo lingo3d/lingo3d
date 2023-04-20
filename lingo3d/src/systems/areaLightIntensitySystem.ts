@@ -15,7 +15,6 @@ export const [addAreaLightIntensitySystem, deleteAreaLightIntensitySystem] =
             0,
             true
         )
-        const enabledFactor = !!intensityFactor
         self.light.intensity = self.intensity * intensityFactor
-        self.light.visible = !!((self.enabled as any) * (enabledFactor as any))
+        self.light.visible = self.enabled && !!intensityFactor
     })

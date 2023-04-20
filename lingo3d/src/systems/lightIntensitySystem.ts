@@ -27,9 +27,6 @@ export const [addLightIntensitySystem, deleteLightIntensitySystem] =
                   true
               )
             : 0
-        const enabledFactor = !!intensityFactor
         self.object3d.intensity = self.intensity * intensityFactor
-        self.object3d.visible = !!(
-            (self.enabled as any) * (enabledFactor as any)
-        )
+        self.object3d.visible = self.enabled && !!intensityFactor
     })
