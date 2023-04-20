@@ -9,6 +9,6 @@ export const [addConfigAreaLightSystem] = configSystem((self: AreaLight) => {
     light.width = self.width * self.scaleX * CM2M
     light.height = self.height * self.scaleY * CM2M
     light.color.set(self.color ?? "#ffffff")
-    light.intensity = self.intensity
-    light.visible = self.enabled
+    light.intensity = self.intensity * self._intensityFactor
+    light.visible = !!((self.enabled as any) * (self._enabledFactor as any))
 })

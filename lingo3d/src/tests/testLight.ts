@@ -1,4 +1,4 @@
-import { DefaultSkyLight, PointLight, SpotLight, settings } from ".."
+import { DefaultSkyLight, SpotLight } from ".."
 import Cube from "../display/primitives/Cube"
 
 const skylight = new DefaultSkyLight()

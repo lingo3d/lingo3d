@@ -59,9 +59,10 @@ export default class AreaLight extends Plane implements IAreaLight {
         addConfigAreaLightSystem(this)
     }
 
-    private _intensity?: number
+    public _intensityFactor = 1
+    private _intensity = 1
     public get intensity() {
-        return this._intensity ?? 1
+        return this._intensity
     }
     public set intensity(val) {
         this._intensity = val
@@ -119,6 +120,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set receiveShadow(_) {}
 
+    public _enabledFactor = true
     private _enabled = true
     public get enabled() {
         return this._enabled
