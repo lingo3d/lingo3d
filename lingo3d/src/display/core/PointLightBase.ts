@@ -5,13 +5,9 @@ import {
     SpotLight as ThreeSpotLight
 } from "three"
 import { CM2M, M2CM } from "../../globals"
-import IPointLightBase, { CastShadow } from "../../interface/IPointLightBase"
+import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
 import { Cancellable } from "@lincode/promiselikes"
-import {
-    addShadowPhysicsSystem,
-    deleteShadowPhysicsSystem
-} from "../../systems/shadowPhysicsSystem"
 import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
@@ -49,7 +45,7 @@ export default abstract class PointLightBase<
     ) => void
     protected abstract deleteShadowResolutionSystem: (object: this) => void
 
-    private _castShadow: CastShadow = false
+    private _castShadow = false
     public get castShadow() {
         return this._castShadow
     }
@@ -71,19 +67,19 @@ export default abstract class PointLightBase<
                     )
                 })
         )
-        this.cancelHandle(
-            "castShadowPhysics",
-            val === "physics"
-                ? () => {
-                      light.shadow.needsUpdate = true
-                      light.shadow.autoUpdate = false
-                      addShadowPhysicsSystem(this)
-                      return new Cancellable(() => {
-                          light.shadow.autoUpdate = true
-                          deleteShadowPhysicsSystem(this)
-                      })
-                  }
-                : undefined
-        )
+        // this.cancelHandle(
+        //     "castShadowPhysics",
+        //     val === "physics"
+        //         ? () => {
+        //               light.shadow.needsUpdate = true
+        //               light.shadow.autoUpdate = false
+        //               addShadowPhysicsSystem(this)
+        //               return new Cancellable(() => {
+        //                   light.shadow.autoUpdate = true
+        //                   deleteShadowPhysicsSystem(this)
+        //               })
+        //           }
+        //         : undefined
+        // )
     }
 }

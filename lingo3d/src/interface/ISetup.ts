@@ -51,6 +51,11 @@ export const setupDefaults = extendDefaults<ISetup>(
     { ...setupStruct },
     {
         lightDistance: new Range(500, 5000),
+        shadowMode: new Choices({
+            true: true,
+            false: false,
+            physics: "physics"
+        }),
         environment: environmentChoices,
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
