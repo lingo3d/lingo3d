@@ -1,6 +1,7 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import setShadow from "../../../utils/setShadow"
 import Sprite from "../../Sprite"
 
 export default class HelperSprite extends Sprite {
@@ -10,7 +11,7 @@ export default class HelperSprite extends Sprite {
     ) {
         super()
         ssrExcludeSet.add(this.outerObject3d)
-        this.object3d.castShadow = this.object3d.receiveShadow = false
+        setShadow(this.object3d, false)
         this.disableSceneGraph = true
         this.disableSerialize = true
         this.texture = `${EDITOR_URL()}${type}Sprite.png`

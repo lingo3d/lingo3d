@@ -13,6 +13,7 @@ import { planeGeometry } from "../primitives/Plane"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import setShadow from "../../utils/setShadow"
 
 export default class Reflector
     extends PhysicsObjectManager<Mesh>
@@ -23,10 +24,9 @@ export default class Reflector
     public static schema = reflectorSchema
 
     public constructor() {
-        const mesh = new Mesh(planeGeometry)
+        const mesh = setShadow(new Mesh(planeGeometry), false)
         super(mesh)
         ssrExcludeSet.add(this.outerObject3d)
-        mesh.castShadow = mesh.receiveShadow = false
         this.rotationX = 270
         mesh.scale.z = Number.EPSILON
 
