@@ -1,50 +1,37 @@
-import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import {
-    CastShadow,
-    castShadowChoices,
-    lightDistanceRange,
-    lightIntensityRange
-} from "./IPointLight"
+import IPointLightBase, {
+    pointLightBaseDefaults,
+    pointLightBaseSchema
+} from "./IPointLightBase"
 
-export default interface ISpotLight extends ILightBase {
+export default interface ISpotLight extends IPointLightBase {
     angle: number
     penumbra: number
-    distance: number
-    castShadow: CastShadow
     volumetric: boolean
     volumetricDistance: number
 }
 
 export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
-    ...lightBaseSchema,
+    ...pointLightBaseSchema,
     angle: Number,
     penumbra: Number,
-    distance: Number,
-    castShadow: [Boolean, String],
     volumetric: Boolean,
     volumetricDistance: Number
 }
 
 export const spotLightDefaults = extendDefaults<ISpotLight>(
-    [lightBaseDefaults],
+    [pointLightBaseDefaults],
     {
         angle: 45,
         penumbra: 0.2,
-        distance: 500,
-        intensity: 10,
-        castShadow: false,
         volumetric: false,
         volumetricDistance: 1
     },
     {
         angle: new Range(5, 180),
         penumbra: new Range(0, 1),
-        distance: lightDistanceRange,
-        castShadow: castShadowChoices,
         volumetricDistance: new Range(0, 1)
-    },
-    { castShadow: true }
+    }
 )
