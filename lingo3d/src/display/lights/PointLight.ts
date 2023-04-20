@@ -75,8 +75,7 @@ export default class PointLight
             val === "physics"
                 ? () => {
                       light.shadow.autoUpdate = false
-                      "distance" in this &&
-                          addShadowPhysicsSystem(this, { count: 0 })
+                      "distance" in this && addShadowPhysicsSystem(this)
                       return new Cancellable(() => {
                           light.shadow.autoUpdate = true
                           "distance" in this && deleteShadowPhysicsSystem(this)
