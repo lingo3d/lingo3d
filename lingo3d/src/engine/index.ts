@@ -1,5 +1,5 @@
 import "./polyfill"
-import "./shaderOverrides"
+import "./overrides"
 import "./boxHelper"
 import "./skeletonHelper"
 import "./mainCameraManager"
