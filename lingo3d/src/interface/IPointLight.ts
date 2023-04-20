@@ -26,7 +26,7 @@ export const castShadowChoices = new Choices({
 
 export const pointLightDefaults = extendDefaults<IPointLight>(
     [lightBaseDefaults],
-    { distance: 1000, castShadow: false },
+    { distance: 500, castShadow: false },
     {
         distance: lightDistanceRange,
         castShadow: castShadowChoices

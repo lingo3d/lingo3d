@@ -1,4 +1,4 @@
-import { PointLight as ThreePointLight } from "three"
+import { Sphere, PointLight as ThreePointLight } from "three"
 import { CM2M, M2CM } from "../../globals"
 import IPointLight, {
     CastShadow,
@@ -30,7 +30,7 @@ export default class PointLight
 
     public constructor() {
         super(new ThreePointLight())
-        this.distance = 1000
+        this.distance = 500
         addLightIntensitySystem(this)
     }
 
@@ -39,6 +39,7 @@ export default class PointLight
         deleteLightIntensitySystem(this)
     }
 
+    public _boundingSphere = new Sphere()
     public get distance() {
         return this.object3d.distance * M2CM
     }

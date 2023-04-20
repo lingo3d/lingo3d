@@ -1,4 +1,5 @@
-// import { ShaderChunk } from "three"
+import { ShaderChunk, Frustum, Object3D } from "three"
+import computePerFrame2 from "../../utilsCached/utils/computePerFrame2"
 // import lights_pars_begin from "./lights_pars_begin"
 // import lights_fragment_begin from "./lights_fragment_begin"
 

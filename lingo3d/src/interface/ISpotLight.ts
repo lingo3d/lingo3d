@@ -32,7 +32,7 @@ export const spotLightDefaults = extendDefaults<ISpotLight>(
     {
         angle: 45,
         penumbra: 0.2,
-        distance: 1000,
+        distance: 500,
         castShadow: false,
         volumetric: false,
         volumetricDistance: 1

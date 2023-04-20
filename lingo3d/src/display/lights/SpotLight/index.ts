@@ -2,7 +2,8 @@ import {
     ConeGeometry,
     Mesh,
     SpotLight as ThreeSpotLight,
-    SpotLightHelper
+    SpotLightHelper,
+    Sphere
 } from "three"
 import LightBase from "../../core/LightBase"
 import ISpotLight, {
@@ -44,7 +45,7 @@ export default class SpotLight
 
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)
-        this.distance = 1000
+        this.distance = 500
         this.angle = 45
         this.penumbra = 0.2
 
@@ -113,6 +114,7 @@ export default class SpotLight
         this.object3d.penumbra = val
     }
 
+    public _boundingSphere = new Sphere()
     public get distance() {
         return this.object3d.distance * M2CM
     }
