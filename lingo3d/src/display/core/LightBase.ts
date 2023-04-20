@@ -55,14 +55,11 @@ export default abstract class LightBase<T extends Light>
         this.object3d.dispose()
     }
 
-    public _enabledFactor = true
-    private _enabled = true
     public get enabled() {
-        return this._enabled
+        return this.object3d.visible
     }
     public set enabled(val) {
-        this._enabled = val
-        this.object3d.visible = !!((val as any) * (this._enabledFactor as any))
+        this.object3d.visible = val
     }
 
     protected helperState = new Reactive(true)
@@ -80,13 +77,10 @@ export default abstract class LightBase<T extends Light>
         this.object3d.color.set(val)
     }
 
-    public _intensityFactor = 1
-    private _intensity = 1
     public get intensity() {
-        return this._intensity
+        return this.object3d.intensity
     }
     public set intensity(val) {
-        this._intensity = val
-        this.object3d.intensity = val * this._intensityFactor
+        this.object3d.intensity = val
     }
 }

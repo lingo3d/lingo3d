@@ -10,7 +10,7 @@ import { CM2M } from "../globals"
 
 export const [addLightIntensitySystem, deleteLightIntensitySystem] =
     renderSystem((self: PointLightBase<any>) => {
-        self._intensityFactor = getFrustum(
+        const intensityFactor = getFrustum(
             cameraRenderedPtr[0]
         ).intersectsSphere(
             self._boundingSphere.set(
@@ -27,9 +27,9 @@ export const [addLightIntensitySystem, deleteLightIntensitySystem] =
                   true
               )
             : 0
-        self._enabledFactor = !!self._intensityFactor
-        self.object3d.intensity = self.intensity * self._intensityFactor
+        const enabledFactor = !!intensityFactor
+        self.object3d.intensity = self.intensity * intensityFactor
         self.object3d.visible = !!(
-            (self.enabled as any) * (self._enabledFactor as any)
+            (self.enabled as any) * (enabledFactor as any)
         )
     })

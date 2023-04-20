@@ -82,4 +82,20 @@ export default abstract class PointLightBase<
         //         : undefined
         // )
     }
+
+    private _intensity = 1
+    public override get intensity() {
+        return this._intensity
+    }
+    public override set intensity(val) {
+        this._intensity = val
+    }
+
+    private _enabled = true
+    public override get enabled() {
+        return this._enabled
+    }
+    public override set enabled(val) {
+        this._enabled = val
+    }
 }
