@@ -75,11 +75,12 @@ export default abstract class PointLightBase<
             "castShadowPhysics",
             val === "physics"
                 ? () => {
+                      light.shadow.needsUpdate = true
                       light.shadow.autoUpdate = false
-                      "distance" in this && addShadowPhysicsSystem(this)
+                      addShadowPhysicsSystem(this)
                       return new Cancellable(() => {
                           light.shadow.autoUpdate = true
-                          "distance" in this && deleteShadowPhysicsSystem(this)
+                          deleteShadowPhysicsSystem(this)
                       })
                   }
                 : undefined
