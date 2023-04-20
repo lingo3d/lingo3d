@@ -115,11 +115,6 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set castShadow(_) {}
 
-    public override get receiveShadow() {
-        return false
-    }
-    public override set receiveShadow(_) {}
-
     public _enabledFactor = true
     private _enabled = true
     public get enabled() {

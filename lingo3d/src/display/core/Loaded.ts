@@ -169,17 +169,6 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override get receiveShadow() {
-        return super.receiveShadow
-    }
-    public override set receiveShadow(val) {
-        //@ts-ignore
-        this._receiveShadow = val
-        this.cancelHandle("receiveShadow", () =>
-            this.events.on("loaded", () => (super.receiveShadow = val))
-        )
-    }
-
     public get boxVisible() {
         return false
     }

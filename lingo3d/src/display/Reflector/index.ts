@@ -15,7 +15,7 @@ import { rendererPtr } from "../../pointers/rendererPtr"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 export default class Reflector
-    extends PhysicsObjectManager
+    extends PhysicsObjectManager<Mesh>
     implements IReflector
 {
     public static componentName = "reflector"
@@ -23,12 +23,9 @@ export default class Reflector
     public static schema = reflectorSchema
 
     public constructor() {
-        const mesh = new Mesh(planeGeometry)
-        mesh.castShadow = true
-        mesh.receiveShadow = true
-
-        super(mesh)
+        super(new Mesh(planeGeometry))
         ssrExcludeSet.add(this.outerObject3d)
+        this.object3d.castShadow = this.object3d.receiveShadow = false
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
 
@@ -38,20 +35,24 @@ export default class Reflector
                     if (this.done) return
 
                     const [camera] = cameraRenderedPtr
-                    const mat = (mesh.material = new MeshReflectorMaterial(
-                        rendererPtr[0],
-                        camera,
-                        scene,
-                        this.object3d,
-                        {
-                            resolution: this.resolutionState.get(),
-                            blur: [this.blurState.get(), this.blurState.get()],
-                            mixBlur: 2.5,
-                            mixContrast: this.contrastState.get(),
-                            mirror: this.mirrorState.get(),
-                            distortionMap: undefined
-                        }
-                    ))
+                    const mat = (this.object3d.material =
+                        new MeshReflectorMaterial(
+                            rendererPtr[0],
+                            camera,
+                            scene,
+                            this.object3d,
+                            {
+                                resolution: this.resolutionState.get(),
+                                blur: [
+                                    this.blurState.get(),
+                                    this.blurState.get()
+                                ],
+                                mixBlur: 2.5,
+                                mixContrast: this.contrastState.get(),
+                                mirror: this.mirrorState.get(),
+                                distortionMap: undefined
+                            }
+                        ))
                     const handle = onRender(() => {
                         camera.updateWorldMatrix(true, false)
                         mat.update()

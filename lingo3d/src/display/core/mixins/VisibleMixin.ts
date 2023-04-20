@@ -98,16 +98,6 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this.outerObject3d.traverse((child) => (child.castShadow = bool))
     }
 
-    protected _receiveShadow?: boolean
-    public get receiveShadow() {
-        return this._receiveShadow
-    }
-    public set receiveShadow(val) {
-        this._receiveShadow = val
-        const bool = !!val
-        this.outerObject3d.traverse((child) => (child.receiveShadow = bool))
-    }
-
     public addToRaycastSet(set: Set<Object3D>) {
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))

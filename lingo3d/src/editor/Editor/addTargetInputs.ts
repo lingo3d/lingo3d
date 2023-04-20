@@ -140,8 +140,7 @@ export default (
     const [displayParams, displayRest] = splitObject(animationRest, [
         "visible",
         "innerVisible",
-        "castShadow",
-        "receiveShadow"
+        "castShadow"
     ])
     displayParams &&
         addInputs(

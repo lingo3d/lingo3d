@@ -23,7 +23,6 @@ export default interface IVisible {
     visible: Nullable<boolean>
     reflectionVisible: Nullable<boolean>
     castShadow: Nullable<boolean>
-    receiveShadow: Nullable<boolean>
 
     onClick: Nullable<(e: LingoMouseEvent) => void>
     onMouseDown: Nullable<(e: LingoMouseEvent) => void>
@@ -45,7 +44,6 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     visible: Boolean,
     reflectionVisible: Boolean,
     castShadow: Boolean,
-    receiveShadow: Boolean,
 
     hitTarget: [String, Array],
 
@@ -67,7 +65,6 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
     visible: nullableDefault(true),
     reflectionVisible: nullableDefault(false),
     castShadow: nullableDefault(true),
-    receiveShadow: nullableDefault(true),
 
     hitTarget: undefined,
 
