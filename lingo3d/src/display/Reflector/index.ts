@@ -23,11 +23,12 @@ export default class Reflector
     public static schema = reflectorSchema
 
     public constructor() {
-        super(new Mesh(planeGeometry))
+        const mesh = new Mesh(planeGeometry)
+        super(mesh)
         ssrExcludeSet.add(this.outerObject3d)
-        this.object3d.castShadow = this.object3d.receiveShadow = false
+        mesh.castShadow = mesh.receiveShadow = false
         this.rotationX = 270
-        this.object3d.scale.z = Number.EPSILON
+        mesh.scale.z = Number.EPSILON
 
         import("./MeshReflectorMaterial").then(
             ({ default: MeshReflectorMaterial }) => {
@@ -35,24 +36,20 @@ export default class Reflector
                     if (this.done) return
 
                     const [camera] = cameraRenderedPtr
-                    const mat = (this.object3d.material =
-                        new MeshReflectorMaterial(
-                            rendererPtr[0],
-                            camera,
-                            scene,
-                            this.object3d,
-                            {
-                                resolution: this.resolutionState.get(),
-                                blur: [
-                                    this.blurState.get(),
-                                    this.blurState.get()
-                                ],
-                                mixBlur: 2.5,
-                                mixContrast: this.contrastState.get(),
-                                mirror: this.mirrorState.get(),
-                                distortionMap: undefined
-                            }
-                        ))
+                    const mat = (mesh.material = new MeshReflectorMaterial(
+                        rendererPtr[0],
+                        camera,
+                        scene,
+                        mesh,
+                        {
+                            resolution: this.resolutionState.get(),
+                            blur: [this.blurState.get(), this.blurState.get()],
+                            mixBlur: 2.5,
+                            mixContrast: this.contrastState.get(),
+                            mirror: this.mirrorState.get(),
+                            distortionMap: undefined
+                        }
+                    ))
                     const handle = onRender(() => {
                         camera.updateWorldMatrix(true, false)
                         mat.update()

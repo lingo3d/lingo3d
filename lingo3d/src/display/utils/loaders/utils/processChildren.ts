@@ -19,10 +19,9 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
 
         child.material.side = DoubleSide
 
-        if (child.material.opacity === 1) {
-            child.castShadow = true
-            child.receiveShadow = true
-        }
+        if (child.material.opacity === 1)
+            child.castShadow = child.receiveShadow = true
+            
         child.material.userData.TextureManager = createTextureManager(
             child.material as MeshStandardMaterial
         )

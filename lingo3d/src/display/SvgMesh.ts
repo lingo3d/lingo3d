@@ -107,8 +107,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
         for (const geometry of geometries) {
             const mesh = new Mesh(geometry, this._material)
-            mesh.castShadow = true
-            mesh.receiveShadow = true
+            mesh.castShadow = mesh.receiveShadow = true
             loadedObject3d.add(mesh)
         }
 
