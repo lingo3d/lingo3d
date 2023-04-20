@@ -3,7 +3,7 @@ import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
 
 const resolutions = [1024, 512, 256, 128]
-const biases = [-0.003, -0.003, -0.003, -0.003]
+const biases = [-0.006, -0.005, -0.004, -0.003]
 
 export const [
     addSpotLightShadowResolutionSystem,
