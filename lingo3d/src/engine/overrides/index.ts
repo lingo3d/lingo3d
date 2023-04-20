@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import { shadowModePtr } from "../../pointers/shadowModePtr"
+import { shadowPtr } from "../../pointers/shadowPtr"
 // import lights_pars_begin from "./lights_pars_begin"
 // import lights_fragment_begin from "./lights_fragment_begin"
 
@@ -9,6 +9,6 @@ import { shadowModePtr } from "../../pointers/shadowModePtr"
 const clone = Object3D.prototype.clone
 Object3D.prototype.clone = function (recursive) {
     const result = clone.call(this, recursive)
-    if (!shadowModePtr[0]) result.castShadow = false
+    result.castShadow = shadowPtr[0]
     return result
 }

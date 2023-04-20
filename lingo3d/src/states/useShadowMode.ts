@@ -1,6 +1,6 @@
 import store from "@lincode/reactivity"
-import { shadowModePtr } from "../pointers/shadowModePtr"
+import { shadowPtr } from "../pointers/shadowPtr"
 
 export const [setShadowMode, getShadowMode] = store<boolean | "physics">(true)
 
-getShadowMode((val) => (shadowModePtr[0] = val))
+getShadowMode((val) => (shadowPtr[0] = val === true))
