@@ -13,6 +13,7 @@ export default interface ISetup extends Type {}
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: Boolean,
     lightDistance: Number,
+    shadowMode: [Boolean, String],
     environment: String,
     skybox: [String, Array],
     grid: Boolean,

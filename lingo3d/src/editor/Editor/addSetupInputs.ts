@@ -29,6 +29,7 @@ export default (
         "exposure",
         "defaultLight",
         "lightDistance",
+        "shadowMode",
         "environment",
         "skybox",
         "texture",

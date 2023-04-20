@@ -50,6 +50,7 @@ import { getGravity, setGravity } from "../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
 import { lightDistancePtr } from "../pointers/lightDistancePtr"
 import { CM2M, M2CM } from "../globals"
+import { getShadowMode, setShadowMode } from "../states/useShadowMode"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.disableSceneGraph = true
@@ -69,6 +70,13 @@ export default {
     },
     set lightDistance(value) {
         lightDistancePtr[0] = value * CM2M
+    },
+
+    get shadowMode() {
+        return getShadowMode()
+    },
+    set shadowMode(value) {
+        setShadowMode(value)
     },
 
     get environment() {
