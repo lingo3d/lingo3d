@@ -1,5 +1,5 @@
 import store from "@lincode/reactivity"
-import { shadowPtr } from "../pointers/shadowPtr"
+import { castShadowPtr } from "../pointers/castShadowPtr"
 import scene from "../engine/scene"
 import { getPhysicsObjectManager } from "../api/utils/getManager"
 
@@ -7,12 +7,12 @@ export const [setShadowMode, getShadowMode] = store<boolean | "physics">(true)
 
 let first = true
 getShadowMode((val) => {
-    const shadow = (shadowPtr[0] = val === true)
+    castShadowPtr[0] = val === true
     if (first) {
         first = false
         return
     }
-    if (shadow)
+    if (val === true)
         scene.traverse((child) => {
             if ("isMesh" in child) child.castShadow = child.receiveShadow
         })

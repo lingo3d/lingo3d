@@ -15,12 +15,12 @@ deserialize(data)
 const [found] = getAppendablesById("car")
 const model = found as Model
 
-const light = new PointLight()
-light.x = 0
-light.y = 50
-light.z = 0
-light.helper = false
-light.castShadow = true
+// const light = new PointLight()
+// light.x = 0
+// light.y = 50
+// light.z = 0
+// light.helper = false
+// light.castShadow = true
 
 const handTracker = new HandTracker()
 handTracker.x = 150

@@ -35,6 +35,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
     configSystemWithCleanUp(
         (self: PhysicsObjectManager) => {
             const mode = self.physics || !!self.jointCount
+            //mark
             if (!mode) return
 
             const {
