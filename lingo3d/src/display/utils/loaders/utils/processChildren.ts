@@ -21,7 +21,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
 
         if (child.material.opacity === 1)
             child.castShadow = child.receiveShadow = true
-            
+
         child.material.userData.TextureManager = createTextureManager(
             child.material as MeshStandardMaterial
         )
