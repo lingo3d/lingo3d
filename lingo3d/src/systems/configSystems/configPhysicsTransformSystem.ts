@@ -5,7 +5,7 @@ import { dtPtr } from "../../pointers/dtPtr"
 import { physxPtr } from "../../pointers/physxPtr"
 import configSystem from "../utils/configSystem"
 
-export const [addUpdatePhysicsTransformSystem] = configSystem(
+export const [addConfigPhysicsTransformSystem] = configSystem(
     (manager: PhysicsObjectManager) => {
         const controller = managerControllerMap.get(manager)
         if (controller) {

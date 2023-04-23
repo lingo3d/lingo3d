@@ -2,7 +2,7 @@ import { Vector3 } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addUpdatePhysicsSystem } from "./configSystems/updatePhysicsSystem"
+import { addConfigPhysicsSystem } from "./configSystems/configPhysicsSystem"
 import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
@@ -27,6 +27,6 @@ export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
         self.x = x
         self.y = y
         self.z = z
-        addUpdatePhysicsSystem(self)
+        addConfigPhysicsSystem(self)
     }
 )

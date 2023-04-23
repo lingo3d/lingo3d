@@ -1,7 +1,7 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addUpdatePhysicsSystem } from "./configSystems/updatePhysicsSystem"
+import { addConfigPhysicsSystem } from "./configSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
 
@@ -37,6 +37,6 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
             deleteMoveToSystem(self)
             self.onMoveToEnd?.()
         }
-        addUpdatePhysicsSystem(self)
+        addConfigPhysicsSystem(self)
     }
 )

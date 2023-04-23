@@ -220,9 +220,9 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    protected override addUpdatePhysicsSystem() {
-        this.cancelHandle("addUpdatePhysicsSystem", () =>
-            this.events.once("loaded", () => super.addUpdatePhysicsSystem())
+    protected override addConfigPhysicsSystem() {
+        this.cancelHandle("addConfigPhysicsSystem", () =>
+            this.events.once("loaded", () => super.addConfigPhysicsSystem())
         )
     }
 

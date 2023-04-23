@@ -2,9 +2,9 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import configSystem from "../utils/configSystem"
 import { addRefreshPhysicsSystem } from "./refreshPhysicsSystem"
-import { addUpdatePhysicsTransformSystem } from "./updatePhysicsTransformSystem"
+import { addConfigPhysicsTransformSystem } from "./configPhysicsTransformSystem"
 
-export const [addUpdatePhysicsSystem] = configSystem(
+export const [addConfigPhysicsSystem] = configSystem(
     (self: MeshAppendable | PhysicsObjectManager) => {
         if (!("physics" in self)) return
 
@@ -15,6 +15,6 @@ export const [addUpdatePhysicsSystem] = configSystem(
         self.userData.physicsMode = mode
 
         if (modeChanged) addRefreshPhysicsSystem(self)
-        else if (self.actor) addUpdatePhysicsTransformSystem(self)
+        else if (self.actor) addConfigPhysicsTransformSystem(self)
     }
 )

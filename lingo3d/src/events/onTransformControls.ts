@@ -2,7 +2,7 @@ import { event } from "@lincode/events"
 import { filterBoolean } from "@lincode/utils"
 import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { addUpdatePhysicsSystem } from "../systems/configSystems/updatePhysicsSystem"
+import { addConfigPhysicsSystem } from "../systems/configSystems/configPhysicsSystem"
 import MeshAppendable from "../api/core/MeshAppendable"
 import Appendable from "../api/core/Appendable"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
@@ -30,10 +30,10 @@ onTransformControls((phase) => {
         for (const target of targets) {
             if (!("object3d" in target)) continue
             target.userData.physicsMode = undefined
-            addUpdatePhysicsSystem(target)
+            addConfigPhysicsSystem(target)
         }
         return
     }
     for (const target of targets)
-        "object3d" in target && addUpdatePhysicsSystem(target)
+        "object3d" in target && addConfigPhysicsSystem(target)
 })

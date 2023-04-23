@@ -6,7 +6,7 @@ import { flushMultipleSelectionTargets } from "../../states/useMultipleSelection
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import HelperSphere from "./utils/HelperSphere"
-import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import {
@@ -85,8 +85,8 @@ export default abstract class JointBase
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
         addRefreshJointSystem(this)
-        addUpdatePhysicsSystem(fromManager)
-        addUpdatePhysicsSystem(toManager)
+        addConfigPhysicsSystem(fromManager)
+        addConfigPhysicsSystem(toManager)
     }
 
     private _to?: string

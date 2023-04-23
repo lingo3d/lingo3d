@@ -20,7 +20,7 @@ import {
     managerActorPtrMap,
     managerContactMap
 } from "../../collections/pxCollections"
-import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -162,8 +162,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    protected addUpdatePhysicsSystem() {
-        addUpdatePhysicsSystem(this)
+    protected addConfigPhysicsSystem() {
+        addConfigPhysicsSystem(this)
     }
 
     private _physics?: PhysicsOptions
@@ -172,7 +172,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
-        this.addUpdatePhysicsSystem()
+        this.addConfigPhysicsSystem()
     }
 
     private _jointCount?: number
@@ -181,7 +181,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set jointCount(val) {
         this._jointCount = val
-        this.addUpdatePhysicsSystem()
+        this.addConfigPhysicsSystem()
     }
 
     //@ts-ignore
