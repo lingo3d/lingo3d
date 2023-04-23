@@ -9,6 +9,11 @@ abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
     implements IVisibleObjectManager
 {
+    public constructor(object3d?: T, unmounted?: boolean) {
+        super(object3d, unmounted)
+        this.castShadow = true
+    }
+
     public get innerVisible() {
         return this.object3d.visible
     }
