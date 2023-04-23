@@ -3,6 +3,9 @@ import { PointType } from "../../utils/isPoint"
 const toFixed = (v: number) => Number(v.toFixed(2))
 export default toFixed
 
+export const toNullableFixed = (v: number | undefined) =>
+    v === undefined ? undefined : toFixed(v)
+
 export const toFixedPoint = (value: PointType) => {
     if (value.z !== undefined)
         return {

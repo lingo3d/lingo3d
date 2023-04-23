@@ -1,4 +1,3 @@
-import { Point } from "@lincode/math"
 import { filter } from "@lincode/utils"
 import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
@@ -8,13 +7,14 @@ import { ColorString } from "../interface/ITexturedStandard"
 import { uuidMaterialMap } from "../collections/uuidCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
+import { PointType } from "../utils/isPoint"
 
 export type MaterialParams = [
     color: ColorString,
     opacity: number,
     texture: string,
     alphaMap: string,
-    textureRepeat: number | Point,
+    textureRepeat: number | PointType,
     textureFlipY: boolean,
     textureRotation: number,
     wireframe: boolean,
