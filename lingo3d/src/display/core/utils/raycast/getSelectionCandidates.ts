@@ -18,8 +18,8 @@ const traverse = (
     for (const manager of targets) {
         if (frozenSet.has(manager) || selectionDisabledSet.has(manager))
             continue
-        "addToRaycastSet" in manager &&
-            manager.addToRaycastSet(selectionCandidates)
+        "_addToRaycastSet" in manager &&
+            manager._addToRaycastSet(selectionCandidates)
         manager.children && traverse(manager.children, frozenSet)
     }
 }
@@ -39,7 +39,7 @@ const traverseNative = async (
             return
         const manager = getFoundManager(child, selectionFocus as any)
         if (frozenSet.has(manager) || selectionDisabledSet.has(manager)) return
-        manager.addToRaycastSet(selectionCandidates)
+        manager._addToRaycastSet(selectionCandidates)
     })
 }
 
