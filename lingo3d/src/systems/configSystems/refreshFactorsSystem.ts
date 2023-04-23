@@ -1,13 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { forceGet } from "@lincode/utils"
-import {
-    WebGLCubeRenderTarget,
-    HalfFloatType,
-    CubeCamera,
-    Object3D
-} from "three"
-import { StandardMesh } from "../../display/core/mixins/TexturedStandardMixin"
-import TextureManager from "../../display/core/TextureManager"
+import { WebGLCubeRenderTarget, HalfFloatType, CubeCamera } from "three"
 import type Model from "../../display/Model"
 import { NEAR } from "../../globals"
 import unsafeSetValue from "../../utils/unsafeSetValue"
@@ -21,13 +13,11 @@ import {
     reflectionDataMap
 } from "../../collections/reflectionCollections"
 import { uuidTextureMap } from "../../collections/uuidCollections"
-import { textureManagerMap } from "../../collections/textureManagerMap"
-
-const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
+import FoundManager from "../../display/core/FoundManager"
 
 const setFactor = (
     factor: number | undefined,
-    textureManager: TextureManager,
+    textureManager: FoundManager,
     key: string
 ) =>
     unsafeSetValue(
@@ -71,18 +61,8 @@ export const [addRefreshFactorsSystem] = configSystem((model: Model) => {
             })
         }
     }
-    const textureManagers = forceGet(modelTextureManagersMap, model, () => {
-        const result: Array<TextureManager> = []
-        //mark
-        model.outerObject3d.traverse((child: Object3D | StandardMesh) => {
-            if (!("material" in child)) return
-            const TextureManager = textureManagerMap.get(child.material)
-            TextureManager && result.push(new TextureManager(child, model))
-        })
-        return result
-    })
     const reflectionTexture = reflectionDataMap.get(model)?.[0]
-    for (const textureManager of textureManagers) {
+    for (const textureManager of model.findAllMeshes()) {
         setFactor(metalnessFactor, textureManager, "metalness")
         setFactor(roughnessFactor, textureManager, "roughness")
         setFactor(opacityFactor, textureManager, "opacity")

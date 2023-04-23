@@ -23,6 +23,10 @@ import { measure } from "../utilsCached/measure"
 import { indexChildrenNames } from "../utilsCached/indexChildrenNames"
 import { getFoundManager } from "../api/utils/getFoundManager"
 import { indexMeshChildrenNames } from "../utilsCached/indexMeshChildrenNames"
+import findFirst from "../utilsCached/findFirst"
+import findFirstMesh from "../utilsCached/findFirstMesh"
+import findAll from "../utilsCached/findAll"
+import findAllMeshes from "../utilsCached/findAllMeshes"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
@@ -255,29 +259,20 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     private _findFirst(
-        name: string | RegExp | ((childName: string) => boolean),
+        name: (childName: string) => boolean,
         children: Map<string, Object3D>
     ) {
-        if (typeof name === "string") {
-            const sanitized = PropertyBinding.sanitizeNodeName(name)
-            for (const child of children.values())
-                if (child.name.startsWith(sanitized))
-                    return getFoundManager(child, this)
-        } else if (typeof name === "function") {
-            for (const child of children.values())
-                if (name(child.name)) return getFoundManager(child, this)
-        } else
-            for (const child of children.values())
-                if (name.test(child.name)) return getFoundManager(child, this)
+        for (const child of children.values())
+            if (name(child.name)) return getFoundManager(child, this)
     }
-    public findFirst(name: string | RegExp | ((childName: string) => boolean)) {
+    public findFirst(name: string | ((childName: string) => boolean)) {
         if (!this.loadedObject3d) return
+        if (typeof name === "string") return findFirst(this, name)
         return this._findFirst(name, indexChildrenNames(this.loadedObject3d))
     }
-    public findFirstMesh(
-        name: string | RegExp | ((childName: string) => boolean)
-    ) {
+    public findFirstMesh(name: string | ((childName: string) => boolean)) {
         if (!this.loadedObject3d) return
+        if (typeof name === "string") return findFirstMesh(this, name)
         return this._findFirst(
             name,
             indexMeshChildrenNames(this.loadedObject3d)
@@ -285,36 +280,25 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     private _findAll(
-        name: string | RegExp | ((childName: string) => boolean) | undefined,
+        name: (childName: string) => boolean,
         children: Map<string, Object3D>
     ) {
         const result: Array<FoundManager> = []
-        if (name === undefined)
-            for (const child of children.values())
-                result.push(getFoundManager(child, this))
-        else if (typeof name === "string") {
-            const sanitized = PropertyBinding.sanitizeNodeName(name)
-            for (const child of children.values())
-                child.name.startsWith(sanitized) &&
-                    result.push(getFoundManager(child, this))
-        } else if (typeof name === "function") {
-            for (const child of children.values())
-                name(child.name) && result.push(getFoundManager(child, this))
-        } else
-            for (const child of children.values())
-                name.test(child.name) &&
-                    result.push(getFoundManager(child, this))
+        for (const child of children.values())
+            name(child.name) && result.push(getFoundManager(child, this))
 
         return result
     }
-    public findAll(name?: string | RegExp | ((childName: string) => boolean)) {
+    public findAll(name?: string | ((childName: string) => boolean)) {
         if (!this.loadedObject3d) return []
+        if (!name) return findAll(this, "")
+        else if (typeof name === "string") return findAll(this, name)
         return this._findAll(name, indexChildrenNames(this.loadedObject3d))
     }
-    public findAllMeshes(
-        name?: string | RegExp | ((childName: string) => boolean)
-    ) {
+    public findAllMeshes(name?: string | ((childName: string) => boolean)) {
         if (!this.loadedObject3d) return []
+        if (!name) return findAllMeshes(this, "")
+        else if (typeof name === "string") return findAllMeshes(this, name)
         return this._findAll(name, indexMeshChildrenNames(this.loadedObject3d))
     }
 }
