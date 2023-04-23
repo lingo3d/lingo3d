@@ -23,7 +23,7 @@ const setFactor = (
     unsafeSetValue(
         textureManager,
         key,
-        factor === undefined
+        factor === undefined || factor === 1
             ? textureManager.defaults[key]
             : Math.max(textureManager.defaults[key], 0.25) * factor
     )

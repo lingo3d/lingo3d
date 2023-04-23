@@ -7,8 +7,7 @@ import IFoundManager, {
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 import TexturedStandardMixin, {
-    StandardMesh,
-    standardDefaults
+    StandardMesh
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
@@ -22,7 +21,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static schema = foundManagerSchema
 
     protected _materialParams?: MaterialParams
-    public defaults = standardDefaults
+    protected _defaults?: Record<string, any>
 
     public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
         super(mesh, true)
@@ -33,8 +32,8 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
         if (!("material" in mesh)) return
 
-        this.defaults = materialDefaultsMap.get(mesh.material)!
-        this._materialParams = Object.values(this.defaults) as MaterialParams
+        this._defaults = materialDefaultsMap.get(mesh.material)!
+        this._materialParams = Object.values(this._defaults) as MaterialParams
     }
 
     private retargeted?: boolean
