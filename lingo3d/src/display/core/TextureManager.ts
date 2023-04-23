@@ -6,11 +6,13 @@ import ITexturedStandard, {
 import { MaterialParams } from "../../pools/materialPool"
 import { color } from "../utils/reusables"
 import {
+    StandardMesh,
     standardDefaultParams,
     standardDefaults
 } from "./mixins/TexturedStandardMixin"
+import Model from "../Model"
 
-export default abstract class TextureManager implements ITexturedStandard {
+export default class TextureManager implements ITexturedStandard {
     public defaults = standardDefaults
     public defaultParams = standardDefaultParams
     public addRefreshParamsSystem(_: TextureManager) {}
@@ -19,18 +21,20 @@ export default abstract class TextureManager implements ITexturedStandard {
     public static defaultParams = standardDefaultParams
     public static addRefreshParamsSystem(_: TextureManager) {}
 
+    public constructor(public object3d: StandardMesh, public owner: Model) {}
+
     public get material() {
-        //@ts-ignore
         return this.object3d.material
     }
     public set material(val: MeshStandardMaterial) {
-        //@ts-ignore
         this.object3d.material = val
     }
 
-    public get materialParams(): MaterialParams {
-        //@ts-ignore
-        return (this._materialParams ??= Object.values(this.defaultParams))
+    public _materialParams?: MaterialParams
+    public get materialParams() {
+        return (this._materialParams ??= Object.values(
+            this.defaultParams
+        ) as MaterialParams)
     }
 
     public materialParamString?: string

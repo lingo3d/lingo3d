@@ -15,6 +15,7 @@ import {
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
+import { textureManagerMap } from "../../collections/textureManagerMap"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -33,8 +34,8 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
             this.defaultParams = standardDefaultParams
             return
         }
-        const { defaults, defaultParams, addRefreshParamsSystem } = mesh
-            .material.userData.TextureManager as typeof TextureManager
+        const { defaults, defaultParams, addRefreshParamsSystem } =
+            textureManagerMap.get(mesh.material)!
         this.defaults = defaults
         this.defaultParams = defaultParams
         this.addRefreshParamsSystem = addRefreshParamsSystem
@@ -80,7 +81,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 }
 interface FoundManager
     extends SimpleObjectManager,
-        TextureManager,
+        MixinType<TextureManager>,
         MixinType<VisibleMixin> {}
 applyMixins(FoundManager, [VisibleMixin, TextureManager])
 export default FoundManager

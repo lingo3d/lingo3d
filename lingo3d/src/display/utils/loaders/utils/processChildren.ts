@@ -7,6 +7,7 @@ import {
     DoubleSide
 } from "three"
 import createTextureManager from "./createTextureManager"
+import { textureManagerMap } from "../../../../collections/textureManagerMap"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
     const lights: Array<Light> = []
@@ -19,8 +20,9 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
 
         child.material.side = DoubleSide
 
-        child.material.userData.TextureManager = createTextureManager(
-            child.material as MeshStandardMaterial
+        textureManagerMap.set(
+            child.material,
+            createTextureManager(child.material as MeshStandardMaterial)
         )
     })
     for (const light of lights) light.parent!.remove(light)

@@ -1,10 +1,10 @@
-import { Class } from "@lincode/utils"
 import { MeshStandardMaterial } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import TextureManager from "../display/core/TextureManager"
 import createInstancePool from "../display/core/utils/createInstancePool"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { MaterialParams } from "./materialPool"
+import { textureManagerMap } from "../collections/textureManagerMap"
 
 const setMaterial = (
     material: any,
@@ -41,12 +41,12 @@ export const [
     {
         referenceMaterial: MeshStandardMaterial
         defaults: Record<string, any>
-        MyTextureManager: Class<TextureManager>
+        MyTextureManager: typeof TextureManager
     }
 >(
     (params, { referenceMaterial, defaults, MyTextureManager }) => {
         const material = referenceMaterial.clone()
-        material.userData.TextureManager = MyTextureManager
+        textureManagerMap.set(material, MyTextureManager)
 
         setMaterial(material, "color", params[0], defaults)
         setMaterial(material, "opacity", params[1], defaults)

@@ -21,6 +21,7 @@ import {
     reflectionDataMap
 } from "../../collections/reflectionCollections"
 import { uuidTextureMap } from "../../collections/uuidCollections"
+import { textureManagerMap } from "../../collections/textureManagerMap"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -72,9 +73,10 @@ export const [addRefreshFactorsSystem] = configSystem((model: Model) => {
     }
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
         const result: Array<TextureManager> = []
+        //mark
         model.outerObject3d.traverse((child: Object3D | StandardMesh) => {
             if (!("material" in child)) return
-            const { TextureManager } = child.material.userData
+            const TextureManager = textureManagerMap.get(child.material)
             TextureManager && result.push(new TextureManager(child, model))
         })
         return result

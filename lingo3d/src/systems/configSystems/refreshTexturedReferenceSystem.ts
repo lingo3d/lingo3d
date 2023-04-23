@@ -6,7 +6,6 @@ import {
     ReferenceMaterialParams
 } from "../../pools/referenceMaterialPool"
 import configSystemWithData from "../utils/configSystemWithData"
-import { Class } from "@lincode/utils"
 
 export const [addRefreshTexturedReferenceSystem] = configSystemWithData(
     (
@@ -14,7 +13,7 @@ export const [addRefreshTexturedReferenceSystem] = configSystemWithData(
         data: {
             referenceMaterial: MeshStandardMaterial
             defaults: Record<string, any>
-            MyTextureManager: Class<TextureManager>
+            MyTextureManager: typeof TextureManager
         }
     ) => {
         if (target.materialParamString)

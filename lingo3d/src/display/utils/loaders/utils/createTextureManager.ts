@@ -4,9 +4,7 @@ import {
     ReferenceMaterialParams,
     allocateDefaultReferenceMaterial
 } from "../../../../pools/referenceMaterialPool"
-import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
-import Model from "../../../Model"
 import { blackColor } from "../../reusables"
 import { addRefreshTexturedReferenceSystem } from "../../../../systems/configSystems/refreshTexturedReferenceSystem"
 
@@ -60,10 +58,6 @@ export default (referenceMaterial: MeshStandardMaterial) => {
         })
 
     class MyTextureManager extends TextureManager {
-        public constructor(public object3d: StandardMesh, public owner: Model) {
-            super()
-        }
-
         public override defaults = defaults
         public override defaultParams = defaultParams
         public override addRefreshParamsSystem = addRefreshParamsSystem
