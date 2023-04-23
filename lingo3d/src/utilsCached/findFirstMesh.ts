@@ -5,6 +5,10 @@ import Model from "../display/Model"
 import { indexMeshChildrenNames } from "./indexMeshChildrenNames"
 
 export default computeOnce2((self: Model, name: string) => {
+    if (!name) {
+        const [first] = indexMeshChildrenNames(self.loadedObject3d!).values()
+        return first
+    }
     const sanitized = PropertyBinding.sanitizeNodeName(name)
     for (const child of indexMeshChildrenNames(self.loadedObject3d!).values())
         if (child.name.startsWith(sanitized))
