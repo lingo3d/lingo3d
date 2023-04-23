@@ -1,3 +1,4 @@
+import toFixed from "../../api/serializer/toFixed"
 import { PI2 } from "../../globals"
 import ICylinder, {
     cylinderDefaults,
@@ -48,7 +49,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         return this._segments ?? 32
     }
     public set segments(val) {
-        this._segments = val
+        this._segments = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 
@@ -57,7 +58,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         return this._radiusTop ?? 0.5
     }
     public set radiusTop(val) {
-        this._radiusTop = val
+        this._radiusTop = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 
@@ -66,7 +67,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         return this._radiusBottom ?? 0.5
     }
     public set radiusBottom(val) {
-        this._radiusBottom = val
+        this._radiusBottom = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 }

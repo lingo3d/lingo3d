@@ -1,3 +1,4 @@
+import toFixed from "../../api/serializer/toFixed"
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import {
@@ -36,7 +37,7 @@ export default class Cone extends PooledPrimitve implements ICone {
         return this._segments ?? 32
     }
     public set segments(val) {
-        this._segments = val
+        this._segments = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 }

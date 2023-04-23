@@ -9,6 +9,7 @@ import {
 import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import toFixed from "../../api/serializer/toFixed"
 
 const defaultParams: CircleParams = [0.5, 32, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
@@ -38,7 +39,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
         return this._theta ?? 360
     }
     public set theta(val) {
-        this._theta = val
+        this._theta = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 
@@ -47,7 +48,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
         return this._segments ?? 32
     }
     public set segments(val) {
-        this._segments = val
+        this._segments = toFixed(val)
         addRefreshPooledPrimitiveSystem(this)
     }
 
