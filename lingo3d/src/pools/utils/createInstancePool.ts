@@ -33,7 +33,6 @@ export default <
         ) {
             const result = factory(params, context)
             paramsInstanceMap.set(paramString, result)
-            console.log("increase", paramString, paramsInstanceMap.size)
             return result
         }
         return paramsInstanceMap.get(paramString)!
@@ -48,7 +47,6 @@ export default <
             dispose(paramsInstanceMap.get(paramString)!)
             paramsInstanceMap.delete(paramString)
             delete paramsCountRecord[paramString]
-            console.log("decrease", paramString, paramsInstanceMap.size)
             return
         }
         paramsCountRecord[paramString] = count
