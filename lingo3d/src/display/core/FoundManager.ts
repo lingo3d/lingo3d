@@ -6,21 +6,23 @@ import IFoundManager, {
 } from "../../interface/IFoundManager"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
-import TextureManager from "./TextureManager"
-import {
-    standardDefaultParams,
-    standardDefaults,
-    StandardMesh
+import TexturedStandardMixin, {
+    StandardMesh,
+    standardDefaults
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
-import { textureManagerMap } from "../../collections/textureManagerMap"
+import { MaterialParams } from "../../pools/materialPool"
+import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
     public static defaults = foundManagerDefaults
     public static schema = foundManagerSchema
+
+    protected _materialParams?: MaterialParams
+    public defaults = standardDefaults
 
     public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
         super(mesh, true)
@@ -29,16 +31,10 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this.disableSerialize = true
         this._name = mesh.name
 
-        if (!("material" in mesh)) {
-            this.defaults = standardDefaults
-            this.defaultParams = standardDefaultParams
-            return
-        }
-        const { defaults, defaultParams, addRefreshParamsSystem } =
-            textureManagerMap.get(mesh.material)!
-        this.defaults = defaults
-        this.defaultParams = defaultParams
-        this.addRefreshParamsSystem = addRefreshParamsSystem
+        if (!("material" in mesh)) return
+
+        this.defaults = materialDefaultsMap.get(mesh.material)!
+        this._materialParams = Object.values(this.defaults) as MaterialParams
     }
 
     private retargeted?: boolean
@@ -81,7 +77,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 }
 interface FoundManager
     extends SimpleObjectManager,
-        MixinType<TextureManager>,
+        MixinType<TexturedStandardMixin>,
         MixinType<VisibleMixin> {}
-applyMixins(FoundManager, [VisibleMixin, TextureManager])
+applyMixins(FoundManager, [VisibleMixin, TexturedStandardMixin])
 export default FoundManager

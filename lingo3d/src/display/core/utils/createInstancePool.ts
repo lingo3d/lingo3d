@@ -25,6 +25,8 @@ export default <
         paramString = JSON.stringify(params),
         context = undefined as Context
     ): Type => {
+        console.log(paramsInstanceMap.size)
+
         const defaultInstance = defaultParamsInstanceMap.get(paramString)
         if (defaultInstance) return defaultInstance
         if (
@@ -39,6 +41,8 @@ export default <
     }
 
     const decreaseCount = (params: Params | string) => {
+        console.log(paramsInstanceMap.size)
+
         const paramString =
             typeof params === "string" ? params : JSON.stringify(params)
         const count = (paramsCountRecord[paramString] ?? 0) - 1
