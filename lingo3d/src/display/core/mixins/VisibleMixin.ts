@@ -30,6 +30,7 @@ import {
     mouseUpSet
 } from "../../../collections/mouseSets"
 import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
+import { addConfigCastShadowSystem } from "../../../systems/configSystems/configCastShadowSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -90,12 +91,13 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         return getFrustumVisible(this)
     }
 
+    private _castShadow?: boolean
     public get castShadow() {
-        return this.outerObject3d.castShadow
+        return this._castShadow
     }
     public set castShadow(val) {
-        const bool = !!val
-        this.outerObject3d.traverse((child) => (child.castShadow = bool))
+        this._castShadow = val
+        addConfigCastShadowSystem(this)
     }
 
     public addToRaycastSet(set: Set<Object3D>) {

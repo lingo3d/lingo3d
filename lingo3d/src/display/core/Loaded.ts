@@ -163,7 +163,6 @@ export default abstract class Loaded<T = Object3D>
         return super.castShadow
     }
     public override set castShadow(val) {
-        this.outerObject3d.castShadow = val
         this.cancelHandle("castShadow", () =>
             this.events.on("loaded", () => (super.castShadow = val))
         )
