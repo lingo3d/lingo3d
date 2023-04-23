@@ -1,4 +1,4 @@
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 
 const numbers = new Set("01234567890".split(""))
 

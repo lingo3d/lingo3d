@@ -1,5 +1,5 @@
 import { TorusGeometry } from "three"
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 
 export type TorusParams = ConstructorParameters<typeof TorusGeometry>
 

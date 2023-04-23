@@ -1,5 +1,5 @@
 import { ConeGeometry } from "three"
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 
 export type ConeParams = ConstructorParameters<typeof ConeGeometry>
 

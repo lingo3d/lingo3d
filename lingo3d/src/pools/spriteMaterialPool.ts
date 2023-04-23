@@ -3,7 +3,7 @@ import { filter } from "@lincode/utils"
 import { SpriteMaterial, DoubleSide } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 import { ColorString } from "../interface/ITexturedStandard"
 
 export type SpriteMaterialParams = [

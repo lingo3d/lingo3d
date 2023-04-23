@@ -1,5 +1,5 @@
 import { CircleGeometry } from "three"
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 
 export type CircleParams = ConstructorParameters<typeof CircleGeometry>
 

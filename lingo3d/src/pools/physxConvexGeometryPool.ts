@@ -3,7 +3,7 @@ import Loaded from "../display/core/Loaded"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import computePxVertices from "../engine/physx/computePxVertices"
 import { physxPtr } from "../pointers/physxPtr"
-import createInstancePool from "../display/core/utils/createInstancePool"
+import createInstancePool from "./utils/createInstancePool"
 
 export type PhysxConvexGeometryParams = [
     typeSrc: string,
