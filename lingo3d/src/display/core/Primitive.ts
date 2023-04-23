@@ -10,7 +10,6 @@ import IPrimitive, {
 import { standardMaterial } from "../utils/reusables"
 import MixinType from "./mixins/utils/MixinType"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import setShadow from "../../utils/setShadow"
 
 abstract class Primitive
     extends PhysicsObjectManager<StandardMesh>
@@ -20,7 +19,7 @@ abstract class Primitive
     public static schema = primitiveSchema
 
     public constructor(geometry: BufferGeometry) {
-        super(setShadow(new Mesh(geometry, standardMaterial), true))
+        super(new Mesh(geometry, standardMaterial))
     }
 }
 interface Primitive

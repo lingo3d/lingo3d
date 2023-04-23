@@ -21,7 +21,6 @@ import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import Appendable from "../../api/core/Appendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
-import setShadow from "../../utils/setShadow"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -33,7 +32,6 @@ const lazyTransformControls = lazy(async () => {
     getCameraRendered((camera) => (transformControls.camera = camera))
     //@ts-ignore
     transformControls.enabled = false
-    transformControls.traverse((child) => setShadow(child, false))
 
     let dragging = false
     transformControls.addEventListener("dragging-changed", ({ value }) => {

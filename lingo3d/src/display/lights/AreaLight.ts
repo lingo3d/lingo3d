@@ -11,7 +11,6 @@ import {
     addAreaLightIntensitySystem,
     deleteAreaLightIntensitySystem
 } from "../../systems/areaLightIntensitySystem"
-import setShadow from "../../utils/setShadow"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -29,7 +28,6 @@ export default class AreaLight extends Plane implements IAreaLight {
 
     public constructor() {
         super()
-        setShadow(this.object3d, false)
         this.emissive = true
 
         lazyInit().then(() => {

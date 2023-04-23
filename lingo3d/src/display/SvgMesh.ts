@@ -16,7 +16,6 @@ import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
 import { measure } from "../utilsCached/measure"
-import setShadow from "../utils/setShadow"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -107,9 +106,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         })
 
         for (const geometry of geometries)
-            loadedObject3d.add(
-                setShadow(new Mesh(geometry, this._material), true)
-            )
+            loadedObject3d.add(new Mesh(geometry, this._material))
 
         const [{ x, y, z }] = fit(loadedObject3d, src)
         this.runtimeDefaults = {
