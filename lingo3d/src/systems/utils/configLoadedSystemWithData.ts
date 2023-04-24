@@ -3,21 +3,23 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
-export default <T extends MeshAppendable | Loaded>(
-    cb: (target: T) => void,
+export default <
+    T extends MeshAppendable | Loaded,
+    Data extends Record<string, any>
+>(
+    cb: (target: T, data: Data) => void,
     ticker = onBeforeRender
 ) => {
-    const queued = new Set<T>()
+    const queued = new Map<T, Data>()
 
     const execute = () => {
-        for (const target of queued) {
+        for (const [target, data] of queued) {
             if (target.done) {
                 deleteSystem(target)
                 return
             }
             if ("loadedObject3d" in target && !target.loadedObject3d) return
-
-            cb(target)
+            cb(target, data)
             deleteSystem(target)
         }
     }
@@ -29,9 +31,9 @@ export default <T extends MeshAppendable | Loaded>(
         if (queued.delete(item) && queued.size === 0) handle?.cancel()
     }
     return <const>[
-        (item: T) => {
+        (item: T, data: Data) => {
             if (queued.has(item)) return
-            queued.add(item)
+            queued.set(item, data)
             if (queued.size === 1) start()
         },
         deleteSystem

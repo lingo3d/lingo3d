@@ -10,9 +10,7 @@ import Appendable from "./Appendable"
 import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import SpawnPoint from "../../display/SpawnPoint"
-import getActualScale from "../../utilsCached/getActualScale"
 import getCenter from "../../utilsCached/getCenter"
-import getWorldQuaternion from "../../utilsCached/getWorldQuaternion"
 import worldToCanvas from "../../utilsCached/worldToCanvas"
 import Nullable from "../../interface/utils/Nullable"
 import { fpsRatioPtr } from "../../pointers/fpsRatioPtr"
@@ -28,7 +26,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
-import { getAppendablesById } from "../../collections/uuidCollections"
+import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
 
 const up = new Vector3(0, 1, 0)
 
@@ -190,19 +188,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
-        if (typeof target === "string") {
-            const [found] = getAppendablesById(target)
-            if (!(found instanceof MeshAppendable)) return
-            target = found
-        }
-        if ("outerObject3d" in target) {
-            if ("isSpawnPoint" in target)
-                target.object3d.position.y = getActualScale(this).y * 0.5
-            this.position.copy(getCenter(target.object3d))
-            "quaternion" in this &&
-                this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
-        } else this.position.copy(point2Vec(target))
-        addConfigPhysicsSystem(this)
+        addPlaceAtSystem(this, { target })
     }
 
     public moveForward(distance: number) {

@@ -166,14 +166,6 @@ export default abstract class Loaded<T = Object3D>
         //todo: implement appending box to object3d
     }
 
-    public override placeAt(
-        target: MeshAppendable | Point3dType | SpawnPoint | string
-    ) {
-        this.cancelHandle("placeAt", () =>
-            this.events.once("loaded", () => super.placeAt(target))
-        )
-    }
-
     protected override addConfigPhysicsSystem() {
         this.cancelHandle("addConfigPhysicsSystem", () =>
             this.events.once("loaded", () => super.addConfigPhysicsSystem())

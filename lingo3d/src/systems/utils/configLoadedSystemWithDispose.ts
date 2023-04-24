@@ -2,7 +2,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
 import { onDispose } from "../../events/onDispose"
-import Appendable from "../../api/core/Appendable"
 
 export default <T extends Loaded>(
     cb: (target: T) => boolean | undefined,
@@ -10,7 +9,7 @@ export default <T extends Loaded>(
     ticker = onBeforeRender
 ) => {
     const queued = new Set<T>()
-    const disposeQueued = new Set<Appendable>()
+    const disposeQueued = new Set<object>()
 
     onDispose((item) => {
         if (!disposeQueued.has(item)) return
