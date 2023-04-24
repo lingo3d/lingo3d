@@ -10,8 +10,6 @@ export const [addConfigSelectiveBloomSystem] = configSystemWithDispose(
         self.bloom
             ? addSelectiveBloom(self.object3d)
             : deleteSelectiveBloom(self.object3d)
-
-        console.log(self.bloom)
         return self.bloom
     },
     (self) => deleteSelectiveBloom(self.object3d)

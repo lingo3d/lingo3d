@@ -25,6 +25,8 @@ import findFirst from "../utilsCached/findFirst"
 import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
+import { addConfigSelectiveBloomLoadedSystem } from "../systems/configLoadedSystems/configSelectiveBloomLoadedSystem"
+import { addConfigOutlineLoadedSystem } from "../systems/configLoadedSystems/configOutlineLoadedSystem"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
@@ -210,6 +212,24 @@ export default class Model extends Loaded<Group> implements IModel {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
         addRefreshFactorsSystem(this)
+    }
+
+    public override get bloom() {
+        return super.bloom
+    }
+    public override set bloom(val) {
+        //@ts-ignore
+        this._bloom = val
+        addConfigSelectiveBloomLoadedSystem(this)
+    }
+
+    public override get outline() {
+        return super.outline
+    }
+    public override set outline(val) {
+        //@ts-ignore
+        this._outline = val
+        addConfigOutlineLoadedSystem(this)
     }
 
     public find(name: string) {
