@@ -3,7 +3,10 @@ import { WebGLCubeRenderTarget, HalfFloatType, CubeCamera } from "three"
 import type Model from "../../display/Model"
 import { NEAR } from "../../globals"
 import unsafeSetValue from "../../utils/unsafeSetValue"
-import { addReflectionSystem, deleteReflectionSystem } from "../reflectionSystem"
+import {
+    addReflectionSystem,
+    deleteReflectionSystem
+} from "../reflectionSystem"
 import {
     reflectionChangedSet,
     reflectionDataMap

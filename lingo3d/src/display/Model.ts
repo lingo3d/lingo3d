@@ -12,7 +12,7 @@ import {
 } from "../states/useLoadingCount"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
-import { addRefreshFactorsSystem } from "../systems/configSystems/refreshFactorsSystem"
+import { addRefreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 import {
     reflectionDataMap,
     reflectionChangedSet

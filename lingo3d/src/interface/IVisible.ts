@@ -17,8 +17,8 @@ export class HitEvent {
 export const hitEvent = new HitEvent(undefined as any)
 
 export default interface IVisible {
-    bloom: boolean
-    outline: boolean
+    bloom: Nullable<boolean>
+    outline: Nullable<boolean>
 
     visible: Nullable<boolean>
     reflectionVisible: Nullable<boolean>
@@ -59,8 +59,8 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
 }
 
 export const visibleDefaults = extendDefaults<IVisible>([], {
-    bloom: false,
-    outline: false,
+    bloom: nullableDefault(false),
+    outline: nullableDefault(false),
 
     visible: nullableDefault(true),
     reflectionVisible: nullableDefault(false),

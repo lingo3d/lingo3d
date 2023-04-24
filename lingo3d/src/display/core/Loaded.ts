@@ -166,42 +166,6 @@ export default abstract class Loaded<T = Object3D>
         //todo: implement appending box to object3d
     }
 
-    public override get outline() {
-        return super.outline
-    }
-    public override set outline(val) {
-        //@ts-ignore
-        this._outline = val
-        this.cancelHandle(
-            "outline",
-            val &&
-                (() => {
-                    const handle = this.events.on("loaded", addOutline)
-                    handle.then(() => deleteOutline(this.loadedObject3d!))
-                    return handle
-                })
-        )
-    }
-
-    public override get bloom() {
-        return super.bloom
-    }
-    public override set bloom(val) {
-        //@ts-ignore
-        this._bloom = val
-        this.cancelHandle(
-            "bloom",
-            val &&
-                (() => {
-                    const handle = this.events.on("loaded", addSelectiveBloom)
-                    handle.then(() =>
-                        deleteSelectiveBloom(this.loadedObject3d!)
-                    )
-                    return handle
-                })
-        )
-    }
-
     public override placeAt(
         target: MeshAppendable | Point3dType | SpawnPoint | string
     ) {

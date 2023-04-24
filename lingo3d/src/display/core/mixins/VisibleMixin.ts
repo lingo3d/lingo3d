@@ -30,7 +30,7 @@ import {
     mouseUpSet
 } from "../../../collections/mouseSets"
 import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
-import { addConfigCastShadowSystem } from "../../../systems/configSystems/configCastShadowSystem"
+import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
