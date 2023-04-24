@@ -13,7 +13,7 @@ import {
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
 import Primitive from "./core/Primitive"
-import { addRefreshFactorsSystem } from "../systems/configSystems/refreshFactorsSystem"
+import { addRefreshFactorsSystem } from "../systems/refreshFactorsSystem"
 import { uuidMap } from "../collections/uuidCollections"
 import {
     reflectionDataMap,
@@ -198,19 +198,13 @@ export default class Model extends Loaded<Group> implements IModel {
         reflectionDataMap.get(this)?.[1].cancel()
     }
 
-    private refreshFactors() {
-        this.cancelHandle("refreshFactors", () =>
-            this.events.on("loaded", () => addRefreshFactorsSystem(this))
-        )
-    }
-
     private _metalnessFactor?: number
     public get metalnessFactor() {
         return this._metalnessFactor
     }
     public set metalnessFactor(val) {
         this._metalnessFactor = val
-        this.refreshFactors()
+        addRefreshFactorsSystem(this)
     }
 
     private _roughnessFactor?: number
@@ -219,7 +213,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set roughnessFactor(val) {
         this._roughnessFactor = val
-        this.refreshFactors()
+        addRefreshFactorsSystem(this)
     }
 
     private _opacityFactor?: number
@@ -228,7 +222,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
-        this.refreshFactors()
+        addRefreshFactorsSystem(this)
     }
 
     private _envFactor?: number
@@ -237,7 +231,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set envFactor(val) {
         this._envFactor = val
-        this.refreshFactors()
+        addRefreshFactorsSystem(this)
     }
 
     private _reflection?: boolean
@@ -247,7 +241,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public set reflection(val: boolean) {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
-        this.refreshFactors()
+        addRefreshFactorsSystem(this)
     }
 
     public find(name: string) {

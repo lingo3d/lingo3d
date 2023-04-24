@@ -26,7 +26,7 @@ export default abstract class Loaded<T = Object3D>
     extends PhysicsObjectManager<StandardMesh>
     implements ILoaded
 {
-    public loadedGroup = new Group()
+    protected loadedGroup = new Group()
     public loadedObject3d?: Object3D
 
     public constructor(unmounted?: boolean) {
