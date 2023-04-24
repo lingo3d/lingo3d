@@ -23,8 +23,8 @@ import {
 } from "../../../collections/mouseSets"
 import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
-import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
-import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
+import { addConfigSelectiveBloomSystem } from "../../../systems/configSystems/configSelectiveBloomSystem"
+import { addConfigOutlineSystem } from "../../../systems/configSystems/configOutlineSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
