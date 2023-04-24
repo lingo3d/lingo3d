@@ -6,7 +6,7 @@ import { Point3dType } from "../../utils/isPoint"
 import getActualScale from "../../utilsCached/getActualScale"
 import getCenter from "../../utilsCached/getCenter"
 import getWorldQuaternion from "../../utilsCached/getWorldQuaternion"
-import { addConfigPhysicsSystem } from "../configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "./configPhysicsSystem"
 import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
 
 type Data = { target: MeshAppendable | Point3dType | SpawnPoint | string }

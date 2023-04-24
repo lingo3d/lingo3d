@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import ISimpleObjectManager from "../../interface/ISimpleObjectManager"
 import AnimatedObjectManager from "./AnimatedObjectManager"
-import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>

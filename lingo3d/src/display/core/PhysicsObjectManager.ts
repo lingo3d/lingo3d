@@ -20,7 +20,7 @@ import {
     managerActorPtrMap,
     managerContactMap
 } from "../../collections/pxCollections"
-import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>

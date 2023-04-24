@@ -1,5 +1,5 @@
-import { addRefreshPhysicsSystem } from "./refreshPhysicsSystem"
-import { addConfigPhysicsTransformSystem } from "./configPhysicsTransformSystem"
+import { addRefreshPhysicsSystem } from "../configSystems/refreshPhysicsSystem"
+import { addConfigPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import configLoadedSystem from "../utils/configLoadedSystem"
 
 export const [addConfigPhysicsSystem] = configLoadedSystem((self) => {

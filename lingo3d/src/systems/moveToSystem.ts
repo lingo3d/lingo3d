@@ -1,7 +1,7 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addConfigPhysicsSystem } from "./configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
 

@@ -6,7 +6,7 @@ import { flushMultipleSelectionTargets } from "../../states/useMultipleSelection
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import HelperSphere from "./utils/HelperSphere"
-import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import {

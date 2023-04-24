@@ -4,7 +4,7 @@ import IObjectManager from "../../interface/IObjectManager"
 import { setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
-import { addConfigPhysicsSystem } from "../../systems/configSystems/configPhysicsSystem"
+import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
