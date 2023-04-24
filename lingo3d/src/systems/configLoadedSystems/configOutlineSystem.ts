@@ -1,19 +1,14 @@
+import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import {
     addOutline,
     deleteOutline
 } from "../../engine/renderLoop/effectComposer/outlineEffect"
-import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
+import configSystemWithDispose from "../utils/configSystemWithDispose"
 
-export const [addConfigOutlineSystem] = configLoadedSystemWithDispose(
-    (self) => {
-        const target =
-            "loadedObject3d" in self ? self.loadedObject3d! : self.object3d
-        self.outline ? addOutline(target) : deleteOutline(target)
+export const [addConfigOutlineSystem] = configSystemWithDispose(
+    (self: VisibleMixin) => {
+        self.outline ? addOutline(self.object3d) : deleteOutline(self.object3d)
         return self.outline
     },
-    (self) => {
-        deleteOutline(
-            "loadedObject3d" in self ? self.loadedObject3d! : self.object3d
-        )
-    }
+    (self) => deleteOutline(self.object3d)
 )

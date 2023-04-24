@@ -1,19 +1,18 @@
+import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
+import configSystemWithDispose from "../utils/configSystemWithDispose"
 
-export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithDispose(
-    (self) => {
-        const target =
-            "loadedObject3d" in self ? self.loadedObject3d! : self.object3d
-        self.bloom ? addSelectiveBloom(target) : deleteSelectiveBloom(target)
+export const [addConfigSelectiveBloomSystem] = configSystemWithDispose(
+    (self: VisibleMixin) => {
+        self.bloom
+            ? addSelectiveBloom(self.object3d)
+            : deleteSelectiveBloom(self.object3d)
+
+        console.log(self.bloom)
         return self.bloom
     },
-    (self) => {
-        deleteSelectiveBloom(
-            "loadedObject3d" in self ? self.loadedObject3d! : self.object3d
-        )
-    }
+    (self) => deleteSelectiveBloom(self.object3d)
 )
