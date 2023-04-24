@@ -1,24 +1,13 @@
 import { Group, Mesh, MeshStandardMaterial, Object3D } from "three"
 import ILoaded from "../../interface/ILoaded"
 import toResolvable from "../utils/toResolvable"
-import {
-    addOutline,
-    deleteOutline
-} from "../../engine/renderLoop/effectComposer/outlineEffect"
-import {
-    addSelectiveBloom,
-    deleteSelectiveBloom
-} from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import cookTrimeshGeometry from "../../engine/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
-import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../../pointers/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
-import SpawnPoint from "../SpawnPoint"
-import { Point3dType } from "../../utils/isPoint"
 
 const material = new MeshStandardMaterial({ visible: false })
 
@@ -164,12 +153,6 @@ export default abstract class Loaded<T = Object3D>
     }
     public set boxVisible(val) {
         //todo: implement appending box to object3d
-    }
-
-    protected override addConfigPhysicsSystem() {
-        this.cancelHandle("addConfigPhysicsSystem", () =>
-            this.events.once("loaded", () => super.addConfigPhysicsSystem())
-        )
     }
 
     public override getPxShape(mode: PhysicsOptions, actor: any): any {

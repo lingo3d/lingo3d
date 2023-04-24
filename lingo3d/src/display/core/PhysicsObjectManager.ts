@@ -162,17 +162,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    protected addConfigPhysicsSystem() {
-        addConfigPhysicsSystem(this)
-    }
-
     private _physics?: PhysicsOptions
     public get physics() {
         return this._physics
     }
     public set physics(val) {
         this._physics = val
-        this.addConfigPhysicsSystem()
+        addConfigPhysicsSystem(this)
     }
 
     private _jointCount?: number
@@ -181,7 +177,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set jointCount(val) {
         this._jointCount = val
-        this.addConfigPhysicsSystem()
+        addConfigPhysicsSystem(this)
     }
 
     //@ts-ignore

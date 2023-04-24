@@ -2,8 +2,9 @@ import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 
-export default <T extends MeshAppendable | Loaded>(
+export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
     cb: (target: T) => void,
     ticker = onBeforeRender
 ) => {
