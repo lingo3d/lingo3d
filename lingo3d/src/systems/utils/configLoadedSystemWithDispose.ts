@@ -1,11 +1,10 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import Loaded from "../../display/core/Loaded"
 import { onDispose } from "../../events/onDispose"
 import Appendable from "../../api/core/Appendable"
 
-export default <T extends VisibleMixin | Loaded>(
+export default <T extends Loaded>(
     cb: (target: T) => boolean | undefined,
     dispose: (target: T) => void,
     ticker = onBeforeRender
@@ -21,8 +20,7 @@ export default <T extends VisibleMixin | Loaded>(
     })
     const execute = () => {
         for (const target of queued) {
-            if ("loadedObject3d" in target && !target.loadedObject3d) return
-
+            if (!target.loadedObject3d) return
             cb(target)
                 ? disposeQueued.add(target)
                 : disposeQueued.delete(target)

@@ -12,6 +12,7 @@ export default <T extends object>(
     onDispose((item) => {
         if (!disposeQueued.has(item)) return
         disposeQueued.delete(item)
+        queued.delete(item as T)
         dispose(item as T)
     })
     const execute = () => {
