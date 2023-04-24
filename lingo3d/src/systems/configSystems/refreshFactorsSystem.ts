@@ -1,16 +1,16 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { WebGLCubeRenderTarget, HalfFloatType, CubeCamera } from "three"
-import type Model from "../display/Model"
-import { NEAR } from "../globals"
-import unsafeSetValue from "../utils/unsafeSetValue"
-import { addReflectionSystem, deleteReflectionSystem } from "./reflectionSystem"
+import type Model from "../../display/Model"
+import { NEAR } from "../../globals"
+import unsafeSetValue from "../../utils/unsafeSetValue"
+import { addReflectionSystem, deleteReflectionSystem } from "../reflectionSystem"
 import {
     reflectionChangedSet,
     reflectionDataMap
-} from "../collections/reflectionCollections"
-import { uuidTextureMap } from "../collections/uuidCollections"
-import FoundManager from "../display/core/FoundManager"
-import renderSystem from "./utils/renderSystem"
+} from "../../collections/reflectionCollections"
+import { uuidTextureMap } from "../../collections/uuidCollections"
+import FoundManager from "../../display/core/FoundManager"
+import renderSystem from "../utils/renderSystem"
 
 const setFactor = (
     factor: number | undefined,

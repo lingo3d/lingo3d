@@ -159,15 +159,6 @@ export default abstract class Loaded<T = Object3D>
         this.loadedGroup.visible = val
     }
 
-    public override get castShadow() {
-        return super.castShadow
-    }
-    public override set castShadow(val) {
-        this.cancelHandle("castShadow", () =>
-            this.events.on("loaded", () => (super.castShadow = val))
-        )
-    }
-
     public get boxVisible() {
         return false
     }
