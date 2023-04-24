@@ -13,9 +13,9 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
 import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
 import {
-    addPlaceAtSystem,
-    deletePlaceAtSystem
-} from "../../systems/placeAtSysytem"
+    addOrbitCameraPlaceAtSystem,
+    deleteOrbitCameraPlaceAtSystem
+} from "../../systems/orbitCameraPlaceAtSystem"
 import { addGyrateSystem, deleteGyrateSystem } from "../../systems/gyrateSystem"
 import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
 import { container } from "../../engine/renderLoop/containers"
@@ -39,9 +39,9 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            addPlaceAtSystem(this, { target: found })
+            addOrbitCameraPlaceAtSystem(this, { target: found })
             return () => {
-                deletePlaceAtSystem(this)
+                deleteOrbitCameraPlaceAtSystem(this)
             }
         }, [this.firstChildState.get])
 
