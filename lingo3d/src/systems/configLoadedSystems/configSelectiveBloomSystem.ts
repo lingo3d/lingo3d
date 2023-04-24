@@ -2,10 +2,22 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import configLoadedSystem from "../utils/configLoadedSystem"
+import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
 
-export const [addConfigSelectiveBloomSystem] = configLoadedSystem((self) => {
-    self.bloom
-        ? addSelectiveBloom(self.object3d)
-        : deleteSelectiveBloom(self.object3d)
-})
+export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithDispose(
+    (self) => {
+        const target =
+            "loadedObject3d" in self
+                ? self.loadedObject3d ?? self.object3d
+                : self.object3d
+        self.bloom ? addSelectiveBloom(target) : deleteSelectiveBloom(target)
+        return self.bloom
+    },
+    (self) => {
+        deleteSelectiveBloom(
+            "loadedObject3d" in self
+                ? self.loadedObject3d ?? self.object3d
+                : self.object3d
+        )
+    }
+)
