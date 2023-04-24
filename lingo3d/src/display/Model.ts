@@ -12,9 +12,7 @@ import {
 } from "../states/useLoadingCount"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
-import Primitive from "./core/Primitive"
 import { addRefreshFactorsSystem } from "../systems/refreshFactorsSystem"
-import { uuidMap } from "../collections/uuidCollections"
 import {
     reflectionDataMap,
     reflectionChangedSet
@@ -88,36 +86,6 @@ export default class Model extends Loaded<Group> implements IModel {
         increaseLoadingCount()
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
-
-        if (uuidMap.has(url)) {
-            const instance = uuidMap.get(url)
-            if (
-                !(
-                    instance instanceof Model ||
-                    instance instanceof FoundManager ||
-                    instance instanceof Primitive
-                )
-            ) {
-                resolvable.resolve()
-                setTimeout(() =>
-                    this.loadingState.set(this.loadingState.get() - 1)
-                )
-                decreaseLoadingCount()
-                throw new Error("uuid doesn't point to a model or primitive")
-            }
-            const result = (
-                "loadedObject3d" in instance
-                    ? await new Promise<Object3D>((resolve) =>
-                          instance.events.once("loaded", resolve)
-                      )
-                    : instance.object3d
-            ).clone() as Group
-
-            resolvable.resolve()
-            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-            decreaseLoadingCount()
-            return result
-        }
 
         const extension = getExtensionIncludingObjectURL(url)
         if (!extension || !supported.has(extension)) {
