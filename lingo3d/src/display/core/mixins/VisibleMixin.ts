@@ -31,6 +31,7 @@ import {
 } from "../../../collections/mouseSets"
 import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
+import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -41,13 +42,11 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
 {
     protected _bloom?: boolean
     public get bloom() {
-        return !!this._bloom
+        return this._bloom
     }
     public set bloom(val) {
         this._bloom = val
-        val
-            ? addSelectiveBloom(this.object3d)
-            : deleteSelectiveBloom(this.object3d)
+        addConfigSelectiveBloomSystem(this)
     }
 
     protected _outline?: boolean
