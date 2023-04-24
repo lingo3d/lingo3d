@@ -109,6 +109,5 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                 self.emitEvent("physics")
             }
         },
-
         [importPhysX]
     )
