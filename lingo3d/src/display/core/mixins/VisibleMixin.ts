@@ -2,14 +2,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import {
-    addOutline,
-    deleteOutline
-} from "../../../engine/renderLoop/effectComposer/outlineEffect"
-import {
-    addSelectiveBloom,
-    deleteSelectiveBloom
-} from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
@@ -32,6 +24,7 @@ import {
 import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
+import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -40,7 +33,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IVisible
 {
-    protected _bloom?: boolean
+    private _bloom?: boolean
     public get bloom() {
         return this._bloom
     }
@@ -49,13 +42,13 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         addConfigSelectiveBloomSystem(this)
     }
 
-    protected _outline?: boolean
+    private _outline?: boolean
     public get outline() {
-        return !!this._outline
+        return this._outline
     }
     public set outline(val) {
         this._outline = val
-        val ? addOutline(this.object3d) : deleteOutline(this.object3d)
+        addConfigOutlineSystem(this)
     }
 
     private _visible?: boolean
