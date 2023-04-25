@@ -7,6 +7,7 @@ import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./refreshPhysicsSystem"
 import { uuidMap } from "../../collections/uuidCollections"
 import { Cancellable } from "@lincode/promiselikes"
+import { TransformControlsPayload } from "../../events/onTransformControls"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -44,7 +45,6 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
     configSystemWithCleanUp(
         (self: JointBase) => {
             const { to, from } = self
-
             if (!to || !from) return
 
             const toManager = uuidMap.get(to)
@@ -55,10 +55,24 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
             )
                 return
 
+            const handleTransformControls = (e: TransformControlsPayload) =>
+                e.phase === "end" && addConfigJointSystem(self)
+
+            const handle0 = fromManager.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+            const handle1 = toManager.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+            const handle2 = self.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+
             fromManager.jointCount++
             toManager.jointCount++
-            self.fromManager = fromManager
-            self.toManager = toManager
 
             const handle = new Cancellable()
             Promise.all([getActor(fromManager), getActor(toManager)]).then(
@@ -84,7 +98,13 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
                     })
                 }
             )
+            self.fromManager = fromManager
+            self.toManager = toManager
+
             return () => {
+                handle0.cancel()
+                handle1.cancel()
+                handle2.cancel()
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
