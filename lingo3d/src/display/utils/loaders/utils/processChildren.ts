@@ -56,6 +56,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             depthTest: material.depthTest,
             referenceUUID: material.uuid
         })
+        child.receiveShadow = true
     })
     for (const light of lights) light.parent!.remove(light)
 }
