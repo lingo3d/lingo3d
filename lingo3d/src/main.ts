@@ -1,5 +1,5 @@
 import { settings } from "."
-import "./tests/testLight"
+import "./tests/testPhysX"
 import LingoEditor from "./editor"
 
 settings.autoMount = true

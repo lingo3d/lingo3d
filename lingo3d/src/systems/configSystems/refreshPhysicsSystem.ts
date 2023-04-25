@@ -106,7 +106,6 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(self)
                 self.actor = undefined
-                self.emitEvent("physics")
             }
         },
         [importPhysX]

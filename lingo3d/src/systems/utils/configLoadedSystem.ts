@@ -14,9 +14,9 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
         for (const target of queued) {
             if (target.done) {
                 deleteSystem(target)
-                return
+                continue
             }
-            if ("loadedObject3d" in target && !target.loadedObject3d) return
+            if ("loadedObject3d" in target && !target.loadedObject3d) continue
 
             cb(target)
             deleteSystem(target)

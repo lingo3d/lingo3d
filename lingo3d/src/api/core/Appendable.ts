@@ -21,10 +21,10 @@ import { emitId } from "../../events/onId"
 type EventName =
     | "name"
     | "runtimeSchema"
-    | "physics"
     | "transformControls"
     | "edit"
     | "loaded"
+    | "actor"
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

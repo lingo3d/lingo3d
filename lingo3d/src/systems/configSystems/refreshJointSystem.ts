@@ -2,11 +2,11 @@ import { Object3D } from "three"
 import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
-import { TransformControlsPayload } from "../../events/onTransformControls"
 import { physxPtr } from "../../pointers/physxPtr"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./refreshPhysicsSystem"
 import { uuidMap } from "../../collections/uuidCollections"
+import { Cancellable } from "@lincode/promiselikes"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -31,12 +31,21 @@ const getRelativeTransform = (
     return fromPxTransform
 }
 
+const getActor = (manager: PhysicsObjectManager) =>
+    new Promise<any>((resolve) => {
+        if (manager.actor) {
+            resolve(manager.actor)
+            return
+        }
+        manager.events.once("actor", resolve)
+    })
+
 export const [addRefreshJointSystem, deleteRefreshJointSystem] =
     configSystemWithCleanUp(
         (self: JointBase) => {
             const { to, from } = self
-            const { destroy } = physxPtr[0]
-            if (!destroy || !to || !from) return
+
+            if (!to || !from) return
 
             const toManager = uuidMap.get(to)
             const fromManager = uuidMap.get(from)
@@ -48,41 +57,35 @@ export const [addRefreshJointSystem, deleteRefreshJointSystem] =
 
             fromManager.jointCount++
             toManager.jointCount++
-
-            const refresh0 = () => addRefreshJointSystem(self)
-            const refresh1 = ({ phase }: TransformControlsPayload) =>
-                phase === "end" && addRefreshJointSystem(self)
-
-            const handle0 = fromManager.events.on("physics", refresh0)
-            const handle1 = toManager.events.on("physics", refresh0)
-            const handle2 = fromManager.events.on("transformControls", refresh1)
-            const handle3 = toManager.events.on("transformControls", refresh1)
-
-            const joint = (self.pxJoint = self.createJoint(
-                getRelativeTransform(
-                    self.outerObject3d,
-                    fromManager.outerObject3d,
-                    setPxTransform_
-                ),
-                getRelativeTransform(
-                    self.outerObject3d,
-                    toManager.outerObject3d,
-                    setPxTransform__
-                ),
-                fromManager,
-                toManager
-            ))
-
             self.fromManager = fromManager
             self.toManager = toManager
 
+            const handle = new Cancellable()
+            Promise.all([getActor(fromManager), getActor(toManager)]).then(
+                () => {
+                    if (handle.done) return
+                    const joint = (self.pxJoint = self.createJoint(
+                        getRelativeTransform(
+                            self.outerObject3d,
+                            fromManager.outerObject3d,
+                            setPxTransform_
+                        ),
+                        getRelativeTransform(
+                            self.outerObject3d,
+                            toManager.outerObject3d,
+                            setPxTransform__
+                        ),
+                        fromManager,
+                        toManager
+                    ))
+                    handle.then(() => {
+                        physxPtr[0].destroy(joint)
+                        self.pxJoint = undefined
+                    })
+                }
+            )
             return () => {
-                handle0.cancel()
-                handle1.cancel()
-                handle2.cancel()
-                handle3.cancel()
-                self.pxJoint = undefined
-                destroy(joint)
+                handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
                 self.fromManager = undefined
