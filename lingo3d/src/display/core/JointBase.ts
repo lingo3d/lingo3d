@@ -10,9 +10,9 @@ import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/config
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import {
-    addRefreshJointSystem,
-    deleteRefreshJointSystem
-} from "../../systems/configSystems/refreshJointSystem"
+    addConfigJointSystem,
+    deleteConfigJointSystem
+} from "../../systems/configSystems/configJointSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -33,7 +33,7 @@ export default abstract class JointBase
     protected override disposeNode() {
         super.disposeNode()
         jointSet.delete(this)
-        deleteRefreshJointSystem(this)
+        deleteConfigJointSystem(this)
     }
 
     public constructor() {
@@ -84,7 +84,7 @@ export default abstract class JointBase
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
-        addRefreshJointSystem(this)
+        addConfigJointSystem(this)
         addConfigPhysicsSystem(fromManager)
         addConfigPhysicsSystem(toManager)
     }
@@ -95,7 +95,7 @@ export default abstract class JointBase
     }
     public set to(val) {
         this._to = val
-        addRefreshJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _from?: string
@@ -104,6 +104,6 @@ export default abstract class JointBase
     }
     public set from(val) {
         this._from = val
-        addRefreshJointSystem(this)
+        addConfigJointSystem(this)
     }
 }

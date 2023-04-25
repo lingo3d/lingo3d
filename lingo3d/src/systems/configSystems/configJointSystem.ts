@@ -40,7 +40,7 @@ const getActor = (manager: PhysicsObjectManager) =>
         manager.events.once("actor", resolve)
     })
 
-export const [addRefreshJointSystem, deleteRefreshJointSystem] =
+export const [addConfigJointSystem, deleteConfigJointSystem] =
     configSystemWithCleanUp(
         (self: JointBase) => {
             const { to, from } = self
