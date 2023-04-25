@@ -55,22 +55,6 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
             )
                 return
 
-            const handleTransformControls = (e: TransformControlsPayload) =>
-                e.phase === "end" && addConfigJointSystem(self)
-
-            const handle0 = fromManager.events.on(
-                "transformControls",
-                handleTransformControls
-            )
-            const handle1 = toManager.events.on(
-                "transformControls",
-                handleTransformControls
-            )
-            const handle2 = self.events.on(
-                "transformControls",
-                handleTransformControls
-            )
-
             fromManager.jointCount++
             toManager.jointCount++
 
@@ -101,10 +85,31 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
             self.fromManager = fromManager
             self.toManager = toManager
 
+            const handleTransformControls = (e: TransformControlsPayload) =>
+                e.phase === "end" && addConfigJointSystem(self)
+
+            const handle0 = fromManager.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+            const handle1 = toManager.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+            const handle2 = self.events.on(
+                "transformControls",
+                handleTransformControls
+            )
+            const handleActor = () => addConfigJointSystem(self)
+            const handle3 = fromManager.events.on("actor", handleActor)
+            const handle4 = toManager.events.on("actor", handleActor)
+
             return () => {
                 handle0.cancel()
                 handle1.cancel()
                 handle2.cancel()
+                handle3.cancel()
+                handle4.cancel()
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
