@@ -17,6 +17,7 @@ import {
 } from "../../states/useLoadingUnpkgCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import { physicsSet } from "../../collections/physicsSet"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -36,6 +37,8 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
         (self: PhysicsObjectManager) => {
             const mode = self.physics || !!self.$jointCount
             if (!mode) return
+
+            physicsSet.add(self)
 
             const {
                 physics,
@@ -79,6 +82,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                 controllerManagerMap.set(controller, self)
 
                 return () => {
+                    physicsSet.delete(self)
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(self)
@@ -99,6 +103,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
             managerActorMap.set(self, actor)
 
             return () => {
+                physicsSet.delete(self)
                 pxScene.removeActor(actor)
                 destroy(actor)
 

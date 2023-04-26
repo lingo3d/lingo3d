@@ -8,6 +8,7 @@ const ground = new Cube()
 ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
+ground.physics = "static"
 
 const light = new SpotLight()
 light.castShadow = true

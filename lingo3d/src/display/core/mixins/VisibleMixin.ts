@@ -83,11 +83,12 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         return getFrustumVisible(this)
     }
 
+    private _castShadow?: boolean
     public get castShadow() {
-        return this.outerObject3d.castShadow
+        return (this._castShadow ??= true)
     }
     public set castShadow(val) {
-        this.outerObject3d.castShadow = val
+        this._castShadow = val
         addConfigCastShadowSystem(this)
     }
 
