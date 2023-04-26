@@ -13,7 +13,7 @@ export const [addLightIntensitySystem, deleteLightIntensitySystem] =
         const intensityFactor = getFrustum(
             cameraRenderedPtr[0]
         ).intersectsSphere(
-            self._boundingSphere.set(
+            self.$boundingSphere.set(
                 getWorldPosition(self.object3d),
                 self.distance * CM2M
             )

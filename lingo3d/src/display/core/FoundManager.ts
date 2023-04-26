@@ -69,7 +69,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         super.animation = val
     }
 
-    public _addToRaycastSet(set: Set<Object3D>) {
+    public $addToRaycastSet(set: Set<Object3D>) {
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))
     }

@@ -31,7 +31,7 @@ export default abstract class PointLightBase<
         deleteLightIntensitySystem(this)
     }
 
-    public _boundingSphere = new Sphere()
+    public $boundingSphere = new Sphere()
     public get distance() {
         return this.object3d.distance * M2CM
     }

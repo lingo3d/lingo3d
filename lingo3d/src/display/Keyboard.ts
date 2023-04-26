@@ -51,7 +51,7 @@ export default class Keyboard extends Appendable implements IKeyboard {
         )
     }
 
-    public _onKeyDown?: (e: LingoKeyboardEvent) => void
+    private _onKeyDown?: (e: LingoKeyboardEvent) => void
     public get onKeyDown() {
         return this._onKeyDown
     }

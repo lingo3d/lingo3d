@@ -91,7 +91,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         addConfigCastShadowSystem(this)
     }
 
-    public _addToRaycastSet(set: Set<Object3D>) {
+    public $addToRaycastSet(set: Set<Object3D>) {
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))
     }
@@ -104,7 +104,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onClick = cb
         this.cancelHandle(
             "onClick",
-            cb && (() => this._addToRaycastSet(clickSet))
+            cb && (() => this.$addToRaycastSet(clickSet))
         )
     }
 
@@ -116,7 +116,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onMouseDown = cb
         this.cancelHandle(
             "onMouseDown",
-            cb && (() => this._addToRaycastSet(mouseDownSet))
+            cb && (() => this.$addToRaycastSet(mouseDownSet))
         )
     }
 
@@ -128,7 +128,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onMouseUp = cb
         this.cancelHandle(
             "onMouseUp",
-            cb && (() => this._addToRaycastSet(mouseUpSet))
+            cb && (() => this.$addToRaycastSet(mouseUpSet))
         )
     }
 
@@ -140,7 +140,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onMouseOver = cb
         this.cancelHandle(
             "onMouseOver",
-            cb && (() => this._addToRaycastSet(mouseOverSet))
+            cb && (() => this.$addToRaycastSet(mouseOverSet))
         )
     }
 
@@ -152,7 +152,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onMouseOut = cb
         this.cancelHandle(
             "onMouseOut",
-            cb && (() => this._addToRaycastSet(mouseOutSet))
+            cb && (() => this.$addToRaycastSet(mouseOutSet))
         )
     }
 
@@ -164,7 +164,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         this._onMouseMove = cb
         this.cancelHandle(
             "onMouseMove",
-            cb && (() => this._addToRaycastSet(mouseMoveSet))
+            cb && (() => this.$addToRaycastSet(mouseMoveSet))
         )
     }
 
