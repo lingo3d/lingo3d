@@ -19,7 +19,9 @@ abstract class Primitive
     public static schema = primitiveSchema
 
     public constructor(geometry: BufferGeometry) {
-        super(new Mesh(geometry, standardMaterial))
+        const mesh = new Mesh(geometry, standardMaterial)
+        super(mesh)
+        mesh.receiveShadow = true
     }
 }
 interface Primitive
