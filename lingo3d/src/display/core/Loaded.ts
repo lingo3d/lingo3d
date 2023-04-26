@@ -18,8 +18,8 @@ export default abstract class Loaded<T = Object3D>
     protected loadedGroup = new Group()
     public $loadedObject3d?: Object3D
 
-    public constructor(unmounted?: boolean) {
-        super(new Mesh(boxGeometry, material), unmounted)
+    public constructor() {
+        super(new Mesh(boxGeometry, material))
         ssrExcludeSet.add(this.object3d)
         this.outerObject3d.add(this.loadedGroup)
     }

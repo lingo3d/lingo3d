@@ -27,17 +27,12 @@ import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
 import { addConfigSelectiveBloomLoadedSystem } from "../systems/configLoadedSystems/configSelectiveBloomLoadedSystem"
 import { addConfigOutlineLoadedSystem } from "../systems/configLoadedSystems/configOutlineLoadedSystem"
-
-const supported = new Set(["fbx", "glb", "gltf"])
+import loadModel from "./utils/loaders/loadModel"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
     public static defaults = modelDefaults
     public static schema = modelSchema
-
-    public constructor(private unmounted?: boolean) {
-        super(unmounted)
-    }
 
     private loadingState = new Reactive(0)
 
@@ -85,37 +80,19 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected async load(url: string) {
-        increaseLoadingCount()
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
-        const extension = getExtensionIncludingObjectURL(url)
-        if (!extension || !supported.has(extension)) {
-            resolvable.resolve()
-            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-            decreaseLoadingCount()
-            throw new Error("Unsupported file extension " + extension)
-        }
-
-        const module =
-            extension === "fbx"
-                ? await import("./utils/loaders/loadFBX")
-                : await import("./utils/loaders/loadGLTF")
-
-        let result: Group
         try {
-            result = await module.default(url, !this.unmounted)
-        } catch {
+            const result = await loadModel(url, true)
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-            decreaseLoadingCount()
-            throw new Error("Failed to load model, check if src is correct")
+            return result
+        } catch (err) {
+            resolvable.resolve()
+            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            throw err
         }
-
-        resolvable.resolve()
-        setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-        decreaseLoadingCount()
-        return result
     }
 
     private _resize?: boolean
@@ -128,8 +105,6 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected resolveLoaded(loadedObject3d: Group, src: string) {
-        if (this.unmounted) return loadedObject3d
-
         if (loadedObject3d.animations.length) {
             const { onFinishState, repeatState, finishEventState } =
                 this.lazyStates()

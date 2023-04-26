@@ -10,8 +10,8 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IObjectManager
 {
-    public constructor(object3d = new Object3D() as T, unmounted?: boolean) {
-        super(new Object3D() as T, unmounted)
+    public constructor(object3d = new Object3D() as T) {
+        super(new Object3D() as T)
         this.object3d = object3d
         setManager(object3d, this)
         this.outerObject3d.add(object3d)
