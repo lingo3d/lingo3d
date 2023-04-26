@@ -11,11 +11,6 @@ const objectManagerMap = new WeakMap<
 
 export const getManager = (target: Object3D) => objectManagerMap.get(target)
 
-export const getPhysicsObjectManager = (target: Object3D) => {
-    const result = objectManagerMap.get(target)
-    if (result && "physics" in result) return result
-}
-
 export const setManager = <T extends MeshAppendable>(
     target: Object3D,
     manager: T

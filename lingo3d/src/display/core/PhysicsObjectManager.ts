@@ -21,6 +21,7 @@ import {
     managerContactMap
 } from "../../collections/pxCollections"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { addConfigCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -170,6 +171,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set physics(val) {
         this._physics = val
         addConfigPhysicsSystem(this)
+        addConfigCastShadowSystem(this)
     }
 
     private _jointCount?: number
@@ -179,6 +181,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set jointCount(val) {
         this._jointCount = val
         addConfigPhysicsSystem(this)
+        addConfigCastShadowSystem(this)
     }
 
     //@ts-ignore
