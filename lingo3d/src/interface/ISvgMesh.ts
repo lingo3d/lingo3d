@@ -5,19 +5,15 @@ import ITexturedStandard, {
 } from "./ITexturedStandard"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import Nullable from "./utils/Nullable"
 
-export default interface ISvgMesh extends ILoaded, ITexturedStandard {
-    innerHTML: Nullable<string>
-}
+export default interface ISvgMesh extends ILoaded, ITexturedStandard {}
 
 export const svgMeshSchema: Required<ExtractProps<ISvgMesh>> = {
     ...loadedSchema,
-    ...texturedStandardSchema,
-    innerHTML: String
+    ...texturedStandardSchema
 }
 
 export const svgMeshDefaults = extendDefaults<ISvgMesh>(
     [loadedDefaults, texturedStandardDefaults],
-    { innerHTML: undefined }
+    {}
 )

@@ -11,7 +11,6 @@ import {
     decreaseLoadingCount,
     increaseLoadingCount
 } from "../states/useLoadingCount"
-import toResolvable from "./utils/toResolvable"
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
@@ -23,40 +22,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
     public static defaults = svgMeshDefaults
     public static schema = svgMeshSchema
-
-    private _innerHTML?: string
-    public get innerHTML() {
-        return this._innerHTML
-    }
-    public set innerHTML(val: string | undefined) {
-        this._innerHTML = val
-        if (this.$loadedObject3d) {
-            this.loadedGroup.clear()
-            this.$loadedObject3d = undefined
-        }
-        this.cancelHandle(
-            "src",
-            val &&
-                (() =>
-                    toResolvable(
-                        new Promise<SVGResult>((resolve) => {
-                            increaseLoadingCount()
-                            import("./utils/loaders/loadSVG").then(
-                                ({ loader }) => {
-                                    decreaseLoadingCount()
-                                    resolve(loader.parse(val))
-                                }
-                            )
-                        })
-                    ).then((loaded) => {
-                        const loadedObject3d = this.resolveLoaded(loaded, val)
-                        this.loadedGroup.add(
-                            (this.$loadedObject3d = loadedObject3d)
-                        )
-                        this.events.setState("loaded", loadedObject3d)
-                    }))
-        )
-    }
 
     protected async load(url: string) {
         increaseLoadingCount()
