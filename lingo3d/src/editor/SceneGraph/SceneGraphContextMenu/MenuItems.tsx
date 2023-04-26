@@ -177,8 +177,8 @@ const MenuItems = ({ selectionTarget }: Props) => {
                             onClick={() => {
                                 selectAllJointed(
                                     selectionTarget instanceof JointBase
-                                        ? selectionTarget.fromManager ??
-                                              selectionTarget.toManager
+                                        ? selectionTarget.$fromManager ??
+                                              selectionTarget.$toManager
                                         : selectionTarget instanceof
                                           PhysicsObjectManager
                                         ? selectionTarget

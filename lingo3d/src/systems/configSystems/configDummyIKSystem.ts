@@ -16,15 +16,15 @@ export const [addConfigDummyIKSystem] = configSystem((self: DummyIK) => {
 
     const dummy = uuidMap.get(target)
     if (!(dummy instanceof Model)) return
-    if (!dummy.loadedObject3d) {
+    if (!dummy.$loadedObject3d) {
         dummy.events.once("loaded", () => addConfigDummyIKSystem(self))
         return
     }
 
-    const skeleton = getSkeleton(dummy.loadedObject3d)
+    const skeleton = getSkeleton(dummy.$loadedObject3d)
     if (!skeleton) return
 
-    const nameChildMap = indexChildrenNames(dummy.loadedObject3d)
+    const nameChildMap = indexChildrenNames(dummy.$loadedObject3d)
     const boneIndexMap = getBoneIndexMap(skeleton)
 
     if (hips && spine0 && spine1 && spine2 && neck) {

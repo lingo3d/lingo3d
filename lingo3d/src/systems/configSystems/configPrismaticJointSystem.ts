@@ -5,7 +5,7 @@ import configSystem from "../utils/configSystem"
 
 export const [addConfigPrismaticJointSystem] = configSystem(
     (target: PrismaticJoint) => {
-        const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
+        const { $pxJoint: pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
             target
         if (!pxJoint) return
 

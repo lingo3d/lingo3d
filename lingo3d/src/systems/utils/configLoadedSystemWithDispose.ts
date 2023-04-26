@@ -19,7 +19,7 @@ export default <T extends Loaded>(
     })
     const execute = () => {
         for (const target of queued) {
-            if (!target.loadedObject3d) continue
+            if (!target.$loadedObject3d) continue
             cb(target)
                 ? disposeQueued.add(target)
                 : disposeQueued.delete(target)

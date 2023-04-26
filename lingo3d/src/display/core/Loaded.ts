@@ -16,7 +16,7 @@ export default abstract class Loaded<T = Object3D>
     implements ILoaded
 {
     protected loadedGroup = new Group()
-    public loadedObject3d?: Object3D
+    public $loadedObject3d?: Object3D
 
     public constructor(unmounted?: boolean) {
         super(new Mesh(boxGeometry, material), unmounted)
@@ -39,9 +39,9 @@ export default abstract class Loaded<T = Object3D>
     }
     public set src(val) {
         this._src = val
-        if (this.loadedObject3d) {
+        if (this.$loadedObject3d) {
             this.loadedGroup.clear()
-            this.loadedObject3d = undefined
+            this.$loadedObject3d = undefined
         }
         this.cancelHandle(
             "src",
@@ -50,7 +50,7 @@ export default abstract class Loaded<T = Object3D>
                     toResolvable(this.load(val)).then((loaded) => {
                         const loadedObject3d = this.resolveLoaded(loaded, val)
                         this.loadedGroup.add(
-                            (this.loadedObject3d = loadedObject3d)
+                            (this.$loadedObject3d = loadedObject3d)
                         )
                         this.events.setState("loaded", loadedObject3d)
                     }))

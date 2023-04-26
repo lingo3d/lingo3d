@@ -6,7 +6,7 @@ import configSystem from "../utils/configSystem"
 export const [addConfigRevoluteJointSystem] = configSystem(
     (target: RevoluteJoint) => {
         const {
-            pxJoint,
+            $pxJoint: pxJoint,
             limited,
             limitLow,
             limitHigh,

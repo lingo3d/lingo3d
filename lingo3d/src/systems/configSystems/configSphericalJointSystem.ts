@@ -5,7 +5,7 @@ import configSystem from "../utils/configSystem"
 
 export const [addConfigSphericalJointSystem] = configSystem(
     (target: SphericalJoint) => {
-        const { pxJoint, limited, limitY, limitZ } = target
+        const { $pxJoint: pxJoint, limited, limitY, limitZ } = target
         if (!pxJoint) return
 
         const { PxJointLimitCone, PxSphericalJointFlagEnum, destroy } =

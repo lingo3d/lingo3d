@@ -46,8 +46,8 @@ export const mouseRaycast = computePerFrameWithData(
             (!intersection ||
                 pxHit.distance < intersection.distance ||
                 (manager &&
-                    "loadedObject3d" in manager &&
-                    manager.loadedObject3d))
+                    "$loadedObject3d" in manager &&
+                    manager.$loadedObject3d))
         ) {
             const { x, y, z } = pxHit.normal
             return {

@@ -19,19 +19,19 @@ export default abstract class LightBase<T extends Light>
     implements ILightBase
 {
     public constructor(
-        public light: T,
+        public $light: T,
         Helper?:
             | typeof DirectionalLightHelper
             | typeof SpotLightHelper
             | typeof PointLightHelper
     ) {
-        super(light)
+        super($light)
         this.createEffect(() => {
             if (!getEditorHelper() || !this.helperState.get()) return
 
             const sprite = new HelperSprite("light", this)
             if (Helper) {
-                const helper = new Helper(light as any)
+                const helper = new Helper($light as any)
                 ssrExcludeSet.add(helper)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)

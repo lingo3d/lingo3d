@@ -16,7 +16,7 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
                 deleteSystem(target)
                 continue
             }
-            if ("loadedObject3d" in target && !target.loadedObject3d) continue
+            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
 
             cb(target)
             deleteSystem(target)

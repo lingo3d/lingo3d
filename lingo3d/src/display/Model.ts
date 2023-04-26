@@ -124,7 +124,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set resize(val) {
         this._resize = val
-        this.loadedObject3d && (this.src = this._src)
+        this.$loadedObject3d && (this.src = this._src)
     }
 
     protected resolveLoaded(loadedObject3d: Group, src: string) {
@@ -233,8 +233,8 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public find(name: string) {
-        if (!this.loadedObject3d) return
-        const child = indexChildrenNames(this.loadedObject3d).get(
+        if (!this.$loadedObject3d) return
+        const child = indexChildrenNames(this.$loadedObject3d).get(
             PropertyBinding.sanitizeNodeName(name)
         )
         if (child) return getFoundManager(child, this)
@@ -248,16 +248,16 @@ export default class Model extends Loaded<Group> implements IModel {
             if (name(child.name)) return getFoundManager(child, this)
     }
     public findFirst(name: string | ((childName: string) => boolean)) {
-        if (!this.loadedObject3d) return
+        if (!this.$loadedObject3d) return
         if (typeof name === "string") return findFirst(this, name)
-        return this._findFirst(name, indexChildrenNames(this.loadedObject3d))
+        return this._findFirst(name, indexChildrenNames(this.$loadedObject3d))
     }
     public findFirstMesh(name: string | ((childName: string) => boolean)) {
-        if (!this.loadedObject3d) return
+        if (!this.$loadedObject3d) return
         if (typeof name === "string") return findFirstMesh(this, name)
         return this._findFirst(
             name,
-            indexMeshChildrenNames(this.loadedObject3d)
+            indexMeshChildrenNames(this.$loadedObject3d)
         )
     }
 
@@ -272,15 +272,15 @@ export default class Model extends Loaded<Group> implements IModel {
         return result
     }
     public findAll(name?: string | ((childName: string) => boolean)) {
-        if (!this.loadedObject3d) return []
+        if (!this.$loadedObject3d) return []
         if (!name) return findAll(this, "")
         else if (typeof name === "string") return findAll(this, name)
-        return this._findAll(name, indexChildrenNames(this.loadedObject3d))
+        return this._findAll(name, indexChildrenNames(this.$loadedObject3d))
     }
     public findAllMeshes(name?: string | ((childName: string) => boolean)) {
-        if (!this.loadedObject3d) return []
+        if (!this.$loadedObject3d) return []
         if (!name) return findAllMeshes(this, "")
         else if (typeof name === "string") return findAllMeshes(this, name)
-        return this._findAll(name, indexMeshChildrenNames(this.loadedObject3d))
+        return this._findAll(name, indexMeshChildrenNames(this.$loadedObject3d))
     }
 }

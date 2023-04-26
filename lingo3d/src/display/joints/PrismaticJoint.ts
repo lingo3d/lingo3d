@@ -20,7 +20,7 @@ export default class PrismaticJoint
     public static defaults = prismaticJointDefaults
     public static schema = prismaticJointSchema
 
-    public createJoint(
+    public $createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,

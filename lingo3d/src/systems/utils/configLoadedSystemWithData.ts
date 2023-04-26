@@ -18,7 +18,7 @@ export default <
                 deleteSystem(target)
                 continue
             }
-            if ("loadedObject3d" in target && !target.loadedObject3d) continue
+            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
             cb(target, data)
             deleteSystem(target)
         }

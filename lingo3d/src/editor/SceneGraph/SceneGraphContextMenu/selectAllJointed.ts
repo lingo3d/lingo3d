@@ -9,19 +9,19 @@ const findAllJointed = (
 ) => {
     jointedSet.add(target)
     for (const joint of jointsCopy)
-        if (joint.fromManager === target) {
+        if (joint.$fromManager === target) {
             jointsCopy.delete(joint)
             addMultipleSelectionTargets(joint)
-            if (joint.toManager) {
-                jointedSet.add(joint.toManager)
-                findAllJointed(joint.toManager, jointedSet, jointsCopy)
+            if (joint.$toManager) {
+                jointedSet.add(joint.$toManager)
+                findAllJointed(joint.$toManager, jointedSet, jointsCopy)
             }
-        } else if (joint.toManager === target) {
+        } else if (joint.$toManager === target) {
             jointsCopy.delete(joint)
             addMultipleSelectionTargets(joint)
-            if (joint.fromManager) {
-                jointedSet.add(joint.fromManager)
-                findAllJointed(joint.fromManager, jointedSet, jointsCopy)
+            if (joint.$fromManager) {
+                jointedSet.add(joint.$fromManager)
+                findAllJointed(joint.$fromManager, jointedSet, jointsCopy)
             }
         }
     return jointedSet

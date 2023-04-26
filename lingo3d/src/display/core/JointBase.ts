@@ -18,17 +18,17 @@ export default abstract class JointBase
     extends MeshAppendable
     implements IJointBase
 {
-    public fromManager?: PhysicsObjectManager
-    public toManager?: PhysicsObjectManager
+    public $fromManager?: PhysicsObjectManager
+    public $toManager?: PhysicsObjectManager
 
-    public abstract createJoint(
+    public abstract $createJoint(
         fromPxTransfrom: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ): any
 
-    public pxJoint: any
+    public $pxJoint: any
 
     protected override disposeNode() {
         super.disposeNode()
@@ -67,7 +67,7 @@ export default abstract class JointBase
     private toQuat: Quaternion | undefined
 
     private savePos() {
-        const { fromManager, toManager } = this
+        const { $fromManager: fromManager, $toManager: toManager } = this
         if (!fromManager || !toManager) return
 
         this.fromPos = fromManager.position.clone()
@@ -76,7 +76,7 @@ export default abstract class JointBase
         this.toQuat = toManager.quaternion.clone()
     }
     private restorePos() {
-        const { fromManager, toManager } = this
+        const { $fromManager: fromManager, $toManager: toManager } = this
         if (!fromManager || !toManager) return
 
         this.fromPos && fromManager.position.copy(this.fromPos)

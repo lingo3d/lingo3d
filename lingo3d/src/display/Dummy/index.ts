@@ -142,7 +142,7 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         this.createEffect(() => {
-            const { loadedObject3d } = this
+            const { $loadedObject3d: loadedObject3d } = this
             if (!loadedObject3d) return
 
             const { strideForward, strideRight, strideMove } = this

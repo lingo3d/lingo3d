@@ -17,7 +17,7 @@ createEffect(() => {
     )
         return
 
-    const { loadedObject3d } = target
+    const { $loadedObject3d: loadedObject3d } = target
     if (!loadedObject3d || !skinnedMeshSet.has(loadedObject3d)) return
 
     const helper = new SkeletonHelper(loadedObject3d)

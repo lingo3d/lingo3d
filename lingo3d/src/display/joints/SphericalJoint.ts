@@ -20,7 +20,7 @@ export default class SphericalJoint
     public static defaults = sphericalJointDefaults
     public static schema = sphericalJointSchema
 
-    public createJoint(
+    public $createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,

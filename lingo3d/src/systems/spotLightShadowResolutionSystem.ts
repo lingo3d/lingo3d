@@ -19,7 +19,7 @@ export const [
         if (step === data.step) return
         data.step = step
 
-        const { light } = self
+        const { $light: light } = self
         const { shadow } = light
         shadow.map?.dispose()
         shadow.mapSize.setScalar(resolutions[step])

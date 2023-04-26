@@ -12,7 +12,9 @@ export default (
     const geometries: Array<BufferGeometry> = []
 
     const loaded =
-        "loadedObject3d" in manager ? manager.loadedObject3d! : manager.object3d
+        "$loadedObject3d" in manager
+            ? manager.$loadedObject3d!
+            : manager.object3d
     loaded.updateMatrixWorld()
 
     const { position, rotation } = manager.outerObject3d

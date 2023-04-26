@@ -18,7 +18,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
 
-    public createJoint(
+    public $createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,

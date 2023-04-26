@@ -21,7 +21,7 @@ const getMotion = (val: D6MotionOptions) => {
 }
 
 export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
-    const { pxJoint } = target
+    const { $pxJoint: pxJoint } = target
     if (!pxJoint) return
 
     const {

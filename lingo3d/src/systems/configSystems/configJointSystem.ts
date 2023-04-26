@@ -62,7 +62,7 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
             Promise.all([getActor(fromManager), getActor(toManager)]).then(
                 () => {
                     if (handle.done) return
-                    const joint = (self.pxJoint = self.createJoint(
+                    const joint = (self.$pxJoint = self.$createJoint(
                         getRelativeTransform(
                             self.outerObject3d,
                             fromManager.outerObject3d,
@@ -78,12 +78,12 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
                     ))
                     handle.then(() => {
                         physxPtr[0].destroy(joint)
-                        self.pxJoint = undefined
+                        self.$pxJoint = undefined
                     })
                 }
             )
-            self.fromManager = fromManager
-            self.toManager = toManager
+            self.$fromManager = fromManager
+            self.$toManager = toManager
 
             const handleTransformControls = (e: TransformControlsPayload) =>
                 e.phase === "end" && addConfigJointSystem(self)
@@ -113,8 +113,8 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
                 handle.cancel()
                 fromManager.$jointCount--
                 toManager.$jointCount--
-                self.fromManager = undefined
-                self.toManager = undefined
+                self.$fromManager = undefined
+                self.$toManager = undefined
             }
         },
         [importPhysX]
