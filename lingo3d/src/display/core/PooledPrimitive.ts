@@ -18,9 +18,9 @@ import {
 export default abstract class PooledPrimitve extends Primitive {
     public constructor(
         geometry: BufferGeometry,
-        public paramString: string,
-        public decreaseGeometry: (paramString: string) => void,
-        public increaseGeometry:
+        public $paramString: string,
+        public $decreaseGeometry: (paramString: string) => void,
+        public $increaseGeometry:
             | typeof increaseCircleGeometry
             | typeof increaseConeGeometry
             | typeof increaseCylinderGeometry
@@ -29,7 +29,7 @@ export default abstract class PooledPrimitve extends Primitive {
         super(geometry)
     }
 
-    public abstract getParams():
+    public abstract $getParams():
         | CircleParams
         | ConeParams
         | CylinderParams
@@ -37,7 +37,7 @@ export default abstract class PooledPrimitve extends Primitive {
 
     protected override disposeNode() {
         super.disposeNode()
-        this.decreaseGeometry(this.paramString)
+        this.$decreaseGeometry(this.$paramString)
         deleteRefreshPooledPrimitiveSystem(this)
     }
 }

@@ -8,7 +8,7 @@ export const [addConfigCastShadowSystem] = configLoadedSystem(
         const physicsShadow = !!(
             shadowModePtr[0] === "physics" &&
             "physics" in self &&
-            (self.physics || self.jointCount)
+            (self.physics || self.$jointCount)
         )
         const bool =
             self.castShadow && (physicsShadow || shadowModePtr[0] === true)

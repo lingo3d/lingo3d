@@ -5,10 +5,10 @@ export const [
     addRefreshPooledPrimitiveSystem,
     deleteRefreshPooledPrimitiveSystem
 ] = configSystem((target: PooledPrimitve) => {
-    target.decreaseGeometry(target.paramString)
-    const params = target.getParams()
-    target.object3d.geometry = target.increaseGeometry(
+    target.$decreaseGeometry(target.$paramString)
+    const params = target.$getParams()
+    target.object3d.geometry = target.$increaseGeometry(
         params as any,
-        (target.paramString = JSON.stringify(params))
+        (target.$paramString = JSON.stringify(params))
     )
 })

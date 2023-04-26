@@ -30,7 +30,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
         this.object3d.scale.z = Number.EPSILON
     }
 
-    public getParams(): CircleParams {
+    public $getParams(): CircleParams {
         return [0.5, this.segments, 0, this.theta * deg2Rad]
     }
 

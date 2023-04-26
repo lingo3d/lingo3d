@@ -25,9 +25,9 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     ) {
         addConfigRevoluteJointSystem(this)
         return createRevolute(
-            fromManager.actor,
+            fromManager.$actor,
             fromPxTransform,
-            toManager.actor,
+            toManager.$actor,
             toPxTransform
         )
     }

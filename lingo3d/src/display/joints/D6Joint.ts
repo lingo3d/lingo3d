@@ -26,9 +26,9 @@ export default class D6Joint extends JointBase implements ID6Joint {
     ) {
         addConfigD6JointSystem(this)
         return createD6(
-            fromManager.actor,
+            fromManager.$actor,
             fromPxTransform,
-            toManager.actor,
+            toManager.$actor,
             toPxTransform
         )
     }

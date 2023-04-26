@@ -29,7 +29,7 @@ export default class Torus extends PooledPrimitve implements ITorus {
         )
     }
 
-    public getParams(): TorusParams {
+    public $getParams(): TorusParams {
         return [0.5, this.thickness, 16, this.segments, this.theta * deg2Rad]
     }
 

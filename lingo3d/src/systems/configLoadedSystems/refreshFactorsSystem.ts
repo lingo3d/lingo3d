@@ -24,8 +24,8 @@ const setFactor = (
         textureManager,
         key,
         factor === undefined || factor === 1
-            ? textureManager.defaults[key]
-            : Math.max(textureManager.defaults[key], 0.25) * factor
+            ? textureManager.$defaults[key]
+            : Math.max(textureManager.$defaults[key], 0.25) * factor
     )
 
 export const [addRefreshFactorsSystem] = configLoadedSystem((model: Model) => {

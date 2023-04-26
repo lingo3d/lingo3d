@@ -28,9 +28,9 @@ export default class PrismaticJoint
     ) {
         addConfigPrismaticJointSystem(this)
         return createPrismatic(
-            fromManager.actor,
+            fromManager.$actor,
             fromPxTransform,
-            toManager.actor,
+            toManager.$actor,
             toPxTransform
         )
     }

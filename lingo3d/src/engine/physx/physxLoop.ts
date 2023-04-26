@@ -57,13 +57,13 @@ createEffect(() => {
                     : !!pxRaycast(
                           setPxVec(px, py, pz),
                           setPxVec_(0, -1, 0),
-                          manager.capsuleHeight!,
-                          manager.actor.ptr
+                          manager.$capsuleHeight!,
+                          manager.$actor.ptr
                       )
                 hitMap.set(manager, hit)
 
                 if (hit) {
-                    dy = -manager.capsuleHeight!
+                    dy = -manager.$capsuleHeight!
                     vyMap.set(manager, 0)
                     groundedControllerManagers.add(manager)
                     controllerVXUpdateMap.delete(manager)
@@ -94,7 +94,7 @@ createEffect(() => {
         }
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
-            const { p } = manager.actor.getGlobalPose()
+            const { p } = manager.$actor.getGlobalPose()
             position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.3 : 1))
             position.x = p.x
             position.z = p.z

@@ -27,26 +27,26 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
     implements IPhysicsObjectManager
 {
-    public actor?: any
-    public capsuleHeight?: number
+    public $actor?: any
+    public $capsuleHeight?: number
 
     private _mass?: number
     public get mass(): number {
-        if (this.actor && !this.actor.getMass) return 0
-        return this.actor?.getMass() ?? this._mass ?? 1
+        if (this.$actor && !this.$actor.getMass) return 0
+        return this.$actor?.getMass() ?? this._mass ?? 1
     }
     public set mass(val) {
         this._mass = val
-        this.actor?.setMass?.(val)
+        this.$actor?.setMass?.(val)
     }
 
     public gravity: Nullable<boolean>
 
     public get velocityX(): number {
-        return this.actor?.getLinearVelocity().get_x() ?? 0
+        return this.$actor?.getLinearVelocity().get_x() ?? 0
     }
     public set velocityX(val) {
-        const { actor } = this
+        const { $actor: actor } = this
         if (!actor) return
 
         if (this._physics === "character") {
@@ -59,10 +59,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public get velocityY(): number {
-        return this.actor?.getLinearVelocity().get_y() ?? 0
+        return this.$actor?.getLinearVelocity().get_y() ?? 0
     }
     public set velocityY(val) {
-        const { actor } = this
+        const { $actor: actor } = this
         if (!actor) return
 
         if (this._physics === "character") {
@@ -75,10 +75,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public get velocityZ(): number {
-        return this.actor?.getLinearVelocity().get_z() ?? 0
+        return this.$actor?.getLinearVelocity().get_z() ?? 0
     }
     public set velocityZ(val) {
-        const { actor } = this
+        const { $actor: actor } = this
         if (!actor) return
 
         if (this._physics === "character") {
@@ -91,7 +91,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public addForce(x: number, y: number, z: number) {
-        this.actor?.addForce(setPxVec(x, y, z))
+        this.$actor?.addForce(setPxVec(x, y, z))
     }
 
     public addLocalForceAtPos(
@@ -103,10 +103,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posZ = 0
     ) {
         const { PxRigidBodyExt } = physxPtr[0]
-        if (!PxRigidBodyExt || !this.actor) return
+        if (!PxRigidBodyExt || !this.$actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtPos(
-            this.actor,
+            this.$actor,
             setPxVec(x, y, z),
             setPxVec_(posX, posY, posZ)
         )
@@ -121,21 +121,21 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posZ = 0
     ) {
         const { PxRigidBodyExt } = physxPtr[0]
-        if (!PxRigidBodyExt || !this.actor) return
+        if (!PxRigidBodyExt || !this.$actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtLocalPos(
-            this.actor,
+            this.$actor,
             setPxVec(x, y, z),
             setPxVec_(posX, posY, posZ)
         )
     }
 
     public addTorque(x: number, y: number, z: number) {
-        this.actor?.addTorque(setPxVec(x, y, z))
+        this.$actor?.addTorque(setPxVec(x, y, z))
     }
 
-    public initActor(actor: any) {
-        this.actor = actor
+    public $initActor(actor: any) {
+        this.$actor = actor
         const { _mass } = this
         if (_mass !== undefined) actor.mass = _mass
         actorPtrManagerMap.set(actor.ptr, this)
@@ -144,13 +144,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return actor
     }
 
-    public convexParamString?: string
+    public $convexParamString?: string
     protected override disposeNode() {
         super.disposeNode()
         decreaseConvexGeometryCount(this)
         deleteRefreshPhysicsSystem(this)
     }
-    public getPxShape(_: PhysicsOptions, actor: any) {
+    public $getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
@@ -175,10 +175,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     private _jointCount?: number
-    public get jointCount() {
+    public get $jointCount() {
         return this._jointCount ?? 0
     }
-    public set jointCount(val) {
+    public set $jointCount(val) {
         this._jointCount = val
         addConfigPhysicsSystem(this)
         addConfigCastShadowSystem(this)

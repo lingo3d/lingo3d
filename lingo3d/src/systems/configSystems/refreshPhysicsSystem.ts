@@ -34,7 +34,7 @@ export const importPhysX = lazy(async () => {
 export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
     configSystemWithCleanUp(
         (self: PhysicsObjectManager) => {
-            const mode = self.physics || !!self.jointCount
+            const mode = self.physics || !!self.$jointCount
             if (!mode) return
 
             const {
@@ -55,7 +55,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(self).multiplyScalar(0.5)
-                self.capsuleHeight = y * 2
+                self.$capsuleHeight = y * 2
                 desc.height = y * 1.2
                 desc.radius = x
                 Object.assign(desc.position, self.position)
@@ -74,7 +74,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                     getPxControllerManager().createController(desc)
                 destroy(desc)
 
-                const actor = self.initActor(controller.getActor())
+                const actor = self.$initActor(controller.getActor())
                 managerControllerMap.set(self, controller)
                 controllerManagerMap.set(controller, self)
 
@@ -82,19 +82,19 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(self)
-                    self.actor = undefined
+                    self.$actor = undefined
                 }
             }
 
             const pxTransform = assignPxTransform(self)
             const isStatic = mode === "map" || mode === "static"
-            const actor = self.initActor(
+            const actor = self.$initActor(
                 isStatic
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
 
-            self.getPxShape(mode, actor)
+            self.$getPxShape(mode, actor)
             pxScene.addActor(actor)
             managerActorMap.set(self, actor)
 
@@ -104,7 +104,7 @@ export const [addRefreshPhysicsSystem, deleteRefreshPhysicsSystem] =
 
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(self)
-                self.actor = undefined
+                self.$actor = undefined
             }
         },
         [importPhysX]

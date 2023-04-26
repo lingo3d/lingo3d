@@ -13,11 +13,11 @@ export default (typeSrc: string, manager: PhysicsObjectManager) => {
     decreaseConvexGeometryCount(manager)
     return increasePhysxConvexGeometry(
         params,
-        (manager.convexParamString = paramString),
+        (manager.$convexParamString = paramString),
         manager
     )
 }
 
 export const decreaseConvexGeometryCount = (manager: PhysicsObjectManager) =>
-    manager.convexParamString &&
-    decreasePhysxConvexGeometry(manager.convexParamString)
+    manager.$convexParamString &&
+    decreasePhysxConvexGeometry(manager.$convexParamString)

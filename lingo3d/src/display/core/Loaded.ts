@@ -155,7 +155,7 @@ export default abstract class Loaded<T = Object3D>
         //todo: implement appending box to object3d
     }
 
-    public override getPxShape(mode: PhysicsOptions, actor: any): any {
+    public override $getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physxPtr[0]
@@ -169,6 +169,6 @@ export default abstract class Loaded<T = Object3D>
             shape.setSimulationFilterData(pxFilterData)
             return shape
         }
-        return super.getPxShape(mode, actor)
+        return super.$getPxShape(mode, actor)
     }
 }

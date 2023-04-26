@@ -19,9 +19,9 @@ export const [addConfigPhysicsTransformSystem] = configSystem(
             )
             return
         }
-        manager.actor.setGlobalPose(assignPxTransform(manager))
-        if (!("setLinearVelocity" in manager.actor)) return
-        manager.actor.setLinearVelocity(setPxVec(0, 0, 0))
-        manager.actor.setAngularVelocity(setPxVec(0, 0, 0))
+        manager.$actor.setGlobalPose(assignPxTransform(manager))
+        if (!("setLinearVelocity" in manager.$actor)) return
+        manager.$actor.setLinearVelocity(setPxVec(0, 0, 0))
+        manager.$actor.setAngularVelocity(setPxVec(0, 0, 0))
     }
 )

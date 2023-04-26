@@ -28,9 +28,9 @@ export default class SphericalJoint
     ) {
         addConfigSphericalJointSystem(this)
         return createSpherical(
-            fromManager.actor,
+            fromManager.$actor,
             fromPxTransform,
-            toManager.actor,
+            toManager.$actor,
             toPxTransform
         )
     }

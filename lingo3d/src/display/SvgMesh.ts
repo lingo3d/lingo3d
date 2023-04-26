@@ -125,10 +125,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
 
     private _material = standardMaterial
-    public get material() {
+    public get $material() {
         return this._material
     }
-    public set material(val) {
+    public set $material(val) {
         this._material = val
         const children = (this.loadedObject3d?.children ??
             []) as Array<StandardMesh>

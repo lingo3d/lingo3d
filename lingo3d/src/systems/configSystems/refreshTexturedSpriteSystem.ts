@@ -7,17 +7,17 @@ import configSystem from "../utils/configSystem"
 
 export const [addRefreshTexturedSpriteSystem] = configSystem(
     (target: TexturedSpriteMixin) => {
-        if (target.materialParamString)
-            decreaseSpriteMaterial(target.materialParamString)
+        if (target.$materialParamString)
+            decreaseSpriteMaterial(target.$materialParamString)
         else
             target.then(() =>
-                decreaseSpriteMaterial(target.materialParamString!)
+                decreaseSpriteMaterial(target.$materialParamString!)
             )
-        const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseSpriteMaterial(
-            target.materialParams,
+        const paramString = JSON.stringify(target.$materialParams)
+        target.$material = increaseSpriteMaterial(
+            target.$materialParams,
             paramString
         )
-        target.materialParamString = paramString
+        target.$materialParamString = paramString
     }
 )

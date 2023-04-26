@@ -34,8 +34,8 @@ const getRelativeTransform = (
 
 const getActor = (manager: PhysicsObjectManager) =>
     new Promise<any>((resolve) => {
-        if (manager.actor) {
-            resolve(manager.actor)
+        if (manager.$actor) {
+            resolve(manager.$actor)
             return
         }
         manager.events.once("actor", resolve)
@@ -55,8 +55,8 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
             )
                 return
 
-            fromManager.jointCount++
-            toManager.jointCount++
+            fromManager.$jointCount++
+            toManager.$jointCount++
 
             const handle = new Cancellable()
             Promise.all([getActor(fromManager), getActor(toManager)]).then(
@@ -111,8 +111,8 @@ export const [addConfigJointSystem, deleteConfigJointSystem] =
                 handle3.cancel()
                 handle4.cancel()
                 handle.cancel()
-                fromManager.jointCount--
-                toManager.jointCount--
+                fromManager.$jointCount--
+                toManager.$jointCount--
                 self.fromManager = undefined
                 self.toManager = undefined
             }

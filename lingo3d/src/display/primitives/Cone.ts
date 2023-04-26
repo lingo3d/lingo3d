@@ -28,7 +28,7 @@ export default class Cone extends PooledPrimitve implements ICone {
         )
     }
 
-    public getParams(): ConeParams {
+    public $getParams(): ConeParams {
         return [0.5, 1, this.segments, 1, false, 0, PI2]
     }
 

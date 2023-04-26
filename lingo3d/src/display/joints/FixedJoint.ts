@@ -27,9 +27,9 @@ export default class FixedJoint extends JointBase implements IFixedJoint {
         toManager: PhysicsObjectManager
     ) {
         return createFixed(
-            fromManager.actor,
+            fromManager.$actor,
             fromPxTransform,
-            toManager.actor,
+            toManager.$actor,
             toPxTransform
         )
     }

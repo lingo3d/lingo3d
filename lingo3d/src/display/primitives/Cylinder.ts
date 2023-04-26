@@ -31,7 +31,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         )
     }
 
-    public getParams(): CylinderParams {
+    public $getParams(): CylinderParams {
         return [
             this.radiusTop,
             this.radiusBottom,
