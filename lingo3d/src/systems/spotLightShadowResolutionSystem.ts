@@ -16,6 +16,11 @@ export const [
     deleteSpotLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: SpotLight, data: { step: number | undefined }) => {
+        if (!self.object3d.visible) {
+            releaseShadowRenderTarget(self.object3d.shadow.map)
+            return
+        }
+
         const distance = getDistanceFromCamera(self)
         let step = 3
         if (distance < lightIncrementPtr[0]) step = 0
@@ -30,7 +35,7 @@ export const [
         shadow.map?.dispose()
         shadow.mapSize.setScalar(resolutions[step])
         shadow.bias = biases[step]
-        shadow.map && releaseShadowRenderTarget(shadow.map)
+        releaseShadowRenderTarget(shadow.map)
         shadow.map = requestShadowRenderTarget([res], res + "")
         shadow.needsUpdate = true
         addConfigCastShadowPhysicsSystem(self)

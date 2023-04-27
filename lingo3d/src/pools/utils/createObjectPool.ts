@@ -10,6 +10,7 @@ export default <
 ) => {
     const paramStringObjectSetMap = new Map<string, Set<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
+    const releasedObjects = new WeakSet<Type>()
 
     const request = (
         params: Params,
@@ -24,6 +25,7 @@ export default <
         const [object] = objectSet
         if (object) {
             objectSet.delete(object)
+            releasedObjects.delete(object)
             return object
         }
         const result = factory(params, context)
@@ -31,7 +33,10 @@ export default <
         return result
     }
 
-    const release = (object: Type) => {
+    const release = (object?: Type) => {
+        if (!object || releasedObjects.has(object)) return
+        releasedObjects.add(object)
+
         const paramString = objectParamStringMap.get(object)!
         const objectSet = paramStringObjectSetMap.get(paramString)!
         objectSet.add(object)

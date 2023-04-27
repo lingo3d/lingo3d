@@ -16,6 +16,11 @@ export const [
     deletePointLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: PointLight, data: { step: number | undefined }) => {
+        if (!self.object3d.visible) {
+            releaseShadowRenderTarget(self.object3d.shadow.map)
+            return
+        }
+
         const distance = getDistanceFromCamera(self)
         let step = 4
         if (self.distance > 3000) step = 5
@@ -32,7 +37,7 @@ export const [
         const res = resolutions[step]
         shadow.mapSize.setScalar(res)
         shadow.bias = biases[step]
-        shadow.map && releaseShadowRenderTarget(shadow.map)
+        releaseShadowRenderTarget(shadow.map)
         shadow.map = requestShadowRenderTarget([res], res + "")
         shadow.needsUpdate = true
         addConfigCastShadowPhysicsSystem(self)
