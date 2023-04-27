@@ -1,4 +1,4 @@
-import { DefaultSkyLight, Dummy, SpotLight, settings } from ".."
+import { DefaultSkyLight, Dummy, PointLight, SpotLight, settings } from ".."
 import Cube from "../display/primitives/Cube"
 
 const skylight = new DefaultSkyLight()
@@ -9,10 +9,10 @@ ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
 
-const light = new SpotLight()
+const light = new PointLight()
 light.castShadow = true
 
-settings.shadowMode = "physics"
+// settings.shadowMode = "physics"
 
 const dummy = new Dummy()
 dummy.physics = "character"

@@ -34,11 +34,15 @@ export const [
         data.step = step
 
         const { shadow } = self.object3d
+        const extents = shadow.getFrameExtents()
         const res = resolutions[step]
         shadow.mapSize.setScalar(res)
         shadow.bias = biases[step]
         releaseShadowRenderTarget(shadow.map)
-        shadow.map = requestShadowRenderTarget([res], res + "")
+        shadow.map = requestShadowRenderTarget([
+            res * extents.x,
+            res * extents.y
+        ])
         shadow.needsUpdate = true
         addConfigCastShadowPhysicsSystem(self)
     }

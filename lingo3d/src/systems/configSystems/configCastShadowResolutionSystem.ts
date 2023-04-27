@@ -17,8 +17,7 @@ export const [
     deleteConfigCastShadowResolutionSystem
 ] = configRepeatSystemWithDispose(
     (self: PointLight | SpotLight) => {
-        const castShadow = self.castShadow && !!shadowModePtr[0]
-        if (castShadow) {
+        if (self.castShadow && !!shadowModePtr[0]) {
             self instanceof PointLight
                 ? addPointLightShadowResolutionSystem(self, { step: undefined })
                 : addSpotLightShadowResolutionSystem(self, { step: undefined })

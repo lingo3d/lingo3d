@@ -7,6 +7,6 @@ const pars = {
 }
 
 export const [requestShadowRenderTarget, releaseShadowRenderTarget] =
-    createObjectPool<WebGLRenderTarget, [number]>(
-        (params) => new WebGLRenderTarget(params[0], params[0], pars)
+    createObjectPool<WebGLRenderTarget, [number, number]>(
+        (params) => new WebGLRenderTarget(params[0], params[1], pars)
     )
