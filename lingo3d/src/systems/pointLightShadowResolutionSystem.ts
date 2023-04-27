@@ -3,6 +3,10 @@ import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import { addConfigCastShadowPhysicsSystem } from "./configSystems/configCastShadowPhysicsSystem"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
+import {
+    releaseShadowRenderTarget,
+    requestShadowRenderTarget
+} from "../pools/objectPools/shadowRenderTargetPool"
 
 const resolutions = [512, 256, 128, 32, 16, 512]
 const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.005]
@@ -25,11 +29,12 @@ export const [
         data.step = step
 
         const { shadow } = self.object3d
-        shadow.map?.dispose()
-        shadow.mapSize.setScalar(resolutions[step])
+        const res = resolutions[step]
+        shadow.mapSize.setScalar(res)
         shadow.bias = biases[step]
-        //@ts-ignore
-        shadow.map = null
+        shadow.map && releaseShadowRenderTarget(shadow.map)
+        shadow.map = requestShadowRenderTarget([res], res + "")
+        shadow.needsUpdate = true
         addConfigCastShadowPhysicsSystem(self)
     }
 )

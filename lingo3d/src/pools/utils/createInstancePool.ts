@@ -1,8 +1,8 @@
-import { Point } from "@lincode/math"
+import { PointType } from "../../utils/isPoint"
 
 export default <
     Type,
-    Params extends Array<string | number | boolean | Point | undefined>,
+    Params extends Array<string | number | boolean | PointType | undefined>,
     Context extends object | void = void
 >(
     factory: (params: Params, context: Context) => Type,

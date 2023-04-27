@@ -3,6 +3,10 @@ import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
 import { addConfigCastShadowPhysicsSystem } from "./configSystems/configCastShadowPhysicsSystem"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
+import {
+    releaseShadowRenderTarget,
+    requestShadowRenderTarget
+} from "../pools/objectPools/shadowRenderTargetPool"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
@@ -22,11 +26,13 @@ export const [
         data.step = step
 
         const { shadow } = self.object3d
+        const res = resolutions[step]
         shadow.map?.dispose()
         shadow.mapSize.setScalar(resolutions[step])
         shadow.bias = biases[step]
-        //@ts-ignore
-        shadow.map = null
+        shadow.map && releaseShadowRenderTarget(shadow.map)
+        shadow.map = requestShadowRenderTarget([res], res + "")
+        shadow.needsUpdate = true
         addConfigCastShadowPhysicsSystem(self)
     }
 )
