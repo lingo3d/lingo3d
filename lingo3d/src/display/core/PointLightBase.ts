@@ -12,6 +12,7 @@ import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
 } from "../../systems/lightIntensitySystem"
+import { addConfigCastShadowPhysicsSystem } from "../../systems/configSystems/configCastShadowPhysicsSystem"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight
@@ -67,6 +68,7 @@ export default abstract class PointLightBase<
                     )
                 })
         )
+        addConfigCastShadowPhysicsSystem(this)
     }
 
     private _intensity = 1
