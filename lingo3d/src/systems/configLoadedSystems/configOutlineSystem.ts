@@ -6,7 +6,7 @@ import {
 } from "../../engine/renderLoop/effectComposer/outlineEffect"
 import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
 
-export const [addConfigOutlineLoadedSystem] = configLoadedSystemWithDispose(
+export const [addConfigOutlineSystem] = configLoadedSystemWithDispose(
     (self: Model | VisibleMixin) => {
         if ("findAllMeshes" in self) {
             if (self.outline)
