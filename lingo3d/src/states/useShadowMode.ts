@@ -3,6 +3,7 @@ import scene from "../engine/scene"
 import { shadowModePtr } from "../pointers/shadowModePtr"
 import { physicsSet } from "../collections/physicsSet"
 import { addConfigCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
+import { Object3D } from "three"
 
 export const [setShadowMode, getShadowMode] = store<boolean | "physics">(true)
 
@@ -26,4 +27,15 @@ getShadowMode((val) => {
         scene.traverse((child) => {
             if ("isMesh" in child) child.castShadow = false
         })
+})
+
+const clone = Object3D.prototype.clone
+getShadowMode((val) => {
+    if (val === true)
+        Object3D.prototype.clone = function (recursive) {
+            const result = clone.call(this, recursive)
+            result.castShadow = result.receiveShadow
+            return result
+        }
+    else Object3D.prototype.clone = clone
 })
