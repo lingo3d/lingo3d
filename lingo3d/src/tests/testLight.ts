@@ -12,7 +12,7 @@ ground.scaleZ = 1000
 const light = new PointLight()
 light.castShadow = true
 
-// settings.shadowMode = "physics"
+settings.shadowMode = "physics"
 
 const dummy = new Dummy()
 dummy.physics = "character"

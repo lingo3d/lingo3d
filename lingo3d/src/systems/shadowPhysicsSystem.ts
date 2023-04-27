@@ -7,6 +7,7 @@ import renderSystemWithData from "./utils/renderSystemWithData"
 export const [addShadowPhysicsSystem, deleteShadowPhysicsSystem] =
     renderSystemWithData(
         (self: PointLightBase<any>, data: { count: number | undefined }) => {
+            if (!self.object3d.visible) return
             if (
                 positionChanged(self.object3d) ||
                 quaternionChanged(self.object3d)
