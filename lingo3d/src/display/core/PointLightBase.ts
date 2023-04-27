@@ -67,20 +67,6 @@ export default abstract class PointLightBase<
                     )
                 })
         )
-        // this.cancelHandle(
-        //     "castShadowPhysics",
-        //     val === "physics"
-        //         ? () => {
-        //               light.shadow.needsUpdate = true
-        //               light.shadow.autoUpdate = false
-        //               addShadowPhysicsSystem(this)
-        //               return new Cancellable(() => {
-        //                   light.shadow.autoUpdate = true
-        //                   deleteShadowPhysicsSystem(this)
-        //               })
-        //           }
-        //         : undefined
-        // )
     }
 
     private _intensity = 1

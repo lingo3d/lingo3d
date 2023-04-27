@@ -5,11 +5,6 @@ import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
-import { getExtensionIncludingObjectURL } from "./core/utils/objectURL"
-import {
-    decreaseLoadingCount,
-    increaseLoadingCount
-} from "../states/useLoadingCount"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
 import { addRefreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
@@ -25,8 +20,6 @@ import findFirst from "../utilsCached/findFirst"
 import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
-import { addConfigSelectiveBloomLoadedSystem } from "../systems/configLoadedSystems/configSelectiveBloomLoadedSystem"
-import { addConfigOutlineLoadedSystem } from "../systems/configLoadedSystems/configOutlineLoadedSystem"
 import loadModel from "./utils/loaders/loadModel"
 
 export default class Model extends Loaded<Group> implements IModel {
@@ -187,24 +180,6 @@ export default class Model extends Loaded<Group> implements IModel {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
         addRefreshFactorsSystem(this)
-    }
-
-    public override get bloom() {
-        return super.bloom
-    }
-    public override set bloom(val) {
-        //@ts-ignore
-        this._bloom = val
-        addConfigSelectiveBloomLoadedSystem(this)
-    }
-
-    public override get outline() {
-        return super.outline
-    }
-    public override set outline(val) {
-        //@ts-ignore
-        this._outline = val
-        addConfigOutlineLoadedSystem(this)
     }
 
     public find(name: string) {
