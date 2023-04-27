@@ -16,10 +16,6 @@ import {
 } from "../../../systems/volumetricSpotLightSystem"
 import { Cancellable } from "@lincode/promiselikes"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
-import {
-    addSpotLightShadowResolutionSystem,
-    deleteSpotLightShadowResolutionSystem
-} from "../../../systems/spotLightShadowResolutionSystem"
 import PointLightBase from "../../core/PointLightBase"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
@@ -42,10 +38,6 @@ export default class SpotLight
         light.position.y = 0
         light.target.position.y = -0.1
     }
-
-    protected addShadowResolutionSystem = addSpotLightShadowResolutionSystem
-    protected deleteShadowResolutionSystem =
-        deleteSpotLightShadowResolutionSystem
 
     public get angle() {
         return this.object3d.angle * rad2Deg

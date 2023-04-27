@@ -3,10 +3,6 @@ import IPointLight, {
     pointLightDefaults,
     pointLightSchema
 } from "../../interface/IPointLight"
-import {
-    addPointLightShadowResolutionSystem,
-    deletePointLightShadowResolutionSystem
-} from "../../systems/pointLightShadowResolutionSystem"
 import PointLightBase from "../core/PointLightBase"
 
 export default class PointLight
@@ -20,8 +16,4 @@ export default class PointLight
     public constructor() {
         super(new ThreePointLight())
     }
-
-    protected addShadowResolutionSystem = addPointLightShadowResolutionSystem
-    protected deleteShadowResolutionSystem =
-        deletePointLightShadowResolutionSystem
 }

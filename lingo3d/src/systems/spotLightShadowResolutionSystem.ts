@@ -1,6 +1,8 @@
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
+import { addConfigCastShadowPhysicsSystem } from "./configSystems/configCastShadowPhysicsSystem"
+import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
@@ -12,9 +14,9 @@ export const [
     (self: SpotLight, data: { step: number | undefined }) => {
         const distance = getDistanceFromCamera(self)
         let step = 3
-        if (distance < 10) step = 0
-        else if (distance < 20) step = 1
-        else if (distance < 30) step = 2
+        if (distance < lightIncrementPtr[0]) step = 0
+        else if (distance < lightIncrementPtr[1]) step = 1
+        else if (distance < lightIncrementPtr[2]) step = 2
 
         if (step === data.step) return
         data.step = step
@@ -25,5 +27,6 @@ export const [
         shadow.bias = biases[step]
         //@ts-ignore
         shadow.map = null
+        addConfigCastShadowPhysicsSystem(self)
     }
 )

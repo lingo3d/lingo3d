@@ -7,12 +7,12 @@ import {
 import { CM2M, M2CM } from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
-import { Cancellable } from "@lincode/promiselikes"
 import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
 } from "../../systems/lightIntensitySystem"
 import { addConfigCastShadowPhysicsSystem } from "../../systems/configSystems/configCastShadowPhysicsSystem"
+import { addConfigCastShadowResolutionSystem } from "../../systems/configSystems/configCastShadowResolutionSystem"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight
@@ -40,34 +40,12 @@ export default abstract class PointLightBase<
         this.object3d.distance = val * CM2M
     }
 
-    protected abstract addShadowResolutionSystem: (
-        object: this,
-        data: { step: number | undefined }
-    ) => void
-    protected abstract deleteShadowResolutionSystem: (object: this) => void
-
-    private _castShadow = false
     public get castShadow() {
-        return this._castShadow
+        return this.object3d.castShadow
     }
     public set castShadow(val) {
-        this._castShadow = val
-
-        const light = this.object3d
-        light.castShadow = !!val
-
-        this.cancelHandle(
-            "castShadowResolution",
-            val &&
-                (() => {
-                    this.addShadowResolutionSystem(this, {
-                        step: undefined
-                    })
-                    return new Cancellable(() =>
-                        this.deleteShadowResolutionSystem(this)
-                    )
-                })
-        )
+        this.object3d.castShadow = val
+        addConfigCastShadowResolutionSystem(this)
         addConfigCastShadowPhysicsSystem(this)
     }
 
