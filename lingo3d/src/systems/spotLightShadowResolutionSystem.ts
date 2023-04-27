@@ -19,8 +19,7 @@ export const [
         if (step === data.step) return
         data.step = step
 
-        const { $light: light } = self
-        const { shadow } = light
+        const { shadow } = self.object3d
         shadow.map?.dispose()
         shadow.mapSize.setScalar(resolutions[step])
         shadow.bias = biases[step]

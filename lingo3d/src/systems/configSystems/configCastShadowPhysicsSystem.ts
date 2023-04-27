@@ -13,12 +13,12 @@ export const [
 ] = configRepeatSystemWithDispose(
     (self: PointLightBase<any>) => {
         if (self.castShadow && shadowModePtr[0] === "physics") {
-            self.$light.shadow.needsUpdate = true
-            self.$light.shadow.autoUpdate = false
+            self.object3d.shadow.needsUpdate = true
+            self.object3d.shadow.autoUpdate = false
             addShadowPhysicsSystem(self, { count: undefined })
             return true
         }
-        self.$light.shadow.autoUpdate = true
+        self.object3d.shadow.autoUpdate = true
         deleteShadowPhysicsSystem(self)
         return false
     },

@@ -11,13 +11,13 @@ export const [addShadowPhysicsSystem, deleteShadowPhysicsSystem] =
                 positionChanged(self.object3d) ||
                 quaternionChanged(self.object3d)
             ) {
-                self.$light.shadow.needsUpdate = true
+                self.object3d.shadow.needsUpdate = true
                 return
             }
             const nearby = self.queryNearby(self.distance)
             if (data.count !== nearby.length) {
                 data.count = nearby.length
-                self.$light.shadow.needsUpdate = true
+                self.object3d.shadow.needsUpdate = true
                 return
             }
             for (const manager of nearby)
@@ -26,7 +26,7 @@ export const [addShadowPhysicsSystem, deleteShadowPhysicsSystem] =
                     quaternionChanged(manager.object3d) ||
                     castShadowChanged(manager.object3d)
                 ) {
-                    self.$light.shadow.needsUpdate = true
+                    self.object3d.shadow.needsUpdate = true
                     return
                 }
         }
