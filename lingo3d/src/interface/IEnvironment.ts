@@ -17,13 +17,11 @@ export type EnvironmentPreset = keyof typeof environmentPreset
 
 export default interface IEnvironment extends IMeshAppendable {
     texture: Nullable<string | EnvironmentPreset>
-    helper: boolean
 }
 
 export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
     ...meshAppendableSchema,
-    texture: String,
-    helper: Boolean
+    texture: String
 }
 
 export const environmentChoices = new Choices({
@@ -35,6 +33,6 @@ export const environmentChoices = new Choices({
 })
 export const environmentDefaults = extendDefaults<IEnvironment>(
     [meshAppendableDefaults],
-    { texture: "studio", helper: true },
+    { texture: "studio" },
     { texture: environmentChoices }
 )

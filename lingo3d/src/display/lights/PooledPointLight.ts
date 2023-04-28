@@ -16,5 +16,7 @@ export default class PooledPointLight extends ObjectManager {
     public constructor() {
         super()
         initPointLight()
+        const light = requestPointLight([], "")
+        //mark
     }
 }

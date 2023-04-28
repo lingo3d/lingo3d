@@ -27,7 +27,7 @@ export default abstract class LightBase<T extends Light>
     ) {
         super(light)
         this.createEffect(() => {
-            if (!getEditorHelper() || !this.helperState.get()) return
+            if (!getEditorHelper()) return
 
             const sprite = new HelperSprite("light", this)
             if (Helper) {
@@ -47,20 +47,12 @@ export default abstract class LightBase<T extends Light>
             return () => {
                 sprite.dispose()
             }
-        }, [getEditorHelper, this.helperState.get])
+        }, [getEditorHelper])
     }
 
     protected override disposeNode() {
         super.disposeNode()
         this.object3d.dispose()
-    }
-
-    protected helperState = new Reactive(true)
-    public get helper() {
-        return this.helperState.get()
-    }
-    public set helper(val) {
-        this.helperState.set(val)
     }
 
     public get color() {

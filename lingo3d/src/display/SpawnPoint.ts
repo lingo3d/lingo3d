@@ -14,27 +14,19 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static defaults = spawnPointDefaults
     public static schema = spawnPointSchema
 
-    private helperState = new Reactive(true)
-    public get helper() {
-        return this.helperState.get()
-    }
-    public set helper(val) {
-        this.helperState.set(val)
-    }
-
     protected isSpawnPoint = true
 
     public constructor() {
         super()
 
         this.createEffect(() => {
-            if (!this.helperState.get() || !getEditorHelper()) return
+            if (!getEditorHelper()) return
             const helper = new HelperCylinder(this)
             helper.height = 10
             return () => {
                 helper.dispose()
             }
-        }, [this.helperState.get, getEditorHelper])
+        }, [getEditorHelper])
     }
 
     public override append(child: SimpleObjectManager) {

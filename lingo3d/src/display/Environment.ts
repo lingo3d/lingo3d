@@ -8,7 +8,6 @@ import IEnvironment, {
     EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
-import { Reactive } from "@lincode/reactivity"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
 import MeshAppendable from "../api/core/MeshAppendable"
@@ -26,12 +25,12 @@ export default class Environment
         pushEnvironmentStack(this)
 
         this.createEffect(() => {
-            if (!getEditorHelper() || !this.helperState.get()) return
+            if (!getEditorHelper()) return
             const helper = new HelperSprite("light", this)
             return () => {
                 helper.dispose()
             }
-        }, [getEditorHelper, this.helperState.get])
+        }, [getEditorHelper])
     }
 
     protected override disposeNode() {
@@ -46,13 +45,5 @@ export default class Environment
     public set texture(value) {
         this._texture = value
         refreshEnvironmentStack()
-    }
-
-    private helperState = new Reactive(true)
-    public get helper() {
-        return this.helperState.get()
-    }
-    public set helper(val) {
-        this.helperState.set(val)
     }
 }
