@@ -1,15 +1,16 @@
 import { mapRange } from "@lincode/math"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import renderSystem from "./utils/renderSystem"
-import PointLightBase from "../display/core/PointLightBase"
 import { lightDistancePtr } from "../pointers/lightDistancePtr"
 import getFrustum from "../utilsCached/getFrustum"
 import getWorldPosition from "../utilsCached/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { CM2M } from "../globals"
+import PointLight from "../display/lights/PointLight"
+import SpotLight from "../display/lights/SpotLight"
 
 export const [addLightIntensitySystem, deleteLightIntensitySystem] =
-    renderSystem((self: PointLightBase<any>) => {
+    renderSystem((self: PointLight | SpotLight) => {
         const intensityFactor = getFrustum(
             cameraRenderedPtr[0]
         ).intersectsSphere(

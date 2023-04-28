@@ -15,10 +15,7 @@ export const [
     deletePointLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: PointLight, data: { step: number | undefined }) => {
-        if (!self.object3d.visible) {
-            releaseShadowRenderTarget(self.object3d.shadow.map)
-            return
-        }
+        if (!self.object3d.visible) return
 
         const distance = getDistanceFromCamera(self)
         let step = 4

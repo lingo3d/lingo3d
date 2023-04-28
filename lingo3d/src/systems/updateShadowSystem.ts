@@ -1,13 +1,15 @@
 import { castShadowChanged } from "../utilsCached/castShadowChanged"
 import { positionChanged } from "../utilsCached/positionChanged"
 import { quaternionChanged } from "../utilsCached/quaternionChanged"
-import PointLightBase from "../display/core/PointLightBase"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { shadowModePtr } from "../pointers/shadowModePtr"
+import { LightShadow } from "three"
+import PointLight from "../display/lights/PointLight"
+import SpotLight from "../display/lights/SpotLight"
 
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     renderSystemWithData(
-        (self: PointLightBase<any>, data: { count: number | undefined }) => {
+        (self: PointLight | SpotLight, data: { count: number | undefined }) => {
             if (!self.object3d.visible || !self.castShadow || !shadowModePtr[0])
                 return
 

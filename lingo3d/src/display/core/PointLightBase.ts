@@ -16,6 +16,7 @@ import {
     addUpdateShadowSystem,
     deleteUpdateShadowSystem
 } from "../../systems/updateShadowSystem"
+import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight
@@ -32,6 +33,9 @@ export default abstract class PointLightBase<
     }
 
     protected override disposeNode() {
+        releaseShadowRenderTarget(this.object3d.shadow.map)
+        //@ts-ignore
+        this.object3d.shadow.map = null
         super.disposeNode()
         deleteLightIntensitySystem(this)
         deleteUpdateShadowSystem(this)
