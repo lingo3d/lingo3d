@@ -24,20 +24,12 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
             }
             const cleanup = cb(target)
             cleanup && cleanupMap.set(target, cleanup)
-            deleteSystem(target)
+            if (queued.delete(target) && queued.size === 0) handle?.cancel()
         }
     }
     let handle: Cancellable | undefined
     const start = () => {
         handle = ticker(execute)
-    }
-    const deleteSystem = (item: T) => {
-        const prevCleanup = cleanupMap.get(item)
-        if (prevCleanup) {
-            prevCleanup()
-            cleanupMap.delete(item)
-        }
-        if (queued.delete(item) && queued.size === 0) handle?.cancel()
     }
     return <const>[
         (item: T) => {
@@ -45,6 +37,13 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
             queued.add(item)
             if (queued.size === 1) start()
         },
-        deleteSystem
+        (item: T) => {
+            const prevCleanup = cleanupMap.get(item)
+            if (prevCleanup) {
+                prevCleanup()
+                cleanupMap.delete(item)
+            }
+            if (queued.delete(item) && queued.size === 0) handle?.cancel()
+        }
     ]
 }
