@@ -1,16 +1,15 @@
 import { LightShadow } from "three"
 import { onAfterRender } from "../../events/onAfterRender"
 
-let resX = 0
-let resY = 0
+let resolution = 0
 onAfterRender(() => {
-    console.log(resX, resY)
-    resX = resY = 0
+    console.log(resolution)
+    resolution = 0
 })
 
 export default (shadow: LightShadow) => {
-    if (shadow.needsUpdate || !shadow.map) return
+    if (shadow.needsUpdate || !shadow.map) return resolution
     shadow.needsUpdate = true
-    resX += shadow.map.width
-    resY += shadow.map.height
+    resolution += Math.max(shadow.map.width, shadow.map.height)
+    return resolution
 }
