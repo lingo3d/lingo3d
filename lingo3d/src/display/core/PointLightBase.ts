@@ -16,6 +16,7 @@ import {
     deleteUpdateShadowSystem
 } from "../../systems/updateShadowSystem"
 import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
+import { shadowModePtr } from "../../pointers/shadowModePtr"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight
@@ -55,7 +56,10 @@ export default abstract class PointLightBase<
     public set castShadow(val) {
         this.object3d.castShadow = val
         val
-            ? addUpdateShadowSystem(this, { count: undefined })
+            ? addUpdateShadowSystem(this, {
+                  count: undefined,
+                  shadowMode: shadowModePtr[0]
+              })
             : deleteUpdateShadowSystem(this)
     }
 

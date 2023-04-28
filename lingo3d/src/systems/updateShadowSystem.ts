@@ -11,8 +11,18 @@ const maxResolution = 1024
 
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     deferredRenderSystemWithData(
-        (self: PointLightBase<any>, data: { count: number | undefined }) => {
-            if (!self.object3d.visible || !self.castShadow || !shadowModePtr[0])
+        (
+            self: PointLightBase<any>,
+            data: { count: number | undefined; shadowMode: boolean | "physics" }
+        ) => {
+            if (!shadowModePtr[0]) {
+                data.shadowMode && updateShadow(self.object3d.shadow)
+                data.shadowMode = shadowModePtr[0]
+                return shadowResolutionPtr[0] >= maxResolution
+            }
+            data.shadowMode = shadowModePtr[0]
+
+            if (!self.object3d.visible || !self.castShadow)
                 return shadowResolutionPtr[0] >= maxResolution
 
             if (shadowModePtr[0] === "physics") {
