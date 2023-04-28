@@ -1,7 +1,6 @@
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
-import { addConfigCastShadowPhysicsSystem } from "./configSystems/configCastShadowPhysicsSystem"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
 import {
     releaseShadowRenderTarget,
@@ -37,6 +36,5 @@ export const [
         releaseShadowRenderTarget(shadow.map)
         shadow.map = requestShadowRenderTarget([res, res])
         shadow.needsUpdate = true
-        addConfigCastShadowPhysicsSystem(self)
     }
 )

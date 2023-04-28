@@ -11,8 +11,11 @@ import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
 } from "../../systems/lightIntensitySystem"
-import { addConfigCastShadowPhysicsSystem } from "../../systems/configSystems/configCastShadowPhysicsSystem"
 import { addConfigCastShadowResolutionSystem } from "../../systems/configSystems/configCastShadowResolutionSystem"
+import {
+    addUpdateShadowSystem,
+    deleteUpdateShadowSystem
+} from "../../systems/updateShadowSystem"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight
@@ -22,6 +25,7 @@ export default abstract class PointLightBase<
 {
     public constructor(light: T, helper?: typeof SpotLightHelper) {
         super(light, helper)
+        light.shadow.autoUpdate = false
         this.distance = 500
         this.intensity = 10
         addLightIntensitySystem(this)
@@ -30,6 +34,7 @@ export default abstract class PointLightBase<
     protected override disposeNode() {
         super.disposeNode()
         deleteLightIntensitySystem(this)
+        deleteUpdateShadowSystem(this)
     }
 
     public $boundingSphere = new Sphere()
@@ -46,7 +51,9 @@ export default abstract class PointLightBase<
     public set castShadow(val) {
         this.object3d.castShadow = val
         addConfigCastShadowResolutionSystem(this)
-        addConfigCastShadowPhysicsSystem(this)
+        val
+            ? addUpdateShadowSystem(this, { count: undefined })
+            : deleteUpdateShadowSystem(this)
     }
 
     private _intensity = 1

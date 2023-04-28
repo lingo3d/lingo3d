@@ -1,7 +1,6 @@
 import PointLight from "../display/lights/PointLight"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
-import { addConfigCastShadowPhysicsSystem } from "./configSystems/configCastShadowPhysicsSystem"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
 import {
     releaseShadowRenderTarget,
@@ -44,6 +43,5 @@ export const [
             res * extents.y
         ])
         shadow.needsUpdate = true
-        addConfigCastShadowPhysicsSystem(self)
     }
 )
