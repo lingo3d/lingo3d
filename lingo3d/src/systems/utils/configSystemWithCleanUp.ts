@@ -1,3 +1,4 @@
+import { assert } from "@lincode/utils"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T extends object>(
@@ -12,13 +13,13 @@ export default <T extends object>(
 
     const execute = () => {
         for (const target of queued) {
+            //@ts-ignore
+            assert(!target.done)
             const prevCleanup = cleanupMap.get(target)
             if (prevCleanup) {
                 prevCleanup()
                 cleanupMap.delete(target)
             }
-            //@ts-ignore
-            if (target.done) continue
             const cleanup = cb(target)
             cleanup && cleanupMap.set(target, cleanup)
         }

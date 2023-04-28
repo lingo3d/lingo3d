@@ -1,34 +1,29 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
-import VisibleMixin from "../../display/core/mixins/VisibleMixin"
-import { onDispose } from "../../events/onDispose"
+import MeshAppendable from "../../api/core/MeshAppendable"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import { assert } from "@lincode/utils"
 
-export default <T extends Loaded | VisibleMixin>(
-    cb: (target: T) => boolean | undefined,
-    dispose: (target: T) => void,
+export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
+    cb: (target: T) => void | (() => void),
     ticker = onBeforeRender
 ) => {
     const queued = new Set<T>()
-    const disposeQueued = new Set<T>()
+    const cleanupMap = new WeakMap<T, () => void>()
 
-    onDispose((target) => {
-        if (disposeQueued.has(target as T)) {
-            disposeQueued.delete(target as T)
-            dispose(target as T)
-        }
-    })
     const execute = () => {
         for (const target of queued) {
-            if (target.done) {
-                deleteSystem(target)
-                continue
-            }
+            assert(!target.done)
             if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
 
-            cb(target)
-                ? disposeQueued.add(target)
-                : disposeQueued.delete(target)
+            const prevCleanup = cleanupMap.get(target)
+            if (prevCleanup) {
+                prevCleanup()
+                cleanupMap.delete(target)
+            }
+            const cleanup = cb(target)
+            cleanup && cleanupMap.set(target, cleanup)
             deleteSystem(target)
         }
     }
@@ -37,6 +32,11 @@ export default <T extends Loaded | VisibleMixin>(
         handle = ticker(execute)
     }
     const deleteSystem = (item: T) => {
+        const prevCleanup = cleanupMap.get(item)
+        if (prevCleanup) {
+            prevCleanup()
+            cleanupMap.delete(item)
+        }
         if (queued.delete(item) && queued.size === 0) handle?.cancel()
     }
     return <const>[

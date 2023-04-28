@@ -4,27 +4,21 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
+import configLoadedSystemWithCleanUp from "../utils/configLoadedSystemWithCleanUp"
 
-export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithDispose(
-    (self: Model | VisibleMixin) => {
+export const [addConfigSelectiveBloomSystem, deleteConfigSelectiveBloomSystem] =
+    configLoadedSystemWithCleanUp((self: Model | VisibleMixin) => {
+        if (!self.outline) return
         if ("findAllMeshes" in self) {
-            if (self.bloom)
-                for (const child of self.findAllMeshes())
-                    addSelectiveBloom(child.object3d)
-            else
-                for (const child of self.findAllMeshes())
+            const children = self.findAllMeshes()
+            for (const child of children) addSelectiveBloom(child.object3d)
+            return () => {
+                for (const child of children)
                     deleteSelectiveBloom(child.object3d)
-        } else {
-            if (self.bloom) addSelectiveBloom(self.object3d)
-            else deleteSelectiveBloom(self.object3d)
+            }
         }
-        return self.bloom
-    },
-    (self) => {
-        if ("findAllMeshes" in self)
-            for (const child of self.findAllMeshes())
-                deleteSelectiveBloom(child.object3d)
-        else deleteSelectiveBloom(self.object3d)
-    }
-)
+        addSelectiveBloom(self.object3d)
+        return () => {
+            deleteSelectiveBloom(self.object3d)
+        }
+    })

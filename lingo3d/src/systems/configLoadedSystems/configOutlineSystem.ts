@@ -4,27 +4,20 @@ import {
     addOutline,
     deleteOutline
 } from "../../engine/renderLoop/effectComposer/outlineEffect"
-import configLoadedSystemWithDispose from "../utils/configLoadedSystemWithDispose"
+import configLoadedSystemWithCleanUp from "../utils/configLoadedSystemWithCleanUp"
 
-export const [addConfigOutlineSystem] = configLoadedSystemWithDispose(
-    (self: Model | VisibleMixin) => {
+export const [addConfigOutlineSystem, deleteConfigOutlineSystem] =
+    configLoadedSystemWithCleanUp((self: Model | VisibleMixin) => {
+        if (!self.outline) return
         if ("findAllMeshes" in self) {
-            if (self.outline)
-                for (const child of self.findAllMeshes())
-                    addOutline(child.object3d)
-            else
-                for (const child of self.findAllMeshes())
-                    deleteOutline(child.object3d)
-        } else {
-            if (self.outline) addOutline(self.object3d)
-            else deleteOutline(self.object3d)
+            const children = self.findAllMeshes()
+            for (const child of children) addOutline(child.object3d)
+            return () => {
+                for (const child of children) deleteOutline(child.object3d)
+            }
         }
-        return self.outline
-    },
-    (self) => {
-        if ("findAllMeshes" in self)
-            for (const child of self.findAllMeshes())
-                deleteOutline(child.object3d)
-        else deleteOutline(self.object3d)
-    }
-)
+        addOutline(self.object3d)
+        return () => {
+            deleteOutline(self.object3d)
+        }
+    })

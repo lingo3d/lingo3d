@@ -36,6 +36,11 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this._materialParams = Object.values(this._defaults) as MaterialParams
     }
 
+    protected override disposeNode() {
+        super.disposeNode()
+        this.$disposeVisibleMixin()
+    }
+
     private retargeted?: boolean
     private retargetAnimations() {
         if (this.retargeted) return

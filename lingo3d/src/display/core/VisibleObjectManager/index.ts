@@ -9,6 +9,11 @@ abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
     implements IVisibleObjectManager
 {
+    protected override disposeNode() {
+        super.disposeNode()
+        this.$disposeVisibleMixin()
+    }
+
     public get innerVisible() {
         return this.object3d.visible
     }
