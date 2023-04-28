@@ -7,6 +7,8 @@ import SpotLight from "../display/lights/SpotLight"
 import updateShadow from "../display/utils/updateShadow"
 import deferredRenderSystemWithData from "./utils/deferredRenderSystemWithData"
 
+const maxResolution = 1024
+
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     deferredRenderSystemWithData(
         (
@@ -21,12 +23,12 @@ export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
                     positionChanged(self.object3d) ||
                     quaternionChanged(self.object3d)
                 )
-                    return updateShadow(self.object3d.shadow) >= 2048
+                    return updateShadow(self.object3d.shadow) >= maxResolution
 
                 const nearby = self.queryNearby(self.distance)
                 if (data.count !== nearby.length) {
                     data.count = nearby.length
-                    return updateShadow(self.object3d.shadow) >= 2048
+                    return updateShadow(self.object3d.shadow) >= maxResolution
                 }
                 for (const manager of nearby)
                     if (
@@ -34,9 +36,11 @@ export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
                         quaternionChanged(manager.object3d) ||
                         castShadowChanged(manager.object3d)
                     ) {
-                        return updateShadow(self.object3d.shadow) >= 2048
+                        return (
+                            updateShadow(self.object3d.shadow) >= maxResolution
+                        )
                     }
             }
-            return updateShadow(self.object3d.shadow) >= 2048
+            return updateShadow(self.object3d.shadow) >= maxResolution
         }
     )

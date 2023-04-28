@@ -8,8 +8,8 @@ import {
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 
-const resolutions = [512, 256, 128, 32, 16, 512]
-const biases = [-0.01, -0.02, -0.03, -0.04, -0.05, -0.005]
+const resolutions = [256, 256, 128, 32, 16, 512]
+const biases = [-0.02, -0.02, -0.03, -0.04, -0.05, -0.005]
 
 export const [
     addPointLightShadowResolutionSystem,
