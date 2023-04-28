@@ -29,6 +29,7 @@ export default abstract class PointLightBase<
         light.shadow.autoUpdate = false
         this.distance = 500
         this.intensity = 10
+        this.castShadow = true
         addLightIntensitySystem(this)
     }
 

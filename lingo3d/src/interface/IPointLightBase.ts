@@ -16,7 +16,7 @@ export const pointLightBaseSchema: Required<ExtractProps<IPointLightBase>> = {
 
 export const pointLightBaseDefaults = extendDefaults<IPointLightBase>(
     [lightBaseDefaults],
-    { distance: 500, intensity: 10, castShadow: false },
+    { distance: 500, intensity: 10, castShadow: true },
     { distance: new Range(100, 2000) },
     { castShadow: true }
 )

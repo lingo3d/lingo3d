@@ -2,10 +2,7 @@ import { LightShadow } from "three"
 import { onAfterRender } from "../../events/onAfterRender"
 
 let resolution = 0
-onAfterRender(() => {
-    console.log(resolution)
-    resolution = 0
-})
+onAfterRender(() => (resolution = 0))
 
 export default (shadow: LightShadow) => {
     if (shadow.needsUpdate || !shadow.map) return resolution
