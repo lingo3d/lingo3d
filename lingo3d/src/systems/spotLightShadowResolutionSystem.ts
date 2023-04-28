@@ -6,6 +6,7 @@ import {
     releaseShadowRenderTarget,
     requestShadowRenderTarget
 } from "../pools/objectPools/shadowRenderTargetPool"
+import updateShadow from "../display/utils/updateShadow"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
@@ -32,6 +33,6 @@ export const [
         shadow.bias = biases[step]
         releaseShadowRenderTarget(shadow.map)
         shadow.map = requestShadowRenderTarget([res, res])
-        shadow.needsUpdate = true
+        updateShadow(shadow)
     }
 )

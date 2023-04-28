@@ -3,9 +3,9 @@ import { positionChanged } from "../utilsCached/positionChanged"
 import { quaternionChanged } from "../utilsCached/quaternionChanged"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { shadowModePtr } from "../pointers/shadowModePtr"
-import { LightShadow } from "three"
 import PointLight from "../display/lights/PointLight"
 import SpotLight from "../display/lights/SpotLight"
+import updateShadow from "../display/utils/updateShadow"
 
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     renderSystemWithData(
@@ -18,13 +18,13 @@ export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
                     positionChanged(self.object3d) ||
                     quaternionChanged(self.object3d)
                 ) {
-                    self.object3d.shadow.needsUpdate = true
+                    updateShadow(self.object3d.shadow)
                     return
                 }
                 const nearby = self.queryNearby(self.distance)
                 if (data.count !== nearby.length) {
                     data.count = nearby.length
-                    self.object3d.shadow.needsUpdate = true
+                    updateShadow(self.object3d.shadow)
                     return
                 }
                 for (const manager of nearby)
@@ -33,9 +33,9 @@ export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
                         quaternionChanged(manager.object3d) ||
                         castShadowChanged(manager.object3d)
                     ) {
-                        self.object3d.shadow.needsUpdate = true
+                        updateShadow(self.object3d.shadow)
                         return
                     }
-            } else self.object3d.shadow.needsUpdate = true
+            } else updateShadow(self.object3d.shadow)
         }
     )
