@@ -17,6 +17,10 @@ import {
 import { Cancellable } from "@lincode/promiselikes"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import PointLightBase from "../../core/PointLightBase"
+import {
+    deleteSpotLightShadowResolutionSystem,
+    addSpotLightShadowResolutionSystem
+} from "../../../systems/spotLightShadowResolutionSystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -37,6 +41,21 @@ export default class SpotLight
         this.outerObject3d.add(light.target)
         light.position.y = 0
         light.target.position.y = -0.1
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteSpotLightShadowResolutionSystem(this)
+    }
+
+    public override get castShadow() {
+        return super.castShadow
+    }
+    public override set castShadow(val) {
+        super.castShadow = val
+        val
+            ? addSpotLightShadowResolutionSystem(this, { step: undefined })
+            : deleteSpotLightShadowResolutionSystem(this)
     }
 
     public get angle() {

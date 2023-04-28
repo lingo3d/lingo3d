@@ -11,7 +11,6 @@ import {
     addLightIntensitySystem,
     deleteLightIntensitySystem
 } from "../../systems/lightIntensitySystem"
-import { addConfigCastShadowResolutionSystem } from "../../systems/configSystems/configCastShadowResolutionSystem"
 import {
     addUpdateShadowSystem,
     deleteUpdateShadowSystem
@@ -55,7 +54,6 @@ export default abstract class PointLightBase<
     }
     public set castShadow(val) {
         this.object3d.castShadow = val
-        addConfigCastShadowResolutionSystem(this)
         val
             ? addUpdateShadowSystem(this, { count: undefined })
             : deleteUpdateShadowSystem(this)

@@ -4,6 +4,10 @@ import IPointLight, {
     pointLightSchema
 } from "../../interface/IPointLight"
 import PointLightBase from "../core/PointLightBase"
+import {
+    addPointLightShadowResolutionSystem,
+    deletePointLightShadowResolutionSystem
+} from "../../systems/pointLightShadowResolutionSystem"
 
 export default class PointLight
     extends PointLightBase<ThreePointLight>
@@ -15,5 +19,20 @@ export default class PointLight
 
     public constructor() {
         super(new ThreePointLight())
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        deletePointLightShadowResolutionSystem(this)
+    }
+
+    public override get castShadow() {
+        return super.castShadow
+    }
+    public override set castShadow(val) {
+        super.castShadow = val
+        val
+            ? addPointLightShadowResolutionSystem(this, { step: undefined })
+            : deletePointLightShadowResolutionSystem(this)
     }
 }

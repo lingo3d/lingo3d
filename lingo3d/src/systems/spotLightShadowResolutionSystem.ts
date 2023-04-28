@@ -7,6 +7,7 @@ import {
     requestShadowRenderTarget
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
+import { shadowModePtr } from "../pointers/shadowModePtr"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
@@ -16,7 +17,7 @@ export const [
     deleteSpotLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: SpotLight, data: { step: number | undefined }) => {
-        if (!self.object3d.visible) return
+        if (!self.object3d.visible || !shadowModePtr[0]) return
 
         const distance = getDistanceFromCamera(self)
         let step = 3

@@ -7,6 +7,7 @@ import {
     requestShadowRenderTarget
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
+import { shadowModePtr } from "../pointers/shadowModePtr"
 
 const resolutions = [256, 256, 128, 32, 16, 512]
 const biases = [-0.02, -0.02, -0.03, -0.04, -0.05, -0.005]
@@ -16,7 +17,7 @@ export const [
     deletePointLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: PointLight, data: { step: number | undefined }) => {
-        if (!self.object3d.visible) return
+        if (!self.object3d.visible || !shadowModePtr[0]) return
 
         const distance = getDistanceFromCamera(self)
         let step = 4

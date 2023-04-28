@@ -2,17 +2,16 @@ import { castShadowChanged } from "../utilsCached/castShadowChanged"
 import { positionChanged } from "../utilsCached/positionChanged"
 import { quaternionChanged } from "../utilsCached/quaternionChanged"
 import { shadowModePtr } from "../pointers/shadowModePtr"
-import PointLight from "../display/lights/PointLight"
-import SpotLight from "../display/lights/SpotLight"
 import updateShadow from "../display/utils/updateShadow"
 import deferredRenderSystemWithData from "./utils/deferredRenderSystemWithData"
+import PointLightBase from "../display/core/PointLightBase"
 
 const maxResolution = 1024
 
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     deferredRenderSystemWithData(
         (
-            self: PointLight | SpotLight,
+            self: PointLightBase<any>,
             data: { count: number | undefined }
         ): boolean => {
             if (!self.object3d.visible || !self.castShadow || !shadowModePtr[0])

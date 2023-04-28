@@ -6,11 +6,10 @@ import getFrustum from "../utilsCached/getFrustum"
 import getWorldPosition from "../utilsCached/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { CM2M } from "../globals"
-import PointLight from "../display/lights/PointLight"
-import SpotLight from "../display/lights/SpotLight"
+import PointLightBase from "../display/core/PointLightBase"
 
 export const [addLightIntensitySystem, deleteLightIntensitySystem] =
-    renderSystem((self: PointLight | SpotLight) => {
+    renderSystem((self: PointLightBase<any>) => {
         const intensityFactor = getFrustum(
             cameraRenderedPtr[0]
         ).intersectsSphere(
