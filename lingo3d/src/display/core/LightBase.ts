@@ -55,13 +55,6 @@ export default abstract class LightBase<T extends Light>
         this.object3d.dispose()
     }
 
-    public get enabled() {
-        return this.object3d.visible
-    }
-    public set enabled(val) {
-        this.object3d.visible = val
-    }
-
     protected helperState = new Reactive(true)
     public get helper() {
         return this.helperState.get()

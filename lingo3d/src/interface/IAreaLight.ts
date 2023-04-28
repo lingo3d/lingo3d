@@ -5,20 +5,17 @@ import { ExtractProps } from "./utils/extractProps"
 
 export default interface IAreaLight extends IPlane {
     intensity: number
-    enabled: boolean
 }
 
 export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
     ...planeSchema,
-    intensity: Number,
-    enabled: Boolean
+    intensity: Number
 }
 
 export const areaLightDefaults = extendDefaults<IAreaLight>(
     [planeDefaults],
     {
         intensity: 1,
-        enabled: true,
         castShadow: false,
         emissive: true
     },

@@ -70,12 +70,4 @@ export default abstract class PointLightBase<
     public override set intensity(val) {
         this._intensity = val
     }
-
-    private _enabled = true
-    public override get enabled() {
-        return this._enabled
-    }
-    public override set enabled(val) {
-        this._enabled = val
-    }
 }
