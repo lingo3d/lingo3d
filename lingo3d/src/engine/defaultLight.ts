@@ -15,7 +15,6 @@ defaultEnvironment.disableSceneGraph = true
 defaultEnvironment.disableSerialize = true
 defaultEnvironment.disableUnload = true
 defaultEnvironment.texture = undefined
-defaultEnvironment.helper = false
 
 export const environmentToUrl = (value: string) =>
     value in environmentPreset

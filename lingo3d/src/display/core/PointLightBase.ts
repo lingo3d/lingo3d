@@ -19,7 +19,7 @@ import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderT
 import { shadowModePtr } from "../../pointers/shadowModePtr"
 
 export default abstract class PointLightBase<
-        T extends ThreePointLight | ThreeSpotLight
+        T extends ThreePointLight | ThreeSpotLight = ThreePointLight
     >
     extends LightBase<T>
     implements IPointLightBase

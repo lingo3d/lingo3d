@@ -6,6 +6,7 @@ import {
 } from "../../pools/objectPools/pointLightPool"
 import IPooledPointLight from "../../interface/IPooledPointLight"
 import PointLight from "./PointLight"
+import { ColorString } from "../../interface/ITexturedStandard"
 
 const initPointLight = lazy(() => {
     for (let i = 0; i < 4; ++i) {
@@ -16,7 +17,7 @@ const initPointLight = lazy(() => {
 
 export default class PooledPointLight
     extends ObjectManager
-    // implements IPooledPointLight
+    implements IPooledPointLight
 {
     private light: PointLight
 
@@ -25,7 +26,8 @@ export default class PooledPointLight
         initPointLight()
         this.light = requestPointLight([], "")
     }
-
-    // public distance = 500
-    // public intensity = 10
+    public distance = 500
+    public intensity = 10
+    public shadows = true
+    public color: ColorString = "#ffffff"
 }
