@@ -26,7 +26,7 @@ export default abstract class LightBase<T extends Light>
     ) {
         super(light)
         this.createEffect(() => {
-            if (!getEditorHelper()) return
+            if (!getEditorHelper() || this.disableSceneGraph) return
 
             const sprite = new HelperSprite("light", this)
             if (Helper) {

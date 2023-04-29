@@ -25,7 +25,7 @@ export default class Environment
         pushEnvironmentStack(this)
 
         this.createEffect(() => {
-            if (!getEditorHelper()) return
+            if (!getEditorHelper() || this.disableSceneGraph) return
             const helper = new HelperSprite("light", this)
             return () => {
                 helper.dispose()

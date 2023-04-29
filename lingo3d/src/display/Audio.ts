@@ -32,7 +32,7 @@ export default class Audio
         super(sound)
 
         this.createEffect(() => {
-            if (!getEditorHelper) return
+            if (!getEditorHelper || this.disableSceneGraph) return
             const helper = new HelperSprite("audio", this)
             return () => {
                 helper.dispose()

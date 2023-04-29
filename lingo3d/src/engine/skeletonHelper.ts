@@ -1,7 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { SkeletonHelper } from "three"
 import Loaded from "../display/core/Loaded"
-import { getEditorHelper } from "../states/useEditorHelper"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
 import { skinnedMeshSet } from "../collections/skinnedMeshSet"
@@ -12,7 +11,6 @@ createEffect(() => {
     if (
         !(target instanceof Loaded) ||
         !("outerObject3d" in target) ||
-        !getEditorHelper() ||
         !target.outerObject3d.parent
     )
         return
@@ -27,4 +25,4 @@ createEffect(() => {
         scene.remove(helper)
         helper.dispose()
     }
-}, [getSelectionTarget, getEditorHelper])
+}, [getSelectionTarget])

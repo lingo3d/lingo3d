@@ -49,7 +49,7 @@ export default abstract class JointBase
         }, [getWorldPlayComputed, getEditorBehavior])
 
         this.createEffect(() => {
-            if (!getEditorHelper()) return
+            if (!getEditorHelper() || this.disableSceneGraph) return
 
             const helper = new HelperSphere(this)
             helper.scale = 0.1

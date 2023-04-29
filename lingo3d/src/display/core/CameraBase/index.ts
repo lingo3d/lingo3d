@@ -45,7 +45,12 @@ export default abstract class CameraBase<
         })
 
         this.createEffect(() => {
-            if (!getEditorHelper() || cameraRenderedPtr[0] === camera) return
+            if (
+                !getEditorHelper() ||
+                cameraRenderedPtr[0] === camera ||
+                this.disableSceneGraph
+            )
+                return
 
             const helper = new CameraHelper(camera)
             ssrExcludeSet.add(helper)

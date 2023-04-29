@@ -20,7 +20,7 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
         super()
 
         this.createEffect(() => {
-            if (!getEditorHelper()) return
+            if (!getEditorHelper() || this.disableSceneGraph) return
             const helper = new HelperCylinder(this)
             helper.height = 10
             return () => {
