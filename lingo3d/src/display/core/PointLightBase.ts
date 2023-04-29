@@ -29,7 +29,7 @@ export default abstract class PointLightBase<
         light.shadow.autoUpdate = false
         this.distance = 500
         this.intensity = 10
-        this.castShadow = true
+        this.shadows = true
         addLightIntensitySystem(this)
     }
 
@@ -50,10 +50,10 @@ export default abstract class PointLightBase<
         this.object3d.distance = val * CM2M
     }
 
-    public get castShadow() {
+    public get shadows() {
         return this.object3d.castShadow
     }
-    public set castShadow(val) {
+    public set shadows(val) {
         this.object3d.castShadow = val
         val
             ? addUpdateShadowSystem(this, {

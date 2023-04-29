@@ -4,6 +4,8 @@ import {
     releasePointLight,
     requestPointLight
 } from "../../pools/objectPools/pointLightPool"
+import IPooledPointLight from "../../interface/IPooledPointLight"
+import PointLight from "./PointLight"
 
 const initPointLight = lazy(() => {
     for (let i = 0; i < 4; ++i) {
@@ -12,11 +14,18 @@ const initPointLight = lazy(() => {
     }
 })
 
-export default class PooledPointLight extends ObjectManager {
+export default class PooledPointLight
+    extends ObjectManager
+    // implements IPooledPointLight
+{
+    private light: PointLight
+
     public constructor() {
         super()
         initPointLight()
-        const light = requestPointLight([], "")
-        //mark
+        this.light = requestPointLight([], "")
     }
+
+    // public distance = 500
+    // public intensity = 10
 }

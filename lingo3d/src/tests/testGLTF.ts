@@ -7,7 +7,7 @@ model.scale = 10
 // model.physics = "map"
 
 const light = new PointLight()
-light.castShadow = true
+light.shadows = true
 
 document.addEventListener("keydown", (e) => {
     if (e.key === " ") {

@@ -22,7 +22,7 @@ export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
             }
             data.shadowMode = shadowModePtr[0]
 
-            if (!self.object3d.visible || !self.castShadow)
+            if (!self.object3d.visible || !self.shadows)
                 return shadowResolutionPtr[0] >= maxResolution
 
             if (shadowModePtr[0] === "physics") {

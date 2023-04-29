@@ -26,11 +26,11 @@ export default class PointLight
         deletePointLightShadowResolutionSystem(this)
     }
 
-    public override get castShadow() {
-        return super.castShadow
+    public override get shadows() {
+        return super.shadows
     }
-    public override set castShadow(val) {
-        super.castShadow = val
+    public override set shadows(val) {
+        super.shadows = val
         val
             ? addPointLightShadowResolutionSystem(this, { step: undefined })
             : deletePointLightShadowResolutionSystem(this)

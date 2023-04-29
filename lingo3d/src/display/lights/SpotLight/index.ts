@@ -48,11 +48,11 @@ export default class SpotLight
         deleteSpotLightShadowResolutionSystem(this)
     }
 
-    public override get castShadow() {
-        return super.castShadow
+    public override get shadows() {
+        return super.shadows
     }
-    public override set castShadow(val) {
-        super.castShadow = val
+    public override set shadows(val) {
+        super.shadows = val
         val
             ? addSpotLightShadowResolutionSystem(this, { step: undefined })
             : deleteSpotLightShadowResolutionSystem(this)

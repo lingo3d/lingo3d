@@ -10,19 +10,19 @@ import IMeshAppendable, {
 export default interface ISkyLight extends IMeshAppendable {
     intensity: number
     color: ColorString
-    castShadow: boolean
+    shadows: boolean
 }
 
 export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
     ...meshAppendableSchema,
     intensity: Number,
     color: String,
-    castShadow: Boolean
+    shadows: Boolean
 }
 
 export const skyLightDefaults = extendDefaults<ISkyLight>(
     [meshAppendableDefaults],
-    { intensity: 1, color: "#ffffff", castShadow: true },
+    { intensity: 1, color: "#ffffff", shadows: true },
     { intensity: new Range(0, 10) },
-    { color: true, castShadow: true }
+    { color: true }
 )

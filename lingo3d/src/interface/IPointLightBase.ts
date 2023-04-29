@@ -5,18 +5,17 @@ import Range from "./utils/Range"
 
 export default interface IPointLightBase extends ILightBase {
     distance: number
-    castShadow: boolean
+    shadows: boolean
 }
 
 export const pointLightBaseSchema: Required<ExtractProps<IPointLightBase>> = {
     ...lightBaseSchema,
     distance: Number,
-    castShadow: Boolean
+    shadows: Boolean
 }
 
 export const pointLightBaseDefaults = extendDefaults<IPointLightBase>(
     [lightBaseDefaults],
-    { distance: 500, intensity: 10, castShadow: true },
-    { distance: new Range(100, 2000) },
-    { castShadow: true }
+    { distance: 500, intensity: 10, shadows: true },
+    { distance: new Range(100, 2000) }
 )

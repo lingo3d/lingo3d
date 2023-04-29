@@ -101,11 +101,6 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set scaleZ(_) {}
 
-    public override get castShadow() {
-        return false
-    }
-    public override set castShadow(_) {}
-
     public override get visible() {
         return this.object3d.visible
     }

@@ -16,7 +16,6 @@ export const areaLightDefaults = extendDefaults<IAreaLight>(
     [planeDefaults],
     {
         intensity: 1,
-        castShadow: false,
         emissive: true
     },
     { intensity: new Range(0, 10) },

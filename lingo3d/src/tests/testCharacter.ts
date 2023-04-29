@@ -8,7 +8,7 @@ settings.defaultLight = false
 const player = new Dummy()
 
 const light = new PointLight()
-light.castShadow = true
+light.shadows = true
 light.innerX = 300
 
 const ground = new Cube()
