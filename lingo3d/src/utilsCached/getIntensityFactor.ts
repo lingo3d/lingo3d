@@ -7,8 +7,9 @@ import getFrustum from "./getFrustum"
 import getWorldPosition from "./getWorldPosition"
 import computePerFrame from "./utils/computePerFrame"
 import PointLightBase from "../display/core/PointLightBase"
+import PooledPointLight from "../display/lights/PooledPointLight"
 
-export default computePerFrame((self: PointLightBase) =>
+export default computePerFrame((self: PointLightBase | PooledPointLight) =>
     getFrustum(cameraRenderedPtr[0]).intersectsSphere(
         self.$boundingSphere.set(
             getWorldPosition(self.object3d),
