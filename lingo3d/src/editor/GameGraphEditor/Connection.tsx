@@ -10,6 +10,8 @@ import { onNodeMove } from "./Node"
 import { getStagePosition } from "./Stage/stageSignals"
 import { uuidMap } from "../../collections/uuidCollections"
 import { toggleRightClick } from "../../engine/mouse"
+import { forceGetInstance } from "@lincode/utils"
+import { runtimeIncludeKeysMap } from "../../collections/runtimeCollections"
 
 type ConnectionProps = {
     uuid: string
@@ -31,8 +33,10 @@ const Connection = memo(
             const fromManager = uuidMap.get(from)
             const toManager = uuidMap.get(to)
             if (!fromManager || !toManager) return
-            ;(fromManager.runtimeIncludeKeys ??= new Set()).add(fromProp)
-            ;(toManager.runtimeIncludeKeys ??= new Set()).add(toProp)
+            forceGetInstance(runtimeIncludeKeysMap, fromManager, Set).add(
+                fromProp
+            )
+            forceGetInstance(runtimeIncludeKeysMap, toManager, Set).add(toProp)
         }, [])
 
         useEffect(() => {

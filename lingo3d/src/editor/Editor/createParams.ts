@@ -19,6 +19,7 @@ import {
     nullableCallbackParams
 } from "../../collections/typeGuards"
 import { disableSchema } from "../../collections/disableSchema"
+import { runtimeSchemaMap } from "../../collections/runtimeCollections"
 
 export class PassthroughCallback {
     public constructor(
@@ -83,7 +84,7 @@ export default (
     const callbackParams: Record<string, any> = {}
 
     for (const schemaKey of Object.keys(
-        filterSchema(schema, manager.runtimeSchema, includeKeys)
+        filterSchema(schema, runtimeSchemaMap.get(manager), includeKeys)
     )) {
         if (disableSchema.has(schemaKey)) continue
 

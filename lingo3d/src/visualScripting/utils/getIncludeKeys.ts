@@ -1,7 +1,8 @@
 import Appendable from "../../api/core/Appendable"
+import { runtimeIncludeKeysMap } from "../../collections/runtimeCollections"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 
 export const getIncludeKeys = (manager: Appendable) => [
     ...(getStaticProperties(manager).includeKeys ?? []),
-    ...(manager.runtimeIncludeKeys ?? [])
+    ...(runtimeIncludeKeysMap.get(manager) ?? [])
 ]

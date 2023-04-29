@@ -3,6 +3,8 @@ import Appendable from "../../api/core/Appendable"
 import computePerFrame from "../../utilsCached/utils/computePerFrame"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import Switch from "../component/Switch"
+import { forceGetInstance } from "@lincode/utils"
+import { runtimeIncludeKeysMap } from "../../collections/runtimeCollections"
 
 type ToggleProps = {
     manager: Appendable
@@ -23,8 +25,11 @@ const Toggle = memo(
                 compact
                 on={getIncludeRecord(manager)[property]}
                 onChange={(val) => {
-                    const runtimeIncludeKeys = (manager.runtimeIncludeKeys ??=
-                        new Set())
+                    const runtimeIncludeKeys = forceGetInstance(
+                        runtimeIncludeKeysMap,
+                        manager,
+                        Set
+                    )
                     if (val) runtimeIncludeKeys.add(property)
                     else runtimeIncludeKeys.delete(property)
                     manager.emitEvent("runtimeSchema")

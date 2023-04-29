@@ -21,6 +21,7 @@ import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
+import { runtimeDefaultsMap } from "../collections/runtimeCollections"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -119,11 +120,11 @@ export default class Model extends Loaded<Group> implements IModel {
                 ? measure(src, { target: loadedObject3d })
                 : fit(loadedObject3d, src)
 
-        this.runtimeDefaults = {
+        runtimeDefaultsMap.set(this, {
             width: x * M2CM,
             height: y * M2CM,
             depth: z * M2CM
-        }
+        })
         !this.widthSet && (this.object3d.scale.x = x)
         !this.heightSet && (this.object3d.scale.y = y)
         !this.depthSet && (this.object3d.scale.z = z)

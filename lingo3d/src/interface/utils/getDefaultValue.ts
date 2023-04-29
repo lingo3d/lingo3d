@@ -1,4 +1,5 @@
 import Appendable from "../../api/core/Appendable"
+import { runtimeDefaultsMap } from "../../collections/runtimeCollections"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -15,12 +16,11 @@ const getDefaultValue = (
 ) => {
     const constructorDefaults = (manager.constructor as any).defaults
     const runtimeManager = constructorDefaults ? manager : undefined
-    if (
-        runtimeManager?.runtimeDefaults &&
-        key in runtimeManager.runtimeDefaults
-    )
-        return runtimeManager.runtimeDefaults[key]
-
+    if (runtimeManager instanceof Appendable) {
+        const runtimeDefaults = runtimeDefaultsMap.get(runtimeManager)
+        if (runtimeDefaults && key in runtimeDefaults)
+            return runtimeDefaults[key]
+    }
     const result = (constructorDefaults ?? manager)[key]
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
