@@ -30,10 +30,13 @@ export default class PooledPointLight
     public static defaults = pooledPointLightDefaults
     public static schema = pooledPointLightSchema
 
+    public $light?: PointLight
+    public $boundingSphere = new Sphere()
+
     public constructor() {
         super()
         initPointLight()
-        addPooledPointLightSystem(this, { visible: false, light: undefined })
+        addPooledPointLightSystem(this, { visible: false })
     }
 
     protected override disposeNode() {
@@ -41,9 +44,39 @@ export default class PooledPointLight
         deletePooledPointLightSystem(this)
     }
 
-    public $boundingSphere = new Sphere()
-    public distance = 500
-    public intensity = 10
-    public shadows = true
-    public color: ColorString = "#ffffff"
+    private _distance = 500
+    public get distance() {
+        return this._distance
+    }
+    public set distance(value) {
+        this._distance = value
+        if (this.$light) this.$light.distance = value
+    }
+
+    private _intensity = 10
+    public get intensity() {
+        return this._intensity
+    }
+    public set intensity(value) {
+        this._intensity = value
+        if (this.$light) this.$light.intensity = value
+    }
+
+    private _shadows = true
+    public get shadows() {
+        return this._shadows
+    }
+    public set shadows(value) {
+        this._shadows = value
+        if (this.$light) this.$light.shadows = value
+    }
+
+    private _color: ColorString = "#ffffff"
+    public get color() {
+        return this._color
+    }
+    public set color(value) {
+        this._color = value
+        if (this.$light) this.$light.color = value
+    }
 }

@@ -24,7 +24,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     public static override defaults = areaLightDefaults
     public static override schema = areaLightSchema
 
-    public light?: RectAreaLight
+    public $light?: RectAreaLight
 
     public constructor() {
         super()
@@ -32,7 +32,7 @@ export default class AreaLight extends Plane implements IAreaLight {
 
         lazyInit().then(() => {
             if (this.done) return
-            const light = (this.light = new RectAreaLight())
+            const light = (this.$light = new RectAreaLight())
             this.outerObject3d.add(light)
             this.then(() => light.dispose())
             addConfigAreaLightSystem(this)

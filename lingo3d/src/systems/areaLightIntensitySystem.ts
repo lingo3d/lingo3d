@@ -6,7 +6,7 @@ import { lightDistancePtr } from "../pointers/lightDistancePtr"
 
 export const [addAreaLightIntensitySystem, deleteAreaLightIntensitySystem] =
     renderSystem((self: AreaLight) => {
-        if (!self.light) return
+        if (!self.$light) return
         const intensityFactor = mapRange(
             getDistanceFromCamera(self),
             0,
@@ -15,6 +15,6 @@ export const [addAreaLightIntensitySystem, deleteAreaLightIntensitySystem] =
             0,
             true
         )
-        self.light.intensity = self.intensity * intensityFactor
+        self.$light.intensity = self.intensity * intensityFactor
         // self.light.visible = !!intensityFactor
     })
