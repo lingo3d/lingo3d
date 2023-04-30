@@ -4,19 +4,21 @@ import ICameraBase, {
     cameraBaseDefaults,
     cameraBaseSchema
 } from "./ICameraBase"
+import Range from "./utils/Range"
 
 export default interface IOrbitCamera extends ICameraBase {
     enableZoom: boolean
     enableFly: boolean
-    autoRotate: boolean | number
+    autoRotate: boolean
+    autoRotateSpeed: number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     ...cameraBaseSchema,
-
     enableZoom: Boolean,
     enableFly: Boolean,
-    autoRotate: [Boolean, Number]
+    autoRotate: Boolean,
+    autoRotateSpeed: Number
 }
 
 export const orbitCameraDefaults = extendDefaults<IOrbitCamera>(
@@ -27,6 +29,8 @@ export const orbitCameraDefaults = extendDefaults<IOrbitCamera>(
 
         enableZoom: false,
         enableFly: false,
-        autoRotate: false
-    }
+        autoRotate: false,
+        autoRotateSpeed: 2
+    },
+    { autoRotateSpeed: new Range(1, 10) }
 )

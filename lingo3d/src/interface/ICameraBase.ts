@@ -17,10 +17,8 @@ export default interface ICameraBase extends IObjectManager {
 
     fov: number
     zoom: number
-    near: number
-    far: number
     active: boolean
-    transition: Nullable<boolean | number>
+    transition: boolean
 
     minPolarAngle: number
     maxPolarAngle: number
@@ -31,7 +29,7 @@ export default interface ICameraBase extends IObjectManager {
     polarAngle: Nullable<number>
     azimuthAngle: Nullable<number>
 
-    enableDamping: boolean
+    inertia: boolean
 }
 
 export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
@@ -41,10 +39,8 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 
     fov: Number,
     zoom: Number,
-    near: Number,
-    far: Number,
     active: Boolean,
-    transition: [Boolean, Number],
+    transition: Boolean,
 
     minPolarAngle: Number,
     maxPolarAngle: Number,
@@ -55,7 +51,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     polarAngle: Number,
     azimuthAngle: Number,
 
-    enableDamping: Boolean
+    inertia: Boolean
 }
 
 export const cameraBaseDefaults = extendDefaults<ICameraBase>(
@@ -65,10 +61,8 @@ export const cameraBaseDefaults = extendDefaults<ICameraBase>(
 
         fov: 75,
         zoom: 1,
-        near: NEAR,
-        far: FAR,
         active: false,
-        transition: nullableDefault(false),
+        transition: false,
 
         minPolarAngle: MIN_POLAR_ANGLE,
         maxPolarAngle: MAX_POLAR_ANGLE,
@@ -79,14 +73,12 @@ export const cameraBaseDefaults = extendDefaults<ICameraBase>(
         polarAngle: nullableDefault(0),
         azimuthAngle: nullableDefault(0),
 
-        enableDamping: false
+        inertia: false
     },
     {
         mouseControl: new Choices({ true: true, false: false, drag: "drag" }),
         fov: new Range(30, 120, 5),
         zoom: new Range(0.1, 10),
-        near: new Range(0.1, 10000),
-        far: new Range(0.1, 10000),
         minPolarAngle: new Range(0, 180, 1),
         maxPolarAngle: new Range(0, 180, 1),
         polarAngle: new Range(0, 180),

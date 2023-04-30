@@ -28,9 +28,8 @@ export default class CharacterCamera
         this.outerObject3d.add(midObject3d)
         midObject3d.add(this.object3d)
 
-        const cam = this.camera
-        scene.attach(cam)
-        this.then(() => scene.remove(cam))
+        scene.attach(this.$camera)
+        this.then(() => scene.remove(this.$camera))
 
         this.createEffect(() => {
             const found = this.firstChildState.get()

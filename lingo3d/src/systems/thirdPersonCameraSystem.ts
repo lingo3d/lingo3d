@@ -21,7 +21,7 @@ export const [addThirdPersonCameraSystem, deleteThirdPersonCameraSystem] =
                 lerpCount: number
             }
         ) => {
-            const cam = self.camera
+            const cam = self.$camera
 
             const { innerZ } = self
             self.innerZ = 0

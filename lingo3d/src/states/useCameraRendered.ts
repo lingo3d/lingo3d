@@ -14,6 +14,7 @@ import { getResolution } from "./useResolution"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import { getWebXR } from "./useWebXR"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import { cameraTransitionSet } from "../collections/cameraTransitionSet"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -34,10 +35,9 @@ createEffect(() => {
             : cameraLast
 
     const cameraTo = (cameraLast = getCameraComputed())
-    const transition = cameraTo.userData.transition
     if (
         !cameraFrom ||
-        !transition ||
+        !cameraTransitionSet.has(cameraTo) ||
         cameraFrom === cameraTo ||
         cameraFrom === mainCamera ||
         cameraTo === mainCamera
@@ -53,14 +53,12 @@ createEffect(() => {
     interpolationCamera.zoom = cameraFrom.zoom
     interpolationCamera.fov = cameraFrom.fov
 
-    let ratio = 0
-    const diffMax = typeof transition === "number" ? transition : Infinity
     addCameraInterpolationSystem(cameraTo, {
         positionFrom,
         quaternionFrom,
         cameraFrom,
-        ratio,
-        diffMax,
+        progress: 0,
+        diffMax: 0.02,
         onFinish: () => setCameraRendered(cameraTo)
     })
     return () => {

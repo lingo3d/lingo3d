@@ -15,37 +15,43 @@ export const [addCameraInterpolationSystem, deleteCameraInterpolationSystem] =
                 positionFrom: Vector3
                 quaternionFrom: Quaternion
                 cameraFrom: PerspectiveCamera
-                ratio: number
+                progress: number
                 diffMax: number
                 onFinish: () => void
             }
         ) => {
-            const { positionFrom, quaternionFrom, cameraFrom, ratio, diffMax } =
-                data
-
             const positionTo = getWorldPosition(cameraTo)
             const quaternionTo = getWorldQuaternion(cameraTo)
 
             interpolationCamera.position.lerpVectors(
-                positionFrom,
+                data.positionFrom,
                 positionTo,
-                ratio
+                data.progress
             )
             interpolationCamera.quaternion.slerpQuaternions(
-                quaternionFrom,
+                data.quaternionFrom,
                 quaternionTo,
-                ratio
+                data.progress
             )
 
             interpolationCamera.zoom = lerp(
-                cameraFrom.zoom,
+                data.cameraFrom.zoom,
                 cameraTo.zoom,
-                ratio
+                data.progress
             )
-            interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, ratio)
+            interpolationCamera.fov = lerp(
+                data.cameraFrom.fov,
+                cameraTo.fov,
+                data.progress
+            )
             interpolationCamera.updateProjectionMatrix()
 
-            data.ratio = Math.min((1 - ratio) * fpsAlpha(0.1), diffMax) + ratio
-            data.ratio > 0.9999 && data.onFinish()
+            data.progress =
+                Math.min((1 - data.progress) * fpsAlpha(0.1), data.diffMax) +
+                data.progress
+
+            if (data.progress < 0.9999) return
+            deleteCameraInterpolationSystem(cameraTo)
+            data.onFinish()
         }
     )

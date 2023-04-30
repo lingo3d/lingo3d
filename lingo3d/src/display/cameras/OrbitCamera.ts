@@ -33,7 +33,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
         this.orbitMode = true
         this.mouseControl = "drag"
 
-        this.camera.rotation.y = 0
+        this.$camera.rotation.y = 0
 
         this.createEffect(() => {
             const found = this.firstChildState.get()
@@ -44,18 +44,6 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
                 deleteOrbitCameraPlaceAtSystem(this)
             }
         }, [this.firstChildState.get])
-
-        this.createEffect(() => {
-            const autoRotate = this.autoRotateState.get()
-            if (cameraRenderedPtr[0] !== camera || !autoRotate) return
-
-            addGyrateSystem(this, {
-                speed: typeof autoRotate === "number" ? autoRotate : 2
-            })
-            return () => {
-                deleteGyrateSystem(this)
-            }
-        }, [getCameraRendered, this.autoRotateState.get])
 
         this.createEffect(() => {
             if (
@@ -131,11 +119,14 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
         this.enableFlyState.set(val)
     }
 
-    private autoRotateState = new Reactive<boolean | number>(false)
+    private _autoRotate = false
     public get autoRotate() {
-        return this.autoRotateState.get()
+        return this._autoRotate
     }
     public set autoRotate(val) {
-        this.autoRotateState.set(val)
+        this._autoRotate = val
+        val ? addGyrateSystem(this) : deleteGyrateSystem(this)
     }
+
+    public autoRotateSpeed = 2
 }

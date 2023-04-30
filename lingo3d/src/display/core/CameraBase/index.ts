@@ -24,6 +24,12 @@ import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateReset
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import {
+    addGyrateInertiaSystem,
+    deleteGyrateInertiaSystem
+} from "../../../systems/gyrateInertiaSystem"
+import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
+import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -33,26 +39,26 @@ export default abstract class CameraBase<
 {
     public midObject3d = this.outerObject3d
 
-    public constructor(public camera: T) {
+    public constructor(public $camera: T) {
         super()
-        this.object3d.add(camera)
-        setManager(camera, this)
+        this.object3d.add($camera)
+        setManager($camera, this)
 
-        pushCameraList(camera)
+        pushCameraList($camera)
         this.then(() => {
-            pullCameraStack(camera)
-            pullCameraList(camera)
+            pullCameraStack($camera)
+            pullCameraList($camera)
         })
 
         this.createEffect(() => {
             if (
                 !getEditorHelper() ||
-                cameraRenderedPtr[0] === camera ||
+                cameraRenderedPtr[0] === $camera ||
                 this.disableSceneGraph
             )
                 return
 
-            const helper = new CameraHelper(camera)
+            const helper = new CameraHelper($camera)
             ssrExcludeSet.add(helper)
             scene.add(helper)
 
@@ -78,36 +84,22 @@ export default abstract class CameraBase<
         this.outerObject3d.setRotationFromEuler(angle)
     }
 
+    private _fov = 75
     public get fov() {
-        return this.camera.fov
+        return this._fov
     }
     public set fov(val) {
-        this.camera.fov = val
-        this.camera.updateProjectionMatrix?.()
+        this._fov = val
+        addConfigCameraSystem(this)
     }
 
+    private _zoom = 1
     public get zoom() {
-        return this.camera.zoom
+        return this._zoom
     }
     public set zoom(val) {
-        this.camera.zoom = val
-        this.camera.updateProjectionMatrix?.()
-    }
-
-    public get near() {
-        return this.camera.near
-    }
-    public set near(val) {
-        this.camera.near = val
-        this.camera.updateProjectionMatrix?.()
-    }
-
-    public get far() {
-        return this.camera.far
-    }
-    public set far(val) {
-        this.camera.far = val
-        this.camera.updateProjectionMatrix?.()
+        this._zoom = val
+        addConfigCameraSystem(this)
     }
 
     private _active?: boolean
@@ -116,27 +108,29 @@ export default abstract class CameraBase<
     }
     public set active(val) {
         this._active = val
-        pullCameraStack(this.camera)
-        val && pushCameraStack(this.camera)
+        pullCameraStack(this.$camera)
+        val && pushCameraStack(this.$camera)
     }
 
     public get transition() {
-        return this.camera.userData.transition as boolean | number | undefined
+        return cameraTransitionSet.has(this.$camera)
     }
     public set transition(val) {
-        this.camera.userData.transition = val
+        val
+            ? cameraTransitionSet.add(this.$camera)
+            : cameraTransitionSet.delete(this.$camera)
     }
 
     protected override getRay() {
         return ray.set(
-            getWorldPosition(this.camera),
-            getWorldDirection(this.camera)
+            getWorldPosition(this.$camera),
+            getWorldDirection(this.$camera)
         )
     }
 
     protected orbitMode?: boolean
 
-    private _gyrate(movementX: number, movementY: number, inner?: boolean) {
+    public $gyrate(movementX: number, movementY: number, inner?: boolean) {
         const manager = inner ? this.object3d : this.midObject3d
         euler.setFromQuaternion(manager.quaternion)
 
@@ -153,28 +147,20 @@ export default abstract class CameraBase<
         manager.setRotationFromEuler(euler)
     }
 
-    private gyrateHandle?: Cancellable
-    public gyrate(movementX: number, movementY: number, noDamping?: boolean) {
-        if (this.enableDamping) {
+    public gyrate(movementX: number, movementY: number, inertia = true) {
+        const _inertia = this.inertia && inertia && (movementX || movementY)
+        if (_inertia) {
             movementX *= 0.5
             movementY *= 0.5
         }
-        if (this.orbitMode) this._gyrate(movementX, movementY)
+        if (this.orbitMode) this.$gyrate(movementX, movementY)
         else {
-            this._gyrate(movementX, 0)
-            this._gyrate(0, movementY, true)
+            this.$gyrate(movementX, 0)
+            this.$gyrate(0, movementY, true)
         }
-        if (!this.enableDamping || noDamping || !(movementX || movementY))
-            return
-
-        this.gyrateHandle?.cancel()
-
-        let factor = 1
-        const handle = (this.gyrateHandle = this.registerOnLoop(() => {
-            factor *= 0.95
-            this._gyrate(movementX * factor, movementY * factor)
-            factor <= 0.001 && handle.cancel()
-        }))
+        _inertia
+            ? addGyrateInertiaSystem(this, { factor: 1, movementX, movementY })
+            : deleteGyrateInertiaSystem(this)
     }
 
     private _minPolarAngle = MIN_POLAR_ANGLE
@@ -251,7 +237,7 @@ export default abstract class CameraBase<
         val && this.setAzimuthAngle(val)
     }
 
-    public enableDamping = false
+    public inertia = false
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean

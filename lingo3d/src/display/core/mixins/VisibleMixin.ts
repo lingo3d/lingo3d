@@ -206,16 +206,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set hitTarget(val) {
         this._hitTarget = val
-        this.cancelHandle(
-            "hitTarget",
-            val &&
-                (() => {
-                    addHitTestSystem(this)
-                    return new Cancellable(() => {
-                        deleteHitTestSystem(this)
-                    })
-                })
-        )
+        val ? addHitTestSystem(this) : deleteHitTestSystem(this)
     }
 
     public onHit: Nullable<(instance: HitEvent) => void>

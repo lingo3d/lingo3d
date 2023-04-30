@@ -16,12 +16,12 @@ export default function (this: CameraBase) {
 
     this.createEffect(() => {
         if (
-            cameraRenderedPtr[0] !== this.camera ||
+            cameraRenderedPtr[0] !== this.$camera ||
             !this.mouseControlState.get()
         )
             return
 
-        if (getCameraPointerLock() === this.camera) {
+        if (getCameraPointerLock() === this.$camera) {
             const handleMove = (e: MouseEvent) =>
                 this.gyrate(e.movementX, e.movementY)
             document.addEventListener("mousemove", handleMove)
@@ -115,7 +115,7 @@ export default function (this: CameraBase) {
         const [camera] = cameraRenderedPtr
         if (
             this.mouseControlState.get() !== true ||
-            camera !== this.camera ||
+            camera !== this.$camera ||
             !getWorldPlayComputed()
         )
             return

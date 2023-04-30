@@ -7,10 +7,7 @@ import {
 import { CM2M, M2CM } from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
-import {
-    addLightIntensitySystem,
-    deleteLightIntensitySystem
-} from "../../systems/lightIntensitySystem"
+import { addLightIntensitySystem } from "../../systems/lightIntensitySystem"
 import {
     addUpdateShadowSystem,
     deleteUpdateShadowSystem
@@ -38,7 +35,6 @@ export default abstract class PointLightBase<
         //@ts-ignore
         this.object3d.shadow.map = null
         super.disposeNode()
-        deleteLightIntensitySystem(this)
         deleteUpdateShadowSystem(this)
     }
 

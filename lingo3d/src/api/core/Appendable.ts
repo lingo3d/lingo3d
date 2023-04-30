@@ -73,12 +73,18 @@ export default class Appendable extends Disposable implements IAppendable {
         this.appendNode(child)
     }
 
+    private _deleteSystemSet?: Set<(self: any) => void>
+    public get $deleteSystemSet() {
+        return (this._deleteSystemSet ??= new Set())
+    }
+
     protected disposeNode() {
         this._uuid && uuidMap.delete(this._uuid)
         this._id && userIdMap.get(this._id)!.delete(this)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
-
+        if (this._deleteSystemSet)
+            for (const deleteSystem of this._deleteSystemSet) deleteSystem(this)
         emitDispose(this)
     }
 
@@ -197,18 +203,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set onLoop(cb) {
         this._onLoop = cb
-        this.cancelHandle(
-            "onLoop",
-            cb &&
-                (() => {
-                    addLoopSystem(cb)
-                    return new Cancellable(() => deleteLoopSystem(cb))
-                })
-        )
-    }
-    public registerOnLoop(cb: () => void) {
-        addLoopSystem(cb)
-        return this.watch(new Cancellable(() => deleteLoopSystem(cb)))
+        cb ? addLoopSystem(this) : deleteLoopSystem(this)
     }
 
     public get disableSerialize() {

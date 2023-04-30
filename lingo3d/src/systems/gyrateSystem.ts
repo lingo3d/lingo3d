@@ -1,7 +1,9 @@
 import OrbitCamera from "../display/cameras/OrbitCamera"
-import renderSystemWithData from "./utils/renderSystemWithData"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import renderSystem from "./utils/renderSystem"
 
-export const [addGyrateSystem, deleteGyrateSystem] = renderSystemWithData(
-    (cam: OrbitCamera, data: { speed: number }) =>
-        cam.gyrate(data.speed, 0, true)
+export const [addGyrateSystem, deleteGyrateSystem] = renderSystem(
+    (cam: OrbitCamera) =>
+        cam.$camera === cameraRenderedPtr[0] &&
+        cam.gyrate(cam.autoRotateSpeed, 0, false)
 )
