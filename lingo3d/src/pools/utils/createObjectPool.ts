@@ -8,7 +8,7 @@ export default <
 >(
     factory: (params: Params, context: Context) => Type
 ) => {
-    const paramStringObjectSetMap = new Map<string, Set<Type>>()
+    const paramStringObjectArrayMap = new Map<string, Array<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
     const releasedObjects = new WeakSet<Type>()
 
@@ -17,14 +17,13 @@ export default <
         paramString = JSON.stringify(params),
         context = undefined as Context
     ): Type => {
-        const objectSet = forceGetInstance(
-            paramStringObjectSetMap,
+        const objectArray = forceGetInstance(
+            paramStringObjectArrayMap,
             paramString,
-            Set<Type>
+            Array<Type>
         )
-        const [object] = objectSet
-        if (object) {
-            objectSet.delete(object)
+        if (objectArray.length) {
+            const object = objectArray.pop()!
             releasedObjects.delete(object)
             return object
         }
@@ -37,9 +36,9 @@ export default <
         if (!object || releasedObjects.has(object)) return
         releasedObjects.add(object)
 
-        const paramString = objectParamStringMap.get(object)!
-        const objectSet = paramStringObjectSetMap.get(paramString)!
-        objectSet.add(object)
+        paramStringObjectArrayMap
+            .get(objectParamStringMap.get(object)!)!
+            .push(object)
     }
 
     return <const>[request, release]

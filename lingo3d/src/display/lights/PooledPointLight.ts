@@ -14,12 +14,12 @@ import {
     addPooledPointLightSystem,
     deletePooledPointLightSystem
 } from "../../systems/pooledPointLightSystem"
+import PointLight from "./PointLight"
 
 const initPointLight = lazy(() => {
-    for (let i = 0; i < 4; ++i) {
-        const pointLight = requestPointLight([], "")
-        releasePointLight(pointLight)
-    }
+    const lights: Array<PointLight> = []
+    for (let i = 0; i < 4; ++i) lights.push(requestPointLight([], ""))
+    for (const light of lights) releasePointLight(light)
 })
 
 export default class PooledPointLight
