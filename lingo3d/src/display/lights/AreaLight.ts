@@ -100,11 +100,4 @@ export default class AreaLight extends Plane implements IAreaLight {
         return 0
     }
     public override set scaleZ(_) {}
-
-    public override get visible() {
-        return this.object3d.visible
-    }
-    public override set visible(val) {
-        this.object3d.visible = val
-    }
 }

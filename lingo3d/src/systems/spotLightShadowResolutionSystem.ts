@@ -17,7 +17,7 @@ export const [
     deleteSpotLightShadowResolutionSystem
 ] = renderSystemWithData(
     (self: SpotLight, data: { step: number | undefined }) => {
-        if (!self.object3d.visible || !shadowModePtr[0]) return
+        if (!self.object3d.intensity || !shadowModePtr[0]) return
 
         const distance = getDistanceFromCamera(self)
         let step = 3
