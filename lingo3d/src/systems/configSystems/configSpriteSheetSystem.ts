@@ -47,8 +47,8 @@ const playSpriteSheet = (
     handle.then(() => deleteSpriteSheetSystem(material))
 }
 
-export const [addConfigSpriteSheetSystem, deleteConfigSpriteSheetSystem] =
-    configSystemWithCleanUp((self: SpriteSheet) => {
+export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
+    (self: SpriteSheet) => {
         const {
             textureStart,
             textureEnd,
@@ -85,4 +85,5 @@ export const [addConfigSpriteSheetSystem, deleteConfigSpriteSheetSystem] =
             clearTimeout(timeout)
             handle.cancel()
         }
-    })
+    }
+)

@@ -9,10 +9,7 @@ import HelperSphere from "./utils/HelperSphere"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import {
-    addConfigJointSystem,
-    deleteConfigJointSystem
-} from "../../systems/configSystems/configJointSystem"
+import { addConfigJointSystem } from "../../systems/configSystems/configJointSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -33,7 +30,6 @@ export default abstract class JointBase
     protected override disposeNode() {
         super.disposeNode()
         jointSet.delete(this)
-        deleteConfigJointSystem(this)
     }
 
     public constructor() {

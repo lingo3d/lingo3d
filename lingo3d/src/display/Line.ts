@@ -1,16 +1,8 @@
 import Appendable from "../api/core/Appendable"
-import {
-    addConfigLineSystem,
-    deleteConfigLineSystem
-} from "../systems/configSystems/configLineSystem"
+import { addConfigLineSystem } from "../systems/configSystems/configLineSystem"
 import { Point3dType } from "../utils/isPoint"
 
 export default class Line extends Appendable {
-    protected override disposeNode() {
-        super.disposeNode()
-        deleteConfigLineSystem(this)
-    }
-
     private _bloom?: boolean
     public get bloom() {
         return this._bloom

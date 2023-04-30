@@ -1,5 +1,4 @@
 import { BufferGeometry } from "three"
-import { deleteRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import Primitive from "./Primitive"
 import {
     CircleParams,
@@ -38,6 +37,5 @@ export default abstract class PooledPrimitve extends Primitive {
     protected override disposeNode() {
         super.disposeNode()
         this.$decreaseGeometry(this.$paramString)
-        deleteRefreshPooledPrimitiveSystem(this)
     }
 }

@@ -4,10 +4,7 @@ import ISpriteSheet, {
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import {
-    addConfigSpriteSheetSystem,
-    deleteConfigSpriteSheetSystem
-} from "../systems/configSystems/configSpriteSheetSystem"
+import { addConfigSpriteSheetSystem } from "../systems/configSystems/configSpriteSheetSystem"
 
 export default class SpriteSheet
     extends PhysicsObjectManager
@@ -26,11 +23,6 @@ export default class SpriteSheet
         })
         super(new Sprite(material))
         this.material = material
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        deleteConfigSpriteSheetSystem(this)
     }
 
     public blob: Blob | undefined

@@ -10,7 +10,6 @@ import cookConvexGeometry, {
 } from "../../engine/physx/cookConvexGeometry"
 import { physxPtr } from "../../pointers/physxPtr"
 import VisibleObjectManager from "./VisibleObjectManager"
-import { deleteRefreshPhysicsSystem } from "../../systems/configSystems/refreshPhysicsSystem"
 import {
     controllerVXUpdateMap,
     controllerVYUpdateMap,
@@ -148,7 +147,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected override disposeNode() {
         super.disposeNode()
         decreaseConvexGeometryCount(this)
-        deleteRefreshPhysicsSystem(this)
     }
     public $getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
