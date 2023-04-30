@@ -61,7 +61,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
                 const res = this.resolutionState.get()
 
                 const handle = new Cancellable()
-                const water = new Water(waterGeometry, {
+                const water = (this.$water = new Water(waterGeometry, {
                     textureWidth: res,
                     textureHeight: res,
                     waterNormals: loadTexture(normalMap, () => {
@@ -72,7 +72,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
                     sunColor: 0xffffff,
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
-                })
+                }))
                 return () => {
                     handle.cancel()
                 }
