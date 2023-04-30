@@ -1,4 +1,3 @@
-import { Reactive } from "@lincode/reactivity"
 import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
