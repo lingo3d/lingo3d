@@ -12,7 +12,7 @@ export const [addGyrateInertiaSystem, deleteGyrateInertiaSystem] =
             }
         ) => {
             data.factor *= 0.95
-            self.$gyrate(
+            self.gyrate(
                 data.movementX * data.factor,
                 data.movementY * data.factor
             )

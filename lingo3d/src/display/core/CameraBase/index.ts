@@ -130,7 +130,7 @@ export default abstract class CameraBase<
 
     protected orbitMode?: boolean
 
-    public $gyrate(movementX: number, movementY: number, inner?: boolean) {
+    private _gyrate(movementX: number, movementY: number, inner?: boolean) {
         const manager = inner ? this.object3d : this.midObject3d
         euler.setFromQuaternion(manager.quaternion)
 
@@ -147,20 +147,13 @@ export default abstract class CameraBase<
         manager.setRotationFromEuler(euler)
     }
 
-    public gyrate(movementX: number, movementY: number, inertia = true) {
-        const _inertia = this.inertia && inertia && (movementX || movementY)
-        if (_inertia) {
-            movementX *= 0.5
-            movementY *= 0.5
+    public gyrate(movementX: number, movementY: number) {
+        if (this.orbitMode) {
+            this._gyrate(movementX, movementY)
+            return
         }
-        if (this.orbitMode) this.$gyrate(movementX, movementY)
-        else {
-            this.$gyrate(movementX, 0)
-            this.$gyrate(0, movementY, true)
-        }
-        _inertia
-            ? addGyrateInertiaSystem(this, { factor: 1, movementX, movementY })
-            : deleteGyrateInertiaSystem(this)
+        this._gyrate(movementX, 0)
+        this._gyrate(0, movementY, true)
     }
 
     private _minPolarAngle = MIN_POLAR_ANGLE
