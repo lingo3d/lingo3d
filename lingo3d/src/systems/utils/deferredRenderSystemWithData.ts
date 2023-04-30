@@ -20,8 +20,13 @@ export default <T extends Appendable, Data extends Record<string, any>>(
     }
 
     let handle: Cancellable | undefined
-    const start = () => {
-        handle = ticker(execute)
+    const start = () => (handle = ticker(execute))
+
+    const deleteSystem = (item: T) => {
+        processed.delete(item)
+        if (!queued.delete(item)) return
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        queued.size === 0 && handle?.cancel()
     }
     return <const>[
         (item: T, data: Data) => {
@@ -30,11 +35,10 @@ export default <T extends Appendable, Data extends Record<string, any>>(
                 return
             }
             queued.set(item, data)
+            item instanceof Appendable &&
+                item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },
-        (item: T) => {
-            processed.delete(item)
-            if (queued.delete(item) && queued.size === 0) handle?.cancel()
-        }
+        deleteSystem
     ]
 }
