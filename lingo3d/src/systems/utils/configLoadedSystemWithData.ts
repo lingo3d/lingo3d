@@ -32,7 +32,10 @@ export default <
     }
     return <const>[
         (item: T, data: Data) => {
-            if (queued.has(item)) return
+            if (queued.has(item)) {
+                queued.set(item, data)
+                return
+            }
             queued.set(item, data)
             if (queued.size === 1) start()
         },

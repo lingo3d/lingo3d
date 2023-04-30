@@ -22,7 +22,10 @@ export default <T, Data extends Record<string, any>>(
     }
     return <const>[
         (item: T, data: Data) => {
-            if (queued.has(item)) return
+            if (queued.has(item)) {
+                queued.set(item, data)
+                return
+            }
             queued.set(item, data)
             item instanceof Appendable &&
                 item.$deleteSystemSet.add(deleteSystem)

@@ -25,11 +25,12 @@ export default function (this: CameraBase) {
         if (getCameraPointerLock() === this.$camera) {
             const handleMove = ({ movementX, movementY }: MouseEvent) => {
                 this.gyrate(movementX, movementY)
-                addGyrateInertiaSystem(this, {
-                    factor: 1,
-                    movementX,
-                    movementY
-                })
+                this.inertia &&
+                    addGyrateInertiaSystem(this, {
+                        factor: 1,
+                        movementX,
+                        movementY
+                    })
             }
             document.addEventListener("mousemove", handleMove)
 
@@ -59,11 +60,12 @@ export default function (this: CameraBase) {
                 (movementX / window.innerWidth) * 3000,
                 (movementY / window.innerHeight) * 3000
             )
-            addGyrateInertiaSystem(this, {
-                factor: 1,
-                movementX,
-                movementY
-            })
+            this.inertia &&
+                addGyrateInertiaSystem(this, {
+                    factor: 1,
+                    movementX,
+                    movementY
+                })
         }
 
         if (isMobile) {

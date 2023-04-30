@@ -24,10 +24,6 @@ import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateReset
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
-import {
-    addGyrateInertiaSystem,
-    deleteGyrateInertiaSystem
-} from "../../../systems/gyrateInertiaSystem"
 import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 
