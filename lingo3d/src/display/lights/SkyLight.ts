@@ -8,14 +8,7 @@ import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
 import AmbientLight from "./AmbientLight"
-import {
-    addSkyLightSystem,
-    deleteSkyLightSystem
-} from "../../systems/skyLightSystem"
-import {
-    addSkyBackLightSystem,
-    deleteSkyBackLightSystem
-} from "../../systems/skyBackLightSystem"
+import { addSkyLightSystem } from "../../systems/skyLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { Color } from "three"
 import { ColorString } from "../../interface/ITexturedStandard"
@@ -26,20 +19,23 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static defaults = skyLightDefaults
     public static schema = skyLightSchema
 
+    public $backLight: DirectionalLight
+    public $csm?: CSM
+
     public constructor() {
         super()
 
-        const backLight = new DirectionalLight()
+        addSkyLightSystem(this)
+
+        const backLight = (this.$backLight = new DirectionalLight())
         backLight.disableSceneGraph = true
         backLight.disableSerialize = true
-        addSkyBackLightSystem(this, { backLight })
 
         const ambientLight = new AmbientLight()
         ambientLight.disableSceneGraph = true
         ambientLight.disableSerialize = true
 
         this.then(() => {
-            deleteSkyBackLightSystem(this)
             backLight.dispose()
             ambientLight.dispose()
         })
@@ -64,7 +60,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                     light.dispose()
                 }
             }
-            const csm = new CSM({
+            const csm = (this.$csm = new CSM({
                 maxFar: 50,
                 shadowMapSize: 2048,
                 shadowBias: -0.0002,
@@ -72,13 +68,11 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                 parent: scene,
                 camera: cameraRenderedPtr[0],
                 lightIntensity: intensity
-            })
+            }))
             for (const light of csm.lights) light.color = new Color(color)
 
-            addSkyLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
-                deleteSkyLightSystem(csm)
                 handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {
