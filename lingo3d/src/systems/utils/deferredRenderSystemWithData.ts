@@ -23,8 +23,8 @@ export default <T extends Appendable, Data extends Record<string, any>>(
     const start = () => (handle = ticker(execute))
 
     const deleteSystem = (item: T) => {
-        processed.delete(item)
         if (!queued.delete(item)) return
+        processed.delete(item)
         item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
     }

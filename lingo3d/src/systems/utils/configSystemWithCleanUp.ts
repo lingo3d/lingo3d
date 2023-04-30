@@ -1,5 +1,5 @@
-import { assert } from "@lincode/utils"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import Appendable from "../../api/core/Appendable"
 
 export default <T extends object>(
     cb: (target: T) => void | (() => void),
@@ -13,8 +13,6 @@ export default <T extends object>(
 
     const execute = () => {
         for (const target of queued) {
-            //@ts-ignore
-            assert(!target.done)
             const prevCleanup = cleanupMap.get(target)
             if (prevCleanup) {
                 prevCleanup()
@@ -35,18 +33,23 @@ export default <T extends object>(
         else ticker(execute, true)
     }
 
+    const deleteSystem = (item: T) => {
+        if (!queued.delete(item)) return
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        const prevCleanup = cleanupMap.get(item)
+        if (prevCleanup) {
+            prevCleanup()
+            cleanupMap.delete(item)
+        }
+    }
     return <const>[
         (item: T) => {
+            if (queued.has(item)) return
             start()
             queued.add(item)
+            item instanceof Appendable &&
+                item.$deleteSystemSet.add(deleteSystem)
         },
-        (item: T) => {
-            const prevCleanup = cleanupMap.get(item)
-            if (prevCleanup) {
-                prevCleanup()
-                cleanupMap.delete(item)
-            }
-            queued.delete(item)
-        }
+        deleteSystem
     ]
 }
