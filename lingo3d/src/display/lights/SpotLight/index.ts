@@ -43,11 +43,6 @@ export default class SpotLight
         light.target.position.y = -0.1
     }
 
-    protected override disposeNode() {
-        super.disposeNode()
-        deleteSpotLightShadowResolutionSystem(this)
-    }
-
     public override get shadows() {
         return super.shadows
     }

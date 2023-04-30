@@ -35,7 +35,6 @@ export default abstract class PointLightBase<
         //@ts-ignore
         this.object3d.shadow.map = null
         super.disposeNode()
-        deleteUpdateShadowSystem(this)
     }
 
     public $boundingSphere = new Sphere()

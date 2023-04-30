@@ -5,14 +5,17 @@ import loadTexture from "./utils/loaders/loadTexture"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
 import { WATERNORMALS_URL } from "../api/assetsPath"
-import { addWaterSystem, deleteWaterSystem } from "../systems/waterSystem"
+import { addWaterSystem } from "../systems/waterSystem"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 
 export default class Water extends PhysicsObjectManager implements IWater {
     public static componentName = "water"
     public static defaults = waterDefaults
     public static schema = waterSchema
+
+    public $water?: ThreeWater
 
     private shapeState = new Reactive<"plane" | "sphere">("plane")
     public get shape() {
@@ -38,19 +41,14 @@ export default class Water extends PhysicsObjectManager implements IWater {
         this.resolutionState.set(val)
     }
 
-    private speedState = new Reactive(1)
-    public get speed() {
-        return this.speedState.get()
-    }
-    public set speed(val) {
-        this.speedState.set(val)
-    }
+    public speed = 1
 
     public constructor() {
         super()
         ssrExcludeSet.add(this.outerObject3d)
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
+        addWaterSystem(this)
 
         import("three/examples/jsm/objects/Water").then(({ Water }) => {
             this.createEffect(() => {
@@ -61,7 +59,6 @@ export default class Water extends PhysicsObjectManager implements IWater {
                 const waterGeometry = isPlane ? planeGeometry : sphereGeometry
 
                 const res = this.resolutionState.get()
-                const speed = this.speedState.get()
 
                 const handle = new Cancellable()
                 const water = new Water(waterGeometry, {
@@ -69,11 +66,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
                     textureHeight: res,
                     waterNormals: loadTexture(normalMap, () => {
                         this.object3d.add(water)
-                        addWaterSystem(water, { speed })
-                        handle.then(() => {
-                            this.object3d.remove(water)
-                            deleteWaterSystem(water)
-                        })
+                        handle.then(() => this.object3d.remove(water))
                     }),
                     // sunDirection: new Vector3(),
                     sunColor: 0xffffff,
@@ -86,8 +79,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
             }, [
                 this.shapeState.get,
                 this.normalMapState.get,
-                this.resolutionState.get,
-                this.speedState.get
+                this.resolutionState.get
             ])
         })
     }
