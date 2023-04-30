@@ -4,7 +4,10 @@ import {
     releasePointLight,
     requestPointLight
 } from "../../pools/objectPools/pointLightPool"
-import IPooledPointLight from "../../interface/IPooledPointLight"
+import IPooledPointLight, {
+    pooledPointLightDefaults,
+    pooledPointLightSchema
+} from "../../interface/IPooledPointLight"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { Sphere } from "three"
 import {
@@ -23,6 +26,10 @@ export default class PooledPointLight
     extends ObjectManager
     implements IPooledPointLight
 {
+    public static componentName = "pooledPointLight"
+    public static defaults = pooledPointLightDefaults
+    public static schema = pooledPointLightSchema
+
     public constructor() {
         super()
         initPointLight()

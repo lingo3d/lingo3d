@@ -59,6 +59,7 @@ import DirectionalLight from "./display/lights/DirectionalLight"
 import SkyLight from "./display/lights/SkyLight"
 import DefaultSkyLight from "./display/lights/DefaultSkyLight"
 import PointLight from "./display/lights/PointLight"
+import PooledPointLight from "./display/lights/PooledPointLight"
 import SpotLight from "./display/lights/SpotLight"
 
 import Joystick from "./ui/Joystick"
@@ -168,6 +169,7 @@ export {
     SkyLight,
     DefaultSkyLight,
     PointLight,
+    PooledPointLight,
     SpotLight,
     Joystick,
     Reticle,

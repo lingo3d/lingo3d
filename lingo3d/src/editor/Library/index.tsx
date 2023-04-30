@@ -46,6 +46,7 @@ const objectNames = [
     "skyLight",
     "directionalLight",
     "pointLight",
+    { pooledPointLight: "light" },
     "spotLight",
     { environment: "light" },
     "camera",

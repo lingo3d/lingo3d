@@ -33,6 +33,7 @@ export type GameObjectType =
     | "skyLight"
     | "defaultSkyLight"
     | "pointLight"
+    | "pooledPointLight"
     | "spotLight"
     | "camera"
     | "orbitCamera"
