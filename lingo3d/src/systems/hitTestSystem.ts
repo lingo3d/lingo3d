@@ -16,6 +16,7 @@ const getAppendables = (val: string | Array<string> | undefined) => {
 }
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
+
 export const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: VisibleMixin) => {
         for (const target of getAppendables(manager.hitTarget)) {

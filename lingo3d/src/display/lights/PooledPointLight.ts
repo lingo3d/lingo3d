@@ -10,10 +10,7 @@ import IPooledPointLight, {
 } from "../../interface/IPooledPointLight"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { Sphere } from "three"
-import {
-    addPooledPointLightSystem,
-    deletePooledPointLightSystem
-} from "../../systems/pooledPointLightSystem"
+import { addPooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 import PointLight from "./PointLight"
 
 const initPointLight = lazy(() => {
@@ -37,11 +34,6 @@ export default class PooledPointLight
         super()
         initPointLight()
         addPooledPointLightSystem(this, { visible: false })
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        deletePooledPointLightSystem(this)
     }
 
     private _distance = 500

@@ -134,16 +134,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set onMove(cb) {
         this._onMove = cb
-        this.cancelHandle(
-            "onMove",
-            cb &&
-                (() => {
-                    addOnMoveSystem(this.outerObject3d, { cb })
-                    return new Cancellable(() =>
-                        deleteOnMoveSystem(this.outerObject3d)
-                    )
-                })
-        )
+        cb ? addOnMoveSystem(this) : deleteOnMoveSystem(this)
     }
 
     public translateX(val: number) {

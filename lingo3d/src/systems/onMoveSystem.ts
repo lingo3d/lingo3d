@@ -1,9 +1,7 @@
-import { Object3D } from "three"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import { positionChanged } from "../utilsCached/positionChanged"
+import renderSystem from "./utils/renderSystem"
+import MeshAppendable from "../api/core/MeshAppendable"
 
-export const [addOnMoveSystem, deleteOnMoveSystem] = renderSystemWithData(
-    (item: Object3D, data: { cb: () => void }) => {
-        positionChanged(item) && data.cb()
-    }
+export const [addOnMoveSystem, deleteOnMoveSystem] = renderSystem(
+    (self: MeshAppendable) => positionChanged(self.object3d) && self.onMove!()
 )

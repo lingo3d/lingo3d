@@ -21,11 +21,6 @@ export default class PointLight
         super(new ThreePointLight())
     }
 
-    protected override disposeNode() {
-        super.disposeNode()
-        deletePointLightShadowResolutionSystem(this)
-    }
-
     public override get shadows() {
         return super.shadows
     }

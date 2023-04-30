@@ -9,14 +9,12 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
 import AmbientLight from "./AmbientLight"
 import {
-    updateLightDirection,
     addSkyLightSystem,
     deleteSkyLightSystem
 } from "../../systems/skyLightSystem"
 import {
     addSkyBackLightSystem,
-    deleteSkyBackLightSystem,
-    updateBackLight
+    deleteSkyBackLightSystem
 } from "../../systems/skyBackLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { Color } from "three"
@@ -50,7 +48,6 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
             const intensity = this.intensityState.get()
             const color = this.colorState.get()
 
-            updateBackLight(this, backLight)
             backLight.intensity = intensity * 0.25
             ambientLight.intensity = intensity * 0.25
             backLight.color = color
@@ -77,7 +74,6 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                 lightIntensity: intensity
             })
             for (const light of csm.lights) light.color = new Color(color)
-            updateLightDirection(this, csm)
 
             addSkyLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
