@@ -29,14 +29,13 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
     const start = () => (handle = ticker(execute))
 
     const deleteSystem = (item: T) => {
-        if (!queued.delete(item)) return
         item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         const prevCleanup = cleanupMap.get(item)
         if (prevCleanup) {
             prevCleanup()
             cleanupMap.delete(item)
         }
-        queued.size === 0 && handle?.cancel()
+        if (queued.delete(item) && queued.size === 0) handle?.cancel()
     }
     return <const>[
         (item: T) => {
