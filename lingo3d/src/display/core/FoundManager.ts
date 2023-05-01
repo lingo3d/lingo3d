@@ -44,16 +44,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         const state = getAnimationStates(this.parent as Model)
         if (!state) return
 
-        const { onFinishState, repeatState, managerRecord, finishEventState } =
-            state
-        for (const animationManager of Object.values(managerRecord))
+        for (const animationManager of Object.values(state.managerRecord))
             this.animations[animationManager.name!] = this.watch(
-                animationManager.retarget(
-                    this,
-                    repeatState,
-                    onFinishState,
-                    finishEventState
-                )
+                animationManager.retarget(this, state)
             )
         this.retargeted = true
     }

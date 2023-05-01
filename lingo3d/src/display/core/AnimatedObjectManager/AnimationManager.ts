@@ -28,6 +28,7 @@ import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
 import { uuidMap } from "../../../collections/uuidCollections"
 import { dtPtr } from "../../../pointers/dtPtr"
+import AnimationStates from "./AnimationStates"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -105,9 +106,7 @@ export default class AnimationManager
         name: string | undefined,
         clip: AnimationClip | undefined,
         target: object | undefined,
-        repeatState: Reactive<number>,
-        onFinishState: Reactive<(() => void) | undefined>,
-        finishEventState?: Reactive<EventFunctions | undefined>
+        animationStates: AnimationStates
     ) {
         super()
         this.disableSerialize = true
@@ -122,7 +121,7 @@ export default class AnimationManager
         this.createEffect(() => {
             if (this.pausedState.get()) return
 
-            const finishEvent = finishEventState?.get()
+            const finishEvent = animationStates.finishEventState?.get()
             if (finishEvent) {
                 const [emitFinish] = finishEvent
                 const onFinish = () => emitFinish()
@@ -131,14 +130,18 @@ export default class AnimationManager
                     mixer.removeEventListener("finished", onFinish)
                 }
             }
-            const onFinish = onFinishState.get()
+            const onFinish = animationStates.onFinishState.get()
             if (!onFinish) return
 
             mixer.addEventListener("finished", onFinish)
             return () => {
                 mixer.removeEventListener("finished", onFinish)
             }
-        }, [onFinishState.get, this.pausedState.get, finishEventState?.get])
+        }, [
+            animationStates.onFinishState.get,
+            this.pausedState.get,
+            animationStates.finishEventState?.get
+        ])
 
         this.createEffect(() => {
             const [data] = this.timelineDataState.get()
@@ -219,10 +222,14 @@ export default class AnimationManager
         this.createEffect(() => {
             const action = this.actionState.get()
             if (action)
-                action.repetitions = finishEventState?.get()
+                action.repetitions = animationStates.finishEventState?.get()
                     ? 0
-                    : repeatState.get()
-        }, [this.actionState.get, repeatState.get, finishEventState?.get])
+                    : animationStates.repeatState.get()
+        }, [
+            this.actionState.get,
+            animationStates.repeatState.get,
+            animationStates.finishEventState?.get
+        ])
 
         this.createEffect(() => {
             const action = this.actionState.get()
@@ -269,12 +276,7 @@ export default class AnimationManager
         ])
     }
 
-    public retarget(
-        target: FoundManager,
-        repeatState: Reactive<number>,
-        onFinishState: Reactive<(() => void) | undefined>,
-        finishEventState: Reactive<EventFunctions | undefined>
-    ) {
+    public retarget(target: FoundManager, animationStates: AnimationStates) {
         const newClip = this.clipState.get()!.clone()
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
@@ -284,9 +286,7 @@ export default class AnimationManager
             this.name,
             newClip,
             target,
-            repeatState,
-            onFinishState,
-            finishEventState
+            animationStates
         )
         target.append(animation)
         return animation

@@ -35,17 +35,13 @@ export default class Model extends Loaded<Group> implements IModel {
         const clip = (await this.$load(url)).animations[0]
         if (!clip) return
 
-        const { onFinishState, repeatState, finishEventState } =
-            getAnimationStates(this)
         const animation = (this.animations[name] = new AnimationManager(
             name,
             clip,
             await new Promise<Object3D>((resolve) =>
                 this.events.once("loaded", resolve)
             ),
-            repeatState,
-            onFinishState,
-            finishEventState
+            getAnimationStates(this)
         ))
         this.append(animation)
     }
@@ -84,17 +80,13 @@ export default class Model extends Loaded<Group> implements IModel {
 
     public $resolveLoaded(loadedObject3d: Group, src: string) {
         if (loadedObject3d.animations.length) {
-            const { onFinishState, repeatState, finishEventState } =
-                getAnimationStates(this)
             for (const clip of loadedObject3d.animations) {
                 const animation = (this.animations[clip.name] =
                     new AnimationManager(
                         clip.name,
                         clip,
                         loadedObject3d,
-                        repeatState,
-                        onFinishState,
-                        finishEventState
+                        getAnimationStates(this)
                     ))
                 this.append(animation)
             }

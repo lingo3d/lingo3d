@@ -1,4 +1,3 @@
-import { Reactive } from "@lincode/reactivity"
 import { PropertyBinding } from "three"
 import ITimeline, {
     timelineDefaults,
@@ -6,6 +5,7 @@ import ITimeline, {
 } from "../interface/ITimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { uuidMap } from "../collections/uuidCollections"
+import AnimationStates from "./core/AnimatedObjectManager/AnimationStates"
 
 const findNode = PropertyBinding.findNode
 PropertyBinding.findNode = (root, nodeName) => {
@@ -19,13 +19,7 @@ export default class Timeline extends AnimationManager implements ITimeline {
     public static override schema = timelineSchema
 
     public constructor() {
-        super(
-            "",
-            undefined,
-            {},
-            new Reactive(0),
-            new Reactive<(() => void) | undefined>(undefined)
-        )
+        super("", undefined, {}, new AnimationStates())
         this.disableSerialize = false
     }
 }

@@ -33,17 +33,8 @@ const createAnimation = (
     let animation = self.animations[name]
     if (animation && typeof animation !== "string") return animation
 
-    const { onFinishState, repeatState, finishEventState } =
-        getAnimationStates(self)
     animation = self.watch(
-        new AnimationManager(
-            name,
-            undefined,
-            self,
-            repeatState,
-            onFinishState,
-            finishEventState
-        )
+        new AnimationManager(name, undefined, self, getAnimationStates(self))
     )
     self.append(animation)
     self.animations[name] = animation
