@@ -11,6 +11,7 @@ import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
 import { uuidMap } from "../collections/uuidCollections"
 import { keyframesPtr } from "../pointers/keyframesPtr"
+import getReactive from "../utils/getReactive"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -21,7 +22,9 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = timeline.timelineDataState.get(setTimelineData)
+    const handle = getReactive(timeline, "data").get((data) =>
+        setTimelineData([data])
+    )
     return () => {
         handle.cancel()
         setTimelineData([undefined])
