@@ -14,7 +14,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
-import { getAnimationStates } from "../../utilsCached/getAnimationStates"
+import { getAnimationStates } from "./AnimatedObjectManager/AnimationStates"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -44,13 +44,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         const state = getAnimationStates(this.parent as Model)
         if (!state) return
 
-        const {
-            onFinishState,
-            repeatState,
-            managerRecordState,
-            finishEventState
-        } = state
-        for (const animationManager of Object.values(managerRecordState.get()))
+        const { onFinishState, repeatState, managerRecord, finishEventState } =
+            state
+        for (const animationManager of Object.values(managerRecord))
             this.animations[animationManager.name!] = this.watch(
                 animationManager.retarget(
                     this,

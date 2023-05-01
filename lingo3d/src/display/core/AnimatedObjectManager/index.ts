@@ -5,24 +5,24 @@ import IAnimatedObjectManager, {
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
 import AnimationManager from "./AnimationManager"
-import { getAnimationStates } from "../../../utilsCached/getAnimationStates"
+import { getAnimationStates } from "./AnimationStates"
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IAnimatedObjectManager
 {
     public get animations(): Record<string, AnimationManager> {
-        return getAnimationStates(this).managerRecordState.get()
+        return getAnimationStates(this).managerRecord
     }
     public set animations(val) {
-        getAnimationStates(this).managerRecordState.set(val)
+        getAnimationStates(this).managerRecord = val
     }
 
     public get animationPaused(): boolean {
-        return getAnimationStates(this).pausedState.get()
+        return getAnimationStates(this).paused
     }
     public set animationPaused(value) {
-        getAnimationStates(this).pausedState.set(value)
+        getAnimationStates(this).paused = value
     }
 
     public get animationRepeat(): number {
@@ -53,14 +53,14 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animationLength(): number {
-        return getAnimationStates(this).managerState.get()?.totalFrames ?? 0
+        return getAnimationStates(this).manager?.totalFrames ?? 0
     }
 
     public get animationFrame(): number {
-        return getAnimationStates(this).managerState.get()?.frame ?? 0
+        return getAnimationStates(this).manager?.frame ?? 0
     }
     public set animationFrame(val) {
-        const manager = getAnimationStates(this).managerState.get()
+        const { manager } = getAnimationStates(this)
         if (manager) manager.frame = val
     }
 }

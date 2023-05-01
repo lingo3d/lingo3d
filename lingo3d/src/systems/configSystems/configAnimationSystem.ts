@@ -6,7 +6,7 @@ import { AnimationData } from "../../interface/IAnimationManager"
 import { STANDARD_FRAME } from "../../globals"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
-import { getAnimationStates } from "../../utilsCached/getAnimationStates"
+import { getAnimationStates } from "../../display/core/AnimatedObjectManager/AnimationStates"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
