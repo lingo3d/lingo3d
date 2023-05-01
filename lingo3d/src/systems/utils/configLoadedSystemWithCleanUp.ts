@@ -6,8 +6,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
-    cb: (target: T) => void | (() => void),
-    ticker = onBeforeRender
+    cb: (target: T) => void | (() => void)
 ) => {
     const queued = new Set<T>()
     const cleanupMap = new WeakMap<T, () => void>()
@@ -26,7 +25,7 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
         }
     }
     let handle: Cancellable | undefined
-    const start = () => (handle = ticker(execute))
+    const start = () => (handle = onBeforeRender(execute))
 
     const deleteSystem = (item: T) => {
         item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)

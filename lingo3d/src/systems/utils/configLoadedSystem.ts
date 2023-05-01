@@ -5,8 +5,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 
 export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
-    cb: (target: T) => void,
-    ticker = onBeforeRender
+    cb: (target: T) => void
 ) => {
     const queued = new Set<T>()
 
@@ -22,9 +21,8 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
         }
     }
     let handle: Cancellable | undefined
-    const start = () => {
-        handle = ticker(execute)
-    }
+    const start = () => (handle = onBeforeRender(execute))
+
     const deleteSystem = (item: T) => {
         if (queued.delete(item) && queued.size === 0) handle?.cancel()
     }

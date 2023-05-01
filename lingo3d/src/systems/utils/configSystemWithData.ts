@@ -1,8 +1,5 @@
-import { onBeforeRender } from "../../events/onBeforeRender"
-
 export default <T extends object, Data extends Record<string, any>>(
-    cb: (target: T, data: Data) => void,
-    ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask
+    cb: (target: T, data: Data) => void
 ) => {
     const queued = new Map<T, Data>()
 
@@ -20,7 +17,7 @@ export default <T extends object, Data extends Record<string, any>>(
     const start = () => {
         if (started) return
         started = true
-        ticker(execute, true)
+        queueMicrotask(execute)
     }
 
     return <const>[

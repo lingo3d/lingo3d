@@ -5,8 +5,7 @@ import Appendable from "../../api/core/Appendable"
 export default <T, Data extends Record<string, any>>(
     cb: (target: T, data: Data) => void,
     onEnterTick: (queued: Map<T, Data>) => void,
-    onExitTick: (queued: Map<T, Data>) => void,
-    ticker = onBeforeRender
+    onExitTick: (queued: Map<T, Data>) => void
 ) => {
     const queued = new Map<T, Data>()
 
@@ -17,7 +16,7 @@ export default <T, Data extends Record<string, any>>(
     }
 
     let handle: Cancellable | undefined
-    const start = () => (handle = ticker(execute))
+    const start = () => (handle = onBeforeRender(execute))
 
     const deleteSystem = (item: T) => {
         if (!queued.delete(item)) return
