@@ -7,7 +7,8 @@ export default <
     T extends MeshAppendable | Loaded,
     Data extends Record<string, any>
 >(
-    cb: (target: T, data: Data) => void
+    cb: (target: T, data: Data) => void,
+    predicate?: (target: T) => boolean
 ) => {
     const queued = new Map<T, Data>()
 
@@ -18,6 +19,7 @@ export default <
                 continue
             }
             if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
+            if (predicate && !predicate(target)) continue
             cb(target, data)
             deleteSystem(target)
         }

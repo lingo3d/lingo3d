@@ -40,7 +40,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     private retargetAnimations() {
         if (this.retargeted) return
 
-        const state = (this.parent as Model).lazyStates()
+        const state = (this.parent as Model).$lazyStates()
         if (!state) return
 
         const {

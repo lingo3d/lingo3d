@@ -3,7 +3,6 @@ import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import FoundManager from "./core/FoundManager"
-import { Reactive } from "@lincode/reactivity"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
 import { addRefreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
@@ -26,17 +25,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public static defaults = modelDefaults
     public static schema = modelSchema
 
-    private loadingState = new Reactive(0)
-
-    protected override setAnimationManager(name?: string | number) {
-        this.cancelHandle("modelSetAnimationManager", () =>
-            this.loadingState.get((count, handle) => {
-                if (count) return
-                handle.cancel()
-                super.setAnimationManager(name)
-            })
-        )
-    }
+    public $loadingCount = 0
 
     public serializeAnimations?: Record<string, string>
     public async loadAnimation(url: string, name = url) {
@@ -46,7 +35,7 @@ export default class Model extends Loaded<Group> implements IModel {
         if (!clip) return
 
         const { onFinishState, repeatState, finishEventState } =
-            this.lazyStates()
+            this.$lazyStates()
         const animation = (this.animations[name] = new AnimationManager(
             name,
             clip,
@@ -72,13 +61,13 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public async $load(url: string) {
-        this.loadingState.set(this.loadingState.get() + 1)
+        this.$loadingCount += 1
         try {
             const result = await loadModel(url, true)
-            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            this.$loadingCount -= 1
             return result
         } catch (err) {
-            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            this.$loadingCount -= 1
             throw err
         }
     }
@@ -95,7 +84,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public $resolveLoaded(loadedObject3d: Group, src: string) {
         if (loadedObject3d.animations.length) {
             const { onFinishState, repeatState, finishEventState } =
-                this.lazyStates()
+                this.$lazyStates()
             for (const clip of loadedObject3d.animations) {
                 const animation = (this.animations[clip.name] =
                     new AnimationManager(

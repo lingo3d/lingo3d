@@ -10,6 +10,7 @@ import { event, EventFunctions } from "@lincode/events"
 import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { addConfigAnimationManagerSystem } from "../../../systems/configLoadedSystems/configAnimationManagerSystem"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -43,7 +44,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     implements IAnimatedObjectManager
 {
     private states?: States
-    public lazyStates() {
+    public $lazyStates() {
         if (this.states) return this.states
 
         const { managerState, pausedState } = (this.states = {
@@ -67,40 +68,31 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animations() {
-        return this.lazyStates().managerRecordState.get()
+        return this.$lazyStates().managerRecordState.get()
     }
     public set animations(val) {
-        this.lazyStates().managerRecordState.set(val)
+        this.$lazyStates().managerRecordState.set(val)
     }
 
     public get animationPaused() {
-        return this.lazyStates().pausedState.get()
+        return this.$lazyStates().pausedState.get()
     }
     public set animationPaused(value) {
-        this.lazyStates().pausedState.set(value)
+        this.$lazyStates().pausedState.set(value)
     }
 
     public get animationRepeat() {
-        return this.lazyStates().repeatState.get()
+        return this.$lazyStates().repeatState.get()
     }
     public set animationRepeat(value) {
-        this.lazyStates().repeatState.set(value)
+        this.$lazyStates().repeatState.set(value)
     }
 
     public get onAnimationFinish() {
-        return this.lazyStates().onFinishState.get()
+        return this.$lazyStates().onFinishState.get()
     }
     public set onAnimationFinish(value) {
-        this.lazyStates().onFinishState.set(value)
-    }
-
-    protected setAnimationManager(name?: string | number) {
-        const { managerState } = this.lazyStates()
-        managerState.set(
-            typeof name === "string"
-                ? this.animations[name]
-                : Object.values(this.animations)[name ?? 0]
-        )
+        this.$lazyStates().onFinishState.set(value)
     }
 
     private createAnimation(name: string): AnimationManager {
@@ -108,7 +100,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         if (animation && typeof animation !== "string") return animation
 
         const { onFinishState, repeatState, finishEventState } =
-            this.lazyStates()
+            this.$lazyStates()
         animation = this.watch(
             new AnimationManager(
                 name,
@@ -132,11 +124,14 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
-            this.setAnimationManager(val)
+            addConfigAnimationManagerSystem(this, { name: val })
             return
         }
         if (typeof val === "boolean") {
-            if (val) this.setAnimationManager(undefined)
+            if (val)
+                addConfigAnimationManagerSystem(this, {
+                    name: 0
+                })
             else this.animationPaused = true
             return
         }
@@ -147,7 +142,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         const name = "animation"
         const anim = this.createAnimation(name)
         anim.data = animationValueToData(val)
-        this.setAnimationManager(name)
+        addConfigAnimationManagerSystem(this, { name })
     }
 
     private _animation?: Animation
@@ -159,7 +154,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             "playAnimation",
             Array.isArray(val)
                 ? () => {
-                      const { finishEventState } = this.lazyStates()
+                      const { finishEventState } = this.$lazyStates()
                       const finishEvent = event()
                       finishEventState.set(finishEvent)
 
@@ -188,14 +183,14 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animationLength() {
-        return this.lazyStates().managerState.get()?.totalFrames ?? 0
+        return this.$lazyStates().managerState.get()?.totalFrames ?? 0
     }
 
     public get animationFrame() {
-        return this.lazyStates().managerState.get()?.frame ?? 0
+        return this.$lazyStates().managerState.get()?.frame ?? 0
     }
     public set animationFrame(val) {
-        const manager = this.lazyStates().managerState.get()
+        const manager = this.$lazyStates().managerState.get()
         if (manager) manager.frame = val
     }
 }
