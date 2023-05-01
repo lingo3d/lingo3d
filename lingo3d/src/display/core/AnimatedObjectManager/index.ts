@@ -1,35 +1,12 @@
 import { Object3D } from "three"
 import IAnimatedObjectManager, {
-    Animation,
-    AnimationValue
+    Animation
 } from "../../../interface/IAnimatedObjectManager"
 import AnimationManager from "./AnimationManager"
 import { Reactive } from "@lincode/reactivity"
-import { Cancellable } from "@lincode/promiselikes"
-import { event, EventFunctions } from "@lincode/events"
-import { STANDARD_FRAME } from "../../../globals"
-import { AnimationData } from "../../../interface/IAnimationManager"
+import { EventFunctions } from "@lincode/events"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { addConfigAnimationManagerSystem } from "../../../systems/configLoadedSystems/configAnimationManagerSystem"
-
-const animationValueToData = (val: AnimationValue) => {
-    const entries = Object.entries(val)
-    let maxLength = 0
-    for (const [, { length }] of entries)
-        length > maxLength && (maxLength = length)
-
-    const duration = 1000
-    const timeStep = (duration * 0.001) / maxLength
-
-    const data: AnimationData = {}
-    const result = (data[""] ??= {})
-    for (const [name, values] of entries)
-        result[name] = Object.fromEntries(
-            values.map((v, i) => [Math.ceil(i * timeStep * STANDARD_FRAME), v])
-        )
-    return data
-}
-
+import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
 type States = {
     managerRecordState: Reactive<Record<string, AnimationManager>>
     managerState: Reactive<AnimationManager | undefined>
@@ -95,91 +72,17 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.$lazyStates().onFinishState.set(value)
     }
 
-    private createAnimation(name: string): AnimationManager {
-        let animation = this.animations[name]
-        if (animation && typeof animation !== "string") return animation
-
-        const { onFinishState, repeatState, finishEventState } =
-            this.$lazyStates()
-        animation = this.watch(
-            new AnimationManager(
-                name,
-                undefined,
-                this,
-                repeatState,
-                onFinishState,
-                finishEventState
-            )
-        )
-        this.append(animation)
-        this.animations[name] = animation
-        return animation
-    }
-
     public get serializeAnimation() {
-        return typeof this._animation !== "object" ? this._animation : undefined
+        return typeof this.$animation !== "object" ? this.$animation : undefined
     }
 
-    private setAnimation(val?: string | number | boolean | AnimationValue) {
-        this._animation = val
-
-        if (typeof val === "string" || typeof val === "number") {
-            addConfigAnimationManagerSystem(this, { name: val })
-            return
-        }
-        if (typeof val === "boolean") {
-            if (val)
-                addConfigAnimationManagerSystem(this, {
-                    name: 0
-                })
-            else this.animationPaused = true
-            return
-        }
-        if (!val) {
-            this.animationPaused = true
-            return
-        }
-        const name = "animation"
-        const anim = this.createAnimation(name)
-        anim.data = animationValueToData(val)
-        addConfigAnimationManagerSystem(this, { name })
-    }
-
-    private _animation?: Animation
+    public $animation?: Animation
     public get animation() {
-        return this._animation
+        return this.$animation
     }
     public set animation(val) {
-        this.cancelHandle(
-            "playAnimation",
-            Array.isArray(val)
-                ? () => {
-                      const { finishEventState } = this.$lazyStates()
-                      const finishEvent = event()
-                      finishEventState.set(finishEvent)
-
-                      let currentIndex = 0
-                      const next = () => {
-                          if (currentIndex === val.length) {
-                              if (this.animationRepeat < 2) {
-                                  this.onAnimationFinish?.()
-                                  return
-                              }
-                              currentIndex = 0
-                          }
-                          this.setAnimation(val[currentIndex++])
-                      }
-                      next()
-                      const [, onFinish] = finishEvent
-                      const handle = onFinish(next)
-
-                      return new Cancellable(() => {
-                          finishEventState.set(undefined)
-                          handle.cancel()
-                      })
-                  }
-                : void this.setAnimation(val)
-        )
+        this.$animation = val
+        addConfigAnimationSystem(this, { val })
     }
 
     public get animationLength() {

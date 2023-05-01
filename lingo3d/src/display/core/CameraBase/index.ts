@@ -1,11 +1,10 @@
-import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
+import { CameraHelper, PerspectiveCamera } from "three"
 import ObjectManager from "../ObjectManager"
-import { ray, euler, quaternion, quaternion_ } from "../../utils/reusables"
+import { ray, euler } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
-import { Cancellable } from "@lincode/promiselikes"
 import scene from "../../../engine/scene"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import {
@@ -13,7 +12,6 @@ import {
     pushCameraStack
 } from "../../../states/useCameraStack"
 import getWorldPosition from "../../../utilsCached/getWorldPosition"
-import getWorldQuaternion from "../../../utilsCached/getWorldQuaternion"
 import getWorldDirection from "../../../utilsCached/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
@@ -241,61 +239,6 @@ export default abstract class CameraBase<
 
         import("./enableMouseControl").then((module) =>
             module.default.call(this)
-        )
-    }
-
-    private _gyroControl?: boolean
-    public get gyroControl() {
-        return !!this._gyroControl
-    }
-    public set gyroControl(val) {
-        this._gyroControl = val
-
-        const deviceEuler = euler
-        const deviceQuaternion = quaternion
-        const screenTransform = quaternion_
-        const worldTransform = new Quaternion(
-            -Math.sqrt(0.5),
-            0,
-            0,
-            Math.sqrt(0.5)
-        )
-
-        const quat = getWorldQuaternion(this.object3d)
-        const orient = 0
-
-        const cb = (e: DeviceOrientationEvent) => {
-            this.object3d.quaternion.copy(quat)
-            deviceEuler.set(
-                (e.beta ?? 0) * deg2Rad,
-                (e.alpha ?? 0) * deg2Rad,
-                -(e.gamma ?? 0) * deg2Rad,
-                "YXZ"
-            )
-
-            this.object3d.quaternion.multiply(
-                deviceQuaternion.setFromEuler(deviceEuler)
-            )
-
-            const minusHalfAngle = -orient * 0.5
-            screenTransform.set(
-                0,
-                Math.sin(minusHalfAngle),
-                0,
-                Math.cos(minusHalfAngle)
-            )
-
-            this.object3d.quaternion.multiply(screenTransform)
-            this.object3d.quaternion.multiply(worldTransform)
-        }
-        val && window.addEventListener("deviceorientation", cb)
-        this.cancelHandle(
-            "gyroControl",
-            val &&
-                (() =>
-                    new Cancellable(() =>
-                        window.removeEventListener("deviceorientation", cb)
-                    ))
         )
     }
 }

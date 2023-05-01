@@ -1,0 +1,111 @@
+import { event } from "@lincode/events"
+import AnimatedObjectManager from "../../display/core/AnimatedObjectManager"
+import {
+    Animation,
+    AnimationValue
+} from "../../interface/IAnimatedObjectManager"
+import configSystemWithCleanUpAndData from "../utils/configSystemWithCleanUpAndData"
+import { addConfigAnimationManagerSystem } from "../configLoadedSystems/configAnimationManagerSystem"
+import { AnimationData } from "../../interface/IAnimationManager"
+import { STANDARD_FRAME } from "../../globals"
+import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
+
+const animationValueToData = (val: AnimationValue) => {
+    const entries = Object.entries(val)
+    let maxLength = 0
+    for (const [, { length }] of entries)
+        length > maxLength && (maxLength = length)
+
+    const duration = 1000
+    const timeStep = (duration * 0.001) / maxLength
+
+    const data: AnimationData = {}
+    const result = (data[""] ??= {})
+    for (const [name, values] of entries)
+        result[name] = Object.fromEntries(
+            values.map((v, i) => [Math.ceil(i * timeStep * STANDARD_FRAME), v])
+        )
+    return data
+}
+
+const createAnimation = (
+    self: AnimatedObjectManager,
+    name: string
+): AnimationManager => {
+    let animation = self.animations[name]
+    if (animation && typeof animation !== "string") return animation
+
+    const { onFinishState, repeatState, finishEventState } = self.$lazyStates()
+    animation = self.watch(
+        new AnimationManager(
+            name,
+            undefined,
+            self,
+            repeatState,
+            onFinishState,
+            finishEventState
+        )
+    )
+    self.append(animation)
+    self.animations[name] = animation
+    return animation
+}
+
+const setAnimation = (
+    self: AnimatedObjectManager,
+    val?: string | number | boolean | AnimationValue
+) => {
+    self.$animation = val
+
+    if (typeof val === "string" || typeof val === "number") {
+        addConfigAnimationManagerSystem(self, { name: val })
+        return
+    }
+    if (typeof val === "boolean") {
+        if (val)
+            addConfigAnimationManagerSystem(self, {
+                name: 0
+            })
+        else self.animationPaused = true
+        return
+    }
+    if (!val) {
+        self.animationPaused = true
+        return
+    }
+    const name = "animation"
+    const anim = createAnimation(self, name)
+    anim.data = animationValueToData(val)
+    addConfigAnimationManagerSystem(self, { name })
+}
+
+export const [addConfigAnimationSystem] = configSystemWithCleanUpAndData(
+    (self: AnimatedObjectManager, { val }: { val: Animation | undefined }) => {
+        if (Array.isArray(val)) {
+            const { finishEventState } = self.$lazyStates()
+            const finishEvent = event()
+            finishEventState.set(finishEvent)
+
+            let currentIndex = 0
+            const next = () => {
+                if (currentIndex === val.length) {
+                    if (self.animationRepeat < 2) {
+                        self.onAnimationFinish?.()
+                        return
+                    }
+                    currentIndex = 0
+                }
+                setAnimation(self, val[currentIndex++])
+            }
+            next()
+            const [, onFinish] = finishEvent
+            const handle = onFinish(next)
+
+            return () => {
+                finishEventState.set(undefined)
+                handle.cancel()
+            }
+        }
+        setAnimation(self, val)
+    }
+)
