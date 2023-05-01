@@ -120,7 +120,22 @@ export default (
             )
     }
 
-    const [animationParams, animationRest] = splitObject(transformRest, [
+    const [interactionParams, interactionRest] = splitObject(transformRest, [
+        "hitTarget"
+    ])
+    interactionParams &&
+        addInputs(
+            handle,
+            pane,
+            "interaction",
+            manager,
+            interactionParams,
+            false,
+            connection,
+            toggle
+        )
+
+    const [animationParams, animationRest] = splitObject(interactionRest, [
         "animation",
         "animationPaused",
         "animationRepeat"
@@ -140,6 +155,7 @@ export default (
     const [displayParams, displayRest] = splitObject(animationRest, [
         "visible",
         "innerVisible",
+        "reflectionVisible",
         "castShadow"
     ])
     displayParams &&
@@ -177,8 +193,7 @@ export default (
             "roughnessFactor",
             "opacityFactor",
             "envFactor",
-            "reflection",
-            "reflectionVisible"
+            "reflection"
         ]
     )
     adjustMaterialParams &&
