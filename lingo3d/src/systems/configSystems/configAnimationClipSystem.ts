@@ -1,8 +1,9 @@
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { STANDARD_FRAME } from "../../globals"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import getClipAction from "../../utilsCached/getClipAction"
+import configSystem from "../utils/configSystem"
 
-export const [addConfigAnimationClipSystem] = configSystemWithCleanUp(
+export const [addConfigAnimationClipSystem] = configSystem(
     (self: AnimationManager) => {
         const { clip } = self
         if (!clip) {
@@ -10,20 +11,6 @@ export const [addConfigAnimationClipSystem] = configSystemWithCleanUp(
             return
         }
         self.clipTotalFrames = Math.ceil(clip.duration * STANDARD_FRAME)
-
-        const action = self.mixer.clipAction(clip)
-        self.actionState.set(action)
-
-        if (self.$frame !== undefined) {
-            self.frame = self.$frame
-            self.$frame = undefined
-        }
-
-        return () => {
-            self.$frame = self.frame
-            action.stop()
-            action.enabled = false
-            self.mixer.uncacheClip(clip)
-        }
+        self.actionState.set(getClipAction(self.mixer, clip))
     }
 )

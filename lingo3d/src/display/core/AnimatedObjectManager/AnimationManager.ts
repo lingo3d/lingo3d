@@ -130,7 +130,7 @@ export default class AnimationManager
 
             const prevAction = mixerActionMap.get(mixer)
             mixerActionMap.set(mixer, action)
-            if (prevAction?.enabled && action !== prevAction)
+            if (prevAction && action !== prevAction)
                 action.crossFadeFrom(prevAction, 0.25, true)
 
             action.clampWhenFinished = true
