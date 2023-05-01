@@ -73,16 +73,12 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public async $load(url: string) {
-        const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
-
         try {
             const result = await loadModel(url, true)
-            resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
             return result
         } catch (err) {
-            resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
             throw err
         }
