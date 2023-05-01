@@ -1,4 +1,12 @@
-import { DefaultSkyLight, Dummy, Keyboard, PointLight, PooledPointLight, SpotLight, settings } from ".."
+import {
+    DefaultSkyLight,
+    Dummy,
+    Keyboard,
+    PointLight,
+    PooledPointLight,
+    SpotLight,
+    settings
+} from ".."
 import Cube from "../display/primitives/Cube"
 
 const skylight = new DefaultSkyLight()
@@ -16,8 +24,3 @@ const light = new PooledPointLight()
 const dummy = new Dummy()
 dummy.physics = "character"
 dummy.y = -150
-
-const keyboard = new Keyboard()
-keyboard.onKeyDown = (e) => {
-    console.log(e)
-}

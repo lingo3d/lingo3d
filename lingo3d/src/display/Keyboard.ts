@@ -4,10 +4,18 @@ import IKeyboard, {
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
 import Appendable from "../api/core/Appendable"
-import { onKeyPress } from "../events/onKeyPress"
-import { onKeyUp } from "../events/onKeyUp"
-import { keyPressSet } from "../collections/keyPressSet"
-import { addKeyDownSystem, deleteKeyDownSystem } from "../systems/keyDownSystem"
+import {
+    addKeyDownSystem,
+    deleteKeyDownSystem
+} from "../systems/eventSystems/keyDownSystem"
+import {
+    addKeyUpSystem,
+    deleteKeyUpSystem
+} from "../systems/eventSystems/keyUpSystem"
+import {
+    addKeyPressSystem,
+    deleteKeyPressSystem
+} from "../systems/eventSystems/keyPressSystem"
 
 export default class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
@@ -20,19 +28,7 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyPress(val) {
         this._onKeyPress = val
-        this.cancelHandle(
-            "onKeyPress",
-            val &&
-                (() =>
-                    onKeyPress(() =>
-                        val(
-                            new LingoKeyboardEvent(
-                                [...keyPressSet].at(-1) ?? "",
-                                keyPressSet
-                            )
-                        )
-                    ))
-        )
+        val ? addKeyPressSystem(this) : deleteKeyPressSystem(this)
     }
 
     private _onKeyUp?: (e: LingoKeyboardEvent) => void
@@ -41,14 +37,7 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyUp(val) {
         this._onKeyUp = val
-        this.cancelHandle(
-            "onKeyUp",
-            val &&
-                (() =>
-                    onKeyUp((key) =>
-                        val(new LingoKeyboardEvent(key, keyPressSet))
-                    ))
-        )
+        val ? addKeyUpSystem(this) : deleteKeyUpSystem(this)
     }
 
     private _onKeyDown?: (e: LingoKeyboardEvent) => void
