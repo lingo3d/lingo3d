@@ -14,6 +14,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
+import { getAnimationStates } from "../../utilsCached/getAnimationStates"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -40,7 +41,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     private retargetAnimations() {
         if (this.retargeted) return
 
-        const state = (this.parent as Model).$lazyStates()
+        const state = getAnimationStates(this.parent as Model)
         if (!state) return
 
         const {

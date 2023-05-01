@@ -19,6 +19,7 @@ import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
+import { getAnimationStates } from "../utilsCached/getAnimationStates"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -35,7 +36,7 @@ export default class Model extends Loaded<Group> implements IModel {
         if (!clip) return
 
         const { onFinishState, repeatState, finishEventState } =
-            this.$lazyStates()
+            getAnimationStates(this)
         const animation = (this.animations[name] = new AnimationManager(
             name,
             clip,
@@ -84,7 +85,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public $resolveLoaded(loadedObject3d: Group, src: string) {
         if (loadedObject3d.animations.length) {
             const { onFinishState, repeatState, finishEventState } =
-                this.$lazyStates()
+                getAnimationStates(this)
             for (const clip of loadedObject3d.animations) {
                 const animation = (this.animations[clip.name] =
                     new AnimationManager(

@@ -1,7 +1,7 @@
 import { EventFunctions } from "@lincode/events"
 import { Reactive, createEffect } from "@lincode/reactivity"
-import AnimationManager from "./AnimationManager"
-import AnimatedObjectManager from "."
+import type AnimationManager from "./AnimationManager"
+import type AnimatedObjectManager from "."
 
 export default class AnimationStates {
     public managerRecordState = new Reactive<Record<string, AnimationManager>>(

@@ -4,44 +4,39 @@ import IAnimatedObjectManager, {
 } from "../../../interface/IAnimatedObjectManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
-import AnimationStates from "./AnimationStates"
+import AnimationManager from "./AnimationManager"
+import { getAnimationStates } from "../../../utilsCached/getAnimationStates"
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IAnimatedObjectManager
 {
-    private states?: AnimationStates
-    public $lazyStates(): AnimationStates {
-        if (this.states) return this.states
-        return (this.states = new AnimationStates(this))
-    }
-
-    public get animations() {
-        return this.$lazyStates().managerRecordState.get()
+    public get animations(): Record<string, AnimationManager> {
+        return getAnimationStates(this).managerRecordState.get()
     }
     public set animations(val) {
-        this.$lazyStates().managerRecordState.set(val)
+        getAnimationStates(this).managerRecordState.set(val)
     }
 
-    public get animationPaused() {
-        return this.$lazyStates().pausedState.get()
+    public get animationPaused(): boolean {
+        return getAnimationStates(this).pausedState.get()
     }
     public set animationPaused(value) {
-        this.$lazyStates().pausedState.set(value)
+        getAnimationStates(this).pausedState.set(value)
     }
 
-    public get animationRepeat() {
-        return this.$lazyStates().repeatState.get()
+    public get animationRepeat(): number {
+        return getAnimationStates(this).repeatState.get()
     }
     public set animationRepeat(value) {
-        this.$lazyStates().repeatState.set(value)
+        getAnimationStates(this).repeatState.set(value)
     }
 
-    public get onAnimationFinish() {
-        return this.$lazyStates().onFinishState.get()
+    public get onAnimationFinish(): (() => void) | undefined {
+        return getAnimationStates(this).onFinishState.get()
     }
     public set onAnimationFinish(value) {
-        this.$lazyStates().onFinishState.set(value)
+        getAnimationStates(this).onFinishState.set(value)
     }
 
     public get serializeAnimation() {
@@ -57,15 +52,15 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         addConfigAnimationSystem(this)
     }
 
-    public get animationLength() {
-        return this.$lazyStates().managerState.get()?.totalFrames ?? 0
+    public get animationLength(): number {
+        return getAnimationStates(this).managerState.get()?.totalFrames ?? 0
     }
 
-    public get animationFrame() {
-        return this.$lazyStates().managerState.get()?.frame ?? 0
+    public get animationFrame(): number {
+        return getAnimationStates(this).managerState.get()?.frame ?? 0
     }
     public set animationFrame(val) {
-        const manager = this.$lazyStates().managerState.get()
+        const manager = getAnimationStates(this).managerState.get()
         if (manager) manager.frame = val
     }
 }

@@ -1,10 +1,11 @@
 import Model from "../../display/Model"
 import AnimatedObjectManager from "../../display/core/AnimatedObjectManager"
+import { getAnimationStates } from "../../utilsCached/getAnimationStates"
 import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
 
 export const [addConfigAnimationManagerSystem] = configLoadedSystemWithData(
     (self: Model | AnimatedObjectManager, data: { name: string | number }) => {
-        const { managerState } = self.$lazyStates()
+        const { managerState } = getAnimationStates(self)
         managerState.set(
             typeof data.name === "string"
                 ? self.animations[data.name]

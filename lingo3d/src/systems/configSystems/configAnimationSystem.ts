@@ -6,6 +6,7 @@ import { AnimationData } from "../../interface/IAnimationManager"
 import { STANDARD_FRAME } from "../../globals"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import { getAnimationStates } from "../../utilsCached/getAnimationStates"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -32,7 +33,8 @@ const createAnimation = (
     let animation = self.animations[name]
     if (animation && typeof animation !== "string") return animation
 
-    const { onFinishState, repeatState, finishEventState } = self.$lazyStates()
+    const { onFinishState, repeatState, finishEventState } =
+        getAnimationStates(self)
     animation = self.watch(
         new AnimationManager(
             name,
@@ -80,7 +82,7 @@ export const [addConfigAnimationSystem] = configSystemWithCleanUp(
     (self: AnimatedObjectManager) => {
         const val = self.$animation
         if (Array.isArray(val)) {
-            const { finishEventState } = self.$lazyStates()
+            const { finishEventState } = getAnimationStates(self)
             const finishEvent = event()
             finishEventState.set(finishEvent)
 
