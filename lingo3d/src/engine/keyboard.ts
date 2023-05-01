@@ -6,9 +6,9 @@ import { emitKeyUp } from "../events/onKeyUp"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { keyPressSet } from "../collections/keyPressSet"
 import {
-    addKeyPressSystem,
-    deleteKeyPressSystem
-} from "../systems/keyPressSystem"
+    addKeyPressEmitSystem,
+    deleteKeyPressEmitSystem
+} from "../systems/keyPressEmitSystem"
 
 const processKey = (str: string) => {
     str = str.length === 1 ? str.toLocaleLowerCase() : str
@@ -19,7 +19,7 @@ const processKey = (str: string) => {
 createEffect(() => {
     if (!getWorldPlayComputed()) return
 
-    addKeyPressSystem(keyPressSet)
+    addKeyPressEmitSystem(keyPressSet)
     const handle = onKeyClear(() => {
         if (!keyPressSet.size) return
         const pressed = [...keyPressSet]
@@ -42,7 +42,7 @@ createEffect(() => {
     document.addEventListener("keyup", handleKeyUp)
 
     return () => {
-        deleteKeyPressSystem(keyPressSet)
+        deleteKeyPressEmitSystem(keyPressSet)
         handle.cancel()
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)

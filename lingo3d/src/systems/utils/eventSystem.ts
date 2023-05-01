@@ -1,0 +1,32 @@
+import { Cancellable } from "@lincode/promiselikes"
+import Appendable from "../../api/core/Appendable"
+
+export default <T, Payload>(
+    cb: (target: T, payload: Payload) => void,
+    ticker: (cb: (payload: Payload) => void) => Cancellable
+) => {
+    const queued = new Set<T>()
+
+    const execute = (payload: Payload) => {
+        for (const target of queued) cb(target, payload as Payload)
+    }
+
+    let handle: Cancellable | undefined
+    const start = () => (handle = ticker(execute))
+
+    const deleteSystem = (item: T) => {
+        if (!queued.delete(item)) return
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        queued.size === 0 && handle?.cancel()
+    }
+    return <const>[
+        (item: T) => {
+            if (queued.has(item)) return
+            queued.add(item)
+            item instanceof Appendable &&
+                item.$deleteSystemSet.add(deleteSystem)
+            if (queued.size === 1) start()
+        },
+        deleteSystem
+    ]
+}

@@ -4,10 +4,10 @@ import IKeyboard, {
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
 import Appendable from "../api/core/Appendable"
-import { onKeyDown } from "../events/onKeyDown"
 import { onKeyPress } from "../events/onKeyPress"
 import { onKeyUp } from "../events/onKeyUp"
 import { keyPressSet } from "../collections/keyPressSet"
+import { addKeyDownSystem, deleteKeyDownSystem } from "../systems/keyDownSystem"
 
 export default class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
@@ -57,13 +57,6 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyDown(val) {
         this._onKeyDown = val
-        this.cancelHandle(
-            "onKeyDown",
-            val &&
-                (() =>
-                    onKeyDown((key) =>
-                        val(new LingoKeyboardEvent(key, keyPressSet))
-                    ))
-        )
+        val ? addKeyDownSystem(this) : deleteKeyDownSystem(this)
     }
 }
