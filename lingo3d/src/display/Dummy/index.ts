@@ -35,6 +35,7 @@ export default class Dummy extends Model implements IDummy {
         this.width = 20
         this.depth = 20
         this.scale = 1.7
+        this.src = YBOT_URL()
         this.runtimeDefaults = { src: YBOT_URL() }
 
         const [setType, getType] = store<
@@ -44,7 +45,6 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
-            super.src = this.srcState.get()
 
             setSpine(undefined)
             setType(undefined)
@@ -91,7 +91,7 @@ export default class Dummy extends Model implements IDummy {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const src = this.srcState.get()
+            const { src } = this
             let url = dirPath(src) + "/"
 
             if (type === "readyplayerme") url = DUMMY_URL() + "readyplayerme/"
@@ -238,11 +238,12 @@ export default class Dummy extends Model implements IDummy {
     }
     public override set resize(val) {}
 
-    private srcState = new Reactive(YBOT_URL())
+    private srcState = new Reactive<string | undefined>(undefined)
     public override get src() {
-        return this.srcState.get()
+        return super.src!
     }
     public override set src(val) {
+        super.src = val
         this.srcState.set(val)
     }
 
