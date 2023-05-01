@@ -2,49 +2,18 @@ import { Object3D } from "three"
 import IAnimatedObjectManager, {
     Animation
 } from "../../../interface/IAnimatedObjectManager"
-import AnimationManager from "./AnimationManager"
-import { Reactive } from "@lincode/reactivity"
-import { EventFunctions } from "@lincode/events"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import {
-    addConfigAnimationSystem,
-    deleteConfigAnimationSystem
-} from "../../../systems/configSystems/configAnimationSystem"
-type States = {
-    managerRecordState: Reactive<Record<string, AnimationManager>>
-    managerState: Reactive<AnimationManager | undefined>
-    pausedState: Reactive<boolean>
-    repeatState: Reactive<number>
-    onFinishState: Reactive<(() => void) | undefined>
-    finishEventState: Reactive<EventFunctions | undefined>
-}
+import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
+import AnimationStates from "./AnimationStates"
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IAnimatedObjectManager
 {
-    private states?: States
-    public $lazyStates() {
+    private states?: AnimationStates
+    public $lazyStates(): AnimationStates {
         if (this.states) return this.states
-
-        const { managerState, pausedState } = (this.states = {
-            managerRecordState: new Reactive<Record<string, AnimationManager>>(
-                {}
-            ),
-            managerState: new Reactive<AnimationManager | undefined>(undefined),
-            pausedState: new Reactive(false),
-            repeatState: new Reactive(Infinity),
-            onFinishState: new Reactive<(() => void) | undefined>(undefined),
-            finishEventState: new Reactive<EventFunctions | undefined>(
-                undefined
-            )
-        })
-        this.createEffect(() => {
-            const manager = managerState.get()
-            if (manager) manager.paused = pausedState.get()
-        }, [managerState.get, pausedState.get])
-
-        return this.states
+        return (this.states = new AnimationStates(this))
     }
 
     public get animations() {
