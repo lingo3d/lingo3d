@@ -8,6 +8,7 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../globals"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
+import { addConfigAnimationClipSystem } from "./configAnimationClipSystem"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>
@@ -38,10 +39,11 @@ const framesToKeyframeTrack = (
         return new NumberKeyframeTrack(name, frameNums, values)
 }
 
-export const [addConfigTimelineDataSystem] = configSystemWithCleanUp(
+export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
     (self: AnimationManager) => {
         if (!self.data) {
-            self.clipState.set(self.$loadedClip)
+            self.clip = self.$loadedClip
+            addConfigAnimationClipSystem(self)
             self.audioTotalFrames = 0
             return
         }
@@ -70,7 +72,8 @@ export const [addConfigTimelineDataSystem] = configSystemWithCleanUp(
                 })
                 .flat()
         )
-        self.clipState.set(newClip)
+        self.clip = newClip
+        addConfigAnimationClipSystem(self)
         const handle = new Cancellable()
         const computeAudioDuration = throttleTrailing(() => {
             if (handle.done) return

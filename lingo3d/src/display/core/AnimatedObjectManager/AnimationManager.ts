@@ -12,7 +12,8 @@ import FoundManager from "../FoundManager"
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import { dtPtr } from "../../../pointers/dtPtr"
 import AnimationStates from "./AnimationStates"
-import { addConfigTimelineDataSystem } from "../../../systems/configSystems/configTimelineDataSystem"
+import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
+import { addConfigAnimationClipSystem } from "../../../systems/configSystems/configAnimationClipSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -26,8 +27,8 @@ export default class AnimationManager
     public static defaults = animationManagerDefaults
     public static schema = animationManagerSchema
 
-    private actionState = new Reactive<AnimationAction | undefined>(undefined)
-    public clipState = new Reactive<AnimationClip | undefined>(undefined)
+    public actionState = new Reactive<AnimationAction | undefined>(undefined)
+    public clip?: AnimationClip
     private gotoFrameState = new Reactive<number | undefined>(undefined)
 
     private awaitState = new Reactive(0)
@@ -46,7 +47,7 @@ export default class AnimationManager
         this.pausedState.set(val)
     }
 
-    private mixer: AnimationMixer
+    public mixer: AnimationMixer
 
     public clipTotalFrames = 0
     public audioTotalFrames = 0
@@ -63,7 +64,7 @@ export default class AnimationManager
         super()
         this.disableSerialize = true
         this.name = name
-        addConfigTimelineDataSystem(this)
+        addConfigAnimationDataSystem(this)
 
         const mixer = (this.mixer = forceGetInstance(
             targetMixerMap,
@@ -96,30 +97,7 @@ export default class AnimationManager
             animationStates.finishEventState?.get
         ])
 
-        let frame: number | undefined
-        this.createEffect(() => {
-            const clip = this.clipState.get()
-            if (!clip) {
-                this.clipTotalFrames = 0
-                return
-            }
-            this.clipTotalFrames = Math.ceil(clip.duration * STANDARD_FRAME)
-
-            const action = mixer.clipAction(clip)
-            this.actionState.set(action)
-
-            if (frame !== undefined) {
-                this.frame = frame
-                frame = undefined
-            }
-
-            return () => {
-                frame = this.frame
-                action.stop()
-                action.enabled = false
-                mixer.uncacheClip(clip)
-            }
-        }, [this.clipState.get])
+        addConfigAnimationClipSystem(this)
 
         this.createEffect(() => {
             const action = this.actionState.get()
@@ -179,7 +157,7 @@ export default class AnimationManager
     }
 
     public retarget(target: FoundManager, animationStates: AnimationStates) {
-        const newClip = this.clipState.get()!.clone()
+        const newClip = this.clip!.clone()
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
@@ -200,7 +178,7 @@ export default class AnimationManager
     }
     public set data(val: AnimationData | undefined) {
         this._data = val
-        addConfigTimelineDataSystem(this)
+        addConfigAnimationDataSystem(this)
     }
 
     public mergeData(data: AnimationData) {
@@ -212,6 +190,7 @@ export default class AnimationManager
         this.data = this.data
     }
 
+    public $frame?: number
     public get frame() {
         return Math.ceil(this.mixer.time * STANDARD_FRAME)
     }
