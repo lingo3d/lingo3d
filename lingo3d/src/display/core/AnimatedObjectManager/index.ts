@@ -6,7 +6,10 @@ import AnimationManager from "./AnimationManager"
 import { Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
+import {
+    addConfigAnimationSystem,
+    deleteConfigAnimationSystem
+} from "../../../systems/configSystems/configAnimationSystem"
 type States = {
     managerRecordState: Reactive<Record<string, AnimationManager>>
     managerState: Reactive<AnimationManager | undefined>
@@ -82,7 +85,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
     public set animation(val) {
         this.$animation = val
-        addConfigAnimationSystem(this, { val })
+        addConfigAnimationSystem(this)
     }
 
     public get animationLength() {

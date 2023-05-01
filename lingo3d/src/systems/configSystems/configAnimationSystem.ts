@@ -1,14 +1,11 @@
 import { event } from "@lincode/events"
 import AnimatedObjectManager from "../../display/core/AnimatedObjectManager"
-import {
-    Animation,
-    AnimationValue
-} from "../../interface/IAnimatedObjectManager"
-import configSystemWithCleanUpAndData from "../utils/configSystemWithCleanUpAndData"
+import { AnimationValue } from "../../interface/IAnimatedObjectManager"
 import { addConfigAnimationManagerSystem } from "../configLoadedSystems/configAnimationManagerSystem"
 import { AnimationData } from "../../interface/IAnimationManager"
 import { STANDARD_FRAME } from "../../globals"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
+import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -79,8 +76,9 @@ const setAnimation = (
     addConfigAnimationManagerSystem(self, { name })
 }
 
-export const [addConfigAnimationSystem] = configSystemWithCleanUpAndData(
-    (self: AnimatedObjectManager, { val }: { val: Animation | undefined }) => {
+export const [addConfigAnimationSystem] = configSystemWithCleanUp(
+    (self: AnimatedObjectManager) => {
+        const val = self.$animation
         if (Array.isArray(val)) {
             const { finishEventState } = self.$lazyStates()
             const finishEvent = event()
