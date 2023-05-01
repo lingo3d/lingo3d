@@ -34,13 +34,13 @@ export default <T extends object>(
     }
 
     const deleteSystem = (item: T) => {
-        if (!queued.delete(item)) return
         item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         const prevCleanup = cleanupMap.get(item)
         if (prevCleanup) {
             prevCleanup()
             cleanupMap.delete(item)
         }
+        queued.delete(item)
     }
     return <const>[
         (item: T) => {

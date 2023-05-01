@@ -177,7 +177,8 @@ export default (
             "roughnessFactor",
             "opacityFactor",
             "envFactor",
-            "reflection"
+            "reflection",
+            "reflectionVisible"
         ]
     )
     adjustMaterialParams &&
