@@ -38,6 +38,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public runtimeData: Nullable<Record<string, any>>
+    public runtimeDefaults: Nullable<Record<string, any>>
     public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>
 

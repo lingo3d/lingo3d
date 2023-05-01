@@ -8,7 +8,6 @@ import { extractParenthesisTree, compile } from "./compile"
 import mathFn from "../../math/mathFn"
 import { Token, TokenList, tokenize } from "./tokenize"
 import {
-    runtimeDefaultsMap,
     runtimeIncludeKeysMap,
     runtimeSchemaMap
 } from "../../collections/runtimeCollections"
@@ -26,16 +25,14 @@ export default class MathNode extends GameGraphChild implements IMathNode {
         runtimeSchema?: Record<string, any>,
         runtimeIncludeKeys?: Set<string>
     ) {
-        runtimeDefaults
-            ? runtimeDefaultsMap.set(this, runtimeDefaults)
-            : runtimeDefaultsMap.delete(this)
+        this.runtimeDefaults = runtimeDefaults
         runtimeSchema
             ? runtimeSchemaMap.set(this, runtimeSchema)
             : runtimeSchemaMap.delete(this)
         runtimeIncludeKeys
             ? runtimeIncludeKeysMap.set(this, runtimeIncludeKeys)
             : runtimeIncludeKeysMap.delete(this)
-            
+
         if (!runtimeSchema) {
             this.runtimeData = undefined
             this.emitEvent("runtimeSchema")

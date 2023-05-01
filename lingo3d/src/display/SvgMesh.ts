@@ -16,7 +16,6 @@ import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
 import { measure } from "../utilsCached/measure"
 import { shadowModePtr } from "../pointers/shadowModePtr"
-import { runtimeDefaultsMap } from "../collections/runtimeCollections"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -25,7 +24,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static defaults = svgMeshDefaults
     public static schema = svgMeshSchema
 
-    protected async load(url: string) {
+    public async $load(url: string) {
         increaseLoadingCount()
         const module = await import("./utils/loaders/loadSVG")
         let result: SVGResult
@@ -39,7 +38,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         return result
     }
 
-    protected resolveLoaded(svgData: SVGResult, src: string) {
+    public $resolveLoaded(svgData: SVGResult, src: string) {
         const loadedObject3d = new Group()
         loadedObject3d.scale.y *= -1
 
@@ -80,11 +79,11 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         }
 
         const [{ x, y, z }] = fit(loadedObject3d, src)
-        runtimeDefaultsMap.set(this, {
+        this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,
             depth: z * M2CM
-        })
+        }
         !this.widthSet && (this.object3d.scale.x = x)
         !this.heightSet && (this.object3d.scale.y = y)
         !this.depthSet && (this.object3d.scale.z = z)

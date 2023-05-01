@@ -21,7 +21,6 @@ import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
-import { runtimeDefaultsMap } from "../collections/runtimeCollections"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -44,7 +43,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public async loadAnimation(url: string, name = url) {
         ;(this.serializeAnimations ??= {})[name] = url
 
-        const clip = (await this.load(url)).animations[0]
+        const clip = (await this.$load(url)).animations[0]
         if (!clip) return
 
         const { onFinishState, repeatState, finishEventState } =
@@ -73,7 +72,7 @@ export default class Model extends Loaded<Group> implements IModel {
             else this.animations[key] = value
     }
 
-    protected async load(url: string) {
+    public async $load(url: string) {
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
@@ -98,7 +97,7 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject3d && (this.src = this._src)
     }
 
-    protected resolveLoaded(loadedObject3d: Group, src: string) {
+    public $resolveLoaded(loadedObject3d: Group, src: string) {
         if (loadedObject3d.animations.length) {
             const { onFinishState, repeatState, finishEventState } =
                 this.lazyStates()
@@ -120,11 +119,11 @@ export default class Model extends Loaded<Group> implements IModel {
                 ? measure(src, { target: loadedObject3d })
                 : fit(loadedObject3d, src)
 
-        runtimeDefaultsMap.set(this, {
+        this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,
             depth: z * M2CM
-        })
+        }
         !this.widthSet && (this.object3d.scale.x = x)
         !this.heightSet && (this.object3d.scale.y = y)
         !this.depthSet && (this.object3d.scale.z = z)
