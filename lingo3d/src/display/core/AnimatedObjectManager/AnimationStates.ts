@@ -3,8 +3,6 @@ import type AnimationManager from "./AnimationManager"
 import { addConfigAnimationStatesSystem } from "../../../systems/configSystems/configAnimationStatesSystem"
 import AnimatedObjectManager from "."
 import { forceGetInstance } from "@lincode/utils"
-import { addConfigAnimationFinishSystem } from "../../../systems/configSystems/configAnimationFinishSystem"
-import { addConfigAnimationRepeatSystem } from "../../../systems/configSystems/configAnimationRepeatSystem"
 
 export default class AnimationStates {
     public managerRecord: Record<string, AnimationManager> = {}
@@ -33,8 +31,7 @@ export default class AnimationStates {
     }
     public set repeat(val) {
         this._repeat = val
-        for (const manager of Object.values(this.managerRecord))
-            addConfigAnimationRepeatSystem(manager)
+        addConfigAnimationStatesSystem(this)
     }
 
     private _onFinish?: () => void
@@ -43,8 +40,7 @@ export default class AnimationStates {
     }
     public set onFinish(val) {
         this._onFinish = val
-        for (const manager of Object.values(this.managerRecord))
-            addConfigAnimationFinishSystem(manager)
+        addConfigAnimationStatesSystem(this)
     }
 
     private _finishEvent?: EventFunctions
@@ -53,10 +49,7 @@ export default class AnimationStates {
     }
     public set finishEvent(val) {
         this._finishEvent = val
-        for (const manager of Object.values(this.managerRecord)) {
-            addConfigAnimationFinishSystem(manager)
-            addConfigAnimationRepeatSystem(manager)
-        }
+        addConfigAnimationStatesSystem(this)
     }
 }
 
