@@ -45,8 +45,6 @@ const setAnimation = (
     self: AnimatedObjectManager,
     val?: string | number | boolean | AnimationValue
 ) => {
-    self.$animation = val
-
     if (typeof val === "string" || typeof val === "number") {
         addConfigAnimationManagerSystem(self, { name: val })
         return
@@ -71,7 +69,7 @@ const setAnimation = (
 
 export const [addConfigAnimationSystem] = configSystemWithCleanUp(
     (self: AnimatedObjectManager) => {
-        const val = self.$animation
+        const val = self.animation
         if (Array.isArray(val)) {
             const animationStates = getAnimationStates(self)
             const finishEvent = (animationStates.finishEvent = event())

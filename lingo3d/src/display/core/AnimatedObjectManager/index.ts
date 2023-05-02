@@ -40,15 +40,15 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get serializeAnimation() {
-        return typeof this.$animation !== "object" ? this.$animation : undefined
+        return typeof this.animation !== "object" ? this.animation : undefined
     }
 
-    public $animation?: Animation
+    private _animation?: Animation
     public get animation() {
-        return this.$animation
+        return this._animation
     }
     public set animation(val) {
-        this.$animation = val
+        this._animation = val
         addConfigAnimationSystem(this)
     }
 
