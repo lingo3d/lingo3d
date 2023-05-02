@@ -5,12 +5,11 @@ import configSystem from "../utils/configSystem"
 
 export const [addConfigAnimationClipSystem] = configSystem(
     (self: AnimationManager) => {
-        const { clip } = self
-        if (!clip) {
+        if (!self.$clip) {
             self.clipTotalFrames = 0
             return
         }
-        self.clipTotalFrames = Math.ceil(clip.duration * STANDARD_FRAME)
-        self.actionState.set(getClipAction(self.mixer, clip))
+        self.clipTotalFrames = Math.ceil(self.$clip.duration * STANDARD_FRAME)
+        self.actionState.set(getClipAction(self.$mixer, self.$clip))
     }
 )

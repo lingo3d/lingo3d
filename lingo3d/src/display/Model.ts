@@ -54,7 +54,7 @@ export default class Model extends Loaded<Group> implements IModel {
     ) {
         for (const [key, value] of Object.entries(val))
             if (typeof value === "string") this.loadAnimation(value, key)
-            else this.animations[key] = value
+            else super.animations[key] = value
     }
 
     public async $load(url: string) {

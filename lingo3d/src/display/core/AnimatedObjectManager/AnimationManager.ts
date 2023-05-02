@@ -28,8 +28,16 @@ export default class AnimationManager
     public static schema = animationManagerSchema
 
     public actionState = new Reactive<AnimationAction | undefined>(undefined)
-    public clip?: AnimationClip
     private gotoFrameState = new Reactive<number | undefined>(undefined)
+
+    private _clip?: AnimationClip
+    public get $clip() {
+        return this._clip
+    }
+    public set $clip(val) {
+        this._clip = val
+        addConfigAnimationClipSystem(this)
+    }
 
     private awaitState = new Reactive(0)
     public get await() {
@@ -47,7 +55,7 @@ export default class AnimationManager
         this.pausedState.set(val)
     }
 
-    public mixer: AnimationMixer
+    public $mixer: AnimationMixer
 
     public clipTotalFrames = 0
     public audioTotalFrames = 0
@@ -67,7 +75,7 @@ export default class AnimationManager
         addConfigAnimationDataSystem(this)
         addConfigAnimationClipSystem(this)
 
-        const mixer = (this.mixer = forceGetInstance(
+        const mixer = (this.$mixer = forceGetInstance(
             targetMixerMap,
             target ?? this,
             AnimationMixer,
@@ -156,7 +164,9 @@ export default class AnimationManager
     }
 
     public retarget(target: FoundManager, animationStates: AnimationStates) {
-        const newClip = this.clip!.clone()
+        const newClip = this.$clip?.clone()
+        if (!newClip) return this
+
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
@@ -191,7 +201,7 @@ export default class AnimationManager
 
     public $frame?: number
     public get frame() {
-        return Math.ceil(this.mixer.time * STANDARD_FRAME)
+        return Math.ceil(this.$mixer.time * STANDARD_FRAME)
     }
     public set frame(val) {
         this.gotoFrameState.set(val)

@@ -42,13 +42,12 @@ const framesToKeyframeTrack = (
 export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
     (self: AnimationManager) => {
         if (!self.data) {
-            self.clip = self.$loadedClip
-            addConfigAnimationClipSystem(self)
+            self.$clip = self.$loadedClip
             self.audioTotalFrames = 0
             return
         }
         const audioDurationGetters: Array<GetGlobalState<number>> = []
-        const newClip = new AnimationClip(
+        self.$clip = new AnimationClip(
             undefined,
             undefined,
             Object.entries(self.data)
@@ -72,8 +71,6 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
                 })
                 .flat()
         )
-        self.clip = newClip
-        addConfigAnimationClipSystem(self)
         const handle = new Cancellable()
         const computeAudioDuration = throttleTrailing(() => {
             if (handle.done) return
