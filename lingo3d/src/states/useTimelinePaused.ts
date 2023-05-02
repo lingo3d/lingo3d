@@ -5,6 +5,7 @@ import {
     deleteSyncFrameSystem
 } from "../systems/syncFrameSystem"
 import { getTimeline } from "./useTimeline"
+import getReactive from "../utils/getReactive"
 
 const [setTimelinePaused, getTimelinePaused] = store(true)
 export { getTimelinePaused }
@@ -13,7 +14,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = timeline.pausedState.get(setTimelinePaused)
+    const handle = getReactive(timeline, "paused").get(setTimelinePaused)
     return () => {
         handle.cancel()
         setTimelinePaused(true)

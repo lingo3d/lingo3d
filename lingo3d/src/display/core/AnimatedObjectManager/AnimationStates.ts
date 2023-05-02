@@ -1,9 +1,10 @@
 import { EventFunctions } from "@lincode/events"
-import { Reactive } from "@lincode/reactivity"
 import type AnimationManager from "./AnimationManager"
 import { addConfigAnimationStatesSystem } from "../../../systems/configSystems/configAnimationStatesSystem"
 import AnimatedObjectManager from "."
 import { forceGetInstance } from "@lincode/utils"
+import { addConfigAnimationFinishSystem } from "../../../systems/configSystems/configAnimationFinishSystem"
+import { addConfigAnimationRepeatSystem } from "../../../systems/configSystems/configAnimationRepeatSystem"
 
 export default class AnimationStates {
     public managerRecord: Record<string, AnimationManager> = {}
@@ -26,11 +27,37 @@ export default class AnimationStates {
         addConfigAnimationStatesSystem(this)
     }
 
-    public repeatState = new Reactive(Infinity)
-    public onFinishState = new Reactive<(() => void) | undefined>(undefined)
-    public finishEventState = new Reactive<EventFunctions | undefined>(
-        undefined
-    )
+    private _repeat = Infinity
+    public get repeat() {
+        return this._repeat
+    }
+    public set repeat(val) {
+        this._repeat = val
+        for (const manager of Object.values(this.managerRecord))
+            addConfigAnimationRepeatSystem(manager)
+    }
+
+    private _onFinish?: () => void
+    public get onFinish() {
+        return this._onFinish
+    }
+    public set onFinish(val) {
+        this._onFinish = val
+        for (const manager of Object.values(this.managerRecord))
+            addConfigAnimationFinishSystem(manager)
+    }
+
+    private _finishEvent?: EventFunctions
+    public get finishEvent() {
+        return this._finishEvent
+    }
+    public set finishEvent(val) {
+        this._finishEvent = val
+        for (const manager of Object.values(this.managerRecord)) {
+            addConfigAnimationFinishSystem(manager)
+            addConfigAnimationRepeatSystem(manager)
+        }
+    }
 }
 
 const animationStatesMap = new WeakMap<AnimatedObjectManager, AnimationStates>()

@@ -26,17 +26,17 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animationRepeat(): number {
-        return getAnimationStates(this).repeatState.get()
+        return getAnimationStates(this).repeat
     }
     public set animationRepeat(value) {
-        getAnimationStates(this).repeatState.set(value)
+        getAnimationStates(this).repeat = value
     }
 
     public get onAnimationFinish(): (() => void) | undefined {
-        return getAnimationStates(this).onFinishState.get()
+        return getAnimationStates(this).onFinish
     }
     public set onAnimationFinish(value) {
-        getAnimationStates(this).onFinishState.set(value)
+        getAnimationStates(this).onFinish = value
     }
 
     public get serializeAnimation() {

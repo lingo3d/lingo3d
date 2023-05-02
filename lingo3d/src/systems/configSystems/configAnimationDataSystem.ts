@@ -8,7 +8,6 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../globals"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
-import { addConfigAnimationClipSystem } from "./configAnimationClipSystem"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>

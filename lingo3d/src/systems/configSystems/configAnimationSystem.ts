@@ -73,9 +73,8 @@ export const [addConfigAnimationSystem] = configSystemWithCleanUp(
     (self: AnimatedObjectManager) => {
         const val = self.$animation
         if (Array.isArray(val)) {
-            const { finishEventState } = getAnimationStates(self)
-            const finishEvent = event()
-            finishEventState.set(finishEvent)
+            const animationStates = getAnimationStates(self)
+            const finishEvent = (animationStates.finishEvent = event())
 
             let currentIndex = 0
             const next = () => {
@@ -93,7 +92,7 @@ export const [addConfigAnimationSystem] = configSystemWithCleanUp(
             const handle = onFinish(next)
 
             return () => {
-                finishEventState.set(undefined)
+                animationStates.finishEvent = undefined
                 handle.cancel()
             }
         }

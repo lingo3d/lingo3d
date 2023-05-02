@@ -10,6 +10,6 @@ export const [addConfigAnimationClipSystem] = configSystem(
             return
         }
         self.clipTotalFrames = Math.ceil(self.$clip.duration * STANDARD_FRAME)
-        self.actionState.set(getClipAction(self.$mixer, self.$clip))
+        self.$action = getClipAction(self.$mixer, self.$clip)
     }
 )
