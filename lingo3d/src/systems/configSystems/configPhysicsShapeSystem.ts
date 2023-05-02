@@ -32,7 +32,7 @@ export const importPhysX = lazy(async () => {
     decreaseLoadingUnpkgCount()
 })
 
-export const [addRefreshPhysicsSystem] = configSystemWithCleanUp(
+export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.$jointCount
         if (!mode) return
