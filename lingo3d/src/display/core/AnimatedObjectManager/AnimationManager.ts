@@ -65,6 +65,7 @@ export default class AnimationManager
         this.disableSerialize = true
         this.name = name
         addConfigAnimationDataSystem(this)
+        addConfigAnimationClipSystem(this)
 
         const mixer = (this.mixer = forceGetInstance(
             targetMixerMap,
@@ -96,8 +97,6 @@ export default class AnimationManager
             this.pausedState.get,
             animationStates.finishEventState?.get
         ])
-
-        addConfigAnimationClipSystem(this)
 
         this.createEffect(() => {
             const action = this.actionState.get()
