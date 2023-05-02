@@ -32,6 +32,10 @@ player2.z = -200
 player2.y = 2000
 player2.physics = "character"
 
+// setTimeout(() => {
+//     player2.animation = ["running", "jumping", "death"]
+// }, 5000)
+
 //set player and map hit detection
 //useful for detecting when player has landed
 player.hitTarget = map.uuid

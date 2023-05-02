@@ -1,12 +1,12 @@
 import { AnimationMixer, AnimationAction } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
-import { dtPtr } from "../../pointers/dtPtr"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
 
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
+const mixerPlayCountMap = new WeakMap<AnimationMixer, number>()
 
 export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
     (self: AnimationManager) => {
@@ -20,12 +20,13 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         )
             return
 
-        const prevManager = mixerManagerMap.get(self.$mixer)
-        mixerManagerMap.set(self.$mixer, self)
+        const mixer = self.$mixer
+        const prevManager = mixerManagerMap.get(mixer)
+        mixerManagerMap.set(mixer, self)
         if (prevManager && prevManager !== self) prevManager.paused = true
 
-        const prevAction = mixerActionMap.get(self.$mixer)
-        mixerActionMap.set(self.$mixer, action)
+        const prevAction = mixerActionMap.get(mixer)
+        mixerActionMap.set(mixer, action)
         if (prevAction && action !== prevAction)
             action.crossFadeFrom(prevAction, 0.25, true)
 
@@ -36,13 +37,17 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         if (gotoFrame !== undefined) {
             if (prevManager && prevManager !== self)
                 action.time = gotoFrame * INVERSE_STANDARD_FRAME
-            else self.$mixer.setTime(gotoFrame * INVERSE_STANDARD_FRAME)
+            else mixer.setTime(gotoFrame * INVERSE_STANDARD_FRAME)
             self.$frame = undefined
             return
         }
-        const handle = onBeforeRender(() => self.$mixer.update(dtPtr[0]))
+        const playCount = (mixerPlayCountMap.get(mixer) ?? 0) + 1
+        mixerPlayCountMap.set(mixer, playCount)
+        playCount === 1 && addUpdateDTSystem(mixer)
         return () => {
-            handle.cancel()
+            const playCount = mixerPlayCountMap.get(mixer)! - 1
+            mixerPlayCountMap.set(mixer, playCount)
+            playCount === 0 && deleteUpdateDTSystem(mixer)
         }
     }
 )
