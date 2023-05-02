@@ -14,13 +14,16 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         if (!action) return
 
         const gotoFrame = self.$frame
-        if (
-            (action.paused =
-                (self.paused || !!self.delay) && gotoFrame === undefined)
-        )
-            return
+        action.paused = (self.paused || !!self.delay) && gotoFrame === undefined
+        if (action.paused) return
 
         const mixer = self.$mixer
+        if (gotoFrame !== undefined) {
+            mixer.setTime(gotoFrame * INVERSE_STANDARD_FRAME)
+            self.$frame = undefined
+            return
+        }
+
         const prevManager = mixerManagerMap.get(mixer)
         mixerManagerMap.set(mixer, self)
         if (prevManager && prevManager !== self) prevManager.paused = true
@@ -34,13 +37,6 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         action.enabled = true
         action.play()
 
-        if (gotoFrame !== undefined) {
-            if (prevManager && prevManager !== self)
-                action.time = gotoFrame * INVERSE_STANDARD_FRAME
-            else mixer.setTime(gotoFrame * INVERSE_STANDARD_FRAME)
-            self.$frame = undefined
-            return
-        }
         const playCount = (mixerPlayCountMap.get(mixer) ?? 0) + 1
         mixerPlayCountMap.set(mixer, playCount)
         playCount === 1 && addUpdateDTSystem(mixer)
