@@ -9,13 +9,11 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         const action = self.$action
         if (!action) return
 
-        const gotoFrame = self.$frame
         const mixer = self.$mixer
-        if (gotoFrame !== undefined) {
+        if (self.$frame !== undefined) {
             action.paused = false
-            action.time = gotoFrame * INVERSE_STANDARD_FRAME
             action.play()
-            mixer.setTime(action.time)
+            mixer.setTime((action.time = self.$frame * INVERSE_STANDARD_FRAME))
             self.$frame = undefined
             return
         }

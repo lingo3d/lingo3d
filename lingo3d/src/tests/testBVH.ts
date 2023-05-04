@@ -76,6 +76,8 @@ createEffect(() => {
         player.animationFrame = 10
         player.velocityY = 10
 
+        console.log(player.animation)
+
         //wait for 500ms to end double jumping animation
         const timeout = setTimeout(() => {
             player.animation = "jumping"
