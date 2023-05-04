@@ -14,6 +14,10 @@ import { addConfigAnimationFinishSystem } from "../../../systems/configSystems/c
 import { addConfigAnimationRepeatSystem } from "../../../systems/configSystems/configAnimationRepeatSystem"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 import getClipAction from "../../../utilsCached/getClipAction"
+import {
+    addUpdateDTSystem,
+    deleteUpdateDTSystem
+} from "../../../systems/updateDTSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -86,13 +90,19 @@ export default class AnimationManager
         addConfigAnimationFinishSystem(this)
         addConfigAnimationRepeatSystem(this)
         addConfigAnimationPlaybackSystem(this)
-
-        this.$mixer = forceGetInstance(
-            targetMixerMap,
-            target ?? this,
-            AnimationMixer,
-            [target]
+        addUpdateDTSystem(
+            (this.$mixer = forceGetInstance(
+                targetMixerMap,
+                target ?? this,
+                AnimationMixer,
+                [target]
+            ))
         )
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteUpdateDTSystem(this.$mixer)
     }
 
     public retarget(target: FoundManager, animationStates: AnimationStates) {

@@ -1,7 +1,6 @@
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
-import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
 import getContext from "../../utilsCached/getContext"
 
 export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
@@ -15,7 +14,6 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         const mixer = self.$mixer
         const context = getContext(mixer) as {
             manager?: AnimationManager
-            playCount?: number
         }
         const prevManager = context.manager
         context.manager = self
@@ -31,12 +29,5 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         action.clampWhenFinished = true
         action.enabled = true
         action.play()
-
-        context.playCount = (context.playCount ?? 0) + 1
-        context.playCount === 1 && addUpdateDTSystem(mixer)
-        return () => {
-            context.playCount = context.playCount! - 1
-            context.playCount === 0 && deleteUpdateDTSystem(mixer)
-        }
     }
 )
