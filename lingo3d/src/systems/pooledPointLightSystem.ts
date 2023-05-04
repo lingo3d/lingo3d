@@ -19,8 +19,10 @@ export const [addPooledPointLightSystem] = renderSystemWithData(
             light.color = self.color
             light.shadows = self.shadows
         } else if (!visible && data.visible) {
-            releasePointLight(self.$light)
-            scene.add(self.$light!.outerObject3d)
+            const light = self.$light!
+            releasePointLight(light)
+            scene.add(light.outerObject3d)
+            light.intensity = 0
             self.$light = undefined
         }
         data.visible = visible
