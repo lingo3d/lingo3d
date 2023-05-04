@@ -41,18 +41,19 @@ export default class AnimationManager
         this._action = val
     }
 
-    public get $pausedCount() {
-        return this.animationStates.pausedCount
-    }
-    public set $pausedCount(val) {
-        this.animationStates.pausedCount = val
-    }
-
     public get paused() {
         return this.animationStates.paused
     }
     public set paused(val) {
         this.animationStates.paused = val
+    }
+
+    private _repeat = Infinity
+    public get repeat() {
+        return this._repeat
+    }
+    public set repeat(val) {
+        this._repeat = val
     }
 
     public $mixer: AnimationMixer

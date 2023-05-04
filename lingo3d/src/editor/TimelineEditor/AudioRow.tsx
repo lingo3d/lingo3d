@@ -60,18 +60,18 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
                 handle.cancel()
             })
             let pausedCount = 1
-            timeline.$pausedCount += pausedCount
+            timeline.animationStates.pausedCount += pausedCount
 
             const audioContext = waveSurfer.backend.getAudioContext()
             const timeout = setTimeout(() => {
-                timeline.$pausedCount -= pausedCount
+                timeline.animationStates.pausedCount -= pausedCount
                 pausedCount = 0
             }, (audioContext.baseLatency + audioContext.outputLatency) * 1000)
 
             return () => {
                 clearTimeout(timeout)
                 waveSurfer.pause()
-                timeline.$pausedCount -= pausedCount
+                timeline.animationStates.pausedCount -= pausedCount
                 handle.cancel()
             }
         }
