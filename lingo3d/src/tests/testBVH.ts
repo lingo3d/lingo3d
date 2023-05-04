@@ -74,7 +74,7 @@ createEffect(() => {
     } else if (pose === "double_jumping") {
         player.animation = "flip"
         player.velocityY = 10
-        player.animationFrame = 30
+        player.animationFrame = 20
 
         //wait for 500ms to end double jumping animation
         const timeout = setTimeout(() => {

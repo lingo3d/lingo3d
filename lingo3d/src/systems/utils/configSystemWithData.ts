@@ -5,8 +5,7 @@ export default <T extends object, Data extends Record<string, any>>(
 
     const execute = () => {
         for (const [target, data] of queued) {
-            //@ts-ignore
-            if (target.done) continue
+            if ("done" in target && target.done) continue
             cb(target, data)
         }
         queued.clear()

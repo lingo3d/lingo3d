@@ -8,8 +8,7 @@ export default <T extends object>(
 
     const execute = () => {
         for (const target of queued) {
-            //@ts-ignore
-            if (target.done) continue
+            if ("done" in target && target.done) continue
             cb(target)
         }
         queued.clear()

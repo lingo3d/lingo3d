@@ -1,23 +1,29 @@
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
+import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationStates"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import getContext from "../../utilsCached/getContext"
+import configSystem from "../utils/configSystem"
 
-export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
-    (self: AnimationManager) => {
-        const action = self.$action
+export const [addConfigAnimationPlaybackSystem] = configSystem(
+    (animationStates: AnimationStates) => {
+        const manager = animationStates.manager
+        if (!manager) return
+
+        const action = manager.$action
         if (!action) return
 
-        const mixer = self.$mixer
-        action.paused = self.paused || self.$pausedCount > 0
+        const mixer = manager.$mixer
+        action.paused =
+            animationStates.paused || animationStates.pausedCount > 0
         if (action.paused) {
-            if (self.$frame !== undefined) {
+            if (animationStates.gotoFrame !== undefined) {
                 action.paused = false
                 action.play()
                 mixer.setTime(
-                    (action.time = self.$frame * INVERSE_STANDARD_FRAME)
+                    (action.time =
+                        animationStates.gotoFrame * INVERSE_STANDARD_FRAME)
                 )
-                self.$frame = undefined
+                animationStates.gotoFrame = undefined
                 action.paused = true
             }
             return
@@ -27,15 +33,16 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
             manager?: AnimationManager
         }
         const prevManager = context.manager
-        context.manager = self
-        if (prevManager && prevManager !== self) {
-            prevManager.paused = true
+        context.manager = manager
+        if (prevManager && prevManager !== manager) {
             action.crossFadeFrom(prevManager.$action!, 0.25, true)
-            if (self.$frame === undefined) action.time = 0
+            if (animationStates.gotoFrame === undefined) {
+                action.time = 0
+            }
         }
-        if (self.$frame !== undefined) {
-            action.time = self.$frame * INVERSE_STANDARD_FRAME
-            self.$frame = undefined
+        if (animationStates.gotoFrame !== undefined) {
+            action.time = animationStates.gotoFrame * INVERSE_STANDARD_FRAME
+            animationStates.gotoFrame = undefined
         }
         action.clampWhenFinished = true
         action.enabled = true

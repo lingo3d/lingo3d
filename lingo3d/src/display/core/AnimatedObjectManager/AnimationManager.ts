@@ -10,9 +10,6 @@ import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
-import { addConfigAnimationFinishSystem } from "../../../systems/configSystems/configAnimationFinishSystem"
-import { addConfigAnimationRepeatSystem } from "../../../systems/configSystems/configAnimationRepeatSystem"
-import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 import getClipAction from "../../../utilsCached/getClipAction"
 import {
     addUpdateDTSystem,
@@ -46,27 +43,20 @@ export default class AnimationManager
     public set $action(val) {
         assert(val && !this._action)
         this._action = val
-        addConfigAnimationRepeatSystem(this)
-        addConfigAnimationPlaybackSystem(this)
     }
 
-    private _pausedCount = 0
     public get $pausedCount() {
-        return this._pausedCount
+        return this.animationStates.pausedCount
     }
     public set $pausedCount(val) {
-        this._pausedCount = val
-        addConfigAnimationPlaybackSystem(this)
+        this.animationStates.pausedCount = val
     }
 
-    private _paused = true
     public get paused() {
-        return this._paused
+        return this.animationStates.paused
     }
     public set paused(val) {
-        this._paused = val
-        addConfigAnimationFinishSystem(this)
-        addConfigAnimationPlaybackSystem(this)
+        this.animationStates.paused = val
     }
 
     public $mixer: AnimationMixer
@@ -87,9 +77,6 @@ export default class AnimationManager
         this.disableSerialize = true
         this.name = name
         addConfigAnimationDataSystem(this)
-        addConfigAnimationFinishSystem(this)
-        addConfigAnimationRepeatSystem(this)
-        addConfigAnimationPlaybackSystem(this)
         addUpdateDTSystem(
             (this.$mixer = forceGetInstance(
                 targetMixerMap,
@@ -141,12 +128,10 @@ export default class AnimationManager
         this.data = this.data
     }
 
-    public $frame?: number
     public get frame() {
         return Math.ceil(this.$mixer.time * STANDARD_FRAME)
     }
     public set frame(val) {
-        this.$frame = val
-        addConfigAnimationPlaybackSystem(this)
+        this.animationStates.gotoFrame = val
     }
 }

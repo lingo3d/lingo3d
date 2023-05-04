@@ -26,8 +26,6 @@ export default class Model extends Loaded<Group> implements IModel {
     public static defaults = modelDefaults
     public static schema = modelSchema
 
-    public $loadingCount = 0
-
     public serializeAnimations?: Record<string, string>
     public async loadAnimation(url: string, name = url) {
         ;(this.serializeAnimations ??= {})[name] = url
@@ -57,14 +55,21 @@ export default class Model extends Loaded<Group> implements IModel {
             else super.animations[key] = value
     }
 
+    private loadingCount = 0
     public async $load(url: string) {
-        this.$loadingCount += 1
+        this.loadingCount++
         try {
             const result = await loadModel(url, true)
-            this.$loadingCount -= 1
+            this.loadingCount--
+            if (
+                this.loadingCount === 0 &&
+                this.animation &&
+                !this.$animationManager
+            )
+                this.animation = this.animation
             return result
         } catch (err) {
-            this.$loadingCount -= 1
+            this.loadingCount--
             throw err
         }
     }

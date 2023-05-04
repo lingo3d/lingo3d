@@ -1,6 +1,5 @@
-import { EventFunctions } from "@lincode/events"
 import type AnimationManager from "./AnimationManager"
-import { addConfigAnimationStatesSystem } from "../../../systems/configSystems/configAnimationStatesSystem"
+import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 
 export default class AnimationStates {
     public managerRecord: Record<string, AnimationManager> = {}
@@ -11,7 +10,7 @@ export default class AnimationStates {
     }
     public set manager(val) {
         this._manager = val
-        addConfigAnimationStatesSystem(this)
+        addConfigAnimationPlaybackSystem(this)
     }
 
     private _paused = false
@@ -20,33 +19,24 @@ export default class AnimationStates {
     }
     public set paused(val) {
         this._paused = val
-        addConfigAnimationStatesSystem(this)
+        addConfigAnimationPlaybackSystem(this)
     }
 
-    private _repeat = Infinity
-    public get repeat() {
-        return this._repeat
+    private _pausedCount = 0
+    public get pausedCount() {
+        return this._pausedCount
     }
-    public set repeat(val) {
-        this._repeat = val
-        addConfigAnimationStatesSystem(this)
-    }
-
-    private _onFinish?: () => void
-    public get onFinish() {
-        return this._onFinish
-    }
-    public set onFinish(val) {
-        this._onFinish = val
-        addConfigAnimationStatesSystem(this)
+    public set pausedCount(val) {
+        this._pausedCount = val
+        addConfigAnimationPlaybackSystem(this)
     }
 
-    private _finishEvent?: EventFunctions
-    public get finishEvent() {
-        return this._finishEvent
+    private _gotoFrame?: number
+    public get gotoFrame() {
+        return this._gotoFrame
     }
-    public set finishEvent(val) {
-        this._finishEvent = val
-        addConfigAnimationStatesSystem(this)
+    public set gotoFrame(val) {
+        this._gotoFrame = val
+        addConfigAnimationPlaybackSystem(this)
     }
 }

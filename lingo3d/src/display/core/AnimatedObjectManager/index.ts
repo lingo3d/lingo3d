@@ -1,11 +1,76 @@
 import { Object3D } from "three"
 import IAnimatedObjectManager, {
-    Animation
+    Animation,
+    AnimationValue
 } from "../../../interface/IAnimatedObjectManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
 import AnimationManager from "./AnimationManager"
 import getAnimationStates from "../../../utilsCached/getAnimationStates"
+import { STANDARD_FRAME } from "../../../globals"
+import { AnimationData } from "../../../interface/IAnimationManager"
+
+const animationValueToData = (val: AnimationValue) => {
+    const entries = Object.entries(val)
+    let maxLength = 0
+    for (const [, { length }] of entries)
+        length > maxLength && (maxLength = length)
+
+    const duration = 1000
+    const timeStep = (duration * 0.001) / maxLength
+
+    const data: AnimationData = {}
+    const result = (data[""] ??= {})
+    for (const [name, values] of entries)
+        result[name] = Object.fromEntries(
+            values.map((v, i) => [Math.ceil(i * timeStep * STANDARD_FRAME), v])
+        )
+    return data
+}
+
+const createAnimation = (
+    self: AnimatedObjectManager,
+    name: string
+): AnimationManager => {
+    let animation = self.animations[name]
+    if (animation && typeof animation !== "string") return animation
+
+    animation = self.watch(
+        new AnimationManager(name, undefined, self, getAnimationStates(self))
+    )
+    self.append(animation)
+    self.animations[name] = animation
+    return animation
+}
+
+const setManager = (self: AnimatedObjectManager, val: string | number) => {
+    self.$animationManager = getAnimationStates(self).manager =
+        typeof val === "string"
+            ? self.animations[val]
+            : Object.values(self.animations)[val]
+}
+
+const setAnimation = (
+    self: AnimatedObjectManager,
+    val?: string | number | boolean | AnimationValue
+) => {
+    if (typeof val === "string" || typeof val === "number") {
+        setManager(self, val)
+        return
+    }
+    if (typeof val === "boolean") {
+        if (val) setManager(self, 0)
+        else self.animationPaused = true
+        return
+    }
+    if (!val) {
+        self.animationPaused = true
+        return
+    }
+    const name = "animation"
+    const anim = createAnimation(self, name)
+    anim.data = animationValueToData(val)
+    setManager(self, name)
+}
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -25,42 +90,26 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         getAnimationStates(this).paused = value
     }
 
-    public get animationRepeat(): number {
-        return getAnimationStates(this).repeat
-    }
-    public set animationRepeat(value) {
-        getAnimationStates(this).repeat = value
-    }
-
-    public get onAnimationFinish(): (() => void) | undefined {
-        return getAnimationStates(this).onFinish
-    }
-    public set onAnimationFinish(value) {
-        getAnimationStates(this).onFinish = value
-    }
-
     public get serializeAnimation() {
         return typeof this.animation !== "object" ? this.animation : undefined
     }
 
+    public $animationManager?: AnimationManager
+    
     private _animation?: Animation
     public get animation() {
         return this._animation
     }
     public set animation(val) {
         this._animation = val
-        addConfigAnimationSystem(this)
-    }
-
-    public get animationLength(): number {
-        return getAnimationStates(this).manager?.totalFrames ?? 0
+        setAnimation(this, val)
     }
 
     public get animationFrame(): number {
-        return getAnimationStates(this).manager?.frame ?? 0
+        const time = this.$animationManager?.$mixer.time ?? 0
+        return Math.ceil(time * STANDARD_FRAME)
     }
     public set animationFrame(val) {
-        const { manager } = getAnimationStates(this)
-        if (manager) manager.frame = val
+        getAnimationStates(this).gotoFrame = val
     }
 }

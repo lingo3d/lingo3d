@@ -19,7 +19,9 @@ export default class Timeline extends AnimationManager implements ITimeline {
     public static override schema = timelineSchema
 
     public constructor() {
-        super("", undefined, {}, new AnimationStates())
+        const animationStates = new AnimationStates()
+        super("", undefined, {}, animationStates)
+        animationStates.manager = this
         this.disableSerialize = false
     }
 }
