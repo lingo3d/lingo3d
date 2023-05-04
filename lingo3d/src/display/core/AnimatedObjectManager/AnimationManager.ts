@@ -11,10 +11,6 @@ import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 import getClipAction from "../../../utilsCached/getClipAction"
-import {
-    addUpdateDTSystem,
-    deleteUpdateDTSystem
-} from "../../../systems/updateDTSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -77,19 +73,12 @@ export default class AnimationManager
         this.disableSerialize = true
         this.name = name
         addConfigAnimationDataSystem(this)
-        addUpdateDTSystem(
-            (this.$mixer = forceGetInstance(
-                targetMixerMap,
-                target ?? this,
-                AnimationMixer,
-                [target]
-            ))
+        this.$mixer = forceGetInstance(
+            targetMixerMap,
+            target ?? this,
+            AnimationMixer,
+            [target]
         )
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        deleteUpdateDTSystem(this.$mixer)
     }
 
     public retarget(target: FoundManager, animationStates: AnimationStates) {
