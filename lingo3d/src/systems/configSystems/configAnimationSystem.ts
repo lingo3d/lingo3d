@@ -1,12 +1,11 @@
 import { event } from "@lincode/events"
 import AnimatedObjectManager from "../../display/core/AnimatedObjectManager"
 import { AnimationValue } from "../../interface/IAnimatedObjectManager"
-import { addConfigAnimationManagerSystem } from "../configLoadedSystems/configAnimationManagerSystem"
 import { AnimationData } from "../../interface/IAnimationManager"
 import { STANDARD_FRAME } from "../../globals"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import getAnimationStates from "../../utilsCached/getAnimationStates"
+import configLoadedSystemWithCleanUp from "../utils/configLoadedSystemWithCleanUp"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -41,19 +40,23 @@ const createAnimation = (
     return animation
 }
 
+const setManager = (self: AnimatedObjectManager, val: string | number) => {
+    getAnimationStates(self).manager =
+        typeof val === "string"
+            ? self.animations[val]
+            : Object.values(self.animations)[val]
+}
+
 const setAnimation = (
     self: AnimatedObjectManager,
     val?: string | number | boolean | AnimationValue
 ) => {
     if (typeof val === "string" || typeof val === "number") {
-        addConfigAnimationManagerSystem(self, { name: val })
+        setManager(self, val)
         return
     }
     if (typeof val === "boolean") {
-        if (val)
-            addConfigAnimationManagerSystem(self, {
-                name: 0
-            })
+        if (val) setManager(self, 0)
         else self.animationPaused = true
         return
     }
@@ -64,10 +67,10 @@ const setAnimation = (
     const name = "animation"
     const anim = createAnimation(self, name)
     anim.data = animationValueToData(val)
-    addConfigAnimationManagerSystem(self, { name })
+    setManager(self, name)
 }
 
-export const [addConfigAnimationSystem] = configSystemWithCleanUp(
+export const [addConfigAnimationSystem] = configLoadedSystemWithCleanUp(
     (self: AnimatedObjectManager) => {
         const val = self.animation
         if (Array.isArray(val)) {
@@ -95,5 +98,6 @@ export const [addConfigAnimationSystem] = configSystemWithCleanUp(
             }
         }
         setAnimation(self, val)
-    }
+    },
+    (self) => !("$loadingCount" in self) || !self.$loadingCount
 )
