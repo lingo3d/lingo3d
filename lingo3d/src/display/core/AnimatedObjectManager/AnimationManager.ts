@@ -1,5 +1,5 @@
 import { AnimationMixer, AnimationClip, AnimationAction } from "three"
-import { forceGetInstance, merge } from "@lincode/utils"
+import { assert, forceGetInstance, merge } from "@lincode/utils"
 import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
@@ -10,10 +10,10 @@ import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
-import { addConfigAnimationClipSystem } from "../../../systems/configSystems/configAnimationClipSystem"
 import { addConfigAnimationFinishSystem } from "../../../systems/configSystems/configAnimationFinishSystem"
 import { addConfigAnimationRepeatSystem } from "../../../systems/configSystems/configAnimationRepeatSystem"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
+import getClipAction from "../../../utilsCached/getClipAction"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -30,8 +30,9 @@ export default class AnimationManager
         return this._clip
     }
     public set $clip(val) {
+        assert(val && !this._clip)
         this._clip = val
-        addConfigAnimationClipSystem(this)
+        this.$action = getClipAction(this.$mixer, val)
     }
 
     private _action?: AnimationAction
@@ -39,6 +40,7 @@ export default class AnimationManager
         return this._action
     }
     public set $action(val) {
+        assert(val && !this._action)
         this._action = val
         addConfigAnimationRepeatSystem(this)
         addConfigAnimationPlaybackSystem(this)
@@ -81,7 +83,6 @@ export default class AnimationManager
         this.disableSerialize = true
         this.name = name
         addConfigAnimationDataSystem(this)
-        addConfigAnimationClipSystem(this)
         addConfigAnimationFinishSystem(this)
         addConfigAnimationRepeatSystem(this)
         addConfigAnimationPlaybackSystem(this)

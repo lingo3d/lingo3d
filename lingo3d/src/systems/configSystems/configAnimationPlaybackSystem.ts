@@ -29,8 +29,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         context.manager = self
         if (prevManager && prevManager !== self) {
             prevManager.paused = true
-            prevManager.$action &&
-                action.crossFadeFrom(prevManager.$action, 0.25, true)
+            action.crossFadeFrom(prevManager.$action!, 0.25, true)
             if (self.$frame === undefined) action.time = 0
         }
         self.$frame = undefined
