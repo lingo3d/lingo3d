@@ -9,7 +9,7 @@ import getAnimationStates from "../../../utilsCached/getAnimationStates"
 import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
 
-const animationValueToData = (val: AnimationValue) => {
+const animationValueToData = (val: AnimationValue, uuid: string) => {
     const entries = Object.entries(val)
     let maxLength = 0
     for (const [, { length }] of entries)
@@ -19,7 +19,7 @@ const animationValueToData = (val: AnimationValue) => {
     const timeStep = (duration * 0.001) / maxLength
 
     const data: AnimationData = {}
-    const result = (data[""] ??= {})
+    const result = (data[uuid] ??= {})
     for (const [name, values] of entries)
         result[name] = Object.fromEntries(
             values.map((v, i) => [Math.ceil(i * timeStep * STANDARD_FRAME), v])
@@ -27,49 +27,43 @@ const animationValueToData = (val: AnimationValue) => {
     return data
 }
 
-const createAnimation = (
+const getAnimation = (
     self: AnimatedObjectManager,
     name: string
 ): AnimationManager => {
     let animation = self.animations[name]
     if (animation && typeof animation !== "string") return animation
-
-    animation = self.watch(
-        new AnimationManager(name, undefined, self, getAnimationStates(self))
+    self.append(
+        (animation = self.animations[name] =
+            new AnimationManager(
+                name,
+                undefined,
+                self,
+                getAnimationStates(self)
+            ))
     )
-    self.append(animation)
-    self.animations[name] = animation
     return animation
-}
-
-const setManager = (self: AnimatedObjectManager, val: string | number) => {
-    self.$animationManager = getAnimationStates(self).manager =
-        typeof val === "string"
-            ? self.animations[val]
-            : Object.values(self.animations)[val]
 }
 
 const setAnimation = (
     self: AnimatedObjectManager,
     val?: string | number | boolean | AnimationValue
 ) => {
-    if (typeof val === "string" || typeof val === "number") {
-        setManager(self, val)
-        return
-    }
-    if (typeof val === "boolean") {
-        if (val) setManager(self, 0)
-        else self.animationPaused = true
+    if (typeof val === "string" || typeof val === "number" || val === true) {
+        self.$animationManager = getAnimationStates(self).manager =
+            typeof val === "string"
+                ? self.animations[val]
+                : Object.values(self.animations)[val === true ? 0 : val]
         return
     }
     if (!val) {
+        self.$animationManager = getAnimationStates(self).manager = undefined
         self.animationPaused = true
         return
     }
-    const name = "animation"
-    const anim = createAnimation(self, name)
-    anim.data = animationValueToData(val)
-    setManager(self, name)
+    const animationManager = getAnimation(self, "animation")
+    animationManager.data = animationValueToData(val, self.uuid)
+    self.$animationManager = getAnimationStates(self).manager = animationManager
 }
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
@@ -95,7 +89,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public $animationManager?: AnimationManager
-    
+
     private _animation?: Animation
     public get animation() {
         return this._animation
