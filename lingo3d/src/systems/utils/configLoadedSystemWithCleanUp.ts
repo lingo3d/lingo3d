@@ -6,8 +6,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
-    cb: (target: T) => void | (() => void),
-    predicate?: (target: T) => boolean
+    cb: (target: T) => void | (() => void)
 ) => {
     const queued = new Set<T>()
     const cleanupMap = new WeakMap<T, () => void>()
@@ -15,7 +14,6 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
     const execute = () => {
         for (const target of queued) {
             if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
-            if (predicate && !predicate(target)) continue
             const prevCleanup = cleanupMap.get(target)
             if (prevCleanup) {
                 prevCleanup()
