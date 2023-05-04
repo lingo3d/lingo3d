@@ -1,4 +1,4 @@
-import { forceGet } from "@lincode/utils"
+import { forceGet, forceGetInstance } from "@lincode/utils"
 import DefaultMethod from "./DefaultMethod"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
@@ -18,17 +18,16 @@ type Defaults<T> = {
 }
 export default Defaults
 
-const makeRecord = () => ({})
 const inheritOptions = <T>(
     defaults: Partial<Defaults<T>>,
     parentDefaults: Partial<Defaults<T>>
 ) => {
     Object.assign(
-        forceGet(defaultsOptionsMap, defaults, makeRecord),
+        forceGetInstance(defaultsOptionsMap, defaults, Object),
         defaultsOptionsMap.get(parentDefaults)
     )
     Object.assign(
-        forceGet(defaultsOwnKeysRecordMap, defaults, makeRecord),
+        forceGetInstance(defaultsOwnKeysRecordMap, defaults, Object),
         defaultsOwnKeysRecordMap.get(parentDefaults)
     )
 }

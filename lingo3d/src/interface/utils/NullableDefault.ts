@@ -1,4 +1,4 @@
-import { forceGet } from "@lincode/utils"
+import { forceGetInstance } from "@lincode/utils"
 
 export default class NullableDefault<T> {
     public constructor(public value: T) {}
@@ -6,4 +6,6 @@ export default class NullableDefault<T> {
 
 const nullableDefaultMap = new Map<any, NullableDefault<any>>()
 export const nullableDefault = <T>(value: T) =>
-    forceGet(nullableDefaultMap, value, () => new NullableDefault(Object.freeze(value)))
+    forceGetInstance(nullableDefaultMap, value, NullableDefault, [
+        Object.freeze(value)
+    ])

@@ -1,4 +1,4 @@
-import { forceGet } from "@lincode/utils"
+import { forceGetInstance } from "@lincode/utils"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import {
     isDefaultMethodArg,
@@ -39,4 +39,4 @@ export default class DefaultMethod {
 const defaultMethodMap = new Map<DefaultMethodArgType, DefaultMethod>()
 export const defaultMethod = (
     value: DefaultMethodArgType = defaultMethodVoidArg
-) => forceGet(defaultMethodMap, value, () => new DefaultMethod(value))
+) => forceGetInstance(defaultMethodMap, value, DefaultMethod, [value])

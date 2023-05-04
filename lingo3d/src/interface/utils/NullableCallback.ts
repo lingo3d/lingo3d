@@ -1,5 +1,5 @@
 import { Point } from "@lincode/math"
-import { forceGet } from "@lincode/utils"
+import { forceGetInstance } from "@lincode/utils"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
@@ -53,4 +53,4 @@ const nullableCallbackMap = new Map<
 >()
 export const nullableCallback = (
     value: NullableCallbackParamType = nullableCallbackVoidParam
-) => forceGet(nullableCallbackMap, value, () => new NullableCallback(value))
+) => forceGetInstance(nullableCallbackMap, value, NullableCallback, [value])
