@@ -15,7 +15,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
             action.play()
             mixer.setTime((action.time = self.$frame * INVERSE_STANDARD_FRAME))
         }
-        action.paused = self.paused || !!self.delay
+        action.paused = self.paused || self.$pausedCount > 0
         if (action.paused) {
             self.$frame = undefined
             return

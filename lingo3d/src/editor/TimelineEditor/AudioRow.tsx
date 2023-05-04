@@ -59,19 +59,19 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
                 waveSurfer.play((frame - startFrame) * INVERSE_STANDARD_FRAME)
                 handle.cancel()
             })
-            let delayCount = 1
-            timeline.delay += delayCount
+            let pausedCount = 1
+            timeline.$pausedCount += pausedCount
 
             const audioContext = waveSurfer.backend.getAudioContext()
             const timeout = setTimeout(() => {
-                timeline.delay -= delayCount
-                delayCount = 0
+                timeline.$pausedCount -= pausedCount
+                pausedCount = 0
             }, (audioContext.baseLatency + audioContext.outputLatency) * 1000)
 
             return () => {
                 clearTimeout(timeout)
                 waveSurfer.pause()
-                timeline.delay -= delayCount
+                timeline.$pausedCount -= pausedCount
                 handle.cancel()
             }
         }

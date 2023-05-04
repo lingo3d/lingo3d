@@ -46,12 +46,12 @@ export default class AnimationManager
         addConfigAnimationPlaybackSystem(this)
     }
 
-    private _delay = 0
-    public get delay() {
-        return this._delay
+    private _pausedCount = 0
+    public get $pausedCount() {
+        return this._pausedCount
     }
-    public set delay(val) {
-        this._delay = val
+    public set $pausedCount(val) {
+        this._pausedCount = val
         addConfigAnimationPlaybackSystem(this)
     }
 
