@@ -24,14 +24,14 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
             action.crossFadeFrom(prevManager.$action!, 0.25, true)
             if (self.$frame === undefined) action.time = 0
         }
+        if (self.$frame !== undefined) {
+            action.time = self.$frame * INVERSE_STANDARD_FRAME
+            self.$frame = undefined
+        }
         action.clampWhenFinished = true
         action.enabled = true
         action.play()
 
-        if (self.$frame !== undefined) {
-            mixer.setTime((action.time = self.$frame * INVERSE_STANDARD_FRAME))
-            self.$frame = undefined
-        }
         context.playCount = (context.playCount ?? 0) + 1
         context.playCount === 1 && addUpdateDTSystem(mixer)
         return () => {
