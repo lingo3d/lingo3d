@@ -8,10 +8,21 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         const action = self.$action
         if (!action) return
 
-        action.paused = self.paused || self.$pausedCount > 0
-        if (action.paused) return
-
         const mixer = self.$mixer
+        action.paused = self.paused || self.$pausedCount > 0
+        if (action.paused) {
+            if (self.$frame !== undefined) {
+                action.paused = false
+                action.play()
+                mixer.setTime(
+                    (action.time = self.$frame * INVERSE_STANDARD_FRAME)
+                )
+                self.$frame = undefined
+                action.paused = true
+            }
+            return
+        }
+
         const context = getContext(mixer) as {
             manager?: AnimationManager
         }
