@@ -1,8 +1,8 @@
 import { LightShadow } from "three"
-import { onAfterRender } from "../../events/onAfterRender"
 import { shadowResolutionPtr } from "../../pointers/shadowResolutionPtr"
+import { resetClearNumberPtrSystem } from "../../systems/resetNumberPtrSystem"
 
-onAfterRender(() => (shadowResolutionPtr[0] = 0))
+resetClearNumberPtrSystem(shadowResolutionPtr)
 
 export default (shadow: LightShadow) => {
     if (shadow.needsUpdate || !shadow.map) return

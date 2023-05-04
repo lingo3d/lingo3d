@@ -1,4 +1,3 @@
-import renderSystemWithData from "./utils/renderSystemWithData"
 import PooledPointLight from "../display/lights/PooledPointLight"
 import getIntensityFactor from "../utilsCached/getIntensityFactor"
 import {
@@ -6,11 +5,17 @@ import {
     requestPointLight
 } from "../pools/objectPools/pointLightPool"
 import scene from "../engine/scene"
+import sortedRenderSystemWithData from "./utils/sortedRenderSystemWithData"
+import { resetClearNumberPtrSystem } from "./resetNumberPtrSystem"
+import { log } from "@lincode/utils"
 
-export const [addPooledPointLightSystem] = renderSystemWithData(
+const countPtr = [0]
+resetClearNumberPtrSystem(countPtr)
+
+export const [addPooledPointLightSystem] = sortedRenderSystemWithData(
     (self: PooledPointLight, data: { visible: boolean }) => {
         const intensityFactor = getIntensityFactor(self)
-        const visible = !!intensityFactor
+        const visible = !!intensityFactor && log(++countPtr[0]) <= 2
         if (visible && !data.visible) {
             const light = (self.$light = requestPointLight([], ""))
             self.object3d.add(light.outerObject3d)
@@ -26,5 +31,6 @@ export const [addPooledPointLightSystem] = renderSystemWithData(
             self.$light = undefined
         }
         data.visible = visible
-    }
+    },
+    (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
 )
