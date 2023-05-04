@@ -14,7 +14,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
-import { getAnimationStates } from "./AnimatedObjectManager/AnimationStates"
+import getAnimationStates from "../../utilsCached/getAnimationStates"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"

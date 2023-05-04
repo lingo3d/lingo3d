@@ -1,8 +1,6 @@
 import { EventFunctions } from "@lincode/events"
 import type AnimationManager from "./AnimationManager"
 import { addConfigAnimationStatesSystem } from "../../../systems/configSystems/configAnimationStatesSystem"
-import AnimatedObjectManager from "."
-import { forceGetInstance } from "@lincode/utils"
 
 export default class AnimationStates {
     public managerRecord: Record<string, AnimationManager> = {}
@@ -52,8 +50,3 @@ export default class AnimationStates {
         addConfigAnimationStatesSystem(this)
     }
 }
-
-const animationStatesMap = new WeakMap<AnimatedObjectManager, AnimationStates>()
-
-export const getAnimationStates = (self: AnimatedObjectManager) =>
-    forceGetInstance(animationStatesMap, self, AnimationStates)

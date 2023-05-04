@@ -19,7 +19,7 @@ import findFirstMesh from "../utilsCached/findFirstMesh"
 import findAll from "../utilsCached/findAll"
 import findAllMeshes from "../utilsCached/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
-import { getAnimationStates } from "./core/AnimatedObjectManager/AnimationStates"
+import getAnimationStates from "../utilsCached/getAnimationStates"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

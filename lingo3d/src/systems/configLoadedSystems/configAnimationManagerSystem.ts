@@ -1,6 +1,6 @@
 import Model from "../../display/Model"
 import AnimatedObjectManager from "../../display/core/AnimatedObjectManager"
-import { getAnimationStates } from "../../display/core/AnimatedObjectManager/AnimationStates"
+import getAnimationStates from "../../utilsCached/getAnimationStates"
 import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
 
 export const [addConfigAnimationManagerSystem] = configLoadedSystemWithData(

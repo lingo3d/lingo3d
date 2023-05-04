@@ -5,7 +5,7 @@ import IAnimatedObjectManager, {
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { addConfigAnimationSystem } from "../../../systems/configSystems/configAnimationSystem"
 import AnimationManager from "./AnimationManager"
-import { getAnimationStates } from "./AnimationStates"
+import getAnimationStates from "../../../utilsCached/getAnimationStates"
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
