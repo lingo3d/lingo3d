@@ -1,11 +1,8 @@
-import { AnimationMixer } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
-
-const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
-const mixerPlayCountMap = new WeakMap<AnimationMixer, number>()
+import getContext from "../../utilsCached/getContext"
 
 export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
     (self: AnimationManager) => {
@@ -26,8 +23,12 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         action.paused = self.paused || !!self.delay
         if (action.paused) return
 
-        const prevManager = mixerManagerMap.get(mixer)
-        mixerManagerMap.set(mixer, self)
+        const context = getContext(mixer) as {
+            manager?: AnimationManager
+            playCount?: number
+        }
+        const prevManager = context.manager
+        context.manager = self
         if (prevManager && prevManager !== self) {
             prevManager.paused = true
             prevManager.$action &&
@@ -38,13 +39,11 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
         action.enabled = true
         action.play()
 
-        const playCount = (mixerPlayCountMap.get(mixer) ?? 0) + 1
-        mixerPlayCountMap.set(mixer, playCount)
-        playCount === 1 && addUpdateDTSystem(mixer)
+        context.playCount = (context.playCount ?? 0) + 1
+        context.playCount === 1 && addUpdateDTSystem(mixer)
         return () => {
-            const playCount = mixerPlayCountMap.get(mixer)! - 1
-            mixerPlayCountMap.set(mixer, playCount)
-            playCount === 0 && deleteUpdateDTSystem(mixer)
+            context.playCount = context.playCount! - 1
+            context.playCount === 0 && deleteUpdateDTSystem(mixer)
         }
     }
 )
