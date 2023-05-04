@@ -52,6 +52,7 @@ import { lightDistancePtr } from "../pointers/lightDistancePtr"
 import { CM2M, M2CM } from "../globals"
 import { getShadowMode, setShadowMode } from "../states/useShadowMode"
 import { computeLightIncrement } from "../pointers/lightIncrementPtr"
+import { pooledPointLightsPtr } from "../pointers/pooledPointLightsPtr"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.disableSceneGraph = true
@@ -72,6 +73,13 @@ export default {
     set lightDistance(value) {
         lightDistancePtr[0] = value * CM2M
         computeLightIncrement()
+    },
+
+    get pooledPointLights() {
+        return pooledPointLightsPtr[0]
+    },
+    set pooledPointLights(value) {
+        pooledPointLightsPtr[0] = value
     },
 
     get shadowMode() {

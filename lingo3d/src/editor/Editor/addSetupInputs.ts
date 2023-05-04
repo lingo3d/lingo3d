@@ -29,6 +29,7 @@ export default (
         "exposure",
         "defaultLight",
         "lightDistance",
+        "pooledPointLights",
         "shadowMode",
         "environment",
         "skybox",

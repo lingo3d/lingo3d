@@ -1,11 +1,7 @@
 import {
     DefaultSkyLight,
     Dummy,
-    Keyboard,
-    PointLight,
     PooledPointLight,
-    SpotLight,
-    settings
 } from ".."
 import Cube from "../display/primitives/Cube"
 
