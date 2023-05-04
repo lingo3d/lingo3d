@@ -14,12 +14,12 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
             action.paused = false
             action.play()
             mixer.setTime((action.time = self.$frame * INVERSE_STANDARD_FRAME))
+        }
+        action.paused = self.paused || !!self.delay
+        if (action.paused) {
             self.$frame = undefined
             return
         }
-
-        action.paused = self.paused || !!self.delay
-        if (action.paused) return
 
         const context = getContext(mixer) as {
             manager?: AnimationManager
@@ -31,7 +31,9 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp(
             prevManager.paused = true
             prevManager.$action &&
                 action.crossFadeFrom(prevManager.$action, 0.25, true)
+            if (self.$frame === undefined) action.time = 0
         }
+        self.$frame = undefined
 
         action.clampWhenFinished = true
         action.enabled = true
