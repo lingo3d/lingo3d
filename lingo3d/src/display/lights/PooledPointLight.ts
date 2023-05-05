@@ -1,4 +1,3 @@
-import ObjectManager from "../core/ObjectManager"
 import {
     disposePointLights,
     releasePointLight,
@@ -8,13 +7,11 @@ import IPooledPointLight, {
     pooledPointLightDefaults,
     pooledPointLightSchema
 } from "../../interface/IPooledPointLight"
-import { ColorString } from "../../interface/ITexturedStandard"
-import { Sphere } from "three"
 import { addPooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 import PointLight from "./PointLight"
-import HelperSprite from "../core/utils/HelperSprite"
 import { onPointLightPool } from "../../events/onPointLightPool"
 import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
+import PooledPointLightBase from "../core/PooledPointLightBase"
 
 const lightSet = new Set<PooledPointLight>()
 
@@ -37,71 +34,18 @@ onPointLightPool(() => {
 })
 
 export default class PooledPointLight
-    extends ObjectManager
+    extends PooledPointLightBase<PointLight>
     implements IPooledPointLight
 {
     public static componentName = "pooledPointLight"
     public static defaults = pooledPointLightDefaults
     public static schema = pooledPointLightSchema
 
-    public $light?: PointLight
-    public $boundingSphere = new Sphere()
-
     public constructor() {
         super()
         requestPointLights()
         addPooledPointLightSystem(this, { visible: false })
         lightSet.add(this)
-
-        const sprite = new HelperSprite("light", this)
-        this.then(() => {
-            sprite.dispose()
-            lightSet.delete(this)
-        })
-    }
-
-    private _distance = 500
-    public get distance() {
-        return this._distance
-    }
-    public set distance(value) {
-        this._distance = value
-        if (this.$light) this.$light.distance = value
-    }
-
-    private _intensity = 10
-    public get intensity() {
-        return this._intensity
-    }
-    public set intensity(value) {
-        this._intensity = value
-        if (this.$light) this.$light.intensity = value
-    }
-
-    private _shadows = true
-    public get shadows() {
-        return this._shadows
-    }
-    public set shadows(value) {
-        this._shadows = value
-        if (this.$light) this.$light.shadows = value
-    }
-
-    private _color: ColorString = "#ffffff"
-    public get color() {
-        return this._color
-    }
-    public set color(value) {
-        this._color = value
-        if (this.$light) this.$light.color = value
-    }
-
-    private _fade = true
-    public get fade() {
-        return this._fade
-    }
-    public set fade(value) {
-        this._fade = value
-        if (this.$light) this.$light.fade = value
+        this.then(() => lightSet.delete(this))
     }
 }
