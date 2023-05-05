@@ -12,6 +12,7 @@ export default <
     const paramStringObjectArrayMap = new Map<string, Array<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
     const releasedObjects = new WeakSet<Type>()
+    let allObjects: Array<Type> = []
 
     const request = (
         params: Params,
@@ -30,6 +31,7 @@ export default <
         }
         const result = factory(params, context)
         objectParamStringMap.set(result, paramString)
+        allObjects.push(result)
         return result
     }
 
@@ -43,10 +45,9 @@ export default <
     }
 
     const clear = () => {
-        if (dispose)
-            for (const objects of paramStringObjectArrayMap.values())
-                for (const object of objects) dispose(object)
+        if (dispose) for (const object of allObjects) dispose(object)
         paramStringObjectArrayMap.clear()
+        allObjects = []
     }
 
     return <const>[request, release, clear]

@@ -1,1 +1,1 @@
-export const pointLightPoolPtr = [0]
+export const pointLightPoolPtr = [4]

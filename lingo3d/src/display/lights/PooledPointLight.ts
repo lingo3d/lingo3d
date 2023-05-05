@@ -1,5 +1,6 @@
 import ObjectManager from "../core/ObjectManager"
 import {
+    disposePointLights,
     releasePointLight,
     requestPointLight
 } from "../../pools/objectPools/pointLightPool"
@@ -12,15 +13,27 @@ import { Sphere } from "three"
 import { addPooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 import PointLight from "./PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
+import { onPointLightPool } from "../../events/onPointLightPool"
+import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
+import { pooledPointLightSet } from "../../collections/pooledPointLightSet"
 
-let initialized = false
-const initPointLight = () => {
-    if (initialized) return
-    initialized = true
+let requested = false
+const requestPointLights = () => {
+    if (requested) return
+    requested = true
     const lights: Array<PointLight> = []
-    for (let i = 0; i < 4; ++i) lights.push(requestPointLight([], ""))
+    for (let i = 0; i < pointLightPoolPtr[0]; ++i)
+        lights.push(requestPointLight([], ""))
     for (const light of lights) releasePointLight(light)
 }
+onPointLightPool(() => {
+    if (!requested) return
+    requested = false
+    disposePointLights()
+    requestPointLights()
+    for (const light of pooledPointLightSet)
+        addPooledPointLightSystem(light, { visible: false })
+})
 
 export default class PooledPointLight
     extends ObjectManager
@@ -35,11 +48,15 @@ export default class PooledPointLight
 
     public constructor() {
         super()
-        initPointLight()
+        requestPointLights()
         addPooledPointLightSystem(this, { visible: false })
+        pooledPointLightSet.add(this)
 
         const sprite = new HelperSprite("light", this)
-        this.then(() => sprite.dispose())
+        this.then(() => {
+            sprite.dispose()
+            pooledPointLightSet.delete(this)
+        })
     }
 
     private _distance = 500

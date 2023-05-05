@@ -1,5 +1,4 @@
 import PointLight from "../../display/lights/PointLight"
-import scene from "../../engine/scene"
 import createObjectPool from "../utils/createObjectPool"
 
 export const [requestPointLight, releasePointLight, disposePointLights] =
@@ -11,8 +10,5 @@ export const [requestPointLight, releasePointLight, disposePointLights] =
             light.intensity = 0
             return light
         },
-        (light) => {
-            light.dispose()
-            scene.remove(light.outerObject3d)
-        }
+        (light) => light.dispose()
     )
