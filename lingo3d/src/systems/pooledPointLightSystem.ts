@@ -24,6 +24,7 @@ export const [addPooledPointLightSystem] = sortedRenderSystemWithData(
             light.intensity = self.intensity
             light.color = self.color
             light.shadows = self.shadows
+            light.fade = self.fade
         } else if (!visible && data.visible) {
             const light = self.$light!
             releasePointLight(light)

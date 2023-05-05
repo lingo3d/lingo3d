@@ -94,4 +94,13 @@ export default class PooledPointLight
         this._color = value
         if (this.$light) this.$light.color = value
     }
+
+    private _fade = true
+    public get fade() {
+        return this._fade
+    }
+    public set fade(value) {
+        this._fade = value
+        if (this.$light) this.$light.fade = value
+    }
 }

@@ -12,5 +12,5 @@ export const pooledPointLightSchema: Required<ExtractProps<IPooledPointLight>> =
 
 export const pooledPointLightDefaults = extendDefaults<IPooledPointLight>(
     [pointLightDefaults],
-    {}
+    { fade: true }
 )
