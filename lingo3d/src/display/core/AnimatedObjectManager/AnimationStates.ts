@@ -13,15 +13,6 @@ export default class AnimationStates {
         addConfigAnimationPlaybackSystem(this)
     }
 
-    private _paused = false
-    public get paused() {
-        return this._paused
-    }
-    public set paused(val) {
-        this._paused = val
-        addConfigAnimationPlaybackSystem(this)
-    }
-
     private _pausedCount = 0
     public get pausedCount() {
         return this._pausedCount

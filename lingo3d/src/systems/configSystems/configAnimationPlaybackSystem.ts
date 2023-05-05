@@ -14,8 +14,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystem(
         if (!action) return
 
         const mixer = manager.$mixer
-        action.paused =
-            animationStates.paused || animationStates.pausedCount > 0
+        action.paused = manager.paused || animationStates.pausedCount > 0
         if (action.paused) {
             if (animationStates.gotoFrame !== undefined) {
                 action.paused = false

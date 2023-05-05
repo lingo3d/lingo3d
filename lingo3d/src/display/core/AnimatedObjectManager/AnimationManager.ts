@@ -11,6 +11,7 @@ import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 import getClipAction from "../../../utilsCached/getClipAction"
+import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -41,11 +42,14 @@ export default class AnimationManager
         this._action = val
     }
 
+    private _paused = false
     public get paused() {
-        return this.animationStates.paused
+        return this._paused || this.animationStates.manager !== this
     }
     public set paused(val) {
-        this.animationStates.paused = val
+        this._paused = val
+        if (!val) this.animationStates.manager = this
+        else addConfigAnimationPlaybackSystem(this.animationStates)
     }
 
     private _repeat = Infinity

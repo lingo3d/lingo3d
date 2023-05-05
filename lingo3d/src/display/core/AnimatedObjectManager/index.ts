@@ -78,10 +78,11 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animationPaused(): boolean {
-        return getAnimationStates(this).paused
+        return getAnimationStates(this).manager?.paused ?? false
     }
     public set animationPaused(value) {
-        getAnimationStates(this).paused = value
+        const { manager } = getAnimationStates(this)
+        if (manager) manager.paused = value
     }
 
     public get serializeAnimation() {
