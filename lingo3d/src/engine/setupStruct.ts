@@ -54,6 +54,8 @@ import { getShadowMode, setShadowMode } from "../states/useShadowMode"
 import { computeLightIncrement } from "../pointers/lightIncrementPtr"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import { emitPointLightPool } from "../events/onPointLightPool"
+import { emitSpotLightPool } from "../events/onSpotLightPool"
+import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.disableSceneGraph = true
@@ -82,6 +84,14 @@ export default {
     set pointLightPool(value) {
         pointLightPoolPtr[0] = value
         emitPointLightPool()
+    },
+
+    get spotLightPool() {
+        return spotLightPoolPtr[0]
+    },
+    set spotLightPool(value) {
+        spotLightPoolPtr[0] = value
+        emitSpotLightPool()
     },
 
     get shadowMode() {

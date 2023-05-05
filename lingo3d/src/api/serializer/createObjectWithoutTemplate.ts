@@ -29,8 +29,9 @@ import DirectionalLight from "../../display/lights/DirectionalLight"
 import SkyLight from "../../display/lights/SkyLight"
 import DefaultSkyLight from "../../display/lights/DefaultSkyLight"
 import PointLight from "../../display/lights/PointLight"
-import PooledPointLight from "../../display/lights/PooledPointLight"
 import SpotLight from "../../display/lights/SpotLight"
+import PooledPointLight from "../../display/lights/PooledPointLight"
+import PooledSpotLight from "../../display/lights/PooledSpotLight"
 import Group from "../../display/Group"
 import { GameObjectType } from "./types"
 import ThirdPersonCamera from "../../display/cameras/ThirdPersonCamera"
@@ -99,8 +100,9 @@ export const createObjectRecord = {
     skyLight: () => new SkyLight(),
     defaultSkyLight: () => new DefaultSkyLight(),
     pointLight: () => new PointLight(),
-    pooledPointLight: () => new PooledPointLight(),
     spotLight: () => new SpotLight(),
+    pooledPointLight: () => new PooledPointLight(),
+    pooledSpotLight: () => new PooledSpotLight(),
     circle: () => new Circle(),
     cone: () => new Cone(),
     cube: () => new Cube(),

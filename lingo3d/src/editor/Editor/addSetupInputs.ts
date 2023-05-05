@@ -30,6 +30,7 @@ export default (
         "defaultLight",
         "lightDistance",
         "pointLightPool",
+        "spotLightPool",
         "shadowMode",
         "environment",
         "skybox",

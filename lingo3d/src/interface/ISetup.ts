@@ -14,6 +14,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: Boolean,
     lightDistance: Number,
     pointLightPool: Number,
+    spotLightPool: Number,
     shadowMode: [Boolean, String],
     environment: String,
     skybox: [String, Array],
@@ -53,6 +54,7 @@ export const setupDefaults = extendDefaults<ISetup>(
     {
         lightDistance: new Range(500, 5000),
         pointLightPool: new Range(1, 10, 1),
+        spotLightPool: new Range(1, 10, 1),
         shadowMode: new Choices({
             true: true,
             false: false,
