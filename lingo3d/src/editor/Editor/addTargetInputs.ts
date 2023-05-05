@@ -137,8 +137,7 @@ export default (
 
     const [animationParams, animationRest] = splitObject(interactionRest, [
         "animation",
-        "animationPaused",
-        "animationRepeat"
+        "animationPaused"
     ])
     animationParams &&
         addInputs(

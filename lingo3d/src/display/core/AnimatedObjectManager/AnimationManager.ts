@@ -52,14 +52,6 @@ export default class AnimationManager
         else addConfigAnimationPlaybackSystem(this.animationStates)
     }
 
-    private _repeat = Infinity
-    public get repeat() {
-        return this._repeat
-    }
-    public set repeat(val) {
-        this._repeat = val
-    }
-
     public $mixer: AnimationMixer
 
     public clipTotalFrames = 0
