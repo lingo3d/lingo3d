@@ -2,7 +2,7 @@ import { Object3D } from "three"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { onMouseDown } from "../../../../events/onMouseDown"
-import { mouseRaycast } from "../../../../utilsCached/mouseRaycast"
+import { mouseRaycast } from "../../../../memo/mouseRaycast"
 
 export default (
     onEvent: typeof onMouseDown,

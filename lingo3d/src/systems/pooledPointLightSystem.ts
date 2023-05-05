@@ -1,5 +1,5 @@
 import PooledPointLight from "../display/lights/PooledPointLight"
-import getIntensityFactor from "../utilsCached/getIntensityFactor"
+import getIntensityFactor from "../memo/getIntensityFactor"
 import {
     releasePointLight,
     requestPointLight

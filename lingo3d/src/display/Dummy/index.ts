@@ -19,7 +19,7 @@ import {
     addDummyGroundedSystem,
     deleteDummyGroundedSystem
 } from "../../systems/dummyGroundedSystem"
-import { indexChildrenNames } from "../../utilsCached/indexChildrenNames"
+import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { Point3dType } from "../../utils/isPoint"
 
 export default class Dummy extends Model implements IDummy {

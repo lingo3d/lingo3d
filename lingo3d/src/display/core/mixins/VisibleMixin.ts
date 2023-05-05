@@ -5,7 +5,7 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
-import getWorldPosition from "../../../utilsCached/getWorldPosition"
+import getWorldPosition from "../../../memo/getWorldPosition"
 import { vector3_1 } from "../../utils/reusables"
 import "../utils/raycast"
 import {
@@ -21,7 +21,7 @@ import {
     mouseOverSet,
     mouseUpSet
 } from "../../../collections/mouseSets"
-import getFrustumVisible from "../../../utilsCached/getFrustumVisible"
+import getFrustumVisible from "../../../memo/getFrustumVisible"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"

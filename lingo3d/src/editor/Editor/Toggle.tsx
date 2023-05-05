@@ -1,6 +1,6 @@
 import { memo } from "preact/compat"
 import Appendable from "../../api/core/Appendable"
-import computePerFrame from "../../utilsCached/utils/computePerFrame"
+import computePerFrame from "../../memo/utils/computePerFrame"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import Switch from "../component/Switch"
 import { forceGetInstance } from "@lincode/utils"

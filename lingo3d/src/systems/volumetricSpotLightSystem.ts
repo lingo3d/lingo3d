@@ -1,7 +1,7 @@
 import { deg2Rad } from "@lincode/math"
 import { Mesh } from "three"
 import SpotLight from "../display/lights/SpotLight"
-import getWorldPosition from "../utilsCached/getWorldPosition"
+import getWorldPosition from "../memo/getWorldPosition"
 import { CM2M } from "../globals"
 import renderSystemWithData from "./utils/renderSystemWithData"
 

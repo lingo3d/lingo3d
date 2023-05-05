@@ -1,5 +1,5 @@
 import renderSystem from "./utils/renderSystem"
-import getIntensityFactor from "../utilsCached/getIntensityFactor"
+import getIntensityFactor from "../memo/getIntensityFactor"
 import PointLightBase from "../display/core/PointLightBase"
 
 export const [addLightIntensitySystem, deleteLightIntensitySystem] =

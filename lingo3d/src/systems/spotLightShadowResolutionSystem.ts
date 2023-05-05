@@ -1,5 +1,5 @@
 import renderSystemWithData from "./utils/renderSystemWithData"
-import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
+import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
 import {

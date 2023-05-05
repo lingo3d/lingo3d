@@ -2,7 +2,7 @@ import { distance3d } from "@lincode/math"
 import randomColor from "randomcolor"
 import { Object3D } from "three"
 import Octahedron from "./primitives/Octahedron"
-import getWorldPosition from "../utilsCached/getWorldPosition"
+import getWorldPosition from "../memo/getWorldPosition"
 import { vec2Point } from "./utils/vec2Point"
 import { ColorString } from "../interface/ITexturedStandard"
 

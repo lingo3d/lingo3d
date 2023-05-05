@@ -1,7 +1,7 @@
 import { CM2M } from "../../globals"
 import { LingoMouseEvent } from "../../interface/IMouse"
 import { getCameraPointerLock } from "../../states/useCameraPointerLock"
-import getWorldPosition from "../../utilsCached/getWorldPosition"
+import getWorldPosition from "../../memo/getWorldPosition"
 import normalizeClientPosition from "./normalizeClientPosition"
 import { pt3d0, vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"

@@ -1,5 +1,5 @@
 import { mapRange } from "@lincode/math"
-import { getDistanceFromCamera } from "../utilsCached/getDistanceFromCamera"
+import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import renderSystem from "./utils/renderSystem"
 import AreaLight from "../display/lights/AreaLight"
 import { lightDistancePtr } from "../pointers/lightDistancePtr"

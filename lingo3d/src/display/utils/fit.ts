@@ -1,5 +1,5 @@
 import { Object3D, Vector3 } from "three"
-import { measure } from "../../utilsCached/measure"
+import { measure } from "../../memo/measure"
 
 const cache = new Map<string, [number, Vector3, Vector3]>()
 

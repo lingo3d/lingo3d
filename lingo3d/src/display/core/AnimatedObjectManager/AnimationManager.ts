@@ -10,7 +10,7 @@ import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
-import getClipAction from "../../../utilsCached/getClipAction"
+import getClipAction from "../../../memo/getClipAction"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()

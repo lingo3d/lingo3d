@@ -10,16 +10,16 @@ import {
     reflectionDataMap,
     reflectionChangedSet
 } from "../collections/reflectionCollections"
-import { measure } from "../utilsCached/measure"
-import { indexChildrenNames } from "../utilsCached/indexChildrenNames"
+import { measure } from "../memo/measure"
+import { indexChildrenNames } from "../memo/indexChildrenNames"
 import { getFoundManager } from "../api/utils/getFoundManager"
-import { indexMeshChildrenNames } from "../utilsCached/indexMeshChildrenNames"
-import findFirst from "../utilsCached/findFirst"
-import findFirstMesh from "../utilsCached/findFirstMesh"
-import findAll from "../utilsCached/findAll"
-import findAllMeshes from "../utilsCached/findAllMeshes"
+import { indexMeshChildrenNames } from "../memo/indexMeshChildrenNames"
+import findFirst from "../memo/findFirst"
+import findFirstMesh from "../memo/findFirstMesh"
+import findAll from "../memo/findAll"
+import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
-import getAnimationStates from "../utilsCached/getAnimationStates"
+import getAnimationStates from "../memo/getAnimationStates"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

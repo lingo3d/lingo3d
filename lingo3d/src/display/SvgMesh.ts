@@ -14,7 +14,7 @@ import {
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
-import { measure } from "../utilsCached/measure"
+import { measure } from "../memo/measure"
 import { shadowModePtr } from "../pointers/shadowModePtr"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()

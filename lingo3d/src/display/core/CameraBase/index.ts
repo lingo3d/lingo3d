@@ -11,8 +11,8 @@ import {
     pullCameraStack,
     pushCameraStack
 } from "../../../states/useCameraStack"
-import getWorldPosition from "../../../utilsCached/getWorldPosition"
-import getWorldDirection from "../../../utilsCached/getWorldDirection"
+import getWorldPosition from "../../../memo/getWorldPosition"
+import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"

@@ -5,7 +5,7 @@ import IAnimatedObjectManager, {
 } from "../../../interface/IAnimatedObjectManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import AnimationManager from "./AnimationManager"
-import getAnimationStates from "../../../utilsCached/getAnimationStates"
+import getAnimationStates from "../../../memo/getAnimationStates"
 import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
 

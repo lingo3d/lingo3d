@@ -1,7 +1,7 @@
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationStates"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
-import getContext from "../../utilsCached/getContext"
+import getContext from "../../memo/getContext"
 import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
 import configSystem from "../utils/configSystem"
 

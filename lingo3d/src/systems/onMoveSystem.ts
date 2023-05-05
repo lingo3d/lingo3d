@@ -1,4 +1,4 @@
-import { positionChanged } from "../utilsCached/positionChanged"
+import { positionChanged } from "../memo/positionChanged"
 import renderSystem from "./utils/renderSystem"
 import MeshAppendable from "../api/core/MeshAppendable"
 
