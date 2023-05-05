@@ -12,6 +12,7 @@ import { ColorString } from "../../interface/ITexturedStandard"
 import { Sphere } from "three"
 import { addPooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 import PointLight from "./PointLight"
+import HelperSprite from "../core/utils/HelperSprite"
 
 const initPointLight = lazy(() => {
     const lights: Array<PointLight> = []
@@ -34,6 +35,9 @@ export default class PooledPointLight
         super()
         initPointLight()
         addPooledPointLightSystem(this, { visible: false })
+
+        const sprite = new HelperSprite("light", this)
+        this.then(() => sprite.dispose())
     }
 
     private _distance = 500

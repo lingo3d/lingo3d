@@ -1,9 +1,4 @@
-import {
-    DirectionalLightHelper,
-    Light,
-    PointLightHelper,
-    SpotLightHelper
-} from "three"
+import { DirectionalLightHelper, Light, SpotLightHelper } from "three"
 import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
@@ -19,10 +14,7 @@ export default abstract class LightBase<T extends Light>
 {
     public constructor(
         light: T,
-        Helper?:
-            | typeof DirectionalLightHelper
-            | typeof SpotLightHelper
-            | typeof PointLightHelper
+        Helper?: typeof DirectionalLightHelper | typeof SpotLightHelper
     ) {
         super(light)
         this.createEffect(() => {
