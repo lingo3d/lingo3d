@@ -1,4 +1,3 @@
-import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
 import {
     releasePointLight,
@@ -14,11 +13,14 @@ import { addPooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 import PointLight from "./PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
 
-const initPointLight = lazy(() => {
+let initialized = false
+const initPointLight = () => {
+    if (initialized) return
+    initialized = true
     const lights: Array<PointLight> = []
     for (let i = 0; i < 4; ++i) lights.push(requestPointLight([], ""))
     for (const light of lights) releasePointLight(light)
-})
+}
 
 export default class PooledPointLight
     extends ObjectManager

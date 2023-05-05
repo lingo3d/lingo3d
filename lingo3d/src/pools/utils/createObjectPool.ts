@@ -6,7 +6,8 @@ export default <
     Params extends Array<string | number | boolean | PointType | undefined>,
     Context extends object | void = void
 >(
-    factory: (params: Params, context: Context) => Type
+    factory: (params: Params, context: Context) => Type,
+    dispose?: (object: Type) => void
 ) => {
     const paramStringObjectArrayMap = new Map<string, Array<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
@@ -41,5 +42,12 @@ export default <
             .push(object)
     }
 
-    return <const>[request, release]
+    const clear = () => {
+        if (dispose)
+            for (const objects of paramStringObjectArrayMap.values())
+                for (const object of objects) dispose(object)
+        paramStringObjectArrayMap.clear()
+    }
+
+    return <const>[request, release, clear]
 }

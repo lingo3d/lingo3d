@@ -13,7 +13,7 @@ export default interface ISetup extends Type {}
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: Boolean,
     lightDistance: Number,
-    pooledPointLights: Number,
+    pointLightPool: Number,
     shadowMode: [Boolean, String],
     environment: String,
     skybox: [String, Array],
@@ -52,7 +52,7 @@ export const setupDefaults = extendDefaults<ISetup>(
     { ...setupStruct },
     {
         lightDistance: new Range(500, 5000),
-        pooledPointLights: new Range(1, 10, 1),
+        pointLightPool: new Range(1, 10, 1),
         shadowMode: new Choices({
             true: true,
             false: false,
