@@ -15,7 +15,8 @@ import PointLight from "./PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
 import { onPointLightPool } from "../../events/onPointLightPool"
 import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
-import { pooledPointLightSet } from "../../collections/pooledPointLightSet"
+
+const lightSet = new Set<PooledPointLight>()
 
 let requested = false
 const requestPointLights = () => {
@@ -31,7 +32,7 @@ onPointLightPool(() => {
     requested = false
     disposePointLights()
     requestPointLights()
-    for (const light of pooledPointLightSet)
+    for (const light of lightSet)
         addPooledPointLightSystem(light, { visible: false })
 })
 
@@ -50,12 +51,12 @@ export default class PooledPointLight
         super()
         requestPointLights()
         addPooledPointLightSystem(this, { visible: false })
-        pooledPointLightSet.add(this)
+        lightSet.add(this)
 
         const sprite = new HelperSprite("light", this)
         this.then(() => {
             sprite.dispose()
-            pooledPointLightSet.delete(this)
+            lightSet.delete(this)
         })
     }
 
