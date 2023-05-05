@@ -7,7 +7,10 @@ import {
 import { CM2M, M2CM } from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
-import { addLightIntensitySystem } from "../../systems/lightIntensitySystem"
+import {
+    addLightIntensitySystem,
+    deleteLightIntensitySystem
+} from "../../systems/lightIntensitySystem"
 import {
     addUpdateShadowSystem,
     deleteUpdateShadowSystem
@@ -27,7 +30,6 @@ export default abstract class PointLightBase<
         this.distance = 500
         this.intensity = 10
         this.shadows = true
-        addLightIntensitySystem(this)
     }
 
     protected override disposeNode() {
@@ -64,5 +66,20 @@ export default abstract class PointLightBase<
     }
     public override set intensity(val) {
         this._intensity = val
+        if (!this._fade) this.object3d.intensity = val
+    }
+
+    private _fade = false
+    public get fade() {
+        return this._fade
+    }
+    public set fade(val) {
+        this._fade = val
+        if (val) {
+            addLightIntensitySystem(this)
+            return
+        }
+        deleteLightIntensitySystem(this)
+        this.intensity = this._intensity
     }
 }
