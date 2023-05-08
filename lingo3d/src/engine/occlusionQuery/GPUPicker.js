@@ -14,8 +14,9 @@ import {
 import { rendererPtr } from "../../pointers/rendererPtr"
 import scene from "../scene"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import { resolutionPtr } from "../../pointers/resolutionPtr"
 
-export default function (w, h) {
+export default function () {
     // This is the 1x1 pixel render target we use to do the picking
     var pickingTarget = new WebGLRenderTarget(1, 1, {
         minFilter: NearestFilter,
@@ -36,21 +37,22 @@ export default function (w, h) {
 
     var currClearColor = new Color()
 
+    let _renderer, _camera, _resolution
     this.pick = function (x, y) {
-        const renderer = rendererPtr[0]
-        const camera = cameraRenderedPtr[0]
+        _renderer = rendererPtr[0]
+        _camera = cameraRenderedPtr[0]
+        _resolution = resolutionPtr[0]
 
         // Set the projection matrix to only look at the pixel we are interested in.
-        camera.setViewOffset(w, h, x, y, 1, 1)
-
-        var currRenderTarget = renderer.getRenderTarget()
-        var currAlpha = renderer.getClearAlpha()
-        renderer.getClearColor(currClearColor)
-        renderer.setRenderTarget(pickingTarget)
-        renderer.setClearColor(clearColor)
-        renderer.clear()
-        renderer.render(emptyScene, camera)
-        renderer.readRenderTargetPixels(
+        _camera.setViewOffset(_resolution[0], _resolution[1], x, y, 1, 1)
+        var currRenderTarget = _renderer.getRenderTarget()
+        var currAlpha = _renderer.getClearAlpha()
+        _renderer.getClearColor(currClearColor)
+        _renderer.setRenderTarget(pickingTarget)
+        _renderer.setClearColor(clearColor)
+        _renderer.clear()
+        _renderer.render(emptyScene, _camera)
+        _renderer.readRenderTargetPixels(
             pickingTarget,
             0,
             0,
@@ -58,9 +60,9 @@ export default function (w, h) {
             pickingTarget.height,
             pixelBuffer
         )
-        renderer.setRenderTarget(currRenderTarget)
-        renderer.setClearColor(currClearColor, currAlpha)
-        camera.clearViewOffset()
+        _renderer.setRenderTarget(currRenderTarget)
+        _renderer.setClearColor(currClearColor, currAlpha)
+        _camera.clearViewOffset()
 
         var val =
             (pixelBuffer[0] << 24) +

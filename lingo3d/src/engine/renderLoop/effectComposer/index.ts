@@ -14,6 +14,7 @@ import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 import { getVignetteEffect } from "./vignetteEffect"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
+import { resolutionPtr } from "../../../pointers/resolutionPtr"
 
 const effectComposer = new EffectComposer()
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -31,7 +32,7 @@ createEffect(() => {
 }, [getCameraRendered])
 
 createEffect(() => {
-    const [w, h] = getResolution()
+    const [[w, h]] = resolutionPtr
     effectComposer.setSize(w, h)
 }, [getRenderer, getResolution])
 

@@ -16,13 +16,14 @@ import { emitLoop } from "../../events/onLoop"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { dtPtr } from "../../pointers/dtPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
+import { resolutionPtr } from "../../pointers/resolutionPtr"
 
 createEffect(() => {
     const [renderer] = rendererPtr
     const [camera] = cameraRenderedPtr
 
     if (getSplitView()) {
-        const [resX, resY] = getResolution()
+        const [[resX, resY]] = resolutionPtr
         const width = resX * 1
         const height = resY * 0.5
 

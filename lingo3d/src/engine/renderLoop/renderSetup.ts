@@ -14,6 +14,7 @@ import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { emitResize } from "../../events/onResize"
 import { container, uiContainer, overlayContainer } from "./containers"
 import { rendererPtr } from "../../pointers/rendererPtr"
+import { resolutionPtr } from "../../pointers/resolutionPtr"
 
 container.appendChild(uiContainer)
 uiContainer.appendChild(overlayContainer)
@@ -97,7 +98,7 @@ createEffect(() => {
 
 createEffect(() => {
     const [renderer] = rendererPtr
-    const [w, h] = getResolution()
+    const [[w, h]] = resolutionPtr
     renderer.setSize(w, h)
     renderer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
 }, [getRenderer, getResolution, getPixelRatio])

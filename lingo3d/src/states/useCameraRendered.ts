@@ -15,6 +15,7 @@ import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import { getWebXR } from "./useWebXR"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { cameraTransitionSet } from "../collections/cameraTransitionSet"
+import { resolutionPtr } from "../pointers/resolutionPtr"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -70,7 +71,7 @@ createEffect(() => {
     const camera = cameraRenderedPtr[0] as
         | PerspectiveCamera
         | OrthographicCamera
-    const [resX, resY] = getResolution()
+    const [[resX, resY]] = resolutionPtr
     const aspect = resX / resY
 
     if (camera instanceof PerspectiveCamera && !getWebXR()) {

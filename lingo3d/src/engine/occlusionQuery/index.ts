@@ -1,10 +1,10 @@
 import scene from "../scene"
 import GPUPicker from "./GPUPicker"
 
-const picker = new GPUPicker(256, 256)
+const picker = new GPUPicker()
 
 export default {}
 
 setInterval(() => {
-    console.log(scene.getObjectById(picker.pick(256, 256)))
+    console.log(scene.getObjectById(picker.pick(0, 0)))
 }, 1000)

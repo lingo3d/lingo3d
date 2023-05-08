@@ -1,8 +1,8 @@
 import { OrthographicCamera as ThreeOrthographicCamera } from "three"
 import { FAR, ORTHOGRAPHIC_FRUSTUM } from "../../globals"
 import ICamera from "../../interface/ICamera"
-import { getResolution } from "../../states/useResolution"
 import CameraBase from "../core/CameraBase"
+import { resolutionPtr } from "../../pointers/resolutionPtr"
 
 export default class OrthographicCamera
     //@ts-ignore
@@ -14,7 +14,7 @@ export default class OrthographicCamera
     public static schema = {}
 
     public constructor(cam?: ThreeOrthographicCamera) {
-        const [w, h] = getResolution()
+        const [[w, h]] = resolutionPtr
         const aspect = w / h
 
         super(
