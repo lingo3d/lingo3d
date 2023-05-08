@@ -2,6 +2,7 @@ import {
     DefaultSkyLight,
     Dummy,
     PooledPointLight,
+    Sprite,
 } from ".."
 import Cube from "../display/primitives/Cube"
 
@@ -14,6 +15,12 @@ ground.scaleX = 1000
 ground.scaleZ = 1000
 
 const light = new PooledPointLight()
+
+const aura = new Sprite()
+aura.scale = 10
+aura.texture = "particle.jpg"
+aura.blending = "additive"
+aura.depthTest = false
 
 // settings.shadowMode = "physics"
 
