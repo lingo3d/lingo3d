@@ -4,18 +4,13 @@ import {
     RGBAFormat,
     LinearEncoding,
     Scene,
-    Color,
-    FrontSide,
-    BackSide,
-    DoubleSide,
-    ShaderChunk,
-    ShaderMaterial
+    Color
 } from "three"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import scene from "../scene"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
-import { nativeIdMap } from "../../collections/idCollections"
+import getRenderMaterial from "./getRenderMaterial"
 
 export default function () {
     // This is the 1x1 pixel render target we use to do the picking
@@ -34,8 +29,6 @@ export default function () {
         4 * pickingTarget.width * pickingTarget.height
     )
     var clearColor = new Color(0xffffff)
-    var materialCache = []
-
     var currClearColor = new Color()
 
     let _renderer, _camera, _resolution, currRenderTarget, currAlpha
@@ -90,7 +83,6 @@ export default function () {
         var geometry = renderItem.geometry
 
         var useMorphing = 0
-
         if (material.morphTargets === true) {
             if (geometry.isBufferGeometry === true) {
                 useMorphing =
@@ -106,51 +98,13 @@ export default function () {
                         : 0
             }
         }
-
-        var useSkinning = object.isSkinnedMesh ? 1 : 0
-        var useInstancing = object.isInstancedMesh === true ? 1 : 0
-        var frontSide = material.side === FrontSide ? 1 : 0
-        var backSide = material.side === BackSide ? 1 : 0
-        var doubleSide = material.side === DoubleSide ? 1 : 0
-        var sprite = material.type === "SpriteMaterial" ? 1 : 0
-        var sizeAttenuation = material.sizeAttenuation ? 1 : 0
-        var index =
-            (useMorphing << 0) |
-            (useSkinning << 1) |
-            (useInstancing << 2) |
-            (frontSide << 3) |
-            (backSide << 4) |
-            (doubleSide << 5) |
-            (sprite << 6) |
-            (sizeAttenuation << 7)
-        var renderMaterial = renderItem.object.pickingMaterial
-            ? renderItem.object.pickingMaterial
-            : materialCache[index]
-        if (!renderMaterial) {
-            let vertexShader = ShaderChunk.meshbasic_vert
-            if (sprite) {
-                vertexShader = ShaderChunk.sprite_vert
-                if (sizeAttenuation)
-                    vertexShader =
-                        "#define USE_SIZEATTENUATION\n\n" + vertexShader
-            }
-            renderMaterial = new ShaderMaterial({
-                vertexShader: vertexShader,
-                fragmentShader: `
-                    uniform vec4 objectId;
-                    void main() {
-                        gl_FragColor = objectId;
-                    }
-                `,
-                side: material.side
-            })
-            ;(renderMaterial.skinning = useSkinning > 0),
-                (renderMaterial.morphTargets = useMorphing > 0),
-                (renderMaterial.uniforms = {
-                    objectId: { value: [1.0, 1.0, 1.0, 1.0] }
-                })
-            materialCache[index] = renderMaterial
-        }
+        const sprite = material.type === "SpriteMaterial" ? 1 : 0
+        const renderMaterial = getRenderMaterial(
+            object,
+            material,
+            useMorphing,
+            sprite
+        )
         if (sprite) {
             renderMaterial.uniforms.rotation = { value: material.rotation }
             renderMaterial.uniforms.center = { value: object.center }
