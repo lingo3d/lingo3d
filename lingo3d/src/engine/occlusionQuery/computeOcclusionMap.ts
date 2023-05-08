@@ -1,7 +1,6 @@
 import {
     Color,
     LinearEncoding,
-    MeshStandardMaterial,
     NearestFilter,
     RGBAFormat,
     RenderItem,
@@ -33,8 +32,7 @@ const processItem = (renderItem: RenderItem) => {
     const objId = object.id
 
     const renderMaterial = getRenderMaterial(object, material)
-    //@ts-ignore
-    if (object.isSprite) {
+    if (object.type === "Sprite") {
         renderMaterial.uniforms.rotation = {
             value: (material as SpriteMaterial).rotation
         }
