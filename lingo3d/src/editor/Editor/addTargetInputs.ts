@@ -215,6 +215,8 @@ export default (
         "textureFlipY",
         "textureRotation",
         "wireframe",
+        "depthTest",
+        "blending",
         "emissive",
         "emissiveIntensity"
     ])
@@ -248,9 +250,7 @@ export default (
         "lightMapIntensity",
         "envMap",
         "envMapIntensity",
-        "alphaMap",
-        "depthTest",
-        "blending"
+        "alphaMap"
     ])
     pbrMaterialParams &&
         addInputs(

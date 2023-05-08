@@ -9,7 +9,7 @@ import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { SpriteMaterialParams } from "../../../pools/spriteMaterialPool"
 import { addRefreshTexturedSpriteSystem } from "../../../systems/configSystems/refreshTexturedSpriteSystem"
-import { ColorString } from "../../../interface/ITexturedStandard"
+import { Blending, ColorString } from "../../../interface/ITexturedStandard"
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [
@@ -94,6 +94,22 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureRotation(val: number | undefined) {
         this.$materialParams[6] = val ?? defaults.textureRotation
+        addRefreshTexturedSpriteSystem(this)
+    }
+
+    public get depthTest() {
+        return this.$materialParams[7]
+    }
+    public set depthTest(val: boolean | undefined) {
+        this.$materialParams[7] = val ?? defaults.depthTest
+        addRefreshTexturedSpriteSystem(this)
+    }
+
+    public get blending() {
+        return this.$materialParams[8]
+    }
+    public set blending(val: Blending | undefined) {
+        this.$materialParams[8] = val ?? defaults.blending
         addRefreshTexturedSpriteSystem(this)
     }
 }

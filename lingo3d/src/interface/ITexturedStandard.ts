@@ -78,6 +78,13 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         blending: String
     }
 
+export const blendingChoices = new Choices({
+    additive: "additive",
+    subtractive: "subtractive",
+    multiply: "multiply",
+    normal: "normal"
+})
+
 export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
     [],
     {
@@ -126,11 +133,6 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         metalness: new Range(-2, 2),
         roughness: new Range(0, 4),
         normalScale: new Range(0, 4),
-        blending: new Choices({
-            additive: "additive",
-            subtractive: "subtractive",
-            multiply: "multiply",
-            normal: "normal"
-        })
+        blending: blendingChoices
     }
 )

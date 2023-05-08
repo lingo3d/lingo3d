@@ -4,7 +4,8 @@ import { SpriteMaterial, DoubleSide } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "./utils/createInstancePool"
-import { ColorString } from "../interface/ITexturedStandard"
+import { Blending, ColorString } from "../interface/ITexturedStandard"
+import { castBlending } from "../display/utils/castBlending"
 
 export type SpriteMaterialParams = [
     color: ColorString,
@@ -13,7 +14,9 @@ export type SpriteMaterialParams = [
     alphaMap: string,
     textureRepeat: number | Point,
     textureFlipY: boolean,
-    textureRotation: number
+    textureRotation: number,
+    depthTest: boolean,
+    blending: Blending
 ]
 
 export const [increaseSpriteMaterial, decreaseSpriteMaterial] =
@@ -38,7 +41,9 @@ export const [increaseSpriteMaterial, decreaseSpriteMaterial] =
                             params[4],
                             params[5],
                             params[6]
-                        )
+                        ),
+                        depthTest: params[7],
+                        blending: castBlending(params[8])
                     },
                     filterNotDefault
                 )

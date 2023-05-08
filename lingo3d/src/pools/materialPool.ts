@@ -1,14 +1,5 @@
 import { filter } from "@lincode/utils"
-import {
-    MeshStandardMaterial,
-    DoubleSide,
-    Vector2,
-    AdditiveBlending,
-    MultiplyBlending,
-    NormalBlending,
-    SubtractiveBlending,
-    Blending as ThreeBlending
-} from "three"
+import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "./utils/createInstancePool"
@@ -17,21 +8,7 @@ import { uuidMaterialMap } from "../collections/uuidCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { PointType } from "../utils/isPoint"
-
-const castBlending = (blending: Blending): ThreeBlending => {
-    switch (blending) {
-        case "additive":
-            return AdditiveBlending
-        case "subtractive":
-            return SubtractiveBlending
-        case "multiply":
-            return MultiplyBlending
-        case "normal":
-            return NormalBlending
-        default:
-            throw new Error("Unknown blending mode")
-    }
-}
+import { castBlending } from "../display/utils/castBlending"
 
 export type MaterialParams = [
     color: ColorString,
