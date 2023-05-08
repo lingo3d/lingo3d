@@ -13,8 +13,7 @@ import { resolutionPtr } from "../../pointers/resolutionPtr"
 import getRenderMaterial from "./getRenderMaterial"
 
 export default function () {
-    // This is the 1x1 pixel render target we use to do the picking
-    var pickingTarget = new WebGLRenderTarget(1, 1, {
+    const renderTarget = new WebGLRenderTarget(100, 100, {
         minFilter: NearestFilter,
         magFilter: NearestFilter,
         format: RGBAFormat,
@@ -22,48 +21,50 @@ export default function () {
     })
     // We need to be inside of .render in order to call renderBufferDirect in renderList() so create an empty scene
     // and use the onAfterRender callback to actually render geometry for picking.
-    var emptyScene = new Scene()
+    const emptyScene = new Scene()
     emptyScene.onAfterRender = renderList
     // RGBA is 4 channels.
-    var pixelBuffer = new Uint8Array(
-        4 * pickingTarget.width * pickingTarget.height
+    const pixelBuffer = new Uint8Array(
+        4 * renderTarget.width * renderTarget.height
     )
-    var clearColor = new Color(0xffffff)
-    var currClearColor = new Color()
+    const clearColor = new Color(0xffffff)
+    const currClearColor = new Color()
 
     let _renderer, _camera, _resolution, currRenderTarget, currAlpha
-    this.pick = function (x, y) {
+    this.pick = function () {
         _renderer = rendererPtr[0]
         _camera = cameraRenderedPtr[0]
         _resolution = resolutionPtr[0]
 
         // Set the projection matrix to only look at the pixel we are interested in.
-        _camera.setViewOffset(_resolution[0], _resolution[1], x, y, 1, 1)
         currRenderTarget = _renderer.getRenderTarget()
         currAlpha = _renderer.getClearAlpha()
         _renderer.getClearColor(currClearColor)
-        _renderer.setRenderTarget(pickingTarget)
+        _renderer.setRenderTarget(renderTarget)
         _renderer.setClearColor(clearColor)
         _renderer.clear()
         _renderer.render(emptyScene, _camera)
         _renderer.readRenderTargetPixels(
-            pickingTarget,
+            renderTarget,
             0,
             0,
-            pickingTarget.width,
-            pickingTarget.height,
+            renderTarget.width,
+            renderTarget.height,
             pixelBuffer
         )
         _renderer.setRenderTarget(currRenderTarget)
         _renderer.setClearColor(currClearColor, currAlpha)
-        _camera.clearViewOffset()
 
-        return (
-            (pixelBuffer[0] << 24) +
-            (pixelBuffer[1] << 16) +
-            (pixelBuffer[2] << 8) +
-            pixelBuffer[3]
-        )
+        const idSet = new Set()
+        const iMax = 100 * 100 * 4
+        for (let i = 0; i < iMax; i += 4)
+            idSet.add(
+                (pixelBuffer[i] << 24) +
+                    (pixelBuffer[i + 1] << 16) +
+                    (pixelBuffer[i + 2] << 8) +
+                    pixelBuffer[i + 3]
+            )
+        console.log(idSet)
     }
 
     function renderList() {
