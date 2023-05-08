@@ -1,7 +1,7 @@
 import { SpriteMaterial } from "three"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
-export const [addSpriteSheetSystem, deleteSpriteSheetSystem] =
+export const [addSpriteSheetPlaySystem, deleteSpriteSheetPlaySystem] =
     renderSystemWithData(
         (
             material: SpriteMaterial,
@@ -24,6 +24,6 @@ export const [addSpriteSheetSystem, deleteSpriteSheetSystem] =
             data.frame = 0
             data.x = 0
             data.y = data.rows - 1
-            !data.loop && deleteSpriteSheetSystem(material)
+            !data.loop && deleteSpriteSheetPlaySystem(material)
         }
     )

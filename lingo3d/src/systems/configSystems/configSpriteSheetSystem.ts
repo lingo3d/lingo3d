@@ -8,9 +8,9 @@ import {
     decreaseSpriteSheet
 } from "../../pools/spriteSheetPool"
 import {
-    addSpriteSheetSystem,
-    deleteSpriteSheetSystem
-} from "../spriteSheetSystem"
+    addSpriteSheetPlaySystem,
+    deleteSpriteSheetPlaySystem
+} from "../spriteSheetPlaySystem"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
 const loadSpriteSheet = (
@@ -30,12 +30,11 @@ const playSpriteSheet = (
     material: SpriteMaterial,
     columns: number,
     length: number,
-    loop: boolean | undefined,
-    handle: Cancellable
+    loop: boolean | undefined
 ) => {
     material.visible = true
     const rows = Math.ceil(length / columns)
-    addSpriteSheetSystem(material, {
+    addSpriteSheetPlaySystem(material, {
         x: 0,
         y: rows - 1,
         columns,
@@ -44,7 +43,6 @@ const playSpriteSheet = (
         length,
         loop
     })
-    handle.then(() => deleteSpriteSheetSystem(material))
 }
 
 export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
@@ -64,13 +62,15 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             const paramString = JSON.stringify(params)
             increaseSpriteSheet(params, paramString).then(
                 ([url, columns, length, blob]) => {
+                    if (handle.done) return
                     self.blob = blob
                     loadSpriteSheet($material, url, columns, length)
-                    playSpriteSheet($material, columns, length, loop, handle)
+                    playSpriteSheet($material, columns, length, loop)
                 }
             )
             return () => {
                 decreaseSpriteSheet(paramString)
+                deleteSpriteSheetPlaySystem($material)
                 handle.cancel()
             }
         }
@@ -78,11 +78,13 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
 
         const handle = new Cancellable()
         loadSpriteSheet($material, texture, columns, length)
-        const timeout = setTimeout(() => {
-            playSpriteSheet($material, columns, length, loop, handle)
-        }, 300)
+        const timeout = setTimeout(
+            () => playSpriteSheet($material, columns, length, loop),
+            300
+        )
         return () => {
             clearTimeout(timeout)
+            deleteSpriteSheetPlaySystem($material)
             handle.cancel()
         }
     }
