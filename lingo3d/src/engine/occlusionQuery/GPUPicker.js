@@ -15,6 +15,7 @@ import { rendererPtr } from "../../pointers/rendererPtr"
 import scene from "../scene"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
+import { nativeIdMap } from "../../collections/idCollections"
 
 export default function () {
     // This is the 1x1 pixel render target we use to do the picking
@@ -37,7 +38,7 @@ export default function () {
 
     var currClearColor = new Color()
 
-    let _renderer, _camera, _resolution
+    let _renderer, _camera, _resolution, currRenderTarget, currAlpha
     this.pick = function (x, y) {
         _renderer = rendererPtr[0]
         _camera = cameraRenderedPtr[0]
@@ -45,8 +46,8 @@ export default function () {
 
         // Set the projection matrix to only look at the pixel we are interested in.
         _camera.setViewOffset(_resolution[0], _resolution[1], x, y, 1, 1)
-        var currRenderTarget = _renderer.getRenderTarget()
-        var currAlpha = _renderer.getClearAlpha()
+        currRenderTarget = _renderer.getRenderTarget()
+        currAlpha = _renderer.getClearAlpha()
         _renderer.getClearColor(currClearColor)
         _renderer.setRenderTarget(pickingTarget)
         _renderer.setClearColor(clearColor)
@@ -64,12 +65,12 @@ export default function () {
         _renderer.setClearColor(currClearColor, currAlpha)
         _camera.clearViewOffset()
 
-        var val =
+        return (
             (pixelBuffer[0] << 24) +
             (pixelBuffer[1] << 16) +
             (pixelBuffer[2] << 8) +
             pixelBuffer[3]
-        return val
+        )
     }
 
     function renderList() {
@@ -84,6 +85,7 @@ export default function () {
     function processItem(renderItem) {
         var object = renderItem.object
         var objId = object.id
+
         var material = renderItem.material
         var geometry = renderItem.geometry
 
@@ -135,11 +137,11 @@ export default function () {
             renderMaterial = new ShaderMaterial({
                 vertexShader: vertexShader,
                 fragmentShader: `
-            uniform vec4 objectId;
-            void main() {
-              gl_FragColor = objectId;
-            }
-          `,
+                    uniform vec4 objectId;
+                    void main() {
+                        gl_FragColor = objectId;
+                    }
+                `,
                 side: material.side
             })
             ;(renderMaterial.skinning = useSkinning > 0),
