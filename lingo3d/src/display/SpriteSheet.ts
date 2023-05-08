@@ -5,29 +5,30 @@ import ISpriteSheet, {
 } from "../interface/ISpriteSheet"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { addConfigSpriteSheetSystem } from "../systems/configSystems/configSpriteSheetSystem"
+import { castBackBlending, castBlending } from "./utils/castBlending"
 
 export default class SpriteSheet
-    extends PhysicsObjectManager
+    extends PhysicsObjectManager<Sprite>
     implements ISpriteSheet
 {
     public static componentName = "spriteSheet"
     public static defaults = spriteSheetDefaults
     public static schema = spriteSheetSchema
 
-    public $material: SpriteMaterial
-
     public constructor() {
-        const material = new SpriteMaterial({
-            transparent: true,
-            visible: false
-        })
-        super(new Sprite(material))
-        this.$material = material
+        super(
+            new Sprite(
+                new SpriteMaterial({
+                    transparent: true,
+                    visible: false
+                })
+            )
+        )
     }
 
-    public blob: Blob | undefined
+    public $blob: Blob | undefined
     public toBlob() {
-        return this.blob
+        return this.$blob
     }
 
     private _textureStart?: string
@@ -88,8 +89,16 @@ export default class SpriteSheet
         return 0
     }
     public override set depth(_) {}
+
     public override get scaleZ() {
         return 0
     }
     public override set scaleZ(_) {}
+
+    public get blending() {
+        return castBackBlending(this.object3d.material.blending)
+    }
+    public set blending(val) {
+        this.object3d.material.blending = castBlending(val)
+    }
 }

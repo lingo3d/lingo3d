@@ -4,32 +4,13 @@ import {
     Object3D,
     Mesh,
     DoubleSide,
-    MeshStandardMaterial,
-    AdditiveBlending,
-    SubtractiveBlending,
-    MultiplyBlending,
-    NormalBlending
+    MeshStandardMaterial
 } from "three"
 import { uuidMaterialMap } from "../../../../collections/uuidCollections"
 import { materialDefaultsMap } from "../../../../collections/materialDefaultsMap"
 import { rad2Deg } from "@lincode/math"
 import { blackColor } from "../../reusables"
-import { Blending } from "../../../../interface/ITexturedStandard"
-
-const castBlending = (blending: number): Blending => {
-    switch (blending) {
-        case AdditiveBlending:
-            return "additive"
-        case SubtractiveBlending:
-            return "subtractive"
-        case MultiplyBlending:
-            return "multiply"
-        case NormalBlending:
-            return "normal"
-        default:
-            throw new Error("Unknown blending mode")
-    }
-}
+import { castBackBlending } from "../../castBlending"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
     const lights: Array<Light> = []
@@ -74,7 +55,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             normalMap: "",
             normalScale: material.normalScale?.x ?? 1,
             depthTest: material.depthTest,
-            blending: castBlending(material.blending),
+            blending: castBackBlending(material.blending),
             referenceUUID: material.uuid
         })
         child.receiveShadow = true

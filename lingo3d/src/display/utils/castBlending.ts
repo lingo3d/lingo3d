@@ -21,3 +21,18 @@ export const castBlending = (blending: Blending): ThreeBlending => {
             throw new Error("Unknown blending mode")
     }
 }
+
+export const castBackBlending = (blending: number): Blending => {
+    switch (blending) {
+        case AdditiveBlending:
+            return "additive"
+        case SubtractiveBlending:
+            return "subtractive"
+        case MultiplyBlending:
+            return "multiply"
+        case NormalBlending:
+            return "normal"
+        default:
+            throw new Error("Unknown blending mode")
+    }
+}
