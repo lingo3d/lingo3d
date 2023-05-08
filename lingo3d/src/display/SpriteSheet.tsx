@@ -14,7 +14,7 @@ export default class SpriteSheet
     public static defaults = spriteSheetDefaults
     public static schema = spriteSheetSchema
 
-    public material: SpriteMaterial
+    public $material: SpriteMaterial
 
     public constructor() {
         const material = new SpriteMaterial({
@@ -22,7 +22,7 @@ export default class SpriteSheet
             visible: false
         })
         super(new Sprite(material))
-        this.material = material
+        this.$material = material
     }
 
     public blob: Blob | undefined

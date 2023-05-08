@@ -56,7 +56,7 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             columns,
             length,
             loop,
-            material
+            $material
         } = self
         if (textureStart && textureEnd) {
             const handle = new Cancellable()
@@ -65,8 +65,8 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             increaseSpriteSheet(params, paramString).then(
                 ([url, columns, length, blob]) => {
                     self.blob = blob
-                    loadSpriteSheet(material, url, columns, length)
-                    playSpriteSheet(material, columns, length, loop, handle)
+                    loadSpriteSheet($material, url, columns, length)
+                    playSpriteSheet($material, columns, length, loop, handle)
                 }
             )
             return () => {
@@ -77,9 +77,9 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
         if (!texture || !columns || !length) return
 
         const handle = new Cancellable()
-        loadSpriteSheet(material, texture, columns, length)
+        loadSpriteSheet($material, texture, columns, length)
         const timeout = setTimeout(() => {
-            playSpriteSheet(material, columns, length, loop, handle)
+            playSpriteSheet($material, columns, length, loop, handle)
         }, 300)
         return () => {
             clearTimeout(timeout)
