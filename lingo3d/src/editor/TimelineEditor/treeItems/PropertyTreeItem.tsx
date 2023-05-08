@@ -6,7 +6,7 @@ import {
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
 import handleTreeItemClick from "../../utils/handleTreeItemClick"
-import { uuidMap } from "../../../collections/uuidCollections"
+import { uuidMap } from "../../../collections/idCollections"
 
 type PropertyTreeItemProps = {
     property: string

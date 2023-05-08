@@ -9,7 +9,7 @@ import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
-import { uuidMap } from "../collections/uuidCollections"
+import { uuidMap } from "../collections/idCollections"
 import { keyframesPtr } from "../pointers/keyframesPtr"
 import getReactive from "../utils/getReactive"
 

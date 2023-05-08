@@ -5,7 +5,7 @@ import loadTexture from "../../../utils/loaders/loadTexture"
 import loadVideoTexture, {
     isSelector
 } from "../../../utils/loaders/loadVideoTexture"
-import { uuidTextureMap } from "../../../../collections/uuidCollections"
+import { uuidTextureMap } from "../../../../collections/idCollections"
 
 const initMap = (
     map: Texture,

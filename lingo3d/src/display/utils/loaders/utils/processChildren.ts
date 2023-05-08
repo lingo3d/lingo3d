@@ -6,7 +6,7 @@ import {
     DoubleSide,
     MeshStandardMaterial
 } from "three"
-import { uuidMaterialMap } from "../../../../collections/uuidCollections"
+import { uuidMaterialMap } from "../../../../collections/idCollections"
 import { materialDefaultsMap } from "../../../../collections/materialDefaultsMap"
 import { rad2Deg } from "@lincode/math"
 import { blackColor } from "../../reusables"

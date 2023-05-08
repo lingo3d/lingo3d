@@ -22,7 +22,7 @@ import { timelineContextMenuSignal } from "./TimelineContextMenu"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
-import { uuidMap } from "../../collections/uuidCollections"
+import { uuidMap } from "../../collections/idCollections"
 import {
     maxFramePtr,
     minFramePtr,

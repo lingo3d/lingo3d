@@ -1,5 +1,5 @@
 import { Bone } from "three"
-import { uuidMap } from "../../collections/uuidCollections"
+import { uuidMap } from "../../collections/idCollections"
 import DummyIK from "../../display/DummyIK"
 import Model from "../../display/Model"
 import { getSkeleton } from "../../memo/getSkeleton"

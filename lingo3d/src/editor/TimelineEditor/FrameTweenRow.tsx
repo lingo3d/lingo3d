@@ -5,7 +5,7 @@ import { FRAME_HEIGHT } from "../../globals"
 import diffProps from "../utils/diffProps"
 import AudioRow from "./AudioRow"
 import FrameTween from "./FrameTween"
-import { uuidMap } from "../../collections/uuidCollections"
+import { uuidMap } from "../../collections/idCollections"
 
 type FrameTweenRowProps = {
     frames: Record<number, true>

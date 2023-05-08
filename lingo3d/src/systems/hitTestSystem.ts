@@ -4,7 +4,7 @@ import { HitEvent } from "../interface/IVisible"
 import renderSystem from "./utils/renderSystem"
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
-import { getAppendablesById } from "../collections/uuidCollections"
+import { getAppendablesById } from "../collections/idCollections"
 
 const getAppendables = (val: string | Array<string> | undefined) => {
     if (!val) return []

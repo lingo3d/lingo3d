@@ -13,7 +13,7 @@ import {
 } from "../../../states/useTimelineLayer"
 import getDisplayName from "../../utils/getDisplayName"
 import handleTreeItemClick from "../../utils/handleTreeItemClick"
-import { uuidMap } from "../../../collections/uuidCollections"
+import { uuidMap } from "../../../collections/idCollections"
 
 type LayerTreeItemProps = {
     children: ComponentChildren

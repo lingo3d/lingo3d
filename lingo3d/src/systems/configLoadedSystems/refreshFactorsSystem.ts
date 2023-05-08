@@ -11,7 +11,7 @@ import {
     reflectionChangedSet,
     reflectionDataMap
 } from "../../collections/reflectionCollections"
-import { uuidTextureMap } from "../../collections/uuidCollections"
+import { uuidTextureMap } from "../../collections/idCollections"
 import FoundManager from "../../display/core/FoundManager"
 import configLoadedSystem from "../utils/configLoadedSystem"
 

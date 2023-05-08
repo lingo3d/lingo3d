@@ -5,7 +5,7 @@ import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import { physxPtr } from "../../pointers/physxPtr"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./configPhysicsShapeSystem"
-import { uuidMap } from "../../collections/uuidCollections"
+import { uuidMap } from "../../collections/idCollections"
 import { Cancellable } from "@lincode/promiselikes"
 import { TransformControlsPayload } from "../../events/onTransformControls"
 
