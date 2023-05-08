@@ -5,8 +5,11 @@ import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 import { ColorRepresentation } from "three"
+import Choices from "./utils/Choices"
 
 export type ColorString = Extract<ColorRepresentation, string>
+
+export type Blending = "additive" | "subtractive" | "multiply" | "normal"
 
 export default interface ITexturedStandard {
     color: Nullable<ColorString>
@@ -38,6 +41,7 @@ export default interface ITexturedStandard {
     normalMap: Nullable<string>
     normalScale: Nullable<number>
     depthTest: Nullable<boolean>
+    blending: Nullable<Blending>
 }
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
@@ -70,7 +74,8 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         roughness: Number,
         normalMap: String,
         normalScale: Number,
-        depthTest: Boolean
+        depthTest: Boolean,
+        blending: String
     }
 
 export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
@@ -104,7 +109,8 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         roughness: nullableDefault(1),
         normalMap: undefined,
         normalScale: nullableDefault(1),
-        depthTest: nullableDefault(true)
+        depthTest: nullableDefault(true),
+        blending: nullableDefault("normal")
     },
     {
         opacity: new Range(0, 1),
@@ -119,6 +125,12 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         lightMapIntensity: new Range(0, 4),
         metalness: new Range(-2, 2),
         roughness: new Range(0, 4),
-        normalScale: new Range(0, 4)
+        normalScale: new Range(0, 4),
+        blending: new Choices({
+            additive: "additive",
+            subtractive: "subtractive",
+            multiply: "multiply",
+            normal: "normal"
+        })
     }
 )

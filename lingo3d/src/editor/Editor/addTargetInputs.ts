@@ -249,7 +249,8 @@ export default (
         "envMap",
         "envMapIntensity",
         "alphaMap",
-        "depthTest"
+        "depthTest",
+        "blending"
     ])
     pbrMaterialParams &&
         addInputs(

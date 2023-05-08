@@ -1,13 +1,37 @@
 import { filter } from "@lincode/utils"
-import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
+import {
+    MeshStandardMaterial,
+    DoubleSide,
+    Vector2,
+    AdditiveBlending,
+    MultiplyBlending,
+    NormalBlending,
+    SubtractiveBlending,
+    Blending as ThreeBlending
+} from "three"
 import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "./utils/createInstancePool"
-import { ColorString } from "../interface/ITexturedStandard"
+import { Blending, ColorString } from "../interface/ITexturedStandard"
 import { uuidMaterialMap } from "../collections/uuidCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { PointType } from "../utils/isPoint"
+
+const castBlending = (blending: Blending): ThreeBlending => {
+    switch (blending) {
+        case "additive":
+            return AdditiveBlending
+        case "subtractive":
+            return SubtractiveBlending
+        case "multiply":
+            return MultiplyBlending
+        case "normal":
+            return NormalBlending
+        default:
+            throw new Error("Unknown blending mode")
+    }
+}
 
 export type MaterialParams = [
     color: ColorString,
@@ -38,6 +62,7 @@ export type MaterialParams = [
     normalMap: string,
     normalScale: number,
     depthTest: boolean,
+    blending: Blending,
     referenceUUID: string
 ]
 
@@ -67,7 +92,7 @@ const setMaterial = (
 export const [increaseMaterial, decreaseMaterial, allocateDefaultMaterial] =
     createInstancePool<MeshStandardMaterial, MaterialParams>(
         (params) => {
-            const referenceUUID = params[28]
+            const referenceUUID = params[29]
             if (referenceUUID) {
                 const referenceMaterial = uuidMaterialMap.get(referenceUUID)!
                 const defaults = materialDefaultsMap.get(referenceMaterial)!
@@ -160,6 +185,7 @@ export const [increaseMaterial, decreaseMaterial, allocateDefaultMaterial] =
                 )
                 setMaterial(material, "normalScale", params[26], defaults)
                 setMaterial(material, "depthTest", params[27], defaults)
+                setMaterial(material, "blending", params[28], defaults)
 
                 return material
             }
@@ -242,7 +268,8 @@ export const [increaseMaterial, decreaseMaterial, allocateDefaultMaterial] =
                             params[6]
                         ),
                         normalScale: new Vector2(params[26], params[26]),
-                        depthTest: params[27]
+                        depthTest: params[27],
+                        blending: castBlending(params[28])
                     },
                     filterNotDefault
                 )

@@ -1,5 +1,6 @@
 import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
 import ITexturedStandard, {
+    Blending,
     ColorString,
     texturedStandardDefaults,
     texturedStandardSchema
@@ -290,6 +291,14 @@ export default abstract class TexturedStandardMixin
     }
     public set depthTest(val: boolean | undefined) {
         this.$materialParams[27] = val ?? this.$defaults.depthTest
+        addRefreshTexturedStandardSystem(this)
+    }
+
+    public get blending() {
+        return this.$materialParams[28]
+    }
+    public set blending(val: Blending | undefined) {
+        this.$materialParams[28] = val ?? this.$defaults.blending
         addRefreshTexturedStandardSystem(this)
     }
 }
