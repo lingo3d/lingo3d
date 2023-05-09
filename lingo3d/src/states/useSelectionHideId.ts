@@ -3,7 +3,6 @@ import { appendableRoot } from "../collections/appendableRoot"
 import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { onId } from "../events/onId"
-import { selectionDisabledSet } from "../collections/selectionDisabledSet"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { getSelectionCandidates } from "../display/core/utils/raycast/getSelectionCandidates"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
@@ -49,7 +48,7 @@ createEffect(() => {
         handle.cancel()
         for (const child of hidden) {
             child.visible = true
-            selectionDisabledSet.delete(child)
+            child.disableSelection = false
         }
         getSelectionCandidates()
     }

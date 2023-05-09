@@ -17,7 +17,7 @@ import { disableSerialize } from "../../collections/disableSerialize"
 import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { disableUnload } from "../../collections/disableUnload"
 import { emitId } from "../../events/onId"
-import { selectionDisabledSet } from "../../collections/selectionDisabledSet"
+import { disableSelection } from "../../collections/disableSelection"
 
 type EventName =
     | "name"
@@ -231,9 +231,9 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public get disableSelection() {
-        return selectionDisabledSet.has(this)
+        return disableSelection.has(this)
     }
     public set disableSelection(val) {
-        val ? selectionDisabledSet.add(this) : selectionDisabledSet.delete(this)
+        val ? disableSelection.add(this) : disableSelection.delete(this)
     }
 }
