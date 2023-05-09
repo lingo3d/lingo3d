@@ -25,6 +25,7 @@ import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/
 import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 import getRendered from "../../../memo/getRendered"
+import { nativeIdMap } from "../../../collections/idCollections"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -79,7 +80,12 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
+    private initRenderCheck?: boolean
     public get isRendered() {
+        if (!this.initRenderCheck) {
+            this.initRenderCheck = true
+            nativeIdMap.set(this.object3d.id, this)
+        }
         return getRendered().has(this)
     }
 

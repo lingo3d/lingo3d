@@ -10,7 +10,7 @@ import {
     Color,
     Object3D
 } from "three"
-import { nativeIdMap } from "../collections/idCollections"
+import { nativeIdMap, nativeIdModelMap } from "../collections/idCollections"
 import { whiteColor } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
@@ -34,7 +34,7 @@ visualizeRenderTarget(renderTarget)
 
 const processItem = (object: Object3D) => {
     const { id, material, geometry } = object as Mesh
-    if (!nativeIdMap.has(id) || object.type === "Sprite") return
+    if (object.type === "Sprite") return
 
     const renderMaterial = getOcclusionMaterial(object as Mesh)
     if (object.type === "Sprite") {
@@ -101,6 +101,8 @@ export default computePerFrame((_: void) => {
     for (const id of idSet) {
         const manager = nativeIdMap.get(id)
         manager && renderedSet.add(manager)
+        const model = nativeIdModelMap.get(id)
+        model && renderedSet.add(model)
     }
     return renderedSet
 })
