@@ -9,6 +9,7 @@ import {
 } from "../states/useSelectionTarget"
 import { onDispose } from "./onDispose"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import { selectionRedirectMap } from "../collections/selectionRedirectMap"
 
 type Event = {
     target?: Appendable | MeshAppendable
@@ -20,11 +21,7 @@ export { onSelectionTarget }
 export const emitSelectionTarget = throttleTrailing(
     (target: Appendable | MeshAppendable | undefined, noDeselect?: boolean) =>
         _emitSelectionTarget({
-            target:
-                (target &&
-                    "userData" in target &&
-                    target.userData.selectionPointer) ||
-                target,
+            target: (target && selectionRedirectMap.get(target)) ?? target,
             noDeselect
         }),
     1

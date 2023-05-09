@@ -2,6 +2,7 @@ import { BufferGeometry } from "three"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import Primitive from "../Primitive"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 
 export default abstract class HelperPrimitive extends Primitive {
     public constructor(
@@ -15,8 +16,7 @@ export default abstract class HelperPrimitive extends Primitive {
         this.opacity = 0.5
 
         if (!owner) return
-
-        this.userData.selectionPointer = owner
+        selectionRedirectMap.set(this, owner)
         owner.append(this)
     }
 

@@ -1,5 +1,6 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"
 
@@ -15,7 +16,7 @@ export default class HelperSprite extends Sprite {
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
 
-        this.userData.selectionPointer = owner
+        selectionRedirectMap.set(this, owner)
         owner.append(this)
     }
 
