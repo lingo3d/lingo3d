@@ -11,7 +11,6 @@ import { standardMaterial } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
-import { selectionDisabledSet } from "../collections/selectionDisabledSet"
 import { mouseRaycast } from "../memo/mouseRaycast"
 import { Point3dType } from "../utils/isPoint"
 
@@ -42,7 +41,7 @@ createEffect(() => {
     const indicator = createMemo(() => {
         if (!isDragEvent) return
         const indicator = new HelperSphere(undefined)
-        selectionDisabledSet.add(indicator)
+        indicator.disableSelection = true
         return indicator
     }, [isDragEvent])
 
