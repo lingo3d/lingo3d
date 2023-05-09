@@ -3,18 +3,17 @@ import {
     DoubleSide,
     FrontSide,
     Material,
-    Object3D,
+    Mesh,
     ShaderChunk,
     ShaderMaterial,
     SpriteMaterial
 } from "three"
+import computeOnce from "./utils/computeOnce"
 
 const materialCache: Array<ShaderMaterial> = []
-const pickingMaterialMap = new WeakMap<Object3D, ShaderMaterial>()
 
-export default (object: Object3D, material: Material) => {
-    if (pickingMaterialMap.has(object)) return pickingMaterialMap.get(object)!
-
+export default computeOnce((object: Mesh) => {
+    const material = object.material as Material
     const useSkinning = object.type === "SkinnedMesh" ? 1 : 0
     const useInstancing = object.type === "InstancedMesh" ? 1 : 0
     const frontSide = material.side === FrontSide ? 1 : 0
@@ -31,10 +30,7 @@ export default (object: Object3D, material: Material) => {
         (sprite << 6) |
         (sizeAttenuation << 7)
 
-    if (materialCache[index]) {
-        pickingMaterialMap.set(object, materialCache[index])
-        return materialCache[index]
-    }
+    if (materialCache[index]) return materialCache[index]
 
     let vertexShader = ShaderChunk.meshbasic_vert
     if (sprite) {
@@ -42,17 +38,16 @@ export default (object: Object3D, material: Material) => {
         if (sizeAttenuation)
             vertexShader = "#define USE_SIZEATTENUATION\n\n" + vertexShader
     }
-    const renderMaterial = new ShaderMaterial({
+    const renderMaterial = (materialCache[index] = new ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: `
-                uniform vec4 objectId;
-                void main() {
-                    gl_FragColor = objectId;
-                }
-            `,
+            uniform vec4 objectId;
+            void main() {
+                gl_FragColor = objectId;
+            }
+        `,
         side: material.side
-    })
+    }))
     renderMaterial.uniforms = { objectId: { value: [1.0, 1.0, 1.0, 1.0] } }
-    pickingMaterialMap.set(object, (materialCache[index] = renderMaterial))
     return renderMaterial
-}
+})

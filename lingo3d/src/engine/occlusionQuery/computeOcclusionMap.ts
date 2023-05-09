@@ -1,6 +1,7 @@
 import {
     Color,
     LinearEncoding,
+    Mesh,
     NearestFilter,
     RGBAFormat,
     RenderItem,
@@ -11,12 +12,12 @@ import {
 } from "three"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import scene from "../scene"
-import getRenderMaterial from "./getRenderMaterial"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { whiteColor } from "../../display/utils/reusables"
 import visualizeRenderTarget from "../../display/utils/visualizeRenderTarget"
 import { nativeIdMap } from "../../collections/idCollections"
 import Appendable from "../../api/core/Appendable"
+import getOcclusionMaterial from "../../memo/getOcclusionMaterial"
 
 const SIZE = 100
 
@@ -34,7 +35,7 @@ const processItem = (renderItem: RenderItem) => {
     const objId = object.id
     if (!nativeIdMap.has(objId)) return
 
-    const renderMaterial = getRenderMaterial(object, material)
+    const renderMaterial = getOcclusionMaterial(object as Mesh)
     if (object.type === "Sprite") {
         renderMaterial.uniforms.rotation = {
             value: (material as SpriteMaterial).rotation
@@ -94,6 +95,9 @@ export default () => {
                 pixelBuffer[i + 3]
         )
     const rendered = new Set<Appendable>()
-    for (const id of idSet) rendered.add(nativeIdMap.get(id)!)
+    for (const id of idSet) {
+        const manager = nativeIdMap.get(id)
+        manager && rendered.add(manager)
+    }
     console.log(rendered)
 }
