@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import { setManager } from "../../api/utils/getManager"
 import Loaded from "../../display/core/Loaded"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { nativeIdMap } from "../../collections/idCollections"
@@ -17,7 +16,6 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
             self.$loadedGroup.add((self.$loadedObject3d = loadedObject3d))
             self.events.setState("loaded", loadedObject3d)
             loadedObject3d.traverse((child) => {
-                setManager(child, self)
                 nativeIdMap.set(child.id, self)
                 children.push(child)
             })
