@@ -14,7 +14,7 @@ import {
 import getWorldPosition from "../../../memo/getWorldPosition"
 import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
-import { setManager, unsetManager } from "../../../api/utils/getManager"
+import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
@@ -24,6 +24,7 @@ import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
+import { nativeIdMap } from "../../../collections/idCollections"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -37,6 +38,7 @@ export default abstract class CameraBase<
         super()
         this.object3d.add($camera)
         setManager($camera, this)
+        nativeIdMap.set($camera.id, this)
         pushCameraList($camera)
 
         this.createEffect(() => {
@@ -64,7 +66,7 @@ export default abstract class CameraBase<
 
     protected override disposeNode(): void {
         super.disposeNode()
-        unsetManager(this.$camera)
+        nativeIdMap.delete(this.$camera.id)
         pullCameraStack(this.$camera)
         pullCameraList(this.$camera)
     }

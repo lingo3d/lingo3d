@@ -1,10 +1,11 @@
 import { Object3D } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import IObjectManager from "../../interface/IObjectManager"
-import { setManager, unsetManager } from "../../api/utils/getManager"
+import { setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { nativeIdMap } from "../../collections/idCollections"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -14,12 +15,13 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         super(new Object3D() as T)
         this.object3d = object3d
         setManager(object3d, this)
+        nativeIdMap.set(object3d.id, this)
         this.outerObject3d.add(object3d)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        unsetManager(this.object3d)
+        nativeIdMap.delete(this.object3d.id)
     }
 
     public get innerRotationX() {

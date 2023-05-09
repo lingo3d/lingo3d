@@ -1,7 +1,8 @@
 import { Object3D } from "three"
-import { setManager, unsetManager } from "../../api/utils/getManager"
+import { setManager } from "../../api/utils/getManager"
 import Loaded from "../../display/core/Loaded"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import { nativeIdMap } from "../../collections/idCollections"
 
 export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
     configSystemWithCleanUp((self: Loaded<any>) => {
@@ -17,6 +18,7 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
             self.events.setState("loaded", loadedObject3d)
             loadedObject3d.traverse((child) => {
                 setManager(child, self)
+                nativeIdMap.set(child.id, self)
                 children.push(child)
             })
         })
@@ -24,6 +26,6 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
             done = true
             self.$loadedGroup.clear()
             self.$loadedObject3d = undefined
-            for (const child of children) unsetManager(child)
+            for (const child of children) nativeIdMap.delete(child.id)
         }
     })
