@@ -14,7 +14,7 @@ import {
 import getWorldPosition from "../../../memo/getWorldPosition"
 import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
-import { setManager } from "../../../api/utils/getManager"
+import { setManager, unsetManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
@@ -37,12 +37,7 @@ export default abstract class CameraBase<
         super()
         this.object3d.add($camera)
         setManager($camera, this)
-
         pushCameraList($camera)
-        this.then(() => {
-            pullCameraStack($camera)
-            pullCameraList($camera)
-        })
 
         this.createEffect(() => {
             if (
@@ -67,7 +62,13 @@ export default abstract class CameraBase<
         }, [getEditorHelper, getCameraRendered])
     }
 
-    //@ts-ignore
+    protected override disposeNode(): void {
+        super.disposeNode()
+        unsetManager(this.$camera)
+        pullCameraStack(this.$camera)
+        pullCameraList(this.$camera)
+    }
+
     public override lookAt(target: MeshAppendable | Point3dType): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {

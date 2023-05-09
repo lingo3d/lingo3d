@@ -5,7 +5,7 @@ import { quaternion, ray, vector3 } from "../../display/utils/reusables"
 import { point2Vec, vec2Point } from "../../display/utils/vec2Point"
 import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
-import { setManager } from "../utils/getManager"
+import { setManager, unsetManager } from "../utils/getManager"
 import Appendable from "./Appendable"
 import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import SpawnPoint from "../../display/SpawnPoint"
@@ -26,7 +26,6 @@ import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
 import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
-import { nativeIdMap } from "../../collections/idCollections"
 
 const up = new Vector3(0, 1, 0)
 
@@ -50,8 +49,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
         this.userData = outerObject3d.userData
-        nativeIdMap.set(this.object3d.id, this)
-        nativeIdMap.set(this.outerObject3d.id, this)
     }
 
     public declare parent?: MeshAppendable
@@ -79,8 +76,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         super.disposeNode()
         this.outerObject3d.parent?.remove(this.outerObject3d)
         this.querySphere && physxPtr[0].destroy(this.querySphere)
-        nativeIdMap.delete(this.object3d.id)
-        nativeIdMap.delete(this.outerObject3d.id)
+        unsetManager(this.outerObject3d)
     }
 
     public override get name() {

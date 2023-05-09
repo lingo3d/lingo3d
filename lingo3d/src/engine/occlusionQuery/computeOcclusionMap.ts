@@ -15,6 +15,8 @@ import getRenderMaterial from "./getRenderMaterial"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { whiteColor } from "../../display/utils/reusables"
 import visualizeRenderTarget from "../../display/utils/visualizeRenderTarget"
+import { nativeIdMap } from "../../collections/idCollections"
+import Appendable from "../../api/core/Appendable"
 
 const SIZE = 100
 
@@ -30,6 +32,7 @@ visualizeRenderTarget(renderTarget)
 const processItem = (renderItem: RenderItem) => {
     const { object, material, geometry } = renderItem
     const objId = object.id
+    if (!nativeIdMap.has(objId)) return
 
     const renderMaterial = getRenderMaterial(object, material)
     if (object.type === "Sprite") {
@@ -65,7 +68,7 @@ emptyScene.onAfterRender = () => {
 
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)
 const currClearColor = new Color()
-const idSet = new Set()
+const idSet = new Set<number>()
 
 export default () => {
     const renderer = rendererPtr[0]
@@ -90,4 +93,9 @@ export default () => {
                 (pixelBuffer[i + 2] << 8) +
                 pixelBuffer[i + 3]
         )
+    const rendered: Array<Appendable> = []
+    for (const id of idSet) {
+        rendered.push(nativeIdMap.get(id)!)
+    }
+    console.log(rendered)
 }

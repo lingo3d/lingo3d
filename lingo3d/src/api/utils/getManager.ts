@@ -3,6 +3,7 @@ import MeshAppendable from "../core/MeshAppendable"
 import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import Loaded from "../../display/core/Loaded"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import { nativeIdMap } from "../../collections/idCollections"
 
 const objectManagerMap = new WeakMap<
     Object3D,
@@ -16,5 +17,8 @@ export const setManager = <T extends MeshAppendable>(
     manager: T
 ): T => {
     objectManagerMap.set(target, manager)
+    nativeIdMap.set(target.id, manager)
     return manager
 }
+
+export const unsetManager = (target: Object3D) => nativeIdMap.delete(target.id)

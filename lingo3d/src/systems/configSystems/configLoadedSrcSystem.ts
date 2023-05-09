@@ -1,3 +1,4 @@
+import { setManager, unsetManager } from "../../api/utils/getManager"
 import Loaded from "../../display/core/Loaded"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
@@ -12,10 +13,13 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
             const loadedObject3d = self.$resolveLoaded(loaded, src)
             self.$loadedGroup.add((self.$loadedObject3d = loadedObject3d))
             self.events.setState("loaded", loadedObject3d)
+            setManager(loadedObject3d, self)
         })
         return () => {
             done = true
             self.$loadedGroup.clear()
+            if (!self.$loadedObject3d) return
+            unsetManager(self.$loadedObject3d)
             self.$loadedObject3d = undefined
         }
     })
