@@ -4,6 +4,7 @@ import { shadowModePtr } from "../pointers/shadowModePtr"
 import { physicsSet } from "../collections/physicsSet"
 import { addConfigCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { Object3D } from "three"
+import isOpaque from "../memo/isOpaque"
 
 export const [setShadowMode, getShadowMode] = store<boolean | "physics">(true)
 
@@ -16,16 +17,17 @@ getShadowMode((val) => {
     shadowModePtr[0] = val
     if (val === true)
         scene.traverse((child) => {
-            if ("isMesh" in child) child.castShadow = child.receiveShadow
+            if (child.type === "Mesh")
+                child.castShadow = child.receiveShadow && isOpaque(child)
         })
     else if (val === "physics") {
         scene.traverse((child) => {
-            if ("isMesh" in child) child.castShadow = false
+            if (child.type === "Mesh") child.castShadow = false
         })
         for (const child of physicsSet) addConfigCastShadowSystem(child)
     } else
         scene.traverse((child) => {
-            if ("isMesh" in child) child.castShadow = false
+            if (child.type === "Mesh") child.castShadow = false
         })
 })
 
