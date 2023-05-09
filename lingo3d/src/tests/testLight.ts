@@ -22,6 +22,7 @@ aura.scale = 10
 aura.texture = "particle.jpg"
 aura.blending = "additive"
 aura.depthTest = false
+aura.disableSelection = true
 
 // settings.shadowMode = "physics"
 

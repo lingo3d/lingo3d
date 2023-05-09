@@ -35,6 +35,7 @@ export default abstract class PointLightBase<
         const renderCheckBox = (this.renderCheckBox = new Cube())
         renderCheckBox.disableSceneGraph = true
         renderCheckBox.disableSerialize = true
+        renderCheckBox.disableSelection = true
         renderCheckBox.opacity = 0.001
         renderCheckBox.scale = 0.5
         this.append(renderCheckBox)
