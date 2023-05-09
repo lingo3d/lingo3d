@@ -7,8 +7,8 @@ export const uuidMap = new Map<string, Appendable | MeshAppendable>()
 export const uuidTextureMap = new Map<string, Texture>()
 export const uuidMaterialMap = new Map<string, MeshStandardMaterial>()
 export const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
-export const nativeIdMap = new Map<number, MeshAppendable>()
-export const nativeIdModelMap = new Map<number, Model>()
+export const idRenderCheckMap = new Map<number, MeshAppendable>()
+export const idRenderCheckModelMap = new Map<number, Model>()
 
 export const getAppendablesById = (id: string) => {
     const uuidInstance = uuidMap.get(id)

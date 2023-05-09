@@ -25,5 +25,5 @@ dummy.physics = "character"
 dummy.y = -150
 
 onBeforeRender(() => {
-    console.log(dummy.isRendered)
+    console.log(light.isRendered)
 })

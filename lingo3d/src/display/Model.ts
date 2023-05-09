@@ -20,7 +20,10 @@ import findAll from "../memo/findAll"
 import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
 import getAnimationStates from "../memo/getAnimationStates"
-import { nativeIdMap, nativeIdModelMap } from "../collections/idCollections"
+import {
+    idRenderCheckMap,
+    idRenderCheckModelMap
+} from "../collections/idCollections"
 import getRendered from "../memo/getRendered"
 
 export default class Model extends Loaded<Group> implements IModel {
@@ -227,8 +230,8 @@ export default class Model extends Loaded<Group> implements IModel {
         if (!this.initRenderCheck) {
             this.initRenderCheck = true
             for (const child of this.findAllMeshes()) {
-                nativeIdMap.set(child.object3d.id, child)
-                nativeIdModelMap.set(child.object3d.id, this)
+                idRenderCheckMap.set(child.object3d.id, child)
+                idRenderCheckModelMap.set(child.object3d.id, this)
             }
         }
         return getRendered().has(this)

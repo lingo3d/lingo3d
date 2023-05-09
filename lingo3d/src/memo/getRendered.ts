@@ -10,7 +10,7 @@ import {
     Color,
     Object3D
 } from "three"
-import { nativeIdMap, nativeIdModelMap } from "../collections/idCollections"
+import { idRenderCheckMap, idRenderCheckModelMap } from "../collections/idCollections"
 import { whiteColor } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
@@ -18,7 +18,6 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import getOcclusionMaterial from "./getOcclusionMaterial"
 import Appendable from "../api/core/Appendable"
 import computePerFrame from "./utils/computePerFrame"
-import { renderCheckSet } from "../collections/renderCheckSet"
 import visualizeRenderTarget from "../display/utils/visualizeRenderTarget"
 
 const SIZE = 100
@@ -66,7 +65,6 @@ emptyScene.onAfterRender = () => {
     for (const item of renderList.opaque) processItem(item.object)
     for (const item of renderList.transmissive) processItem(item.object)
     for (const item of renderList.transparent) processItem(item.object)
-    for (const item of renderCheckSet) processItem(item)
 }
 
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)
@@ -99,9 +97,9 @@ export default computePerFrame((_: void) => {
         )
     renderedSet.clear()
     for (const id of idSet) {
-        const manager = nativeIdMap.get(id)
+        const manager = idRenderCheckMap.get(id)
         manager && renderedSet.add(manager)
-        const model = nativeIdModelMap.get(id)
+        const model = idRenderCheckModelMap.get(id)
         model && renderedSet.add(model)
     }
     return renderedSet
