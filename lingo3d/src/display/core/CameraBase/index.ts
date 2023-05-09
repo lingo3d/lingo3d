@@ -24,7 +24,6 @@ import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
-import { nativeIdMap } from "../../../collections/idCollections"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -38,7 +37,6 @@ export default abstract class CameraBase<
         super()
         this.object3d.add($camera)
         setManager($camera, this)
-        nativeIdMap.set($camera.id, this)
         pushCameraList($camera)
 
         this.createEffect(() => {
@@ -66,7 +64,6 @@ export default abstract class CameraBase<
 
     protected override disposeNode(): void {
         super.disposeNode()
-        nativeIdMap.delete(this.$camera.id)
         pullCameraStack(this.$camera)
         pullCameraList(this.$camera)
     }

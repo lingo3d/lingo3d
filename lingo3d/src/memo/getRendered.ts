@@ -3,12 +3,12 @@ import {
     NearestFilter,
     RGBAFormat,
     LinearEncoding,
-    RenderItem,
     Mesh,
     SpriteMaterial,
     Sprite,
     Scene,
-    Color
+    Color,
+    Object3D
 } from "three"
 import { nativeIdMap } from "../collections/idCollections"
 import { whiteColor } from "../display/utils/reusables"
@@ -18,6 +18,8 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import getOcclusionMaterial from "./getOcclusionMaterial"
 import Appendable from "../api/core/Appendable"
 import computePerFrame from "./utils/computePerFrame"
+import { renderCheckSet } from "../collections/renderCheckSet"
+import visualizeRenderTarget from "../display/utils/visualizeRenderTarget"
 
 const SIZE = 100
 
@@ -28,10 +30,11 @@ const renderTarget = new WebGLRenderTarget(SIZE, SIZE, {
     encoding: LinearEncoding
 })
 
-const processItem = (renderItem: RenderItem) => {
-    const { object, material, geometry } = renderItem
-    const objId = object.id
-    if (!nativeIdMap.has(objId) || object.type === "Sprite") return
+visualizeRenderTarget(renderTarget)
+
+const processItem = (object: Object3D) => {
+    const { id, material, geometry } = object as Mesh
+    if (!nativeIdMap.has(id) || object.type === "Sprite") return
 
     const renderMaterial = getOcclusionMaterial(object as Mesh)
     if (object.type === "Sprite") {
@@ -41,10 +44,10 @@ const processItem = (renderItem: RenderItem) => {
         renderMaterial.uniforms.center = { value: (object as Sprite).center }
     }
     renderMaterial.uniforms.objectId.value = [
-        ((objId >> 24) & 255) / 255,
-        ((objId >> 16) & 255) / 255,
-        ((objId >> 8) & 255) / 255,
-        (objId & 255) / 255
+        ((id >> 24) & 255) / 255,
+        ((id >> 16) & 255) / 255,
+        ((id >> 8) & 255) / 255,
+        (id & 255) / 255
     ]
     renderMaterial.uniformsNeedUpdate = true
     rendererPtr[0].renderBufferDirect(
@@ -60,9 +63,10 @@ const processItem = (renderItem: RenderItem) => {
 const emptyScene = new Scene()
 emptyScene.onAfterRender = () => {
     const renderList = rendererPtr[0].renderLists.get(scene, 0)
-    for (const item of renderList.opaque) processItem(item)
-    for (const item of renderList.transmissive) processItem(item)
-    for (const item of renderList.transparent) processItem(item)
+    for (const item of renderList.opaque) processItem(item.object)
+    for (const item of renderList.transmissive) processItem(item.object)
+    for (const item of renderList.transparent) processItem(item.object)
+    for (const item of renderCheckSet) processItem(item)
 }
 
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)

@@ -17,6 +17,8 @@ import {
 } from "../../systems/updateShadowSystem"
 import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
 import { shadowModePtr } from "../../pointers/shadowModePtr"
+import Cube from "../primitives/Cube"
+import { renderCheckSet } from "../../collections/renderCheckSet"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight = ThreePointLight
@@ -30,6 +32,11 @@ export default abstract class PointLightBase<
         this.distance = 500
         this.intensity = 10
         this.shadows = true
+
+        this.renderCheckBox.disableSceneGraph = true
+        this.renderCheckBox.disableSerialize = true
+        this.append(this.renderCheckBox)
+        renderCheckSet.add(this.renderCheckBox.object3d)
     }
 
     protected override disposeNode() {
@@ -37,6 +44,12 @@ export default abstract class PointLightBase<
         //@ts-ignore
         this.object3d.shadow.map = null
         super.disposeNode()
+        renderCheckSet.delete(this.renderCheckBox.object3d)
+    }
+
+    private renderCheckBox = new Cube()
+    public get isRendered() {
+        return this.renderCheckBox.isRendered
     }
 
     public $boundingSphere = new Sphere()

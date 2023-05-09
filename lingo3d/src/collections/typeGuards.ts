@@ -1,4 +1,3 @@
-import Model from "../display/Model"
 import Template from "../display/Template"
 import { DefaultMethodArgType } from "../interface/utils/DefaultMethod"
 import { NullableCallbackParamType } from "../interface/utils/NullableCallback"

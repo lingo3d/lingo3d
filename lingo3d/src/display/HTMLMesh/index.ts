@@ -9,7 +9,6 @@ import VisibleObjectManager from "../core/VisibleObjectManager"
 import HelperCube from "../core/utils/HelperCube"
 import { setManager } from "../../api/utils/getManager"
 import { ColorString } from "../../interface/ITexturedStandard"
-import { nativeIdMap } from "../../collections/idCollections"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -56,7 +55,6 @@ export default class HTMLMesh
                     : new HTMLMesh(element)
                 this.object3d.add(mesh)
                 setManager(mesh, this)
-                nativeIdMap.set(mesh.id, this)
 
                 handle.watch(
                     this.cssColorState.get((color) => {
@@ -67,7 +65,6 @@ export default class HTMLMesh
                 handle.then(() => {
                     this.object3d.remove(mesh)
                     mesh.dispose()
-                    nativeIdMap.delete(mesh.id)
                 })
             })
             return () => {

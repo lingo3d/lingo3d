@@ -65,4 +65,8 @@ export default abstract class PooledPointLightBase<
         this._fade = value
         if (this.$light) this.$light.fade = value
     }
+
+    public get isRendered() {
+        return this.$light?.isRendered ?? false
+    }
 }

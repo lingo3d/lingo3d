@@ -1,5 +1,6 @@
-import { DefaultSkyLight, Dummy, PooledPointLight, Sprite } from ".."
+import { DefaultSkyLight, Dummy, PooledPointLight, Sprite, onBeforeRender } from ".."
 import Cube from "../display/primitives/Cube"
+import getRendered from "../memo/getRendered"
 
 const skylight = new DefaultSkyLight()
 skylight.intensity = 0.2
@@ -22,3 +23,7 @@ aura.depthTest = false
 const dummy = new Dummy()
 dummy.physics = "character"
 dummy.y = -150
+
+onBeforeRender(() => {
+    console.log(getRendered())
+})
