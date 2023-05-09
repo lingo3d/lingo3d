@@ -21,7 +21,6 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import getOcclusionMaterial from "./getOcclusionMaterial"
 import Appendable from "../api/core/Appendable"
 import computePerFrame from "./utils/computePerFrame"
-import visualizeRenderTarget from "../display/utils/visualizeRenderTarget"
 import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 
 const SIZE = 100
@@ -32,8 +31,6 @@ const renderTarget = new WebGLRenderTarget(SIZE, SIZE, {
     format: RGBAFormat,
     encoding: LinearEncoding
 })
-
-visualizeRenderTarget(renderTarget)
 
 const processItem = (object: Object3D) => {
     const { id, material, geometry } = object as Mesh
