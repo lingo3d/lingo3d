@@ -6,6 +6,7 @@ import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
@@ -19,6 +20,7 @@ createEffect(() => {
     const frame = requestAnimationFrame(() => scene.add(boxHelper))
     addUpdateSystem(boxHelper)
     ssrExcludeSet.add(boxHelper)
+    renderCheckExcludeSet.add(boxHelper)
 
     return () => {
         cancelAnimationFrame(frame)
@@ -26,6 +28,7 @@ createEffect(() => {
         deleteUpdateSystem(boxHelper)
         boxHelper.dispose()
         ssrExcludeSet.delete(boxHelper)
+        renderCheckExcludeSet.delete(boxHelper)
     }
 }, [getSelectionTarget])
 
@@ -43,6 +46,7 @@ createEffect(() => {
     for (const boxHelper of boxHelpers) {
         addUpdateSystem(boxHelper)
         ssrExcludeSet.add(boxHelper)
+        renderCheckExcludeSet.add(boxHelper)
     }
 
     return () => {
@@ -51,6 +55,7 @@ createEffect(() => {
             scene.remove(boxHelper)
             boxHelper.dispose()
             ssrExcludeSet.delete(boxHelper)
+            renderCheckExcludeSet.delete(boxHelper)
         }
     }
 }, [getMultipleSelectionTargets])

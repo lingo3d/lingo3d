@@ -24,6 +24,7 @@ import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
+import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -49,6 +50,7 @@ export default abstract class CameraBase<
 
             const helper = new CameraHelper($camera)
             ssrExcludeSet.add(helper)
+            renderCheckExcludeSet.add(helper)
             scene.add(helper)
 
             const sprite = new HelperSprite("camera", this)
@@ -56,6 +58,7 @@ export default abstract class CameraBase<
             return () => {
                 helper.dispose()
                 ssrExcludeSet.delete(helper)
+                renderCheckExcludeSet.delete(helper)
                 scene.remove(helper)
                 sprite.dispose()
             }

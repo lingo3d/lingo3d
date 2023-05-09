@@ -1,6 +1,5 @@
 import { DefaultSkyLight, Dummy, PooledPointLight, Sprite, onBeforeRender } from ".."
 import Cube from "../display/primitives/Cube"
-import getRendered from "../memo/getRendered"
 
 const skylight = new DefaultSkyLight()
 skylight.intensity = 0.2

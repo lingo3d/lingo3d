@@ -10,7 +10,10 @@ import {
     Color,
     Object3D
 } from "three"
-import { idRenderCheckMap, idRenderCheckModelMap } from "../collections/idCollections"
+import {
+    idRenderCheckMap,
+    idRenderCheckModelMap
+} from "../collections/idCollections"
 import { whiteColor } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
@@ -19,6 +22,7 @@ import getOcclusionMaterial from "./getOcclusionMaterial"
 import Appendable from "../api/core/Appendable"
 import computePerFrame from "./utils/computePerFrame"
 import visualizeRenderTarget from "../display/utils/visualizeRenderTarget"
+import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 
 const SIZE = 100
 
@@ -33,7 +37,7 @@ visualizeRenderTarget(renderTarget)
 
 const processItem = (object: Object3D) => {
     const { id, material, geometry } = object as Mesh
-    if (object.type === "Sprite") return
+    if (renderCheckExcludeSet.has(object) || object.type === "Sprite") return
 
     const renderMaterial = getOcclusionMaterial(object as Mesh)
     if (object.type === "Sprite") {

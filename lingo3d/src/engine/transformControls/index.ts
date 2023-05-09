@@ -21,6 +21,7 @@ import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import Appendable from "../../api/core/Appendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -78,6 +79,7 @@ createEffect(() => {
         transformControls.enabled = true
 
         ssrExcludeSet.add(transformControls)
+        renderCheckExcludeSet.add(transformControls)
 
         handle0.then(() => {
             scene.remove(transformControls)
@@ -85,6 +87,7 @@ createEffect(() => {
             //@ts-ignore
             transformControls.enabled = false
             ssrExcludeSet.delete(transformControls)
+            renderCheckExcludeSet.delete(transformControls)
         })
     })
     const eventTargets: Array<Appendable> = []

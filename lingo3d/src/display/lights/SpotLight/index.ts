@@ -21,6 +21,7 @@ import {
     deleteSpotLightShadowResolutionSystem,
     addSpotLightShadowResolutionSystem
 } from "../../../systems/spotLightShadowResolutionSystem"
+import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -87,6 +88,7 @@ export default class SpotLight
                     const cone = new Mesh(coneGeometry, material)
                     this.outerObject3d.add(cone)
                     ssrExcludeSet.add(cone)
+                    renderCheckExcludeSet.add(cone)
                     addVolumetricSpotLightSystem(cone, {
                         light: this,
                         material
@@ -95,6 +97,7 @@ export default class SpotLight
                         material.dispose()
                         this.outerObject3d.remove(cone)
                         ssrExcludeSet.delete(cone)
+                        renderCheckExcludeSet.delete(cone)
                         deleteVolumetricSpotLightSystem(cone)
                     })
                 })

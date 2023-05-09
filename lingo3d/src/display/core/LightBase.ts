@@ -7,6 +7,7 @@ import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -24,6 +25,7 @@ export default abstract class LightBase<T extends Light>
             if (Helper) {
                 const helper = new Helper(light as any)
                 ssrExcludeSet.add(helper)
+                renderCheckExcludeSet.add(helper)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
                 "update" in helper && addUpdateSystem(helper)
@@ -31,6 +33,7 @@ export default abstract class LightBase<T extends Light>
                 sprite.then(() => {
                     helper.dispose()
                     ssrExcludeSet.delete(helper)
+                    renderCheckExcludeSet.delete(helper)
                     scene.remove(helper)
                     "update" in helper && deleteUpdateSystem(helper)
                 })
