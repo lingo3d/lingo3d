@@ -15,6 +15,7 @@ import {
 import { addRefreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"
 import { PointType, isPoint } from "../../../utils/isPoint"
+import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 
 const standardDefaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [
@@ -71,6 +72,7 @@ export default abstract class TexturedStandardMixin
     public set opacity(val: number | undefined) {
         this.$materialParams[1] = toNullableFixed(val) ?? this.$defaults.opacity
         addRefreshTexturedStandardSystem(this)
+        addConfigCastShadowSystem(this as any)
     }
 
     public get texture() {
