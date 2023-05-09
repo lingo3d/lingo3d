@@ -207,14 +207,17 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public findAll(name?: string | ((childName: string) => boolean)) {
         if (!this.$loadedObject3d) return []
-        if (!name) return findAll(this, "")
-        else if (typeof name === "string") return findAll(this, name)
+        if (!name) return findAll(this.$loadedObject3d, "", { owner: this })
+        if (typeof name === "string")
+            return findAll(this.$loadedObject3d, name, { owner: this })
         return this._findAll(name, indexChildrenNames(this.$loadedObject3d))
     }
     public findAllMeshes(name?: string | ((childName: string) => boolean)) {
         if (!this.$loadedObject3d) return []
-        if (!name) return findAllMeshes(this, "")
-        else if (typeof name === "string") return findAllMeshes(this, name)
+        if (!name)
+            return findAllMeshes(this.$loadedObject3d, "", { owner: this })
+        if (typeof name === "string")
+            return findAllMeshes(this.$loadedObject3d, name, { owner: this })
         return this._findAll(name, indexMeshChildrenNames(this.$loadedObject3d))
     }
 
