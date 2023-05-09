@@ -63,8 +63,8 @@ const emptyScene = new Scene()
 emptyScene.onAfterRender = () => {
     const renderList = rendererPtr[0].renderLists.get(scene, 0)
     for (const item of renderList.opaque) processItem(item)
-    for (const item of renderList.transmissive) processItem(item)
-    for (const item of renderList.transparent) processItem(item)
+    // for (const item of renderList.transmissive) processItem(item)
+    // for (const item of renderList.transparent) processItem(item)
 }
 
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)
@@ -99,5 +99,5 @@ export default () => {
         const manager = nativeIdMap.get(id)
         manager && rendered.add(manager)
     }
-    console.log(rendered)
+    // console.log(rendered)
 }

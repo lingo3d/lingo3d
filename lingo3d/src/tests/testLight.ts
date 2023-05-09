@@ -27,3 +27,4 @@ aura.depthTest = false
 const dummy = new Dummy()
 dummy.physics = "character"
 dummy.y = -150
+dummy.opacityFactor = 0.5
