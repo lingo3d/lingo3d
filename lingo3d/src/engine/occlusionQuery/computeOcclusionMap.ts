@@ -93,9 +93,7 @@ export default () => {
                 (pixelBuffer[i + 2] << 8) +
                 pixelBuffer[i + 3]
         )
-    const rendered: Array<Appendable> = []
-    for (const id of idSet) {
-        rendered.push(nativeIdMap.get(id)!)
-    }
+    const rendered = new Set<Appendable>()
+    for (const id of idSet) rendered.add(nativeIdMap.get(id)!)
     console.log(rendered)
 }
