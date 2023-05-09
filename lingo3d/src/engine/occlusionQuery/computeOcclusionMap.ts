@@ -33,7 +33,7 @@ visualizeRenderTarget(renderTarget)
 const processItem = (renderItem: RenderItem) => {
     const { object, material, geometry } = renderItem
     const objId = object.id
-    if (!nativeIdMap.has(objId)) return
+    if (!nativeIdMap.has(objId) || object.type === "Sprite") return
 
     const renderMaterial = getOcclusionMaterial(object as Mesh)
     if (object.type === "Sprite") {
@@ -51,7 +51,7 @@ const processItem = (renderItem: RenderItem) => {
     renderMaterial.uniformsNeedUpdate = true
     rendererPtr[0].renderBufferDirect(
         cameraRenderedPtr[0],
-        null as any,
+        emptyScene,
         geometry!,
         renderMaterial,
         object,
@@ -63,8 +63,8 @@ const emptyScene = new Scene()
 emptyScene.onAfterRender = () => {
     const renderList = rendererPtr[0].renderLists.get(scene, 0)
     for (const item of renderList.opaque) processItem(item)
-    // for (const item of renderList.transmissive) processItem(item)
-    // for (const item of renderList.transparent) processItem(item)
+    for (const item of renderList.transmissive) processItem(item)
+    for (const item of renderList.transparent) processItem(item)
 }
 
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)
@@ -99,5 +99,5 @@ export default () => {
         const manager = nativeIdMap.get(id)
         manager && rendered.add(manager)
     }
-    // console.log(rendered)
+    console.log(rendered)
 }
