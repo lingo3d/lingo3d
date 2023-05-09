@@ -31,14 +31,6 @@ export default abstract class PointLightBase<
         this.distance = 500
         this.intensity = 10
         this.shadows = true
-
-        const renderCheckBox = (this.renderCheckBox = new Cube())
-        renderCheckBox.disableSceneGraph = true
-        renderCheckBox.disableSerialize = true
-        renderCheckBox.disableSelection = true
-        renderCheckBox.opacity = 0.001
-        renderCheckBox.scale = 0.5
-        this.append(renderCheckBox)
     }
 
     protected override disposeNode() {
@@ -48,8 +40,16 @@ export default abstract class PointLightBase<
         super.disposeNode()
     }
 
-    private renderCheckBox: Cube
+    private renderCheckBox?: Cube
     public get isRendered() {
+        if (!this.renderCheckBox) {
+            const renderCheckBox = (this.renderCheckBox = new Cube())
+            renderCheckBox.disableSceneGraph = true
+            renderCheckBox.disableSerialize = true
+            renderCheckBox.disableSelection = true
+            renderCheckBox.opacity = 0.001
+            this.append(renderCheckBox)
+        }
         return this.renderCheckBox.isRendered
     }
 

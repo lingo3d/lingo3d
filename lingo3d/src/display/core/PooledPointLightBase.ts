@@ -5,6 +5,7 @@ import { Sphere } from "three"
 import PointLight from "../lights/PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
 import SpotLight from "../lights/SpotLight"
+import Cube from "../primitives/Cube"
 
 export default abstract class PooledPointLightBase<
         T extends PointLight | SpotLight = PointLight
@@ -66,7 +67,16 @@ export default abstract class PooledPointLightBase<
         if (this.$light) this.$light.fade = value
     }
 
+    private renderCheckBox?: Cube
     public get isRendered() {
-        return this.$light?.isRendered ?? false
+        if (!this.renderCheckBox) {
+            const renderCheckBox = (this.renderCheckBox = new Cube())
+            renderCheckBox.disableSceneGraph = true
+            renderCheckBox.disableSerialize = true
+            renderCheckBox.disableSelection = true
+            renderCheckBox.opacity = 0.001
+            this.append(renderCheckBox)
+        }
+        return this.renderCheckBox.isRendered
     }
 }
