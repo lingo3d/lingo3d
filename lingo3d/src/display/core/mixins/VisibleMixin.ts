@@ -21,10 +21,10 @@ import {
     mouseOverSet,
     mouseUpSet
 } from "../../../collections/mouseSets"
-import getFrustumVisible from "../../../memo/getFrustumVisible"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
+import getRendered from "../../../memo/getRendered"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -79,8 +79,8 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
-    public get frustumVisible() {
-        return getFrustumVisible(this)
+    public get isRendered() {
+        return getRendered().has(this)
     }
 
     private _castShadow?: boolean

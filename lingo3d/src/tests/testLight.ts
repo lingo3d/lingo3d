@@ -1,9 +1,4 @@
-import {
-    DefaultSkyLight,
-    Dummy,
-    PooledPointLight,
-    Sprite,
-} from ".."
+import { DefaultSkyLight, Dummy, PooledPointLight, Sprite } from ".."
 import Cube from "../display/primitives/Cube"
 
 const skylight = new DefaultSkyLight()

@@ -1,23 +1,23 @@
 import {
-    Color,
-    LinearEncoding,
-    Mesh,
+    WebGLRenderTarget,
     NearestFilter,
     RGBAFormat,
+    LinearEncoding,
     RenderItem,
-    Scene,
-    Sprite,
+    Mesh,
     SpriteMaterial,
-    WebGLRenderTarget
+    Sprite,
+    Scene,
+    Color
 } from "three"
-import { rendererPtr } from "../../pointers/rendererPtr"
-import scene from "../scene"
-import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
-import { whiteColor } from "../../display/utils/reusables"
-import visualizeRenderTarget from "../../display/utils/visualizeRenderTarget"
-import { nativeIdMap } from "../../collections/idCollections"
-import Appendable from "../../api/core/Appendable"
-import getOcclusionMaterial from "../../memo/getOcclusionMaterial"
+import { nativeIdMap } from "../collections/idCollections"
+import { whiteColor } from "../display/utils/reusables"
+import scene from "../engine/scene"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import { rendererPtr } from "../pointers/rendererPtr"
+import getOcclusionMaterial from "./getOcclusionMaterial"
+import Appendable from "../api/core/Appendable"
+import computePerFrame from "./utils/computePerFrame"
 
 const SIZE = 100
 
@@ -27,8 +27,6 @@ const renderTarget = new WebGLRenderTarget(SIZE, SIZE, {
     format: RGBAFormat,
     encoding: LinearEncoding
 })
-
-visualizeRenderTarget(renderTarget)
 
 const processItem = (renderItem: RenderItem) => {
     const { object, material, geometry } = renderItem
@@ -70,8 +68,9 @@ emptyScene.onAfterRender = () => {
 const pixelBuffer = new Uint8Array(4 * SIZE * SIZE)
 const currClearColor = new Color()
 const idSet = new Set<number>()
+const renderedSet = new Set<Appendable>()
 
-export default () => {
+export default computePerFrame((_: void) => {
     const renderer = rendererPtr[0]
 
     const currRenderTarget = renderer.getRenderTarget()
@@ -94,10 +93,10 @@ export default () => {
                 (pixelBuffer[i + 2] << 8) +
                 pixelBuffer[i + 3]
         )
-    const rendered = new Set<Appendable>()
+    renderedSet.clear()
     for (const id of idSet) {
         const manager = nativeIdMap.get(id)
-        manager && rendered.add(manager)
+        manager && renderedSet.add(manager)
     }
-    console.log(rendered)
-}
+    return renderedSet
+})
