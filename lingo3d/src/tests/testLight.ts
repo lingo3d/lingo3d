@@ -1,4 +1,10 @@
-import { DefaultSkyLight, Dummy, PooledPointLight, Sprite, onBeforeRender } from ".."
+import {
+    DefaultSkyLight,
+    Dummy,
+    PooledPointLight,
+    Sprite,
+    onBeforeRender
+} from ".."
 import Cube from "../display/primitives/Cube"
 
 const skylight = new DefaultSkyLight()
@@ -24,5 +30,5 @@ dummy.physics = "character"
 dummy.y = -150
 
 onBeforeRender(() => {
-    console.log(light.isRendered)
+    aura.visible = light.isRendered
 })
