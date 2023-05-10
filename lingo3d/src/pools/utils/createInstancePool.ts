@@ -1,3 +1,4 @@
+import { assert } from "@lincode/utils"
 import { PointType } from "../../utils/isPoint"
 
 export default <
@@ -26,9 +27,10 @@ export default <
         return paramsInstanceMap.get(paramString)!
     }
 
-    const release = (object: Type) => {
-        const paramString = objectParamStringMap.get(object)
-        if (!paramString) return
+    const release = (object: Type | undefined | null) => {
+        if (!object) return
+        const paramString = objectParamStringMap.get(object)!
+        assert(paramString)
         const count = (paramsCountRecord[paramString] ?? 0) - 1
         if (count === -1) return
         if (count === 0) {

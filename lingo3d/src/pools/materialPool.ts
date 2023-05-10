@@ -8,7 +8,7 @@ import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { PointType } from "../utils/isPoint"
 import { castBlending } from "../display/utils/castBlending"
-import { requestTexture } from "./texturePool"
+import { releaseTexture, requestTexture } from "./texturePool"
 
 export type MaterialParams = [
     color: ColorString,
@@ -264,5 +264,16 @@ export const [requestMaterial, releaseMaterial] = createInstancePool<
             )
         )
     },
-    (material) => material.dispose()
+    (material) => {
+        releaseTexture(material.map)
+        releaseTexture(material.envMap)
+        releaseTexture(material.aoMap)
+        releaseTexture(material.bumpMap)
+        releaseTexture(material.displacementMap)
+        releaseTexture(material.lightMap)
+        releaseTexture(material.metalnessMap)
+        releaseTexture(material.roughnessMap)
+        releaseTexture(material.normalMap)
+        material.dispose()
+    }
 )

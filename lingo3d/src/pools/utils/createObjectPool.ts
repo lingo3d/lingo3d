@@ -35,7 +35,7 @@ export default <
         return result
     }
 
-    const release = (object?: Type) => {
+    const release = (object: Type | undefined | null) => {
         if (!object || releasedObjects.has(object)) return
         releasedObjects.add(object)
 
