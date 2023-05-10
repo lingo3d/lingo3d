@@ -54,6 +54,8 @@ export default abstract class TexturedStandardMixin
         ) as MaterialParams)
     }
 
+    public $materialParamString?: string
+
     public get color() {
         return this.$materialParams[0]
     }
