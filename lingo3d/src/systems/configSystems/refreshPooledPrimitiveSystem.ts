@@ -3,9 +3,9 @@ import configSystem from "../utils/configSystem"
 
 export const [addRefreshPooledPrimitiveSystem] = configSystem(
     (target: PooledPrimitve) => {
-        target.$decreaseGeometry(target.$paramString)
+        target.$releaseGeometry(target.$paramString)
         const params = target.$getParams()
-        target.object3d.geometry = target.$increaseGeometry(
+        target.object3d.geometry = target.$requestGeometry(
             params as any,
             (target.$paramString = JSON.stringify(params))
         )
