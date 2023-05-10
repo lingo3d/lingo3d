@@ -266,6 +266,7 @@ export const [requestMaterial, releaseMaterial] = createInstancePool<
     },
     (material) => {
         releaseTexture(material.map)
+        releaseTexture(material.alphaMap)
         releaseTexture(material.envMap)
         releaseTexture(material.aoMap)
         releaseTexture(material.bumpMap)

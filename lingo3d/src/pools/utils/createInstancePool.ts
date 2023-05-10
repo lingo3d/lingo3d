@@ -28,7 +28,8 @@ export default <
 
     const release = (object: Type | undefined | null) => {
         if (!object) return
-        const paramString = objectParamStringMap.get(object)!
+        const paramString = objectParamStringMap.get(object)
+        if (!paramString) return
         const count = (paramsCountRecord[paramString] ?? 0) - 1
         if (count === -1) return
         if (count === 0) {
