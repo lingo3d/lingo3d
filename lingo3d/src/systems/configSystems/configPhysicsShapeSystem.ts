@@ -35,7 +35,7 @@ export const importPhysX = lazy(async () => {
 export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.$jointCount
-        if (!mode) return
+        if (!mode) return false
 
         physicsSet.add(self)
 
@@ -93,8 +93,6 @@ export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
         managerActorMap.set(self, actor)
     },
     (self) => {
-        if (!self.$actor) return
-
         if (self.$controller) {
             physicsSet.delete(self)
             actorPtrManagerMap.delete(self.$actor.ptr)

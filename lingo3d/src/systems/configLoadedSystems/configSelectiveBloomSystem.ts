@@ -8,14 +8,13 @@ import configLoadedSystemWithCleanUp2 from "../utils/configLoadedSystemWithClean
 
 export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithCleanUp2(
     (self: Model | VisibleMixin) => {
-        if (!self.bloom) return
+        if (!self.bloom) return false
         if ("findAllMeshes" in self) {
             const children = self.findAllMeshes()
             for (const child of children) addSelectiveBloom(child.object3d)
         } else addSelectiveBloom(self.object3d)
     },
     (self) => {
-        if (self.bloom) return
         if ("findAllMeshes" in self) {
             for (const child of self.findAllMeshes())
                 deleteSelectiveBloom(child.object3d)

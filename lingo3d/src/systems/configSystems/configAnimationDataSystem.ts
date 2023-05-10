@@ -43,7 +43,7 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp2(
         if (!self.data) {
             self.$clip = self.$loadedClip
             self.audioTotalFrames = 0
-            return
+            return false
         }
         const audioDurationGetters: Array<GetGlobalState<number>> = []
         self.$clip = new AnimationClip(
@@ -81,8 +81,5 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp2(
         for (const getAudioDuration of audioDurationGetters)
             handle.watch(getAudioDuration(computeAudioDuration))
     },
-    (self) => {
-        self.$configHandle?.cancel()
-        self.$configHandle = undefined
-    }
+    (self) => self.$configHandle!.cancel()
 )

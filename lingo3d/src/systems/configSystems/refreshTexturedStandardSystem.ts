@@ -12,8 +12,7 @@ export const [addRefreshTexturedStandardSystem] = configSystemWithCleanUp2(
         )
     },
     (target) => {
-        if (!target.$materialParamString) return
-        releaseMaterial(target.$materialParamString)
+        releaseMaterial(target.$materialParamString!)
         target.$materialParamString = undefined
     }
 )

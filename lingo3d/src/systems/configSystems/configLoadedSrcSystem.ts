@@ -5,7 +5,7 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
     configSystemWithCleanUp2(
         (self: Loaded<any>) => {
             const { src } = self
-            if (!src) return
+            if (!src) return false
 
             self.$load(src).then((loaded) => {
                 if (self.src !== src) return

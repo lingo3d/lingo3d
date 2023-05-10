@@ -37,10 +37,8 @@ export const [addConfigWaterSystem] = configSystemWithCleanUp2(
         addWaterSystem(self)
     },
     (self) => {
-        if (!self.$water) return
-        self.object3d.remove(self.$water)
+        self.object3d.remove(self.$water!)
         deleteWaterSystem(self)
-        self.$water = undefined
     },
     [importWater]
 )
