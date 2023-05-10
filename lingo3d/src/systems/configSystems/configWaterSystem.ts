@@ -1,5 +1,4 @@
 import { lazy } from "@lincode/utils"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import Water from "../../display/Water"
 import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 import { WATERNORMALS_URL } from "../../api/assetsPath"
@@ -7,6 +6,7 @@ import { planeGeometry } from "../../display/primitives/Plane"
 import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { addWaterSystem, deleteWaterSystem } from "../waterSystem"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
 let WaterClass: typeof ThreeWater
 
@@ -15,7 +15,7 @@ const importWater = lazy(async () => {
     WaterClass = Water
 })
 
-export const [addConfigWaterSystem] = configSystemWithCleanUp(
+export const [addConfigWaterSystem] = configSystemWithCleanUp2(
     (self: Water) => {
         const normalMap = self.normalMap || WATERNORMALS_URL()
 
@@ -23,22 +23,24 @@ export const [addConfigWaterSystem] = configSystemWithCleanUp(
         const waterGeometry = isPlane ? planeGeometry : sphereGeometry
         const res = self.resolution
 
-        const water = (self.$water = new WaterClass(waterGeometry, {
-            textureWidth: res,
-            textureHeight: res,
-            waterNormals: loadTexture(normalMap),
-            // sunDirection: new Vector3(),
-            sunColor: 0xffffff,
-            waterColor: 0x001e0f,
-            distortionScale: 3.7
-        }))
-        self.object3d.add(water)
+        self.object3d.add(
+            (self.$water = new WaterClass(waterGeometry, {
+                textureWidth: res,
+                textureHeight: res,
+                waterNormals: loadTexture(normalMap),
+                // sunDirection: new Vector3(),
+                sunColor: 0xffffff,
+                waterColor: 0x001e0f,
+                distortionScale: 3.7
+            }))
+        )
         addWaterSystem(self)
-
-        return () => {
-            self.object3d.remove(water)
-            deleteWaterSystem(self)
-        }
+    },
+    (self) => {
+        if (!self.$water) return
+        self.object3d.remove(self.$water)
+        deleteWaterSystem(self)
+        self.$water = undefined
     },
     [importWater]
 )
