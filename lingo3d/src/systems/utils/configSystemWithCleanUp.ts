@@ -1,12 +1,8 @@
-import { onBeforeRender } from "../../events/onBeforeRender"
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends object>(
     cb: (target: T) => void | (() => void),
-    ticker:
-        | [() => Promise<void>]
-        | typeof onBeforeRender
-        | typeof queueMicrotask = queueMicrotask
+    ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
 ) => {
     const queued = new Set<T>()
     const cleanupMap = new WeakMap<T, () => void>()
@@ -30,7 +26,7 @@ export default <T extends object>(
         if (started) return
         started = true
         if (Array.isArray(ticker)) ticker[0]().then(execute)
-        else ticker(execute, true)
+        else ticker(execute)
     }
 
     const deleteSystem = (item: T) => {
