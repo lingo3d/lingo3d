@@ -10,7 +10,6 @@ import DirectionalLight from "./DirectionalLight"
 import AmbientLight from "./AmbientLight"
 import { addSkyLightSystem } from "../../systems/skyLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
-import { Color } from "three"
 import { ColorString } from "../../interface/ITexturedStandard"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
@@ -69,7 +68,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                 camera: cameraRenderedPtr[0],
                 lightIntensity: intensity
             }))
-            for (const light of csm.lights) light.color = new Color(color)
+            for (const light of csm.lights) light.color.set(color)
 
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
