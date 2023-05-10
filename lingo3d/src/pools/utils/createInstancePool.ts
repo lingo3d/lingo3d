@@ -6,12 +6,17 @@ export default <
     Context extends object | void = void
 >(
     factory: (params: Params, context: Context) => Type,
-    dispose: (instance: Type) => void
+    dispose: (instance: Type) => void,
+    verbose?: boolean
 ) => {
     const paramsInstanceMap = new Map<string, Type>()
     const paramsCountRecord: Record<string, number> = {}
     const defaultParamsInstanceMap = new Map<string, Type>()
     const objectParamStringMap = new WeakMap<Type, string>()
+
+    verbose && setInterval(() => {
+        console.log(paramsInstanceMap.size)
+    }, 100)
 
     const allocateDefaultInstance = (
         params: Params,

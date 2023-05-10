@@ -4,15 +4,7 @@ import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
 export const [addRefreshTexturedStandardSystem] = configSystemWithCleanUp2(
     (target: TexturedStandardMixin) => {
-        target.$material = requestMaterial(
-            target.$materialParams,
-            (target.$materialParamString = JSON.stringify(
-                target.$materialParams
-            ))
-        )
+        target.$material = requestMaterial(target.$materialParams)
     },
-    (target) => {
-        releaseMaterial(target.$materialParamString!)
-        target.$materialParamString = undefined
-    }
+    (target) => releaseMaterial(target.$material)
 )

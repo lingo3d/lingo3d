@@ -267,5 +267,5 @@ export const [requestMaterial, releaseMaterial, allocateDefaultMaterial] =
                 )
             )
         },
-        (material) => material.dispose()
+        (material) => material.dispose(), true
     )
