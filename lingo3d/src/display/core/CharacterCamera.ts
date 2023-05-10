@@ -29,7 +29,6 @@ export default class CharacterCamera
         midObject3d.add(this.object3d)
 
         scene.attach(this.$camera)
-        this.then(() => scene.remove(this.$camera))
 
         this.createEffect(() => {
             const found = this.firstChildState.get()
@@ -61,6 +60,11 @@ export default class CharacterCamera
                 handle.cancel()
             }
         }, [this.firstChildState.get])
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        scene.remove(this.$camera)
     }
 
     public lockTargetRotation: LockTargetRotationValue = true

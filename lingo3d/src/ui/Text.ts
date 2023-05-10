@@ -14,9 +14,12 @@ export default class Text extends Appendable implements IText {
 
     public constructor() {
         super()
-
         uiContainer.appendChild(this.el)
-        this.then(() => this.el.remove())
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        this.el.remove()
     }
 
     public get opacity() {

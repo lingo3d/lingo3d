@@ -16,10 +16,16 @@ export default abstract class PooledPointLightBase<
     public $light?: T
     public $boundingSphere = new Sphere()
 
+    private helperSprite: HelperSprite
+
     public constructor() {
         super()
-        const sprite = new HelperSprite("light", this)
-        this.then(() => sprite.dispose())
+        this.helperSprite = new HelperSprite("light", this)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        this.helperSprite.dispose()
     }
 
     private _distance = 500

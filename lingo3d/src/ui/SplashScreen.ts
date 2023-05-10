@@ -48,7 +48,11 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
         initCSS()
         uiContainer.appendChild(this.splashScreen)
         this.splashScreen.appendChild(this.textContainer)
-        this.then(() => this.splashScreen.remove())
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        this.splashScreen.remove()
     }
 
     public get opacity() {

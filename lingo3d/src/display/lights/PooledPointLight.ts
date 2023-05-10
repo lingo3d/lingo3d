@@ -46,6 +46,10 @@ export default class PooledPointLight
         requestPointLights()
         addPooledPointLightSystem(this, { visible: false })
         lightSet.add(this)
-        this.then(() => lightSet.delete(this))
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        lightSet.delete(this)
     }
 }

@@ -20,6 +20,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
 
     public $backLight: DirectionalLight
     public $csm?: CSM
+    private _ambientLight: AmbientLight
 
     public constructor() {
         super()
@@ -30,14 +31,9 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
         backLight.disableSceneGraph = true
         backLight.disableSerialize = true
 
-        const ambientLight = new AmbientLight()
+        const ambientLight = (this._ambientLight = new AmbientLight())
         ambientLight.disableSceneGraph = true
         ambientLight.disableSerialize = true
-
-        this.then(() => {
-            backLight.dispose()
-            ambientLight.dispose()
-        })
 
         this.createEffect(() => {
             const intensity = this.intensityState.get()
@@ -84,6 +80,12 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
             this.colorState.get,
             this.shadowsState.get
         ])
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        this.$backLight.dispose()
+        this._ambientLight.dispose()
     }
 
     private intensityState = new Reactive(1)
