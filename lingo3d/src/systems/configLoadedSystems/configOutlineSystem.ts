@@ -4,9 +4,9 @@ import {
     addOutline,
     deleteOutline
 } from "../../engine/renderLoop/effectComposer/outlineEffect"
-import configLoadedSystemWithCleanUp from "../utils/configLoadedSystemWithCleanUp"
+import configLoadedSystemWithCleanUp2 from "../utils/configLoadedSystemWithCleanUp2"
 
-export const [addConfigOutlineSystem] = configLoadedSystemWithCleanUp(
+export const [addConfigOutlineSystem] = configLoadedSystemWithCleanUp2(
     (self: Model | VisibleMixin) => {
         if (!self.outline) return
         if ("findAllMeshes" in self) {
@@ -17,8 +17,6 @@ export const [addConfigOutlineSystem] = configLoadedSystemWithCleanUp(
             }
         }
         addOutline(self.object3d)
-        return () => {
-            deleteOutline(self.object3d)
-        }
-    }
+    },
+    (self) => deleteOutline(self.object3d)
 )

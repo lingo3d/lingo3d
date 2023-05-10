@@ -4,9 +4,9 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import configLoadedSystemWithCleanUp from "../utils/configLoadedSystemWithCleanUp"
+import configLoadedSystemWithCleanUp2 from "../utils/configLoadedSystemWithCleanUp2"
 
-export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithCleanUp(
+export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithCleanUp2(
     (self: Model | VisibleMixin) => {
         if (!self.bloom) return
         if ("findAllMeshes" in self) {
@@ -18,8 +18,6 @@ export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithCleanUp(
             }
         }
         addSelectiveBloom(self.object3d)
-        return () => {
-            deleteSelectiveBloom(self.object3d)
-        }
-    }
+    },
+    (self) => deleteSelectiveBloom(self.object3d)
 )
