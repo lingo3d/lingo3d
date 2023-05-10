@@ -1,19 +1,35 @@
-import { Texture, Vector2 } from "three"
 import Sprite from "../../display/Sprite"
-import configSystem from "../utils/configSystem"
-import { deg2Rad } from "@lincode/math"
+import { releaseTexture } from "../../pools/texturePool"
+import { requestTexture } from "../../pools/texturePool"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
-const initMap = (self: Sprite, map: Texture) => {
-    typeof self.textureRepeat === "number"
-        ? map.repeat.set(self.textureRepeat, self.textureRepeat)
-        : map.repeat.copy(self.textureRepeat as Vector2)
-
-    map.flipY = self.textureFlipY
-    map.rotation = self.textureRotation * deg2Rad
-}
-
-export const [addConfigSpriteSystem] = configSystem((self: Sprite) => {
-    const { map, alphaMap } = self.$material
-    map && initMap(self, map)
-    alphaMap && initMap(self, alphaMap)
-})
+export const [addConfigSpriteSystem] = configSystemWithCleanUp2(
+    (self: Sprite) => {
+        if (self.texture) {
+            self.$material.map = requestTexture([
+                self.texture,
+                self.textureRepeat,
+                self.textureFlipY,
+                self.textureRotation
+            ])
+        }
+        if (self.alphaMap) {
+            self.$material.alphaMap = requestTexture([
+                self.alphaMap,
+                self.textureRepeat,
+                self.textureFlipY,
+                self.textureRotation
+            ])
+        }
+    },
+    (self) => {
+        if (self.$material.map) {
+            releaseTexture(self.$material.map)
+            self.$material.map = null
+        }
+        if (self.$material.alphaMap) {
+            releaseTexture(self.$material.alphaMap)
+            self.$material.alphaMap = null
+        }
+    }
+)

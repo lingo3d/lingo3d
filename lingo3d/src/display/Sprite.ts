@@ -2,7 +2,6 @@ import { Sprite as ThreeSprite, SpriteMaterial } from "three"
 import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ColorString } from "../interface/ITexturedStandard"
-import loadTexture from "./utils/loaders/loadTexture"
 import { Point } from "@lincode/math"
 import { addConfigSpriteSystem } from "../systems/configSystems/configSpriteSystem"
 import { castBackBlending, castBlending } from "./utils/castBlending"
@@ -45,7 +44,6 @@ export default class Sprite
     }
     public set texture(val) {
         this._texture = val
-        this.$material.map = val ? loadTexture(val) : null
         addConfigSpriteSystem(this)
     }
 
@@ -55,7 +53,6 @@ export default class Sprite
     }
     public set alphaMap(val) {
         this._alphaMap = val
-        this.$material.alphaMap = val ? loadTexture(val) : null
         addConfigSpriteSystem(this)
     }
 
