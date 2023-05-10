@@ -6,7 +6,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
-    cb: (target: T) => void,
+    cb: (target: T) => void | false,
     cleanup: (target: T) => void
 ) => {
     const queued = new Set<T>()
@@ -15,9 +15,11 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
     const execute = () => {
         for (const target of queued) {
             if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
-            needsCleanUp.has(target) && cleanup(target)
-            needsCleanUp.add(target)
-            cb(target)
+            if (needsCleanUp.has(target)) {
+                cleanup(target)
+                needsCleanUp.delete(target)
+            }
+            cb(target) !== false && needsCleanUp.add(target)
             if (queued.delete(target) && queued.size === 0) handle?.cancel()
         }
     }

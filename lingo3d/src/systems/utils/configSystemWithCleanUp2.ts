@@ -1,7 +1,7 @@
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends object>(
-    cb: (target: T) => void,
+    cb: (target: T) => void | false,
     cleanup: (target: T) => void,
     ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
 ) => {
@@ -10,9 +10,11 @@ export default <T extends object>(
 
     const execute = () => {
         for (const target of queued) {
-            needsCleanUp.has(target) && cleanup(target)
-            needsCleanUp.add(target)
-            cb(target)
+            if (needsCleanUp.has(target)) {
+                cleanup(target)
+                needsCleanUp.delete(target)
+            }
+            cb(target) !== false && needsCleanUp.add(target)
         }
         queued.clear()
         started = false
