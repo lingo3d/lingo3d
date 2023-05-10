@@ -1,6 +1,5 @@
 import { filter } from "@lincode/utils"
 import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
-import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "./utils/createInstancePool"
 import { Blending, ColorString } from "../interface/ITexturedStandard"
@@ -9,6 +8,7 @@ import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { PointType } from "../utils/isPoint"
 import { castBlending } from "../display/utils/castBlending"
+import { increaseTexture } from "./texturePool"
 
 export type MaterialParams = [
     color: ColorString,
@@ -65,6 +65,21 @@ const setMaterial = (
     }
     material[key] = value
 }
+
+const createMap = (
+    texture: string,
+    textureRepeat: number | PointType,
+    textureFlipY: boolean,
+    textureRotation: number
+) =>
+    texture
+        ? increaseTexture([
+              texture,
+              textureRepeat,
+              textureFlipY,
+              textureRotation
+          ])
+        : undefined
 
 export const [increaseMaterial, decreaseMaterial, allocateDefaultMaterial] =
     createInstancePool<MeshStandardMaterial, MaterialParams>(
