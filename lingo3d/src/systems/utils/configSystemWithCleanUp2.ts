@@ -1,7 +1,7 @@
 import Appendable from "../../api/core/Appendable"
 
 export default <T extends object>(
-    cb: (target: T) => void | boolean,
+    cb: (target: T) => void,
     cleanup: (target: T) => void
 ) => {
     const queued = new Set<T>()
@@ -9,11 +9,9 @@ export default <T extends object>(
 
     const execute = () => {
         for (const target of queued) {
-            if (needsCleanUp.has(target)) {
-                cleanup(target)
-                needsCleanUp.delete(target)
-            }
-            cb(target) !== false && needsCleanUp.add(target)
+            needsCleanUp.has(target) && cleanup(target)
+            needsCleanUp.add(target)
+            cb(target)
         }
         queued.clear()
         started = false

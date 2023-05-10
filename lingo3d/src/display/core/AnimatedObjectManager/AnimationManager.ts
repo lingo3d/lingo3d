@@ -12,6 +12,7 @@ import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 import getClipAction from "../../../memo/getClipAction"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
+import { Cancellable } from "@lincode/promiselikes"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -22,6 +23,8 @@ export default class AnimationManager
     public static componentName = "animation"
     public static defaults = animationManagerDefaults
     public static schema = animationManagerSchema
+
+    public $configHandle?: Cancellable
 
     private _clip?: AnimationClip
     public get $clip() {

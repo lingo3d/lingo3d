@@ -6,8 +6,8 @@ import { uuidMap } from "../../collections/idCollections"
 import TimelineAudio from "../../display/TimelineAudio"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../globals"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>
@@ -38,7 +38,7 @@ const framesToKeyframeTrack = (
         return new NumberKeyframeTrack(name, frameNums, values)
 }
 
-export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
+export const [addConfigAnimationDataSystem] = configSystemWithCleanUp2(
     (self: AnimationManager) => {
         if (!self.data) {
             self.$clip = self.$loadedClip
@@ -70,7 +70,7 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
                 })
                 .flat()
         )
-        const handle = new Cancellable()
+        const handle = (self.$configHandle = new Cancellable())
         const computeAudioDuration = throttleTrailing(() => {
             if (handle.done) return
             const maxDuration = Math.max(
@@ -80,9 +80,9 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp(
         })
         for (const getAudioDuration of audioDurationGetters)
             handle.watch(getAudioDuration(computeAudioDuration))
-
-        return () => {
-            handle.cancel()
-        }
+    },
+    (self) => {
+        self.$configHandle?.cancel()
+        self.$configHandle = undefined
     }
 )
