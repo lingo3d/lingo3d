@@ -6,6 +6,7 @@ import ISpriteSheet, {
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { addConfigSpriteSheetSystem } from "../systems/configSystems/configSpriteSheetSystem"
 import { castBackBlending, castBlending } from "./utils/castBlending"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 
 export default class SpriteSheet
     extends PhysicsObjectManager<Sprite>
@@ -24,6 +25,12 @@ export default class SpriteSheet
                 })
             )
         )
+        ssrExcludeSet.add(this.outerObject3d)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 
     public $blob: Blob | undefined

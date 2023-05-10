@@ -6,6 +6,7 @@ import loadTexture from "./utils/loaders/loadTexture"
 import { Point } from "@lincode/math"
 import { addConfigSpriteSystem } from "../systems/configSystems/configSpriteSystem"
 import { castBackBlending, castBlending } from "./utils/castBlending"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 
 export default class Sprite
     extends PhysicsObjectManager<ThreeSprite>
@@ -21,6 +22,12 @@ export default class Sprite
         const material = new SpriteMaterial({ transparent: true })
         super(new ThreeSprite(material))
         this.$material = material
+        ssrExcludeSet.add(this.outerObject3d)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 
     public override get depth() {
