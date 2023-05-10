@@ -28,6 +28,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 {
     public $actor?: any
     public $capsuleHeight?: number
+    public $controller?: any
 
     private _mass?: number
     public get mass(): number {

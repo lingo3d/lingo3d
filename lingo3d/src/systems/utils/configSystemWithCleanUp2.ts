@@ -2,7 +2,8 @@ import Appendable from "../../api/core/Appendable"
 
 export default <T extends object>(
     cb: (target: T) => void,
-    cleanup: (target: T) => void
+    cleanup: (target: T) => void,
+    ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
 ) => {
     const queued = new Set<T>()
     const needsCleanUp = new WeakSet<T>()
@@ -21,7 +22,8 @@ export default <T extends object>(
     const start = () => {
         if (started) return
         started = true
-        queueMicrotask(execute)
+        if (Array.isArray(ticker)) ticker[0]().then(execute)
+        else ticker(execute)
     }
 
     const deleteSystem = (item: T) => {

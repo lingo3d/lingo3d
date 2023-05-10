@@ -16,8 +16,8 @@ import {
     decreaseLoadingUnpkgCount
 } from "../../states/useLoadingUnpkgCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { physicsSet } from "../../collections/physicsSet"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -32,7 +32,7 @@ export const importPhysX = lazy(async () => {
     decreaseLoadingUnpkgCount()
 })
 
-export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp(
+export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.$jointCount
         if (!mode) return
@@ -72,22 +72,15 @@ export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp(
 
             desc.reportCallback = controllerHitCallback
             // desc.behaviorCallback = behaviorCallback.callback
-            const controller = getPxControllerManager().createController(desc)
+            const controller = (self.$controller =
+                getPxControllerManager().createController(desc))
             destroy(desc)
 
-            const actor = self.$initActor(controller.getActor())
+            self.$initActor(controller.getActor())
             managerControllerMap.set(self, controller)
             controllerManagerMap.set(controller, self)
-
-            return () => {
-                physicsSet.delete(self)
-                actorPtrManagerMap.delete(actor.ptr)
-                destroy(controller)
-                managerControllerMap.delete(self)
-                self.$actor = undefined
-            }
+            return
         }
-
         const pxTransform = assignPxTransform(self)
         const isStatic = mode === "map" || mode === "static"
         const actor = self.$initActor(
@@ -95,20 +88,28 @@ export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp(
                 ? physics.createRigidStatic(pxTransform)
                 : physics.createRigidDynamic(pxTransform)
         )
-
         self.$getPxShape(mode, actor)
         pxScene.addActor(actor)
         managerActorMap.set(self, actor)
+    },
+    (self) => {
+        if (!self.$actor) return
 
-        return () => {
+        if (self.$controller) {
             physicsSet.delete(self)
-            pxScene.removeActor(actor)
-            destroy(actor)
-
-            actorPtrManagerMap.delete(actor.ptr)
-            managerActorMap.delete(self)
+            actorPtrManagerMap.delete(self.$actor.ptr)
+            physxPtr[0].destroy(self.$controller)
+            managerControllerMap.delete(self)
             self.$actor = undefined
+            self.$controller = undefined
+            return
         }
+        physicsSet.delete(self)
+        physxPtr[0].pxScene.removeActor(self.$actor)
+        physxPtr[0].destroy(self.$actor)
+        actorPtrManagerMap.delete(self.$actor.ptr)
+        managerActorMap.delete(self)
+        self.$actor = undefined
     },
     [importPhysX]
 )
