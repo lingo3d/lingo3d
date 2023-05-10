@@ -1,4 +1,4 @@
-import { TextureLoader, Texture, RepeatWrapping, DataTexture } from "three"
+import { TextureLoader, Texture, RepeatWrapping } from "three"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./utils/bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
@@ -36,5 +36,6 @@ export default (url: string, onLoad?: () => void) => {
             handleProgress(url)
         )
     })
-    return texture.constructor === DataTexture ? texture : texture.clone()
+    return texture
+    // return texture.constructor === DataTexture ? texture : texture.clone()
 }
