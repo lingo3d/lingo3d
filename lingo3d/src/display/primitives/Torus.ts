@@ -3,7 +3,6 @@ import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import {
     TorusParams,
-    allocateDefaultTorusGeometry,
     releaseTorusGeometry,
     requestTorusGeometry
 } from "../../pools/torusGeometryPool"
@@ -11,7 +10,7 @@ import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/ref
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
 
-const geometry = allocateDefaultTorusGeometry([0.5, 0.1, 16, 32, PI2])
+const geometry = requestTorusGeometry([0.5, 0.1, 16, 32, PI2])
 
 export default class Torus extends PooledPrimitve implements ITorus {
     public static componentName = "torus"

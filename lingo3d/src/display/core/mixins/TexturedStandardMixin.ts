@@ -6,12 +6,9 @@ import ITexturedStandard, {
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
-import { color, standardMaterial } from "../../utils/reusables"
+import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import {
-    MaterialParams,
-    allocateDefaultMaterial
-} from "../../../pools/materialPool"
+import { MaterialParams } from "../../../pools/materialPool"
 import { addRefreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"
 import { PointType, isPoint } from "../../../utils/isPoint"
@@ -22,11 +19,6 @@ const standardDefaults = Object.fromEntries(
         key,
         structuredClone(getDefaultValue(texturedStandardDefaults, key, true))
     ])
-)
-
-allocateDefaultMaterial(
-    Object.values(standardDefaults) as MaterialParams,
-    standardMaterial
 )
 
 export type StandardMesh = Mesh<BufferGeometry, MeshStandardMaterial>

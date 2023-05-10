@@ -3,11 +3,10 @@ import createInstancePool from "./utils/createInstancePool"
 
 export type TorusParams = ConstructorParameters<typeof TorusGeometry>
 
-export const [
-    requestTorusGeometry,
-    releaseTorusGeometry,
-    allocateDefaultTorusGeometry
-] = createInstancePool<TorusGeometry, TorusParams>(
+export const [requestTorusGeometry, releaseTorusGeometry] = createInstancePool<
+    TorusGeometry,
+    TorusParams
+>(
     (params) => new TorusGeometry(...params),
     (geometry) => geometry.dispose()
 )

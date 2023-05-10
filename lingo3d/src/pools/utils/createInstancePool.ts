@@ -11,30 +11,18 @@ export default <
 ) => {
     const paramsInstanceMap = new Map<string, Type>()
     const paramsCountRecord: Record<string, number> = {}
-    const defaultParamsInstanceMap = new Map<string, Type>()
     const objectParamStringMap = new WeakMap<Type, string>()
 
-    verbose && setInterval(() => {
-        console.log(paramsInstanceMap.size)
-    }, 100)
-
-    const allocateDefaultInstance = (
-        params: Params,
-        instance = factory(params, undefined as Context)
-    ) => {
-        const paramString = JSON.stringify(params)
-        objectParamStringMap.set(instance, paramString)
-        defaultParamsInstanceMap.set(paramString, instance)
-        return instance
-    }
+    verbose &&
+        setInterval(() => {
+            console.log(paramsInstanceMap)
+        }, 100)
 
     const request = (
         params: Params,
         paramString = JSON.stringify(params),
         context = undefined as Context
     ): Type => {
-        const defaultInstance = defaultParamsInstanceMap.get(paramString)
-        if (defaultInstance) return defaultInstance
         if (
             (paramsCountRecord[paramString] =
                 (paramsCountRecord[paramString] ?? 0) + 1) === 1
@@ -65,5 +53,5 @@ export default <
         paramsCountRecord[paramString] = count
     }
 
-    return <const>[request, release, allocateDefaultInstance]
+    return <const>[request, release]
 }

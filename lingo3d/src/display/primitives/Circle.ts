@@ -2,7 +2,6 @@ import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { PI2 } from "../../globals"
 import {
     CircleParams,
-    allocateDefaultCircleGeometry,
     releaseCircleGeometry,
     requestCircleGeometry
 } from "../../pools/circleGeometryPool"
@@ -11,7 +10,7 @@ import PooledPrimitve from "../core/PooledPrimitive"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import toFixed from "../../api/serializer/toFixed"
 
-const geometry = allocateDefaultCircleGeometry([0.5, 32, 0, PI2])
+const geometry = requestCircleGeometry([0.5, 32, 0, PI2])
 
 export default class Circle extends PooledPrimitve implements ICircle {
     public static componentName = "circle"

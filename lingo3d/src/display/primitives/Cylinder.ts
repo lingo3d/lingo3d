@@ -6,14 +6,13 @@ import ICylinder, {
 } from "../../interface/ICylinder"
 import {
     CylinderParams,
-    allocateDefaultCylinderGeometry,
     releaseCylinderGeometry,
     requestCylinderGeometry
 } from "../../pools/cylinderGeometryPool"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-export const cylinderGeometry = allocateDefaultCylinderGeometry([
+export const cylinderGeometry = requestCylinderGeometry([
     0.5,
     0.5,
     1,
