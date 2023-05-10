@@ -1,10 +1,8 @@
 import { RepeatWrapping, Texture, VideoTexture } from "three"
 import { forceGet } from "@lincode/utils"
+import { isSelector } from "../../../utils/isSelector"
 
 const cache = new Map<string, VideoTexture>()
-
-export const isSelector = (val: string) =>
-    val[0] === "#" || (val[0] === "." && val[1] !== "/")
 
 export default (url: string) =>
     forceGet(cache, url, () => {
@@ -33,4 +31,4 @@ export default (url: string) =>
             RepeatWrapping,
             RepeatWrapping
         )
-    })
+    }).clone()

@@ -16,7 +16,7 @@ const loaded = new Events()
 export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
-    const texture = forceGet(cache, url, () => {
+    return forceGet(cache, url, () => {
         const unpkg = url.startsWith("https://unpkg.com/")
         unpkg && increaseLoadingUnpkgCount()
 
@@ -35,7 +35,5 @@ export default (url: string, onLoad?: () => void) => {
             },
             handleProgress(url)
         )
-    })
-    return texture
-    // return texture.constructor === DataTexture ? texture : texture.clone()
+    }).clone()
 }
