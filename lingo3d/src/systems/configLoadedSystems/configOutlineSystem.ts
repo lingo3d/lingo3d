@@ -12,11 +12,13 @@ export const [addConfigOutlineSystem] = configLoadedSystemWithCleanUp2(
         if ("findAllMeshes" in self) {
             const children = self.findAllMeshes()
             for (const child of children) addOutline(child.object3d)
-            return () => {
-                for (const child of children) deleteOutline(child.object3d)
-            }
-        }
-        addOutline(self.object3d)
+        } else addOutline(self.object3d)
     },
-    (self) => deleteOutline(self.object3d)
+    (self) => {
+        if (self.outline) return
+        if ("findAllMeshes" in self) {
+            for (const child of self.findAllMeshes())
+                deleteOutline(child.object3d)
+        } else deleteOutline(self.object3d)
+    }
 )

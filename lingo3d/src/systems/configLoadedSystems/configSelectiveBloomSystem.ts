@@ -12,12 +12,13 @@ export const [addConfigSelectiveBloomSystem] = configLoadedSystemWithCleanUp2(
         if ("findAllMeshes" in self) {
             const children = self.findAllMeshes()
             for (const child of children) addSelectiveBloom(child.object3d)
-            return () => {
-                for (const child of children)
-                    deleteSelectiveBloom(child.object3d)
-            }
-        }
-        addSelectiveBloom(self.object3d)
+        } else addSelectiveBloom(self.object3d)
     },
-    (self) => deleteSelectiveBloom(self.object3d)
+    (self) => {
+        if (self.bloom) return
+        if ("findAllMeshes" in self) {
+            for (const child of self.findAllMeshes())
+                deleteSelectiveBloom(child.object3d)
+        } else deleteSelectiveBloom(self.object3d)
+    }
 )
