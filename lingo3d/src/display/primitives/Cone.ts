@@ -10,9 +10,7 @@ import {
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-const defaultParams: ConeParams = [0.5, 1, 32, 1, false, 0, PI2]
-const defaultParamString = JSON.stringify(defaultParams)
-const geometry = allocateDefaultConeGeometry(defaultParams)
+const geometry = allocateDefaultConeGeometry([0.5, 1, 32, 1, false, 0, PI2])
 
 export default class Cone extends PooledPrimitve implements ICone {
     public static componentName = "cone"
@@ -20,12 +18,7 @@ export default class Cone extends PooledPrimitve implements ICone {
     public static override schema = coneSchema
 
     public constructor() {
-        super(
-            geometry,
-            defaultParamString,
-            releaseConeGeometry,
-            requestConeGeometry
-        )
+        super(geometry, releaseConeGeometry, requestConeGeometry)
     }
 
     public $getParams(): ConeParams {

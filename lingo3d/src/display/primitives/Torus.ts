@@ -11,9 +11,7 @@ import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/ref
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
 
-const defaultParams: TorusParams = [0.5, 0.1, 16, 32, PI2]
-const defaultParamString = JSON.stringify(defaultParams)
-const geometry = allocateDefaultTorusGeometry(defaultParams)
+const geometry = allocateDefaultTorusGeometry([0.5, 0.1, 16, 32, PI2])
 
 export default class Torus extends PooledPrimitve implements ITorus {
     public static componentName = "torus"
@@ -21,12 +19,7 @@ export default class Torus extends PooledPrimitve implements ITorus {
     public static override schema = torusSchema
 
     public constructor() {
-        super(
-            geometry,
-            defaultParamString,
-            releaseTorusGeometry,
-            requestTorusGeometry
-        )
+        super(geometry, releaseTorusGeometry, requestTorusGeometry)
     }
 
     public $getParams(): TorusParams {

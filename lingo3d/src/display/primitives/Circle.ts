@@ -11,9 +11,7 @@ import PooledPrimitve from "../core/PooledPrimitive"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import toFixed from "../../api/serializer/toFixed"
 
-const defaultParams: CircleParams = [0.5, 32, 0, PI2]
-const defaultParamString = JSON.stringify(defaultParams)
-const geometry = allocateDefaultCircleGeometry(defaultParams)
+const geometry = allocateDefaultCircleGeometry([0.5, 32, 0, PI2])
 
 export default class Circle extends PooledPrimitve implements ICircle {
     public static componentName = "circle"
@@ -21,12 +19,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
     public static override schema = circleSchema
 
     public constructor() {
-        super(
-            geometry,
-            defaultParamString,
-            releaseCircleGeometry,
-            requestCircleGeometry
-        )
+        super(geometry, releaseCircleGeometry, requestCircleGeometry)
         this.object3d.scale.z = Number.EPSILON
     }
 

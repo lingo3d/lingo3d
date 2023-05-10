@@ -1,13 +1,10 @@
 import PooledPrimitve from "../../display/core/PooledPrimitive"
-import configSystem from "../utils/configSystem"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
-export const [addRefreshPooledPrimitiveSystem] = configSystem(
-    (target: PooledPrimitve) => {
-        target.$releaseGeometry(target.$paramString)
-        const params = target.$getParams()
-        target.object3d.geometry = target.$requestGeometry(
-            params as any,
-            (target.$paramString = JSON.stringify(params))
-        )
-    }
+export const [addRefreshPooledPrimitiveSystem] = configSystemWithCleanUp2(
+    (self: PooledPrimitve) =>
+        (self.object3d.geometry = self.$requestGeometry(
+            self.$getParams() as any
+        )),
+    (self) => self.$releaseGeometry(self.object3d.geometry as any)
 )
