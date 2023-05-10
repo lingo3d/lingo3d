@@ -6,23 +6,14 @@ export default <
     Context extends object | void = void
 >(
     factory: (params: Params, context: Context) => Type,
-    dispose: (instance: Type) => void,
-    verbose?: boolean
+    dispose: (instance: Type) => void
 ) => {
     const paramsInstanceMap = new Map<string, Type>()
     const paramsCountRecord: Record<string, number> = {}
     const objectParamStringMap = new WeakMap<Type, string>()
 
-    verbose &&
-        setInterval(() => {
-            console.log(paramsInstanceMap)
-        }, 100)
-
-    const request = (
-        params: Params,
-        paramString = JSON.stringify(params),
-        context = undefined as Context
-    ): Type => {
+    const request = (params: Params, context = undefined as Context): Type => {
+        const paramString = JSON.stringify(params)
         if (
             (paramsCountRecord[paramString] =
                 (paramsCountRecord[paramString] ?? 0) + 1) === 1
@@ -35,13 +26,9 @@ export default <
         return paramsInstanceMap.get(paramString)!
     }
 
-    const release = (params: Params | string | Type) => {
-        const paramString =
-            typeof params === "string"
-                ? params
-                : Array.isArray(params)
-                ? JSON.stringify(params)
-                : objectParamStringMap.get(params)!
+    const release = (object: Type) => {
+        const paramString = objectParamStringMap.get(object)
+        if (!paramString) return
         const count = (paramsCountRecord[paramString] ?? 0) - 1
         if (count === -1) return
         if (count === 0) {

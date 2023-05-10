@@ -8,11 +8,7 @@ import {
 export default (typeSrc: string, manager: PhysicsObjectManager) => {
     const { x, y, z } = getActualScale(manager)
     decreaseConvexGeometryCount(manager)
-    const result = requestPhysxConvexGeometry(
-        [typeSrc, x, y, z],
-        undefined,
-        manager
-    )
+    const result = requestPhysxConvexGeometry([typeSrc, x, y, z], manager)
     manager.$convexGeometry = result
     return result
 }
