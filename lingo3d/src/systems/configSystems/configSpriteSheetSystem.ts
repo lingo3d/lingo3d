@@ -3,7 +3,6 @@ import { SpriteMaterial } from "three"
 import SpriteSheet from "../../display/SpriteSheet"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import {
-    SpriteSheetParams,
     requestSpriteSheet,
     releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
@@ -59,18 +58,15 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
 
         if (textureStart && textureEnd) {
             const handle = new Cancellable()
-            const params: SpriteSheetParams = [textureStart, textureEnd]
-            const paramString = JSON.stringify(params)
-            requestSpriteSheet(params, paramString).then(
-                ([url, columns, length, blob]) => {
-                    if (handle.done) return
-                    self.$blob = blob
-                    loadSpriteSheet(material, url, columns, length)
-                    playSpriteSheet(material, columns, length, loop)
-                }
-            )
+            const promise = requestSpriteSheet([textureStart, textureEnd])
+            promise.then(([url, columns, length, blob]) => {
+                if (handle.done) return
+                self.$blob = blob
+                loadSpriteSheet(material, url, columns, length)
+                playSpriteSheet(material, columns, length, loop)
+            })
             return () => {
-                releaseSpriteSheet(paramString)
+                releaseSpriteSheet(promise)
                 deleteSpriteSheetPlaySystem(material)
                 handle.cancel()
             }
