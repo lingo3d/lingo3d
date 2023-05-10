@@ -2,16 +2,16 @@ import { BufferGeometry } from "three"
 import Primitive from "./Primitive"
 import {
     CircleParams,
-    increaseCircleGeometry
+    requestCircleGeometry
 } from "../../pools/circleGeometryPool"
-import { ConeParams, increaseConeGeometry } from "../../pools/coneGeometryPool"
+import { ConeParams, requestConeGeometry } from "../../pools/coneGeometryPool"
 import {
     CylinderParams,
-    increaseCylinderGeometry
+    requestCylinderGeometry
 } from "../../pools/cylinderGeometryPool"
 import {
     TorusParams,
-    increaseTorusGeometry
+    requestTorusGeometry
 } from "../../pools/torusGeometryPool"
 
 export default abstract class PooledPrimitve extends Primitive {
@@ -20,10 +20,10 @@ export default abstract class PooledPrimitve extends Primitive {
         public $paramString: string,
         public $decreaseGeometry: (paramString: string) => void,
         public $increaseGeometry:
-            | typeof increaseCircleGeometry
-            | typeof increaseConeGeometry
-            | typeof increaseCylinderGeometry
-            | typeof increaseTorusGeometry
+            | typeof requestCircleGeometry
+            | typeof requestConeGeometry
+            | typeof requestCylinderGeometry
+            | typeof requestTorusGeometry
     ) {
         super(geometry)
     }

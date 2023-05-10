@@ -4,8 +4,8 @@ import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import {
     ConeParams,
     allocateDefaultConeGeometry,
-    decreaseConeGeometry,
-    increaseConeGeometry
+    releaseConeGeometry,
+    requestConeGeometry
 } from "../../pools/coneGeometryPool"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
@@ -23,8 +23,8 @@ export default class Cone extends PooledPrimitve implements ICone {
         super(
             geometry,
             defaultParamString,
-            decreaseConeGeometry,
-            increaseConeGeometry
+            releaseConeGeometry,
+            requestConeGeometry
         )
     }
 

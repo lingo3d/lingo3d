@@ -7,8 +7,8 @@ import ICylinder, {
 import {
     CylinderParams,
     allocateDefaultCylinderGeometry,
-    decreaseCylinderGeometry,
-    increaseCylinderGeometry
+    releaseCylinderGeometry,
+    requestCylinderGeometry
 } from "../../pools/cylinderGeometryPool"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
@@ -26,8 +26,8 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
         super(
             cylinderGeometry,
             defaultParamString,
-            decreaseCylinderGeometry,
-            increaseCylinderGeometry
+            releaseCylinderGeometry,
+            requestCylinderGeometry
         )
     }
 

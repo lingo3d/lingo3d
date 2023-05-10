@@ -4,8 +4,8 @@ import createInstancePool from "./utils/createInstancePool"
 export type ConeParams = ConstructorParameters<typeof ConeGeometry>
 
 export const [
-    increaseConeGeometry,
-    decreaseConeGeometry,
+    requestConeGeometry,
+    releaseConeGeometry,
     allocateDefaultConeGeometry
 ] = createInstancePool<ConeGeometry, ConeParams>(
     (params) => new ConeGeometry(...params),

@@ -4,8 +4,8 @@ import createInstancePool from "./utils/createInstancePool"
 export type CylinderParams = ConstructorParameters<typeof CylinderGeometry>
 
 export const [
-    increaseCylinderGeometry,
-    decreaseCylinderGeometry,
+    requestCylinderGeometry,
+    releaseCylinderGeometry,
     allocateDefaultCylinderGeometry
 ] = createInstancePool<CylinderGeometry, CylinderParams>(
     (params) => new CylinderGeometry(...params),

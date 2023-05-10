@@ -33,7 +33,7 @@ const initMap = (
     return map
 }
 
-export const [increaseTexture, decreaseTexture] = createInstancePool<
+export const [requestTexture, releaseTexture] = createInstancePool<
     Texture,
     TextureParams
 >(

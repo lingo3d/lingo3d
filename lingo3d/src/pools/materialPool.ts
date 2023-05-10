@@ -8,7 +8,7 @@ import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { PointType } from "../utils/isPoint"
 import { castBlending } from "../display/utils/castBlending"
-import { increaseTexture } from "./texturePool"
+import { requestTexture } from "./texturePool"
 
 export type MaterialParams = [
     color: ColorString,
@@ -73,7 +73,7 @@ const createMap = (
     textureRotation: number
 ) =>
     texture
-        ? increaseTexture([
+        ? requestTexture([
               texture,
               textureRepeat,
               textureFlipY,
@@ -81,7 +81,7 @@ const createMap = (
           ])
         : undefined
 
-export const [increaseMaterial, decreaseMaterial, allocateDefaultMaterial] =
+export const [requestMaterial, releaseMaterial, allocateDefaultMaterial] =
     createInstancePool<MeshStandardMaterial, MaterialParams>(
         (params) => {
             const referenceUUID = params[29]

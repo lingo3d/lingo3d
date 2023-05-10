@@ -4,8 +4,8 @@ import createInstancePool from "./utils/createInstancePool"
 export type TorusParams = ConstructorParameters<typeof TorusGeometry>
 
 export const [
-    increaseTorusGeometry,
-    decreaseTorusGeometry,
+    requestTorusGeometry,
+    releaseTorusGeometry,
     allocateDefaultTorusGeometry
 ] = createInstancePool<TorusGeometry, TorusParams>(
     (params) => new TorusGeometry(...params),

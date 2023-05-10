@@ -4,8 +4,8 @@ import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import {
     TorusParams,
     allocateDefaultTorusGeometry,
-    decreaseTorusGeometry,
-    increaseTorusGeometry
+    releaseTorusGeometry,
+    requestTorusGeometry
 } from "../../pools/torusGeometryPool"
 import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
@@ -24,8 +24,8 @@ export default class Torus extends PooledPrimitve implements ITorus {
         super(
             geometry,
             defaultParamString,
-            decreaseTorusGeometry,
-            increaseTorusGeometry
+            releaseTorusGeometry,
+            requestTorusGeometry
         )
     }
 

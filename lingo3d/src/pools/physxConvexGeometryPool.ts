@@ -12,7 +12,7 @@ export type PhysxConvexGeometryParams = [
     scaleZ: number
 ]
 
-export const [increasePhysxConvexGeometry, decreasePhysxConvexGeometry] =
+export const [requestPhysxConvexGeometry, releasePhysxConvexGeometry] =
     createInstancePool<
         PhysicsObjectManager,
         PhysxConvexGeometryParams,

@@ -4,8 +4,8 @@ import SpriteSheet from "../../display/SpriteSheet"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import {
     SpriteSheetParams,
-    increaseSpriteSheet,
-    decreaseSpriteSheet
+    requestSpriteSheet,
+    releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
 import {
     addSpriteSheetPlaySystem,
@@ -61,7 +61,7 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             const handle = new Cancellable()
             const params: SpriteSheetParams = [textureStart, textureEnd]
             const paramString = JSON.stringify(params)
-            increaseSpriteSheet(params, paramString).then(
+            requestSpriteSheet(params, paramString).then(
                 ([url, columns, length, blob]) => {
                     if (handle.done) return
                     self.$blob = blob
@@ -70,7 +70,7 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
                 }
             )
             return () => {
-                decreaseSpriteSheet(paramString)
+                releaseSpriteSheet(paramString)
                 deleteSpriteSheetPlaySystem(material)
                 handle.cancel()
             }

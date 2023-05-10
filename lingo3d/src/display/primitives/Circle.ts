@@ -3,8 +3,8 @@ import { PI2 } from "../../globals"
 import {
     CircleParams,
     allocateDefaultCircleGeometry,
-    decreaseCircleGeometry,
-    increaseCircleGeometry
+    releaseCircleGeometry,
+    requestCircleGeometry
 } from "../../pools/circleGeometryPool"
 import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
@@ -24,8 +24,8 @@ export default class Circle extends PooledPrimitve implements ICircle {
         super(
             geometry,
             defaultParamString,
-            decreaseCircleGeometry,
-            increaseCircleGeometry
+            releaseCircleGeometry,
+            requestCircleGeometry
         )
         this.object3d.scale.z = Number.EPSILON
     }
