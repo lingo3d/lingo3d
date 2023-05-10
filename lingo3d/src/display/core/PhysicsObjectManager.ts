@@ -29,6 +29,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public $actor?: any
     public $capsuleHeight?: number
     public $controller?: any
+    public $convexGeometry?: any
 
     private _mass?: number
     public get mass(): number {
@@ -144,7 +145,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return actor
     }
 
-    public $convexParamString?: string
     protected override disposeNode() {
         super.disposeNode()
         decreaseConvexGeometryCount(this)

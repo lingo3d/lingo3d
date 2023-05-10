@@ -264,6 +264,5 @@ export const [requestMaterial, releaseMaterial] = createInstancePool<
             )
         )
     },
-    (material) => material.dispose(),
-    true
+    (material) => material.dispose()
 )

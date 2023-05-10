@@ -5,7 +5,7 @@ import computePxVertices from "../engine/physx/computePxVertices"
 import { physxPtr } from "../pointers/physxPtr"
 import createInstancePool from "./utils/createInstancePool"
 
-export type PhysxConvexGeometryParams = [
+type PhysxConvexGeometryParams = [
     typeSrc: string,
     scaleX: number,
     scaleY: number,
