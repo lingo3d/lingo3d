@@ -16,15 +16,14 @@ const traverse = (
     frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || disableSelection.has(manager))
-            continue
+        if (frozenSet.has(manager) || disableSelection.has(manager)) continue
         "$addToRaycastSet" in manager &&
             manager.$addToRaycastSet(selectionCandidates)
         manager.children && traverse(manager.children, frozenSet)
     }
 }
 
-const traverseNative = async (
+const traverseFocusChildren = async (
     selectionFocus: MeshAppendable,
     frozenSet: Set<Appendable>
 ) => {
@@ -34,7 +33,8 @@ const traverseNative = async (
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
             child === selectionFocus.outerObject3d ||
-            child === selectionFocus.object3d
+            child === selectionFocus.object3d ||
+            child.type === "Line"
         )
             return
         const manager = getFoundManager(child, selectionFocus as any)
@@ -48,12 +48,10 @@ export const getSelectionCandidates = throttleTrailing(
         selectionCandidates.clear()
         const [frozenSet] = getSelectionFrozen()
         const selectionFocus = getSelectionFocus()
-        if (selectionFocus) {
+        if (selectionFocus)
             selectionFocus instanceof MeshAppendable &&
-                traverseNative(selectionFocus, frozenSet)
-            return
-        }
-        traverse(targets, frozenSet)
+                traverseFocusChildren(selectionFocus, frozenSet)
+        else traverse(targets, frozenSet)
     }
 )
 
