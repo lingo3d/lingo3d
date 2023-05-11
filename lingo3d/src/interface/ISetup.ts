@@ -8,9 +8,12 @@ import Range from "./utils/Range"
 
 type Type = typeof setupStruct
 
-export default interface ISetup extends Type {}
+export default interface ISetup extends Type {
+    uuid: string
+}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
+    uuid: String,
     defaultLight: Boolean,
     lightDistance: Number,
     pointLightPool: Number,
@@ -50,7 +53,7 @@ for (const key of ["antiAlias", "pixelRatio", "ssaoIntensity"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
-    { ...setupStruct },
+    { ...setupStruct, uuid: "" },
     {
         lightDistance: new Range(500, 5000),
         pointLightPool: new Range(1, 10, 1),

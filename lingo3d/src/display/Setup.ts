@@ -26,14 +26,15 @@ class Setup extends Appendable {
     }
 }
 for (const key of Object.keys(setupSchema))
-    Object.defineProperty(Setup.prototype, key, {
-        get() {
-            return unsafeGetValue(setupStruct, key)
-        },
-        set(value) {
-            unsafeSetValue(setupStruct, key, value)
-        }
-    })
+    key !== "uuid" &&
+        Object.defineProperty(Setup.prototype, key, {
+            get() {
+                return unsafeGetValue(setupStruct, key)
+            },
+            set(value) {
+                unsafeSetValue(setupStruct, key, value)
+            }
+        })
 interface Setup extends Appendable, ISetup {}
 export default Setup
 

@@ -33,6 +33,7 @@ const serialize = (
             : isTemplate(child)
             ? { type: "template", source: componentName }
             : { type: componentName }
+
         for (const [key, type] of Object.entries(schema)) {
             if (
                 type === Function ||
