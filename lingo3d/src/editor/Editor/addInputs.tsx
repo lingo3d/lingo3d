@@ -36,6 +36,7 @@ import {
 import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
 import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
+import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -259,8 +260,14 @@ export default async (
                         emitEditorRefresh()
                         return
                     }
-                    !tweakpaneDownPtr[0] && emitEditorEdit("start")
                     const processed = processValue(value)
+                    !tweakpaneDownPtr[0] &&
+                        emitEditorEdit({
+                            phase: "start",
+                            key,
+                            value: processed
+                        })
+                    tweakpaneChangePtr[0] = [key, processed]
                     setRuntimeValue(target, defaults, key, processed)
                     if (isTemplateNode(instance)) {
                         const spawnNode = uuidMap.get(
@@ -276,7 +283,12 @@ export default async (
                             processed
                         )
                     }
-                    !tweakpaneDownPtr[0] && emitEditorEdit("end")
+                    !tweakpaneDownPtr[0] &&
+                        emitEditorEdit({
+                            phase: "end",
+                            key,
+                            value: processed
+                        })
                 })
             }
 

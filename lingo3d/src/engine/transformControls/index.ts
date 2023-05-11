@@ -32,16 +32,10 @@ const lazyTransformControls = lazy(async () => {
     getCameraRendered((camera) => (transformControls.camera = camera))
     transformControls.enabled = false
 
-    let dragging = false
     transformControls.addEventListener("dragging-changed", ({ value }) => {
-        dragging = value
-        setTransformControlsDragging(dragging)
-        emitTransformControls(dragging ? "start" : "end")
+        setTransformControlsDragging(value)
+        emitTransformControls(value ? "start" : "end")
     })
-    transformControls.addEventListener(
-        "change",
-        () => dragging && emitTransformControls("move")
-    )
     return transformControls
 })
 

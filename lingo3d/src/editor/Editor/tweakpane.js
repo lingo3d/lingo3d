@@ -1,16 +1,23 @@
 import { handleStopPropagation } from "../../engine/hotkeys"
 import { emitEditorEdit } from "../../events/onEditorEdit"
+import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
 import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 
 const handleDown = (ev) => {
     handleStopPropagation(ev)
     tweakpaneDownPtr[0] = true
-    emitEditorEdit("start")
+    queueMicrotask(() => {
+        const [key, value] = tweakpaneChangePtr[0]
+        emitEditorEdit({ phase: "start", key, value })
+    })
 }
 const handleUp = (ev) => {
     handleStopPropagation(ev)
-    emitEditorEdit("end")
-    queueMicrotask(() => (tweakpaneDownPtr[0] = false))
+    queueMicrotask(() => {
+        tweakpaneDownPtr[0] = false
+        const [key, value] = tweakpaneChangePtr[0]
+        emitEditorEdit({ phase: "end", key, value })
+    })
 }
 
 /***
