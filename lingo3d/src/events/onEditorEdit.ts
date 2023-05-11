@@ -8,5 +8,7 @@ export const [emitEditorEdit, onEditorEdit] = event<{
 
 onEditorEdit(({ phase, key, value }) => {
     if (key === "x" || key === "y" || key === "z") {
+        // for (const target of getTransformTargets())
+            // target.emitEvent("transformEdit", payload)
     }
 })

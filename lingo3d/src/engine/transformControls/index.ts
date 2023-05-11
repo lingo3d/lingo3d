@@ -15,13 +15,12 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
-import { multipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
-import Appendable from "../../api/core/Appendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
+import getAllSelectionTargets from "../../memo/getAllSelectionTargets"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -80,10 +79,7 @@ createEffect(() => {
             renderCheckExcludeSet.delete(transformControls)
         })
     })
-    const eventTargets: Array<Appendable> = []
-    selectionTarget && eventTargets.push(selectionTarget)
-    for (const target of multipleSelectionTargets) eventTargets.push(target)
-
+    const eventTargets = getAllSelectionTargets()
     const handle1 = onTransformControls((phase) => {
         const payload: TransformControlsPayload = { phase, mode }
         for (const target of eventTargets)
