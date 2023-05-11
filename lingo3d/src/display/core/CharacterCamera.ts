@@ -52,8 +52,9 @@ export default class CharacterCamera
                     if (phase === "start") {
                         lockTargetRotation = this.lockTargetRotation
                         this.lockTargetRotation = "follow"
-                    } else if (phase === "end")
-                        this.lockTargetRotation = lockTargetRotation
+                        return
+                    }
+                    this.lockTargetRotation = lockTargetRotation
                 }
             )
             return () => {

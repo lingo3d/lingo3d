@@ -81,7 +81,6 @@ export default class Curve extends MeshAppendable implements ICurve {
             }
         }, [this.refreshState.get])
 
-        let move = false
         this.createEffect(() => {
             const helpers = createFor(
                 this.helperState.get() && getEditorHelper() ? this._points : [],
@@ -91,9 +90,8 @@ export default class Curve extends MeshAppendable implements ICurve {
                     helper.scale = 0.2
                     const handle = helper.events.on(
                         "transformEdit",
-                        ({ mode }: TransformControlsPayload) => {
-                            if (mode !== "translate") return
-                            move = true
+                        ({ phase, mode }: TransformControlsPayload) => {
+                            if (mode !== "translate" || phase !== "end") return
                             Object.assign(pt, helper.getWorldPosition())
                             this.refreshState.set({})
                         }
@@ -105,10 +103,6 @@ export default class Curve extends MeshAppendable implements ICurve {
                     return helper
                 }
             )
-            if (move) {
-                move = false
-                return
-            }
             for (const [point, helper] of helpers) Object.assign(helper, point)
         }, [this.helperState.get, this.refreshState.get, getEditorHelper])
     }

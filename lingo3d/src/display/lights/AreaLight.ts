@@ -36,8 +36,10 @@ export default class AreaLight extends Plane implements IAreaLight {
         })
         this.events.on(
             "transformEdit",
-            ({ mode }: TransformControlsPayload) =>
-                mode === "scale" && addConfigAreaLightSystem(this)
+            ({ phase, mode }: TransformControlsPayload) =>
+                mode === "scale" &&
+                phase === "end" &&
+                addConfigAreaLightSystem(this)
         )
         addAreaLightIntensitySystem(this)
     }

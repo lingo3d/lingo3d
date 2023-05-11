@@ -32,7 +32,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
         if (!("material" in mesh)) return
 
-        this._defaults = materialDefaultsMap.get(mesh.material)!
+        this._defaults = materialDefaultsMap.get(mesh.material)
+        if (!this._defaults) return
+
         this._materialParams = Object.values(this._defaults) as MaterialParams
     }
 
