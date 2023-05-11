@@ -86,17 +86,14 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
             e.phase === "end" && addConfigJointSystem(self)
 
         const handle0 = fromManager.events.on(
-            "transformControls",
+            "transformEdit",
             handleTransformControls
         )
         const handle1 = toManager.events.on(
-            "transformControls",
+            "transformEdit",
             handleTransformControls
         )
-        const handle2 = self.events.on(
-            "transformControls",
-            handleTransformControls
-        )
+        const handle2 = self.events.on("transformEdit", handleTransformControls)
         const handleActor = () => addConfigJointSystem(self)
         const handle3 = fromManager.events.on("actor", handleActor)
         const handle4 = toManager.events.on("actor", handleActor)

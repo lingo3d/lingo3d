@@ -46,7 +46,7 @@ export default class CharacterCamera
 
             let { lockTargetRotation } = this
             const handle = found.events.on(
-                "transformControls",
+                "transformEdit",
                 ({ phase, mode }: TransformControlsPayload) => {
                     if (mode !== "rotate") return
                     if (phase === "start") {

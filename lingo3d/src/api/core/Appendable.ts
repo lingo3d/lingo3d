@@ -19,13 +19,7 @@ import { disableUnload } from "../../collections/disableUnload"
 import { emitId } from "../../events/onId"
 import { disableSelection } from "../../collections/disableSelection"
 
-type EventName =
-    | "name"
-    | "runtimeSchema"
-    | "transformControls"
-    | "edit"
-    | "loaded"
-    | "actor"
+type EventName = "name" | "runtimeSchema" | "transformEdit" | "loaded" | "actor"
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

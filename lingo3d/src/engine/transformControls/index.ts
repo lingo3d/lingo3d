@@ -29,9 +29,7 @@ const lazyTransformControls = lazy(async () => {
         cameraRenderedPtr[0],
         container
     )
-    //@ts-ignore
     getCameraRendered((camera) => (transformControls.camera = camera))
-    //@ts-ignore
     transformControls.enabled = false
 
     let dragging = false
@@ -75,7 +73,6 @@ createEffect(() => {
 
         scene.add(transformControls)
         transformControls.attach(target)
-        //@ts-ignore
         transformControls.enabled = true
 
         ssrExcludeSet.add(transformControls)
@@ -84,7 +81,6 @@ createEffect(() => {
         handle0.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
-            //@ts-ignore
             transformControls.enabled = false
             ssrExcludeSet.delete(transformControls)
             renderCheckExcludeSet.delete(transformControls)
@@ -98,7 +94,7 @@ createEffect(() => {
     const handle1 = onTransformControls((phase) => {
         const payload: TransformControlsPayload = { phase, mode }
         for (const target of eventTargets)
-            target.emitEvent("transformControls", payload)
+            target.emitEvent("transformEdit", payload)
     })
     return () => {
         handle0.cancel()
