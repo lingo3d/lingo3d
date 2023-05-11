@@ -1,5 +1,5 @@
 import { AnimationMixer, AnimationClip, AnimationAction } from "three"
-import { assert, forceGetInstance, merge } from "@lincode/utils"
+import { forceGetInstance, merge } from "@lincode/utils"
 import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
@@ -25,24 +25,20 @@ export default class AnimationManager
     public static schema = animationManagerSchema
 
     public $configHandle?: Cancellable
+    public $action?: AnimationAction
 
     private _clip?: AnimationClip
     public get $clip() {
         return this._clip
     }
     public set $clip(val) {
-        assert(val && !this._clip)
+        if (this._clip) {
+            this.$action?.stop()
+            this.$mixer.uncacheClip(this._clip)
+        }
         this._clip = val
-        this.$action = getClipAction(this.$mixer, val)
-    }
-
-    private _action?: AnimationAction
-    public get $action() {
-        return this._action
-    }
-    public set $action(val) {
-        assert(val && !this._action)
-        this._action = val
+        if (val) this.$action = getClipAction(this.$mixer, val)
+        addConfigAnimationPlaybackSystem(this.animationStates)
     }
 
     private _paused = true
