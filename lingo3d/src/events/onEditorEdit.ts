@@ -1,6 +1,7 @@
 import { event } from "@lincode/events"
 import getAllSelectionTargets from "../memo/getAllSelectionTargets"
 import { TransformControlsPayload } from "./onTransformControls"
+import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 
 export const [emitEditorEdit, onEditorEdit] = event<{
     phase: "start" | "end"
@@ -18,4 +19,6 @@ onEditorEdit(({ phase, key }) => {
     if (!payload) return
     for (const target of getAllSelectionTargets())
         target.emitEvent("transformEdit", payload)
+
+    updateSelectionManagersPhysics(payload)
 })

@@ -21,6 +21,7 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import getAllSelectionTargets from "../../memo/getAllSelectionTargets"
+import updateSelectionManagersPhysics from "../../display/utils/updateSelectionManagersPhysics"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -84,6 +85,8 @@ createEffect(() => {
         const payload: TransformControlsPayload = { phase, mode }
         for (const target of eventTargets)
             target.emitEvent("transformEdit", payload)
+
+        updateSelectionManagersPhysics(payload)
     })
     return () => {
         handle0.cancel()
