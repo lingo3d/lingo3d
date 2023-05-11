@@ -9,7 +9,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import { useSignal } from "@preact/signals"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { multipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import addTargetInputs from "./addTargetInputs"
@@ -49,7 +49,7 @@ const Editor = () => {
     }, [])
 
     useLayoutEffect(() => {
-        if (!pane || getMultipleSelectionTargets()[0].size) return
+        if (!pane || multipleSelectionTargets.size) return
         if (
             selectedSignal.value.at(-1) === "Settings" ||
             !selectionTarget ||
@@ -61,9 +61,8 @@ const Editor = () => {
             }
         }
         const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
-        const handle1 = selectionTarget.events.on(
-            "runtimeSchema",
-            () => setRefresh({})
+        const handle1 = selectionTarget.events.on("runtimeSchema", () =>
+            setRefresh({})
         )
         return () => {
             handle0.cancel()

@@ -5,3 +5,8 @@ export const [emitEditorEdit, onEditorEdit] = event<{
     key: string
     value: any
 }>()
+
+onEditorEdit(({ phase, key, value }) => {
+    if (key === "x" || key === "y" || key === "z") {
+    }
+})

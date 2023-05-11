@@ -15,7 +15,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
-import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { multipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
@@ -82,8 +82,7 @@ createEffect(() => {
     })
     const eventTargets: Array<Appendable> = []
     selectionTarget && eventTargets.push(selectionTarget)
-    for (const target of getMultipleSelectionTargets()[0])
-        eventTargets.push(target)
+    for (const target of multipleSelectionTargets) eventTargets.push(target)
 
     const handle1 = onTransformControls((phase) => {
         const payload: TransformControlsPayload = { phase, mode }

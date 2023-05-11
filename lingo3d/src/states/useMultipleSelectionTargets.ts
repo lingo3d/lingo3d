@@ -9,8 +9,10 @@ import { setSelectionTarget } from "./useSelectionTarget"
 import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
 
+export const multipleSelectionTargets = new Set<MeshAppendable>()
+
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
-    new Set<MeshAppendable>()
+    multipleSelectionTargets
 ])
 export { getMultipleSelectionTargets }
 export const addMultipleSelectionTargets = add(
@@ -32,10 +34,9 @@ export const flushMultipleSelectionTargets = async (
 ) => {
     multipleSelectionTargetsFlushingPtr[0] = true
 
-    const [targets] = getMultipleSelectionTargets()
-    const targetsBackup = [...targets]
-    targets.clear()
-    setMultipleSelectionTargets([targets])
+    const targetsBackup = [...multipleSelectionTargets]
+    multipleSelectionTargets.clear()
+    setMultipleSelectionTargets([multipleSelectionTargets])
 
     await Promise.resolve()
 
@@ -47,14 +48,14 @@ export const flushMultipleSelectionTargets = async (
     await Promise.resolve()
     await Promise.resolve()
 
-    for (const target of newTargets ?? targetsBackup) targets.add(target)
-    setMultipleSelectionTargets([targets])
+    for (const target of newTargets ?? targetsBackup)
+        multipleSelectionTargets.add(target)
+    setMultipleSelectionTargets([multipleSelectionTargets])
     multipleSelectionTargetsFlushingPtr[0] = false
 }
 
 createEffect(() => {
-    const [targets] = getMultipleSelectionTargets()
-    if (!targets.size) return
+    if (!multipleSelectionTargets.size) return
 
     const groupManager = new SimpleObjectManager()
     groupManager.disableSceneGraph = true
@@ -63,7 +64,7 @@ createEffect(() => {
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []
-    for (const { outerObject3d } of targets) {
+    for (const { outerObject3d } of multipleSelectionTargets) {
         if (!outerObject3d.parent) continue
         parentEntries.push([outerObject3d, outerObject3d.parent])
         group.attach(outerObject3d)
@@ -77,14 +78,15 @@ createEffect(() => {
 
     let consolidated = false
     const handle = onEditorGroupItems(() => {
-        if (!targets.size || consolidated) return
+        if (!multipleSelectionTargets.size || consolidated) return
         consolidated = true
 
         import("../display/Group").then(({ default: Group }) => {
             if (handle.done) return
             const consolidatedGroup = new Group()
             consolidatedGroup.position.copy(group.position)
-            for (const target of targets) consolidatedGroup.attach(target)
+            for (const target of multipleSelectionTargets)
+                consolidatedGroup.attach(target)
             emitSelectionTarget(consolidatedGroup)
         })
     })
@@ -99,13 +101,12 @@ createEffect(() => {
 }, [getMultipleSelectionTargets])
 
 createEffect(() => {
-    const [targets] = getMultipleSelectionTargets()
-    if (!targets.size) return
+    if (!multipleSelectionTargets.size) return
 
     const handle = onDispose(
         (item) =>
             item instanceof MeshAppendable &&
-            targets.has(item) &&
+            multipleSelectionTargets.has(item) &&
             deleteMultipleSelectionTargets(item)
     )
     return () => {

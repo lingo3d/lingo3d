@@ -12,9 +12,9 @@ import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
     addMultipleSelectionTargets,
-    getMultipleSelectionTargets,
     deleteMultipleSelectionTargets,
-    clearMultipleSelectionTargets
+    clearMultipleSelectionTargets,
+    multipleSelectionTargets
 } from "../../../../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
@@ -65,14 +65,14 @@ createEffect(() => {
             }
             firstMultipleSelection.current = false
 
-            if (getMultipleSelectionTargets()[0].has(target))
+            if (multipleSelectionTargets.has(target))
                 deleteMultipleSelectionTargets(target)
             else if (!disableSceneGraph.has(target))
                 addMultipleSelectionTargets(target)
 
             return
         }
-        if (rightClickPtr[0] && getMultipleSelectionTargets()[0].size) return
+        if (rightClickPtr[0] && multipleSelectionTargets.size) return
 
         clearMultipleSelectionTargets()
         setSelectionTarget(

@@ -1,6 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
-import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
+import {
+    getMultipleSelectionTargets,
+    multipleSelectionTargets
+} from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
@@ -33,11 +36,10 @@ createEffect(() => {
 }, [getSelectionTarget])
 
 createEffect(() => {
-    const [targets] = getMultipleSelectionTargets()
-    if (!targets.size) return
+    if (!multipleSelectionTargets.size) return
 
     const boxHelpers: Array<BoxHelper> = []
-    for (const target of targets) {
+    for (const target of multipleSelectionTargets) {
         const boxHelper = new BoxHelper(target.object3d)
         scene.add(boxHelper)
         boxHelpers.push(boxHelper)
