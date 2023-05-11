@@ -1,31 +1,33 @@
 import { Reactive } from "@lincode/reactivity"
-import { assert } from "@lincode/utils"
+import { assert, forceGetInstance } from "@lincode/utils"
 import unsafeGetValue from "./unsafeGetValue"
 import unsafeSetValue from "./unsafeSetValue"
 
-const prototypeDescriptorMap = new WeakMap<object, PropertyDescriptor>()
+const prototypeDescriptorMap = new WeakMap<
+    object,
+    Map<string, PropertyDescriptor>
+>()
 
 const getPropertyDescriptor = (
     obj: object,
-    key: string,
-    traversed: Array<object> = []
+    key: string
 ): PropertyDescriptor | undefined => {
     if (!obj) return
-    if (prototypeDescriptorMap.has(obj)) return prototypeDescriptorMap.get(obj)
-    traversed.push(obj)
+    const descriptorMap = forceGetInstance(
+        prototypeDescriptorMap,
+        obj,
+        Map<string, PropertyDescriptor>
+    )
+    if (descriptorMap.has(key)) return descriptorMap.get(key)!
     const desc = Object.getOwnPropertyDescriptor(obj, key)
     if (desc) {
-        for (const obj of traversed) prototypeDescriptorMap.set(obj, desc)
+        descriptorMap.set(key, desc)
         return desc
     }
-    return getPropertyDescriptor(Object.getPrototypeOf(obj), key, traversed)
+    return getPropertyDescriptor(Object.getPrototypeOf(obj), key)
 }
 
-export default (
-    manager: Record<string, any>,
-    key: string,
-    verbose?: boolean
-): Reactive<any> => {
+export default (manager: Record<string, any>, key: string): Reactive<any> => {
     const stateKey = `${key}State`
     let reactive = unsafeGetValue(manager, stateKey)
     if (reactive) return reactive
@@ -38,8 +40,6 @@ export default (
 
     const desc = getPropertyDescriptor(manager, key)
     assert(desc, `Property "${key}" not found`)
-
-    verbose && console.log("property descriptor", manager, key, desc)
 
     if ("value" in desc)
         Object.defineProperty(manager, key, {
