@@ -19,7 +19,6 @@ import findFirstMesh from "../memo/findFirstMesh"
 import findAll from "../memo/findAll"
 import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
-import getAnimationStates from "../memo/getAnimationStates"
 import {
     idRenderCheckMap,
     idRenderCheckModelMap
@@ -45,7 +44,7 @@ export default class Model extends Loaded<Group> implements IModel {
             await new Promise<Object3D>((resolve) =>
                 this.events.once("loaded", resolve)
             ),
-            getAnimationStates(this)
+            this.$animationStates
         ))
         this.append(animation)
     }
@@ -93,7 +92,7 @@ export default class Model extends Loaded<Group> implements IModel {
                         clip.name,
                         clip,
                         loadedObject3d,
-                        getAnimationStates(this)
+                        this.$animationStates
                     ))
                 this.append(animation)
             }

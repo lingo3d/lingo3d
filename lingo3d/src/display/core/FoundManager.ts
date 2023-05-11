@@ -14,7 +14,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
-import getAnimationStates from "../../memo/getAnimationStates"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -40,10 +39,10 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     private retargeted?: boolean
     private retargetAnimations() {
         if (this.retargeted) return
-        const state = getAnimationStates(this.parent as Model)
-        for (const animationManager of Object.values(state.managerRecord))
+        const states = (this.parent as Model).$animationStates
+        for (const animationManager of Object.values(states.managerRecord))
             this.animations[animationManager.name!] = this.watch(
-                animationManager.retarget(this, state)
+                animationManager.retarget(this, states)
             )
         this.retargeted = true
     }

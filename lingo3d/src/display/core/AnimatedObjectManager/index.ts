@@ -5,9 +5,9 @@ import IAnimatedObjectManager, {
 } from "../../../interface/IAnimatedObjectManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import AnimationManager from "./AnimationManager"
-import getAnimationStates from "../../../memo/getAnimationStates"
 import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
+import AnimationStates from "./AnimationStates"
 
 const animationValueToData = (val: AnimationValue, uuid: string) => {
     const entries = Object.entries(val)
@@ -35,12 +35,7 @@ const getAnimation = (
     if (animation && typeof animation !== "string") return animation
     self.append(
         (animation = self.animations[name] =
-            new AnimationManager(
-                name,
-                undefined,
-                self,
-                getAnimationStates(self)
-            ))
+            new AnimationManager(name, undefined, self, self.$animationStates))
     )
     return animation
 }
@@ -50,7 +45,7 @@ const setAnimation = (
     val?: string | number | boolean | AnimationValue
 ) => {
     if (typeof val === "string" || typeof val === "number" || val === true) {
-        const animationManager = (getAnimationStates(self).manager =
+        const animationManager = (self.$animationStates.manager =
             typeof val === "string"
                 ? self.animations[val]
                 : Object.values(self.animations)[val === true ? 0 : val])
@@ -58,14 +53,14 @@ const setAnimation = (
         return
     }
     if (!val) {
-        getAnimationStates(self).manager = undefined
+        self.$animationStates.manager = undefined
         self.$mixer = undefined
         self.animationPaused = true
         return
     }
     const animationManager = getAnimation(self, "animation")
     animationManager.data = animationValueToData(val, self.uuid)
-    getAnimationStates(self).manager = animationManager
+    self.$animationStates.manager = animationManager
     self.$mixer = animationManager.$mixer
 }
 
@@ -73,11 +68,16 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IAnimatedObjectManager
 {
+    private _animationStates?: AnimationStates
+    public get $animationStates() {
+        return (this._animationStates ??= new AnimationStates())
+    }
+
     public get animations(): Record<string, AnimationManager> {
-        return getAnimationStates(this).managerRecord
+        return this.$animationStates.managerRecord
     }
     public set animations(val) {
-        getAnimationStates(this).managerRecord = val
+        this.$animationStates.managerRecord = val
     }
 
     private _animationPaused?: boolean
@@ -86,7 +86,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
     public set animationPaused(value) {
         this._animationPaused = value
-        const { manager } = getAnimationStates(this)
+        const { manager } = this.$animationStates
         if (manager) manager.paused = !!value
     }
 
@@ -111,6 +111,6 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return Math.ceil(time * STANDARD_FRAME)
     }
     public set animationFrame(val) {
-        getAnimationStates(this).gotoFrame = val
+        this.$animationStates.gotoFrame = val
     }
 }
