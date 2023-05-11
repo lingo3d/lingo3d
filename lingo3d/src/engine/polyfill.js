@@ -1,7 +1,6 @@
 import structuredClone from "@ungap/structured-clone"
 
-if (!("structuredClone" in window))
-    window.structuredClone = structuredClone
+if (!("structuredClone" in window)) window.structuredClone = structuredClone
 
 function at(n) {
     // ToInteger() abstract op
@@ -24,3 +23,21 @@ for (const C of [Array, String, TypedArray]) {
         configurable: true
     })
 }
+
+function group(callback) {
+    const result = {}
+    this.forEach((value, index, array) => {
+        const key = callback.call(this, value, index, array)
+        result[key] ??= []
+        result[key].push(value)
+    })
+    return result
+}
+
+if (!("group" in Array.prototype))
+    Object.defineProperty(Array.prototype, "group", {
+        value: group,
+        writable: true,
+        enumerable: false,
+        configurable: true
+    })
