@@ -67,11 +67,7 @@ export default class Model extends Loaded<Group> implements IModel {
         try {
             const result = await loadModel(url, true)
             this.loadingCount--
-            if (
-                this.loadingCount === 0 &&
-                this.animation &&
-                !this.$animationManager
-            )
+            if (this.loadingCount === 0 && this.animation && !this.$mixer)
                 this.animation = this.animation
             return result
         } catch (err) {

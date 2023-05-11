@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import { AnimationMixer, Object3D } from "three"
 import IAnimatedObjectManager, {
     Animation,
     AnimationValue
@@ -50,20 +50,23 @@ const setAnimation = (
     val?: string | number | boolean | AnimationValue
 ) => {
     if (typeof val === "string" || typeof val === "number" || val === true) {
-        self.$animationManager = getAnimationStates(self).manager =
+        const animationManager = (getAnimationStates(self).manager =
             typeof val === "string"
                 ? self.animations[val]
-                : Object.values(self.animations)[val === true ? 0 : val]
+                : Object.values(self.animations)[val === true ? 0 : val])
+        self.$mixer = animationManager?.$mixer
         return
     }
     if (!val) {
-        self.$animationManager = getAnimationStates(self).manager = undefined
+        getAnimationStates(self).manager = undefined
+        self.$mixer = undefined
         self.animationPaused = true
         return
     }
     const animationManager = getAnimation(self, "animation")
     animationManager.data = animationValueToData(val, self.uuid)
-    self.$animationManager = getAnimationStates(self).manager = animationManager
+    getAnimationStates(self).manager = animationManager
+    self.$mixer = animationManager.$mixer
 }
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
@@ -89,7 +92,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return typeof this.animation !== "object" ? this.animation : undefined
     }
 
-    public $animationManager?: AnimationManager
+    public $mixer?: AnimationMixer
 
     private _animation?: Animation
     public get animation() {
@@ -101,7 +104,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     public get animationFrame(): number {
-        const time = this.$animationManager?.$mixer.time ?? 0
+        const time = this.$mixer?.time ?? 0
         return Math.ceil(time * STANDARD_FRAME)
     }
     public set animationFrame(val) {
