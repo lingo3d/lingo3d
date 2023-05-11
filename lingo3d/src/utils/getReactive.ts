@@ -21,7 +21,11 @@ const getPropertyDescriptor = (
     return getPropertyDescriptor(Object.getPrototypeOf(obj), key, traversed)
 }
 
-export default (manager: Record<string, any>, key: string): Reactive<any> => {
+export default (
+    manager: Record<string, any>,
+    key: string,
+    verbose?: boolean
+): Reactive<any> => {
     const stateKey = `${key}State`
     let reactive = unsafeGetValue(manager, stateKey)
     if (reactive) return reactive
@@ -34,6 +38,8 @@ export default (manager: Record<string, any>, key: string): Reactive<any> => {
 
     const desc = getPropertyDescriptor(manager, key)
     assert(desc, `Property "${key}" not found`)
+
+    verbose && console.log("property descriptor", manager, key, desc)
 
     if ("value" in desc)
         Object.defineProperty(manager, key, {

@@ -45,7 +45,7 @@ export default class AnimationManager
         this._action = val
     }
 
-    private _paused = false
+    private _paused = true
     public get paused() {
         return this._paused || this.animationStates.manager !== this
     }

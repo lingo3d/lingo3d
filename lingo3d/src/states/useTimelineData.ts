@@ -22,9 +22,10 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = getReactive(timeline, "data").get((data) =>
+    const handle = getReactive(timeline, "data", true).get((data) => {
+        console.log("setTimelineData", data)
         setTimelineData([data])
-    )
+    })
     return () => {
         handle.cancel()
         setTimelineData([undefined])
@@ -72,7 +73,7 @@ createEffect(() => {
                 })
             }
         }
-        Object.keys(changeData) && timeline.mergeData(changeData)
+        Object.keys(changeData).length && timeline.mergeData(changeData)
     })
 
     const handle1 = onDispose((item) => {

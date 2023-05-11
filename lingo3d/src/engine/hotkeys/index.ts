@@ -1,14 +1,12 @@
 import { createEffect } from "@lincode/reactivity"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
-import { redo, undo } from "../../api/undoStack"
 import deleteSelected from "./deleteSelected"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setEditorCamera, getEditorCamera } from "../../states/useEditorCamera"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import mainCamera from "../mainCamera"
@@ -87,12 +85,12 @@ createEffect(() => {
         if (e.metaKey || e.ctrlKey) {
             if (keyLowerCase === "z") {
                 metaHotKey(e)
-                if (e.shiftKey) redo()
-                else undo()
+                // if (e.shiftKey) redo()
+                // else undo()
             }
             if (keyLowerCase === "y") {
                 metaHotKey(e)
-                redo()
+                // redo()
             }
             if (keyLowerCase === "s") {
                 metaHotKey(e)
