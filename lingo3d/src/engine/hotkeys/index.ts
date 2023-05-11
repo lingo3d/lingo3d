@@ -21,6 +21,7 @@ import settings from "../../api/settings"
 import { container } from "../renderLoop/containers"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import { redo, undo } from "../../api/undoStack"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -85,12 +86,12 @@ createEffect(() => {
         if (e.metaKey || e.ctrlKey) {
             if (keyLowerCase === "z") {
                 metaHotKey(e)
-                // if (e.shiftKey) redo()
-                // else undo()
+                if (e.shiftKey) redo()
+                else undo()
             }
             if (keyLowerCase === "y") {
                 metaHotKey(e)
-                // redo()
+                redo()
             }
             if (keyLowerCase === "s") {
                 metaHotKey(e)
