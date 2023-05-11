@@ -8,7 +8,6 @@ import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import { getTimelineRecord } from "./useTimelineRecord"
-import { onEditorChanges } from "../events/onEditorChanges"
 import { uuidMap } from "../collections/idCollections"
 import { keyframesPtr } from "../pointers/keyframesPtr"
 import getReactive from "../utils/getReactive"
@@ -40,41 +39,41 @@ createEffect(() => {
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
 
-    const handle0 = onEditorChanges((changes) => {
-        const changeData: AnimationData = {}
-        const frame = getTimelineFrame()
-        const [keyframes] = keyframesPtr
-        for (const [instance, changedProperties] of changes) {
-            if (!timelineInstances.has(instance)) continue
+    // const handle0 = onEditorChanges((changes) => {
+    //     const changeData: AnimationData = {}
+    //     const frame = getTimelineFrame()
+    //     const [keyframes] = keyframesPtr
+    //     for (const [instance, changedProperties] of changes) {
+    //         if (!timelineInstances.has(instance)) continue
 
-            const { uuid } = instance
-            const uuidData = timelineData[uuid]
-            const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
-            for (const [property, saved] of changedProperties) {
-                let prevFrame = 0
-                let nextFrame = frame
-                for (const frameNum of keyframeNums) {
-                    if (frameNum > frame) {
-                        nextFrame = frameNum
-                        break
-                    }
-                    if (frameNum < frame) prevFrame = frameNum
-                }
-                const propertyData = uuidData[property] ?? {}
-                merge(changeData, {
-                    [uuid]: {
-                        [property]: {
-                            [prevFrame]: propertyData[prevFrame] ?? saved,
-                            [nextFrame]: propertyData[nextFrame] ?? saved,
-                            [frame]: unsafeGetValue(instance, property)
-                        }
-                    }
-                })
-            }
-        }
-        //mark
-        timeline.mergeData(changeData)
-    })
+    //         const { uuid } = instance
+    //         const uuidData = timelineData[uuid]
+    //         const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
+    //         for (const [property, saved] of changedProperties) {
+    //             let prevFrame = 0
+    //             let nextFrame = frame
+    //             for (const frameNum of keyframeNums) {
+    //                 if (frameNum > frame) {
+    //                     nextFrame = frameNum
+    //                     break
+    //                 }
+    //                 if (frameNum < frame) prevFrame = frameNum
+    //             }
+    //             const propertyData = uuidData[property] ?? {}
+    //             merge(changeData, {
+    //                 [uuid]: {
+    //                     [property]: {
+    //                         [prevFrame]: propertyData[prevFrame] ?? saved,
+    //                         [nextFrame]: propertyData[nextFrame] ?? saved,
+    //                         [frame]: unsafeGetValue(instance, property)
+    //                     }
+    //                 }
+    //             })
+    //         }
+    //     }
+    //     //mark
+    //     timeline.mergeData(changeData)
+    // })
 
     const handle1 = onDispose((item) => {
         if (!timelineInstances.has(item)) return
@@ -83,7 +82,7 @@ createEffect(() => {
     })
 
     return () => {
-        handle0.cancel()
+        // handle0.cancel()
         handle1.cancel()
     }
 }, [getTimelineData, getTimelineRecord])
