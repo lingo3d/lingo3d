@@ -41,20 +41,23 @@ export const mouseRaycast = computePerFrameWithData(
             assignPxVec_(raycaster.ray.direction),
             FAR
         )
-        if (
-            pxHit &&
-            (!intersection ||
-                pxHit.distance < intersection.distance ||
-                (manager &&
-                    "$loadedObject3d" in manager &&
-                    manager.$loadedObject3d))
-        ) {
-            const { x, y, z } = pxHit.normal
-            return {
-                point: vec2Point(pxHit.position),
-                distance: pxHit.distance * M2CM,
-                normal: new Point3d(x, y, z),
-                manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
+        if (pxHit) {
+            const pxHitManager = actorPtrManagerMap.get(pxHit.actor.ptr)!
+            if (
+                candidates.has(pxHitManager.object3d) &&
+                (!intersection ||
+                    pxHit.distance < intersection.distance ||
+                    (manager &&
+                        "$loadedObject3d" in manager &&
+                        manager.$loadedObject3d))
+            ) {
+                const { x, y, z } = pxHit.normal
+                return {
+                    point: vec2Point(pxHit.position),
+                    distance: pxHit.distance * M2CM,
+                    normal: new Point3d(x, y, z),
+                    manager: pxHitManager
+                }
             }
         }
         if (intersection)
