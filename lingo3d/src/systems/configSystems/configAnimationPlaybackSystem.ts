@@ -3,15 +3,15 @@ import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationS
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import getContext from "../../memo/getContext"
 import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
-import configSystem from "../utils/configSystem"
+import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
-export const [addConfigAnimationPlaybackSystem] = configSystem(
+export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
     (animationStates: AnimationStates) => {
         const manager = animationStates.manager
-        if (!manager) return
+        if (!manager) return false
 
         const action = manager.$action
-        if (!action) return
+        if (!action) return false
 
         const mixer = manager.$mixer
         action.paused = manager.paused || animationStates.pausedCount > 0
@@ -26,7 +26,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystem(
                 animationStates.gotoFrame = undefined
                 action.paused = true
             }
-            return
+            return false
         }
 
         const context = getContext(mixer) as {
@@ -51,10 +51,14 @@ export const [addConfigAnimationPlaybackSystem] = configSystem(
 
         context.playCount = (context.playCount ?? 0) + 1
         context.playCount === 1 && addUpdateDTSystem(mixer)
-
-        return () => {
-            context.playCount = context.playCount! - 1
-            context.playCount === 0 && deleteUpdateDTSystem(mixer)
+    },
+    (animationStates) => {
+        const mixer = animationStates.manager!.$mixer
+        const context = getContext(mixer) as {
+            manager?: AnimationManager
+            playCount?: number
         }
+        context.playCount = context.playCount! - 1
+        context.playCount === 0 && deleteUpdateDTSystem(mixer)
     }
 )

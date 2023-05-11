@@ -52,7 +52,7 @@ export default class AnimationManager
     public set paused(val) {
         this._paused = val
         if (!val) this.animationStates.manager = this
-        else addConfigAnimationPlaybackSystem(this.animationStates)
+        addConfigAnimationPlaybackSystem(this.animationStates)
     }
 
     public $mixer: AnimationMixer
