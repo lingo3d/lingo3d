@@ -52,7 +52,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public appendNode(child: Appendable) {
         appendableRoot.delete(child)
-        addEmitSceneGraphChangeSystem(this)
+        addEmitSceneGraphChangeSystem(child)
 
         const { parent } = child
         if (parent) {
