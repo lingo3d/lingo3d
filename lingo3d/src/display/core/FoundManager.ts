@@ -24,7 +24,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     protected _defaults?: Record<string, any>
 
     public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
-        super(mesh, true)
+        super(mesh)
         owner?.appendNode(this)
         this.$ghost(false)
         this._name = mesh.name

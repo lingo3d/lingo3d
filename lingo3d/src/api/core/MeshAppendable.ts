@@ -26,6 +26,7 @@ import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
 import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
+import { addConfigMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
 
 const up = new Vector3(0, 1, 0)
 
@@ -38,13 +39,10 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public quaternion: Quaternion
     public userData: Record<string, any>
 
-    public constructor(
-        public outerObject3d: T = new Object3D() as T,
-        unmounted?: boolean
-    ) {
+    public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
-        !unmounted && scene.add(outerObject3d)
+        addConfigMeshAppendableSystem(this)
         this.object3d = outerObject3d
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
