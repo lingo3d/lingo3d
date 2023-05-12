@@ -61,12 +61,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     ) => boolean
 
     public override append(child: Appendable | MeshAppendable) {
-        this.appendNode(child)
+        this.$appendNode(child)
         "object3d" in child && this.object3d.add(child.outerObject3d)
     }
 
     public attach(child: Appendable | MeshAppendable) {
-        this.appendNode(child)
+        this.$appendNode(child)
         "object3d" in child && this.object3d.attach(child.outerObject3d)
     }
 

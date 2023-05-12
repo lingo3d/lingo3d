@@ -50,7 +50,7 @@ export default class Appendable extends Disposable implements IAppendable {
         this._firstChildState?.set(this.firstChild)
     }
 
-    public appendNode(child: Appendable) {
+    public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
         addEmitSceneGraphChangeSystem(child)
 
@@ -65,7 +65,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public append(child: Appendable) {
-        this.appendNode(child)
+        this.$appendNode(child)
     }
 
     private _deleteSystemSet?: Set<(self: any) => void>

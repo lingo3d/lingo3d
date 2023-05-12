@@ -29,7 +29,7 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     }
 
     public override append(child: SimpleObjectManager) {
-        this.appendNode(child)
+        this.$appendNode(child)
         scene.add(child.outerObject3d)
         child.placeAt(this)
     }

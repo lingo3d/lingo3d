@@ -69,8 +69,8 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
         this.textContainer.style.textAlign = value ? "center" : ""
     }
 
-    public override append(child: Text) {
-        this.appendNode(child)
+    public override $appendNode(child: Text) {
+        super.$appendNode(child)
         this.textContainer.appendChild(child.el)
     }
 }
