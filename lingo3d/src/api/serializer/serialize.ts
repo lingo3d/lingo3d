@@ -18,7 +18,7 @@ const serialize = (
 ) => {
     const dataParent: Array<AppendableNode> = []
     for (const child of children) {
-        if (child.disableSerialize) continue
+        if (child.$disableSerialize) continue
         const { componentName, schema } = getStaticProperties(child)
 
         const data: Record<string, any> = skipTemplateCheck

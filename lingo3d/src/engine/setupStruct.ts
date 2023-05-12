@@ -58,8 +58,8 @@ import { emitSpotLightPool } from "../events/onSpotLightPool"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 
 const defaultSkybox = new Skybox()
-defaultSkybox.ghost()
-defaultSkybox.disableUnload = true
+defaultSkybox.$ghost()
+defaultSkybox.$disableUnload = true
 
 export default {
     get defaultLight() {

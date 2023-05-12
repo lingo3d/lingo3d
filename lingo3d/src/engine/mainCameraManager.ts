@@ -12,8 +12,8 @@ import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
-mainCameraManager.ghost()
-mainCameraManager.disableUnload = true
+mainCameraManager.$ghost()
+mainCameraManager.$disableUnload = true
 mainCameraManager.name = "camera"
 mainCameraManager.enableZoom = true
 mainCameraManager.enableFly = true

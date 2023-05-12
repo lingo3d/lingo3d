@@ -88,7 +88,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                     const helper = new HelperSphere(undefined)
                     this.append(helper)
                     helper.scale = 0.2
-                    const handle = helper.events.on(
+                    const handle = helper.$events.on(
                         "transformEdit",
                         ({ phase, mode }: TransformControlsPayload) => {
                             if (mode !== "translate" || phase !== "end") return

@@ -28,10 +28,10 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
         addSkyLightSystem(this)
 
         const backLight = (this.$backLight = new DirectionalLight())
-        backLight.ghost()
+        backLight.$ghost()
 
         const ambientLight = (this._ambientLight = new AmbientLight())
-        ambientLight.ghost()
+        ambientLight.$ghost()
 
         this.createEffect(() => {
             const intensity = this.intensityState.get()
@@ -44,7 +44,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
 
             if (!this.shadowsState.get()) {
                 const light = new DirectionalLight()
-                light.ghost()
+                light.$ghost()
                 light.intensity = intensity
                 light.color = color
                 this.append(light)

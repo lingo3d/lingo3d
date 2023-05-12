@@ -13,7 +13,7 @@ const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
 
     useEffect(() => {
         setLoadedObject3d(undefined)
-        const handle = appendable.events.on("loaded", setLoadedObject3d)
+        const handle = appendable.$events.on("loaded", setLoadedObject3d)
         return () => {
             handle.cancel()
         }

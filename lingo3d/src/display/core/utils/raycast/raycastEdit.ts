@@ -59,14 +59,14 @@ createEffect(() => {
             if (firstMultipleSelection.current) {
                 const [currentTarget] = selectionTargetPtr
                 currentTarget instanceof MeshAppendable &&
-                    !currentTarget.disableSceneGraph &&
+                    !currentTarget.$disableSceneGraph &&
                     addMultipleSelectionTargets(currentTarget)
             }
             firstMultipleSelection.current = false
 
             if (multipleSelectionTargets.has(target))
                 deleteMultipleSelectionTargets(target)
-            else if (!target.disableSceneGraph)
+            else if (!target.$disableSceneGraph)
                 addMultipleSelectionTargets(target)
 
             return

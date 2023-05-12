@@ -11,8 +11,8 @@ import { TEXTURES_URL } from "../api/assetsPath"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
-defaultEnvironment.ghost()
-defaultEnvironment.disableUnload = true
+defaultEnvironment.$ghost()
+defaultEnvironment.$disableUnload = true
 defaultEnvironment.texture = undefined
 
 export const environmentToUrl = (value: string) =>

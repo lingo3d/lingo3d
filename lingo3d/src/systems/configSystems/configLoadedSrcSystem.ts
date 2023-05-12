@@ -11,7 +11,7 @@ export const [addConfigLoadedSrcSystem, deleteConfigLoadedSrcSystem] =
                 if (self.src !== src) return
                 const loadedObject3d = self.$resolveLoaded(loaded, src)
                 self.$loadedGroup.add((self.$loadedObject3d = loadedObject3d))
-                self.events.setState("loaded", loadedObject3d)
+                self.$events.setState("loaded", loadedObject3d)
             })
         },
         (self) => {

@@ -49,7 +49,7 @@ export default class Dummy extends Model implements IDummy {
             setSpine(undefined)
             setType(undefined)
 
-            const handle = this.events.on("loaded", (loaded) => {
+            const handle = this.$events.on("loaded", (loaded) => {
                 this.runtimeDefaults = { src: YBOT_URL() }
                 setType("other")
 

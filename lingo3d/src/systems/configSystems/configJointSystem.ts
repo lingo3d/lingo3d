@@ -38,7 +38,7 @@ const getActor = (manager: PhysicsObjectManager) =>
             resolve(manager.$actor)
             return
         }
-        manager.events.once("actor", resolve)
+        manager.$events.once("actor", resolve)
     })
 
 export const [addConfigJointSystem] = configSystemWithCleanUp(
@@ -85,18 +85,18 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
         const handleTransformControls = (e: TransformControlsPayload) =>
             e.phase === "end" && addConfigJointSystem(self)
 
-        const handle0 = fromManager.events.on(
+        const handle0 = fromManager.$events.on(
             "transformEdit",
             handleTransformControls
         )
-        const handle1 = toManager.events.on(
+        const handle1 = toManager.$events.on(
             "transformEdit",
             handleTransformControls
         )
-        const handle2 = self.events.on("transformEdit", handleTransformControls)
+        const handle2 = self.$events.on("transformEdit", handleTransformControls)
         const handleActor = () => addConfigJointSystem(self)
-        const handle3 = fromManager.events.on("actor", handleActor)
-        const handle4 = toManager.events.on("actor", handleActor)
+        const handle3 = fromManager.$events.on("actor", handleActor)
+        const handle4 = toManager.$events.on("actor", handleActor)
 
         return () => {
             handle0.cancel()

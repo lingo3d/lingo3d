@@ -11,9 +11,9 @@ const nodeToObjectManager = (
 ) => {
     if (node.type === "lingo3d") return
     if (node.type === "find") {
-        ;(parent as Model).events.once("loaded", () => {
+        ;(parent as Model).$events.once("loaded", () => {
             const object = (parent as Model).find(node.name)!
-            object.unghost()
+            object.$unghost()
             Object.assign(object, omit(node, nonSerializedProperties))
             node.children
                 ?.map((n) => nodeToObjectManager(n, object))

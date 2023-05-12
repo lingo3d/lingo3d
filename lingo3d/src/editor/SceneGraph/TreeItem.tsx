@@ -27,7 +27,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
         () =>
             appendable.children
                 ? [...appendable.children].filter(
-                      (item) => !item.disableSceneGraph
+                      (item) => !item.$disableSceneGraph
                   )
                 : undefined,
         [refresh]
@@ -44,7 +44,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const [name, setName] = useState("")
     useLayoutEffect(() => {
         setName(getDisplayName(appendable))
-        const handle = appendable.events.on("name", () =>
+        const handle = appendable.$events.on("name", () =>
             setName(getDisplayName(appendable))
         )
         return () => {

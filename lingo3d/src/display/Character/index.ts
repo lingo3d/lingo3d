@@ -24,7 +24,7 @@ export default class Character extends Model implements IModel {
 
         this.src = YBOT_URL()
 
-        this.events.once("loaded", () => {
+        this.$events.once("loaded", () => {
             const arm = this.find("LeftArm")?.outerObject3d
             const foreArm = this.find("LeftForeArm")?.outerObject3d
             const hand = this.find("LeftHand")?.outerObject3d

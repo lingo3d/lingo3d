@@ -35,7 +35,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     useLayoutEffect(() => {
         if (!instance) return
         setName(getDisplayName(instance))
-        const handle = instance.events.on("name", () =>
+        const handle = instance.$events.on("name", () =>
             setName(getDisplayName(instance))
         )
         return () => {

@@ -5,7 +5,7 @@ export const [requestPointLight, releasePointLight, disposePointLights] =
     createObjectPool<PointLight, []>(
         () => {
             const light = new PointLight()
-            light.ghost()
+            light.$ghost()
             light.intensity = 0
             return light
         },

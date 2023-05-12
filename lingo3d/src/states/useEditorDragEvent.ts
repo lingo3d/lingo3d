@@ -41,7 +41,7 @@ createEffect(() => {
     const indicator = createMemo(() => {
         if (!isDragEvent) return
         const indicator = new HelperSphere(undefined)
-        indicator.disableSelection = true
+        indicator.$disableSelection = true
         return indicator
     }, [isDragEvent])
 

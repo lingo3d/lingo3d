@@ -61,7 +61,7 @@ const Editor = () => {
             }
         }
         const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
-        const handle1 = selectionTarget.events.on("runtimeSchema", () =>
+        const handle1 = selectionTarget.$events.on("runtimeSchema", () =>
             setRefresh({})
         )
         return () => {

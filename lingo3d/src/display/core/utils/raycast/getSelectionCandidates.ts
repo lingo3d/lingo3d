@@ -15,7 +15,7 @@ const traverse = (
     frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || manager.disableSelection) continue
+        if (frozenSet.has(manager) || manager.$disableSelection) continue
         "$addToRaycastSet" in manager &&
             manager.$addToRaycastSet(selectionCandidates)
         manager.children && traverse(manager.children, frozenSet)
@@ -37,7 +37,7 @@ const traverseFocusChildren = async (
         )
             return
         const manager = getFoundManager(child, selectionFocus as any)
-        if (frozenSet.has(manager) || manager.disableSelection) return
+        if (frozenSet.has(manager) || manager.$disableSelection) return
         manager.$addToRaycastSet(selectionCandidates)
     })
 }

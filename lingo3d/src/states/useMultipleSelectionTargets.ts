@@ -58,7 +58,7 @@ createEffect(() => {
     if (!multipleSelectionTargets.size) return
 
     const groupManager = new SimpleObjectManager()
-    groupManager.ghost()
+    groupManager.$ghost()
     const group = groupManager.object3d
     setSelectionTarget(groupManager)
 

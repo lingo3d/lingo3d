@@ -84,7 +84,7 @@ createEffect(() => {
     const handle1 = onTransformControls((phase) => {
         const payload: TransformControlsPayload = { phase, mode }
         for (const target of eventTargets)
-            target.emitEvent("transformEdit", payload)
+            target.$emitEvent("transformEdit", payload)
 
         updateSelectionManagersPhysics(payload)
     })

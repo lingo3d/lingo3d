@@ -10,7 +10,7 @@ const Templates = () => {
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter(
-                (item) => !item.disableSceneGraph && isTemplate(item)
+                (item) => !item.$disableSceneGraph && isTemplate(item)
             ),
         [refresh]
     )

@@ -42,7 +42,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     private _firstChildState?: Reactive<Appendable | undefined>
-    public get firstChildState() {
+    protected get firstChildState() {
         return (this._firstChildState ??= new Reactive(this.firstChild))
     }
 
@@ -120,10 +120,10 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     private _events?: Events<any, EventName>
-    public get events() {
+    public get $events() {
         return (this._events ??= new Events())
     }
-    public emitEvent(key: EventName, payload?: any) {
+    public $emitEvent(key: EventName, payload?: any) {
         this._events?.emit(key, payload)
     }
 
@@ -133,7 +133,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set name(val) {
         this._name = val
-        this.emitEvent("name")
+        this.$emitEvent("name")
     }
 
     protected _id?: string
@@ -201,22 +201,22 @@ export default class Appendable extends Disposable implements IAppendable {
         cb ? addLoopSystem(this) : deleteLoopSystem(this)
     }
 
-    public disableSerialize?: boolean
-    public disableSceneGraph?: boolean
-    public disableUnload?: boolean
-    public disableSelection?: boolean
+    public $disableSerialize?: boolean
+    public $disableSceneGraph?: boolean
+    public $disableUnload?: boolean
+    public $disableSelection?: boolean
 
-    public ghost(disableSelection = true) {
-        this.disableSerialize = true
-        this.disableSceneGraph = true
-        this.disableSelection = disableSelection
+    public $ghost(disableSelection = true) {
+        this.$disableSerialize = true
+        this.$disableSceneGraph = true
+        this.$disableSelection = disableSelection
         deleteEmitSceneGraphChangeSystem(this)
     }
 
-    public unghost() {
-        this.disableSerialize = false
-        this.disableSceneGraph = false
-        this.disableSelection = false
+    public $unghost() {
+        this.$disableSerialize = false
+        this.$disableSceneGraph = false
+        this.$disableSelection = false
         addEmitSceneGraphChangeSystem(this)
     }
 }

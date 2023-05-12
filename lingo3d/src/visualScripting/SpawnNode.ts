@@ -28,7 +28,7 @@ const spawnConnectors = (
             toProp,
             xyz
         })
-        connector.ghost()
+        connector.$ghost()
     }
 }
 

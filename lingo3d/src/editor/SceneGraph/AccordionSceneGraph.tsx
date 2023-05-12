@@ -28,7 +28,7 @@ const AccordionSceneGraph = () => {
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter(
-                (item) => !item.disableSceneGraph && !isTemplate(item)
+                (item) => !item.$disableSceneGraph && !isTemplate(item)
             ),
         [refresh]
     )
@@ -43,10 +43,10 @@ const AccordionSceneGraph = () => {
                     disabled={
                         !(
                             selectionTarget instanceof FoundManager &&
-                            selectionTarget.disableSceneGraph
+                            selectionTarget.$disableSceneGraph
                         )
                     }
-                    onClick={() => selectionTarget!.unghost()}
+                    onClick={() => selectionTarget!.$unghost()}
                 >
                     <FindIcon />
                 </IconButton>

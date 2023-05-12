@@ -21,7 +21,7 @@ onEditorEdit(({ phase, key }) => {
 
     if (!payload) return
     for (const target of getAllSelectionTargets())
-        target.emitEvent("transformEdit", payload)
+        target.$emitEvent("transformEdit", payload)
 
     updateSelectionManagersPhysics(payload)
 })

@@ -32,7 +32,7 @@ const Toggle = memo(
                     )
                     if (val) runtimeIncludeKeys.add(property)
                     else runtimeIncludeKeys.delete(property)
-                    manager.emitEvent("runtimeSchema")
+                    manager.$emitEvent("runtimeSchema")
                 }}
             />
         )

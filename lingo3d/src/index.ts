@@ -106,12 +106,12 @@ import { LingoKeyboardEvent } from "./interface/IKeyboard"
 import { HitEvent } from "./interface/IVisible"
 
 const keyboard = new Keyboard()
-keyboard.ghost()
-keyboard.disableUnload = true
+keyboard.$ghost()
+keyboard.$disableUnload = true
 
 const mouse = new Mouse()
-mouse.ghost()
-mouse.disableUnload = true
+mouse.$ghost()
+mouse.$disableUnload = true
 
 export {
     Cube,

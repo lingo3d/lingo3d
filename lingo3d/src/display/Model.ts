@@ -42,7 +42,7 @@ export default class Model extends Loaded<Group> implements IModel {
             name,
             clip,
             await new Promise<Object3D>((resolve) =>
-                this.events.once("loaded", resolve)
+                this.$events.once("loaded", resolve)
             ),
             this.$animationStates
         ))

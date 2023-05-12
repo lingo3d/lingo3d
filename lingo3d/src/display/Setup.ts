@@ -14,7 +14,7 @@ class Setup extends Appendable {
 
     public constructor() {
         super()
-        this.disableSceneGraph = true
+        this.$disableSceneGraph = true
         setup?.dispose()
         setup = this
     }

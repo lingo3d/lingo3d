@@ -51,7 +51,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public set onLoad(cb) {
         this._onLoad = cb
-        this.cancelHandle("onLoad", cb && (() => this.events.on("loaded", cb)))
+        this.cancelHandle("onLoad", cb && (() => this.$events.on("loaded", cb)))
     }
 
     protected widthSet?: boolean

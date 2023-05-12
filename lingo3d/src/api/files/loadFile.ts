@@ -22,7 +22,7 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
 }
 
 export const unloadFile = () => {
-    for (const child of appendableRoot) !child.disableUnload && child.dispose()
+    for (const child of appendableRoot) !child.$disableUnload && child.dispose()
     resetMainCameraManager()
     setFileCurrent(undefined)
 }

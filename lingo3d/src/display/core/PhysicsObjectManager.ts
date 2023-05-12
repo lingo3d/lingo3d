@@ -141,7 +141,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (_mass !== undefined) actor.mass = _mass
         actorPtrManagerMap.set(actor.ptr, this)
         managerActorPtrMap.set(this, actor.ptr)
-        this.emitEvent("actor", actor)
+        this.$emitEvent("actor", actor)
         return actor
     }
 

@@ -29,7 +29,7 @@ createEffect(() => {
             if ("visible" in child && child.id && hideIdSet.has(child.id)) {
                 hidden.push(child)
                 child.visible = false
-                child.disableSelection = true
+                child.$disableSelection = true
                 selectionCandidates.delete(child.object3d)
             }
         })
@@ -39,7 +39,7 @@ createEffect(() => {
         if ("visible" in child && child.id && hideIdSet.has(child.id)) {
             hidden.push(child)
             child.visible = false
-            child.disableSelection = true
+            child.$disableSelection = true
             selectionCandidates.delete(child.object3d)
             emitSelectionTarget(undefined)
         }
@@ -48,7 +48,7 @@ createEffect(() => {
         handle.cancel()
         for (const child of hidden) {
             child.visible = true
-            child.disableSelection = false
+            child.$disableSelection = false
         }
         getSelectionCandidates()
     }

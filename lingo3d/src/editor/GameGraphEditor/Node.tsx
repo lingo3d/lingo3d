@@ -117,7 +117,7 @@ const Node = memo(
                     onDrop
                 }
             )
-            const handle1 = manager.events.on("runtimeSchema", () =>
+            const handle1 = manager.$events.on("runtimeSchema", () =>
                 setRefresh({})
             )
             return () => {

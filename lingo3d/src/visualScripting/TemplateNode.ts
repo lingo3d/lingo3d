@@ -9,7 +9,7 @@ export default class TemplateNode extends GameGraphChild {
 
     public constructor() {
         super()
-        this.disableSelection = true
+        this.$disableSelection = true
         templateNodeSet.add(this)
     }
 

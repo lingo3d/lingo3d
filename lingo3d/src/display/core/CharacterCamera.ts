@@ -45,7 +45,7 @@ export default class CharacterCamera
             if (!(found instanceof MeshAppendable)) return
 
             let { lockTargetRotation } = this
-            const handle = found.events.on(
+            const handle = found.$events.on(
                 "transformEdit",
                 ({ phase, mode }: TransformControlsPayload) => {
                     if (mode !== "rotate") return

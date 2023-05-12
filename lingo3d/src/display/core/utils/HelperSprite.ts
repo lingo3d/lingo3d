@@ -11,7 +11,7 @@ export default class HelperSprite extends Sprite {
     ) {
         super()
         ssrExcludeSet.add(this.outerObject3d)
-        this.ghost(false)
+        this.$ghost(false)
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
 

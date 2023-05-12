@@ -95,11 +95,11 @@ export default class Connector extends GameGraphChild implements IConnector {
             const handle0 = fromReactive.get((val) =>
                 setRuntimeValue(toManager, defaults, _toProp, val)
             )
-            const handle1 = fromManager.events.on(
+            const handle1 = fromManager.$events.on(
                 "runtimeSchema",
                 () => this.refreshState.set({})
             )
-            const handle2 = toManager.events.on(
+            const handle2 = toManager.$events.on(
                 "runtimeSchema",
                 () => this.refreshState.set({})
             )

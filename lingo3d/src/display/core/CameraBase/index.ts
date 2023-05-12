@@ -44,7 +44,7 @@ export default abstract class CameraBase<
             if (
                 !getEditorHelper() ||
                 cameraRenderedPtr[0] === $camera ||
-                this.disableSceneGraph
+                this.$disableSceneGraph
             )
                 return
 

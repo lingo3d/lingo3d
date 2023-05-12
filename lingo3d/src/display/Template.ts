@@ -7,7 +7,7 @@ import { templateSet } from "../collections/typeGuards"
 export default class Template extends Appendable {
     public constructor() {
         super()
-        this.disableSelection = true
+        this.$disableSelection = true
         templateSet.add(this)
     }
 
