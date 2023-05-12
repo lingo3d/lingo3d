@@ -1,7 +1,7 @@
 import { onAfterRender } from "../../events/onAfterRender"
-import configSystem from "../utils/configSystem"
+import configSimpleSystem from "../utils/configSimpleSystem"
 
-export const [addClearAfterRenderSystem] = configSystem(
+export const [addClearAfterRenderSystem] = configSimpleSystem(
     (collection: Map<any, any> | Set<any>) => collection.clear(),
     onAfterRender
 )

@@ -1,16 +1,14 @@
+import Appendable from "../../api/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T extends object>(
+export default <T extends Appendable>(
     cb: (target: T) => void,
     ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask
 ) => {
     const queued = new Set<T>()
 
     const execute = () => {
-        for (const target of queued) {
-            if ("done" in target && target.done) continue
-            cb(target)
-        }
+        for (const target of queued) !target.done && cb(target)
         queued.clear()
         started = false
     }
