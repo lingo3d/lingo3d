@@ -203,14 +203,12 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public disableSerialize?: boolean
     public disableSceneGraph?: boolean
-    public disableSceneGraphChange?: boolean
     public disableUnload?: boolean
     public disableSelection?: boolean
 
     public ghost(disableSelection = true) {
         this.disableSerialize = true
         this.disableSceneGraph = true
-        this.disableSceneGraphChange = true
         this.disableSelection = disableSelection
         deleteEmitSceneGraphChangeSystem(this)
     }
@@ -218,7 +216,6 @@ export default class Appendable extends Disposable implements IAppendable {
     public unghost() {
         this.disableSerialize = false
         this.disableSceneGraph = false
-        this.disableSceneGraphChange = false
         this.disableSelection = false
         addEmitSceneGraphChangeSystem(this)
     }

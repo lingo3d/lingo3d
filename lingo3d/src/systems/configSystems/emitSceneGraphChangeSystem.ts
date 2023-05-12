@@ -5,5 +5,5 @@ import configSimpleSystem from "../utils/configSimpleSystem"
 export const [addEmitSceneGraphChangeSystem, deleteEmitSceneGraphChangeSystem] =
     configSimpleSystem(
         (self: Appendable) =>
-            !self.disableSceneGraphChange && emitSceneGraphChange(self)
+            !self.disableSceneGraph && emitSceneGraphChange(self)
     )
