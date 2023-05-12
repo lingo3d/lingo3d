@@ -1,11 +1,10 @@
-import serialize from "../api/serializer/serialize"
-import { SceneGraphNode } from "../api/serializer/types"
-import computePerFrame from "./utils/computePerFrame"
+import { throttleTrailing } from "@lincode/utils"
+import { SceneGraphNode } from "../serializer/types"
 
 type GroupedNodes = Record<string, Array<SceneGraphNode>>
 let prevNodes: GroupedNodes = {}
 
-export default computePerFrame((_: void) => {
+export default throttleTrailing((_: void) => {
     //@ts-ignore
     const nodes: GroupedNodes = serialize().group((node) => node.uuid)
 

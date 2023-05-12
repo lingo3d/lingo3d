@@ -6,6 +6,7 @@ import { getGameGraph } from "../../states/useGameGraph"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import { getStagePosition } from "./Stage/stageSignals"
+import diffSceneGraph from "../../api/undoStack/diffSceneGraph"
 
 export const stageContextMenuSignal: Signal<
     (Point & { create?: boolean }) | undefined
@@ -29,6 +30,7 @@ const StageContextMenu = () => {
                                 ...getStagePosition(x, y)
                             }
                         })
+                        diffSceneGraph()
                     },
                     options: [
                         "mathNode",
