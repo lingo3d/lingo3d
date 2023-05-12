@@ -58,8 +58,7 @@ createEffect(() => {
     if (!multipleSelectionTargets.size) return
 
     const groupManager = new SimpleObjectManager()
-    groupManager.disableSceneGraph = true
-    groupManager.disableSerialize = true
+    groupManager.ghost()
     const group = groupManager.object3d
     setSelectionTarget(groupManager)
 

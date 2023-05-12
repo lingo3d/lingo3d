@@ -11,8 +11,7 @@ export default class HelperSprite extends Sprite {
     ) {
         super()
         ssrExcludeSet.add(this.outerObject3d)
-        this.disableSceneGraph = true
-        this.disableSerialize = true
+        this.ghost(false)
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
 

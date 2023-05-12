@@ -5,8 +5,7 @@ export const [requestPointLight, releasePointLight, disposePointLights] =
     createObjectPool<PointLight, []>(
         () => {
             const light = new PointLight()
-            light.disableSceneGraph = true
-            light.disableSerialize = true
+            light.ghost()
             light.intensity = 0
             return light
         },

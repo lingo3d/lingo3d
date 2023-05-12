@@ -9,14 +9,13 @@ import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { appendableRoot } from "../../../../collections/appendableRoot"
 import { selectionCandidates } from "../../../../collections/selectionCandidates"
-import { disableSelection } from "../../../../collections/disableSelection"
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
     frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || disableSelection.has(manager)) continue
+        if (frozenSet.has(manager) || manager.disableSelection) continue
         "$addToRaycastSet" in manager &&
             manager.$addToRaycastSet(selectionCandidates)
         manager.children && traverse(manager.children, frozenSet)
@@ -38,7 +37,7 @@ const traverseFocusChildren = async (
         )
             return
         const manager = getFoundManager(child, selectionFocus as any)
-        if (frozenSet.has(manager) || disableSelection.has(manager)) return
+        if (frozenSet.has(manager) || manager.disableSelection) return
         manager.$addToRaycastSet(selectionCandidates)
     })
 }

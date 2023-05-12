@@ -5,7 +5,6 @@ import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { emitDispose } from "../../events/onDispose"
-import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
 import Nullable from "../../interface/utils/Nullable"
 import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
@@ -13,11 +12,11 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { userIdMap, uuidMap } from "../../collections/idCollections"
-import { disableSerialize } from "../../collections/disableSerialize"
-import { disableSceneGraph } from "../../collections/disableSceneGraph"
-import { disableUnload } from "../../collections/disableUnload"
 import { emitId } from "../../events/onId"
-import { disableSelection } from "../../collections/disableSelection"
+import {
+    addEmitSceneGraphChangeSystem,
+    deleteEmitSceneGraphChangeSystem
+} from "../../systems/configSystems/emitSceneGraphChangeSystem"
 
 type EventName = "name" | "runtimeSchema" | "transformEdit" | "loaded" | "actor"
 
@@ -25,7 +24,7 @@ export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()
         appendableRoot.add(this)
-        emitSceneGraphChange()
+        addEmitSceneGraphChangeSystem(this)
     }
 
     public get componentName(): string {
@@ -53,7 +52,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public appendNode(child: Appendable) {
         appendableRoot.delete(child)
-        emitSceneGraphChange()
+        addEmitSceneGraphChangeSystem(this)
 
         const { parent } = child
         if (parent) {
@@ -101,7 +100,7 @@ export default class Appendable extends Disposable implements IAppendable {
             parent.refreshFirstChildState()
         } else appendableRoot.delete(this)
 
-        emitSceneGraphChange()
+        addEmitSceneGraphChangeSystem(this)
         return this
     }
 
@@ -202,32 +201,25 @@ export default class Appendable extends Disposable implements IAppendable {
         cb ? addLoopSystem(this) : deleteLoopSystem(this)
     }
 
-    public get disableSerialize() {
-        return disableSerialize.has(this)
-    }
-    public set disableSerialize(val) {
-        val ? disableSerialize.add(this) : disableSerialize.delete(this)
+    public disableSerialize?: boolean
+    public disableSceneGraph?: boolean
+    public disableSceneGraphChange?: boolean
+    public disableUnload?: boolean
+    public disableSelection?: boolean
+
+    public ghost(disableSelection = true) {
+        this.disableSerialize = true
+        this.disableSceneGraph = true
+        this.disableSceneGraphChange = true
+        this.disableSelection = disableSelection
+        deleteEmitSceneGraphChangeSystem(this)
     }
 
-    public get disableSceneGraph() {
-        return disableSceneGraph.has(this)
-    }
-    public set disableSceneGraph(val) {
-        val ? disableSceneGraph.add(this) : disableSceneGraph.delete(this)
-        emitSceneGraphChange()
-    }
-
-    public get disableUnload() {
-        return disableUnload.has(this)
-    }
-    public set disableUnload(val) {
-        val ? disableUnload.add(this) : disableUnload.delete(this)
-    }
-
-    public get disableSelection() {
-        return disableSelection.has(this)
-    }
-    public set disableSelection(val) {
-        val ? disableSelection.add(this) : disableSelection.delete(this)
+    public unghost() {
+        this.disableSerialize = false
+        this.disableSceneGraph = false
+        this.disableSceneGraphChange = false
+        this.disableSelection = false
+        addEmitSceneGraphChangeSystem(this)
     }
 }

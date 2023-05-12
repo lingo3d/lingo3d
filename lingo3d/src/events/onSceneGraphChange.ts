@@ -1,17 +1,15 @@
 import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
-import { throttleTrailing } from "@lincode/utils"
 import { getEditorMode } from "../states/useEditorMode"
-import diffSceneGraph from "../api/undoStack/diffSceneGraph"
+import Appendable from "../api/core/Appendable"
 
-const [_emitSceneGraphChange, onSceneGraphChange] = event()
-export { onSceneGraphChange }
-
-export const emitSceneGraphChange = throttleTrailing(_emitSceneGraphChange)
+export const [emitSceneGraphChange, onSceneGraphChange] = event<Appendable>()
 
 createEffect(() => {
     if (!getEditorMode()) return
-    const handle = onSceneGraphChange(() => diffSceneGraph())
+    const handle = onSceneGraphChange((manager) => {
+        console.log(manager)
+    })
     return () => {
         handle.cancel
     }

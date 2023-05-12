@@ -58,8 +58,7 @@ import { emitSpotLightPool } from "../events/onSpotLightPool"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 
 const defaultSkybox = new Skybox()
-defaultSkybox.disableSceneGraph = true
-defaultSkybox.disableSerialize = true
+defaultSkybox.ghost()
 defaultSkybox.disableUnload = true
 
 export default {

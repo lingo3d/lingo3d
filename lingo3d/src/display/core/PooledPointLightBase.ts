@@ -77,9 +77,7 @@ export default abstract class PooledPointLightBase<
     public get isRendered() {
         if (!this.renderCheckBox) {
             const renderCheckBox = (this.renderCheckBox = new Cube())
-            renderCheckBox.disableSceneGraph = true
-            renderCheckBox.disableSerialize = true
-            renderCheckBox.disableSelection = true
+            renderCheckBox.ghost()
             renderCheckBox.opacity = 0.001
             this.append(renderCheckBox)
         }

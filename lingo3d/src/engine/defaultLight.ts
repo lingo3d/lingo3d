@@ -11,8 +11,7 @@ import { TEXTURES_URL } from "../api/assetsPath"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
-defaultEnvironment.disableSceneGraph = true
-defaultEnvironment.disableSerialize = true
+defaultEnvironment.ghost()
 defaultEnvironment.disableUnload = true
 defaultEnvironment.texture = undefined
 

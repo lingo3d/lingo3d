@@ -12,8 +12,7 @@ import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
-mainCameraManager.disableSceneGraph = true
-mainCameraManager.disableSerialize = true
+mainCameraManager.ghost()
 mainCameraManager.disableUnload = true
 mainCameraManager.name = "camera"
 mainCameraManager.enableZoom = true

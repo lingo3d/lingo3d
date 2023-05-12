@@ -17,18 +17,18 @@ import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { isTemplate } from "../../collections/typeGuards"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import FoundManager from "../../display/core/FoundManager"
+import { addEmitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter(
-                (item) => !disableSceneGraph.has(item) && !isTemplate(item)
+                (item) => !item.disableSceneGraph && !isTemplate(item)
             ),
         [refresh]
     )
@@ -46,10 +46,7 @@ const AccordionSceneGraph = () => {
                             selectionTarget.disableSceneGraph
                         )
                     }
-                    onClick={() => {
-                        selectionTarget!.disableSceneGraph = false
-                        selectionTarget!.disableSerialize = false
-                    }}
+                    onClick={() => selectionTarget!.unghost()}
                 >
                     <FindIcon />
                 </IconButton>
@@ -84,7 +81,7 @@ const AccordionSceneGraph = () => {
                 )}
                 <EmptyTreeItem
                     onDrop={(child: Appendable | MeshAppendable) => {
-                        emitSceneGraphChange()
+                        addEmitSceneGraphChangeSystem(child)
                         appendableRoot.add(child)
                         "outerObject3d" in child &&
                             scene.attach(child.outerObject3d)

@@ -3,7 +3,6 @@ import { resetMainCameraManager } from "../../engine/mainCameraManager"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import deserialize from "../serializer/deserialize"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { disableUnload } from "../../collections/disableUnload"
 
 export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false
@@ -23,8 +22,7 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
 }
 
 export const unloadFile = () => {
-    for (const child of appendableRoot)
-        !disableUnload.has(child) && child.dispose()
+    for (const child of appendableRoot) !child.disableUnload && child.dispose()
     resetMainCameraManager()
     setFileCurrent(undefined)
 }

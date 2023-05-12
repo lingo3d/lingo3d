@@ -26,8 +26,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
         super(mesh, true)
         owner?.appendNode(this)
-        this.disableSceneGraph = true
-        this.disableSerialize = true
+        this.ghost(false)
         this._name = mesh.name
 
         if (!("material" in mesh)) return

@@ -106,13 +106,11 @@ import { LingoKeyboardEvent } from "./interface/IKeyboard"
 import { HitEvent } from "./interface/IVisible"
 
 const keyboard = new Keyboard()
-keyboard.disableSceneGraph = true
-keyboard.disableSerialize = true
+keyboard.ghost()
 keyboard.disableUnload = true
 
 const mouse = new Mouse()
-mouse.disableSceneGraph = true
-mouse.disableSerialize = true
+mouse.ghost()
 mouse.disableUnload = true
 
 export {

@@ -66,7 +66,7 @@ export default class AnimationManager
         public animationStates: AnimationStates
     ) {
         super()
-        this.disableSerialize = true
+        this.ghost()
         this.name = name
         addConfigAnimationDataSystem(this)
         this.$mixer = forceGetInstance(

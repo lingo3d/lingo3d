@@ -11,8 +11,7 @@ export default abstract class HelperPrimitive extends Primitive {
     ) {
         super(geometry)
         ssrExcludeSet.add(this.outerObject3d)
-        this.disableSceneGraph = true
-        this.disableSerialize = true
+        this.ghost(false)
         this.opacity = 0.5
 
         if (!owner) return

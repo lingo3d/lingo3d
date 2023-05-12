@@ -12,7 +12,7 @@ export default (
 ) => {
     const sphere = forceGet(sphereMap, name, () => {
         const sphere = Object.assign(new Sphere(), properties)
-        sphere.disableSelection = true
+        sphere.ghost()
         return sphere
     })
     sphere.placeAt(pt)

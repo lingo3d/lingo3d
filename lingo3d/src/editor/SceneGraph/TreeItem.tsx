@@ -11,7 +11,6 @@ import PlayIcon from "./icons/PlayIcon"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import useSelected from "./useSelected"
 import useExpanded from "./useExpanded"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
@@ -28,7 +27,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
         () =>
             appendable.children
                 ? [...appendable.children].filter(
-                      (item) => !disableSceneGraph.has(item)
+                      (item) => !item.disableSceneGraph
                   )
                 : undefined,
         [refresh]

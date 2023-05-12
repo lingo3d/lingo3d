@@ -13,8 +13,7 @@ const nodeToObjectManager = (
     if (node.type === "find") {
         ;(parent as Model).events.once("loaded", () => {
             const object = (parent as Model).find(node.name)!
-            object.disableSceneGraph = false
-            object.disableSerialize = false
+            object.unghost()
             Object.assign(object, omit(node, nonSerializedProperties))
             node.children
                 ?.map((n) => nodeToObjectManager(n, object))

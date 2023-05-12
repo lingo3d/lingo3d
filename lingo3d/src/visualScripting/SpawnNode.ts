@@ -28,8 +28,7 @@ const spawnConnectors = (
             toProp,
             xyz
         })
-        connector.disableSceneGraph = true
-        connector.disableSerialize = true
+        connector.ghost()
     }
 }
 

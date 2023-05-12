@@ -3,7 +3,6 @@ import Template from "../../display/Template"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import TemplatesTreeItem from "./TemplatesTreeItem"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { disableSceneGraph } from "../../collections/disableSceneGraph"
 import { isTemplate } from "../../collections/typeGuards"
 
 const Templates = () => {
@@ -11,7 +10,7 @@ const Templates = () => {
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter(
-                (item) => !disableSceneGraph.has(item) && isTemplate(item)
+                (item) => !item.disableSceneGraph && isTemplate(item)
             ),
         [refresh]
     )
