@@ -1,5 +1,6 @@
 import { throttleTrailing } from "@lincode/utils"
 import { SceneGraphNode } from "../serializer/types"
+import serialize from "../serializer/serialize"
 
 type GroupedNodes = Record<string, Array<SceneGraphNode>>
 let prevNodes: GroupedNodes = {}

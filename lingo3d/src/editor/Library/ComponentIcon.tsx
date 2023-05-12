@@ -7,10 +7,8 @@ import drag, { setDragImage } from "../utils/drag"
 import ComponentIconImage from "./ComponentIconImage"
 import DummyIK from "../../display/DummyIK"
 import { setDummyIK } from "../../states/useDummyIK"
-import diffSceneGraph from "../../api/undoStack/diffSceneGraph"
 
 const setDraggingItem = drag<GameObjectType>((val) => {
-    diffSceneGraph()
     const result = createObject(val)
     if (result instanceof GameGraph) setGameGraph(result)
     else if (result instanceof DummyIK) setDummyIK(result)
