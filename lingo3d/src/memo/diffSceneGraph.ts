@@ -28,9 +28,14 @@ export default computePerFrame((_: void) => {
             }
         hasDiff && updateNodes.push(diffNode)
     }
+    for (const [uuid, [node]] of Object.entries(prevNodes)) {
+        if (uuid in nodes) continue
+        deleteNodes.push(node)
+    }
 
     console.log("create", createNodes)
     console.log("update", updateNodes)
+    console.log("delete", deleteNodes)
 
     prevNodes = nodes
 })
