@@ -18,6 +18,7 @@ import {
 import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
 import { shadowModePtr } from "../../pointers/shadowModePtr"
 import Cube from "../primitives/Cube"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight = ThreePointLight
@@ -35,8 +36,7 @@ export default abstract class PointLightBase<
 
     protected override disposeNode() {
         releaseShadowRenderTarget(this.object3d.shadow.map)
-        //@ts-ignore
-        this.object3d.shadow.map = null
+        unsafeSetValue(this.object3d.shadow, "map", null)
         super.disposeNode()
     }
 

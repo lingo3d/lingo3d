@@ -22,6 +22,7 @@ import {
     addSpotLightShadowResolutionSystem
 } from "../../../systems/spotLightShadowResolutionSystem"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
+import unsafeSetValue from "../../../utils/unsafeSetValue"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -80,10 +81,8 @@ export default class SpotLight
             val &&
                 (() => {
                     const material = new SpotLightMaterial()
-                    //@ts-ignore
-                    material.lightColor = this.object3d.color
-                    //@ts-ignore
-                    material.anglePower = 2
+                    unsafeSetValue(material, "lightColor", this.object3d.color)
+                    unsafeSetValue(material, "anglePower", 2)
 
                     const cone = new Mesh(coneGeometry, material)
                     this.outerObject3d.add(cone)
