@@ -6,9 +6,10 @@ import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import prevent from "./prevent"
+import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 
 createEffect(() => {
-    if (!getEditorBehavior()) return
+    if (!editorBehaviorPtr[0]) return
     container.addEventListener("dragenter", prevent)
     container.addEventListener("dragover", prevent)
     container.addEventListener("dragleave", prevent)

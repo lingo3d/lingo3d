@@ -10,6 +10,7 @@ import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/config
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { addConfigJointSystem } from "../../systems/configSystems/configJointSystem"
+import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -37,7 +38,7 @@ export default abstract class JointBase
         jointSet.add(this)
 
         this.createEffect(() => {
-            if (!getWorldPlayComputed() || !getEditorBehavior()) return
+            if (!getWorldPlayComputed() || !editorBehaviorPtr[0]) return
             flushMultipleSelectionTargets(() => this.savePos())
             return () => {
                 flushMultipleSelectionTargets(() => this.restorePos())

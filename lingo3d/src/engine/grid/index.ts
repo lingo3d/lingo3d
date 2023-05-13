@@ -6,9 +6,10 @@ import scene from "../scene"
 import InfiniteGridHelper from "./InfiniteGridHelper"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
+import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 
 createEffect(() => {
-    if (!getGrid() || !getEditorBehavior() || getWorldPlayComputed()) return
+    if (!getGrid() || !editorBehaviorPtr[0] || getWorldPlayComputed()) return
 
     const gridHelper = new InfiniteGridHelper()
     ssrExcludeSet.add(gridHelper)

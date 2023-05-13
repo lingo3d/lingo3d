@@ -9,6 +9,7 @@ import { M2CM } from "../globals"
 import { getEditorBehavior } from "../states/useEditorBehavior"
 import { container } from "./renderLoop/containers"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import { editorBehaviorPtr } from "../pointers/editorBehaviorPtr"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
@@ -27,7 +28,7 @@ onEditorCenterView((manager) => {
 
 createEffect(() => {
     if (
-        !getEditorBehavior() ||
+        !editorBehaviorPtr[0] ||
         cameraRenderedPtr[0] !== mainCamera ||
         getTransformControlsDragging()
     )
