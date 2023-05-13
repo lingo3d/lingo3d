@@ -16,6 +16,7 @@ type PhysX = {
     pxVec: any
     pxVec_: any
     pxVec__: any
+    pxExtendedVec: any
     pxTransform: any
     pxTransform_: any
     pxTransform__: any

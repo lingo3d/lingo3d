@@ -7,6 +7,7 @@ import { Point3dType } from "../../utils/isPoint"
 let pxVec: any
 let pxVec_: any
 let pxVec__: any
+let pxExtendedVec: any
 let pxQuat: any
 let pxTransform: any
 let pxTransform_: any
@@ -17,6 +18,7 @@ getPhysXLoaded((loaded) => {
     pxVec = val.pxVec
     pxVec_ = val.pxVec_
     pxVec__ = val.pxVec__
+    pxExtendedVec = val.pxExtendedVec
     pxQuat = val.pxQuat
     pxTransform = val.pxTransform
     pxTransform_ = val.pxTransform_
@@ -44,9 +46,19 @@ export const setPxVec__ = (x: number, y: number, z: number) => {
     return pxVec__
 }
 
+export const setPxExtendedVec = (x: number, y: number, z: number) => {
+    pxExtendedVec.set_x(x)
+    pxExtendedVec.set_y(y)
+    pxExtendedVec.set_z(z)
+    return pxExtendedVec
+}
+
 export const assignPxVec = (pt: Point3dType) => setPxVec(pt.x, pt.y, pt.z)
 
 export const assignPxVec_ = (pt: Point3dType) => setPxVec_(pt.x, pt.y, pt.z)
+
+export const assignPxExtendedVec = (pt: Point3dType) =>
+    setPxExtendedVec(pt.x, pt.y, pt.z)
 
 export const setPxQuat = (x: number, y: number, z: number, w: number) => {
     pxQuat.set_x(x)

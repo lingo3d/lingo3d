@@ -33,9 +33,9 @@ export default throttleTrailing((_: void) => {
         deleteNodes.push(node)
     }
 
-    console.log("create", createNodes)
-    console.log("update", updateNodes)
-    console.log("delete", deleteNodes)
+    // console.log("create", createNodes)
+    // console.log("update", updateNodes)
+    // console.log("delete", deleteNodes)
 
     prevNodes = nodes
 })

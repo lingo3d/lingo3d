@@ -35,6 +35,7 @@ import "./physxLoop"
         PxCookingParams,
         PxConvexFlags,
         PxVec3,
+        PxExtendedVec3,
         PxSceneDesc,
         PxShapeFlags,
         PxTransform,
@@ -290,6 +291,7 @@ import "./physxLoop"
     const pxVec = new PxVec3(0, 0, 0)
     const pxVec_ = new PxVec3(0, 0, 0)
     const pxVec__ = new PxVec3(0, 0, 0)
+    const pxExtendedVec = new PxExtendedVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     // const filteringMode = _emscripten_enum_PxPairFilteringModeEnum_eKEEP()
     // sceneDesc.set_staticKineFilteringMode(filteringMode)
@@ -607,6 +609,7 @@ import "./physxLoop"
         pxVec,
         pxVec_,
         pxVec__,
+        pxExtendedVec,
         pxTransform,
         pxTransform_,
         pxTransform__,

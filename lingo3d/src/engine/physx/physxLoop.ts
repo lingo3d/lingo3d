@@ -19,6 +19,7 @@ import {
 } from "../../collections/pxCollections"
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
+import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
@@ -38,6 +39,7 @@ createEffect(() => {
     const { pxScene, pxControllerFilters, pxRaycast } = physxPtr[0]
     if (!pxScene || !getWorldPlayComputed() || !getFirstLoad()) return
 
+    physxLoopPtr[0] = true
     const handle = onPhysXLoop(() => {
         groundedControllerManagers.clear()
 
@@ -102,5 +104,6 @@ createEffect(() => {
     })
     return () => {
         handle.cancel()
+        physxLoopPtr[0] = false
     }
 }, [getPhysXLoaded, getWorldPlayComputed, getFirstLoad])
