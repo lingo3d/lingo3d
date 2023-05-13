@@ -1,5 +1,3 @@
-import { throttle } from "@lincode/utils"
-import pointerToWorld from "../display/utils/pointerToWorld"
 import { emitMouseClick } from "../events/onMouseClick"
 import { onMouseDown, emitMouseDown } from "../events/onMouseDown"
 import { emitMouseMove } from "../events/onMouseMove"
@@ -11,6 +9,7 @@ import { onMouseUp, emitMouseUp } from "../events/onMouseUp"
 import { container } from "./renderLoop/containers"
 import { rightClickPtr } from "../pointers/rightClickPtr"
 import { Point } from "@lincode/math"
+import pointerToWorld from "../throttle/pointerToWorld"
 
 let downTime = 0
 let downX = 0
@@ -41,20 +40,18 @@ onMouseUp((e) => {
     rightClick = false
 })
 
-const computeMouse = throttle(pointerToWorld, 0, "leading")
-
 container.addEventListener("pointermove", (ev) =>
-    emitMouseMove(computeMouse(ev))
+    emitMouseMove(pointerToWorld(ev))
 )
 let down = false
 container.addEventListener("pointerdown", (ev) => {
     down = true
-    const payload = computeMouse(ev)
+    const payload = pointerToWorld(ev)
     emitMouseDown(payload)
     emitMouseMove(payload)
 })
 const handleUp = (ev: PointerEvent) => {
-    down && emitMouseUp(computeMouse(ev))
+    down && emitMouseUp(pointerToWorld(ev))
     down = false
 }
 container.addEventListener("pointerup", handleUp)

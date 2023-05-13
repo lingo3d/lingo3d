@@ -1,14 +1,15 @@
-import { CM2M } from "../../globals"
-import { LingoMouseEvent } from "../../interface/IMouse"
-import { getCameraPointerLock } from "../../states/useCameraPointerLock"
-import getWorldPosition from "../../memo/getWorldPosition"
-import normalizeClientPosition from "./normalizeClientPosition"
-import { pt3d0, vector3 } from "./reusables"
-import { vec2Point } from "./vec2Point"
-import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
-import Point3d from "../../math/Point3d"
+import { Point3d } from "@lincode/math"
+import normalizeClientPosition from "../display/utils/normalizeClientPosition"
+import { pt3d0, vector3 } from "../display/utils/reusables"
+import { vec2Point } from "../display/utils/vec2Point"
+import { CM2M } from "../globals"
+import { LingoMouseEvent } from "../interface/IMouse"
+import getWorldPosition from "../memo/getWorldPosition"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import { getCameraPointerLock } from "../states/useCameraPointerLock"
+import throttleFrame from "./utils/throttleFrame"
 
-export default (ev: { clientX: number; clientY: number }) => {
+export default throttleFrame((ev: { clientX: number; clientY: number }) => {
     const distance = 500
     const [xNorm, yNorm, canvasX, canvasY] = normalizeClientPosition(
         ev.clientX,
@@ -48,4 +49,4 @@ export default (ev: { clientX: number; clientY: number }) => {
         distance,
         undefined
     )
-}
+})

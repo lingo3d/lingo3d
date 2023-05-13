@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { GetGlobalState } from "@lincode/reactivity"
-import { filterBoolean, throttleTrailing } from "@lincode/utils"
+import { filterBoolean } from "@lincode/utils"
 import { AnimationClip, BooleanKeyframeTrack, NumberKeyframeTrack } from "three"
 import { uuidMap } from "../../collections/idCollections"
 import TimelineAudio from "../../display/TimelineAudio"
@@ -8,6 +8,7 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../globals"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import throttleFrameTrailing from "../../throttle/utils/throttleFrameTrailing"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>
@@ -71,7 +72,7 @@ export const [addConfigAnimationDataSystem] = configSystemWithCleanUp2(
                 .flat()
         )
         const handle = (self.$configHandle = new Cancellable())
-        const computeAudioDuration = throttleTrailing(() => {
+        const computeAudioDuration = throttleFrameTrailing(() => {
             if (handle.done) return
             const maxDuration = Math.max(
                 ...audioDurationGetters.map((getter) => getter())
