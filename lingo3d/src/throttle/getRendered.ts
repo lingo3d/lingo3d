@@ -1,27 +1,27 @@
+import { throttle } from "@lincode/utils"
 import {
     WebGLRenderTarget,
     NearestFilter,
     RGBAFormat,
     LinearEncoding,
+    Object3D,
     Mesh,
     SpriteMaterial,
     Sprite,
     Scene,
-    Color,
-    Object3D
+    Color
 } from "three"
+import Appendable from "../api/core/Appendable"
 import {
     idRenderCheckMap,
     idRenderCheckModelMap
 } from "../collections/idCollections"
+import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 import { whiteColor } from "../display/utils/reusables"
 import scene from "../engine/scene"
+import getOcclusionMaterial from "../memo/getOcclusionMaterial"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
-import getOcclusionMaterial from "./getOcclusionMaterial"
-import Appendable from "../api/core/Appendable"
-import computePerFrame from "./utils/computePerFrame"
-import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 
 const SIZE = 100
 
@@ -73,35 +73,46 @@ const currClearColor = new Color()
 const idSet = new Set<number>()
 const renderedSet = new Set<Appendable>()
 
-export default computePerFrame((_: void) => {
-    const renderer = rendererPtr[0]
+export default throttle(
+    (_: void) => {
+        const renderer = rendererPtr[0]
 
-    const currRenderTarget = renderer.getRenderTarget()
-    const currAlpha = renderer.getClearAlpha()
-    renderer.getClearColor(currClearColor)
-    renderer.setRenderTarget(renderTarget)
-    renderer.setClearColor(whiteColor)
-    renderer.clear()
-    renderer.render(emptyScene, cameraRenderedPtr[0])
-    renderer.readRenderTargetPixels(renderTarget, 0, 0, SIZE, SIZE, pixelBuffer)
-    renderer.setRenderTarget(currRenderTarget)
-    renderer.setClearColor(currClearColor, currAlpha)
-
-    idSet.clear()
-    const iMax = SIZE * SIZE * 4
-    for (let i = 0; i < iMax; i += 4)
-        idSet.add(
-            (pixelBuffer[i] << 24) +
-                (pixelBuffer[i + 1] << 16) +
-                (pixelBuffer[i + 2] << 8) +
-                pixelBuffer[i + 3]
+        const currRenderTarget = renderer.getRenderTarget()
+        const currAlpha = renderer.getClearAlpha()
+        renderer.getClearColor(currClearColor)
+        renderer.setRenderTarget(renderTarget)
+        renderer.setClearColor(whiteColor)
+        renderer.clear()
+        renderer.render(emptyScene, cameraRenderedPtr[0])
+        renderer.readRenderTargetPixels(
+            renderTarget,
+            0,
+            0,
+            SIZE,
+            SIZE,
+            pixelBuffer
         )
-    renderedSet.clear()
-    for (const id of idSet) {
-        const manager = idRenderCheckMap.get(id)
-        manager && renderedSet.add(manager)
-        const model = idRenderCheckModelMap.get(id)
-        model && renderedSet.add(model)
-    }
-    return renderedSet
-})
+        renderer.setRenderTarget(currRenderTarget)
+        renderer.setClearColor(currClearColor, currAlpha)
+
+        idSet.clear()
+        const iMax = SIZE * SIZE * 4
+        for (let i = 0; i < iMax; i += 4)
+            idSet.add(
+                (pixelBuffer[i] << 24) +
+                    (pixelBuffer[i + 1] << 16) +
+                    (pixelBuffer[i + 2] << 8) +
+                    pixelBuffer[i + 3]
+            )
+        renderedSet.clear()
+        for (const id of idSet) {
+            const manager = idRenderCheckMap.get(id)
+            manager && renderedSet.add(manager)
+            const model = idRenderCheckModelMap.get(id)
+            model && renderedSet.add(model)
+        }
+        return renderedSet
+    },
+    200,
+    "leading"
+)

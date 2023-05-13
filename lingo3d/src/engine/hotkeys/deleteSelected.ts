@@ -1,6 +1,6 @@
-import getAllSelectionTargets from "../../memo/getAllSelectionTargets"
 import { getMultipleSelection } from "../../states/useMultipleSelection"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
+import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
 
 export default () => {
     if (getTransformControlsDragging() || getMultipleSelection()) return

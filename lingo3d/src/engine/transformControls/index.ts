@@ -20,8 +20,8 @@ import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
-import getAllSelectionTargets from "../../memo/getAllSelectionTargets"
 import updateSelectionManagersPhysics from "../../display/utils/updateSelectionManagersPhysics"
+import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")

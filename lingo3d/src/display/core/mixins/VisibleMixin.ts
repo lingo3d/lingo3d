@@ -24,8 +24,8 @@ import {
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
-import getRendered from "../../../memo/getRendered"
 import { idRenderCheckMap } from "../../../collections/idCollections"
+import getRendered from "../../../throttle/getRendered"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()

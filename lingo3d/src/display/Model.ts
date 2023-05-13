@@ -23,8 +23,8 @@ import {
     idRenderCheckMap,
     idRenderCheckModelMap
 } from "../collections/idCollections"
-import getRendered from "../memo/getRendered"
 import { addConfigCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
+import getRendered from "../throttle/getRendered"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

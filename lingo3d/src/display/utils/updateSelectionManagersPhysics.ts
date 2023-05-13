@@ -1,6 +1,6 @@
 import { TransformControlsPayload } from "../../events/onTransformControls"
-import getAllSelectionTargets from "../../memo/getAllSelectionTargets"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
 
 export default ({ phase, mode }: TransformControlsPayload) => {
     if (phase !== "end") return

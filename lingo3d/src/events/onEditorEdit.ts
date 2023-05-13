@@ -1,8 +1,8 @@
 import { event } from "@lincode/events"
-import getAllSelectionTargets from "../memo/getAllSelectionTargets"
 import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import diffSceneGraph from "../throttle/diffSceneGraph"
+import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 
 export const [emitEditorEdit, onEditorEdit] = event<{
     phase: "start" | "end"
