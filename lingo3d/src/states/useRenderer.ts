@@ -10,6 +10,9 @@ createEffect(() => {
     const renderer = new WebGLRenderer({
         powerPreference: "high-performance",
         precision: "lowp",
+        antialias: false,
+        stencil: false,
+        depth: false,
         alpha: getBackgroundColor() === "transparent"
     })
     renderer.shadowMap.enabled = true
