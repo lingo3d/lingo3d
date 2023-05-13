@@ -1,11 +1,11 @@
-import { throttleTrailing } from "@lincode/utils"
-import { SceneGraphNode } from "../serializer/types"
-import serialize from "../serializer/serialize"
+import serialize from "../api/serializer/serialize"
+import { SceneGraphNode } from "../api/serializer/types"
+import throttleFrameTrailing from "./utils/throttleFrameTrailing"
 
 type GroupedNodes = Record<string, Array<SceneGraphNode>>
 let prevNodes: GroupedNodes = {}
 
-export default throttleTrailing(() => {
+export default throttleFrameTrailing(() => {
     //@ts-ignore
     const nodes: GroupedNodes = serialize().group((node) => node.uuid)
 
@@ -33,9 +33,9 @@ export default throttleTrailing(() => {
         deleteNodes.push(node)
     }
 
-    // console.log("create", createNodes)
-    // console.log("update", updateNodes)
-    // console.log("delete", deleteNodes)
+    console.log("create", createNodes)
+    console.log("update", updateNodes)
+    console.log("delete", deleteNodes)
 
     prevNodes = nodes
 })

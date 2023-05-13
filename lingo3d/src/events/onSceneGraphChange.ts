@@ -3,7 +3,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getEditorMode } from "../states/useEditorMode"
 import Appendable from "../api/core/Appendable"
 import { throttleTrailing } from "@lincode/utils"
-import diffSceneGraph from "../api/undoStack/diffSceneGraph"
+import diffSceneGraph from "../throttle/diffSceneGraph"
 
 const [_emitSceneGraphChange, onSceneGraphChange] = event<Appendable>()
 export { onSceneGraphChange }

@@ -1,5 +1,5 @@
 import { event } from "@lincode/events"
-import diffSceneGraph from "../api/undoStack/diffSceneGraph"
+import diffSceneGraph from "../throttle/diffSceneGraph"
 
 type TransformControlsPhase = "start" | "end"
 type TransformControlsMode = "translate" | "rotate" | "scale"

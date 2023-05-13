@@ -1,5 +1,5 @@
 import { addAfterRenderSystemWithArgs } from "../../systems/configSystems/afterRenderSystemWithArgs"
 
-export default (fn: (...args: Array<unknown>) => void) =>
-    (...args: Array<unknown>) =>
+export default <Args extends Array<unknown>>(fn: (...args: Args) => void) =>
+    (...args: Args) =>
         addAfterRenderSystemWithArgs(fn, args)
