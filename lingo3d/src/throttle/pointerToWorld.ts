@@ -6,8 +6,8 @@ import { CM2M } from "../globals"
 import { LingoMouseEvent } from "../interface/IMouse"
 import getWorldPosition from "../memo/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
-import { getCameraPointerLock } from "../states/useCameraPointerLock"
 import throttleFrame from "./utils/throttleFrame"
+import { cameraPointerLockPtr } from "../pointers/cameraPointerLockPtr"
 
 export default throttleFrame((ev: { clientX: number; clientY: number }) => {
     const distance = 500
@@ -16,7 +16,7 @@ export default throttleFrame((ev: { clientX: number; clientY: number }) => {
         ev.clientY
     )
 
-    if (getCameraPointerLock())
+    if (cameraPointerLockPtr[0])
         return new LingoMouseEvent(
             canvasX,
             canvasY,

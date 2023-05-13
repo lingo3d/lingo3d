@@ -11,6 +11,7 @@ import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { onMouseDown } from "../../../events/onMouseDown"
 import { onMouseUp } from "../../../events/onMouseUp"
 import { addGyrateInertiaSystem } from "../../../systems/gyrateInertiaSystem"
+import { cameraPointerLockPtr } from "../../../pointers/cameraPointerLockPtr"
 
 export default function (this: CameraBase) {
     if (this.done) return
@@ -22,7 +23,7 @@ export default function (this: CameraBase) {
         )
             return
 
-        if (getCameraPointerLock() === this.$camera) {
+        if (cameraPointerLockPtr[0] === this.$camera) {
             const handleMove = ({ movementX, movementY }: MouseEvent) => {
                 this.gyrate(movementX, movementY)
                 this.inertia &&
