@@ -2,6 +2,14 @@ import { event } from "@lincode/events"
 import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
+import {
+    UndoRecord,
+    UpdateRecord,
+    redoStack,
+    undoStack
+} from "../api/undoStack"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 
 export const [emitEditorEdit, onEditorEdit] = event<{
     phase: "start" | "end"
@@ -21,4 +29,25 @@ onEditorEdit(({ phase, key }) => {
         target.$emitEvent("transformEdit", payload)
 
     updateSelectionManagersPhysics(payload)
+})
+
+let record: UndoRecord = {}
+onEditorEdit(({ phase, key, value }) => {
+    if (phase === "start") {
+        flushMultipleSelectionTargets((targets) => {
+            for (const target of [...targets, selectionTargetPtr[0]])
+                record[target!.uuid] = {
+                    type: "update",
+                    prev: { [key]: value }
+                }
+        })
+        return
+    }
+    flushMultipleSelectionTargets((targets) => {
+        for (const target of [...targets, selectionTargetPtr[0]])
+            (record[target!.uuid] as UpdateRecord).next = { [key]: value }
+        undoStack.push(record)
+        redoStack.length = 0
+        record = {}
+    })
 })
