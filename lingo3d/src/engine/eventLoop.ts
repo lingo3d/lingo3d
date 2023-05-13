@@ -3,8 +3,6 @@ import { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
-import { getFirstLoad } from "../states/useFirstLoad"
-import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { STANDARD_FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { dtPtr } from "../pointers/dtPtr"
@@ -36,8 +34,6 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    if (getFirstLoadBeforeRender() && !getFirstLoad()) return
-
     const targetDelta = (1 / fpsPtr[0]) * 0.9
 
     rendererPtr[0].setAnimationLoop(() => {
@@ -49,7 +45,7 @@ createEffect(() => {
         delta = 0
         for (const cb of callbacks) cb()
     })
-}, [getFps, getRenderer, getFirstLoad, getFirstLoadBeforeRender])
+}, [getFps, getRenderer])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

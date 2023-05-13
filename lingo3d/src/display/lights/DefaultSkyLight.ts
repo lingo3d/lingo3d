@@ -1,14 +1,14 @@
-import { throttleTrailing } from "@lincode/utils"
 import IDefaultSkyLight, {
     defaultSkyLightDefaults,
     defaultSkyLightSchema
 } from "../../interface/IDefaultSkyLight"
 import { getDefaultLight, setDefaultLight } from "../../states/useDefaultLight"
 import SkyLight from "./SkyLight"
+import throttleFrameTrailing from "../../throttle/utils/throttleFrameTrailing"
 
 let defaultSkyLight: DefaultSkyLight | undefined
 
-const checkDefaultLight = throttleTrailing(
+const checkDefaultLight = throttleFrameTrailing(
     () => !defaultSkyLight && setDefaultLight(false)
 )
 

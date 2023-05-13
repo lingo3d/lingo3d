@@ -1,10 +1,10 @@
 import { event } from "@lincode/events"
-import { throttleTrailing } from "@lincode/utils"
+import throttleFrameTrailing from "../throttle/utils/throttleFrameTrailing"
 
 const [_emitKeyClear, onKeyClear] = event()
 export { onKeyClear }
 
-const emitKeyClear = throttleTrailing(_emitKeyClear)
+const emitKeyClear = throttleFrameTrailing(_emitKeyClear)
 
 window.addEventListener("blur", () => emitKeyClear())
 window.addEventListener("focus", () => emitKeyClear())

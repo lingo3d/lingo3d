@@ -1,7 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import "../eventLoop"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
-import { getFirstLoad } from "../../states/useFirstLoad"
 import { setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import fpsAlpha from "../../display/utils/fpsAlpha"
@@ -37,7 +36,7 @@ const lockHit = (manager: MeshAppendable, lock: boolean) => {
 
 createEffect(() => {
     const { pxScene, pxControllerFilters, pxRaycast } = physxPtr[0]
-    if (!pxScene || !getWorldPlayComputed() || !getFirstLoad()) return
+    if (!pxScene || !getWorldPlayComputed()) return
 
     physxLoopPtr[0] = true
     const handle = onPhysXLoop(() => {
@@ -106,4 +105,4 @@ createEffect(() => {
         handle.cancel()
         physxLoopPtr[0] = false
     }
-}, [getPhysXLoaded, getWorldPlayComputed, getFirstLoad])
+}, [getPhysXLoaded, getWorldPlayComputed])
