@@ -38,17 +38,17 @@ export default class AnimationManager
         }
         this._clip = val
         if (val) this.$action = getClipAction(this.$mixer, val)
-        addConfigAnimationPlaybackSystem(this.animationStates)
+        addConfigAnimationPlaybackSystem(this.$animationStates)
     }
 
     private _paused = true
     public get paused() {
-        return this._paused || this.animationStates.manager !== this
+        return this._paused || this.$animationStates.manager !== this
     }
     public set paused(val) {
         this._paused = val
-        if (!val) this.animationStates.manager = this
-        addConfigAnimationPlaybackSystem(this.animationStates)
+        if (!val) this.$animationStates.manager = this
+        addConfigAnimationPlaybackSystem(this.$animationStates)
     }
 
     public $mixer: AnimationMixer
@@ -63,9 +63,10 @@ export default class AnimationManager
         name: string | undefined,
         public $loadedClip: AnimationClip | undefined,
         target: object | undefined,
-        public animationStates: AnimationStates
+        public $animationStates: AnimationStates
     ) {
         super()
+        this.$disableDiffSceneGraph = true
         this.name = name
         addConfigAnimationDataSystem(this)
         this.$mixer = forceGetInstance(
@@ -116,6 +117,6 @@ export default class AnimationManager
         return Math.ceil(this.$mixer.time * STANDARD_FRAME)
     }
     public set frame(val) {
-        this.animationStates.gotoFrame = val
+        this.$animationStates.gotoFrame = val
     }
 }

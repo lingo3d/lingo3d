@@ -205,6 +205,7 @@ export default class Appendable extends Disposable implements IAppendable {
     public $disableSceneGraph?: boolean
     public $disableUnload?: boolean
     public $disableSelection?: boolean
+    public $disableDiffSceneGraph?: boolean
 
     public $ghost(disableSelection = true) {
         this.$disableSerialize = true

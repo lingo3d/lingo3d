@@ -22,5 +22,6 @@ export default class Timeline extends AnimationManager implements ITimeline {
         const animationStates = new AnimationStates()
         super("", undefined, {}, animationStates)
         animationStates.manager = this
+        this.$disableDiffSceneGraph = false
     }
 }
