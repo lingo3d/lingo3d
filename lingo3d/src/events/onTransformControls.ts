@@ -3,7 +3,7 @@ import { transformControlsModePtr } from "../pointers/transformControlsModePtr"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { UndoRecord, UpdateRecord } from "../api/undoStack"
+import { UndoRecord, UpdateRecord, redoStack } from "../api/undoStack"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import MeshAppendable from "../api/core/MeshAppendable"
@@ -72,6 +72,7 @@ onTransformControls((phase) => {
             ;(record[target!.uuid] as UpdateRecord).next = data
         }
         undoStack.push(record)
+        redoStack.length = 0
         record = {}
     })
 })
