@@ -19,7 +19,6 @@ import {
 import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 import attachRaycastEvent from "./attachRaycastEvent"
-import { getSelectionCandidates } from "./getSelectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { selectionCandidates } from "../../../../collections/selectionCandidates"
 import { rightClickPtr } from "../../../../pointers/rightClickPtr"
@@ -27,6 +26,7 @@ import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseRightClick } from "../../../../events/onMouseRightClick"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
+import { getSelectionCandidates } from "../../../../throttle/getSelectionCandidates"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()

@@ -1,14 +1,14 @@
-import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
-import Appendable from "../../../../api/core/Appendable"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
-import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
-import { getSelectionFocus } from "../../../../states/useSelectionFocus"
-import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
-import { StandardMesh } from "../../mixins/TexturedStandardMixin"
-import VisibleMixin from "../../mixins/VisibleMixin"
-import { appendableRoot } from "../../../../collections/appendableRoot"
-import { selectionCandidates } from "../../../../collections/selectionCandidates"
+import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
+import { appendableRoot } from "../collections/appendableRoot"
+import { selectionCandidates } from "../collections/selectionCandidates"
+import { StandardMesh } from "../display/core/mixins/TexturedStandardMixin"
+import VisibleMixin from "../display/core/mixins/VisibleMixin"
+import { emitSelectionTarget } from "../events/onSelectionTarget"
+import { getSelectionFocus } from "../states/useSelectionFocus"
+import { getSelectionFrozen } from "../states/useSelectionFrozen"
+import throttleFrameTrailing from "./utils/throttleFrameTrailing"
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
@@ -26,9 +26,7 @@ const traverseFocusChildren = async (
     selectionFocus: MeshAppendable,
     frozenSet: Set<Appendable>
 ) => {
-    const { getFoundManager } = await import(
-        "../../../../api/utils/getFoundManager"
-    )
+    const { getFoundManager } = await import("../api/utils/getFoundManager")
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
             child === selectionFocus.outerObject3d ||
@@ -42,7 +40,7 @@ const traverseFocusChildren = async (
     })
 }
 
-export const getSelectionCandidates = throttleTrailing(
+export const getSelectionCandidates = throttleFrameTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         selectionCandidates.clear()
         const [frozenSet] = getSelectionFrozen()

@@ -4,8 +4,8 @@ import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { onId } from "../events/onId"
 import { selectionCandidates } from "../collections/selectionCandidates"
-import { getSelectionCandidates } from "../display/core/utils/raycast/getSelectionCandidates"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
+import { getSelectionCandidates } from "../throttle/getSelectionCandidates"
 
 const [setSelectionHideId, getSelectionHideId] = store([new Set<string>()])
 export { getSelectionHideId }
