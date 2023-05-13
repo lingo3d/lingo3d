@@ -1,8 +1,11 @@
-type CreateRecord = { type: "create"; uuid: string }
-type DeleteRecord = { type: "delete"; uuid: string }
-type UpdateRecord = { type: "update"; uuid: string; prev: any; next: any }
-type MoveRecord = { type: "move"; uuid: string; from: any; to: any }
-type UndoRecord = CreateRecord | DeleteRecord | UpdateRecord | MoveRecord
+export type CreateRecord = { type: "create" }
+export type DeleteRecord = { type: "delete" }
+export type UpdateRecord = { type: "update"; prev: any; next?: any }
+export type MoveRecord = { type: "move"; from: any; to: any }
+export type UndoRecord = Record<
+    string, //uuid
+    CreateRecord | DeleteRecord | UpdateRecord | MoveRecord
+>
 
 export const undoStack: Array<UndoRecord> = []
 
