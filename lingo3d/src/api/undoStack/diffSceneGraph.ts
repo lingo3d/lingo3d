@@ -5,7 +5,7 @@ import serialize from "../serializer/serialize"
 type GroupedNodes = Record<string, Array<SceneGraphNode>>
 let prevNodes: GroupedNodes = {}
 
-export default throttleTrailing((_: void) => {
+export default throttleTrailing(() => {
     //@ts-ignore
     const nodes: GroupedNodes = serialize().group((node) => node.uuid)
 

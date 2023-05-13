@@ -1,21 +1,19 @@
-import { onAfterRender } from "../events/onAfterRender"
 import { rendererPtr } from "../pointers/rendererPtr"
+import { addAfterRenderSystem } from "../systems/configSystems/afterRenderSystem"
 
 export default {
-    toBlob: async () => {
-        return new Promise<Blob>((resolve) => {
-            onAfterRender(() => {
+    toBlob: () =>
+        new Promise<Blob>((resolve) =>
+            addAfterRenderSystem(() =>
                 rendererPtr[0].domElement.toBlob(
                     (blob) => blob && resolve(blob)
                 )
-            }, true)
-        })
-    },
-    toDataURL: async (type?: string, quality?: any) => {
-        return new Promise<string>((resolve) => {
-            onAfterRender(() => {
+            )
+        ),
+    toDataURL: (type?: string, quality?: any) =>
+        new Promise<string>((resolve) =>
+            addAfterRenderSystem(() =>
                 resolve(rendererPtr[0].domElement.toDataURL(type, quality))
-            }, true)
-        })
-    }
+            )
+        )
 }

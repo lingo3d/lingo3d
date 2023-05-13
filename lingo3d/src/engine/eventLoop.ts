@@ -7,17 +7,10 @@ import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { STANDARD_FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
-import { onAfterRender } from "../events/onAfterRender"
 import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
-
-let firstRender = false
-const handle = onAfterRender(() => {
-    firstRender = true
-    handle.cancel()
-})
 
 let play = true
 getWorldPlayComputed((val) => (play = val))

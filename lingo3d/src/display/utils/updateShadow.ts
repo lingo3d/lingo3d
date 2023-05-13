@@ -1,8 +1,8 @@
 import { LightShadow } from "three"
 import { shadowResolutionPtr } from "../../pointers/shadowResolutionPtr"
-import { resetClearNumberPtrSystem } from "../../systems/resetNumberPtrSystem"
+import { addResetNumberPtrSystem } from "../../systems/resetNumberPtrSystem"
 
-resetClearNumberPtrSystem(shadowResolutionPtr)
+addResetNumberPtrSystem(shadowResolutionPtr)
 
 export default (shadow: LightShadow) => {
     if (shadow.needsUpdate || !shadow.map) return
