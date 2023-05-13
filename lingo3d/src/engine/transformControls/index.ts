@@ -1,9 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import {
-    emitTransformControls,
-    onTransformControls,
-    TransformControlsPayload
-} from "../../events/onTransformControls"
+import { emitTransformControls } from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import scene from "../scene"
@@ -20,8 +16,7 @@ import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
-import updateSelectionManagersPhysics from "../../display/utils/updateSelectionManagersPhysics"
-import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
+import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -52,12 +47,14 @@ createEffect(() => {
     const mode = _mode === "curve" ? "translate" : _mode
     if (mode !== "translate" && mode !== "rotate" && mode !== "scale") return
 
+    transformControlsModePtr[0] = mode
+
     const space = getTransformControlsSpaceComputed()
     const snap = !getTransformControlsSnap()
 
-    const handle0 = new Cancellable()
+    const handle = new Cancellable()
     lazyTransformControls().then((transformControls) => {
-        if (handle0.done || !target.parent) return
+        if (handle.done || !target.parent) return
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
@@ -72,7 +69,7 @@ createEffect(() => {
         ssrExcludeSet.add(transformControls)
         renderCheckExcludeSet.add(transformControls)
 
-        handle0.then(() => {
+        handle.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
             transformControls.enabled = false
@@ -80,17 +77,8 @@ createEffect(() => {
             renderCheckExcludeSet.delete(transformControls)
         })
     })
-    const eventTargets = getAllSelectionTargets()
-    const handle1 = onTransformControls((phase) => {
-        const payload: TransformControlsPayload = { phase, mode }
-        for (const target of eventTargets)
-            target.$emitEvent("transformEdit", payload)
-
-        updateSelectionManagersPhysics(payload)
-    })
     return () => {
-        handle0.cancel()
-        handle1.cancel()
+        handle.cancel()
     }
 }, [
     getSelectionTarget,
