@@ -66,7 +66,7 @@ export default class AnimationManager
         public $animationStates: AnimationStates
     ) {
         super()
-        this.$disableDiffSceneGraph = true
+        this.$disableSerialize = true
         this.name = name
         addConfigAnimationDataSystem(this)
         this.$mixer = forceGetInstance(

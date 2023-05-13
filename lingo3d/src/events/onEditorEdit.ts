@@ -3,6 +3,7 @@ import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import diffSceneGraph from "../throttle/diffSceneGraph"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 
 export const [emitEditorEdit, onEditorEdit] = event<{
     phase: "start" | "end"
@@ -11,7 +12,9 @@ export const [emitEditorEdit, onEditorEdit] = event<{
 }>()
 
 onEditorEdit(({ phase, key }) => {
-    phase === "end" && diffSceneGraph()
+    phase === "end" &&
+        !selectionTargetPtr[0]?.$disableSerialize &&
+        diffSceneGraph()
 
     let payload: TransformControlsPayload | undefined
     if (key === "x" || key === "y" || key === "z")
