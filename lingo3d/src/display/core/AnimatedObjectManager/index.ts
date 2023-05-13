@@ -47,7 +47,7 @@ const setAnimation = (
     if (typeof val === "string" || typeof val === "number" || val === true) {
         const animationManager = (self.$animationStates.manager =
             typeof val === "string"
-                ? self.animations[val]
+                ? (self.animations[val] as AnimationManager | undefined)
                 : Object.values(self.animations)[val === true ? 0 : val])
         self.$mixer = animationManager?.$mixer
         return

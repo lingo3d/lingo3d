@@ -35,18 +35,20 @@ export default class Model extends Loaded<Group> implements IModel {
     public async loadAnimation(url: string, name = url) {
         ;(this.serializeAnimations ??= {})[name] = url
 
-        const clip = (await this.$load(url)).animations[0]
+        const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return
 
-        const animation = (this.animations[name] = new AnimationManager(
-            name,
-            clip,
-            await new Promise<Object3D>((resolve) =>
-                this.$events.once("loaded", resolve)
-            ),
-            this.$animationStates
-        ))
-        this.append(animation)
+        this.append(
+            (this.animations[name] = new AnimationManager(
+                name,
+                clip,
+                await new Promise<Object3D>((resolve) =>
+                    this.$events.once("loaded", resolve)
+                ),
+                this.$animationStates
+            ))
+        )
+        if (name === this.animation) this.animation = name
     }
 
     public override get animations(): Record<string, AnimationManager> {
@@ -60,19 +62,8 @@ export default class Model extends Loaded<Group> implements IModel {
             else super.animations[key] = value
     }
 
-    private loadingCount = 0
-    public async $load(url: string) {
-        this.loadingCount++
-        try {
-            const result = await loadModel(url, true)
-            this.loadingCount--
-            if (this.loadingCount === 0 && this.animation && !this.$mixer)
-                this.animation = this.animation
-            return result
-        } catch (err) {
-            this.loadingCount--
-            throw err
-        }
+    public $load(url: string) {
+        return loadModel(url, true)
     }
 
     private _resize?: boolean
