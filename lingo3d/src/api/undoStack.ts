@@ -1,7 +1,11 @@
 import { uuidMap } from "../collections/idCollections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import { GameObjectType } from "./serializer/types"
 
-export type CreateRecord = { type: "create" }
+export type CreateRecord = {
+    type: "create"
+    gameObjectType: GameObjectType
+}
 export type DeleteRecord = { type: "delete" }
 export type UpdateRecord = {
     type: "update"
@@ -23,6 +27,10 @@ export const undo = () => {
     for (const [uuid, data] of Object.entries(record)) {
         const manager = uuidMap.get(uuid) as SimpleObjectManager
         if (data.type === "update") Object.assign(manager, data.prev)
+        else if (data.type === "create") {
+            console.log(data)
+            manager.dispose()
+        }
     }
     redoStack.push(record)
 }

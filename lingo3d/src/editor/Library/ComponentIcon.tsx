@@ -7,11 +7,19 @@ import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
 import DummyIK from "../../display/DummyIK"
 import { setDummyIK } from "../../states/useDummyIK"
+import { undoStack } from "../../api/undoStack"
 
 const setDraggingItem = dragToCreate<GameObjectType>((val) => {
     const result = createObject(val)
     if (result instanceof GameGraph) setGameGraph(result)
     else if (result instanceof DummyIK) setDummyIK(result)
+
+    undoStack.push({
+        [result.uuid]: {
+            type: "create",
+            gameObjectType: val
+        }
+    })
     return result
 })
 
