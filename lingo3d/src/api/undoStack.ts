@@ -1,46 +1,45 @@
 import { uuidMap } from "../collections/idCollections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import { GameObjectType } from "./serializer/types"
+import deserialize from "./serializer/deserialize"
+import { AppendableNode } from "./serializer/types"
 
-export type CreateRecord = {
-    type: "create"
-    gameObjectType: GameObjectType
-}
-export type DeleteRecord = { type: "delete" }
-export type UpdateRecord = {
-    type: "update"
+export type CreateCommand = { command: "create" } & AppendableNode
+export type DeleteCommand = { command: "delete" } & AppendableNode
+export type UpdateCommand = {
+    command: "update"
     prev: Record<string, any>
     next?: Record<string, any>
 }
-export type MoveRecord = { type: "move"; from: any; to: any }
-export type UndoRecord = Record<
+export type MoveCommand = { command: "move"; from: string; to: string }
+export type CommandRecord = Record<
     string, //uuid
-    CreateRecord | DeleteRecord | UpdateRecord | MoveRecord
+    CreateCommand | DeleteCommand | UpdateCommand | MoveCommand
 >
 
-export const undoStack: Array<UndoRecord> = []
-export const redoStack: Array<UndoRecord> = []
+export const undoStack: Array<CommandRecord> = []
+export const redoStack: Array<CommandRecord> = []
 
 export const undo = () => {
-    const record = undoStack.pop()
-    if (!record) return
-    for (const [uuid, data] of Object.entries(record)) {
+    const commandRecord = undoStack.pop()
+    if (!commandRecord) return
+    for (const [uuid, command] of Object.entries(commandRecord)) {
         const manager = uuidMap.get(uuid) as SimpleObjectManager
-        if (data.type === "update") Object.assign(manager, data.prev)
-        else if (data.type === "create") {
-            console.log(data)
-            manager.dispose()
-        }
+        if (command.command === "update") Object.assign(manager, command.prev)
+        else if (command.command === "delete") deserialize([command])
+        // else if (command.command === "create") {
+        //     manager.dispose()
+        // }
     }
-    redoStack.push(record)
+    redoStack.push(commandRecord)
 }
 
 export const redo = () => {
-    const record = redoStack.pop()
-    if (!record) return
-    for (const [uuid, data] of Object.entries(record)) {
+    const commandRecord = redoStack.pop()
+    if (!commandRecord) return
+    for (const [uuid, data] of Object.entries(commandRecord)) {
         const manager = uuidMap.get(uuid) as SimpleObjectManager
-        if (data.type === "update") Object.assign(manager, data.next)
+        if (data.command === "update") Object.assign(manager, data.next)
+        else if (data.command === "delete") manager.dispose()
     }
-    undoStack.push(record)
+    undoStack.push(commandRecord)
 }

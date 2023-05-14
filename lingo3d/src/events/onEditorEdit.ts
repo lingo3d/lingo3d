@@ -3,8 +3,8 @@ import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import {
-    UndoRecord,
-    UpdateRecord,
+    CommandRecord,
+    UpdateCommand,
     redoStack,
     undoStack
 } from "../api/undoStack"
@@ -31,14 +31,14 @@ onEditorEdit(({ phase, key }) => {
     updateSelectionManagersPhysics(payload)
 })
 
-let record: UndoRecord = {}
+let record: CommandRecord = {}
 onEditorEdit(({ phase, key, value }) => {
     if (phase === "start") {
         flushMultipleSelectionTargets((targets) => {
             for (const target of [...targets, selectionTargetPtr[0]])
                 if (target)
                     record[target.uuid] = {
-                        type: "update",
+                        command: "update",
                         prev: { [key]: value }
                     }
         })
@@ -47,7 +47,7 @@ onEditorEdit(({ phase, key, value }) => {
     flushMultipleSelectionTargets((targets) => {
         for (const target of [...targets, selectionTargetPtr[0]])
             if (target)
-                (record[target.uuid] as UpdateRecord).next = { [key]: value }
+                (record[target.uuid] as UpdateCommand).next = { [key]: value }
         undoStack.push(record)
         redoStack.length = 0
         record = {}

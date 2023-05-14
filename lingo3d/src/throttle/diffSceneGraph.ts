@@ -1,17 +1,17 @@
 import serialize from "../api/serializer/serialize"
-import { SceneGraphNode } from "../api/serializer/types"
+import { AppendableNode } from "../api/serializer/types"
 import throttleFrameTrailing from "./utils/throttleFrameTrailing"
 
-type GroupedNodes = Record<string, Array<SceneGraphNode>>
+type GroupedNodes = Record<string, Array<AppendableNode>>
 let prevNodes: GroupedNodes = {}
 
 export default throttleFrameTrailing(() => {
     //@ts-ignore
     const nodes: GroupedNodes = serialize().group((node) => node.uuid)
 
-    const createNodes: Array<SceneGraphNode> = []
-    const updateNodes: Array<SceneGraphNode> = []
-    const deleteNodes: Array<SceneGraphNode> = []
+    const createNodes: Array<AppendableNode> = []
+    const updateNodes: Array<AppendableNode> = []
+    const deleteNodes: Array<AppendableNode> = []
 
     for (const [uuid, [node]] of Object.entries(nodes)) {
         if (!(uuid in prevNodes)) {

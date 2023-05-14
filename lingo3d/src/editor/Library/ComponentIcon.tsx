@@ -7,18 +7,25 @@ import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
 import DummyIK from "../../display/DummyIK"
 import { setDummyIK } from "../../states/useDummyIK"
-import { undoStack } from "../../api/undoStack"
+import { CreateCommand, undoStack } from "../../api/undoStack"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const setDraggingItem = dragToCreate<GameObjectType>((val) => {
     const result = createObject(val)
     if (result instanceof GameGraph) setGameGraph(result)
     else if (result instanceof DummyIK) setDummyIK(result)
 
+    const command: CreateCommand = {
+        command: "create",
+        type: val
+    }
+    if (result instanceof MeshAppendable) {
+        command.x = result.x
+        command.y = result.y
+        command.z = result.z
+    }
     undoStack.push({
-        [result.uuid]: {
-            type: "create",
-            gameObjectType: val
-        }
+        [result.uuid]: command
     })
     return result
 })

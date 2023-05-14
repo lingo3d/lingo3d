@@ -3,7 +3,7 @@ import { transformControlsModePtr } from "../pointers/transformControlsModePtr"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { UndoRecord, UpdateRecord, redoStack } from "../api/undoStack"
+import { CommandRecord, UpdateCommand, redoStack } from "../api/undoStack"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import MeshAppendable from "../api/core/MeshAppendable"
@@ -53,14 +53,14 @@ const getUndoData = (target: Appendable | undefined) => {
         }
 }
 
-let record: UndoRecord = {}
+let record: CommandRecord = {}
 onTransformControls((phase) => {
     if (phase === "start") {
         flushMultipleSelectionTargets((targets) => {
             for (const target of [...targets, selectionTargetPtr[0]]) {
                 const data = getUndoData(target)
                 if (!data) continue
-                record[target!.uuid] = { type: "update", prev: data }
+                record[target!.uuid] = { command: "update", prev: data }
             }
         })
         return
@@ -69,7 +69,7 @@ onTransformControls((phase) => {
         for (const target of [...targets, selectionTargetPtr[0]]) {
             const data = getUndoData(target)
             if (!data) continue
-            ;(record[target!.uuid] as UpdateRecord).next = data
+            ;(record[target!.uuid] as UpdateCommand).next = data
         }
         undoStack.push(record)
         redoStack.length = 0
