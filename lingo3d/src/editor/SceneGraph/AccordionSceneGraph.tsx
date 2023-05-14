@@ -1,7 +1,6 @@
 import { useMemo } from "preact/hooks"
 import Model from "../../display/Model"
 import scene from "../../engine/scene"
-import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
@@ -21,6 +20,7 @@ import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import FoundManager from "../../display/core/FoundManager"
 import { addEmitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
+import groupSelected from "../../engine/hotkeys/groupSelected"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -52,7 +52,7 @@ const AccordionSceneGraph = () => {
                 <IconButton
                     borderless
                     disabled={!multipleSelectionTargets.size}
-                    onClick={() => emitEditorGroupItems()}
+                    onClick={groupSelected}
                 >
                     <GroupIcon />
                 </IconButton>

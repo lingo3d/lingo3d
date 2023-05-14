@@ -1,8 +1,6 @@
 import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
 import { Object3D } from "three"
 import { box3, vector3 } from "../display/utils/reusables"
-import { onEditorGroupItems } from "../events/onEditorGroupItems"
-import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { Queue } from "@lincode/promiselikes"
@@ -11,6 +9,7 @@ import {
     addDisposeCollectionStateSystem,
     deleteDisposeCollectionStateSystem
 } from "../systems/eventSystems/disposeCollectionStateSystem"
+import { multipleSelectionGroupPtr } from "../pointers/multipleSelectionGroupPtr"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     multipleSelectionTargets
@@ -61,6 +60,7 @@ createEffect(() => {
 
     const groupManager = new MeshAppendable()
     groupManager.$ghost()
+    multipleSelectionGroupPtr[0] = groupManager
     const group = groupManager.object3d
     setSelectionTarget(groupManager)
 
@@ -77,27 +77,12 @@ createEffect(() => {
     group.position.copy(box3.getCenter(vector3))
     for (const [object] of parentEntries) group.attach(object)
 
-    let consolidated = false
-    const handle = onEditorGroupItems(() => {
-        if (!multipleSelectionTargets.size || consolidated) return
-        consolidated = true
-
-        import("../display/Group").then(({ default: Group }) => {
-            if (handle.done) return
-            const consolidatedGroup = new Group()
-            consolidatedGroup.position.copy(group.position)
-            for (const target of multipleSelectionTargets)
-                consolidatedGroup.attach(target)
-            emitSelectionTarget(consolidatedGroup)
-        })
-    })
-
     return () => {
-        if (!groupManager.done && !consolidated)
+        if (parentEntries[0][0].parent === group)
             for (const [object, parent] of parentEntries) parent.attach(object)
 
         groupManager.dispose()
-        handle.cancel()
+        multipleSelectionGroupPtr[0] = undefined
     }
 }, [getMultipleSelectionTargets])
 

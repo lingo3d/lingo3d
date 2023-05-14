@@ -7,7 +7,6 @@ import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
 import SpriteSheet from "../../../display/SpriteSheet"
 import Timeline from "../../../display/Timeline"
 import deleteSelected from "../../../engine/hotkeys/deleteSelected"
-import { emitEditorGroupItems } from "../../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph, setGameGraph } from "../../../states/useGameGraph"
 import { getMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
@@ -39,6 +38,7 @@ import {
     clearSelectionHideId,
     getSelectionHideId
 } from "../../../states/useSelectionHideId"
+import groupSelected from "../../../engine/hotkeys/groupSelected"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -76,7 +76,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                 </MenuButton>
                 <MenuButton
                     disabled={multipleSelectionTargets.size === 1}
-                    onClick={() => emitEditorGroupItems()}
+                    onClick={groupSelected}
                 >
                     Group selected
                 </MenuButton>
