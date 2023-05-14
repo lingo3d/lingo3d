@@ -4,13 +4,13 @@ import loadFile from "../../api/files/loadFile"
 import Model from "../../display/Model"
 import useSyncState from "../hooks/useSyncState"
 import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
-import drag, { setDragImage } from "../utils/drag"
+import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import FileIcon from "./icons/FileIcon"
 import { stopPropagation } from "../utils/stopPropagation"
 import { getFileCurrent } from "../../states/useFileCurrent"
 import relativePath from "../../api/path/relativePath"
 
-const setDraggingItem = drag<File>((draggingItem, hitManager) => {
+const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
     const url = relativePath(
         getFileCurrent()?.webkitRelativePath ?? "",

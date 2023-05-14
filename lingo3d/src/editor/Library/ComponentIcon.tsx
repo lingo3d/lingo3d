@@ -3,12 +3,12 @@ import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import GameGraph from "../../visualScripting/GameGraph"
 import { setGameGraph } from "../../states/useGameGraph"
-import drag, { setDragImage } from "../utils/drag"
+import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
 import DummyIK from "../../display/DummyIK"
 import { setDummyIK } from "../../states/useDummyIK"
 
-const setDraggingItem = drag<GameObjectType>((val) => {
+const setDraggingItem = dragToCreate<GameObjectType>((val) => {
     const result = createObject(val)
     if (result instanceof GameGraph) setGameGraph(result)
     else if (result instanceof DummyIK) setDummyIK(result)

@@ -8,10 +8,10 @@ import handleTreeItemClick from "../utils/handleTreeItemClick"
 import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import PlayIcon from "../SceneGraph/icons/PlayIcon"
 import Template from "../../display/Template"
-import drag from "../utils/drag"
+import dragToCreate from "../utils/dragToCreate"
 import spawn from "../../api/spawn"
 
-const setDraggingItem = drag<Template>(spawn)
+const setDraggingItem = dragToCreate<Template>(spawn)
 
 export type TemplatesTreeItemProps = {
     template: Template
