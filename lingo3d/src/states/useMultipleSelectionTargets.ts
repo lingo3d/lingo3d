@@ -6,8 +6,8 @@ import { box3, vector3 } from "../display/utils/reusables"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
-import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 import MeshAppendable from "../api/core/MeshAppendable"
+import { Queue } from "@lincode/promiselikes"
 
 export const multipleSelectionTargets = new Set<MeshAppendable>()
 
@@ -28,11 +28,12 @@ export const clearMultipleSelectionTargets = clear(
     getMultipleSelectionTargets
 )
 
+const queue = new Queue()
 export const flushMultipleSelectionTargets = async (
     onFlush: (targets: Array<MeshAppendable>) => Array<MeshAppendable> | void,
     deselect?: boolean
 ) => {
-    multipleSelectionTargetsFlushingPtr[0] = true
+    await queue
 
     const targetsBackup = [...multipleSelectionTargets]
     multipleSelectionTargets.clear()
@@ -42,7 +43,7 @@ export const flushMultipleSelectionTargets = async (
 
     const newTargets = onFlush(targetsBackup)
     if (deselect) {
-        multipleSelectionTargetsFlushingPtr[0] = false
+        queue.resolve()
         return
     }
     await Promise.resolve()
@@ -51,7 +52,7 @@ export const flushMultipleSelectionTargets = async (
     for (const target of newTargets ?? targetsBackup)
         multipleSelectionTargets.add(target)
     setMultipleSelectionTargets([multipleSelectionTargets])
-    multipleSelectionTargetsFlushingPtr[0] = false
+    queue.resolve()
 }
 
 createEffect(() => {

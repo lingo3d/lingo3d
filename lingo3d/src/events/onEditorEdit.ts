@@ -36,16 +36,18 @@ onEditorEdit(({ phase, key, value }) => {
     if (phase === "start") {
         flushMultipleSelectionTargets((targets) => {
             for (const target of [...targets, selectionTargetPtr[0]])
-                record[target!.uuid] = {
-                    type: "update",
-                    prev: { [key]: value }
-                }
+                if (target)
+                    record[target.uuid] = {
+                        type: "update",
+                        prev: { [key]: value }
+                    }
         })
         return
     }
     flushMultipleSelectionTargets((targets) => {
         for (const target of [...targets, selectionTargetPtr[0]])
-            (record[target!.uuid] as UpdateRecord).next = { [key]: value }
+            if (target)
+                (record[target.uuid] as UpdateRecord).next = { [key]: value }
         undoStack.push(record)
         redoStack.length = 0
         record = {}
