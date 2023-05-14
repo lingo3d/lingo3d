@@ -2,14 +2,14 @@ import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
-import {
-    getSelectionTarget,
-    setSelectionTarget
-} from "../states/useSelectionTarget"
-import { onDispose } from "./onDispose"
+import { getSelectionTarget } from "../states/useSelectionTarget"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { selectionRedirectMap } from "../collections/selectionRedirectMap"
 import throttleFrameTrailing from "../throttle/utils/throttleFrameTrailing"
+import {
+    addDeselectSystem,
+    deleteDeselectSystem
+} from "../systems/eventSystems/deselectSystem"
 
 type Event = {
     target?: Appendable | MeshAppendable
@@ -30,10 +30,9 @@ createEffect(() => {
     const [target] = selectionTargetPtr
     if (!target) return
 
-    const handle = onDispose(
-        (item) => item === target && setSelectionTarget(undefined)
-    )
+    addDeselectSystem(target)
+
     return () => {
-        handle.cancel()
+        deleteDeselectSystem(target)
     }
 }, [getSelectionTarget])
