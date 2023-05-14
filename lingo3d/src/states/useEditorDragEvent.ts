@@ -13,6 +13,8 @@ import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { mouseRaycast } from "../memo/mouseRaycast"
 import { Point3dType } from "../utils/isPoint"
+import MeshAppendable from "../api/core/MeshAppendable"
+import { CreateCommand, pushUndoStack } from "../api/undoStack"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -50,6 +52,18 @@ createEffect(() => {
         if (!manager) return
         Object.assign(manager, snap(pointRef.current))
         emitSelectionTarget(manager)
+
+        const command: CreateCommand = {
+            command: "create",
+            type: manager.componentName,
+            uuid: manager.uuid
+        }
+        if (manager instanceof MeshAppendable) {
+            command.x = manager.x
+            command.y = manager.y
+            command.z = manager.z
+        }
+        pushUndoStack({ [manager.uuid]: command })
         return
     }
 

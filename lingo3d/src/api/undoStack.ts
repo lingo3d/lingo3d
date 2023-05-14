@@ -31,9 +31,7 @@ export const undo = () => {
         const manager = uuidMap.get(uuid) as SimpleObjectManager
         if (command.command === "update") Object.assign(manager, command.prev)
         else if (command.command === "delete") deserialize([command])
-        // else if (command.command === "create") {
-        //     manager.dispose()
-        // }
+        else if (command.command === "create") manager.dispose()
     }
     redoStack.push(commandRecord)
 }
@@ -41,10 +39,11 @@ export const undo = () => {
 export const redo = () => {
     const commandRecord = redoStack.pop()
     if (!commandRecord) return
-    for (const [uuid, data] of Object.entries(commandRecord)) {
+    for (const [uuid, command] of Object.entries(commandRecord)) {
         const manager = uuidMap.get(uuid) as SimpleObjectManager
-        if (data.command === "update") Object.assign(manager, data.next)
-        else if (data.command === "delete") manager.dispose()
+        if (command.command === "update") Object.assign(manager, command.next)
+        else if (command.command === "delete") manager.dispose()
+        else if (command.command === "create") deserialize([command])
     }
     undoStack.push(commandRecord)
 }

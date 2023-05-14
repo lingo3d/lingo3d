@@ -17,6 +17,7 @@ import {
     addEmitSceneGraphChangeSystem,
     deleteEmitSceneGraphChangeSystem
 } from "../../systems/configSystems/emitSceneGraphChangeSystem"
+import { GameObjectType } from "../serializer/types"
 
 type EventName = "name" | "runtimeSchema" | "transformEdit" | "loaded" | "actor"
 
@@ -27,7 +28,7 @@ export default class Appendable extends Disposable implements IAppendable {
         addEmitSceneGraphChangeSystem(this)
     }
 
-    public get componentName(): string {
+    public get componentName(): GameObjectType {
         return getStaticProperties(this).componentName
     }
 
