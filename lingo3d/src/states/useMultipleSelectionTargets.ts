@@ -1,6 +1,5 @@
 import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
 import { Object3D } from "three"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
@@ -60,7 +59,7 @@ export const flushMultipleSelectionTargets = async (
 createEffect(() => {
     if (!multipleSelectionTargets.size) return
 
-    const groupManager = new SimpleObjectManager()
+    const groupManager = new MeshAppendable()
     groupManager.$ghost()
     const group = groupManager.object3d
     setSelectionTarget(groupManager)
