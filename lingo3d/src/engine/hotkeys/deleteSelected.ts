@@ -3,7 +3,7 @@ import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { getMultipleSelection } from "../../states/useMultipleSelection"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
-import { CommandRecord, undoStack } from "../../api/undoStack"
+import { CommandRecord, pushUndoStack } from "../../api/undoStack"
 
 export default () => {
     if (getTransformControlsDragging() || getMultipleSelection()) return
@@ -18,6 +18,6 @@ export default () => {
             }
             target.dispose()
         }
-        undoStack.push(commandRecord)
+        pushUndoStack(commandRecord)
     }, true)
 }

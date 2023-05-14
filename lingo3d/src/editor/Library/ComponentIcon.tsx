@@ -7,7 +7,7 @@ import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
 import DummyIK from "../../display/DummyIK"
 import { setDummyIK } from "../../states/useDummyIK"
-import { CreateCommand, undoStack } from "../../api/undoStack"
+import { CreateCommand, pushUndoStack } from "../../api/undoStack"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
 const setDraggingItem = dragToCreate<GameObjectType>((val) => {
@@ -24,9 +24,7 @@ const setDraggingItem = dragToCreate<GameObjectType>((val) => {
         command.y = result.y
         command.z = result.z
     }
-    undoStack.push({
-        [result.uuid]: command
-    })
+    pushUndoStack({ [result.uuid]: command })
     return result
 })
 

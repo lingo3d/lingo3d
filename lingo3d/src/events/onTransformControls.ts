@@ -3,12 +3,11 @@ import { transformControlsModePtr } from "../pointers/transformControlsModePtr"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { CommandRecord, UpdateCommand, redoStack } from "../api/undoStack"
+import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import MeshAppendable from "../api/core/MeshAppendable"
 import Appendable from "../api/core/Appendable"
-import { undoStack } from "../api/undoStack"
 
 type TransformControlsPhase = "start" | "end"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -71,8 +70,7 @@ onTransformControls((phase) => {
             if (!data) continue
             ;(record[target!.uuid] as UpdateCommand).next = data
         }
-        undoStack.push(record)
-        redoStack.length = 0
+        pushUndoStack(record)
         record = {}
     })
 })

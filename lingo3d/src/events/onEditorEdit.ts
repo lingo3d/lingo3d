@@ -2,12 +2,7 @@ import { event } from "@lincode/events"
 import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
-import {
-    CommandRecord,
-    UpdateCommand,
-    redoStack,
-    undoStack
-} from "../api/undoStack"
+import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 
@@ -48,8 +43,7 @@ onEditorEdit(({ phase, key, value }) => {
         for (const target of [...targets, selectionTargetPtr[0]])
             if (target)
                 (record[target.uuid] as UpdateCommand).next = { [key]: value }
-        undoStack.push(record)
-        redoStack.length = 0
+        pushUndoStack(record)
         record = {}
     })
 })

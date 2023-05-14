@@ -16,8 +16,13 @@ export type CommandRecord = Record<
     CreateCommand | DeleteCommand | UpdateCommand | MoveCommand
 >
 
-export const undoStack: Array<CommandRecord> = []
-export const redoStack: Array<CommandRecord> = []
+const undoStack: Array<CommandRecord> = []
+const redoStack: Array<CommandRecord> = []
+
+export const pushUndoStack = (commandRecord: CommandRecord) => {
+    undoStack.push(commandRecord)
+    redoStack.length = 0
+}
 
 export const undo = () => {
     const commandRecord = undoStack.pop()
