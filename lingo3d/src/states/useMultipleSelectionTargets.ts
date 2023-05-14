@@ -1,5 +1,4 @@
 import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
-import { onDispose } from "../events/onDispose"
 import { Object3D } from "three"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
@@ -95,20 +94,6 @@ createEffect(() => {
             for (const [object, parent] of parentEntries) parent.attach(object)
 
         groupManager.dispose()
-        handle.cancel()
-    }
-}, [getMultipleSelectionTargets])
-
-createEffect(() => {
-    if (!multipleSelectionTargets.size) return
-
-    const handle = onDispose(
-        (item) =>
-            item instanceof MeshAppendable &&
-            multipleSelectionTargets.has(item) &&
-            deleteMultipleSelectionTargets(item)
-    )
-    return () => {
         handle.cancel()
     }
 }, [getMultipleSelectionTargets])
