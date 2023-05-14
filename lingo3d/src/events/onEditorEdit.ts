@@ -26,13 +26,13 @@ onEditorEdit(({ phase, key }) => {
     updateSelectionManagersPhysics(payload)
 })
 
-let record: CommandRecord = {}
+let commandRecord: CommandRecord = {}
 onEditorEdit(({ phase, key, value }) => {
     if (phase === "start") {
         flushMultipleSelectionTargets((targets) => {
             for (const target of [...targets, selectionTargetPtr[0]])
                 if (target)
-                    record[target.uuid] = {
+                    commandRecord[target.uuid] = {
                         command: "update",
                         prev: { [key]: value }
                     }
@@ -42,8 +42,10 @@ onEditorEdit(({ phase, key, value }) => {
     flushMultipleSelectionTargets((targets) => {
         for (const target of [...targets, selectionTargetPtr[0]])
             if (target)
-                (record[target.uuid] as UpdateCommand).next = { [key]: value }
-        pushUndoStack(record)
-        record = {}
+                (commandRecord[target.uuid] as UpdateCommand).next = {
+                    [key]: value
+                }
+        pushUndoStack(commandRecord)
+        commandRecord = {}
     })
 })
