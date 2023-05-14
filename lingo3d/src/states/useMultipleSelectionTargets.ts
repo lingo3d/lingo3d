@@ -8,8 +8,7 @@ import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { Queue } from "@lincode/promiselikes"
-
-export const multipleSelectionTargets = new Set<MeshAppendable>()
+import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     multipleSelectionTargets

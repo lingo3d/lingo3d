@@ -1,15 +1,13 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
-import {
-    getMultipleSelectionTargets,
-    multipleSelectionTargets
-} from "../states/useMultipleSelectionTargets"
+import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
+import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr

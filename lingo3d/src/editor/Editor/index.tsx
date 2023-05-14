@@ -9,7 +9,6 @@ import useInitCSS from "../hooks/useInitCSS"
 import { useSignal } from "@preact/signals"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { multipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import addTargetInputs from "./addTargetInputs"
@@ -19,6 +18,7 @@ import mergeRefs from "../hooks/mergeRefs"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { onEditorRefresh } from "../../events/onEditorRefresh"
+import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 
 const Editor = () => {
     useInitCSS()

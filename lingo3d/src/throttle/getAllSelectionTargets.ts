@@ -1,7 +1,7 @@
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
+import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
-import { multipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import throttleFrame from "./utils/throttleFrame"
 
 export default throttleFrame(() => {

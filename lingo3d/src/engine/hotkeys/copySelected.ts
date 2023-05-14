@@ -1,12 +1,10 @@
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import spawn from "../../api/spawn"
+import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
-import {
-    flushMultipleSelectionTargets,
-    multipleSelectionTargets
-} from "../../states/useMultipleSelectionTargets"
+import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const copy = <T extends Appendable | MeshAppendable>(target: T) => {
     const item = spawn(target)!
