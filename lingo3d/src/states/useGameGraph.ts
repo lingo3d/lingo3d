@@ -1,9 +1,9 @@
 import store, { createEffect } from "@lincode/reactivity"
 import GameGraph from "../visualScripting/GameGraph"
 import {
-    addClearStateSystem,
-    deleteClearStateSystem
-} from "../systems/eventSystems/clearStateSystem"
+    addDisposeStateSystem,
+    deleteDisposeStateSystem
+} from "../systems/eventSystems/disposeStateSystem"
 
 export const [setGameGraph, getGameGraph] = store<GameGraph | undefined>(
     undefined
@@ -12,8 +12,8 @@ export const [setGameGraph, getGameGraph] = store<GameGraph | undefined>(
 createEffect(() => {
     const gameGraph = getGameGraph()
     if (!gameGraph) return
-    addClearStateSystem(gameGraph, { setState: setGameGraph })
+    addDisposeStateSystem(gameGraph, { setState: setGameGraph })
     return () => {
-        deleteClearStateSystem(gameGraph)
+        deleteDisposeStateSystem(gameGraph)
     }
 }, [getGameGraph])

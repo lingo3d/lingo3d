@@ -8,6 +8,10 @@ import { setSelectionTarget } from "./useSelectionTarget"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { Queue } from "@lincode/promiselikes"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
+import {
+    addDisposeCollectionStateSystem,
+    deleteDisposeCollectionStateSystem
+} from "../systems/eventSystems/disposeCollectionStateSystem"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     multipleSelectionTargets
@@ -95,5 +99,15 @@ createEffect(() => {
 
         groupManager.dispose()
         handle.cancel()
+    }
+}, [getMultipleSelectionTargets])
+
+createEffect(() => {
+    if (!multipleSelectionTargets.size) return
+    addDisposeCollectionStateSystem(multipleSelectionTargets, {
+        deleteState: deleteMultipleSelectionTargets
+    })
+    return () => {
+        deleteDisposeCollectionStateSystem(multipleSelectionTargets)
     }
 }, [getMultipleSelectionTargets])

@@ -1,17 +1,17 @@
 import store, { createEffect } from "@lincode/reactivity"
 import Timeline from "../display/Timeline"
 import {
-    addClearStateSystem,
-    deleteClearStateSystem
-} from "../systems/eventSystems/clearStateSystem"
+    addDisposeStateSystem,
+    deleteDisposeStateSystem
+} from "../systems/eventSystems/disposeStateSystem"
 
 export const [setTimeline, getTimeline] = store<Timeline | undefined>(undefined)
 
 createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
-    addClearStateSystem(timeline, { setState: setTimeline })
+    addDisposeStateSystem(timeline, { setState: setTimeline })
     return () => {
-        deleteClearStateSystem(timeline)
+        deleteDisposeStateSystem(timeline)
     }
 }, [getTimeline])

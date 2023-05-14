@@ -9,23 +9,21 @@ import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { getSelectionFocus } from "../states/useSelectionFocus"
 import { getSelectionFrozen } from "../states/useSelectionFrozen"
 import throttleFrameTrailing from "./utils/throttleFrameTrailing"
+import { selectionFrozenSet } from "../collections/selectionFrozenSet"
 
 const traverse = (
-    targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
-    frozenSet: Set<Appendable>
+    targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || manager.$disableSelection) continue
+        if (selectionFrozenSet.has(manager) || manager.$disableSelection)
+            continue
         "$addToRaycastSet" in manager &&
             manager.$addToRaycastSet(selectionCandidates)
-        manager.children && traverse(manager.children, frozenSet)
+        manager.children && traverse(manager.children)
     }
 }
 
-const traverseFocusChildren = async (
-    selectionFocus: MeshAppendable,
-    frozenSet: Set<Appendable>
-) => {
+const traverseFocusChildren = async (selectionFocus: MeshAppendable) => {
     const { getFoundManager } = await import("../api/utils/getFoundManager")
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
@@ -35,7 +33,7 @@ const traverseFocusChildren = async (
         )
             return
         const manager = getFoundManager(child, selectionFocus as any)
-        if (frozenSet.has(manager) || manager.$disableSelection) return
+        if (selectionFrozenSet.has(manager) || manager.$disableSelection) return
         manager.$addToRaycastSet(selectionCandidates)
     })
 }
@@ -43,12 +41,11 @@ const traverseFocusChildren = async (
 export const getSelectionCandidates = throttleFrameTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         selectionCandidates.clear()
-        const [frozenSet] = getSelectionFrozen()
         const selectionFocus = getSelectionFocus()
         if (selectionFocus)
             selectionFocus instanceof MeshAppendable &&
-                traverseFocusChildren(selectionFocus, frozenSet)
-        else traverse(targets, frozenSet)
+                traverseFocusChildren(selectionFocus)
+        else traverse(targets)
     }
 )
 

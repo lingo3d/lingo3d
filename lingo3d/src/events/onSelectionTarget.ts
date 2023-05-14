@@ -10,9 +10,9 @@ import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { selectionRedirectMap } from "../collections/selectionRedirectMap"
 import throttleFrameTrailing from "../throttle/utils/throttleFrameTrailing"
 import {
-    addClearStateSystem,
-    deleteClearStateSystem
-} from "../systems/eventSystems/clearStateSystem"
+    addDisposeStateSystem,
+    deleteDisposeStateSystem
+} from "../systems/eventSystems/disposeStateSystem"
 
 type Event = {
     target?: Appendable | MeshAppendable
@@ -32,8 +32,8 @@ export const emitSelectionTarget = throttleFrameTrailing(
 createEffect(() => {
     const [target] = selectionTargetPtr
     if (!target) return
-    addClearStateSystem(target, { setState: setSelectionTarget })
+    addDisposeStateSystem(target, { setState: setSelectionTarget })
     return () => {
-        deleteClearStateSystem(target)
+        deleteDisposeStateSystem(target)
     }
 }, [getSelectionTarget])
