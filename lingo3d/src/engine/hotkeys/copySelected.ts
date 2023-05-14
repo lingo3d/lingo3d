@@ -1,6 +1,8 @@
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { serializeAppendable } from "../../api/serializer/serialize"
 import spawn from "../../api/spawn"
+import { CommandRecord, pushUndoStack } from "../../api/undoStack"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
@@ -16,9 +18,27 @@ export default () => {
     const [target] = selectionTargetPtr
     if (multipleSelectionTargets.size) {
         flushMultipleSelectionTargets((targets) => {
+            const commandRecord: CommandRecord = {}
             const newTargets: Array<MeshAppendable> = []
-            for (const target of targets) newTargets.push(copy(target))
+            for (const target of targets) {
+                const manager = copy(target)
+                newTargets.push(manager)
+                commandRecord[manager.uuid] = {
+                    command: "create",
+                    ...serializeAppendable(manager, false)
+                }
+            }
+            pushUndoStack(commandRecord)
             return newTargets
         })
-    } else if (target) emitSelectionTarget(copy(target))
+    } else if (target) {
+        const manager = copy(target)
+        emitSelectionTarget(manager)
+        pushUndoStack({
+            [manager.uuid]: {
+                command: "create",
+                ...serializeAppendable(manager, false)
+            }
+        })
+    }
 }

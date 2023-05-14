@@ -52,7 +52,6 @@ createEffect(() => {
         if (!manager) return
         Object.assign(manager, snap(pointRef.current))
         emitSelectionTarget(manager)
-
         pushUndoStack({
             [manager.uuid]: {
                 command: "create",
