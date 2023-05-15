@@ -2,17 +2,14 @@ import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
-import {
-    getSelectionTarget,
-    setSelectionTarget
-} from "../states/useSelectionTarget"
+import { getSelectionTarget } from "../states/useSelectionTarget"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { selectionRedirectMap } from "../collections/selectionRedirectMap"
 import throttleFrameTrailing from "../throttle/utils/throttleFrameTrailing"
 import {
-    addDisposeStateSystem,
-    deleteDisposeStateSystem
-} from "../systems/eventSystems/disposeStateSystem"
+    addDeselectSystem,
+    deleteDeselectSystem
+} from "../systems/eventSystems/deselectSystem"
 
 type Event = {
     target?: Appendable | MeshAppendable
@@ -32,8 +29,8 @@ export const emitSelectionTarget = throttleFrameTrailing(
 createEffect(() => {
     const [target] = selectionTargetPtr
     if (!target) return
-    addDisposeStateSystem(target, { setState: setSelectionTarget })
+    addDeselectSystem(target)
     return () => {
-        deleteDisposeStateSystem(target)
+        deleteDeselectSystem(target)
     }
 }, [getSelectionTarget])
