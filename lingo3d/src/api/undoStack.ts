@@ -17,9 +17,9 @@ export type MoveCommand = { command: "move"; from: string; to: string }
 
 export type GroupCommand = {
     command: "group"
-    children: Array<string>
+    childs: Array<string>
     parents: Array<string>
-} & Omit<AppendableNode, "children">
+} & AppendableNode
 
 export type CommandRecord = Record<
     string, //uuid
@@ -46,7 +46,7 @@ export const undo = () =>
             else if (command.command === "create") manager.dispose()
             else if (command.command === "group") {
                 let i = 0
-                for (const uuid of command.children) {
+                for (const uuid of command.childs) {
                     const child = uuidMap.get(uuid)!
                     const parent = uuidMap.get(command.parents[i++])!
                     parent.attach(child)
@@ -70,10 +70,8 @@ export const redo = () =>
             else if (command.command === "create") deserialize([command])
             else if (command.command === "group") {
                 const group = deserialize([command as any])[0]!
-                for (const uuid of command.children) {
+                for (const uuid of command.childs)
                     group.attach(uuidMap.get(uuid) as MeshAppendable)
-                }
-                manager.dispose()
             } else if (command.command === "move")
                 uuidMap.get(command.to)!.attach(manager)
         }

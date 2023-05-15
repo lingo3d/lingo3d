@@ -12,10 +12,10 @@ export default () => {
     const consolidatedGroup = new Group()
     consolidatedGroup.position.copy(group.position)
 
-    const children: Array<string> = []
+    const childs: Array<string> = []
     const parents: Array<string> = []
     for (const target of multipleSelectionTargets) {
-        children.push(target.uuid)
+        childs.push(target.uuid)
         parents.push((target.parent ?? root).uuid)
         consolidatedGroup.attach(target)
     }
@@ -25,7 +25,7 @@ export default () => {
         [consolidatedGroup.uuid]: {
             command: "group",
             ...serializeAppendable(consolidatedGroup, false, true),
-            children,
+            childs,
             parents
         }
     })
