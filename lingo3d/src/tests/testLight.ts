@@ -26,9 +26,9 @@ aura.$disableSelection = true
 
 // settings.shadowMode = "physics"
 
-// const dummy = new Dummy()
-// dummy.physics = "character"
-// dummy.y = -150
+const dummy = new Dummy()
+dummy.physics = "character"
+dummy.y = -150
 
 onBeforeRender(() => {
     aura.visible = light.isRendered

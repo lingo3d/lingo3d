@@ -1,7 +1,7 @@
 import { sceneGraphExpand } from "../../../states/useSceneGraphExpanded"
 import Model from "../../../display/Model"
-import { setSelectionTarget } from "../../../states/useSelectionTarget"
 import Appendable from "../../../display/core/Appendable"
+import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 
 export default (n: string, target: Appendable) => {
     if (!(target instanceof Model)) return
@@ -10,6 +10,6 @@ export default (n: string, target: Appendable) => {
         childName.toLowerCase().includes(name)
     )
     if (!found) return
-    setSelectionTarget(found)
+    emitSelectionTarget(found)
     sceneGraphExpand(found.outerObject3d)
 }
