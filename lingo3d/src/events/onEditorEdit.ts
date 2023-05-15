@@ -3,7 +3,6 @@ import { TransformControlsPayload } from "./onTransformControls"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
-import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 
 export const [emitEditorEdit, onEditorEdit] = event<{
@@ -29,22 +28,20 @@ onEditorEdit(({ phase, key }) => {
 let commandRecord: CommandRecord = {}
 onEditorEdit(({ phase, key, value }) => {
     if (phase === "start") {
-        flushMultipleSelectionTargets((targets) => {
-            for (const target of [...targets, selectionTargetPtr[0]])
-                if (target)
-                    commandRecord[target.uuid] = {
-                        command: "update",
-                        prev: { [key]: value }
-                    }
+        flushMultipleSelectionTargets(() => {
+            for (const target of getAllSelectionTargets())
+                commandRecord[target.uuid] = {
+                    command: "update",
+                    prev: { [key]: value }
+                }
         })
         return
     }
-    flushMultipleSelectionTargets((targets) => {
-        for (const target of [...targets, selectionTargetPtr[0]])
-            if (target)
-                (commandRecord[target.uuid] as UpdateCommand).next = {
-                    [key]: value
-                }
+    flushMultipleSelectionTargets(() => {
+        for (const target of getAllSelectionTargets())
+            (commandRecord[target.uuid] as UpdateCommand).next = {
+                [key]: value
+            }
         pushUndoStack(commandRecord)
         commandRecord = {}
     })

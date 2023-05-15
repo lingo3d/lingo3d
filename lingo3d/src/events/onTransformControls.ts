@@ -4,7 +4,6 @@ import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
 import updateSelectionManagersPhysics from "../display/utils/updateSelectionManagersPhysics"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
-import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import MeshAppendable from "../api/core/MeshAppendable"
 import Appendable from "../api/core/Appendable"
@@ -55,8 +54,8 @@ const getUndoData = (target: Appendable | undefined) => {
 let commandRecord: CommandRecord = {}
 onTransformControls((phase) => {
     if (phase === "start") {
-        flushMultipleSelectionTargets((targets) => {
-            for (const target of [...targets, selectionTargetPtr[0]]) {
+        flushMultipleSelectionTargets(() => {
+            for (const target of getAllSelectionTargets()) {
                 const data = getUndoData(target)
                 if (!data) continue
                 commandRecord[target!.uuid] = { command: "update", prev: data }
@@ -64,8 +63,8 @@ onTransformControls((phase) => {
         })
         return
     }
-    flushMultipleSelectionTargets((targets) => {
-        for (const target of [...targets, selectionTargetPtr[0]]) {
+    flushMultipleSelectionTargets(() => {
+        for (const target of getAllSelectionTargets()) {
             const data = getUndoData(target)
             if (!data) continue
             ;(commandRecord[target!.uuid] as UpdateCommand).next = data

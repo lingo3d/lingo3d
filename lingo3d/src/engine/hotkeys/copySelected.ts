@@ -15,12 +15,11 @@ const copy = <T extends Appendable | MeshAppendable>(target: T) => {
 }
 
 export default () => {
-    const [target] = selectionTargetPtr
     if (multipleSelectionTargets.size) {
-        flushMultipleSelectionTargets((targets) => {
+        flushMultipleSelectionTargets(() => {
             const commandRecord: CommandRecord = {}
             const newTargets: Array<MeshAppendable> = []
-            for (const target of targets) {
+            for (const target of multipleSelectionTargets) {
                 const manager = copy(target)
                 newTargets.push(manager)
                 commandRecord[manager.uuid] = {
@@ -31,16 +30,17 @@ export default () => {
             pushUndoStack(commandRecord)
             return newTargets
         })
-    } else if (target) {
-        const manager = copy(target)
-        flushMultipleSelectionTargets(() => {
-            pushUndoStack({
-                [manager.uuid]: {
-                    command: "create",
-                    ...serializeAppendable(manager, false)
-                }
-            })
-            emitSelectionTarget(manager)
-        }, true)
+        return
     }
+    if (!selectionTargetPtr[0]) return
+    const manager = copy(selectionTargetPtr[0])
+    flushMultipleSelectionTargets(() => {
+        pushUndoStack({
+            [manager.uuid]: {
+                command: "create",
+                ...serializeAppendable(manager, false)
+            }
+        })
+        emitSelectionTarget(manager)
+    }, true)
 }

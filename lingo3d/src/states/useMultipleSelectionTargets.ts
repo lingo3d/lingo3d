@@ -43,11 +43,11 @@ const attach = () => {
 }
 
 export const flushMultipleSelectionTargets = (
-    onFlush: (managers: Set<MeshAppendable>) => Array<MeshAppendable> | void,
+    onFlush: () => Array<MeshAppendable> | void,
     deselect?: boolean
 ) => {
     detach()
-    const newTargets = onFlush(multipleSelectionTargets)
+    const newTargets = onFlush()
     if (newTargets) {
         multipleSelectionTargets.clear()
         for (const target of newTargets) multipleSelectionTargets.add(target)

@@ -4,6 +4,7 @@ import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelect
 import createObject from "../../../api/serializer/createObject"
 import JointBase from "../../../display/core/JointBase"
 import { centroid3d } from "@lincode/math"
+import { multipleSelectionTargets } from "../../../collections/multipleSelectionTargets"
 
 export default (
     type:
@@ -13,10 +14,10 @@ export default (
         | "prismaticJoint"
         | "d6Joint"
 ) =>
-    flushMultipleSelectionTargets((managers) => {
+    flushMultipleSelectionTargets(() => {
         let fromManager: MeshAppendable | undefined
         let joint: JointBase | undefined
-        for (const toManager of managers) {
+        for (const toManager of multipleSelectionTargets) {
             if (fromManager) {
                 joint = createObject(type)
                 joint.from = fromManager.uuid

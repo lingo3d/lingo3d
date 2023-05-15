@@ -63,8 +63,6 @@ const MenuItems = ({ selectionTarget }: Props) => {
                 <MenuButton
                     disabled={multipleSelectionTargets.size === 1}
                     onClick={() => {
-                        // createJoint("d6Joint")
-                        // setPosition(undefined)
                         sceneGraphContextMenuSignal.value = {
                             x: sceneGraphContextMenuSignal.value?.x ?? 0,
                             y: sceneGraphContextMenuSignal.value?.y ?? 0,
