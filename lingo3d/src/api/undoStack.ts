@@ -43,6 +43,12 @@ export const undo = () =>
                 Object.assign(manager, command.prev)
             else if (command.command === "delete") deserialize([command])
             else if (command.command === "create") manager.dispose()
+            else if (command.command === "group") {
+                for (const uuid of command.children) {
+                    const child = uuidMap.get(uuid) as SimpleObjectManager
+                    console.log(child)
+                }
+            }
         }
         redoStack.push(commandRecord)
     }, true)
