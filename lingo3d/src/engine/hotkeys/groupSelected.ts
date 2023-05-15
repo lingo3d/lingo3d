@@ -1,3 +1,4 @@
+import root from "../../api/root"
 import { serializeAppendable } from "../../api/serializer/serialize"
 import { pushUndoStack } from "../../api/undoStack"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
@@ -10,15 +11,22 @@ export default () => {
     if (!group) return
     const consolidatedGroup = new Group()
     consolidatedGroup.position.copy(group.position)
-    for (const target of multipleSelectionTargets)
+
+    const children: Array<string> = []
+    const parents: Array<string> = []
+    for (const target of multipleSelectionTargets) {
+        children.push(target.uuid)
+        parents.push((target.parent ?? root).uuid)
         consolidatedGroup.attach(target)
+    }
     emitSelectionTarget(consolidatedGroup)
 
     pushUndoStack({
         [consolidatedGroup.uuid]: {
             command: "group",
             ...serializeAppendable(consolidatedGroup, false, true),
-            children: [...multipleSelectionTargets].map((child) => child.uuid)
+            children,
+            parents
         }
     })
 }

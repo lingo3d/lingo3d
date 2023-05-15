@@ -69,6 +69,10 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$appendNode(child)
     }
 
+    public attach(child: Appendable) {
+        this.$appendNode(child)
+    }
+
     private _deleteSystemSet?: Set<(self: any) => void>
     public get $deleteSystemSet() {
         return (this._deleteSystemSet ??= new Set())

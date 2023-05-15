@@ -1,7 +1,6 @@
 import { uuidMap } from "../collections/idCollections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import root from "./root"
 import deserialize from "./serializer/deserialize"
 import { AppendableNode } from "./serializer/types"
 
@@ -19,6 +18,7 @@ export type MoveCommand = { command: "move"; from: string; to: string }
 export type GroupCommand = {
     command: "group"
     children: Array<string>
+    parents: Array<string>
 } & Omit<AppendableNode, "children">
 
 export type CommandRecord = Record<
@@ -45,8 +45,12 @@ export const undo = () =>
             else if (command.command === "delete") deserialize([command])
             else if (command.command === "create") manager.dispose()
             else if (command.command === "group") {
-                for (const uuid of command.children)
-                    root.attach(uuidMap.get(uuid)!)
+                let i = 0
+                for (const uuid of command.children) {
+                    const child = uuidMap.get(uuid)!
+                    const parent = uuidMap.get(command.parents[i++])!
+                    parent.attach(child)
+                }
                 manager.dispose()
             }
         }
