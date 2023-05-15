@@ -76,6 +76,8 @@ import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 import { setAssetsPath } from "./api/assetsPath"
 
+import { undo, redo } from "./api/undoStack"
+
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
 
@@ -184,6 +186,8 @@ export {
     preload,
     screenshot,
     setAssetsPath,
+    undo,
+    redo,
     serialize,
     deserialize,
     downloadBlob,
