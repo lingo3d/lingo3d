@@ -83,12 +83,9 @@ export const serializeAppendable = (
     skipDescendants = false
 ) => serialize([appendable], skipUUID, true, skipDescendants)[0]
 
-export default (
-    versionStamp?: boolean,
-    children: Array<Appendable> | Set<Appendable> = appendableRoot
-) => {
+export default (versionStamp?: boolean) => {
     const result: Array<SceneGraphNode> = serialize(
-        children,
+        appendableRoot,
         false,
         false,
         false

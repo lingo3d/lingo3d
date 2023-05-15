@@ -1,3 +1,4 @@
+import { appendableRoot } from "../collections/appendableRoot"
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
 import scene from "../engine/scene"
@@ -9,7 +10,7 @@ class Root extends Appendable {
         this.$disableUnload = true
     }
 
-    public declare children?: Set<Appendable | MeshAppendable>
+    public override children = appendableRoot
 
     public declare traverse: (
         cb: (appendable: Appendable | MeshAppendable) => void
