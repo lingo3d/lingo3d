@@ -15,11 +15,10 @@ import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { isTemplate } from "../../collections/typeGuards"
-import Appendable from "../../display/core/Appendable"
-import MeshAppendable from "../../display/core/MeshAppendable"
 import FoundManager from "../../display/core/FoundManager"
 import groupSelected from "../../engine/hotkeys/groupSelected"
 import root from "../../api/root"
+import moveSelected from "../../engine/hotkeys/moveSelected"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -77,11 +76,7 @@ const AccordionSceneGraph = () => {
                         />
                     )
                 )}
-                <EmptyTreeItem
-                    onDrop={(child: Appendable | MeshAppendable) =>
-                        root.attach(child)
-                    }
-                />
+                <EmptyTreeItem onDrop={() => moveSelected(root)} />
             </div>
         </div>
     )

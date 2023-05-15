@@ -14,6 +14,7 @@ import MeshAppendable from "../../display/core/MeshAppendable"
 import useSelected from "./useSelected"
 import useExpanded from "./useExpanded"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
+import moveSelected from "../../engine/hotkeys/moveSelected"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -58,11 +59,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             selected={selected}
             draggable
             myDraggingItem={appendable}
-            onDrop={(draggingItem) =>
-                "attach" in appendable
-                    ? appendable.attach(draggingItem)
-                    : appendable.append(draggingItem)
-            }
+            onDrop={() => moveSelected(appendable)}
             expandedSignal={expandedSignal}
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
