@@ -8,11 +8,14 @@ import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
-    const isMeshAppendable = selectionTarget && "object3d" in selectionTarget
-    const target = isMeshAppendable ? selectionTarget.object3d : undefined
+    const target =
+        selectionTarget instanceof MeshAppendable
+            ? selectionTarget.object3d
+            : undefined
     if (!target) return
 
     const boxHelper = new BoxHelper(target)
