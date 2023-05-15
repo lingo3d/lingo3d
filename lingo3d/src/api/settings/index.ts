@@ -1,8 +1,8 @@
-import setupStruct from "../engine/setupStruct"
-import ISetup, { setupSchema } from "../interface/ISetup"
-import { AutoMount, getAutoMount, setAutoMount } from "../states/useAutoMount"
-import unsafeGetValue from "../utils/unsafeGetValue"
-import unsafeSetValue from "../utils/unsafeSetValue"
+import setupStruct from "./setupStruct"
+import ISetup, { setupSchema } from "../../interface/ISetup"
+import { AutoMount, getAutoMount, setAutoMount } from "../../states/useAutoMount"
+import unsafeGetValue from "../../utils/unsafeGetValue"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 const settings = {
     get autoMount() {

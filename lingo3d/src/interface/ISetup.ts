@@ -1,5 +1,5 @@
 import { disableSchema } from "../collections/disableSchema"
-import setupStruct from "../engine/setupStruct"
+import setupStruct from "../api/settings/setupStruct"
 import { environmentChoices } from "./IEnvironment"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
