@@ -70,13 +70,14 @@ import Text from "./ui/Text"
 
 import Keyboard from "./display/Keyboard"
 import Mouse from "./display/Mouse"
+
 import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 import { setAssetsPath } from "./api/assetsPath"
-
 import { undo, redo } from "./api/undoStack"
+import root from "./api/root"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
@@ -188,6 +189,7 @@ export {
     setAssetsPath,
     undo,
     redo,
+    root,
     serialize,
     deserialize,
     downloadBlob,
