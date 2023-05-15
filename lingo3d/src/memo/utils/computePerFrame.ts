@@ -1,4 +1,4 @@
-import { addClearAfterRenderSystem } from "../../systems/configSystems/clearAfterRenderSystem"
+import { addClearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
 
 export default <Item, Return>(cb: (item: Item) => Return) => {
     const cache = new Map<Item, Return>()
@@ -6,7 +6,7 @@ export default <Item, Return>(cb: (item: Item) => Return) => {
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
-        addClearAfterRenderSystem(cache)
+        addClearCollectionAfterRenderSystem(cache)
         return result
     }
 }

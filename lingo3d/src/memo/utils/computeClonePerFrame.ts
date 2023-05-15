@@ -1,4 +1,4 @@
-import { addClearAfterRenderSystem } from "../../systems/configSystems/clearAfterRenderSystem"
+import { addClearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
 
 export default <Item extends object, Return extends { clone: () => Return }>(
     cb: (item: Item) => Return
@@ -11,7 +11,7 @@ export default <Item extends object, Return extends { clone: () => Return }>(
         }
         const result = cb(item)
         cache.set(item, result.clone())
-        addClearAfterRenderSystem(cache)
+        addClearCollectionAfterRenderSystem(cache)
         return result.clone()
     }
 }

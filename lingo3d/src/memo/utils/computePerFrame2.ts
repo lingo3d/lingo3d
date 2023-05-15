@@ -1,5 +1,5 @@
 import { forceGetInstance } from "@lincode/utils"
-import { addClearAfterRenderSystem } from "../../systems/configSystems/clearAfterRenderSystem"
+import { addClearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
 
 export default <Item extends object, Item2, Return>(
     cb: (item: Item, item2: Item2) => Return
@@ -10,7 +10,7 @@ export default <Item extends object, Item2, Return>(
         if (cache2.has(item2)) return cache2.get(item2)!
         const result = cb(item, item2)
         cache2.set(item2, result)
-        addClearAfterRenderSystem(cache2)
+        addClearCollectionAfterRenderSystem(cache2)
         return result
     }
 }
