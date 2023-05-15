@@ -2,7 +2,7 @@ import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
 import { Object3D } from "three"
 import { box3, vector3 } from "../display/utils/reusables"
 import { setSelectionTarget } from "./useSelectionTarget"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 import {
     addDisposeCollectionStateSystem,

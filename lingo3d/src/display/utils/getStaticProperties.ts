@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../core/Appendable"
 
 export default (manager: Appendable) => {
     const { schema, defaults, componentName, includeKeys } =

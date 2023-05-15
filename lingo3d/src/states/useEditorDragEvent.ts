@@ -1,6 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"

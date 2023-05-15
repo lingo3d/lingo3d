@@ -7,7 +7,7 @@ import ITexturedStandard, {
 } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color } from "../../utils/reusables"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import { MaterialParams } from "../../../pools/materialPool"
 import { addRefreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"

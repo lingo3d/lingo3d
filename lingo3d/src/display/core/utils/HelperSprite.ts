@@ -1,5 +1,5 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"

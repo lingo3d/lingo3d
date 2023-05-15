@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import createObjectWithoutTemplate, {
     GameObjectTypeWithoutTemplate
 } from "../api/serializer/createObjectWithoutTemplate"

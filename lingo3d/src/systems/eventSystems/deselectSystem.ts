@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { onDispose } from "../../events/onDispose"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { setSelectionTarget } from "../../states/useSelectionTarget"

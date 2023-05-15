@@ -6,7 +6,7 @@ import {
     SpriteMaterial,
     Sprite
 } from "three"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "./core/MeshAppendable"
 import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { NEAR, FAR } from "../globals"

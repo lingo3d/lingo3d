@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import useSyncState from "../hooks/useSyncState"

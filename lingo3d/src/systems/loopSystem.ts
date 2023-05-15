@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import { onLoop } from "../events/onLoop"
 import { dtPtr } from "../pointers/dtPtr"
 import renderSystem from "./utils/renderSystem"

@@ -2,8 +2,8 @@ import { forceGetInstance } from "@lincode/utils"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { HitEvent } from "../interface/IVisible"
 import renderSystem from "./utils/renderSystem"
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { getAppendablesById } from "../collections/idCollections"
 
 const getAppendables = (val: string | Array<string> | undefined) => {

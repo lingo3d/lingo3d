@@ -4,7 +4,7 @@ import IPhysicsObjectManager, {
 } from "../../interface/IPhysicsObjectManager"
 import { setPxVec, setPxVec_ } from "../../engine/physx/pxMath"
 import Nullable from "../../interface/utils/Nullable"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "./MeshAppendable"
 import cookConvexGeometry, {
     decreaseConvexGeometryCount
 } from "../../engine/physx/cookConvexGeometry"

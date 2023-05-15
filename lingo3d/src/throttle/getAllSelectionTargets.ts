@@ -1,5 +1,5 @@
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 import { multipleSelectionGroupPtr } from "../pointers/multipleSelectionGroupPtr"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"

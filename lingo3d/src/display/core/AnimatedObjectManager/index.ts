@@ -3,7 +3,7 @@ import IAnimatedObjectManager, {
     Animation,
     AnimationValue
 } from "../../../interface/IAnimatedObjectManager"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import AnimationManager from "./AnimationManager"
 import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"

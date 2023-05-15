@@ -9,7 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"
 import { FAR, NEAR } from "../../globals"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
 import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
 import {

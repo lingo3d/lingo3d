@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import Loaded from "../display/core/Loaded"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import computePxVertices from "../engine/physx/computePxVertices"

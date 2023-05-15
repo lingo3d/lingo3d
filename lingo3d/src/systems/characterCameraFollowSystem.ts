@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import CharacterCamera from "../display/core/CharacterCamera"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"

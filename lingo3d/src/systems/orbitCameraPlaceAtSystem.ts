@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addOrbitCameraPlaceAtSystem, deleteOrbitCameraPlaceAtSystem] =

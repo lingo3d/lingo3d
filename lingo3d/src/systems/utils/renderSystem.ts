@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 
 export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
     const queued = new Set<T>()

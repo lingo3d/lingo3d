@@ -1,5 +1,5 @@
 import { Object3D, BufferGeometry, Mesh, BufferAttribute } from "three"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import Loaded from "../../display/core/Loaded"
 import { physxPtr } from "../../pointers/physxPtr"
 

@@ -1,4 +1,4 @@
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../../../display/core/MeshAppendable"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import createObject from "../../../api/serializer/createObject"

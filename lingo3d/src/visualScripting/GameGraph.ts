@@ -1,6 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { merge } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import IGameGraph, {
     GameGraphData,
     gameGraphDefaults,

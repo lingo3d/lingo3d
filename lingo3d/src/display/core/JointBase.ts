@@ -8,7 +8,7 @@ import PhysicsObjectManager from "./PhysicsObjectManager"
 import HelperSphere from "./utils/HelperSphere"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "./MeshAppendable"
 import { addConfigJointSystem } from "../../systems/configSystems/configJointSystem"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 

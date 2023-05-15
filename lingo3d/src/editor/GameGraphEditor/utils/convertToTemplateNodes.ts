@@ -1,5 +1,5 @@
 import { assert } from "@lincode/utils"
-import Appendable from "../../../api/core/Appendable"
+import Appendable from "../../../display/core/Appendable"
 import { getGameGraph } from "../../../states/useGameGraph"
 import Connector, { findConnected } from "../../../visualScripting/Connector"
 import SpawnNode from "../../../visualScripting/SpawnNode"

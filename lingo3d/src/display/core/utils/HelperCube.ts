@@ -1,4 +1,4 @@
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import { boxGeometry } from "../../primitives/Cube"
 import HelperPrimitive from "./HelperPrimitive"
 

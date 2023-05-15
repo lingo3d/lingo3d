@@ -1,6 +1,6 @@
 import { ComponentChild } from "preact"
-import Appendable from "../../../api/core/Appendable"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import Appendable from "../../../display/core/Appendable"
+import MeshAppendable from "../../../display/core/MeshAppendable"
 import downloadBlob from "../../../api/files/downloadBlob"
 import JointBase from "../../../display/core/JointBase"
 import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"

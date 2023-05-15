@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks"
-import Appendable from "../../../api/core/Appendable"
+import Appendable from "../../../display/core/Appendable"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 import { TREE_ITEM_HEIGHT } from "../../../globals"
 

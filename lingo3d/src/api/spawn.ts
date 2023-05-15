@@ -1,4 +1,4 @@
-import Appendable from "./core/Appendable"
+import Appendable from "../display/core/Appendable"
 import deserialize from "./serializer/deserialize"
 import { serializeAppendable } from "./serializer/serialize"
 

@@ -1,6 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, forceGetInstance, omitFunction } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import getStaticProperties from "../display/utils/getStaticProperties"
 import IConnector, {
     connectorDefaults,

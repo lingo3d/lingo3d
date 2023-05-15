@@ -1,6 +1,6 @@
 import { Signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { EDITOR_WIDTH } from "../../globals"
 import Drawer from "../component/Drawer"

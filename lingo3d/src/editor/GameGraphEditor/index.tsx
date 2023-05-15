@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"

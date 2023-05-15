@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { handleStopPropagation } from "../../engine/hotkeys"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setWorldPlay } from "../../states/useWorldPlay"

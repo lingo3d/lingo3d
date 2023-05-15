@@ -5,7 +5,7 @@ import IAnimationManager, {
     animationManagerDefaults,
     animationManagerSchema
 } from "../../../interface/IAnimationManager"
-import Appendable from "../../../api/core/Appendable"
+import Appendable from "../Appendable"
 import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"

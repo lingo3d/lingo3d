@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import getWorldPosition from "./getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import computePerFrame from "./utils/computePerFrame"

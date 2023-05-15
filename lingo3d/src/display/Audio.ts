@@ -4,7 +4,7 @@ import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "./core/MeshAppendable"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { getCameraRendered } from "../states/useCameraRendered"
 

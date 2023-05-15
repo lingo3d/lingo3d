@@ -1,6 +1,6 @@
 import { Object3D } from "three"
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { appendableRoot } from "../collections/appendableRoot"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { StandardMesh } from "../display/core/mixins/TexturedStandardMixin"

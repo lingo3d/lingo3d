@@ -1,3 +1,3 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 
 export const selectionRedirectMap = new WeakMap<Appendable, Appendable>()

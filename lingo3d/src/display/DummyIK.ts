@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import IDummyIK, { dummyIKDefaults, dummyIKSchema } from "../interface/IDummyIK"
 import { addConfigDummyIKSystem } from "../systems/configSystems/configDummyIKSystem"
 

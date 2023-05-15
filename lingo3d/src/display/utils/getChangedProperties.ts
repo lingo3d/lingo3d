@@ -1,5 +1,5 @@
 import { forceGet } from "@lincode/utils"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../core/Appendable"
 import { FrameValue } from "../../interface/IAnimationManager"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import getStaticProperties from "./getStaticProperties"

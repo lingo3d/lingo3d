@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable, Data extends Record<string, any>>(
     cb: (target: T, data: Data) => boolean

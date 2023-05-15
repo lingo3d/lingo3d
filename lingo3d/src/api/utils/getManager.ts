@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import MeshAppendable from "../core/MeshAppendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import Loaded from "../../display/core/Loaded"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"

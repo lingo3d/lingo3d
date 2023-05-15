@@ -1,5 +1,5 @@
 import { useEffect } from "preact/hooks"
-import Appendable from "../../../api/core/Appendable"
+import Appendable from "../../../display/core/Appendable"
 import { onDispose } from "../../../events/onDispose"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph } from "../../../states/useGameGraph"

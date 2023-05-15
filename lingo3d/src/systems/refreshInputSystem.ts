@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import renderSystemWithData from "./utils/renderSystemWithData"

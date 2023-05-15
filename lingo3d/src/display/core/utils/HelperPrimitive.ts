@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import Primitive from "../Primitive"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"

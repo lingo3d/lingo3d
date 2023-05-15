@@ -5,8 +5,8 @@ import updateSelectionManagersPhysics from "../display/utils/updateSelectionMana
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import MeshAppendable from "../api/core/MeshAppendable"
-import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
 
 type TransformControlsPhase = "start" | "end"
 export type TransformControlsMode = "translate" | "rotate" | "scale"

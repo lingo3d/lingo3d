@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { container } from "../../engine/renderLoop/containers"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"

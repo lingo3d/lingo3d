@@ -23,7 +23,7 @@ import { selectionCandidates } from "../../../../collections/selectionCandidates
 import { rightClickPtr } from "../../../../pointers/rightClickPtr"
 import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseRightClick } from "../../../../events/onMouseRightClick"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
+import MeshAppendable from "../../MeshAppendable"
 import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 import { getSelectionCandidates } from "../../../../throttle/getSelectionCandidates"
 import { multipleSelectionTargets } from "../../../../collections/multipleSelectionTargets"

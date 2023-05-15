@@ -1,4 +1,4 @@
-import Appendable from "../../../api/core/Appendable"
+import Appendable from "../../../display/core/Appendable"
 import { getGameGraph } from "../../../states/useGameGraph"
 import Connector from "../../../visualScripting/Connector"
 

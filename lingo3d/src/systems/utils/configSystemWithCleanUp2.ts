@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 
 export default <T extends object>(
     cb: (target: T) => void | false,

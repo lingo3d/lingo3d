@@ -1,5 +1,5 @@
 import Template from "../../display/Template"
-import Appendable from "../core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { createObjectRecord } from "./createObjectWithoutTemplate"
 import { GameObjectType } from "./types"
 

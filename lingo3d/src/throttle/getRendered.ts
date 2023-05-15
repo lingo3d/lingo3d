@@ -10,7 +10,7 @@ import {
     Scene,
     Color
 } from "three"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import {
     idRenderCheckMap,
     idRenderCheckModelMap

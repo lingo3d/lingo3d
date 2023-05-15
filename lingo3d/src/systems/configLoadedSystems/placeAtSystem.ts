@@ -1,4 +1,4 @@
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import { getAppendablesById } from "../../collections/idCollections"
 import SpawnPoint from "../../display/SpawnPoint"
 import { point2Vec } from "../../display/utils/vec2Point"

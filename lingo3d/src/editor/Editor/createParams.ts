@@ -2,7 +2,7 @@ import { isPoint } from "../../utils/isPoint"
 import getDefaultValue, {
     FunctionPtr
 } from "../../interface/utils/getDefaultValue"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { extendFunction, omitFunction } from "@lincode/utils"

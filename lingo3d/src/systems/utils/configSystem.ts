@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T extends Appendable>(

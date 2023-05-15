@@ -3,7 +3,7 @@ import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
-import getStaticProperties from "../../display/utils/getStaticProperties"
+import getStaticProperties from "../utils/getStaticProperties"
 import { emitDispose } from "../../events/onDispose"
 import IAppendable from "../../interface/IAppendable"
 import Nullable from "../../interface/utils/Nullable"
@@ -17,7 +17,7 @@ import {
     addEmitSceneGraphChangeSystem,
     deleteEmitSceneGraphChangeSystem
 } from "../../systems/configSystems/emitSceneGraphChangeSystem"
-import { GameObjectType } from "../serializer/types"
+import { GameObjectType } from "../../api/serializer/types"
 
 type EventName = "name" | "runtimeSchema" | "transformEdit" | "loaded" | "actor"
 

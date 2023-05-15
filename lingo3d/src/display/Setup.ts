@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import setupStruct from "../engine/setupStruct"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import unsafeGetValue from "../utils/unsafeGetValue"

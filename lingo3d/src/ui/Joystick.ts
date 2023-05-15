@@ -8,7 +8,7 @@ import Nullable from "../interface/utils/Nullable"
 import createElement from "../utils/createElement"
 import store, { Reactive } from "@lincode/reactivity"
 import { onBeforeRender } from "../events/onBeforeRender"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import { onResize } from "../events/onResize"
 import { uiContainer } from "../engine/renderLoop/containers"
 

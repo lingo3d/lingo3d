@@ -1,5 +1,5 @@
 import { memo } from "preact/compat"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import computePerFrame from "../../memo/utils/computePerFrame"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import Switch from "../component/Switch"

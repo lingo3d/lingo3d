@@ -1,7 +1,7 @@
 import { Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
     (

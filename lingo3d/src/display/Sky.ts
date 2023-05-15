@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import ISky, { skyDefaults, skySchema } from "../interface/ISky"
 import { setSkyShader } from "../states/useSkyShader"
 

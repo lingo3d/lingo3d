@@ -1,6 +1,6 @@
 import { Object3D } from "three"
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 export const draggingItemPtr: [
     Appendable | MeshAppendable | Object3D | undefined

@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import configSimpleSystem from "../utils/configSimpleSystem"
 

@@ -1,7 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"

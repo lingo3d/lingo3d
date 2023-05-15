@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"

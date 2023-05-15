@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import { addConfigLineSystem } from "../systems/configSystems/configLineSystem"
 import { Point3dType } from "../utils/isPoint"
 

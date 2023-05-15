@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 
 export default <T, Payload>(
     cb: (target: T, payload: Payload) => void,

@@ -1,5 +1,5 @@
 import { mapRange } from "@lincode/math"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { physxPtr } from "../pointers/physxPtr"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"

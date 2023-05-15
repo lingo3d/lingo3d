@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
 import GameGraphChild from "./GameGraphChild"

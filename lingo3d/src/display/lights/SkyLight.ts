@@ -11,7 +11,7 @@ import AmbientLight from "./AmbientLight"
 import { addSkyLightSystem } from "../../systems/skyLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { ColorString } from "../../interface/ITexturedStandard"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../core/MeshAppendable"
 
 export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static componentName = "skyLight"

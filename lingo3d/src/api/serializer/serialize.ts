@@ -1,5 +1,5 @@
 import { equalsDefaultValue } from "../../interface/utils/getDefaultValue"
-import Appendable from "../core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { AppendableNode, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"

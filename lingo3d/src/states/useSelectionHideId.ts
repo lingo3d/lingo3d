@@ -1,6 +1,6 @@
 import store, { add, remove, clear, createEffect } from "@lincode/reactivity"
 import { appendableRoot } from "../collections/appendableRoot"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { onId } from "../events/onId"
 import { selectionCandidates } from "../collections/selectionCandidates"

@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import { disableSchema } from "../collections/disableSchema"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"

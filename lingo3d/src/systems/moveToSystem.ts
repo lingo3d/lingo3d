@@ -3,7 +3,7 @@ import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
     (

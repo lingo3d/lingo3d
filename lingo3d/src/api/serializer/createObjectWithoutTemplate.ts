@@ -58,7 +58,7 @@ import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import D6Joint from "../../display/joints/D6Joint"
 import Audio from "../../display/Audio"
-import Appendable from "../core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import Keyboard from "../../display/Keyboard"
 import Mouse from "../../display/Mouse"
 

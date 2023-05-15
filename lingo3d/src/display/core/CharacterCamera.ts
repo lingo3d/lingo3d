@@ -7,7 +7,7 @@ import ICharacterCamera, {
 } from "../../interface/ICharacterCamera"
 import { FAR, NEAR } from "../../globals"
 import CameraBase from "./CameraBase"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "./MeshAppendable"
 import {
     addCharacterCameraFollowSystem,
     deleteCharacterCameraFollowSystem

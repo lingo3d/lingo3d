@@ -1,6 +1,6 @@
 import { assert, forceGet, forceGetInstance, random } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import deserialize from "../api/serializer/deserialize"
 import settings from "../api/settings"
 import spawn from "../api/spawn"

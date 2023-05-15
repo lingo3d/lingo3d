@@ -7,7 +7,7 @@ import fpsAlpha from "../../display/utils/fpsAlpha"
 import { onPhysXLoop } from "../../events/onPhysXLoop"
 import { physxPtr } from "../../pointers/physxPtr"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import {
     controllerVYUpdateMap,
     controllerVXUpdateMap,

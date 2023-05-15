@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Texture } from "three"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import Model from "../display/Model"
 
 export const reflectionVisibleSet = new Set<MeshAppendable>()

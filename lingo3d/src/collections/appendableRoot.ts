@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
+import Appendable from "../display/core/Appendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 export const appendableRoot = new Set<Appendable | MeshAppendable>()

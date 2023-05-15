@@ -3,7 +3,7 @@ import IKeyboard, {
     keyboardSchema,
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import {
     addKeyDownSystem,
     deleteKeyDownSystem

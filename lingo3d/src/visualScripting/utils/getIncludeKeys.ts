@@ -1,4 +1,4 @@
-import Appendable from "../../api/core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import { runtimeIncludeKeysMap } from "../../collections/runtimeCollections"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 

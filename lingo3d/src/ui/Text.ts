@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import { uiContainer } from "../engine/renderLoop/containers"
 import IText, { textDefaults, textSchema } from "../interface/IText"
 import createElement from "../utils/createElement"

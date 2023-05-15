@@ -10,7 +10,7 @@ import IEnvironment, {
 } from "../interface/IEnvironment"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "./core/MeshAppendable"
 
 export default class Environment
     extends MeshAppendable

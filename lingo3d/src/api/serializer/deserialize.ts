@@ -2,7 +2,7 @@ import { omit } from "@lincode/utils"
 import createObject from "./createObject"
 import { SceneGraphNode } from "./types"
 import nonSerializedProperties from "./nonSerializedProperties"
-import Appendable from "../core/Appendable"
+import Appendable from "../../display/core/Appendable"
 import type Model from "../../display/Model"
 
 const nodeToObjectManager = (

@@ -19,7 +19,7 @@ import {
 } from "../../states/useHotKeysEnabled"
 import settings from "../../api/settings"
 import { container } from "../renderLoop/containers"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { redo, undo } from "../../api/undoStack"
 

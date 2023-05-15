@@ -7,7 +7,7 @@ import {
     addThirdPersonCameraSystem,
     deleteThirdPersonCameraSystem
 } from "../../systems/thirdPersonCameraSystem"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import MeshAppendable from "../core/MeshAppendable"
 import {
     addCharacterCameraSystem,
     deleteCharacterCameraSystem

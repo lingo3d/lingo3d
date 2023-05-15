@@ -1,5 +1,5 @@
 import { omit } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import type { GameObjectTypeWithoutTemplate } from "../api/serializer/createObjectWithoutTemplate"
 import nonSerializedProperties from "../api/serializer/nonSerializedProperties"
 import { AppendableNode } from "../api/serializer/types"

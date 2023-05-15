@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
-import Appendable from "../../api/core/Appendable"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import Appendable from "../../display/core/Appendable"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import addInputs, { Connection } from "./addInputs"
 import createParams from "./createParams"

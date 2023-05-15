@@ -1,4 +1,4 @@
-import Appendable from "../api/core/Appendable"
+import Appendable from "../display/core/Appendable"
 import IGameGraphChild from "../interface/IGameGraphChild"
 
 export default class GameGraphChild

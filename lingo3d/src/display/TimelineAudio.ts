@@ -1,5 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
+import Appendable from "./core/Appendable"
 import ITimelineAudio, {
     timelineAudioDefaults,
     timelineAudioSchema

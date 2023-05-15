@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { Point3dType } from "../utils/isPoint"
 import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
