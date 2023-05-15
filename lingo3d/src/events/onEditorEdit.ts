@@ -32,14 +32,14 @@ onEditorEdit(({ phase, key, value }) => {
             for (const target of getAllSelectionTargets())
                 commandRecord[target.uuid] = {
                     command: "update",
-                    prev: { [key]: value }
+                    commandPrev: { [key]: value }
                 }
         })
         return
     }
     flushMultipleSelectionTargets(() => {
         for (const target of getAllSelectionTargets())
-            (commandRecord[target.uuid] as UpdateCommand).next = {
+            (commandRecord[target.uuid] as UpdateCommand).commandNext = {
                 [key]: value
             }
         pushUndoStack(commandRecord)

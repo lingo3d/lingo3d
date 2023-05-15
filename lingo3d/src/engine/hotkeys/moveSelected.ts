@@ -10,8 +10,8 @@ export default (to: Appendable) => {
     pushUndoStack({
         [target.uuid]: {
             command: "move",
-            from: (target.parent ?? root).uuid,
-            to: to.uuid
+            commandFrom: (target.parent ?? root).uuid,
+            commandTo: to.uuid
         }
     })
     to.attach(target)

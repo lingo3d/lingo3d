@@ -12,11 +12,11 @@ export default () => {
     const consolidatedGroup = new Group()
     consolidatedGroup.position.copy(group.position)
 
-    const childs: Array<string> = []
-    const parents: Array<string> = []
+    const commandChildren: Array<string> = []
+    const commandParents: Array<string> = []
     for (const target of multipleSelectionTargets) {
-        childs.push(target.uuid)
-        parents.push((target.parent ?? root).uuid)
+        commandChildren.push(target.uuid)
+        commandParents.push((target.parent ?? root).uuid)
         consolidatedGroup.attach(target)
     }
     emitSelectionTarget(consolidatedGroup)
@@ -25,8 +25,8 @@ export default () => {
         [consolidatedGroup.uuid]: {
             command: "group",
             ...serializeAppendable(consolidatedGroup, false, true),
-            childs,
-            parents
+            commandChildren,
+            commandParents
         }
     })
 }
