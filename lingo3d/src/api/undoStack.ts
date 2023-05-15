@@ -1,6 +1,7 @@
 import { uuidMap } from "../collections/idCollections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
+import root from "./root"
 import deserialize from "./serializer/deserialize"
 import { AppendableNode } from "./serializer/types"
 
@@ -44,10 +45,9 @@ export const undo = () =>
             else if (command.command === "delete") deserialize([command])
             else if (command.command === "create") manager.dispose()
             else if (command.command === "group") {
-                for (const uuid of command.children) {
-                    const child = uuidMap.get(uuid) as SimpleObjectManager
-                    console.log(child)
-                }
+                for (const uuid of command.children)
+                    root.attach(uuidMap.get(uuid)!)
+                manager.dispose()
             }
         }
         redoStack.push(commandRecord)
