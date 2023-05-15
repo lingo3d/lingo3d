@@ -5,16 +5,24 @@ import deserialize from "./serializer/deserialize"
 import { AppendableNode } from "./serializer/types"
 
 export type CreateCommand = { command: "create" } & AppendableNode
+
 export type DeleteCommand = { command: "delete" } & AppendableNode
+
 export type UpdateCommand = {
     command: "update"
     prev: Record<string, any>
     next?: Record<string, any>
 }
 export type MoveCommand = { command: "move"; from: string; to: string }
+
+export type GroupCommand = {
+    command: "group"
+    children: Array<string>
+} & Omit<AppendableNode, "children">
+
 export type CommandRecord = Record<
     string, //uuid
-    CreateCommand | DeleteCommand | UpdateCommand | MoveCommand
+    CreateCommand | DeleteCommand | UpdateCommand | MoveCommand | GroupCommand
 >
 
 const undoStack: Array<CommandRecord> = []

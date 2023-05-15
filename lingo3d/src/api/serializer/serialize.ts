@@ -13,8 +13,9 @@ import { isTemplate, isTemplateNode } from "../../collections/typeGuards"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,
-    skipUUID?: boolean,
-    skipTemplateCheck?: boolean
+    skipUUID: boolean,
+    skipTemplateCheck: boolean,
+    skipDescendants: boolean
 ) => {
     const dataParent: Array<AppendableNode> = []
     for (const child of children) {
@@ -62,11 +63,12 @@ const serialize = (
 
             data[key] = value
         }
-        if (child.children) {
+        if (!skipDescendants && child.children) {
             const dataChildren = serialize(
                 child.children,
                 skipUUID,
-                skipTemplateCheck
+                skipTemplateCheck,
+                skipDescendants
             )
             if (dataChildren.length) data.children = dataChildren
         }
@@ -75,14 +77,22 @@ const serialize = (
     return dataParent
 }
 
-export const serializeAppendable = (appendable: Appendable, skipUUID = true) =>
-    serialize([appendable], skipUUID, true)[0]
+export const serializeAppendable = (
+    appendable: Appendable,
+    skipUUID = true,
+    skipDescendants = false
+) => serialize([appendable], skipUUID, true, skipDescendants)[0]
 
 export default (
     versionStamp?: boolean,
     children: Array<Appendable> | Set<Appendable> = appendableRoot
 ) => {
-    const result: Array<SceneGraphNode> = serialize(children)
+    const result: Array<SceneGraphNode> = serialize(
+        children,
+        false,
+        false,
+        false
+    )
     versionStamp && result.unshift({ type: "lingo3d", version: VERSION })
     return result
 }

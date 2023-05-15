@@ -1,3 +1,5 @@
+import { serializeAppendable } from "../../api/serializer/serialize"
+import { pushUndoStack } from "../../api/undoStack"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 import Group from "../../display/Group"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
@@ -11,4 +13,14 @@ export default () => {
     for (const target of multipleSelectionTargets)
         consolidatedGroup.attach(target)
     emitSelectionTarget(consolidatedGroup)
+
+    console.log(serializeAppendable(consolidatedGroup, false, true))
+
+    // pushUndoStack({
+    //     [consolidatedGroup.uuid]: {
+    //         command: "group",
+    //         ...serializeAppendable(consolidatedGroup, false),
+    //         children: [...multipleSelectionTargets].map((child) => child.uuid)
+    //     }
+    // })
 }

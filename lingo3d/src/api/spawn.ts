@@ -3,4 +3,4 @@ import deserialize from "./serializer/deserialize"
 import { serializeAppendable } from "./serializer/serialize"
 
 export default (target: Appendable) =>
-    deserialize([serializeAppendable(target)])[0]
+    deserialize([serializeAppendable(target)])[0]!

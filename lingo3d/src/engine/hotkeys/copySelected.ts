@@ -9,7 +9,7 @@ import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const copy = <T extends Appendable | MeshAppendable>(target: T) => {
-    const item = spawn(target)!
+    const item = spawn(target)
     target.parent?.append(item)
     return item as T
 }
