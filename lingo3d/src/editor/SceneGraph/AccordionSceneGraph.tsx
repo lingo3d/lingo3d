@@ -1,6 +1,5 @@
 import { useMemo } from "preact/hooks"
 import Model from "../../display/Model"
-import scene from "../../engine/scene"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
@@ -19,8 +18,8 @@ import { isTemplate } from "../../collections/typeGuards"
 import Appendable from "../../display/core/Appendable"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import FoundManager from "../../display/core/FoundManager"
-import { addEmitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import groupSelected from "../../engine/hotkeys/groupSelected"
+import root from "../../api/root"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -79,14 +78,9 @@ const AccordionSceneGraph = () => {
                     )
                 )}
                 <EmptyTreeItem
-                    onDrop={(child: Appendable | MeshAppendable) => {
-                        addEmitSceneGraphChangeSystem(child)
-                        appendableRoot.add(child)
-                        "outerObject3d" in child &&
-                            scene.attach(child.outerObject3d)
-                        child.parent?.children?.delete(child)
-                        child.parent = undefined
-                    }}
+                    onDrop={(child: Appendable | MeshAppendable) =>
+                        root.attach(child)
+                    }
                 />
             </div>
         </div>
