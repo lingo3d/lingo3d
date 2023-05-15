@@ -27,13 +27,18 @@ export const clearMultipleSelectionTargets = clear(
     getMultipleSelectionTargets
 )
 
-let parentEntries: Array<[Object3D, Object3D]>
-let group: Object3D
+let parentEntries: Array<[Object3D, Object3D]> | undefined
+let group: Object3D | undefined
+let attached = false
 const detach = () => {
+    if (!parentEntries || !attached) return
+    attached = false
     if (parentEntries[0][0].parent === group)
         for (const [object, parent] of parentEntries) parent.attach(object)
 }
 const attach = () => {
+    if (!parentEntries || !group || attached) return
+    attached = true
     for (const [object] of parentEntries) group.attach(object)
 }
 
@@ -67,6 +72,7 @@ createEffect(() => {
 
     parentEntries = []
     group = groupManager.object3d
+    attached = true
 
     for (const { outerObject3d } of multipleSelectionTargets) {
         if (!outerObject3d.parent) continue
@@ -84,6 +90,8 @@ createEffect(() => {
         detach()
         groupManager.dispose()
         multipleSelectionGroupPtr[0] = undefined
+        parentEntries = undefined
+        group = undefined
     }
 }, [getMultipleSelectionTargets])
 

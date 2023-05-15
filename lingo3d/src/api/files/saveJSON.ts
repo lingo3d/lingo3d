@@ -1,16 +1,11 @@
 import serialize from "../serializer/serialize"
 import { getFileCurrent, setFileCurrent } from "../../states/useFileCurrent"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
-export default async () => {
-    const { default: prettier } = await import("prettier/standalone")
-    const { default: parser } = await import("prettier/parser-babel")
+const saveJSON = async (code: string) => {
     const { fileSave } = await import("browser-fs-access")
 
-    const code = prettier.format(JSON.stringify(serialize(true)), {
-        parser: "json",
-        plugins: [parser]
-    })
     const fileCurrent = getFileCurrent()
     const fileHandle = await fileSave(
         new Blob([code], { type: "text/plain" }),
@@ -29,4 +24,20 @@ export default async () => {
 
     unsafeSetValue(file, "handle", fileHandle)
     setFileCurrent(file)
+}
+
+export default async () => {
+    const { default: prettier } = await import("prettier/standalone")
+    const { default: parser } = await import("prettier/parser-babel")
+
+    flushMultipleSelectionTargets(
+        () =>
+            void saveJSON(
+                prettier.format(JSON.stringify(serialize(true)), {
+                    parser: "json",
+                    plugins: [parser]
+                })
+            ),
+        true
+    )
 }

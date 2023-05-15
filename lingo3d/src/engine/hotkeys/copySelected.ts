@@ -33,12 +33,14 @@ export default () => {
         })
     } else if (target) {
         const manager = copy(target)
-        emitSelectionTarget(manager)
-        pushUndoStack({
-            [manager.uuid]: {
-                command: "create",
-                ...serializeAppendable(manager, false)
-            }
-        })
+        flushMultipleSelectionTargets(() => {
+            pushUndoStack({
+                [manager.uuid]: {
+                    command: "create",
+                    ...serializeAppendable(manager, false)
+                }
+            })
+            emitSelectionTarget(manager)
+        }, true)
     }
 }

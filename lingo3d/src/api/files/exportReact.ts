@@ -2,6 +2,7 @@ import { upperFirst } from "@lincode/utils"
 import serialize from "../serializer/serialize"
 import { SceneGraphNode } from "../serializer/types"
 import downloadText from "./downloadText"
+import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const serializeReact = (nodes: Array<SceneGraphNode>) => {
     let result = ""
@@ -33,16 +34,21 @@ export default async () => {
     const prettier = (await import("prettier/standalone")).default
     const parser = (await import("prettier/parser-babel")).default
 
-    const code = prettier.format(
-        `const App = () => {
-            return (
-                <World>
-                    ${serializeReact(serialize())}
-                </World>
-            )
-        }`,
-        { parser: "babel", plugins: [parser] }
+    flushMultipleSelectionTargets(
+        () =>
+            downloadText(
+                "App.jsx",
+                prettier.format(
+                    `const App = () => {
+                return (
+                    <World>
+                        ${serializeReact(serialize())}
+                    </World>
+                )
+            }`,
+                    { parser: "babel", plugins: [parser] }
+                )
+            ),
+        true
     )
-
-    downloadText("App.jsx", code)
 }

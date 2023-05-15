@@ -2,6 +2,7 @@ import { upperFirst, kebabCase } from "@lincode/utils"
 import serialize from "../serializer/serialize"
 import { SceneGraphNode } from "../serializer/types"
 import downloadText from "./downloadText"
+import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const serializeVue = (nodes: Array<SceneGraphNode>) => {
     let result = ""
@@ -35,14 +36,19 @@ export default async () => {
     const prettier = (await import("prettier/standalone")).default
     const parser = (await import("prettier/parser-html")).default
 
-    const code = prettier.format(
-        `<template>
-            <World>
-                ${serializeVue(serialize())}
-            </World>
-        </template>`,
-        { parser: "vue", plugins: [parser] }
+    flushMultipleSelectionTargets(
+        () =>
+            downloadText(
+                "App.vue",
+                prettier.format(
+                    `<template>
+                <World>
+                    ${serializeVue(serialize())}
+                </World>
+            </template>`,
+                    { parser: "vue", plugins: [parser] }
+                )
+            ),
+        true
     )
-
-    downloadText("App.vue", code)
 }
