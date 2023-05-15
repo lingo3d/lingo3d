@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "preact/hooks"
 import { stopPropagation } from "../utils/stopPropagation"
+import { CLICK_TIME } from "../../globals"
 
 export default (cb?: (e: MouseEvent) => void) => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -30,7 +31,7 @@ export default (cb?: (e: MouseEvent) => void) => {
             downX = e.clientX
             downY = e.clientY
 
-            deltaTime < 300 && deltaX < 5 && deltaY < 5 && cb(e)
+            deltaTime < CLICK_TIME && deltaX < 5 && deltaY < 5 && cb(e)
         }
         el.addEventListener("mousedown", handleMouseDown)
         el.addEventListener("mouseup", handleMouseUp)

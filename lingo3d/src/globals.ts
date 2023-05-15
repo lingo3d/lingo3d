@@ -13,6 +13,8 @@ export const HEIGHT = 667
 export const STANDARD_FRAME = 60
 export const INVERSE_STANDARD_FRAME = 1 / STANDARD_FRAME
 
+export const CLICK_TIME = 300
+
 export const MIN_POLAR_ANGLE = 5
 export const MAX_POLAR_ANGLE = 175
 export const ORTHOGRAPHIC_FRUSTUM = 5.7
