@@ -12,19 +12,16 @@ import { multipleSelectionTargets } from "../collections/multipleSelectionTarget
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
     const isMeshAppendable = selectionTarget && "object3d" in selectionTarget
-    if (isMeshAppendable && !selectionTarget.object3d.parent) return
-
     const target = isMeshAppendable ? selectionTarget.object3d : undefined
     if (!target) return
 
     const boxHelper = new BoxHelper(target)
-    const frame = requestAnimationFrame(() => scene.add(boxHelper))
+    scene.add(boxHelper)
     addUpdateSystem(boxHelper)
     ssrExcludeSet.add(boxHelper)
     renderCheckExcludeSet.add(boxHelper)
 
     return () => {
-        cancelAnimationFrame(frame)
         scene.remove(boxHelper)
         deleteUpdateSystem(boxHelper)
         boxHelper.dispose()
@@ -41,14 +38,10 @@ createEffect(() => {
         const boxHelper = new BoxHelper(target.object3d)
         scene.add(boxHelper)
         boxHelpers.push(boxHelper)
-    }
-
-    for (const boxHelper of boxHelpers) {
         addUpdateSystem(boxHelper)
         ssrExcludeSet.add(boxHelper)
         renderCheckExcludeSet.add(boxHelper)
     }
-
     return () => {
         for (const boxHelper of boxHelpers) {
             deleteUpdateSystem(boxHelper)
