@@ -110,7 +110,7 @@ export default class AnimationManager
             return
         }
         merge(this.data, data)
-        this.data = this.data
+        this.data = { ...this.data }
     }
 
     public get frame() {
