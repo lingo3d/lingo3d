@@ -3,7 +3,6 @@ import { Object3D } from "three"
 import { box3, vector3 } from "../display/utils/reusables"
 import { setSelectionTarget } from "./useSelectionTarget"
 import MeshAppendable from "../api/core/MeshAppendable"
-import { Queue } from "@lincode/promiselikes"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 import {
     addDisposeCollectionStateSystem,
@@ -28,31 +27,34 @@ export const clearMultipleSelectionTargets = clear(
     getMultipleSelectionTargets
 )
 
-const queue = new Queue()
-export const flushMultipleSelectionTargets = async (
-    onFlush: (targets: Array<MeshAppendable>) => Array<MeshAppendable> | void,
+let parentEntries: Array<[Object3D, Object3D]>
+let group: Object3D
+const detach = () => {
+    if (parentEntries[0][0].parent === group)
+        for (const [object, parent] of parentEntries) parent.attach(object)
+}
+const attach = () => {
+    for (const [object] of parentEntries) group.attach(object)
+}
+
+export const flushMultipleSelectionTargets = (
+    onFlush: (managers: Set<MeshAppendable>) => Array<MeshAppendable> | void,
     deselect?: boolean
 ) => {
-    await queue
-
-    const targetsBackup = [...multipleSelectionTargets]
-    multipleSelectionTargets.clear()
-    setMultipleSelectionTargets([multipleSelectionTargets])
-
-    await Promise.resolve()
-
-    const newTargets = onFlush(targetsBackup)
-    if (deselect) {
-        queue.resolve()
+    detach()
+    const newTargets = onFlush(multipleSelectionTargets)
+    if (newTargets) {
+        multipleSelectionTargets.clear()
+        for (const target of newTargets) multipleSelectionTargets.add(target)
+        setMultipleSelectionTargets([multipleSelectionTargets])
         return
     }
-    await Promise.resolve()
-    await Promise.resolve()
-
-    for (const target of newTargets ?? targetsBackup)
-        multipleSelectionTargets.add(target)
-    setMultipleSelectionTargets([multipleSelectionTargets])
-    queue.resolve()
+    if (deselect) {
+        multipleSelectionTargets.clear()
+        setMultipleSelectionTargets([multipleSelectionTargets])
+        return
+    }
+    attach()
 }
 
 createEffect(() => {
@@ -61,10 +63,11 @@ createEffect(() => {
     const groupManager = new MeshAppendable()
     groupManager.$ghost()
     multipleSelectionGroupPtr[0] = groupManager
-    const group = groupManager.object3d
     setSelectionTarget(groupManager)
 
-    const parentEntries: Array<[Object3D, Object3D]> = []
+    parentEntries = []
+    group = groupManager.object3d
+
     for (const { outerObject3d } of multipleSelectionTargets) {
         if (!outerObject3d.parent) continue
         parentEntries.push([outerObject3d, outerObject3d.parent])
@@ -78,9 +81,7 @@ createEffect(() => {
     for (const [object] of parentEntries) group.attach(object)
 
     return () => {
-        if (parentEntries[0][0].parent === group)
-            for (const [object, parent] of parentEntries) parent.attach(object)
-
+        detach()
         groupManager.dispose()
         multipleSelectionGroupPtr[0] = undefined
     }
