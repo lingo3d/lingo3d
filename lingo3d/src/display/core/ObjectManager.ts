@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import IObjectManager from "../../interface/IObjectManager"
-import { setManager } from "../../api/utils/getManager"
+import { setManager } from "./utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"

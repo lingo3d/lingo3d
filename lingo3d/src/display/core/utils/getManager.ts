@@ -1,8 +1,8 @@
 import { Object3D } from "three"
-import MeshAppendable from "../../display/core/MeshAppendable"
-import VisibleMixin from "../../display/core/mixins/VisibleMixin"
-import Loaded from "../../display/core/Loaded"
-import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import MeshAppendable from "../MeshAppendable"
+import VisibleMixin from "../mixins/VisibleMixin"
+import Loaded from "../Loaded"
+import PhysicsObjectManager from "../PhysicsObjectManager"
 
 const objectManagerMap = new WeakMap<
     Object3D,

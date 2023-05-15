@@ -12,7 +12,7 @@ import {
 } from "../collections/reflectionCollections"
 import { measure } from "../memo/measure"
 import { indexChildrenNames } from "../memo/indexChildrenNames"
-import { getFoundManager } from "../api/utils/getFoundManager"
+import { getFoundManager } from "./core/utils/getFoundManager"
 import { indexMeshChildrenNames } from "../memo/indexMeshChildrenNames"
 import findFirst from "../memo/findFirst"
 import findFirstMesh from "../memo/findFirstMesh"

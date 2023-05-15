@@ -1,5 +1,5 @@
 import { Raycaster, Object3D } from "three"
-import { getManager } from "../api/utils/getManager"
+import { getManager } from "../display/core/utils/getManager"
 import { actorPtrManagerMap } from "../collections/pxCollections"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"
 import { FAR, M2CM } from "../globals"

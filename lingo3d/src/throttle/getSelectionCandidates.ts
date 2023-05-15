@@ -24,7 +24,7 @@ const traverse = (
 }
 
 const traverseFocusChildren = async (selectionFocus: MeshAppendable) => {
-    const { getFoundManager } = await import("../api/utils/getFoundManager")
+    const { getFoundManager } = await import("../display/core/utils/getFoundManager")
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
             child === selectionFocus.outerObject3d ||

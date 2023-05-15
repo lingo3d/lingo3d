@@ -1,6 +1,6 @@
 import { PropertyBinding } from "three"
 import computeOnce2 from "./utils/computeOnce2"
-import { getFoundManager } from "../api/utils/getFoundManager"
+import { getFoundManager } from "../display/core/utils/getFoundManager"
 import Model from "../display/Model"
 import { indexChildrenNames } from "./indexChildrenNames"
 

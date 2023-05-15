@@ -1,7 +1,7 @@
 import { Object3D } from "three"
-import FoundManager from "../../display/core/FoundManager"
+import FoundManager from "../FoundManager"
 import { getManager } from "./getManager"
-import type Model from "../../display/Model"
+import type Model from "../../Model"
 
 export const getFoundManager = (child: Object3D, parentManager: Model) =>
     (getManager(child) ??

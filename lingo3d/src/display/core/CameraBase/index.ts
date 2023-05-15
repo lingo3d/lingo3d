@@ -14,7 +14,7 @@ import {
 import getWorldPosition from "../../../memo/getWorldPosition"
 import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
-import { setManager } from "../../../api/utils/getManager"
+import { setManager } from "../utils/getManager"
 import MeshAppendable from "../MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"

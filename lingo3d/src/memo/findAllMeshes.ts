@@ -1,5 +1,5 @@
 import { Object3D, PropertyBinding } from "three"
-import { getFoundManager } from "../api/utils/getFoundManager"
+import { getFoundManager } from "../display/core/utils/getFoundManager"
 import Model from "../display/Model"
 import FoundManager from "../display/core/FoundManager"
 import { indexMeshChildrenNames } from "./indexMeshChildrenNames"

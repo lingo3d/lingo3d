@@ -7,7 +7,7 @@ import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import HelperCube from "../core/utils/HelperCube"
-import { setManager } from "../../api/utils/getManager"
+import { setManager } from "../core/utils/getManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 
 const elementContainerTemplate = createElement(`
