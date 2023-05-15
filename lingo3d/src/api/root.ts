@@ -25,7 +25,7 @@ class Root extends Appendable {
         "object3d" in child && scene.add(child.outerObject3d)
     }
 
-    public attach(child: Appendable | MeshAppendable) {
+    public override attach(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
         "object3d" in child && scene.attach(child.outerObject3d)
     }

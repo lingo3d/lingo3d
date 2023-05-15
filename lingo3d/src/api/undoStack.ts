@@ -1,5 +1,5 @@
 import { uuidMap } from "../collections/idCollections"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import MeshAppendable from "../display/core/MeshAppendable"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import deserialize from "./serializer/deserialize"
 import { AppendableNode } from "./serializer/types"
@@ -39,7 +39,7 @@ export const undo = () =>
         const commandRecord = undoStack.pop()
         if (!commandRecord) return
         for (const [uuid, command] of Object.entries(commandRecord)) {
-            const manager = uuidMap.get(uuid) as SimpleObjectManager
+            const manager = uuidMap.get(uuid) as MeshAppendable
             if (command.command === "update")
                 Object.assign(manager, command.prev)
             else if (command.command === "delete") deserialize([command])
@@ -52,7 +52,8 @@ export const undo = () =>
                     parent.attach(child)
                 }
                 manager.dispose()
-            }
+            } else if (command.command === "move")
+                uuidMap.get(command.from)!.attach(manager)
         }
         redoStack.push(commandRecord)
     }, true)
@@ -62,11 +63,19 @@ export const redo = () =>
         const commandRecord = redoStack.pop()
         if (!commandRecord) return
         for (const [uuid, command] of Object.entries(commandRecord)) {
-            const manager = uuidMap.get(uuid) as SimpleObjectManager
+            const manager = uuidMap.get(uuid) as MeshAppendable
             if (command.command === "update")
                 Object.assign(manager, command.next)
             else if (command.command === "delete") manager.dispose()
             else if (command.command === "create") deserialize([command])
+            else if (command.command === "group") {
+                const group = deserialize([command as any])[0]!
+                for (const uuid of command.children) {
+                    group.attach(uuidMap.get(uuid) as MeshAppendable)
+                }
+                manager.dispose()
+            } else if (command.command === "move")
+                uuidMap.get(command.to)!.attach(manager)
         }
         undoStack.push(commandRecord)
     }, true)
