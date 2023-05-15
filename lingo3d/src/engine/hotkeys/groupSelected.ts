@@ -14,13 +14,11 @@ export default () => {
         consolidatedGroup.attach(target)
     emitSelectionTarget(consolidatedGroup)
 
-    console.log(serializeAppendable(consolidatedGroup, false, true))
-
-    // pushUndoStack({
-    //     [consolidatedGroup.uuid]: {
-    //         command: "group",
-    //         ...serializeAppendable(consolidatedGroup, false),
-    //         children: [...multipleSelectionTargets].map((child) => child.uuid)
-    //     }
-    // })
+    pushUndoStack({
+        [consolidatedGroup.uuid]: {
+            command: "group",
+            ...serializeAppendable(consolidatedGroup, false, true),
+            children: [...multipleSelectionTargets].map((child) => child.uuid)
+        }
+    })
 }
