@@ -5,6 +5,8 @@ import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
 import { stopPropagation } from "../utils/stopPropagation"
 import TextOptionsInput from "./TextOptionsInput"
 import prevent from "../utils/prevent"
+import mergeRefs from "../hooks/mergeRefs"
+import { enableHotKeysOnElement } from "../../engine/hotkeys"
 
 interface ContextMenuProps {
     positionSignal?: Signal<Point | undefined>
@@ -16,9 +18,15 @@ interface ContextMenuProps {
               options?: Array<string>
           }
         | false
+    enableHotKeys?: boolean
 }
 
-const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
+const ContextMenu = ({
+    positionSignal,
+    children,
+    input,
+    enableHotKeys
+}: ContextMenuProps) => {
     if (!positionSignal?.value) return null
 
     const elRef = useRef<HTMLDivElement>(null)
@@ -39,7 +47,11 @@ const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
 
     return createPortal(
         <div
-            ref={stopPropagation}
+            ref={
+                enableHotKeys
+                    ? mergeRefs(stopPropagation, enableHotKeysOnElement)
+                    : stopPropagation
+            }
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
             onContextMenu={prevent}
