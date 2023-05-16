@@ -1,9 +1,9 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import {
-    addSyncFrameSystem,
-    deleteSyncFrameSystem
-} from "../systems/syncFrameSystem"
+    addSyncTimelineFrameSystem,
+    deleteSyncTimelineFrameSystem
+} from "../systems/syncTimelineFrameSystem"
 import { getTimeline } from "./useTimeline"
 import getReactive from "../utils/getReactive"
 import { timelinePtr } from "../pointers/timelinePtr"
@@ -28,8 +28,8 @@ createEffect(() => {
 
     emitSelectionTarget(undefined)
 
-    addSyncFrameSystem(timeline)
+    addSyncTimelineFrameSystem(timeline)
     return () => {
-        deleteSyncFrameSystem(timeline)
+        deleteSyncTimelineFrameSystem(timeline)
     }
 }, [getTimeline, getTimelinePaused])
