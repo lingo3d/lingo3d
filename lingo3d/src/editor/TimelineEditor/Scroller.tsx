@@ -1,13 +1,7 @@
-import { createEffect } from "@lincode/reactivity"
-import { useEffect } from "preact/hooks"
-import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
-import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
-import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import { setTimelineLayer } from "../../states/useTimelineLayer"
-import { getTimelinePaused } from "../../states/useTimelinePaused"
 import useSyncState from "../hooks/useSyncState"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import FrameGrid from "./FrameGrid"
@@ -18,60 +12,26 @@ import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
 import { uuidMap } from "../../collections/idCollections"
-import {
-    maxFramePtr,
-    minFramePtr,
-    framesWidthPtr
-} from "../../pointers/timelineRulerPointers"
 import { timelineDataPtr } from "../../pointers/timelineDataPtr"
 import { timelinePtr } from "../../pointers/timelinePtr"
-import { timelineFramePtr } from "../../pointers/timelineFramePtr"
-import { emitTimelineFrame } from "../../events/onTimelineFrame"
+import { timelineScrollerPtr } from "../../pointers/timelineScrollerPtr"
+import { setTimelineFrame } from "./setTimelineFrame"
+import timelineNeedleSeek from "./timelineNeedleSeek"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()
     const keyframesEntries = useSyncState(getTimelineKeyframeEntries)
-
-    useEffect(() => {
-        const el = scrollRef.current
-        if (!el) return
-
-        const seek = () => {
-            const frameDiv = timelineFramePtr[0] / 5
-            const ceilFrame = Math.ceil(frameDiv) * 5
-            const floorFrame = Math.floor(frameDiv) * 5
-            if (ceilFrame > maxFramePtr[0])
-                el.scrollLeft = floorFrame * FRAME_WIDTH
-            else if (floorFrame < minFramePtr[0])
-                el.scrollLeft = ceilFrame * FRAME_WIDTH - framesWidthPtr[0]
-        }
-
-        const handle = createEffect(() => {
-            if (getTimelinePaused()) return
-
-            //todo: use system for seek
-            const frameHandle = getTimelineFrame(seek)
-            return () => {
-                frameHandle.cancel()
-            }
-        }, [getTimelinePaused])
-
-        const seekHandle = onTimelineSeekScrollLeft(seek)
-
-        return () => {
-            handle.cancel()
-            seekHandle.cancel()
-        }
-    }, [])
+    timelineScrollerPtr[0] = scrollRef.current
 
     return (
         <div
             className="lingo3d-absfull"
             style={{ overflow: "scroll" }}
             ref={scrollRef}
-            onScroll={(e) =>
-                (timelineScrollLeftSignal.value = e.currentTarget.scrollLeft)
-            }
+            onScroll={(e) => {
+                timelineScrollLeftSignal.value = e.currentTarget.scrollLeft
+                timelineNeedleSeek()
+            }}
             onMouseDown={(e) => {
                 const el = scrollRef.current
                 const [timelineData] = timelineDataPtr
@@ -105,8 +65,7 @@ const Scroller = () => {
                 }
 
                 const frame = Math.floor(relX / FRAME_WIDTH)
-                emitTimelineFrame(frame)
-                emitTimelineHighlightFrame({
+                setTimelineFrame(frame, {
                     x: frame * FRAME_WIDTH,
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
                 })

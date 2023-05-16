@@ -2,13 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
 import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
-import {
-    FRAME_HEIGHT,
-    STANDARD_FRAME,
-    FRAME_WIDTH,
-    INVERSE_STANDARD_FRAME
-} from "../../globals"
-import { getTimelineFrame } from "../../states/useTimelineFrame"
+import { FRAME_HEIGHT, STANDARD_FRAME, FRAME_WIDTH } from "../../globals"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
 import diffProps from "../utils/diffProps"
@@ -16,6 +10,15 @@ import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
 import { getTimelineMute } from "../../states/useTimelineMute"
 import getReactive from "../../utils/getReactive"
+import {
+    addTimelineWaveSurferPlaybackSystem,
+    deleteTimelineWaveSurferPlaybackSystem
+} from "../../systems/timelineWaveSurferPlaybackSystem"
+import {
+    addTimelineWaveSurferFrameSystem,
+    deleteTimelineWaveSurferFrameSystem
+} from "../../systems/timelineWaveSurferFrameSystem"
+import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -59,11 +62,8 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
     useLayoutEffect(() => {
         if (!waveSurfer || !timeline) return
         if (!paused) {
-            const handle = getTimelineFrame((frame, handle) => {
-                if (frame < startFrame) return
-                waveSurfer.play((frame - startFrame) * INVERSE_STANDARD_FRAME)
-                handle.cancel()
-            })
+            addTimelineWaveSurferPlaybackSystem(waveSurfer, { startFrame })
+
             let pausedCount = 1
             timeline.$animationStates.pausedCount += pausedCount
 
@@ -74,19 +74,18 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
             }, (audioContext.baseLatency + audioContext.outputLatency) * 1000)
 
             return () => {
+                deleteTimelineWaveSurferPlaybackSystem(waveSurfer)
                 clearTimeout(timeout)
                 waveSurfer.pause()
                 timeline.$animationStates.pausedCount -= pausedCount
-                handle.cancel()
             }
         }
-        const handle = getTimelineFrame((frame) => {
-            waveSurfer.setCurrentTime(
-                Math.max(frame - startFrame, 0) * INVERSE_STANDARD_FRAME
-            )
+        addTimelineWaveSurferFrameSystem(waveSurfer, {
+            frame: timelineFramePtr[0],
+            startFrame
         })
         return () => {
-            handle.cancel()
+            deleteTimelineWaveSurferFrameSystem(waveSurfer)
         }
     }, [waveSurfer, paused, timeline])
 

@@ -17,9 +17,9 @@ import AudioIcon from "./icons/AudioIcon"
 import { getTimelineMute, setTimelineMute } from "../../states/useTimelineMute"
 import MuteIcon from "./icons/MuteIcon"
 import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
-import { emitTimelineFrame } from "../../events/onTimelineFrame"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 import { timelinePtr } from "../../pointers/timelinePtr"
+import { setTimelineFrame } from "./setTimelineFrame"
 
 const TimelineControls = () => {
     const timeline = useSyncState(getTimeline)
@@ -64,27 +64,27 @@ const TimelineControls = () => {
             <IconButton
                 disabled={!timeline}
                 onClick={() =>
-                    emitTimelineFrame(Math.max(timelineFramePtr[0] - 1, 0))
+                    setTimelineFrame(Math.max(timelineFramePtr[0] - 1, 0))
                 }
             >
                 <PrevFrameIcon />
             </IconButton>
             <IconButton
                 disabled={!timeline}
-                onClick={() => emitTimelineFrame(timelineFramePtr[0] + 1)}
+                onClick={() => setTimelineFrame(timelineFramePtr[0] + 1)}
             >
                 <NextFrameIcon />
             </IconButton>
 
             <IconButton
                 disabled={!timeline}
-                onClick={() => emitTimelineFrame(0)}
+                onClick={() => setTimelineFrame(0)}
             >
                 <FirstFrameIcon />
             </IconButton>
             <IconButton
                 disabled={!timeline}
-                onClick={() => emitTimelineFrame(timelinePtr[0]!.lastFrame)}
+                onClick={() => setTimelineFrame(timelinePtr[0]!.lastFrame)}
             >
                 <LastFrameIcon />
             </IconButton>

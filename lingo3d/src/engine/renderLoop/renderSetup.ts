@@ -15,6 +15,7 @@ import { emitResize } from "../../events/onResize"
 import { container, uiContainer, overlayContainer } from "./containers"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
+import { timelinePausedPtr } from "../../pointers/timelinePausedPtr"
 
 container.appendChild(uiContainer)
 uiContainer.appendChild(overlayContainer)
@@ -25,7 +26,7 @@ getSplitView((val) => {
 })
 createEffect(() => {
     uiContainer.style.display =
-        getUILayer() || !getTimelinePaused() ? "block" : "none"
+        getUILayer() || !timelinePausedPtr[0] ? "block" : "none"
 }, [getUILayer, getTimelinePaused])
 
 export const containerBounds = [container.getBoundingClientRect()]

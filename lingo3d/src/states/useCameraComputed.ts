@@ -4,11 +4,12 @@ import { getCameraStack } from "./useCameraStack"
 import { getEditorCamera } from "./useEditorCamera"
 import { getTimelinePaused } from "./useTimelinePaused"
 import { getWorldPlay } from "./useWorldPlay"
+import { timelinePausedPtr } from "../pointers/timelinePausedPtr"
 
 export const [setCameraComputed, getCameraComputed] = store(mainCamera)
 
 createEffect(() => {
-    if (!getTimelinePaused() || getWorldPlay()) {
+    if (!timelinePausedPtr[0] || getWorldPlay()) {
         setCameraComputed(
             getCameraStack().at(-1) ?? getEditorCamera() ?? mainCamera
         )

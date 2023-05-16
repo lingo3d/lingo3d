@@ -1,15 +1,17 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
-import {
-    addSyncTimelineFrameSystem,
-    deleteSyncTimelineFrameSystem
-} from "../systems/syncTimelineFrameSystem"
 import { getTimeline } from "./useTimeline"
 import getReactive from "../utils/getReactive"
 import { timelinePtr } from "../pointers/timelinePtr"
+import { timelinePausedPtr } from "../pointers/timelinePausedPtr"
 
 const [setTimelinePaused, getTimelinePaused] = store(true)
 export { getTimelinePaused }
+
+getTimelinePaused((paused) => {
+    timelinePausedPtr[0] = paused
+    !paused && emitSelectionTarget(undefined)
+})
 
 createEffect(() => {
     const [timeline] = timelinePtr
@@ -21,15 +23,3 @@ createEffect(() => {
         setTimelinePaused(true)
     }
 }, [getTimeline])
-
-createEffect(() => {
-    const [timeline] = timelinePtr
-    if (!timeline || getTimelinePaused()) return
-
-    emitSelectionTarget(undefined)
-
-    addSyncTimelineFrameSystem(timeline)
-    return () => {
-        deleteSyncTimelineFrameSystem(timeline)
-    }
-}, [getTimeline, getTimelinePaused])

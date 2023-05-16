@@ -1,36 +1,10 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
-import { getTimelineFrame } from "../../states/useTimelineFrame"
-import { useEffect, useRef } from "preact/hooks"
-import store, { createEffect } from "@lincode/reactivity"
-import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
-import { timelineFramePtr } from "../../pointers/timelineFramePtr"
+import { useRef } from "preact/hooks"
+import { timelineNeedlePtr } from "../../pointers/timelineNeedlePtr"
 
 const Needle = () => {
     const ref = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const div = ref.current
-        if (!div) return
-
-        const [setTimelineScrollLeft, getTimelineScrollLeft] = store(
-            timelineScrollLeftSignal.value
-        )
-        //todo: use system for synchronization
-        const unsubscribe = timelineScrollLeftSignal.subscribe(
-            setTimelineScrollLeft
-        )
-        const handle = createEffect(() => {
-            const scrollLeft = getTimelineScrollLeft()
-            div.style.left = `${
-                -scrollLeft + timelineFramePtr[0] * FRAME_WIDTH
-            }px`
-        }, [getTimelineFrame, getTimelineScrollLeft])
-
-        return () => {
-            handle.cancel()
-            unsubscribe()
-        }
-    }, [])
+    timelineNeedlePtr[0] = ref.current
 
     return (
         <div
