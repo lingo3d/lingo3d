@@ -12,7 +12,6 @@ import AnimationStates from "./AnimationStates"
 import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 import getClipAction from "../../../memo/getClipAction"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
-import { Cancellable } from "@lincode/promiselikes"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -24,8 +23,8 @@ export default class AnimationManager
     public static defaults = animationManagerDefaults
     public static schema = animationManagerSchema
 
-    public $configHandle?: Cancellable
     public $action?: AnimationAction
+    public $mixer: AnimationMixer
 
     private _clip?: AnimationClip
     public get $clip() {
@@ -39,6 +38,7 @@ export default class AnimationManager
         this._clip = val
         if (val) this.$action = getClipAction(this.$mixer, val)
         addConfigAnimationPlaybackSystem(this.$animationStates)
+        this.lastFrame = val ? Math.ceil(val.duration * STANDARD_FRAME) : 0
     }
 
     private _paused = true
@@ -51,13 +51,7 @@ export default class AnimationManager
         addConfigAnimationPlaybackSystem(this.$animationStates)
     }
 
-    public $mixer: AnimationMixer
-
-    public clipTotalFrames = 0
-    public audioTotalFrames = 0
-    public get totalFrames() {
-        return Math.max(this.clipTotalFrames, this.audioTotalFrames)
-    }
+    public lastFrame = 0
 
     public constructor(
         name: string | undefined,

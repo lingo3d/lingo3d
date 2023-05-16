@@ -38,7 +38,7 @@ const TimelineControls = () => {
                     onClick={
                         timeline
                             ? () => {
-                                  if (timeline.frame >= timeline.totalFrames)
+                                  if (timeline.frame >= timeline.lastFrame)
                                       timeline.frame = 0
                                   emitTimelineHighlightFrame(undefined)
                                   timeline.paused = false

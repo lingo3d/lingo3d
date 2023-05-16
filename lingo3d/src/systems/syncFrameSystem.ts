@@ -4,9 +4,9 @@ import renderSystem from "./utils/renderSystem"
 
 export const [addSyncFrameSystem, deleteSyncFrameSystem] = renderSystem(
     (timeline: Timeline) => {
-        let { frame, totalFrames } = timeline
-        if (frame >= totalFrames) {
-            frame = timeline.frame = totalFrames
+        let { frame, lastFrame } = timeline
+        if (frame >= lastFrame) {
+            frame = timeline.frame = lastFrame
             timeline.paused = true
         }
         setTimelineFrame(frame)

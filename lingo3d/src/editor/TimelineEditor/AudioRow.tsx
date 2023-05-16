@@ -15,6 +15,7 @@ import diffProps from "../utils/diffProps"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
 import { getTimelineMute } from "../../states/useTimelineMute"
+import getReactive from "../../utils/getReactive"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -23,7 +24,11 @@ type AudioRowProps = {
 
 const AudioRow = ({ instance, frames }: AudioRowProps) => {
     const src = useSyncState(instance.srcState.get)
-    const duration = useSyncState(instance.durationState.get)
+    const durationReactive = useMemo(
+        () => getReactive(instance, "duration"),
+        []
+    )
+    const duration = useSyncState(durationReactive.get)
     const frameKeys = useMemo(() => Object.keys(frames), [frames])
     const [startFrame, endFrame] = useMemo(() => {
         const startFrame = Number(frameKeys[0] ?? 0)
