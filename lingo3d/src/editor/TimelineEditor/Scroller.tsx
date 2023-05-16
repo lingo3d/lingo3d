@@ -4,10 +4,7 @@ import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFram
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
-import {
-    getTimelineFrame,
-    userSetTimelineFrame
-} from "../../states/useTimelineFrame"
+import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import { setTimelineLayer } from "../../states/useTimelineLayer"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
@@ -29,6 +26,7 @@ import {
 import { timelineDataPtr } from "../../pointers/timelineDataPtr"
 import { timelinePtr } from "../../pointers/timelinePtr"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
+import { emitTimelineFrame } from "../../events/onTimelineFrame"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()
@@ -107,7 +105,7 @@ const Scroller = () => {
                 }
 
                 const frame = Math.floor(relX / FRAME_WIDTH)
-                userSetTimelineFrame(frame)
+                emitTimelineFrame(frame)
                 emitTimelineHighlightFrame({
                     x: frame * FRAME_WIDTH,
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT

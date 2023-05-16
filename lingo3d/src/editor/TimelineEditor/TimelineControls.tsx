@@ -2,12 +2,6 @@ import AppBar from "../component/bars/AppBar"
 import IconButton from "../component/IconButton"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
-import {
-    decreaseTimelineFrame,
-    firstTimelineFrame,
-    increaseTimelineFrame,
-    lastTimelineFrame
-} from "../../states/useTimelineFrame"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import FirstFrameIcon from "./icons/FirstFrameIcon"
 import LastFrameIcon from "./icons/LastFrameIcon"
@@ -23,6 +17,9 @@ import AudioIcon from "./icons/AudioIcon"
 import { getTimelineMute, setTimelineMute } from "../../states/useTimelineMute"
 import MuteIcon from "./icons/MuteIcon"
 import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
+import { emitTimelineFrame } from "../../events/onTimelineFrame"
+import { timelineFramePtr } from "../../pointers/timelineFramePtr"
+import { timelinePtr } from "../../pointers/timelinePtr"
 
 const TimelineControls = () => {
     const timeline = useSyncState(getTimeline)
@@ -64,17 +61,31 @@ const TimelineControls = () => {
                 </IconButton>
             )}
 
-            <IconButton disabled={!timeline} onClick={decreaseTimelineFrame}>
+            <IconButton
+                disabled={!timeline}
+                onClick={() =>
+                    emitTimelineFrame(Math.max(timelineFramePtr[0] - 1, 0))
+                }
+            >
                 <PrevFrameIcon />
             </IconButton>
-            <IconButton disabled={!timeline} onClick={increaseTimelineFrame}>
+            <IconButton
+                disabled={!timeline}
+                onClick={() => emitTimelineFrame(timelineFramePtr[0] + 1)}
+            >
                 <NextFrameIcon />
             </IconButton>
 
-            <IconButton disabled={!timeline} onClick={firstTimelineFrame}>
+            <IconButton
+                disabled={!timeline}
+                onClick={() => emitTimelineFrame(0)}
+            >
                 <FirstFrameIcon />
             </IconButton>
-            <IconButton disabled={!timeline} onClick={lastTimelineFrame}>
+            <IconButton
+                disabled={!timeline}
+                onClick={() => emitTimelineFrame(timelinePtr[0]!.lastFrame)}
+            >
                 <LastFrameIcon />
             </IconButton>
             <IconButton
