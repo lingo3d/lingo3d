@@ -19,6 +19,11 @@ import {
     deleteDisposeTimelineInstanceSystem
 } from "../systems/eventSystems/disposeTimelineInstanceSystem"
 import { timelinePtr } from "../pointers/timelinePtr"
+import { transformControlsModePtr } from "../pointers/transformControlsModePtr"
+import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import MeshAppendable from "../display/core/MeshAppendable"
+import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import getTransformControlsData from "../display/utils/getTransformControlsData"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -43,6 +48,12 @@ createEffect(() => {
 //property name, from value, to value
 type ChangedProperties = Array<[string, FrameValue, FrameValue]>
 
+const diffObjects = (prev: Record<string, any>, next: Record<string, any>) => {
+    const diff: Record<string, any> = {}
+    for (const [k, v] of Object.entries(next)) if (v !== prev[k]) diff[k] = v
+    return diff
+}
+
 createEffect(() => {
     const [timelineData] = timelineDataPtr
     const [timeline] = timelinePtr
@@ -52,8 +63,18 @@ createEffect(() => {
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
 
-    const handle0 = onTransformControls((phase) => {})
-    const handle1 = onEditorEdit(({ phase, value }) => {})
+    let prev: Record<string, any> | undefined
+    const handle0 = onTransformControls((phase) => {
+        const [target] = selectionTargetPtr
+        if (phase === "start") {
+            prev = getTransformControlsData(target)
+            return
+        }
+        const next = getTransformControlsData(target)!
+        const diff = diffObjects(prev!, next)
+        console.log(diff)
+    })
+    const handle1 = onEditorEdit(({ phase, value, key }) => {})
 
     // const handle0 = onEditorChanges((changes) => {
     //     const changeData: AnimationData = {}
