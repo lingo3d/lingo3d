@@ -10,13 +10,14 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import useSyncState from "../hooks/useSyncState"
-import { getTimeline, setTimeline } from "../../states/useTimeline"
+import { setTimeline } from "../../states/useTimeline"
 import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { uuidMap } from "../../collections/idCollections"
+import { timelinePtr } from "../../pointers/timelinePtr"
 
 export const timelineContextMenuSignal: Signal<
     | (Point & {
@@ -39,7 +40,7 @@ const TimelineContextMenu = () => {
                     ? {
                           label: "Audio src",
                           onInput: (value) => {
-                              const timeline = getTimeline()
+                              const [timeline] = timelinePtr
                               if (!timeline) return
 
                               const audio = new TimelineAudio()
@@ -126,7 +127,7 @@ const TimelineContextMenu = () => {
                                               [uuid, property, frame],
                                               value
                                           )
-                              getTimeline()?.mergeData(data)
+                              timelinePtr[0]?.mergeData(data)
                               timelineContextMenuSignal.value = undefined
                           }
                         : undefined

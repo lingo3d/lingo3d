@@ -3,8 +3,6 @@ import { useEffect } from "preact/hooks"
 import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
-import { getTimeline } from "../../states/useTimeline"
-import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import {
     getTimelineFrame,
@@ -28,6 +26,8 @@ import {
     minFramePtr,
     framesWidthPtr
 } from "../../pointers/timelineRulerPointers"
+import { timelineDataPtr } from "../../pointers/timelineDataPtr"
+import { timelinePtr } from "../../pointers/timelinePtr"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()
@@ -74,10 +74,9 @@ const Scroller = () => {
             }
             onMouseDown={(e) => {
                 const el = scrollRef.current
-                const [timelineData] = getTimelineData()
+                const [timelineData] = timelineDataPtr
                 const [expandedUUIDs] = getTimelineExpandedUUIDs()
-                const timeline = getTimeline()
-                if (!el || !timelineData || !timeline) return
+                if (!el || !timelineData || !timelinePtr[0]) return
 
                 const bounds = el.getBoundingClientRect()
                 const relX = e.clientX - bounds.x + el.scrollLeft

@@ -3,13 +3,14 @@ import Timeline from "../display/Timeline"
 import { emitTimelineHighlightFrame } from "../events/onTimelineHighlightFrame"
 import { emitTimelineSeekScrollLeft } from "../events/onTimelineSeekScrollLeft"
 import { getTimeline } from "./useTimeline"
+import { timelinePtr } from "../pointers/timelinePtr"
 
 export const [setTimelineFrame, getTimelineFrame] = store(-1)
 
 export const userSetTimelineFrame = (
     frame: number | ((timeline: Timeline) => number)
 ) => {
-    const timeline = getTimeline()
+    const [timeline] = timelinePtr
     if (!timeline) return
 
     setTimelineFrame(

@@ -4,11 +4,14 @@ import {
     addDisposeStateSystem,
     deleteDisposeStateSystem
 } from "../systems/eventSystems/disposeStateSystem"
+import { timelinePtr } from "../pointers/timelinePtr"
 
 export const [setTimeline, getTimeline] = store<Timeline | undefined>(undefined)
 
+getTimeline((val) => (timelinePtr[0] = val))
+
 createEffect(() => {
-    const timeline = getTimeline()
+    const [timeline] = timelinePtr
     if (!timeline) return
     addDisposeStateSystem(timeline, { setState: setTimeline })
     return () => {

@@ -6,12 +6,13 @@ import {
 } from "../systems/syncFrameSystem"
 import { getTimeline } from "./useTimeline"
 import getReactive from "../utils/getReactive"
+import { timelinePtr } from "../pointers/timelinePtr"
 
 const [setTimelinePaused, getTimelinePaused] = store(true)
 export { getTimelinePaused }
 
 createEffect(() => {
-    const timeline = getTimeline()
+    const [timeline] = timelinePtr
     if (!timeline) return
 
     const handle = getReactive(timeline, "paused").get(setTimelinePaused)
@@ -22,7 +23,7 @@ createEffect(() => {
 }, [getTimeline])
 
 createEffect(() => {
-    const timeline = getTimeline()
+    const [timeline] = timelinePtr
     if (!timeline || getTimelinePaused()) return
 
     emitSelectionTarget(undefined)

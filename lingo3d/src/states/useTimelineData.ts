@@ -3,7 +3,7 @@ import { getTimelineFrame } from "./useTimelineFrame"
 import { merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
-import { AnimationData } from "../interface/IAnimationManager"
+import { AnimationData, FrameValue } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
@@ -11,14 +11,24 @@ import { getTimelineRecord } from "./useTimelineRecord"
 import { uuidMap } from "../collections/idCollections"
 import { keyframesPtr } from "../pointers/keyframesPtr"
 import getReactive from "../utils/getReactive"
+import { onTransformControls } from "../events/onTransformControls"
+import { onEditorEdit } from "../events/onEditorEdit"
+import { timelineDataPtr } from "../pointers/timelineDataPtr"
+import {
+    addDisposeTimelineInstanceSystem,
+    deleteDisposeTimelineInstanceSystem
+} from "../systems/eventSystems/disposeTimelineInstanceSystem"
+import { timelinePtr } from "../pointers/timelinePtr"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
 ])
 export { getTimelineData }
 
+getTimelineData(([val]) => (timelineDataPtr[0] = val))
+
 createEffect(() => {
-    const timeline = getTimeline()
+    const [timeline] = timelinePtr
     if (!timeline) return
 
     const handle = getReactive(timeline, "data").get((data) =>
@@ -30,14 +40,20 @@ createEffect(() => {
     }
 }, [getTimeline])
 
+//property name, from value, to value
+type ChangedProperties = Array<[string, FrameValue, FrameValue]>
+
 createEffect(() => {
-    const [timelineData] = getTimelineData()
-    const timeline = getTimeline()
+    const [timelineData] = timelineDataPtr
+    const [timeline] = timelinePtr
     if (!timelineData || !timeline || !getTimelineRecord()) return
 
     const timelineInstances = new WeakSet(
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
+
+    const handle0 = onTransformControls((phase) => {})
+    const handle1 = onEditorEdit(({ phase, value }) => {})
 
     // const handle0 = onEditorChanges((changes) => {
     //     const changeData: AnimationData = {}
@@ -75,15 +91,12 @@ createEffect(() => {
     //     timeline.mergeData(changeData)
     // })
 
-    const handle1 = onDispose((item) => {
-        if (!timelineInstances.has(item)) return
-        delete timelineData[item.uuid]
-        timeline.data = timelineData
-    })
+    addDisposeTimelineInstanceSystem(timelineInstances)
 
     return () => {
-        // handle0.cancel()
+        handle0.cancel()
         handle1.cancel()
+        deleteDisposeTimelineInstanceSystem(timelineInstances)
     }
 }, [getTimelineData, getTimelineRecord])
 
@@ -96,8 +109,8 @@ export const processKeyframe = (
     ) => void,
     skipRefresh?: boolean
 ) => {
-    const [timelineData] = getTimelineData()
-    const timeline = getTimeline()
+    const [timelineData] = timelineDataPtr
+    const [timeline] = timelinePtr
     if (!timelineData || !timeline) return
 
     const layer = getTimelineLayer()!
