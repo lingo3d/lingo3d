@@ -3,6 +3,7 @@ import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { useEffect, useRef } from "preact/hooks"
 import store, { createEffect } from "@lincode/reactivity"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
+import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 
 const Needle = () => {
     const ref = useRef<HTMLDivElement>(null)
@@ -14,13 +15,15 @@ const Needle = () => {
         const [setTimelineScrollLeft, getTimelineScrollLeft] = store(
             timelineScrollLeftSignal.value
         )
+        //todo: use system for synchronization
         const unsubscribe = timelineScrollLeftSignal.subscribe(
             setTimelineScrollLeft
         )
         const handle = createEffect(() => {
-            const frame = getTimelineFrame()
             const scrollLeft = getTimelineScrollLeft()
-            div.style.left = `${-scrollLeft + frame * FRAME_WIDTH}px`
+            div.style.left = `${
+                -scrollLeft + timelineFramePtr[0] * FRAME_WIDTH
+            }px`
         }, [getTimelineFrame, getTimelineScrollLeft])
 
         return () => {

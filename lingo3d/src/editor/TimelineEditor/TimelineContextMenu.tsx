@@ -12,12 +12,12 @@ import MenuButton from "../component/MenuButton"
 import useSyncState from "../hooks/useSyncState"
 import { setTimeline } from "../../states/useTimeline"
 import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
-import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { uuidMap } from "../../collections/idCollections"
 import { timelinePtr } from "../../pointers/timelinePtr"
+import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 
 export const timelineContextMenuSignal: Signal<
     | (Point & {
@@ -113,7 +113,7 @@ const TimelineContextMenu = () => {
                     dataCopied
                         ? () => {
                               const data: AnimationData = {}
-                              const frame = getTimelineFrame() + ""
+                              const frame = timelineFramePtr[0] + ""
                               for (const [uuid, properties] of Object.entries(
                                   dataCopied
                               ))

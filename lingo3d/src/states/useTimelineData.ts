@@ -24,6 +24,7 @@ import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import getTransformControlsData from "../display/utils/getTransformControlsData"
+import { timelineFramePtr } from "../pointers/timelineFramePtr"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -78,7 +79,7 @@ createEffect(() => {
 
     // const handle0 = onEditorChanges((changes) => {
     //     const changeData: AnimationData = {}
-    //     const frame = getTimelineFrame()
+    //     const [frame] = timelineFramePtr
     //     const [keyframes] = keyframesPtr
     //     for (const [instance, changedProperties] of changes) {
     //         if (!timelineInstances.has(instance)) continue
@@ -135,7 +136,7 @@ export const processKeyframe = (
     if (!timelineData || !timeline) return
 
     const layer = getTimelineLayer()!
-    const frame = getTimelineFrame() + ""
+    const frame = timelineFramePtr[0] + ""
     const path = layer.split(" ")
 
     if (path.length === 1)

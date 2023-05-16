@@ -4,8 +4,11 @@ import { emitTimelineHighlightFrame } from "../events/onTimelineHighlightFrame"
 import { emitTimelineSeekScrollLeft } from "../events/onTimelineSeekScrollLeft"
 import { getTimeline } from "./useTimeline"
 import { timelinePtr } from "../pointers/timelinePtr"
+import { timelineFramePtr } from "../pointers/timelineFramePtr"
 
 export const [setTimelineFrame, getTimelineFrame] = store(-1)
+
+getTimelineFrame((val) => (timelineFramePtr[0] = val))
 
 export const userSetTimelineFrame = (
     frame: number | ((timeline: Timeline) => number)
@@ -22,10 +25,10 @@ export const userSetTimelineFrame = (
 }
 
 export const increaseTimelineFrame = () =>
-    userSetTimelineFrame(getTimelineFrame() + 1)
+    userSetTimelineFrame(timelineFramePtr[0] + 1)
 
 export const decreaseTimelineFrame = () =>
-    userSetTimelineFrame(Math.max(getTimelineFrame() - 1, 0))
+    userSetTimelineFrame(Math.max(timelineFramePtr[0] - 1, 0))
 
 export const firstTimelineFrame = () => userSetTimelineFrame(0)
 

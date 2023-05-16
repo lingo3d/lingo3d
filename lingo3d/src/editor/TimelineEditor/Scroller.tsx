@@ -28,6 +28,7 @@ import {
 } from "../../pointers/timelineRulerPointers"
 import { timelineDataPtr } from "../../pointers/timelineDataPtr"
 import { timelinePtr } from "../../pointers/timelinePtr"
+import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()
@@ -38,7 +39,7 @@ const Scroller = () => {
         if (!el) return
 
         const seek = () => {
-            const frameDiv = getTimelineFrame() / 5
+            const frameDiv = timelineFramePtr[0] / 5
             const ceilFrame = Math.ceil(frameDiv) * 5
             const floorFrame = Math.floor(frameDiv) * 5
             if (ceilFrame > maxFramePtr[0])
@@ -50,6 +51,7 @@ const Scroller = () => {
         const handle = createEffect(() => {
             if (getTimelinePaused()) return
 
+            //todo: use system for seek
             const frameHandle = getTimelineFrame(seek)
             return () => {
                 frameHandle.cancel()
