@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { unset } from "@lincode/utils"
+import { merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
 import { AnimationData, FrameValue } from "../interface/IAnimationManager"
@@ -15,9 +15,13 @@ import {
     deleteDisposeTimelineInstanceSystem
 } from "../systems/eventSystems/disposeTimelineInstanceSystem"
 import { timelinePtr } from "../pointers/timelinePtr"
-import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import getTransformControlsData from "../display/utils/getTransformControlsData"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
+import getAllSelectionTargets from "../throttle/getAllSelectionTargets"
+import Appendable from "../display/core/Appendable"
+import { flushMultipleSelectionTargets } from "./useMultipleSelectionTargets"
+import { keyframesPtr } from "../pointers/keyframesPtr"
+import unsafeGetValue from "../utils/unsafeGetValue"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -57,54 +61,57 @@ createEffect(() => {
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
 
-    let prev: Record<string, any> | undefined
+    const prevMap = new WeakMap<Appendable, Record<string, any>>()
     const handle0 = onTransformControls((phase) => {
-        const [target] = selectionTargetPtr
         if (phase === "start") {
-            prev = getTransformControlsData(target)
+            flushMultipleSelectionTargets(() => {
+                for (const instance of getAllSelectionTargets()) {
+                    if (!timelineInstances.has(instance)) continue
+                    prevMap.set(instance, getTransformControlsData(instance)!)
+                }
+            })
             return
         }
-        const next = getTransformControlsData(target)!
-        const diff = diffObjects(prev!, next)
-        console.log(diff)
+        flushMultipleSelectionTargets(() => {
+            const changeData: AnimationData = {}
+            const [frame] = timelineFramePtr
+            const [keyframes] = keyframesPtr
+            for (const instance of getAllSelectionTargets()) {
+                if (!timelineInstances.has(instance)) continue
+                const diff = diffObjects(
+                    prevMap.get(instance)!,
+                    getTransformControlsData(instance)!
+                )
+                const { uuid } = instance
+                const uuidData = timelineData[uuid]
+                const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
+                for (const [property, saved] of Object.entries(diff)) {
+                    let prevFrame = 0
+                    let nextFrame = frame
+                    for (const frameNum of keyframeNums) {
+                        if (frameNum > frame) {
+                            nextFrame = frameNum
+                            break
+                        }
+                        if (frameNum < frame) prevFrame = frameNum
+                    }
+                    const propertyData = uuidData[property] ?? {}
+                    merge(changeData, {
+                        [uuid]: {
+                            [property]: {
+                                [prevFrame]: propertyData[prevFrame] ?? saved,
+                                [nextFrame]: propertyData[nextFrame] ?? saved,
+                                [frame]: unsafeGetValue(instance, property)
+                            }
+                        }
+                    })
+                }
+            }
+            timeline.mergeData(changeData)
+            console.log(timeline.data)
+        })
     })
     const handle1 = onEditorEdit(({ phase, value, key }) => {})
-
-    // const handle0 = onEditorChanges((changes) => {
-    //     const changeData: AnimationData = {}
-    //     const [frame] = timelineFramePtr
-    //     const [keyframes] = keyframesPtr
-    //     for (const [instance, changedProperties] of changes) {
-    //         if (!timelineInstances.has(instance)) continue
-
-    //         const { uuid } = instance
-    //         const uuidData = timelineData[uuid]
-    //         const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
-    //         for (const [property, saved] of changedProperties) {
-    //             let prevFrame = 0
-    //             let nextFrame = frame
-    //             for (const frameNum of keyframeNums) {
-    //                 if (frameNum > frame) {
-    //                     nextFrame = frameNum
-    //                     break
-    //                 }
-    //                 if (frameNum < frame) prevFrame = frameNum
-    //             }
-    //             const propertyData = uuidData[property] ?? {}
-    //             merge(changeData, {
-    //                 [uuid]: {
-    //                     [property]: {
-    //                         [prevFrame]: propertyData[prevFrame] ?? saved,
-    //                         [nextFrame]: propertyData[nextFrame] ?? saved,
-    //                         [frame]: unsafeGetValue(instance, property)
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //     }
-    //     //mark
-    //     timeline.mergeData(changeData)
-    // })
 
     addDisposeTimelineInstanceSystem(timelineInstances)
 
