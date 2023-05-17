@@ -1,4 +1,4 @@
-import { LoopOnce, LoopRepeat } from "three"
+import { LoopRepeat } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationStates"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
@@ -49,12 +49,8 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             animationStates.gotoFrame = undefined
         }
         if (typeof animationStates.loop === "number")
-            action.setLoop(
-                animationStates.loop > 1 ? LoopRepeat : LoopOnce,
-                animationStates.loop
-            )
-        else if (animationStates.loop) action.setLoop(LoopRepeat, Infinity)
-        else action.setLoop(LoopOnce, 1)
+            action.setLoop(LoopRepeat, animationStates.loop)
+        else action.setLoop(LoopRepeat, animationStates.loop ? Infinity : 0)
 
         action.clampWhenFinished = true
         action.enabled = true
