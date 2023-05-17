@@ -1,13 +1,6 @@
-import { Point } from "@lincode/math"
-import { signal } from "@preact/signals"
 import { memo } from "preact/compat"
-import { onTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
 import { FRAME_HEIGHT, FRAME_WIDTH } from "../../globals"
-import { getTimelineLayer } from "../../states/useTimelineLayer"
-
-const frameIndicatorSignal = signal<Point | undefined>(undefined)
-onTimelineHighlightFrame((pt) => (frameIndicatorSignal.value = pt))
-getTimelineLayer(() => (frameIndicatorSignal.value = undefined))
+import { frameIndicatorSignal } from "./frameIndicatorSignal"
 
 const FrameIndicator = () => {
     const pt = frameIndicatorSignal.value
