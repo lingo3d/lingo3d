@@ -43,12 +43,15 @@ createEffect(() => {
     }
 }, [getTimeline])
 
-//property name, from value, to value
-type ChangedProperties = Array<[string, FrameValue, FrameValue]>
-
-const diffObjects = (prev: Record<string, any>, next: Record<string, any>) => {
-    const diff: Record<string, any> = {}
-    for (const [k, v] of Object.entries(next)) if (v !== prev[k]) diff[k] = v
+const diffObjects = (
+    prev: Record<string, FrameValue>,
+    next: Record<string, FrameValue>
+) => {
+    const diff: Record<string, [FrameValue, FrameValue]> = {}
+    for (const [k, v] of Object.entries(next)) {
+        const vOld = prev[k]
+        if (v !== vOld) diff[k] = [vOld, v]
+    }
     return diff
 }
 
@@ -78,14 +81,15 @@ createEffect(() => {
             const [keyframes] = keyframesPtr
             for (const instance of getAllSelectionTargets()) {
                 if (!timelineInstances.has(instance)) continue
-                const diff = diffObjects(
-                    prevMap.get(instance)!,
-                    getTransformControlsData(instance)!
-                )
                 const { uuid } = instance
                 const uuidData = timelineData[uuid]
                 const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
-                for (const [property, saved] of Object.entries(diff)) {
+                for (const [property, [valueOld, valueNew]] of Object.entries(
+                    diffObjects(
+                        prevMap.get(instance)!,
+                        getTransformControlsData(instance)!
+                    )
+                )) {
                     let prevFrame = 0
                     let nextFrame = frame
                     for (const frameNum of keyframeNums) {
@@ -99,8 +103,10 @@ createEffect(() => {
                     merge(changeData, {
                         [uuid]: {
                             [property]: {
-                                [prevFrame]: propertyData[prevFrame] ?? saved,
-                                [nextFrame]: propertyData[nextFrame] ?? saved,
+                                [prevFrame]:
+                                    propertyData[prevFrame] ?? valueOld,
+                                [nextFrame]:
+                                    propertyData[nextFrame] ?? valueNew,
                                 [frame]: unsafeGetValue(instance, property)
                             }
                         }
@@ -108,7 +114,6 @@ createEffect(() => {
                 }
             }
             timeline.mergeData(changeData)
-            console.log(timeline.data)
         })
     })
     const handle1 = onEditorEdit(({ phase, value, key }) => {})

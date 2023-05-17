@@ -3,7 +3,9 @@ import Appendable from "../core/Appendable"
 import MeshAppendable from "../core/MeshAppendable"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 
-export default (target: Appendable | undefined) => {
+export default (
+    target: Appendable | undefined
+): Record<string, number> | undefined => {
     if (!(target instanceof MeshAppendable)) return
     const [mode] = transformControlsModePtr
     if (mode === "scale" && target instanceof SimpleObjectManager)

@@ -33,7 +33,7 @@ onTransformControls((phase) => {
             for (const target of getAllSelectionTargets()) {
                 const data = getTransformControlsData(target)
                 if (!data) continue
-                commandRecord[target!.uuid] = {
+                commandRecord[target.uuid] = {
                     command: "update",
                     commandPrev: data
                 }
@@ -45,7 +45,7 @@ onTransformControls((phase) => {
         for (const target of getAllSelectionTargets()) {
             const data = getTransformControlsData(target)
             if (!data) continue
-            ;(commandRecord[target!.uuid] as UpdateCommand).commandNext = data
+            ;(commandRecord[target.uuid] as UpdateCommand).commandNext = data
         }
         pushUndoStack(commandRecord)
         commandRecord = {}
