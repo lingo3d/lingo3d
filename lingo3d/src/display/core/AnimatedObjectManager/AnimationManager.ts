@@ -41,14 +41,15 @@ export default class AnimationManager
         this.lastFrame = val ? Math.ceil(val.duration * STANDARD_FRAME) : 0
     }
 
-    private _paused = true
     public get paused() {
-        return this._paused || this.$animationStates.manager !== this
+        return (
+            this.$animationStates.paused ||
+            this.$animationStates.manager !== this
+        )
     }
     public set paused(val) {
-        this._paused = val
         if (!val) this.$animationStates.manager = this
-        addConfigAnimationPlaybackSystem(this.$animationStates)
+        this.$animationStates.paused = val
     }
 
     public lastFrame = 0
