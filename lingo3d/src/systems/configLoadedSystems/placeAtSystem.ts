@@ -15,7 +15,7 @@ export const [addPlaceAtSystem] = configLoadedSystemWithData(
     (self, { target }: Data) => {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
-            if (!(found instanceof MeshAppendable)) return
+            if (!("outerObject3d" in found)) return
             target = found
         }
         if ("outerObject3d" in target) {
