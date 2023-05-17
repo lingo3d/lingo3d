@@ -40,9 +40,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
         context.manager = manager
         if (prevManager && prevManager !== manager) {
             action.crossFadeFrom(prevManager.$action!, 0.25, true)
-            if (animationStates.gotoFrame === undefined) {
-                action.time = 0
-            }
+            if (animationStates.gotoFrame === undefined) action.time = 0
         }
         if (animationStates.gotoFrame !== undefined) {
             action.time = animationStates.gotoFrame * INVERSE_STANDARD_FRAME
