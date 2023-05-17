@@ -1,4 +1,3 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { clearMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
@@ -9,6 +8,7 @@ import {
     setSelectionFocus
 } from "../../states/useSelectionFocus"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import Curve from "../../display/Curve"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
@@ -16,30 +16,24 @@ createEffect(() => {
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
-    const handle = new Cancellable()
-    import("../../display/Curve").then(({ default: Curve }) => {
-        if (handle.done) return
+    const curve = new Curve()
+    curve.helper = true
 
-        const curve = new Curve()
-        curve.helper = true
-        const prevSelectionFocus = getSelectionFocus()
-        setSelectionFocus(curve)
+    const prevSelectionFocus = getSelectionFocus()
+    setSelectionFocus(curve)
 
-        const handle1 = onMouseClick((e) => {
-            const [selected] = selectionTargetPtr
-            setTimeout(() => {
-                if (handle.done || selectionTargetPtr[0] || selected) return
-                curve.addPoint(e.point)
-            }, 10)
-        })
-        handle.then(() => {
-            curve.helper = false
-            curve.points.length < 2 && curve.dispose()
-            handle1.cancel()
-            setSelectionFocus(prevSelectionFocus)
-        })
+    const handle = onMouseClick((e) => {
+        const [selected] = selectionTargetPtr
+        //todo: setTimeout alternative?
+        setTimeout(() => {
+            if (handle.done || selectionTargetPtr[0] || selected) return
+            curve.addPoint(e.point)
+        }, 10)
     })
     return () => {
+        curve.helper = false
+        curve.points.length < 2 && curve.dispose()
+        setSelectionFocus(prevSelectionFocus)
         handle.cancel()
     }
 }, [getEditorModeComputed])

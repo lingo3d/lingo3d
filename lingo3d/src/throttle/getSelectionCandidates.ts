@@ -10,6 +10,7 @@ import { getSelectionFocus } from "../states/useSelectionFocus"
 import { getSelectionFrozen } from "../states/useSelectionFrozen"
 import throttleFrameTrailing from "./utils/throttleFrameTrailing"
 import { selectionFrozenSet } from "../collections/selectionFrozenSet"
+import { getFoundManager } from "../display/core/utils/getFoundManager"
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>
@@ -23,8 +24,7 @@ const traverse = (
     }
 }
 
-const traverseFocusChildren = async (selectionFocus: MeshAppendable) => {
-    const { getFoundManager } = await import("../display/core/utils/getFoundManager")
+const traverseFocusChildren = (selectionFocus: MeshAppendable) => {
     selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
         if (
             child === selectionFocus.outerObject3d ||
