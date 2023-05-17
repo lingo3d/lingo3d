@@ -13,12 +13,21 @@ export default class AnimationStates {
         addConfigAnimationPlaybackSystem(this)
     }
 
-    private _paused = true
+    private _paused = false
     public get paused() {
         return this._paused
     }
     public set paused(val) {
         this._paused = val
+        addConfigAnimationPlaybackSystem(this)
+    }
+
+    private _loop: boolean | number = true
+    public get loop() {
+        return this._loop
+    }
+    public set loop(val) {
+        this._loop = val
         addConfigAnimationPlaybackSystem(this)
     }
 

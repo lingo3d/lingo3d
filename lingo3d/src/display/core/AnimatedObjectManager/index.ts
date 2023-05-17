@@ -80,14 +80,18 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.$animationStates.managerRecord = val
     }
 
-    private _animationPaused?: boolean
     public get animationPaused() {
-        return this._animationPaused
+        return this.$animationStates.paused
     }
     public set animationPaused(value) {
-        this._animationPaused = value
-        const { manager } = this.$animationStates
-        if (manager) manager.paused = !!value
+        this.$animationStates.paused = value
+    }
+
+    public get animationLoop() {
+        return this.$animationStates.loop
+    }
+    public set animationLoop(value) {
+        this.$animationStates.loop = value
     }
 
     public get serializeAnimation() {

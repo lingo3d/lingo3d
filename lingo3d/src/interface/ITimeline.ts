@@ -13,5 +13,5 @@ export const timelineSchema: Required<ExtractProps<ITimeline>> = {
 
 export const timelineDefaults = extendDefaults<ITimeline>(
     [animationManagerDefaults],
-    {}
+    { paused: true, loop: false }
 )

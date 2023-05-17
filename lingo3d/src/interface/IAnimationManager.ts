@@ -23,6 +23,7 @@ export type AnimationData = Record<
 
 export default interface IAimationManager extends IAppendable {
     paused: boolean
+    loop: boolean | number
     data: Nullable<AnimationData>
 }
 
@@ -30,10 +31,11 @@ export const animationManagerSchema: Required<ExtractProps<IAimationManager>> =
     {
         ...appendableSchema,
         paused: Boolean,
+        loop: [Boolean, Number],
         data: Object
     }
 
 export const animationManagerDefaults = extendDefaults<IAimationManager>(
     [appendableDefaults],
-    { paused: true, data: undefined }
+    { paused: true, loop: true, data: undefined }
 )

@@ -2,7 +2,6 @@ import AnimationManager from "../display/core/AnimatedObjectManager/AnimationMan
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
-import { nullableDefault } from "./utils/NullableDefault"
 import IMeshAppendable, {
     meshAppendableDefaults,
     meshAppendableSchema
@@ -14,7 +13,8 @@ export type Animation = string | number | boolean | AnimationValue
 export default interface IAnimatedObjectManager extends IMeshAppendable {
     animations: Record<string, string | AnimationManager>
     animation: Nullable<Animation>
-    animationPaused: Nullable<boolean>
+    animationPaused: boolean
+    animationLoop: boolean | number
 }
 
 export const animatedObjectManagerSchema: Required<
@@ -24,12 +24,14 @@ export const animatedObjectManagerSchema: Required<
 
     animations: Object,
     animation: [String, Number, Boolean, Object],
-    animationPaused: Boolean
+    animationPaused: Boolean,
+    animationLoop: [Boolean, Number]
 }
 
 export const animatedObjectManagerDefaults =
     extendDefaults<IAnimatedObjectManager>([meshAppendableDefaults], {
         animations: {},
         animation: undefined,
-        animationPaused: nullableDefault(false)
+        animationPaused: false,
+        animationLoop: true
     })

@@ -1,3 +1,4 @@
+import { LoopOnce, LoopRepeat } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationStates"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
@@ -15,6 +16,9 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
 
         const mixer = manager.$mixer
         action.paused = manager.paused || animationStates.pausedCount > 0
+
+        console.log(manager.paused)
+
         if (action.paused) {
             if (animationStates.gotoFrame !== undefined) {
                 action.paused = false
@@ -28,6 +32,8 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             }
             return false
         }
+        
+        console.log(mixer)
 
         const context = getContext(mixer) as {
             manager?: AnimationManager
@@ -45,6 +51,14 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             action.time = animationStates.gotoFrame * INVERSE_STANDARD_FRAME
             animationStates.gotoFrame = undefined
         }
+        if (typeof animationStates.loop === "number")
+            action.setLoop(
+                animationStates.loop > 1 ? LoopRepeat : LoopOnce,
+                animationStates.loop
+            )
+        else if (animationStates.loop) action.setLoop(LoopRepeat, Infinity)
+        else action.setLoop(LoopOnce, 1)
+
         action.clampWhenFinished = true
         action.enabled = true
         action.play()

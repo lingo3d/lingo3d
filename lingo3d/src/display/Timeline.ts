@@ -23,5 +23,7 @@ export default class Timeline extends AnimationManager implements ITimeline {
         super("", undefined, {}, animationStates)
         animationStates.manager = this
         this.$disableSerialize = false
+        this.paused = true
+        this.loop = false
     }
 }

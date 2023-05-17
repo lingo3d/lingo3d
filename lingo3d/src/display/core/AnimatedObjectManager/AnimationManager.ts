@@ -52,6 +52,13 @@ export default class AnimationManager
         this.$animationStates.paused = val
     }
 
+    public get loop() {
+        return this.$animationStates.loop
+    }
+    public set loop(val) {
+        this.$animationStates.loop = val
+    }
+
     public lastFrame = 0
 
     public constructor(
