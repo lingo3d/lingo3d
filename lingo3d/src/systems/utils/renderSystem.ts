@@ -24,7 +24,7 @@ export default <T extends Appendable | object>(
         (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },
