@@ -17,8 +17,6 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
         const mixer = manager.$mixer
         action.paused = manager.paused || animationStates.pausedCount > 0
 
-        console.log(manager.paused)
-
         if (action.paused) {
             if (animationStates.gotoFrame !== undefined) {
                 action.paused = false
@@ -33,8 +31,6 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             return false
         }
         
-        console.log(mixer)
-
         const context = getContext(mixer) as {
             manager?: AnimationManager
             playCount?: number
