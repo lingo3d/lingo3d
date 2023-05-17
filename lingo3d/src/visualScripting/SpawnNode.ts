@@ -10,6 +10,8 @@ import ISpawnNode, {
 import Connector, { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 import { managerConnectorsMap } from "../collections/managerConnectorsMap"
+import { serializeAppendable } from "../api/serializer/serialize"
+import { createObjectWithoutTemplatePtr } from "../pointers/createObjectWithoutTemplatePtr"
 
 type CacheData = Array<
     [Appendable, GameObjectTypeWithoutTemplate, Partial<AppendableNode>]
@@ -32,18 +34,12 @@ const spawnConnectors = (
     }
 }
 
-const spawnCached = async (
-    cache: Cache,
-    patch: Map<string, Record<string, any>>
-) => {
+const spawnCached = (cache: Cache, patch: Map<string, Record<string, any>>) => {
     const { data, connectors } = cache
     const connectedUUIDs = new Map<string, string>()
-    const { default: createObjectWithoutTemplate } = await import(
-        "../api/serializer/createObjectWithoutTemplate"
-    )
     for (const [connected, type, properties] of data) {
         const manager = Object.assign(
-            createObjectWithoutTemplate(type),
+            createObjectWithoutTemplatePtr[0](type),
             properties,
             patch.get(connected.uuid)
         )
@@ -62,18 +58,12 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     private cache?: Cache
     public patch = new Map<string, Record<string, any>>()
 
-    public async spawn() {
+    public spawn() {
         if (this.cache) return spawnCached(this.cache, this.patch)
         this.cache = { data: [], connectors: new Set<Connector>() }
 
         const { data, connectors } = this.cache
         const connectedUUIDs = new Map<string, string>()
-        const { default: createObjectWithoutTemplate } = await import(
-            "../api/serializer/createObjectWithoutTemplate"
-        )
-        const { serializeAppendable } = await import(
-            "../api/serializer/serialize"
-        )
         for (const connected of findConnected(this)) {
             for (const connector of managerConnectorsMap.get(connected) ?? [])
                 connectors.add(connector)
@@ -83,7 +73,7 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
 
             const properties = omit(node, nonSerializedProperties)
             const manager = Object.assign(
-                createObjectWithoutTemplate(node.type),
+                createObjectWithoutTemplatePtr[0](node.type),
                 properties,
                 this.patch.get(connected.uuid)
             )

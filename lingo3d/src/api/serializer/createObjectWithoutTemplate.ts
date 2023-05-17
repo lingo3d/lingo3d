@@ -61,6 +61,7 @@ import Audio from "../../display/Audio"
 import Appendable from "../../display/core/Appendable"
 import Keyboard from "../../display/Keyboard"
 import Mouse from "../../display/Mouse"
+import { createObjectWithoutTemplatePtr } from "../../pointers/createObjectWithoutTemplatePtr"
 
 export type GameObjectTypeWithoutTemplate = Exclude<GameObjectType, "template">
 
@@ -128,7 +129,10 @@ export const createObjectRecord = {
     templateNode: () => new TemplateNode()
 } satisfies Record<GameObjectTypeWithoutTemplate, () => Appendable>
 
-export default <T extends GameObjectTypeWithoutTemplate>(
+const createObjectWithoutTemplate = <T extends GameObjectTypeWithoutTemplate>(
     type: T
 ): ReturnType<(typeof createObjectRecord)[T]> =>
     createObjectRecord[type]() as any
+
+export default createObjectWithoutTemplate
+createObjectWithoutTemplatePtr[0] = createObjectWithoutTemplate
