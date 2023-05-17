@@ -5,6 +5,7 @@ import { INVERSE_STANDARD_FRAME } from "../../globals"
 import getContext from "../../memo/getContext"
 import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import { onAfterRender } from "../../events/onAfterRender"
 
 export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
     (animationStates: AnimationStates) => {
@@ -30,7 +31,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             }
             return false
         }
-        
+
         const context = getContext(mixer) as {
             manager?: AnimationManager
             playCount?: number
@@ -70,5 +71,6 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
         }
         context.playCount = context.playCount! - 1
         context.playCount === 0 && deleteUpdateDTSystem(mixer)
-    }
+    },
+    onAfterRender
 )
