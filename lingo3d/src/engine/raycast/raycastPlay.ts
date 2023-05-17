@@ -1,9 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
-import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
-import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
-import { setSelectionTarget } from "../../../../states/useSelectionTarget"
+import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
+import { clearMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { setSelectionTarget } from "../../states/useSelectionTarget"
 import attachRaycastEvent from "./attachRaycastEvent"
-import VisibleMixin from "../../mixins/VisibleMixin"
+import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import {
     clickSet,
     mouseDownSet,
@@ -11,12 +11,12 @@ import {
     mouseOverSet,
     mouseOutSet,
     mouseMoveSet
-} from "../../../../collections/mouseSets"
-import { onMouseClick } from "../../../../events/onMouseClick"
-import { onMouseDown } from "../../../../events/onMouseDown"
-import { onMouseUp } from "../../../../events/onMouseUp"
-import { onMouseMove } from "../../../../events/onMouseMove"
-import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
+} from "../../collections/mouseSets"
+import { onMouseClick } from "../../events/onMouseClick"
+import { onMouseDown } from "../../events/onMouseDown"
+import { onMouseUp } from "../../events/onMouseUp"
+import { onMouseMove } from "../../events/onMouseMove"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return

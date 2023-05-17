@@ -1,14 +1,14 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
-import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
-import { setSelectionTarget } from "../../../../states/useSelectionTarget"
-import { onMouseClick } from "../../../../events/onMouseClick"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { clearMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { setSelectionTarget } from "../../states/useSelectionTarget"
+import { onMouseClick } from "../../events/onMouseClick"
 import {
     getSelectionFocus,
     setSelectionFocus
-} from "../../../../states/useSelectionFocus"
-import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
+} from "../../states/useSelectionFocus"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
@@ -17,7 +17,7 @@ createEffect(() => {
     setSelectionTarget(undefined)
 
     const handle = new Cancellable()
-    import("../../../Curve").then(({ default: Curve }) => {
+    import("../../display/Curve").then(({ default: Curve }) => {
         if (handle.done) return
 
         const curve = new Curve()

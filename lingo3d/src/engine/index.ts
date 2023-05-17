@@ -12,6 +12,7 @@ import "./defaultLight"
 import "./hotkeys"
 import "./mouse"
 import "./keyboard"
+import "./raycast"
 import { VERSION } from "../globals"
 
 const w = window as any

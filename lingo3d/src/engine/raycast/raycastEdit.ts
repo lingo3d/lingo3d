@@ -3,30 +3,30 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
-import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import {
     emitSelectionTarget,
     onSelectionTarget
-} from "../../../../events/onSelectionTarget"
-import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
-import { getMultipleSelection } from "../../../../states/useMultipleSelection"
+} from "../../events/onSelectionTarget"
+import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
+import { getMultipleSelection } from "../../states/useMultipleSelection"
 import {
     addMultipleSelectionTargets,
     deleteMultipleSelectionTargets,
     clearMultipleSelectionTargets
-} from "../../../../states/useMultipleSelectionTargets"
-import { setSelectionTarget } from "../../../../states/useSelectionTarget"
-import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
+} from "../../states/useMultipleSelectionTargets"
+import { setSelectionTarget } from "../../states/useSelectionTarget"
+import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import attachRaycastEvent from "./attachRaycastEvent"
-import { getSelectionFocus } from "../../../../states/useSelectionFocus"
-import { selectionCandidates } from "../../../../collections/selectionCandidates"
-import { rightClickPtr } from "../../../../pointers/rightClickPtr"
-import { onMouseClick } from "../../../../events/onMouseClick"
-import { onMouseRightClick } from "../../../../events/onMouseRightClick"
-import MeshAppendable from "../../MeshAppendable"
-import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
-import { getSelectionCandidates } from "../../../../throttle/getSelectionCandidates"
-import { multipleSelectionTargets } from "../../../../collections/multipleSelectionTargets"
+import { getSelectionFocus } from "../../states/useSelectionFocus"
+import { selectionCandidates } from "../../collections/selectionCandidates"
+import { rightClickPtr } from "../../pointers/rightClickPtr"
+import { onMouseClick } from "../../events/onMouseClick"
+import { onMouseRightClick } from "../../events/onMouseRightClick"
+import MeshAppendable from "../../display/core/MeshAppendable"
+import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
+import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()

@@ -7,7 +7,6 @@ import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import getWorldPosition from "../../../memo/getWorldPosition"
 import { vector3_1 } from "../../utils/reusables"
-import "../utils/raycast"
 import {
     addHitTestSystem,
     deleteHitTestSystem
