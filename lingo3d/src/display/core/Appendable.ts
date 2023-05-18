@@ -19,7 +19,7 @@ import {
 } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import { GameObjectType } from "../../api/serializer/types"
 
-type EventName = "name" | "runtimeSchema" | "transformEdit" | "loaded" | "actor"
+type EventName = "name" | "runtimeSchema" | "loaded" | "actor"
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

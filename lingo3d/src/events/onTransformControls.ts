@@ -5,6 +5,8 @@ import updateSelectionManagersPhysics from "../display/utils/updateSelectionMana
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { CommandRecord, UpdateCommand, pushUndoStack } from "../api/undoStack"
 import getTransformControlsData from "../display/utils/getTransformControlsData"
+import { emitTransformEdit } from "./onTransformEdit"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 type TransformControlsPhase = "start" | "end"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -20,8 +22,10 @@ onTransformControls((phase) => {
         phase,
         mode: transformControlsModePtr[0]
     }
+
     for (const target of getAllSelectionTargets())
-        target.$emitEvent("transformEdit", payload)
+        target instanceof MeshAppendable &&
+            emitTransformEdit({ target, phase, mode: payload.mode })
 
     updateSelectionManagersPhysics(payload)
 })
