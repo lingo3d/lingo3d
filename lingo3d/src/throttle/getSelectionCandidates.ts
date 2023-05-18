@@ -38,16 +38,14 @@ const traverseFocusChildren = (selectionFocus: MeshAppendable) => {
     })
 }
 
-export const getSelectionCandidates = throttleFrameTrailing(
-    (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
-        selectionCandidates.clear()
-        const selectionFocus = getSelectionFocus()
-        if (selectionFocus)
-            selectionFocus instanceof MeshAppendable &&
-                traverseFocusChildren(selectionFocus)
-        else traverse(targets)
-    }
-)
+export const getSelectionCandidates = throttleFrameTrailing(() => {
+    selectionCandidates.clear()
+    const selectionFocus = getSelectionFocus()
+    if (selectionFocus)
+        selectionFocus instanceof MeshAppendable &&
+            traverseFocusChildren(selectionFocus)
+    else traverse(appendableRoot)
+})
 
 getSelectionFrozen(() => {
     getSelectionCandidates()

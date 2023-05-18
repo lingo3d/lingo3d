@@ -9,6 +9,7 @@ import MeshAppendable from "./core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { Point3dType } from "../utils/isPoint"
 import { TransformControlsPayload } from "../events/onTransformControls"
+import { getSelectionCandidates } from "../throttle/getSelectionCandidates"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -87,6 +88,8 @@ export default class Curve extends MeshAppendable implements ICurve {
                 (pt, cleanup) => {
                     const helper = new HelperSphere(undefined)
                     this.append(helper)
+                    getSelectionCandidates()
+
                     helper.scale = 0.2
                     const handle = helper.$events.on(
                         "transformEdit",
