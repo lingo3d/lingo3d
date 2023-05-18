@@ -4,8 +4,8 @@ import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import getVecOnCurve from "../../display/utils/getVecOnCurve"
 import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
-import { TransformControlsPayload } from "../../events/onTransformControls"
 import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
+import { addCurveHelperTransformEditSystem } from "../eventSystems/curveHelperTransformEditSystem"
 
 export const [addConfigCurveSystem] = configSystemWithCleanUp2(
     (self: Curve) => {
@@ -40,22 +40,10 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
         for (const pt of self.points) {
             const helper = new HelperSphere(undefined)
             self.append(helper)
-
             helper.scale = 0.2
-            self.$handle = helper.$events.on(
-                "transformEdit",
-                ({ phase, mode }: TransformControlsPayload) => {
-                    if (mode !== "translate" || phase !== "end") return
-                    Object.assign(pt, helper.getWorldPosition())
-                    addConfigCurveSystem(self)
-                }
-            )
+            addCurveHelperTransformEditSystem({ helper, self, pt })
         }
         getSelectionCandidates()
-        cleanup.then(() => {
-            helper.dispose()
-            handle.cancel()
-        })
     },
     (self) => {
         self.$geometry!.dispose()

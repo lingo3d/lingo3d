@@ -7,7 +7,7 @@ import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
 import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 import { addAreaLightIntensitySystem } from "../../systems/areaLightIntensitySystem"
-import { TransformControlsPayload } from "../../events/onTransformControls"
+import { addAreaLightTransformEditSystem } from "../../systems/eventSystems/areaLightTransformEditSystem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -34,13 +34,7 @@ export default class AreaLight extends Plane implements IAreaLight {
             this.then(() => light.dispose())
             addConfigAreaLightSystem(this)
         })
-        this.$events.on(
-            "transformEdit",
-            ({ phase, mode }: TransformControlsPayload) =>
-                mode === "scale" &&
-                phase === "end" &&
-                addConfigAreaLightSystem(this)
-        )
+        addAreaLightTransformEditSystem(this)
         addAreaLightIntensitySystem(this)
     }
 

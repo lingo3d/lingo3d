@@ -1,6 +1,5 @@
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import MeshAppendable from "./core/MeshAppendable"
-import { getEditorHelper } from "../states/useEditorHelper"
 import { Point3dType } from "../utils/isPoint"
 import { addConfigCurveSystem } from "../systems/configSystems/configCurveSystem"
 import { BufferGeometry, Line, LineBasicMaterial } from "three"
@@ -9,20 +8,6 @@ export default class Curve extends MeshAppendable implements ICurve {
     public static componentName = "curve"
     public static defaults = curveDefaults
     public static schema = curveSchema
-
-    public constructor() {
-        super()
-
-        this.createEffect(() => {
-            const helpers = createFor(
-                this.helperState.get() && getEditorHelper() ? this._points : [],
-                (pt, cleanup) => {
-                    return helper
-                }
-            )
-            for (const [point, helper] of helpers) Object.assign(helper, point)
-        }, [getEditorHelper])
-    }
 
     public $geometry: BufferGeometry | undefined
     public $material: LineBasicMaterial | undefined

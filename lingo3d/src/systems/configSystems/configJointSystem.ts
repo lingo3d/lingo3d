@@ -7,7 +7,10 @@ import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./configPhysicsShapeSystem"
 import { uuidMap } from "../../collections/idCollections"
 import { Cancellable } from "@lincode/promiselikes"
-import { TransformControlsPayload } from "../../events/onTransformControls"
+import {
+    addJointTargetTransformEditSystem,
+    deleteJointTargetTransformSystem
+} from "../eventSystems/jointTargetTransformEditSystem"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -82,26 +85,14 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
         self.$fromManager = fromManager
         self.$toManager = toManager
 
-        const handleTransformControls = (e: TransformControlsPayload) =>
-            e.phase === "end" && addConfigJointSystem(self)
+        addJointTargetTransformEditSystem(self, { fromManager, toManager })
 
-        const handle0 = fromManager.$events.on(
-            "transformEdit",
-            handleTransformControls
-        )
-        const handle1 = toManager.$events.on(
-            "transformEdit",
-            handleTransformControls
-        )
-        const handle2 = self.$events.on("transformEdit", handleTransformControls)
         const handleActor = () => addConfigJointSystem(self)
         const handle3 = fromManager.$events.on("actor", handleActor)
         const handle4 = toManager.$events.on("actor", handleActor)
 
         return () => {
-            handle0.cancel()
-            handle1.cancel()
-            handle2.cancel()
+            deleteJointTargetTransformSystem(self)
             handle3.cancel()
             handle4.cancel()
             handle.cancel()

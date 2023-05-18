@@ -12,7 +12,7 @@ import {
     addCharacterCameraFollowSystem,
     deleteCharacterCameraFollowSystem
 } from "../../systems/characterCameraFollowSystem"
-import { TransformControlsPayload } from "../../events/onTransformControls"
+import { addCharacterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
 
 export default class CharacterCamera
     extends CameraBase
@@ -40,27 +40,7 @@ export default class CharacterCamera
             }
         }, [this.firstChildState.get])
 
-        this.createEffect(() => {
-            const found = this.firstChildState.get()
-            if (!(found instanceof MeshAppendable)) return
-
-            let { lockTargetRotation } = this
-            const handle = found.$events.on(
-                "transformEdit",
-                ({ phase, mode }: TransformControlsPayload) => {
-                    if (mode !== "rotate") return
-                    if (phase === "start") {
-                        lockTargetRotation = this.lockTargetRotation
-                        this.lockTargetRotation = "follow"
-                        return
-                    }
-                    this.lockTargetRotation = lockTargetRotation
-                }
-            )
-            return () => {
-                handle.cancel()
-            }
-        }, [this.firstChildState.get])
+        addCharacterCameraTransformEditSystem(this)
     }
 
     protected override disposeNode() {
