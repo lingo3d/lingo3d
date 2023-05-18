@@ -21,8 +21,8 @@ const getMotion = (val: D6MotionOptions) => {
 }
 
 export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
-    const { $pxJoint: pxJoint } = target
-    if (!pxJoint) return
+    const { $pxJoint } = target
+    if (!$pxJoint) return
 
     const {
         PxD6AxisEnum,
@@ -60,9 +60,9 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         swingDamping
     } = target
 
-    pxJoint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
-    pxJoint.setMotion(PxD6AxisEnum.eY(), getMotion(linearY))
-    pxJoint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
+    $pxJoint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
+    $pxJoint.setMotion(PxD6AxisEnum.eY(), getMotion(linearY))
+    $pxJoint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
 
     if (linearX === "limited") {
         const linearLimit = new PxJointLinearLimitPair(
@@ -71,7 +71,7 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         )
         linearLimit.stiffness = linearStiffnessX
         linearLimit.damping = linearDampingX
-        pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
+        $pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
         destroy(linearLimit)
     }
     if (linearY === "limited") {
@@ -81,7 +81,7 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         )
         linearLimit.stiffness = linearStiffnessY
         linearLimit.damping = linearDampingY
-        pxJoint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
+        $pxJoint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
         destroy(linearLimit)
     }
     if (linearZ === "limited") {
@@ -91,13 +91,13 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         )
         linearLimit.stiffness = linearStiffnessZ
         linearLimit.damping = linearDampingZ
-        pxJoint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
+        $pxJoint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
         destroy(linearLimit)
     }
 
-    pxJoint.setMotion(PxD6AxisEnum.eSWING1(), getMotion(swingY))
-    pxJoint.setMotion(PxD6AxisEnum.eSWING2(), getMotion(swingZ))
-    pxJoint.setMotion(PxD6AxisEnum.eTWIST(), getMotion(twistX))
+    $pxJoint.setMotion(PxD6AxisEnum.eSWING1(), getMotion(swingY))
+    $pxJoint.setMotion(PxD6AxisEnum.eSWING2(), getMotion(swingZ))
+    $pxJoint.setMotion(PxD6AxisEnum.eTWIST(), getMotion(twistX))
 
     if (swingY === "limited" || swingZ === "limited") {
         const limitCone = new PxJointLimitCone(
@@ -106,7 +106,7 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         )
         limitCone.stiffness = swingStiffness
         limitCone.damping = swingDamping
-        pxJoint.setSwingLimit(limitCone)
+        $pxJoint.setSwingLimit(limitCone)
         destroy(limitCone)
     }
     if (twistX === "limited") {
@@ -116,7 +116,7 @@ export const [addConfigD6JointSystem] = configSystem((target: D6Joint) => {
         )
         limitPair.stiffness = twistStiffness
         limitPair.damping = twistDamping
-        pxJoint.setTwistLimit(limitPair)
+        $pxJoint.setTwistLimit(limitPair)
         destroy(limitPair)
     }
 })

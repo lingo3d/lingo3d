@@ -5,9 +5,9 @@ import configSystem from "../utils/configSystem"
 
 export const [addConfigPrismaticJointSystem] = configSystem(
     (target: PrismaticJoint) => {
-        const { $pxJoint: pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
+        const { $pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
             target
-        if (!pxJoint) return
+        if (!$pxJoint) return
 
         const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum, destroy } =
             physxPtr[0]
@@ -19,10 +19,10 @@ export const [addConfigPrismaticJointSystem] = configSystem(
             )
             linearLimit.stiffness = stiffness
             linearLimit.damping = damping
-            pxJoint.setLimit(linearLimit)
+            $pxJoint.setLimit(linearLimit)
             destroy(linearLimit)
         }
-        pxJoint.setPrismaticJointFlag(
+        $pxJoint.setPrismaticJointFlag(
             PxPrismaticJointFlagEnum.eLIMIT_ENABLED(),
             limited
         )

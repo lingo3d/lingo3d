@@ -6,7 +6,7 @@ import configSystem from "../utils/configSystem"
 export const [addConfigRevoluteJointSystem] = configSystem(
     (target: RevoluteJoint) => {
         const {
-            $pxJoint: pxJoint,
+            $pxJoint,
             limited,
             limitLow,
             limitHigh,
@@ -14,7 +14,7 @@ export const [addConfigRevoluteJointSystem] = configSystem(
             damping,
             driveVelocity
         } = target
-        if (!pxJoint) return
+        if (!$pxJoint) return
 
         const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum, destroy } =
             physxPtr[0]
@@ -26,15 +26,15 @@ export const [addConfigRevoluteJointSystem] = configSystem(
             )
             limitPair.stiffness = stiffness
             limitPair.damping = damping
-            pxJoint.setLimit(limitPair)
+            $pxJoint.setLimit(limitPair)
             destroy(limitPair)
         }
-        pxJoint.setRevoluteJointFlag(
+        $pxJoint.setRevoluteJointFlag(
             PxRevoluteJointFlagEnum.eLIMIT_ENABLED(),
             limited
         )
-        pxJoint.setDriveVelocity(driveVelocity)
-        pxJoint.setRevoluteJointFlag(
+        $pxJoint.setDriveVelocity(driveVelocity)
+        $pxJoint.setRevoluteJointFlag(
             PxRevoluteJointFlagEnum.eDRIVE_ENABLED(),
             driveVelocity > 0
         )

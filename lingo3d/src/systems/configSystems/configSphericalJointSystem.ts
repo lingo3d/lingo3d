@@ -5,8 +5,8 @@ import configSystem from "../utils/configSystem"
 
 export const [addConfigSphericalJointSystem] = configSystem(
     (target: SphericalJoint) => {
-        const { $pxJoint: pxJoint, limited, limitY, limitZ } = target
-        if (!pxJoint) return
+        const { $pxJoint, limited, limitY, limitZ } = target
+        if (!$pxJoint) return
 
         const { PxJointLimitCone, PxSphericalJointFlagEnum, destroy } =
             physxPtr[0]
@@ -16,10 +16,10 @@ export const [addConfigSphericalJointSystem] = configSystem(
                 limitZ * deg2Rad,
                 0.05
             )
-            pxJoint.setLimitCone(cone)
+            $pxJoint.setLimitCone(cone)
             destroy(cone)
         }
-        pxJoint.setSphericalJointFlag(
+        $pxJoint.setSphericalJointFlag(
             PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
             limited
         )
