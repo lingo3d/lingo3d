@@ -5,6 +5,7 @@ import getVecOnCurve from "../../display/utils/getVecOnCurve"
 import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
 import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
+import getCurveHelperSpherePool from "../../memo/getCurveHelperSpherePool"
 
 export const [addConfigCurveSystem] = configSystemWithCleanUp2(
     (self: Curve) => {
@@ -35,20 +36,17 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
             }
         }
         if (!self.helper) return
-
-        for (const pt of self.points) {
-            const helper = new HelperSphere(undefined)
-            self.append(helper)
-            helper.scale = 0.2
-            helper.x = pt.x
-            helper.y = pt.y
-            helper.z = pt.z
-        }
+        const [requestHelperSphere] = getCurveHelperSpherePool(self)
+        for (const pt of self.points) requestHelperSphere([pt.x, pt.y, pt.z])
         getSelectionCandidates()
     },
     (self) => {
         self.$geometry!.dispose()
         self.$material!.dispose()
         self.outerObject3d.remove(self.$mesh!)
+        if (!self.children) return
+        const [, releaseHelperSphere] = getCurveHelperSpherePool(self)
+        for (const child of self.children)
+            child instanceof HelperSphere && releaseHelperSphere(child)
     }
 )
