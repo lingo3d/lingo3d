@@ -1,9 +1,9 @@
 import { ConeGeometry } from "three"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 
 export type ConeParams = ConstructorParameters<typeof ConeGeometry>
 
-export const [requestConeGeometry, releaseConeGeometry] = createInstancePool<
+export const [requestConeGeometry, releaseConeGeometry] = createSharedPool<
     ConeGeometry,
     ConeParams
 >(

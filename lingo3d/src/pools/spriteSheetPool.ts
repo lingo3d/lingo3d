@@ -1,4 +1,4 @@
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -30,7 +30,7 @@ const scanSerial = (_textureStart: string) => {
 
 type SpriteSheetParams = [textureStart: string, textureEnd: string]
 
-export const [requestSpriteSheet, releaseSpriteSheet] = createInstancePool<
+export const [requestSpriteSheet, releaseSpriteSheet] = createSharedPool<
     Promise<[string, number, number, Blob | undefined]>,
     SpriteSheetParams
 >(

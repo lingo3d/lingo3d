@@ -1,10 +1,10 @@
 import { CylinderGeometry } from "three"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 
 export type CylinderParams = ConstructorParameters<typeof CylinderGeometry>
 
 export const [requestCylinderGeometry, releaseCylinderGeometry] =
-    createInstancePool<CylinderGeometry, CylinderParams>(
+    createSharedPool<CylinderGeometry, CylinderParams>(
         (params) => new CylinderGeometry(...params),
         (geometry) => geometry.dispose()
     )

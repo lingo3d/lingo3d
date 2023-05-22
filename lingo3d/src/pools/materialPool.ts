@@ -1,7 +1,7 @@
 import { filter } from "@lincode/utils"
 import { MeshStandardMaterial, DoubleSide, Vector2 } from "three"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 import { Blending, ColorString } from "../interface/ITexturedStandard"
 import { uuidMaterialMap } from "../collections/idCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
@@ -81,7 +81,7 @@ const createMap = (
           ])
         : undefined
 
-export const [requestMaterial, releaseMaterial] = createInstancePool<
+export const [requestMaterial, releaseMaterial] = createSharedPool<
     MeshStandardMaterial,
     MaterialParams
 >(

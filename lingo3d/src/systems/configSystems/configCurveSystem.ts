@@ -5,7 +5,6 @@ import getVecOnCurve from "../../display/utils/getVecOnCurve"
 import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
 import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
-import { addCurveHelperTransformEditSystem } from "../eventSystems/curveHelperTransformEditSystem"
 
 export const [addConfigCurveSystem] = configSystemWithCleanUp2(
     (self: Curve) => {
@@ -41,7 +40,9 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
             const helper = new HelperSphere(undefined)
             self.append(helper)
             helper.scale = 0.2
-            addCurveHelperTransformEditSystem({ helper, self, pt })
+            helper.x = pt.x
+            helper.y = pt.y
+            helper.z = pt.z
         }
         getSelectionCandidates()
     },

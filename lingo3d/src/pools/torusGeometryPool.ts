@@ -1,9 +1,9 @@
 import { TorusGeometry } from "three"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 
 export type TorusParams = ConstructorParameters<typeof TorusGeometry>
 
-export const [requestTorusGeometry, releaseTorusGeometry] = createInstancePool<
+export const [requestTorusGeometry, releaseTorusGeometry] = createSharedPool<
     TorusGeometry,
     TorusParams
 >(

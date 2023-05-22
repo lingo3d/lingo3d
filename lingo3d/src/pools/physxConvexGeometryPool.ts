@@ -3,7 +3,7 @@ import Loaded from "../display/core/Loaded"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import computePxVertices from "../engine/physx/computePxVertices"
 import { physxPtr } from "../pointers/physxPtr"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 
 type PhysxConvexGeometryParams = [
     typeSrc: string,
@@ -13,7 +13,7 @@ type PhysxConvexGeometryParams = [
 ]
 
 export const [requestPhysxConvexGeometry, releasePhysxConvexGeometry] =
-    createInstancePool<
+    createSharedPool<
         PhysicsObjectManager,
         PhysxConvexGeometryParams,
         MeshAppendable | Loaded

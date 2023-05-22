@@ -1,5 +1,5 @@
 import { Texture } from "three"
-import createInstancePool from "./utils/createInstancePool"
+import createSharedPool from "./utils/createSharedPool"
 import { PointType } from "../utils/isPoint"
 import { deg2Rad } from "@lincode/math"
 import { getExtensionType } from "@lincode/filetypes"
@@ -33,7 +33,7 @@ const initMap = (
     return map
 }
 
-export const [requestTexture, releaseTexture] = createInstancePool<
+export const [requestTexture, releaseTexture] = createSharedPool<
     Texture,
     TextureParams
 >(
