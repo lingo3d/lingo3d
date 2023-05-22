@@ -18,7 +18,7 @@ export const [addPooledSpotLightSystem] = sortedRenderSystemWithData(
         const visible =
             !!intensityFactor && ++countPtr[0] <= spotLightPoolPtr[0]
         if (visible && !data.visible) {
-            const light = (self.$light = requestSpotLight([], ""))
+            const light = (self.$light = requestSpotLight([]))
             self.object3d.add(light.outerObject3d)
             light.distance = self.distance
             light.intensity = self.intensity

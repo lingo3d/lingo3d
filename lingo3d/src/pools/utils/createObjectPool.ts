@@ -14,11 +14,8 @@ export default <
     const releasedObjects = new WeakSet<Type>()
     let allObjects: Array<Type> = []
 
-    const request = (
-        params: Params,
-        paramString = JSON.stringify(params),
-        context = undefined as Context
-    ): Type => {
+    const request = (params: Params, context = undefined as Context): Type => {
+        const paramString = JSON.stringify(params)
         const objectArray = forceGetInstance(
             paramStringObjectArrayMap,
             paramString,
