@@ -1,7 +1,12 @@
-import store from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { getEditorModeComputed } from "./useEditorModeComputed"
+import { getEditorRuntime } from "./useEditorRuntime"
 
 const [setWorldPlayComputed, getWorldPlayComputed] = store(true)
 export { getWorldPlayComputed }
 
-getEditorModeComputed((mode) => setWorldPlayComputed(mode === "play"))
+createEffect(() => {
+    setWorldPlayComputed(
+        getEditorModeComputed() === "play" && !getEditorRuntime()
+    )
+}, [getEditorModeComputed, getEditorRuntime])
