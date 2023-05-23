@@ -3,7 +3,8 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import Appendable from "../../display/core/Appendable"
 
 export default <T, Data extends Record<string, any>>(
-    cb: (target: T, data: Data) => void
+    cb: (target: T, data: Data) => void,
+    ticker = onBeforeRender
 ) => {
     const queued = new Map<T, Data>()
 
@@ -12,7 +13,7 @@ export default <T, Data extends Record<string, any>>(
     }
 
     let handle: Cancellable | undefined
-    const start = () => (handle = onBeforeRender(execute))
+    const start = () => (handle = ticker(execute))
 
     const deleteSystem = (item: T) => {
         if (!queued.delete(item)) return

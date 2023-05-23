@@ -17,14 +17,14 @@ import prevent from "../utils/prevent"
 import { getWorldExpanded } from "../../states/useWorldExpanded"
 import Runtime from "../Runtime"
 import World from "../World"
+import { getEditorRuntime } from "../../states/useEditorRuntime"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
-
-    const runtime = false
+    const editorRuntime = useSyncState(getEditorRuntime)
 
     return (
         <div
@@ -52,7 +52,7 @@ const LingoEditor = () => {
                 className="lingo3d-world lingo3d-bg"
                 style={{ height: "100%", flexGrow: 1, position: "relative" }}
             >
-                {runtime ? <Runtime /> : <World />}
+                {editorRuntime ? <Runtime /> : <World />}
             </div>
             {stats && <Stats />}
             <HUD />
