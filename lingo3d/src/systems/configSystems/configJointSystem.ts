@@ -11,6 +11,7 @@ import {
     addJointTargetTransformEditSystem,
     deleteJointTargetTransformSystem
 } from "../eventSystems/jointTargetTransformEditSystem"
+import { addConfigJointSystemPtr } from "../../pointers/addConfigJointSystemPtr"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -104,3 +105,5 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
     },
     [importPhysX]
 )
+
+addConfigJointSystemPtr[0] = addConfigJointSystem

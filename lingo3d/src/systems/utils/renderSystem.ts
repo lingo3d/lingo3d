@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import Appendable from "../../display/core/Appendable"
+import type Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable | object>(
     cb: (target: T) => void,
@@ -17,14 +17,14 @@ export default <T extends Appendable | object>(
 
     const deleteSystem = (item: T) => {
         if (!queued.delete(item)) return
-        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
     }
     return <const>[
         (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },

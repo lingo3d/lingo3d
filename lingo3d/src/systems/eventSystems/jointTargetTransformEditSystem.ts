@@ -1,7 +1,7 @@
 import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { onTransformEdit } from "../../events/onTransformEdit"
-import { addConfigJointSystem } from "../configSystems/configJointSystem"
+import { addConfigJointSystemPtr } from "../../pointers/addConfigJointSystemPtr"
 import eventSimpleSystemWithData from "../utils/eventSimpleSystemWithData"
 
 export const [
@@ -20,7 +20,7 @@ export const [
             (target === self ||
                 target === data.fromManager ||
                 target === data.toManager) &&
-            addConfigJointSystem(self)
+            addConfigJointSystemPtr[0](self)
     },
     onTransformEdit
 )

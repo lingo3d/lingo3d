@@ -1,7 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import Loaded from "../../display/core/Loaded"
-import Appendable from "../../display/core/Appendable"
+import type Loaded from "../../display/core/Loaded"
+import type Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable | Loaded>(
     cb: (target: T) => void | false,
@@ -12,7 +12,7 @@ export default <T extends Appendable | Loaded>(
 
     const execute = () => {
         for (const target of queued) {
-            if (target instanceof Loaded && !target.$loadedObject3d) continue
+            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
             if (needsCleanUp.has(target)) {
                 cleanup(target)
                 needsCleanUp.delete(target)
@@ -25,7 +25,7 @@ export default <T extends Appendable | Loaded>(
     const start = () => (handle = onBeforeRender(execute))
 
     const deleteSystem = (item: T) => {
-        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         if (needsCleanUp.has(item)) {
             cleanup(item)
             needsCleanUp.delete(item)
@@ -36,7 +36,7 @@ export default <T extends Appendable | Loaded>(
         (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },

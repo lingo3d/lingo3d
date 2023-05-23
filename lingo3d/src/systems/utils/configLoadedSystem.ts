@@ -1,7 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import Loaded from "../../display/core/Loaded"
-import Appendable from "../../display/core/Appendable"
+import type Loaded from "../../display/core/Loaded"
+import type Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable | Loaded>(cb: (target: T) => void) => {
     const queued = new Set<T>()
@@ -12,7 +12,7 @@ export default <T extends Appendable | Loaded>(cb: (target: T) => void) => {
                 deleteSystem(target)
                 continue
             }
-            if (target instanceof Loaded && !target.$loadedObject3d) continue
+            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
             cb(target)
             deleteSystem(target)
         }
