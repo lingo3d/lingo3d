@@ -3,6 +3,7 @@ import {
     addRuntimeIframeScriptSystem,
     deleteRuntimeIframeScriptSystem
 } from "../../systems/runtimeIframeScriptSystem"
+import { serialize } from "../../runtime"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -11,14 +12,8 @@ const Runtime = () => {
         const iframe = iframeRef.current
         if (!iframe) return
 
-        const script = `
-            const dummy = new Dummy()
-            dummy.onLoop = () => {
-                dummy.rotationY += 1
-            }
-        `
+        const script = `deserialize(${JSON.stringify(serialize())})`
         addRuntimeIframeScriptSystem(iframe, { script })
-
         return () => {
             deleteRuntimeIframeScriptSystem(iframe)
         }
