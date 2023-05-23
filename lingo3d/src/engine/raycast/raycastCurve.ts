@@ -9,6 +9,8 @@ import {
 } from "../../states/useSelectionFocus"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import Curve from "../../display/Curve"
+import { onAfterRender } from "../../events/onAfterRender"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
@@ -23,12 +25,17 @@ createEffect(() => {
     setSelectionFocus(curve)
 
     const handle = onMouseClick((e) => {
-        const [selected] = selectionTargetPtr
-        //todo: setTimeout alternative?
-        setTimeout(() => {
-            if (handle.done || selectionTargetPtr[0] || selected) return
-            curve.addPoint(e.point)
-        }, 10)
+        onAfterRender(
+            () =>
+                onBeforeRender(
+                    () =>
+                        !handle.done &&
+                        !selectionTargetPtr[0] &&
+                        curve.addPoint(e.point),
+                    true
+                ),
+            true
+        )
     })
     return () => {
         curve.helper = false
