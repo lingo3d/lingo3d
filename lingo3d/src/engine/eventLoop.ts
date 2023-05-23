@@ -9,6 +9,7 @@ import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
+import { getEditorRuntime } from "../states/useEditorRuntime"
 
 let play = true
 getWorldPlayComputed((val) => (play = val))
@@ -34,6 +35,8 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
+    if (getEditorRuntime()) return
+
     const targetDelta = (1 / fpsPtr[0]) * 0.9
 
     rendererPtr[0].setAnimationLoop(() => {
@@ -45,7 +48,10 @@ createEffect(() => {
         delta = 0
         for (const cb of callbacks) cb()
     })
-}, [getFps, getRenderer])
+    return () => {
+        rendererPtr[0].setAnimationLoop(null)
+    }
+}, [getFps, getRenderer, getEditorRuntime])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)
