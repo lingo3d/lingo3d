@@ -6,3 +6,9 @@ for (const [key, value] of Object.entries(runtime)) {
     //@ts-ignore
     window[key] = value
 }
+
+const setFrameProperty = (key: string, value: any) =>
+    //@ts-ignore
+    window.frameElement && (window.frameElement[key] = value)
+
+setFrameProperty("$eval", eval)

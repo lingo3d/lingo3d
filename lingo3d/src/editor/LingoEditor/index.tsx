@@ -3,8 +3,6 @@ import SceneGraph from "../SceneGraph"
 import Editor from "../Editor"
 import Library from "../Library"
 import HUD from "../HUD"
-import { useEffect, useRef } from "preact/hooks"
-import settings from "../../api/settings"
 import Stats from "../Stats"
 import WorldBar from "../WorldBar"
 import Panels from "../Panels"
@@ -17,19 +15,16 @@ import { getGameGraph } from "../../states/useGameGraph"
 import { getDummyIK } from "../../states/useDummyIK"
 import prevent from "../utils/prevent"
 import { getWorldExpanded } from "../../states/useWorldExpanded"
+import Runtime from "../Runtime"
+import World from "../World"
 
 const LingoEditor = () => {
-    const elRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const el = elRef.current
-        if (el) settings.autoMount = el
-    }, [])
-
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
+
+    const runtime = true
 
     return (
         <div
@@ -55,9 +50,10 @@ const LingoEditor = () => {
             <WorldBar />
             <div
                 className="lingo3d-world lingo3d-bg"
-                ref={elRef}
                 style={{ height: "100%", flexGrow: 1, position: "relative" }}
-            />
+            >
+                {runtime ? <Runtime /> : <World />}
+            </div>
             {stats && <Stats />}
             <HUD />
         </div>
