@@ -4,8 +4,13 @@ import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import getVecOnCurve from "../../display/utils/getVecOnCurve"
 import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
-import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
 import getCurveHelperSpherePool from "../../memo/getCurveHelperSpherePool"
+import { addConfigCurveSystemPtr } from "../../pointers/addConfigCurveSystemPtr"
+import { nanoid } from "nanoid"
+import computeOnce from "../../memo/utils/computeOnce"
+import { PointType } from "../../utils/isPoint"
+
+const getUUID = computeOnce((_: PointType) => nanoid())
 
 export const [addConfigCurveSystem] = configSystemWithCleanUp2(
     (self: Curve) => {
@@ -37,8 +42,7 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
         }
         if (!self.helper) return
         const [requestHelperSphere] = getCurveHelperSpherePool(self)
-        for (const pt of self.points) requestHelperSphere([pt.x, pt.y, pt.z])
-        getSelectionCandidates()
+        for (const pt of self.points) requestHelperSphere([], getUUID(pt), pt)
     },
     (self) => {
         self.$geometry!.dispose()
@@ -50,3 +54,5 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
             child instanceof HelperSphere && releaseHelperSphere(child)
     }
 )
+
+addConfigCurveSystemPtr[0] = addConfigCurveSystem

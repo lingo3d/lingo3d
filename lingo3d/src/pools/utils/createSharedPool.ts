@@ -13,8 +13,11 @@ export default <
     const paramsCountRecord: Record<string, number> = {}
     const objectParamStringMap = new WeakMap<Type, string>()
 
-    const request = (params: Params, context = undefined as Context): Type => {
-        const paramString = JSON.stringify(params)
+    const request = (
+        params: Params,
+        paramString = JSON.stringify(params),
+        context = undefined as Context
+    ): Type => {
         if (
             (paramsCountRecord[paramString] =
                 (paramsCountRecord[paramString] ?? 0) + 1) === 1

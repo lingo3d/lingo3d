@@ -21,7 +21,7 @@ const requestSpotLights = () => {
     requested = true
     const lights: Array<SpotLight> = []
     for (let i = 0; i < spotLightPoolPtr[0]; ++i)
-        lights.push(requestSpotLight([]))
+        lights.push(requestSpotLight([], ""))
     for (const light of lights) releaseSpotLight(light)
 }
 onSpotLightPool(() => {
