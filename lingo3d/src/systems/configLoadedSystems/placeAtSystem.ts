@@ -12,7 +12,7 @@ import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
 type Data = { target: MeshAppendable | Point3dType | SpawnPoint | string }
 
 export const [addPlaceAtSystem] = configLoadedSystemWithData(
-    (self, { target }: Data) => {
+    (self: MeshAppendable, { target }: Data) => {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
             if (!("outerObject3d" in found)) return

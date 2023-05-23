@@ -1,11 +1,9 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
-import MeshAppendable from "../../display/core/MeshAppendable"
-import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import Appendable from "../../display/core/Appendable"
 
-export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
+export default <T extends Appendable | Loaded>(
     cb: (target: T) => void | false,
     cleanup: (target: T) => void
 ) => {
@@ -14,7 +12,7 @@ export default <T extends MeshAppendable | Loaded | PhysicsObjectManager>(
 
     const execute = () => {
         for (const target of queued) {
-            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
+            if (target instanceof Loaded && !target.$loadedObject3d) continue
             if (needsCleanUp.has(target)) {
                 cleanup(target)
                 needsCleanUp.delete(target)

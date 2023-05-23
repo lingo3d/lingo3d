@@ -17,14 +17,14 @@ export default <T extends Appendable | object>(
 
     const deleteSystem = (item: T) => {
         if (!queued.delete(item)) return
-        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
     }
     return <const>[
         (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
-            "$deleteSystemSet" in item &&
+            item instanceof Appendable &&
                 item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },

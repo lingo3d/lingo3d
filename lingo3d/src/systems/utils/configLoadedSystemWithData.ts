@@ -1,11 +1,10 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import Loaded from "../../display/core/Loaded"
-import MeshAppendable from "../../display/core/MeshAppendable"
+import Appendable from "../../display/core/Appendable"
 
 export default <
-    //todo: T extends object | others for all systems
-    T extends object | MeshAppendable | Loaded,
+    T extends object | Appendable | Loaded,
     Data extends Record<string, any>
 >(
     cb: (target: T, data: Data) => void
@@ -14,11 +13,11 @@ export default <
 
     const execute = () => {
         for (const [target, data] of queued) {
-            if ("done" in target && target.done) {
+            if (target instanceof Appendable && target.done) {
                 deleteSystem(target)
                 continue
             }
-            if ("$loadedObject3d" in target && !target.$loadedObject3d) continue
+            if (target instanceof Loaded && !target.$loadedObject3d) continue
             cb(target, data)
             deleteSystem(target)
         }
