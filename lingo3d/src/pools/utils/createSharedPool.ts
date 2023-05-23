@@ -1,3 +1,4 @@
+import { addSharedPoolReleaseSystem } from "../../systems/configSystems/sharedPoolReleaseSystem"
 import { PointType } from "../../utils/isPoint"
 
 export default <
@@ -26,20 +27,14 @@ export default <
         return paramsInstanceMap.get(paramString)!
     }
 
-    const release = (object: Type | undefined | null) => {
-        if (!object) return
-        const paramString = objectParamStringMap.get(object)
-        if (!paramString) return
-        const count = (paramsCountRecord[paramString] ?? 0) - 1
-        if (count === -1) return
-        if (count === 0) {
-            dispose(paramsInstanceMap.get(paramString)!)
-            paramsInstanceMap.delete(paramString)
-            delete paramsCountRecord[paramString]
-            return
-        }
-        paramsCountRecord[paramString] = count
-    }
+    const release = (object: Type | undefined | null) =>
+        object &&
+        addSharedPoolReleaseSystem(object, {
+            objectParamStringMap,
+            paramsCountRecord,
+            dispose,
+            paramsInstanceMap
+        })
 
     return <const>[request, release]
 }

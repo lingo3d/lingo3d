@@ -4,7 +4,8 @@ import Loaded from "../../display/core/Loaded"
 import MeshAppendable from "../../display/core/MeshAppendable"
 
 export default <
-    T extends MeshAppendable | Loaded,
+    //todo: T extends object | others for all systems
+    T extends object | MeshAppendable | Loaded,
     Data extends Record<string, any>
 >(
     cb: (target: T, data: Data) => void
@@ -13,7 +14,7 @@ export default <
 
     const execute = () => {
         for (const [target, data] of queued) {
-            if (target.done) {
+            if ("done" in target && target.done) {
                 deleteSystem(target)
                 continue
             }
