@@ -24,7 +24,7 @@ const LingoEditor = () => {
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
 
-    const runtime = true
+    const runtime = false
 
     return (
         <div
