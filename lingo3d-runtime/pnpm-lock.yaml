@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   lingo3d:
-    specifier: 2.0.40
-    version: 2.0.40
+    specifier: 2.0.41
+    version: 2.0.41
 
 devDependencies:
   typescript:
@@ -367,8 +367,8 @@ packages:
     resolution: {integrity: sha512-MVBHmgY+uEbmJNApAaPbtvNh1RCAeMnKym82SBjtp5rODTYKWtM+MXHCifLe2H2Ti1HuBGBtK/5SyG4ShQ3pUQ==}
     dev: false
 
-  /lingo3d@2.0.40:
-    resolution: {integrity: sha512-SHPPQ70tKpwglOAtkRrXTRswdyiBDXeqkcOxKZJrdxc52/voq/q4I32jiacRxZoJtV56yTM7jpBfAwusylnTlQ==}
+  /lingo3d@2.0.41:
+    resolution: {integrity: sha512-qsVR+m8m0qBWuHU/oesqUNlMua6rgHnrPaBemf2cJ4KjLzFLGzdk9VaiG/AlS+vkFqinGk6vdM3yf8upFrXhpA==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3

@@ -12,3 +12,4 @@ const setFrameProperty = (key: string, value: any) =>
     window.frameElement && (window.frameElement[key] = value)
 
 setFrameProperty("$eval", eval)
+setFrameProperty("$runtime", runtime)
