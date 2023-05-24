@@ -8,7 +8,7 @@ import {
     increaseLoadingAssetsCount
 } from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
-import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
+import { assetsPathPtr } from "../../../pointers/assetsPathPointers"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()

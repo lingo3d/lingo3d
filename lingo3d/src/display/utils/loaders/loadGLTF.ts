@@ -9,7 +9,7 @@ import {
     increaseLoadingAssetsCount
 } from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
-import { assetsPathPtr, wasmUrlPtr } from "../../../pointers/assetsPathPtr"
+import { assetsPathPtr, wasmUrlPtr } from "../../../pointers/assetsPathPointers"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()

@@ -20,7 +20,7 @@ import {
 } from "../../systems/dummyGroundedSystem"
 import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { Point3dType } from "../../utils/isPoint"
-import { dummyUrlPtr, ybotUrlPtr } from "../../pointers/assetsPathPtr"
+import { dummyUrlPtr, ybotUrlPtr } from "../../pointers/assetsPathPointers"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"

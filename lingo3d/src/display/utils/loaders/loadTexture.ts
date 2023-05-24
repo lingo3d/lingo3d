@@ -7,7 +7,7 @@ import {
     decreaseLoadingAssetsCount,
     increaseLoadingAssetsCount
 } from "../../../states/useLoadingAssetsCount"
-import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
+import { assetsPathPtr } from "../../../pointers/assetsPathPointers"
 
 const cache = new Map<string, Texture>()
 const textureLoader = new TextureLoader()

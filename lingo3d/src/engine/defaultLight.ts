@@ -7,7 +7,7 @@ import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import { texturesUrlPtr } from "../pointers/assetsPathPtr"
+import { texturesUrlPtr } from "../pointers/assetsPathPointers"
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.$ghost()

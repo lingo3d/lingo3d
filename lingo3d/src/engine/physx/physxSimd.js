@@ -1,4 +1,4 @@
-import { wasmUrlPtr } from "../../pointers/assetsPathPtr"
+import { wasmUrlPtr } from "../../pointers/assetsPathPointers"
 import {
     decreaseLoadingAssetsCount,
     increaseLoadingAssetsCount

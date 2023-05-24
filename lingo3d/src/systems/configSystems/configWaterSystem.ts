@@ -6,7 +6,7 @@ import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { addWaterSystem, deleteWaterSystem } from "../waterSystem"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
-import { waternormalsUrlPtr } from "../../pointers/assetsPathPtr"
+import { waternormalsUrlPtr } from "../../pointers/assetsPathPointers"
 
 let WaterClass: typeof ThreeWater
 

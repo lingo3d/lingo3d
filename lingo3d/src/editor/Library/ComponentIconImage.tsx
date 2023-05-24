@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Spinner from "../component/Spinner"
-import { editorUrlPtr } from "../../pointers/assetsPathPtr"
+import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 
 type IconImageProps = {
     iconName: string

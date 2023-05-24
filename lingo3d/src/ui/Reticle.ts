@@ -3,7 +3,7 @@ import Appendable from "../display/core/Appendable"
 import { uiContainer } from "../engine/renderLoop/containers"
 import IReticle, { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
-import { texturesUrlPtr } from "../pointers/assetsPathPtr"
+import { texturesUrlPtr } from "../pointers/assetsPathPointers"
 
 export default class Reticle extends Appendable implements IReticle {
     public static componentName = "reticle"

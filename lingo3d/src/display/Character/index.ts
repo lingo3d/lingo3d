@@ -9,7 +9,7 @@ import {
     diffQuaternions,
     worldToLocalQuaternion
 } from "../utils/quaternions"
-import { ybotUrlPtr } from "../../pointers/assetsPathPtr"
+import { ybotUrlPtr } from "../../pointers/assetsPathPointers"
 
 export default class Character extends Model implements IModel {
     public static override componentName = "character"

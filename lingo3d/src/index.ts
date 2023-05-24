@@ -1,7 +1,7 @@
 import * as runtime from "./runtime"
 // import "./webcontainer"
 
-import { setAssetsPath } from "./pointers/assetsPathPtr"
+import { setAssetsPath } from "./pointers/assetsPathPointers"
 import { undo, redo } from "./api/undoStack"
 
 import downloadBlob from "./api/files/downloadBlob"

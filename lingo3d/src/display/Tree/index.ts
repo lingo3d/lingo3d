@@ -1,5 +1,5 @@
 import ITree, { treeDefaults, treeSchema } from "../../interface/ITree"
-import { forestUrlPtr } from "../../pointers/assetsPathPtr"
+import { forestUrlPtr } from "../../pointers/assetsPathPointers"
 import Model from "../Model"
 
 export default class Tree extends Model implements ITree {

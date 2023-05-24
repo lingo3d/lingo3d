@@ -5,7 +5,7 @@ import {
     increaseLoadingAssetsCount
 } from "../../../states/useLoadingAssetsCount"
 import { handleProgress } from "./utils/bytesLoaded"
-import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
+import { assetsPathPtr } from "../../../pointers/assetsPathPointers"
 
 const cache = new Map<string, Promise<AudioBuffer>>()
 const loader = new AudioLoader()

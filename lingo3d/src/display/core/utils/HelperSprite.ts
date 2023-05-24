@@ -2,7 +2,7 @@ import MeshAppendable from "../MeshAppendable"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"
-import { editorUrlPtr } from "../../../pointers/assetsPathPtr"
+import { editorUrlPtr } from "../../../pointers/assetsPathPointers"
 
 export default class HelperSprite extends Sprite {
     public constructor(
