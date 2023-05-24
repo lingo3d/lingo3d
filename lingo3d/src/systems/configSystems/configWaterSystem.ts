@@ -1,12 +1,12 @@
 import { lazy } from "@lincode/utils"
 import Water from "../../display/Water"
 import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
-import { WATERNORMALS_URL } from "../../api/assetsPath"
 import { planeGeometry } from "../../display/primitives/Plane"
 import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { addWaterSystem, deleteWaterSystem } from "../waterSystem"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import { waternormalsUrlPtr } from "../../pointers/assetsPathPtr"
 
 let WaterClass: typeof ThreeWater
 
@@ -17,7 +17,7 @@ const importWater = lazy(async () => {
 
 export const [addConfigWaterSystem] = configSystemWithCleanUp2(
     (self: Water) => {
-        const normalMap = self.normalMap || WATERNORMALS_URL()
+        const normalMap = self.normalMap || waternormalsUrlPtr[0]
 
         const isPlane = self.shape === "plane"
         const waterGeometry = isPlane ? planeGeometry : sphereGeometry

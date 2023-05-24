@@ -1,5 +1,4 @@
 import { Object3D, Quaternion } from "three"
-import { YBOT_URL } from "../../api/assetsPath"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IModel, { modelDefaults, modelSchema } from "../../interface/IModel"
 import Bone from "../Bone"
@@ -10,6 +9,7 @@ import {
     diffQuaternions,
     worldToLocalQuaternion
 } from "../utils/quaternions"
+import { ybotUrlPtr } from "../../pointers/assetsPathPtr"
 
 export default class Character extends Model implements IModel {
     public static override componentName = "character"
@@ -22,7 +22,7 @@ export default class Character extends Model implements IModel {
         this.depth = 20
         this.scale = 1.7
 
-        this.src = YBOT_URL()
+        this.src = ybotUrlPtr[0]
 
         this.$events.once("loaded", () => {
             const arm = this.find("LeftArm")?.outerObject3d

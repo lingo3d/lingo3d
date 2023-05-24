@@ -1,4 +1,4 @@
-import { WASM_URL } from "../../api/assetsPath"
+import { wasmUrlPtr } from "../../pointers/assetsPathPtr"
 import {
     decreaseLoadingAssetsCount,
     increaseLoadingAssetsCount
@@ -5439,7 +5439,7 @@ var PhysX = (() => {
         }
 
         var wasmBinaryFile
-        wasmBinaryFile = WASM_URL() + "physx-simd.wasm"
+        wasmBinaryFile = wasmUrlPtr[0] + "physx-simd.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }

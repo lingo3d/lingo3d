@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { EDITOR_URL } from "../../api/assetsPath"
 import Spinner from "../component/Spinner"
+import { editorUrlPtr } from "../../pointers/assetsPathPtr"
 
 type IconImageProps = {
     iconName: string
@@ -8,7 +8,7 @@ type IconImageProps = {
 
 const ComponentIconImage = ({ iconName }: IconImageProps) => {
     const [loaded, setLoaded] = useState(false)
-    const src = useMemo(() => `${EDITOR_URL()}${iconName}.png`, [iconName])
+    const src = useMemo(() => `${editorUrlPtr[0]}${iconName}.png`, [iconName])
 
     useEffect(() => {
         const image = new Image()

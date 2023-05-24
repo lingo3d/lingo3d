@@ -7,7 +7,7 @@ import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import { TEXTURES_URL } from "../api/assetsPath"
+import { texturesUrlPtr } from "../pointers/assetsPathPtr"
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.$ghost()
@@ -16,7 +16,7 @@ defaultEnvironment.texture = undefined
 
 export const environmentToUrl = (value: string) =>
     value in environmentPreset
-        ? TEXTURES_URL() + unsafeGetValue(environmentPreset, value)
+        ? texturesUrlPtr[0] + unsafeGetValue(environmentPreset, value)
         : value
 
 createEffect(() => {

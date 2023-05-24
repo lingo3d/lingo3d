@@ -9,15 +9,14 @@ import {
     increaseLoadingAssetsCount
 } from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
-import { WASM_URL } from "../../../api/assetsPath"
-import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
+import { assetsPathPtr, wasmUrlPtr } from "../../../pointers/assetsPathPtr"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
 
 const createDracoLoader = lazy(() => {
     const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath(WASM_URL())
+    dracoLoader.setDecoderPath(wasmUrlPtr[0])
     loader.setDRACOLoader(dracoLoader)
 })
 

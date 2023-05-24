@@ -1,9 +1,9 @@
 import { Reactive } from "@lincode/reactivity"
-import { TEXTURES_URL } from "../api/assetsPath"
 import Appendable from "../display/core/Appendable"
 import { uiContainer } from "../engine/renderLoop/containers"
 import IReticle, { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
+import { texturesUrlPtr } from "../pointers/assetsPathPtr"
 
 export default class Reticle extends Appendable implements IReticle {
     public static componentName = "reticle"
@@ -18,7 +18,7 @@ export default class Reticle extends Appendable implements IReticle {
 
             const imageElement = createElement(`
                 <img
-                  src="${TEXTURES_URL()}reticle${variant}.png"
+                  src="${texturesUrlPtr[0]}reticle${variant}.png"
                   style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; user-select: none; width: 20px;"
                 ></img>
             `)

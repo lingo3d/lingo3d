@@ -13,7 +13,6 @@ import Model from "../Model"
 import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
-import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
 import dirPath from "../../api/path/dirPath"
 import {
     addDummyGroundedSystem,
@@ -21,6 +20,7 @@ import {
 } from "../../systems/dummyGroundedSystem"
 import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { Point3dType } from "../../utils/isPoint"
+import { dummyUrlPtr, ybotUrlPtr } from "../../pointers/assetsPathPtr"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -35,8 +35,8 @@ export default class Dummy extends Model implements IDummy {
         this.width = 20
         this.depth = 20
         this.scale = 1.7
-        this.src = YBOT_URL()
-        this.runtimeDefaults = { src: YBOT_URL() }
+        this.src = ybotUrlPtr[0]
+        this.runtimeDefaults = { src: ybotUrlPtr[0] }
 
         const [setType, getType] = store<
             "mixamo" | "readyplayerme" | "other" | undefined
@@ -50,7 +50,7 @@ export default class Dummy extends Model implements IDummy {
             setType(undefined)
 
             const handle = this.$events.on("loaded", (loaded) => {
-                this.runtimeDefaults = { src: YBOT_URL() }
+                this.runtimeDefaults = { src: ybotUrlPtr[0] }
                 setType("other")
 
                 if (spineName) {
@@ -94,8 +94,9 @@ export default class Dummy extends Model implements IDummy {
             const { src } = this
             let url = dirPath(src) + "/"
 
-            if (type === "readyplayerme") url = DUMMY_URL() + "readyplayerme/"
-            else if (src !== YBOT_URL()) {
+            if (type === "readyplayerme")
+                url = dummyUrlPtr[0] + "readyplayerme/"
+            else if (src !== ybotUrlPtr[0]) {
                 super.animations = this.animationsState.get()
                 this.animation = getPose()
                 return () => {

@@ -1,8 +1,8 @@
-import { EDITOR_URL } from "../../../api/assetsPath"
 import MeshAppendable from "../MeshAppendable"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"
+import { editorUrlPtr } from "../../../pointers/assetsPathPtr"
 
 export default class HelperSprite extends Sprite {
     public constructor(
@@ -12,7 +12,7 @@ export default class HelperSprite extends Sprite {
         super()
         ssrExcludeSet.add(this.outerObject3d)
         this.$ghost(false)
-        this.texture = `${EDITOR_URL()}${type}Sprite.png`
+        this.texture = `${editorUrlPtr[0]}${type}Sprite.png`
         this.scale = 0.5
 
         selectionRedirectMap.set(this, owner)
