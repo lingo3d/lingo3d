@@ -98,6 +98,10 @@ export default () => {
             .lingo3d-world { grid-area: world; }
             .lingo3d-terminal { grid-area: terminal; }
 
+            .lingo3d-body {
+                overscroll-behavior: none;
+            }
+
             .lingo3d-xterm * {
                 font-family: monospace !important;
             }

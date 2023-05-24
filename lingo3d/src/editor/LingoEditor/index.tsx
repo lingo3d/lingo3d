@@ -19,6 +19,7 @@ import Runtime from "../Runtime"
 import World from "../World"
 import { getEditorRuntime } from "../../states/useEditorRuntime"
 import Terminal from "../Terminal"
+import { useEffect } from "preact/hooks"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -26,6 +27,13 @@ const LingoEditor = () => {
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
     const editorRuntime = useSyncState(getEditorRuntime)
+
+    useEffect(() => {
+        document.body.classList.add("lingo3d-body")
+        return () => {
+            document.body.classList.remove("lingo3d-body")
+        }
+    }, [])
 
     return (
         <div
