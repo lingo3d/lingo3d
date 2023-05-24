@@ -5,7 +5,6 @@ export const texturesUrlPtr = [""]
 export const waternormalsUrlPtr = [""]
 export const editorUrlPtr = [""]
 export const wasmUrlPtr = [""]
-export const filesystemJsonUrlPtr = [""]
 
 export const facadeUrlPtr = ["https://unpkg.com/lingo3d-facade@1.0.0/assets/"]
 export const forestUrlPtr = ["https://unpkg.com/lingo3d-forest@1.0.0/assets/"]
@@ -18,7 +17,6 @@ export const setAssetsPath = (val: string) => {
     waternormalsUrlPtr[0] = texturesUrlPtr[0] + "waternormals.jpg"
     editorUrlPtr[0] = assetsPathPtr[0] + "editor/"
     wasmUrlPtr[0] = assetsPathPtr[0] + "wasm/"
-    filesystemJsonUrlPtr[0] = assetsPathPtr[0] + "data/filesystem.json"
 }
 
 setAssetsPath("assets")

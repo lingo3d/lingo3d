@@ -4,7 +4,6 @@ import { FitAddon } from "xterm-addon-fit"
 import "xterm/css/xterm.css"
 import { WebContainer } from "@webcontainer/api"
 import mountDumpScript from "./mountDumpScript"
-import { filesystemJsonUrlPtr } from "../../pointers/assetsPathPointers"
 
 export const loadTerminal = async (el: HTMLDivElement, handle: Cancellable) => {
     const fitAddon = new FitAddon()
@@ -19,9 +18,6 @@ export const loadTerminal = async (el: HTMLDivElement, handle: Cancellable) => {
 
     const webcontainerInstance = await WebContainer.boot()
     await mountDumpScript(webcontainerInstance)
-    await webcontainerInstance.mount(
-        await (await fetch(filesystemJsonUrlPtr[0])).json()
-    )
     const shellProcess = await webcontainerInstance.spawn("jsh", {
         terminal: {
             cols: terminal.cols,
