@@ -98,6 +98,17 @@ export default () => {
             .lingo3d-world { grid-area: world; }
             .lingo3d-terminal { grid-area: terminal; }
 
+            .lingo3d-xterm * {
+                font-family: monospace !important;
+            }
+            .lingo3d-xterm {
+                position: absolute;
+                width: 100%;
+                height: calc(100% - 10px);
+                padding-left: 10px;
+                padding-top: 10px;
+            }
+
             .lingo3d-connector {
                 width: 14px;
                 height: 14px;

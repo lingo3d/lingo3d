@@ -76,6 +76,9 @@ dependencies:
   xterm:
     specifier: ^5.1.0
     version: 5.1.0
+  xterm-addon-fit:
+    specifier: ^0.7.0
+    version: 0.7.0(xterm@5.1.0)
 
 devDependencies:
   '@preact/preset-vite':
@@ -1346,6 +1349,14 @@ packages:
 
   /xstate@4.37.2:
     resolution: {integrity: sha512-Qm337O49CRTZ3PRyRuK6b+kvI+D3JGxXIZCTul+xEsyFCVkTFDt5jixaL1nBWcUBcaTQ9um/5CRGVItPi7fveg==}
+    dev: false
+
+  /xterm-addon-fit@0.7.0(xterm@5.1.0):
+    resolution: {integrity: sha512-tQgHGoHqRTgeROPnvmtEJywLKoC/V9eNs4bLLz7iyJr1aW/QFzRwfd3MGiJ6odJd9xEfxcW36/xRU47JkD5NKQ==}
+    peerDependencies:
+      xterm: ^5.0.0
+    dependencies:
+      xterm: 5.1.0
     dev: false
 
   /xterm@5.1.0:
