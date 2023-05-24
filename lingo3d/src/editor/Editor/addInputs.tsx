@@ -228,7 +228,7 @@ export default async (
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
-
+                lazyFolder().element.id = `${target.uuid} ${title}`
                 const updateResetButton = () => {
                     const unchanged =
                         equalsDefaultValue(params[key], target, key) &&
