@@ -1,8 +1,8 @@
 import { WASM_URL } from "../../api/assetsPath"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../states/useLoadingAssetsCount"
 
 var PhysX = (() => {
     var _scriptDir =
@@ -5466,10 +5466,10 @@ var PhysX = (() => {
             // So use fetch if it is available and the url is not a file, otherwise fall back to XHR.
             if (!wasmBinary && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER)) {
                 if (typeof fetch == "function") {
-                    increaseLoadingUnpkgCount()
+                    increaseLoadingAssetsCount()
                     return fetch(wasmBinaryFile, { credentials: "same-origin" })
                         .then(function (response) {
-                            decreaseLoadingUnpkgCount()
+                            decreaseLoadingAssetsCount()
                             if (!response["ok"]) {
                                 throw (
                                     "failed to load wasm binary file at '" +
@@ -5574,11 +5574,11 @@ var PhysX = (() => {
                     !isDataURI(wasmBinaryFile) &&
                     typeof fetch == "function"
                 ) {
-                    increaseLoadingUnpkgCount()
+                    increaseLoadingAssetsCount()
                     return fetch(wasmBinaryFile, {
                         credentials: "same-origin"
                     }).then(function (response) {
-                        decreaseLoadingUnpkgCount()
+                        decreaseLoadingAssetsCount()
                         // Suppress closure warning here since the upstream definition for
                         // instantiateStreaming only allows Promise<Repsponse> rather than
                         // an actual Response.

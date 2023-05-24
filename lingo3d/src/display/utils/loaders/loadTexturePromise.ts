@@ -2,9 +2,10 @@ import { Texture } from "three"
 import { forceGet } from "@lincode/utils"
 import loadTexture from "./loadTexture"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../../states/useLoadingAssetsCount"
+import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
 
 const cache = new Map<string, Promise<Texture>>()
 
@@ -14,10 +15,10 @@ export default (url: string) =>
         url,
         () =>
             new Promise<Texture>((resolve) => {
-                const unpkg = url.startsWith("https://unpkg.com/")
-                unpkg && increaseLoadingUnpkgCount()
+                const isAssets = url.startsWith(assetsPathPtr[0])
+                isAssets && increaseLoadingAssetsCount()
                 const texture = loadTexture(url, () => {
-                    unpkg && decreaseLoadingUnpkgCount()
+                    isAssets && decreaseLoadingAssetsCount()
                     resolve(texture)
                 })
             })

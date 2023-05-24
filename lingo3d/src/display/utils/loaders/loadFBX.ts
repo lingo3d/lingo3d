@@ -4,10 +4,11 @@ import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
+import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()
@@ -18,15 +19,15 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[Group, boolean]>((resolve, reject) => {
-                const unpkg = url.startsWith("https://unpkg.com/")
-                unpkg && increaseLoadingUnpkgCount()
+                const isAssets = url.startsWith(assetsPathPtr[0])
+                isAssets && increaseLoadingAssetsCount()
                 loader.load(
                     url,
                     (group: Group) => {
                         const noBonePtr: [boolean] = [true]
                         processChildren(group, noBonePtr)
 
-                        unpkg && decreaseLoadingUnpkgCount()
+                        isAssets && decreaseLoadingAssetsCount()
                         resolve([group, noBonePtr[0]])
                     },
                     handleProgress(url),

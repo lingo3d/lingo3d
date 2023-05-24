@@ -1,5 +1,5 @@
 import * as runtime from "./runtime"
-import "./webcontainer"
+// import "./webcontainer"
 
 import { setAssetsPath } from "./api/assetsPath"
 import { undo, redo } from "./api/undoStack"

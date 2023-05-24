@@ -64,22 +64,22 @@ import {
 } from "three"
 import { toTrianglesDrawMode } from "three/examples/jsm/utils/BufferGeometryUtils.js"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../../../states/useLoadingAssetsCount"
 
 let increased = false
 const increaseOnce = () => {
     if (increased) return
     increased = true
-    increaseLoadingUnpkgCount()
+    increaseLoadingAssetsCount()
 }
 
 let decreased = false
 const decreaseOnce = () => {
     if (decreased) return
     decreased = true
-    decreaseLoadingUnpkgCount()
+    decreaseLoadingAssetsCount()
 }
 
 class GLTFLoader extends Loader {

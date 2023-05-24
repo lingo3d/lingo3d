@@ -1,0 +1,1 @@
+export const assetsPathPtr = ["http://ec2-69-230-242-89.cn-northwest-1.compute.amazonaws.com.cn:8080/"]

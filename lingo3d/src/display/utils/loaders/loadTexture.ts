@@ -4,9 +4,10 @@ import { handleProgress } from "./utils/bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import Events from "@lincode/events"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../../states/useLoadingAssetsCount"
+import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
 
 const cache = new Map<string, Texture>()
 const textureLoader = new TextureLoader()
@@ -17,8 +18,8 @@ export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
     const texture = forceGet(cache, url, () => {
-        const unpkg = url.startsWith("https://unpkg.com/")
-        unpkg && increaseLoadingUnpkgCount()
+        const isAssets = url.startsWith(assetsPathPtr[0])
+        isAssets && increaseLoadingAssetsCount()
 
         const hdr = url.toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
@@ -31,7 +32,7 @@ export default (url: string, onLoad?: () => void) => {
                 texture.userData.flipped = true
                 loaded.setState(url)
 
-                unpkg && decreaseLoadingUnpkgCount()
+                isAssets && decreaseLoadingAssetsCount()
             },
             handleProgress(url)
         )

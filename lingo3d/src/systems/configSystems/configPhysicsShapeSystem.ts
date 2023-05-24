@@ -12,15 +12,15 @@ import {
 } from "../../collections/pxCollections"
 import { lazy } from "@lincode/utils"
 import {
-    increaseLoadingUnpkgCount,
-    decreaseLoadingUnpkgCount
-} from "../../states/useLoadingUnpkgCount"
+    increaseLoadingAssetsCount,
+    decreaseLoadingAssetsCount
+} from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 
 export const importPhysX = lazy(async () => {
-    increaseLoadingUnpkgCount()
+    increaseLoadingAssetsCount()
     await import("../../engine/physx")
     await new Promise<void>((resolve) =>
         getPhysXLoaded((loaded, handle) => {
@@ -29,7 +29,7 @@ export const importPhysX = lazy(async () => {
             resolve()
         })
     )
-    decreaseLoadingUnpkgCount()
+    decreaseLoadingAssetsCount()
 })
 
 export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(

@@ -6,7 +6,7 @@ import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
+import { getLoadingAssetsCount } from "../../states/useLoadingAssetsCount"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
 
@@ -15,14 +15,14 @@ const HUD = () => {
     useInitEditor()
 
     const cameraRendered = useSyncState(getCameraRendered)
-    const loadingUnpkgCount = useSyncState(getLoadingUnpkgCount)
+    const loadingAssetsCount = useSyncState(getLoadingAssetsCount)
 
     return createPortal(
         <div
             className="lingo3d-ui lingo3d-absfull"
             style={{ pointerEvents: "none", padding: 10 }}
         >
-            <InfoScreen mounted={!!loadingUnpkgCount}>
+            <InfoScreen mounted={!!loadingAssetsCount}>
                 <Spinner size={14} />
                 loading remote data
             </InfoScreen>

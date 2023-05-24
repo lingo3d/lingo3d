@@ -5,11 +5,12 @@ import { forceGet, lazy } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
 import {
-    decreaseLoadingUnpkgCount,
-    increaseLoadingUnpkgCount
-} from "../../../states/useLoadingUnpkgCount"
+    decreaseLoadingAssetsCount,
+    increaseLoadingAssetsCount
+} from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
 import { WASM_URL } from "../../../api/assetsPath"
+import { assetsPathPtr } from "../../../pointers/assetsPathPtr"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -27,8 +28,8 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[GLTF, boolean]>((resolve, reject) => {
-                const unpkg = url.startsWith("https://unpkg.com/")
-                unpkg && increaseLoadingUnpkgCount()
+                const isAssets = url.startsWith(assetsPathPtr[0])
+                isAssets && increaseLoadingAssetsCount()
                 loader.load(
                     url,
                     (gltf: GLTF) => {
@@ -36,7 +37,7 @@ export default async (url: string, clone: boolean) => {
                         for (const scene of gltf.scenes)
                             processChildren(scene, noBonePtr)
 
-                        unpkg && decreaseLoadingUnpkgCount()
+                        isAssets && decreaseLoadingAssetsCount()
                         resolve([gltf, noBonePtr[0]])
                     },
                     handleProgress(url),
