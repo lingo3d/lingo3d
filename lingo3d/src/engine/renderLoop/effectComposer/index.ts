@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import { filterBoolean } from "@lincode/utils"
+import { filterBoolean, lazy } from "@lincode/utils"
 import { EffectComposer, EffectPass, RenderPass } from "postprocessing"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
@@ -7,14 +7,16 @@ import { getResolution } from "../../../states/useResolution"
 import scene from "../../scene"
 import { getBloomEffect } from "./bloomEffect"
 import { getBokehEffect } from "./bokehEffect"
-import { getNormalPass } from "./normalPass"
 import { getOutlineEffect } from "./outlineEffect"
 import { getSelectiveBloomEffect } from "./selectiveBloomEffect"
-import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 import { getVignetteEffect } from "./vignetteEffect"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { resolutionPtr } from "../../../pointers/resolutionPtr"
+import { getSSAO } from "../../../states/useSSAO"
+//@ts-ignore
+import { N8AOPostPass } from "n8ao"
+import { Cancellable } from "@lincode/promiselikes"
 
 const effectComposer = new EffectComposer()
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -36,17 +38,23 @@ createEffect(() => {
     effectComposer.setSize(w, h)
 }, [getRenderer, getResolution])
 
-createEffect(() => {
-    const normalPass = getNormalPass()
-    normalPass && effectComposer.addPass(normalPass)
+const lazyAOPass = lazy(
+    () => new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
+)
 
+createEffect(() => {
+    const handle = new Cancellable()
+    if (getSSAO()) {
+        const n8aopass = lazyAOPass()
+        effectComposer.addPass(n8aopass)
+        handle.then(() => effectComposer.removePass(n8aopass))
+    }
     const effectPass = new EffectPass(
         cameraRenderedPtr[0],
         ...[
             getBloomEffect(),
             getSelectiveBloomEffect(),
             getSSREffect(),
-            getSSAOEffect(),
             getOutlineEffect(),
             getBokehEffect(),
             getVignetteEffect()
@@ -55,19 +63,18 @@ createEffect(() => {
     effectComposer.addPass(effectPass)
 
     return () => {
+        handle.cancel()
         effectComposer.removePass(effectPass)
-        normalPass && effectComposer.removePass(normalPass)
         effectPass.dispose()
     }
 }, [
     getCameraRendered,
     getRenderer,
+    getSSAO,
     getBloomEffect,
     getSelectiveBloomEffect,
     getSSREffect,
-    getSSAOEffect,
     getOutlineEffect,
     getBokehEffect,
-    getVignetteEffect,
-    getNormalPass
+    getVignetteEffect
 ])
