@@ -85,7 +85,7 @@ export default () => {
                 display: grid;
                 grid-template:  "toolbar scenegraph editor library tabs"
                                 "toolbar scenegraph editor library world"
-                                "toolbar panels     panels panels  world";
+                                "toolbar panels     panels panels  terminal";
                 grid-template-columns: auto auto auto auto 1fr;
                 grid-template-rows: auto 1fr auto;
             }
@@ -96,6 +96,7 @@ export default () => {
             .lingo3d-panels { grid-area: panels; }
             .lingo3d-toolbar { grid-area: toolbar; }
             .lingo3d-world { grid-area: world; }
+            .lingo3d-terminal { grid-area: terminal; }
 
             .lingo3d-connector {
                 width: 14px;

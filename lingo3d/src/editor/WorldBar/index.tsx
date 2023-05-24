@@ -90,11 +90,11 @@ const Tabs = () => {
                     on={uiLayer}
                     onChange={(val) => setUILayer(val)}
                 />
-                <Switch
+                {/* <Switch
                     label="expand"
                     on={worldExpanded}
                     onChange={(val) => setWorldExpanded(val)}
-                />
+                /> */}
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <WorldControls />
             </AppBar>

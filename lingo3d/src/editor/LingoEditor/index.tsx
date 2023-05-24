@@ -18,6 +18,7 @@ import { getWorldExpanded } from "../../states/useWorldExpanded"
 import Runtime from "../Runtime"
 import World from "../World"
 import { getEditorRuntime } from "../../states/useEditorRuntime"
+import Terminal from "../Terminal"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -46,7 +47,6 @@ const LingoEditor = () => {
                     {!gameGraph && !dummyIK && <Panels />}
                 </>
             )}
-
             <WorldBar />
             <div
                 className="lingo3d-world lingo3d-bg"
@@ -54,6 +54,7 @@ const LingoEditor = () => {
             >
                 {editorRuntime ? <Runtime /> : <World />}
             </div>
+            <Terminal />
             {stats && <Stats />}
             <HUD />
         </div>
