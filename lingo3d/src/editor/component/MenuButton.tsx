@@ -1,24 +1,29 @@
 import { useState } from "preact/hooks"
+import { APPBAR_HEIGHT } from "../../globals"
 
 type MenuItemProps = {
     disabled?: boolean
     highlight?: boolean
     onClick?: (e: MouseEvent) => void
     children: string
+    compact?: boolean
 }
 
 const MenuButton = ({
     disabled,
     highlight,
     onClick,
-    children
+    children,
+    compact
 }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
     return (
         <div
             style={{
-                padding: 6,
+                display: "flex",
+                alignItems: "center",
+                height: compact ? 20 : APPBAR_HEIGHT,
                 paddingLeft: 20,
                 paddingRight: 20,
                 whiteSpace: "nowrap",

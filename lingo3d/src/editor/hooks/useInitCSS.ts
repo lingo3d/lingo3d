@@ -1,3 +1,4 @@
+import { APPBAR_HEIGHT } from "../../globals"
 import createElement from "../../utils/createElement"
 
 let initialized = false
@@ -83,12 +84,12 @@ export default () => {
 
             .lingo3d-lingoeditor {
                 display: grid;
-                grid-template: "menubar menubar    menubar menubar menubar"
-                               "toolbar scenegraph editor  library tabs"
-                               "toolbar scenegraph editor  library world"
-                               "toolbar panels     panels  panels  terminal";
+                grid-template: "menubar menubar    menubar menubar tabs"
+                               "toolbar scenegraph editor library world"
+                               "toolbar scenegraph editor library world"
+                               "toolbar panels     panels panels  terminal";
                 grid-template-columns: auto auto auto auto 1fr;
-                grid-template-rows: 24px auto 1fr auto;
+                grid-template-rows: ${APPBAR_HEIGHT + 8}px auto 1fr auto;
             }
             .lingo3d-scenegraph { grid-area: scenegraph; }
             .lingo3d-editor { grid-area: editor; }
