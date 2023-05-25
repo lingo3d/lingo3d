@@ -141,7 +141,7 @@ const Toolbar = () => {
                     </ToolbarButton>
                 </Section>
 
-                <Section>
+                {/* <Section>
                     <ToolbarButton onClick={openFolder}>
                         <FolderIcon />
                     </ToolbarButton>
@@ -151,7 +151,7 @@ const Toolbar = () => {
                     <ToolbarButton onClick={saveJSON}>
                         <SaveIcon />
                     </ToolbarButton>
-                </Section>
+                </Section> */}
 
                 <Section>
                     <ToolbarButton onClick={exportJSON}>
