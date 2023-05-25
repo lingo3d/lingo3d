@@ -20,6 +20,7 @@ import World from "../World"
 import { getEditorRuntime } from "../../states/useEditorRuntime"
 import Terminal from "../Terminal"
 import { useEffect } from "preact/hooks"
+import MenuBar from "../MenuBar"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -42,6 +43,7 @@ const LingoEditor = () => {
         >
             {!worldExpanded && (
                 <>
+                    <MenuBar />
                     <Toolbar />
                     <SceneGraph />
                     {dummyIK ? (

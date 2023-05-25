@@ -83,11 +83,12 @@ export default () => {
 
             .lingo3d-lingoeditor {
                 display: grid;
-                grid-template:  "toolbar scenegraph editor library tabs"
-                                "toolbar scenegraph editor library world"
-                                "toolbar panels     panels panels  terminal";
+                grid-template: "menubar menubar    menubar menubar menubar"
+                               "toolbar scenegraph editor  library tabs"
+                               "toolbar scenegraph editor  library world"
+                               "toolbar panels     panels  panels  terminal";
                 grid-template-columns: auto auto auto auto 1fr;
-                grid-template-rows: auto 1fr auto;
+                grid-template-rows: 24px auto 1fr auto;
             }
             .lingo3d-scenegraph { grid-area: scenegraph; }
             .lingo3d-editor { grid-area: editor; }
@@ -97,6 +98,7 @@ export default () => {
             .lingo3d-toolbar { grid-area: toolbar; }
             .lingo3d-world { grid-area: world; }
             .lingo3d-terminal { grid-area: terminal; }
+            .lingo3d-menubar { grid-area: menubar; }
 
             .lingo3d-body {
                 overscroll-behavior: none;
