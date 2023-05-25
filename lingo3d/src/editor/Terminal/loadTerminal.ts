@@ -4,13 +4,14 @@ import { FitAddon } from "xterm-addon-fit"
 import "xterm/css/xterm.css"
 import { WebContainer } from "@webcontainer/api"
 import mountDumpScript from "./mountDumpScript"
+import { BACKGROUND_COLOR } from "../../globals"
 
 export const loadTerminal = async (el: HTMLDivElement, handle: Cancellable) => {
     const fitAddon = new FitAddon()
     const terminal = new Terminal({
         convertEol: true,
         fontSize: 11,
-        theme: { background: "rgb(18, 19, 22)" }
+        theme: { background: BACKGROUND_COLOR }
     })
     terminal.loadAddon(fitAddon)
     terminal.open(el)

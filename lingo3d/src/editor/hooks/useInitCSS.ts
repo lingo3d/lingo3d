@@ -1,5 +1,5 @@
 import { lazy } from "@lincode/utils"
-import { APPBAR_HEIGHT } from "../../globals"
+import { APPBAR_HEIGHT, BACKGROUND_COLOR } from "../../globals"
 import createElement from "../../utils/createElement"
 
 const fontFamily = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
@@ -45,7 +45,7 @@ export default lazy(() => {
             }
 
             .lingo3d-bg {
-                background: rgb(18, 19, 22);
+                background: ${BACKGROUND_COLOR};
             }
             .lingo3d-bg-dark {
                 background: rgb(${18 - 5}, ${19 - 5}, ${22 - 5});
