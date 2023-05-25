@@ -15,6 +15,7 @@ export const selectTab = (
     selectedSignal: Signal<Array<string>>,
     id: string
 ) => {
+    if (selectedSignal.value.at(-1) === id) return
     pull(selectedSignal.value, id)
     selectedSignal.value = [...selectedSignal.value, id]
 }

@@ -1,20 +1,22 @@
-import { useSignal } from "@preact/signals"
+import { useSignal, useSignalEffect } from "@preact/signals"
 import {
     BACKGROUND_COLOR,
     EDITOR_WIDTH,
     LIBRARY_WIDTH,
     SCENEGRAPH_WIDTH
 } from "../../globals"
-import { getScriptFiles } from "../../states/useScriptFiles"
+import { getScripts, pullScripts } from "../../states/useScripts"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
 import makeMonaco from "./makeMonaco"
 import { editor } from "monaco-editor"
 import data from "monaco-themes/themes/Sunburst.json"
-import { setScript } from "../../states/useScript"
+import { getScript, setScript } from "../../states/useScript"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
+import { useEffect, useMemo } from "preact/hooks"
+import { selectTab } from "../component/tabs/Tab"
 
 const { Monaco, controls } = makeMonaco()
 
@@ -29,8 +31,25 @@ const ScriptEditor = () => {
     useInitCSS()
     useInitEditor()
 
-    const [scriptFiles] = useSyncState(getScriptFiles)
     const selectedSignal = useSignal<Array<string>>([])
+    const script = useSyncState(getScript)
+    const scripts = useSyncState(getScripts)
+
+    useEffect(() => {
+        const uuid = script?.uuid
+        uuid && selectTab(selectedSignal, uuid)
+    }, [script])
+
+    useEffect(() => {
+        const uuid = selectedSignal.value.at(-1)
+        setScript(scripts.find((script) => script.uuid === uuid))
+    }, [selectedSignal.value])
+
+    const monacoFiles = useMemo(() => {
+        const result: Record<string, string> = {}
+        for (const script of scripts) result[script.uuid] = script.code
+        return result
+    }, [scripts])
 
     return (
         <div
@@ -38,19 +57,23 @@ const ScriptEditor = () => {
             style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH + SCENEGRAPH_WIDTH }}
         >
             <AppBar>
-                <CloseableTab
-                    selectedSignal={selectedSignal}
-                    onClose={() => setScript(undefined)}
-                >
-                    Script
-                </CloseableTab>
+                {scripts.map((script) => (
+                    <CloseableTab
+                        selectedSignal={selectedSignal}
+                        key={script.uuid}
+                        onClose={() => pullScripts(script)}
+                    >
+                        {script.uuid}
+                    </CloseableTab>
+                ))}
             </AppBar>
             <Monaco
                 style={{ flexGrow: 1 }}
                 theme="lingo3d"
+                language="typescript"
                 fontSize={13}
-                files={scriptFiles}
-                file={Object.keys(scriptFiles)[0]}
+                files={monacoFiles}
+                file={script?.uuid}
                 // onSave={handleSave}
                 // onSaveAll={handleSaveAll}
             />

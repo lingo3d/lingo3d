@@ -48,7 +48,7 @@ export default lazy(() => {
                 background: ${BACKGROUND_COLOR};
             }
             .lingo3d-bg-dark {
-                background: rgb(${18 - 5}, ${19 - 5}, ${22 - 5});
+                background: ${BACKGROUND_COLOR};
             }
             .lingo3d-absfull {
                 position: absolute;
