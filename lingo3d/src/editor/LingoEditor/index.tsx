@@ -18,11 +18,11 @@ import { getWorldExpanded } from "../../states/useWorldExpanded"
 import Runtime from "../Runtime"
 import World from "../World"
 import { getEditorRuntime } from "../../states/useEditorRuntime"
-import Terminal from "../Terminal"
 import { useEffect } from "preact/hooks"
 import MenuBar from "../MenuBar"
 import { getScript } from "../../states/useScript"
 import ScriptEditor from "../ScriptEditor"
+import Terminal from "../Terminal"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -64,12 +64,12 @@ const LingoEditor = () => {
             )}
             <WorldBar />
             <div
-                className="lingo3d-world lingo3d-bg"
-                style={{ height: "100%", flexGrow: 1, position: "relative" }}
+                className="lingo3d-world lingo3d-bg lingo3d-flexcol"
+                style={{ flexGrow: 1 }}
             >
                 {editorRuntime ? <Runtime /> : <World />}
+                <Terminal />
             </div>
-            <Terminal />
             {stats && <Stats />}
             <HUD />
         </div>

@@ -22,8 +22,7 @@ const Runtime = () => {
     return (
         <iframe
             ref={iframeRef}
-            className="lingo3d-absfull"
-            style={{ border: "none" }}
+            style={{ border: "none", flexGrow: 1 }}
             src="runtime/index.html"
         />
     )

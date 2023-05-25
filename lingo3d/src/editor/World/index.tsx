@@ -14,7 +14,7 @@ const World = () => {
         }
     }, [])
 
-    return <div ref={elRef} className="lingo3d-absfull" />
+    return <div ref={elRef} style={{ flexGrow: 1 }} />
 }
 
 export default World

@@ -86,7 +86,7 @@ export default lazy(() => {
                 grid-template: "menubar menubar    menubar menubar tabs"
                                "toolbar scenegraph editor library world"
                                "toolbar scenegraph editor library world"
-                               "toolbar panels     panels panels  terminal";
+                               "toolbar panels     panels panels  world";
                 grid-template-columns: auto auto auto auto 1fr;
                 grid-template-rows: ${APPBAR_HEIGHT + 8}px auto 1fr auto;
             }
@@ -97,7 +97,6 @@ export default lazy(() => {
             .lingo3d-panels { grid-area: panels; }
             .lingo3d-toolbar { grid-area: toolbar; }
             .lingo3d-world { grid-area: world; }
-            .lingo3d-terminal { grid-area: terminal; }
             .lingo3d-menubar { grid-area: menubar; }
 
             .lingo3d-body {
