@@ -48,7 +48,7 @@ const LingoEditor = () => {
                 <>
                     <MenuBar />
                     <Toolbar />
-                    <SceneGraph />
+                    {!script && <SceneGraph />}
                     {dummyIK ? (
                         <DummyIKEditor />
                     ) : gameGraph ? (
