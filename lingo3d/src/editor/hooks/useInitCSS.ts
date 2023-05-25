@@ -1,12 +1,8 @@
+import { lazy } from "@lincode/utils"
 import { APPBAR_HEIGHT } from "../../globals"
 import createElement from "../../utils/createElement"
 
-let initialized = false
-
-export default () => {
-    if (initialized) return
-    initialized = true
-
+export default lazy(() => {
     const style = createElement(`
         <style>
             .lingo3d-ui * {
@@ -212,4 +208,4 @@ export default () => {
         </style>
     `)
     document.head.appendChild(style)
-}
+})

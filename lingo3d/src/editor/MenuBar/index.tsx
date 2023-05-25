@@ -26,7 +26,12 @@ const MenuBar = () => {
         <>
             <div
                 className="lingo3d-ui lingo3d-bg-dark lingo3d-menubar"
-                style={{ display: "flex", alignItems: "center", padding: 8 }}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: 8,
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.1)"
+                }}
             >
                 <MenuButton
                     compact

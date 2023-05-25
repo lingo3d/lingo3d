@@ -62,7 +62,7 @@ const ContextMenu = ({
             />
             <div
                 ref={elRef}
-                className="lingo3d-bg"
+                className="lingo3d-bg-dark"
                 style={{
                     position: "absolute",
                     left: xOverFlow ? undefined : positionSignal.value.x,

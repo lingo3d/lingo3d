@@ -73,7 +73,10 @@ const Tabs = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-bg-dark lingo3d-tabs"
-            style={{ width: "100%" }}
+            style={{
+                width: "100%",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
         >
             <AppBar style={{ gap: 4 }}>
                 <div
