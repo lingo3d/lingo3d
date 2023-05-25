@@ -21,10 +21,13 @@ import { getEditorRuntime } from "../../states/useEditorRuntime"
 import Terminal from "../Terminal"
 import { useEffect } from "preact/hooks"
 import MenuBar from "../MenuBar"
+import { getScript } from "../../states/useScript"
+import ScriptEditor from "../ScriptEditor"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
+    const script = useSyncState(getScript)
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
     const editorRuntime = useSyncState(getEditorRuntime)
@@ -50,6 +53,8 @@ const LingoEditor = () => {
                         <DummyIKEditor />
                     ) : gameGraph ? (
                         <GameGraphEditor />
+                    ) : script ? (
+                        <ScriptEditor />
                     ) : (
                         <Editor />
                     )}
