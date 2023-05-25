@@ -8,6 +8,8 @@ export default () => {
     useLayoutEffect(() => {
         if (!container) return
 
+        container.classList.add("lingo3d-font")
+
         const pane = new Pane({ container })
         setPane(pane)
 

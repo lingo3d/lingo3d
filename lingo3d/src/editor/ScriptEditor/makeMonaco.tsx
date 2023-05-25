@@ -322,7 +322,6 @@ export default () => {
         return (
             <div style={style} className={className} ref={elRef}>
                 <div
-                    className="monaco-container nofix"
                     style={{ width: "100%", height: "100%" }}
                     ref={editorDivRef}
                 />

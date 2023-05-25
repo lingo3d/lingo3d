@@ -23,7 +23,16 @@ const Terminal = () => {
             className="lingo3d-ui lingo3d-bg"
             style={{ height: PANELS_HEIGHT }}
         >
-            <div ref={elRef} className="lingo3d-xterm" />
+            <div
+                ref={elRef}
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "calc(100% - 10px)",
+                    paddingLeft: "10px",
+                    paddingTop: "10px"
+                }}
+            />
         </div>
     )
 }

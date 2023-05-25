@@ -2,6 +2,8 @@ import { lazy } from "@lincode/utils"
 import { APPBAR_HEIGHT } from "../../globals"
 import createElement from "../../utils/createElement"
 
+const fontFamily = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
+
 export default lazy(() => {
     const style = createElement(`
         <style>
@@ -11,9 +13,11 @@ export default lazy(() => {
                 -webkit-user-select: none;
                 position: relative;
                 box-sizing: border-box;
-                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
                 scrollbar-width: none;
                 scrollbar-color: rgba(100,100,100,0.1);
+            }
+            .lingo3d-font * {
+                font-family: ${fontFamily} !important;
             }
             .lingo3d-ui {
                 overscroll-behavior: none;
@@ -24,6 +28,7 @@ export default lazy(() => {
                 color: white;
                 font-size: 11px;
                 max-height: 100%;
+                font-family: ${fontFamily};
             }
             .lingo3d-ui *::-webkit-scrollbar {
                 width: 4px;
@@ -101,17 +106,6 @@ export default lazy(() => {
 
             .lingo3d-body {
                 overscroll-behavior: none;
-            }
-
-            .lingo3d-xterm * {
-                font-family: monospace !important;
-            }
-            .lingo3d-xterm {
-                position: absolute;
-                width: 100%;
-                height: calc(100% - 10px);
-                padding-left: 10px;
-                padding-top: 10px;
             }
 
             .lingo3d-connector {
