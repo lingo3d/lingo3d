@@ -5,6 +5,15 @@ import MenuBarEditContextMenu, {
 import MenuBarFileContextMenu, {
     menuBarFileContextMenuSignal
 } from "./MenuBarFileContextMenu"
+import MenuBarHelpContextMenu, {
+    menuBarHelpContextMenuSignal
+} from "./MenuBarHelpContextMenu"
+import MenuBarSelectionContextMenu, {
+    menuBarSelectionContextMenuSignal
+} from "./MenuBarSelectionContextMenu"
+import MenuBarViewContextMenu, {
+    menuBarViewContextMenuSignal
+} from "./MenuBarViewContextMenu"
 
 const getMenuSnappingPoint = (e: MouseEvent) => {
     const el = e.currentTarget as HTMLElement
@@ -39,12 +48,42 @@ const MenuBar = () => {
                 >
                     Edit
                 </MenuButton>
-                <MenuButton compact>Selection</MenuButton>
-                <MenuButton compact>View</MenuButton>
-                <MenuButton compact>Help</MenuButton>
+                <MenuButton
+                    compact
+                    activeSignal={menuBarSelectionContextMenuSignal}
+                    onClick={(e) =>
+                        (menuBarSelectionContextMenuSignal.value =
+                            getMenuSnappingPoint(e))
+                    }
+                >
+                    Selection
+                </MenuButton>
+                <MenuButton
+                    compact
+                    activeSignal={menuBarViewContextMenuSignal}
+                    onClick={(e) =>
+                        (menuBarViewContextMenuSignal.value =
+                            getMenuSnappingPoint(e))
+                    }
+                >
+                    View
+                </MenuButton>
+                <MenuButton
+                    compact
+                    activeSignal={menuBarHelpContextMenuSignal}
+                    onClick={(e) =>
+                        (menuBarHelpContextMenuSignal.value =
+                            getMenuSnappingPoint(e))
+                    }
+                >
+                    Help
+                </MenuButton>
             </div>
             <MenuBarFileContextMenu />
             <MenuBarEditContextMenu />
+            <MenuBarSelectionContextMenu />
+            <MenuBarViewContextMenu />
+            <MenuBarHelpContextMenu />
         </>
     )
 }
