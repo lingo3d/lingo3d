@@ -1,4 +1,7 @@
 import MenuButton from "../component/MenuButton"
+import MenuBarEditContextMenu, {
+    menuBarEditContextMenuSignal
+} from "./MenuBarEditContextMenu"
 import MenuBarFileContextMenu, {
     menuBarFileContextMenuSignal
 } from "./MenuBarFileContextMenu"
@@ -26,12 +29,22 @@ const MenuBar = () => {
                 >
                     File
                 </MenuButton>
-                <MenuButton compact>Edit</MenuButton>
+                <MenuButton
+                    compact
+                    activeSignal={menuBarEditContextMenuSignal}
+                    onClick={(e) =>
+                        (menuBarEditContextMenuSignal.value =
+                            getMenuSnappingPoint(e))
+                    }
+                >
+                    Edit
+                </MenuButton>
                 <MenuButton compact>Selection</MenuButton>
                 <MenuButton compact>View</MenuButton>
                 <MenuButton compact>Help</MenuButton>
             </div>
             <MenuBarFileContextMenu />
+            <MenuBarEditContextMenu />
         </>
     )
 }
