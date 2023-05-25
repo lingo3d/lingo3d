@@ -153,7 +153,7 @@ const Toolbar = () => {
                     </ToolbarButton>
                 </Section> */}
 
-                <Section>
+                {/* <Section>
                     <ToolbarButton onClick={exportJSON}>
                         <JSONIcon />
                     </ToolbarButton>
@@ -163,7 +163,7 @@ const Toolbar = () => {
                     <ToolbarButton onClick={exportVue}>
                         <VueIcon />
                     </ToolbarButton>
-                </Section>
+                </Section> */}
             </div>
         </div>
     )

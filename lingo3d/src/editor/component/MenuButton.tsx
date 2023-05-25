@@ -26,7 +26,7 @@ const MenuButton = ({
             style={{
                 display: "flex",
                 alignItems: "center",
-                height: compact ? 20 : APPBAR_HEIGHT,
+                height: compact ? "100%" : APPBAR_HEIGHT,
                 paddingLeft: 20,
                 paddingRight: 20,
                 whiteSpace: "nowrap",

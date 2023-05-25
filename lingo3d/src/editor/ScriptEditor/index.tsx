@@ -1,3 +1,4 @@
+import { useSignal } from "@preact/signals"
 import {
     BACKGROUND_COLOR,
     EDITOR_WIDTH,
@@ -11,6 +12,9 @@ import useSyncState from "../hooks/useSyncState"
 import makeMonaco from "./makeMonaco"
 import { editor } from "monaco-editor"
 import data from "monaco-themes/themes/Sunburst.json"
+import { setScript } from "../../states/useScript"
+import AppBar from "../component/bars/AppBar"
+import CloseableTab from "../component/tabs/CloseableTab"
 
 const { Monaco, controls } = makeMonaco()
 
@@ -26,14 +30,23 @@ const ScriptEditor = () => {
     useInitEditor()
 
     const [scriptFiles] = useSyncState(getScriptFiles)
+    const selectedSignal = useSignal<Array<string>>([])
 
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
             style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH + SCENEGRAPH_WIDTH }}
         >
+            <AppBar>
+                <CloseableTab
+                    selectedSignal={selectedSignal}
+                    onClose={() => setScript(undefined)}
+                >
+                    Script
+                </CloseableTab>
+            </AppBar>
             <Monaco
-                className="lingo3d-absfull"
+                style={{ flexGrow: 1 }}
                 theme="lingo3d"
                 fontSize={13}
                 files={scriptFiles}
