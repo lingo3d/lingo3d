@@ -6,6 +6,8 @@ import openJSON from "../../api/files/openJSON"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import exportJSON from "../../api/files/exportJSON"
+import { setScript } from "../../states/useScript"
+import Script from "../../display/Script"
 
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -14,7 +16,14 @@ const MenuBarFileContextMenu = () => {
     return (
         <ContextMenu positionSignal={menuBarFileContextMenuSignal}>
             <MenuButton>New File</MenuButton>
-            <MenuButton>New Script</MenuButton>
+            <MenuButton
+                onClick={() => {
+                    setScript(new Script())
+                    menuBarFileContextMenuSignal.value = undefined
+                }}
+            >
+                New Script
+            </MenuButton>
             <MenuButton
                 onClick={() => {
                     openJSON()

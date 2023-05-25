@@ -58,8 +58,8 @@ const LingoEditor = () => {
                     ) : (
                         <Editor />
                     )}
-                    {!gameGraph && !dummyIK && <Library />}
-                    {!gameGraph && !dummyIK && <Panels />}
+                    {!gameGraph && !script && !dummyIK && <Library />}
+                    {!gameGraph && !script && !dummyIK && <Panels />}
                 </>
             )}
             <WorldBar />
