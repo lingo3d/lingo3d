@@ -3,7 +3,7 @@ import MenuButton from "../component/MenuButton"
 const MenuBar = () => {
     return (
         <div
-            className="lingo3d-ui lingo3d-bg lingo3d-menubar"
+            className="lingo3d-ui lingo3d-bg-dark lingo3d-menubar"
             style={{ display: "flex", alignItems: "center", padding: 8 }}
         >
             <MenuButton compact>File</MenuButton>

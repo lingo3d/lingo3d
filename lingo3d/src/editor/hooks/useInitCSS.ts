@@ -46,6 +46,9 @@ export default () => {
             .lingo3d-bg {
                 background: rgb(18, 19, 22);
             }
+            .lingo3d-bg-dark {
+                background: rgb(${18 - 7}, ${19 - 7}, ${22 - 7});
+            }
             .lingo3d-absfull {
                 position: absolute;
                 top: 0px;
