@@ -14,8 +14,7 @@ const MenuBarFileContextMenu = () => {
     return (
         <ContextMenu positionSignal={menuBarFileContextMenuSignal}>
             <MenuButton>New File</MenuButton>
-            <MenuButton>New Scene File</MenuButton>
-            <MenuButton>New TypeScript File</MenuButton>
+            <MenuButton>New Script</MenuButton>
             <MenuButton
                 onClick={() => {
                     openJSON()
