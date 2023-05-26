@@ -1,7 +1,7 @@
 import CloseIcon from "../icons/CloseIcon"
 import { selectTab, TabProps } from "./Tab"
 import IconButton from "../IconButton"
-import { useEffect } from "preact/hooks"
+import { useEffect, useLayoutEffect } from "preact/hooks"
 
 type CloseableTabProps = TabProps & {
     onClose?: () => void
@@ -15,9 +15,9 @@ const CloseableTab = ({
     disabled,
     id = children
 }: CloseableTabProps) => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         selectedSignal &&
-            (selected || !selectedSignal.value[0]) &&
+            (selected || !selectedSignal.value.length) &&
             id &&
             selectTab(selectedSignal, id)
     }, [selected])

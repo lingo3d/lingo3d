@@ -1,6 +1,6 @@
 import { pull } from "@lincode/utils"
 import { Signal } from "@preact/signals"
-import { useEffect } from "preact/hooks"
+import { useLayoutEffect } from "preact/hooks"
 
 export type TabProps = {
     children?: string
@@ -28,9 +28,9 @@ const Tab = ({
     half,
     id = children
 }: TabProps) => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         selectedSignal &&
-            (selected || !selectedSignal.value[0]) &&
+            (selected || !selectedSignal.value.length) &&
             id &&
             selectTab(selectedSignal, id)
     }, [selected, id])
