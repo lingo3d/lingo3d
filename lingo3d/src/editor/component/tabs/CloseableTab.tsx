@@ -4,6 +4,7 @@ import IconButton from "../IconButton"
 import { useEffect, useLayoutEffect } from "preact/hooks"
 
 type CloseableTabProps = TabProps & {
+    height?: number | string
     onClose?: () => void
 }
 
@@ -14,6 +15,7 @@ const CloseableTab = ({
     selectedSignal,
     disabled,
     width,
+    height = 20,
     id = children
 }: CloseableTabProps) => {
     useLayoutEffect(() => {
@@ -40,14 +42,16 @@ const CloseableTab = ({
 
     return (
         <div
-            className="lingo3d-flexcenter"
             style={{
+                display: "flex",
+                alignItems: "center",
                 width,
+                height,
                 opacity: disabled ? 0.1 : 1,
                 pointerEvents: disabled ? "none" : "auto",
-                marginLeft: 4,
-                marginRight: 4,
-                height: 20,
+                margin: width ? undefined : 4,
+                marginTop: 0,
+                marginBottom: 0,
                 paddingLeft: 12,
                 background:
                     !selectedSignal || selectedSignal.value.at(-1) === id
@@ -71,7 +75,7 @@ const CloseableTab = ({
             >
                 {children}
             </div>
-            <div style={{ width: 4 }} />
+            <div style={{ flexGrow: 1 }} />
             <IconButton disabled={!onClose} onClick={onClose} borderless>
                 <CloseIcon />
             </IconButton>

@@ -1,7 +1,8 @@
 import { Signal, signal } from "@preact/signals"
 import Dialog from "../component/Dialog"
 import AppBar from "../component/bars/AppBar"
-import Tab from "../component/tabs/Tab"
+import CloseableTab from "../component/tabs/CloseableTab"
+import { APPBAR_HEIGHT } from "../../globals"
 
 export const createDialogSignal: Signal<
     | {
@@ -21,9 +22,9 @@ const CreateDialog = () => {
 
     return (
         <Dialog signal={createDialogSignal}>
-            <AppBar>
-                <Tab width="100%">{"New" + createDialogSignal.value.type}</Tab>
-            </AppBar>
+            <CloseableTab width="100%" height={APPBAR_HEIGHT}>
+                {"New " + createDialogSignal.value.type}
+            </CloseableTab>
         </Dialog>
     )
 }

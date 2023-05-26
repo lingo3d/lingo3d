@@ -27,7 +27,6 @@ const Dialog = ({ signal, children }: DialogProps) => {
             <div
                 className="lingo3d-bg-dark"
                 style={{
-                    padding: 6,
                     border: "1px solid rgba(255, 255, 255, 0.2)",
                     minWidth: 300,
                     minHeight: 200
