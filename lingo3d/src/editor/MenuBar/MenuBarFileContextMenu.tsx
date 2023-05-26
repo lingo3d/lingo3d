@@ -22,9 +22,10 @@ const MenuBarFileContextMenu = () => {
                     createDialogSignal.value = {
                         title: "New Script",
                         data: {},
-                        onConfirm: ({ name }) => {
+                        onConfirm: ({ name, type }) => {
                             const script = new Script()
                             script.name = name
+                            script.type = type
                             setScript(script)
                         }
                     }

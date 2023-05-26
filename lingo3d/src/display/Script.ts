@@ -7,4 +7,5 @@ export default class Script extends Appendable implements IScript {
     public static schema = scriptSchema
 
     public code = ""
+    public type: "JavaScript" | "TypeScript" = "TypeScript"
 }
