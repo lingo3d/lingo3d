@@ -55,13 +55,19 @@ const CreateDialog = () => {
                     <div style={{ flexGrow: 1 }} />
                     <IconButton
                         label="Cancel"
+                        fill="rgba(255, 255, 255, 0.05)"
+                        borderless
                         onClick={() => (createDialogSignal.value = undefined)}
                     />
                     <IconButton
                         label="Confirm"
                         fill
                         disabled={!nameSignal.value}
-                        onClick={() => value.onConfirm(value.data)}
+                        onClick={() => {
+                            if (!value.data.name) return
+                            value.onConfirm(value.data)
+                            createDialogSignal.value = undefined
+                        }}
                     />
                 </div>
             </div>

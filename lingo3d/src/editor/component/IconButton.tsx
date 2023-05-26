@@ -8,7 +8,7 @@ type IconButtonProps = {
     disabled?: boolean
     label?: string
     borderless?: boolean
-    fill?: boolean
+    fill?: boolean | string
 }
 
 const IconButton = ({
@@ -30,10 +30,11 @@ const IconButton = ({
                 height: APPBAR_HEIGHT - 4,
                 opacity: disabled ? 0.1 : 1,
                 cursor: disabled ? undefined : "pointer",
-                background:
-                    !borderless && fill
-                        ? "rgba(255, 255, 255, 0.1)"
-                        : undefined,
+                background: fill
+                    ? typeof fill === "string"
+                        ? fill
+                        : "rgba(255, 255, 255, 0.1)"
+                    : undefined,
                 border: !borderless
                     ? "1px solid rgba(255, 255, 255, 0.25)"
                     : undefined
