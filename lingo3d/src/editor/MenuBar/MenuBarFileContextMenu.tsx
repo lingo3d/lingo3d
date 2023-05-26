@@ -20,12 +20,10 @@ const MenuBarFileContextMenu = () => {
             <MenuButton
                 onClick={() => {
                     newScriptDialogSignal.value = {
-                        title: "New Script",
-                        data: {},
-                        onConfirm: ({ name, type }) => {
+                        onConfirm: (name, language) => {
                             const script = new Script()
                             script.name = name
-                            script.language = type
+                            script.language = language
                             setScript(script)
                         }
                     }

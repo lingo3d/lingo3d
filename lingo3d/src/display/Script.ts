@@ -1,4 +1,8 @@
-import IScript, { scriptDefaults, scriptSchema } from "../interface/IScript"
+import IScript, {
+    ScriptLanguage,
+    scriptDefaults,
+    scriptSchema
+} from "../interface/IScript"
 import Appendable from "./core/Appendable"
 
 export default class Script extends Appendable implements IScript {
@@ -7,5 +11,5 @@ export default class Script extends Appendable implements IScript {
     public static schema = scriptSchema
 
     public code = ""
-    public language: "JavaScript" | "TypeScript" = "TypeScript"
+    public language: ScriptLanguage = "TypeScript"
 }

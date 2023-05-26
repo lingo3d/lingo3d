@@ -6,9 +6,11 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
+export type ScriptLanguage = "JavaScript" | "TypeScript"
+
 export default interface IScript extends IAppendable {
     code: string
-    language: "JavaScript" | "TypeScript"
+    language: ScriptLanguage
 }
 
 export const scriptSchema: Required<ExtractProps<IScript>> = {

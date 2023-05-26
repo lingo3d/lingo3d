@@ -5,12 +5,12 @@ import { APPBAR_HEIGHT } from "../../globals"
 import TextBox from "../component/TextBox"
 import SelectBox from "../component/SelectBox"
 import IconButton from "../component/IconButton"
+import { ScriptLanguage } from "../../interface/IScript"
+import { useRef } from "preact/hooks"
 
 export const newScriptDialogSignal: Signal<
     | {
-          title?: string
-          data: Record<string, any>
-          onConfirm: (data: Record<string, any>) => void
+          onConfirm: (name: string, language: ScriptLanguage) => void
       }
     | undefined
 > = signal(undefined)
@@ -18,6 +18,7 @@ export const newScriptDialogSignal: Signal<
 const NewScriptDialog = () => {
     const { value } = newScriptDialogSignal
     const nameSignal = useSignal("")
+    const langaugeRef = useRef<ScriptLanguage>("TypeScript")
     if (!value) return null
 
     return (
@@ -27,22 +28,21 @@ const NewScriptDialog = () => {
                 height={APPBAR_HEIGHT}
                 onClose={() => (newScriptDialogSignal.value = undefined)}
             >
-                {value.title}
+                New Script
             </CloseableTab>
             <div style={{ flexGrow: 1 }}>
                 <TextBox
                     placeholder="Script Name"
                     style={{ marginTop: 12 }}
-                    onChange={(val) => {
-                        value.data.name = val
-                        nameSignal.value = val
-                    }}
+                    onChange={(val) => (nameSignal.value = val)}
                 />
                 <SelectBox
                     label="Language"
                     style={{ paddingLeft: 12, paddingRight: 6 }}
                     options={["TypeScript", "JavaScript"]}
-                    onChange={(_, val) => (value.data.type = val)}
+                    onChange={(_, val) =>
+                        (langaugeRef.current = val as ScriptLanguage)
+                    }
                 />
                 <div
                     style={{
@@ -66,8 +66,11 @@ const NewScriptDialog = () => {
                         fill
                         disabled={!nameSignal.value}
                         onClick={() => {
-                            if (!value.data.name) return
-                            value.onConfirm(value.data)
+                            if (!nameSignal.value) return
+                            value.onConfirm(
+                                nameSignal.value,
+                                langaugeRef.current
+                            )
                             newScriptDialogSignal.value = undefined
                         }}
                     />
