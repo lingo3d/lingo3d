@@ -1,15 +1,13 @@
 import { Signal, signal } from "@preact/signals"
 import Dialog from "../component/Dialog"
-import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { APPBAR_HEIGHT } from "../../globals"
 
 export const createDialogSignal: Signal<
     | {
-          type: string
+          title?: string
           data?: Record<string, any>
           onConfirm: (payload: {
-              type: string
               name: string
               data?: Record<string, any>
           }) => void
@@ -22,8 +20,12 @@ const CreateDialog = () => {
 
     return (
         <Dialog signal={createDialogSignal}>
-            <CloseableTab width="100%" height={APPBAR_HEIGHT}>
-                {"New " + createDialogSignal.value.type}
+            <CloseableTab
+                width="100%"
+                height={APPBAR_HEIGHT}
+                onClose={() => (createDialogSignal.value = undefined)}
+            >
+                {createDialogSignal.value.title}
             </CloseableTab>
         </Dialog>
     )
