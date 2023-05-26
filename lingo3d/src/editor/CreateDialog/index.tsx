@@ -9,17 +9,15 @@ import IconButton from "../component/IconButton"
 export const createDialogSignal: Signal<
     | {
           title?: string
-          data?: Record<string, any>
-          onConfirm: (payload: {
-              name: string
-              data?: Record<string, any>
-          }) => void
+          data: Record<string, any>
+          onConfirm: (data: Record<string, any>) => void
       }
     | undefined
 > = signal(undefined)
 
 const CreateDialog = () => {
-    if (!createDialogSignal.value) return null
+    const { value } = createDialogSignal
+    if (!value) return null
 
     return (
         <Dialog signal={createDialogSignal}>
@@ -28,16 +26,39 @@ const CreateDialog = () => {
                 height={APPBAR_HEIGHT}
                 onClose={() => (createDialogSignal.value = undefined)}
             >
-                {createDialogSignal.value.title}
+                {value.title}
             </CloseableTab>
-            <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
-                <TextBox placeholder="Script Name" style={{ marginTop: 12 }} />
+            <div style={{ flexGrow: 1 }}>
+                <TextBox
+                    placeholder="Script Name"
+                    style={{ marginTop: 12 }}
+                    onChange={(val) => (value.data.name = val)}
+                />
                 <SelectBox
                     label="Language"
                     style={{ paddingLeft: 12, paddingRight: 6 }}
                     options={["TypeScript", "JavaScript"]}
+                    onChange={(_, val) => (value.data.type = val)}
                 />
-                <IconButton>Confirm</IconButton>
+                <div
+                    style={{
+                        padding: 10,
+                        marginTop: 10,
+                        display: "flex",
+                        gap: 4
+                    }}
+                >
+                    <div style={{ flexGrow: 1 }} />
+                    <IconButton
+                        label="Cancel"
+                        onClick={() => (createDialogSignal.value = undefined)}
+                    />
+                    <IconButton
+                        label="Confirm"
+                        fill
+                        onClick={() => value.onConfirm(value.data)}
+                    />
+                </div>
             </div>
         </Dialog>
     )
