@@ -1,4 +1,4 @@
-import { useSignal, useSignalEffect } from "@preact/signals"
+import { useSignal } from "@preact/signals"
 import {
     BACKGROUND_COLOR,
     EDITOR_WIDTH,
@@ -18,7 +18,7 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import { useLayoutEffect, useMemo } from "preact/hooks"
 import { selectTab } from "../component/tabs/Tab"
 
-const { Monaco, controls } = makeMonaco()
+const { Monaco } = makeMonaco()
 
 Object.assign(data.colors, {
     "editor.background": BACKGROUND_COLOR
@@ -72,7 +72,7 @@ const ScriptEditor = () => {
                 style={{ flexGrow: 1 }}
                 theme="lingo3d"
                 language="typescript"
-                fontSize={13}
+                fontSize={12}
                 files={monacoFiles}
                 file={script?.uuid}
                 // onSave={handleSave}
