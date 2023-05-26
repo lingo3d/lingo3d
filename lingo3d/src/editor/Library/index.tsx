@@ -94,10 +94,10 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >
             <AppBar style={{ padding: 10 }}>
-                <Tab half selectedSignal={librarySignal}>
+                <Tab width="100%" selectedSignal={librarySignal}>
                     components
                 </Tab>
-                <Tab half selectedSignal={librarySignal}>
+                <Tab width="100%" selectedSignal={librarySignal}>
                     templates
                 </Tab>
             </AppBar>

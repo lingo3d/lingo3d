@@ -13,6 +13,7 @@ const CloseableTab = ({
     selected,
     selectedSignal,
     disabled,
+    width,
     id = children
 }: CloseableTabProps) => {
     useLayoutEffect(() => {
@@ -41,6 +42,7 @@ const CloseableTab = ({
         <div
             className="lingo3d-flexcenter"
             style={{
+                width,
                 opacity: disabled ? 0.1 : 1,
                 pointerEvents: disabled ? "none" : "auto",
                 marginLeft: 4,

@@ -7,7 +7,7 @@ export type TabProps = {
     selected?: boolean
     selectedSignal?: Signal<Array<string>>
     disabled?: boolean
-    half?: boolean
+    width?: string | number
     id?: string
 }
 
@@ -25,7 +25,7 @@ const Tab = ({
     selected,
     selectedSignal,
     disabled,
-    half,
+    width,
     id = children
 }: TabProps) => {
     useLayoutEffect(() => {
@@ -39,10 +39,10 @@ const Tab = ({
         <div
             className="lingo3d-bg lingo3d-flexcenter"
             style={{
-                width: half ? "50%" : undefined,
+                width,
                 opacity: disabled ? 0.1 : 1,
                 height: 20,
-                padding: half ? undefined : 12,
+                padding: width ? undefined : 12,
                 background:
                     !selectedSignal || selectedSignal.value.at(-1) === id
                         ? "rgba(255, 255, 255, 0.1)"

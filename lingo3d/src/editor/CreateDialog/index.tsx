@@ -22,7 +22,7 @@ const CreateDialog = () => {
     return (
         <Dialog signal={createDialogSignal}>
             <AppBar>
-                <Tab>{"New" + createDialogSignal.value.type}</Tab>
+                <Tab width="100%">{"New" + createDialogSignal.value.type}</Tab>
             </AppBar>
         </Dialog>
     )
