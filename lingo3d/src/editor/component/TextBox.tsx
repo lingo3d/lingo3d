@@ -2,6 +2,7 @@ import { useSignal } from "@preact/signals"
 import { CSSProperties, useEffect } from "preact/compat"
 import CloseIcon from "./icons/CloseIcon"
 import TextInput from "./TextInput"
+import { CLICK_TIME } from "../../globals"
 
 type Props = {
     style?: CSSProperties
@@ -9,6 +10,7 @@ type Props = {
     onChange?: (val: string) => void
     clearOnChange?: any
     placeholder?: string
+    light?: boolean
 }
 
 const TextBox = ({
@@ -16,7 +18,8 @@ const TextBox = ({
     fullWidth,
     onChange,
     clearOnChange,
-    placeholder = "Search..."
+    placeholder = "Search...",
+    light
 }: Props) => {
     const textSignal = useSignal("")
 
@@ -31,7 +34,7 @@ const TextBox = ({
         }
         const timeout = setTimeout(
             () => onChange?.(textSignal.value.trim()),
-            300
+            CLICK_TIME
         )
         return () => {
             clearTimeout(timeout)
@@ -52,8 +55,9 @@ const TextBox = ({
                 style={{
                     display: "flex",
                     outline: "1px solid rgba(255, 255, 255, 0.1)",
-                    background: "rgba(255, 255, 255, 0.02)",
-                    width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)"
+                    background: `rgba(255, 255, 255, ${light ? 0.7 : 0.02})`,
+                    width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)",
+                    color: light ? "black" : "white"
                 }}
             >
                 <TextInput
