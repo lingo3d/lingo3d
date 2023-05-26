@@ -60,7 +60,6 @@ const SceneGraphContextMenu = () => {
                       }
                     : undefined
             }
-            enableHotKeys
         >
             <MenuItems selectionTarget={selectionTarget} />
         </ContextMenu>

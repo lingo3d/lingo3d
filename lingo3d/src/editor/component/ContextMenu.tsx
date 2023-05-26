@@ -1,15 +1,13 @@
-import { Point } from "@lincode/math"
 import { Signal } from "@preact/signals"
 import { ComponentChildren } from "preact"
 import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
 import { stopPropagation } from "../utils/stopPropagation"
 import TextOptionsInput from "./TextOptionsInput"
 import prevent from "../utils/prevent"
-import mergeRefs from "../hooks/mergeRefs"
-import { enableHotKeysOnElement } from "../../engine/hotkeys"
+import { PointType } from "../../utils/isPoint"
 
 interface ContextMenuProps {
-    positionSignal?: Signal<Point | undefined>
+    positionSignal?: Signal<PointType | undefined>
     children?: ComponentChildren
     input?:
         | {
@@ -18,15 +16,9 @@ interface ContextMenuProps {
               options?: Array<string>
           }
         | false
-    enableHotKeys?: boolean
 }
 
-const ContextMenu = ({
-    positionSignal,
-    children,
-    input,
-    enableHotKeys
-}: ContextMenuProps) => {
+const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
     if (!positionSignal?.value) return null
 
     const elRef = useRef<HTMLDivElement>(null)
@@ -47,11 +39,7 @@ const ContextMenu = ({
 
     return createPortal(
         <div
-            ref={
-                enableHotKeys
-                    ? mergeRefs(stopPropagation, enableHotKeysOnElement)
-                    : stopPropagation
-            }
+            ref={stopPropagation}
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
             onContextMenu={prevent}
