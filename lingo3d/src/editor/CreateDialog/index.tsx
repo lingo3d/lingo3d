@@ -30,10 +30,10 @@ const CreateDialog = () => {
                 {createDialogSignal.value.title}
             </CloseableTab>
             <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
-                <TextBox placeholder="Name" style={{ marginTop: 12 }} />
+                <TextBox placeholder="Script Name" style={{ marginTop: 12 }} />
                 <SelectBox
-                    fullWidth
-                    style={{ paddingLeft: 6, paddingRight: 6 }}
+                    label="Language"
+                    style={{ paddingLeft: 12, paddingRight: 6 }}
                     options={["TypeScript", "JavaScript"]}
                 />
             </div>

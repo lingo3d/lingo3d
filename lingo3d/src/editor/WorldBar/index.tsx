@@ -32,6 +32,7 @@ const Tabs = () => {
         >
             <AppBar style={{ gap: 4 }}>
                 <SelectBox
+                    width={100}
                     options={cameraList.map((cam) =>
                         getDisplayName(getManager(cam)!)
                     )}

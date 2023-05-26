@@ -10,7 +10,6 @@ type Props = {
     onChange?: (val: string) => void
     clearOnChange?: any
     placeholder?: string
-    light?: boolean
 }
 
 const TextBox = ({
@@ -18,8 +17,7 @@ const TextBox = ({
     fullWidth,
     onChange,
     clearOnChange,
-    placeholder = "Search...",
-    light
+    placeholder = "Search..."
 }: Props) => {
     const textSignal = useSignal("")
 
@@ -55,9 +53,8 @@ const TextBox = ({
                 style={{
                     display: "flex",
                     outline: "1px solid rgba(255, 255, 255, 0.1)",
-                    background: `rgba(255, 255, 255, ${light ? 0.7 : 0.02})`,
-                    width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)",
-                    color: light ? "black" : "white"
+                    background: "rgba(255, 255, 255, 0.02",
+                    width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)"
                 }}
             >
                 <TextInput

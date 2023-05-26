@@ -8,16 +8,16 @@ type Props = {
     options?: Array<string>
     label?: string
     onChange?: (index: number, value: string) => void
-    fullWidth?: boolean
     style?: CSSProperties
+    width?: number
 }
 
 const SelectBox = ({
     options = [],
     label = "",
     onChange,
-    fullWidth,
-    style
+    style,
+    width
 }: Props) => {
     const [pane, setContainer] = usePane()
     const elRef = useRef<HTMLDivElement>(null)
@@ -43,9 +43,9 @@ const SelectBox = ({
         const cameraInput = pane.addInput(params, label, {
             options: optionsRecord
         })
-        el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width = fullWidth
-            ? "calc(100% - 20px)"
-            : "100px"
+        if (width)
+            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
+                width + "px"
 
         return () => {
             cameraInput.dispose()
@@ -55,7 +55,7 @@ const SelectBox = ({
     return (
         <div
             ref={mergeRefs(elRef, setContainer, stopPropagation)}
-            style={{ marginLeft: -20, ...style }}
+            style={{ marginLeft: !label ? -20 : 0, ...style }}
         />
     )
 }
