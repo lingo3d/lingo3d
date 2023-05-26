@@ -3,6 +3,7 @@ import Dialog from "../component/Dialog"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { APPBAR_HEIGHT } from "../../globals"
 import TextInputBox from "../component/TextInputBox"
+import SelectBox from "../component/SelectBox"
 
 export const createDialogSignal: Signal<
     | {
@@ -30,6 +31,11 @@ const CreateDialog = () => {
             </CloseableTab>
             <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
                 <TextInputBox placeholder="Name" style={{ marginTop: 12 }} />
+                <SelectBox
+                    fullWidth
+                    style={{ paddingLeft: 6, paddingRight: 6 }}
+                    options={["TypeScript", "JavaScript"]}
+                />
             </div>
         </Dialog>
     )

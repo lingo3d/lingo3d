@@ -2,14 +2,23 @@ import { useLayoutEffect, useRef } from "preact/hooks"
 import usePane from "../Editor/usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import { stopPropagation } from "../utils/stopPropagation"
+import { CSSProperties } from "preact/compat"
 
 type Props = {
     options?: Array<string>
     label?: string
-    onChange?: (index: number) => void
+    onChange?: (index: number, value: string) => void
+    fullWidth?: boolean
+    style?: CSSProperties
 }
 
-const SelectBox = ({ options = [], label = "", onChange }: Props) => {
+const SelectBox = ({
+    options = [],
+    label = "",
+    onChange,
+    fullWidth,
+    style
+}: Props) => {
     const [pane, setContainer] = usePane()
     const elRef = useRef<HTMLDivElement>(null)
 
@@ -24,7 +33,7 @@ const SelectBox = ({ options = [], label = "", onChange }: Props) => {
             },
             set [label](val: number) {
                 index = val
-                onChange?.(val)
+                onChange?.(val, options[val])
             }
         }
         let i = 0
@@ -34,7 +43,9 @@ const SelectBox = ({ options = [], label = "", onChange }: Props) => {
         const cameraInput = pane.addInput(params, label, {
             options: optionsRecord
         })
-        el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width = "100px"
+        el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width = fullWidth
+            ? "calc(100% - 20px)"
+            : "100px"
 
         return () => {
             cameraInput.dispose()
@@ -44,7 +55,7 @@ const SelectBox = ({ options = [], label = "", onChange }: Props) => {
     return (
         <div
             ref={mergeRefs(elRef, setContainer, stopPropagation)}
-            style={{ marginLeft: -20 }}
+            style={{ marginLeft: -20, ...style }}
         />
     )
 }

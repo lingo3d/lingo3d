@@ -65,6 +65,7 @@ const TextInput = ({
                     className="lingo3d-unset"
                     style={{ width: "100%", height: "100%" }}
                     placeholder={placeholder}
+                    autocomplete="off"
                     onInput={(e) =>
                         textSignal && (textSignal.value = e.currentTarget.value)
                     }
