@@ -3,19 +3,21 @@ import { CSSProperties, useEffect } from "preact/compat"
 import CloseIcon from "./icons/CloseIcon"
 import TextInput from "./TextInput"
 
-type SearchBoxProps = {
+type Props = {
     style?: CSSProperties
     fullWidth?: boolean
     onChange?: (val: string) => void
     clearOnChange?: any
+    placeholder?: string
 }
 
-const SearchBox = ({
+const TextInputBox = ({
     style,
     fullWidth,
     onChange,
-    clearOnChange
-}: SearchBoxProps) => {
+    clearOnChange,
+    placeholder = "Search..."
+}: Props) => {
     const textSignal = useSignal("")
 
     useEffect(() => {
@@ -56,7 +58,7 @@ const SearchBox = ({
             >
                 <TextInput
                     style={{ flexGrow: 1, paddingLeft: 4 }}
-                    placeholder="Search..."
+                    placeholder={placeholder}
                     textSignal={textSignal}
                     inputPadding={6}
                 />
@@ -78,4 +80,4 @@ const SearchBox = ({
     )
 }
 
-export default SearchBox
+export default TextInputBox

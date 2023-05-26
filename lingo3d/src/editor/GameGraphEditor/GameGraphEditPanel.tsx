@@ -4,7 +4,7 @@ import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { EDITOR_WIDTH } from "../../globals"
 import Drawer from "../component/Drawer"
-import SearchBox from "../component/SearchBox"
+import TextInputBox from "../component/TextInputBox"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
 
@@ -50,7 +50,7 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
             className="lingo3d-flexcol lingo3d-bg"
             width={EDITOR_WIDTH + 50}
         >
-            <SearchBox
+            <TextInputBox
                 style={{ marginTop: 8 }}
                 onChange={(val) => {
                     if (!val || !targetSignal.value) {

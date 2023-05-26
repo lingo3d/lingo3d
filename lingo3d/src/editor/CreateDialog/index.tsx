@@ -2,6 +2,7 @@ import { Signal, signal } from "@preact/signals"
 import Dialog from "../component/Dialog"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { APPBAR_HEIGHT } from "../../globals"
+import TextInputBox from "../component/TextInputBox"
 
 export const createDialogSignal: Signal<
     | {
@@ -27,6 +28,9 @@ const CreateDialog = () => {
             >
                 {createDialogSignal.value.title}
             </CloseableTab>
+            <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
+                <TextInputBox placeholder="Name" style={{ marginTop: 12 }} />
+            </div>
         </Dialog>
     )
 }

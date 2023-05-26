@@ -25,7 +25,7 @@ const Dialog = ({ signal, children }: DialogProps) => {
                 onMouseDown={() => (signal.value = undefined)}
             />
             <div
-                className="lingo3d-bg-dark"
+                className="lingo3d-bg-dark lingo3d-flexcol"
                 style={{
                     border: "1px solid rgba(255, 255, 255, 0.2)",
                     minWidth: 300,
