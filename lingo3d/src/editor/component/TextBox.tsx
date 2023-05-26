@@ -11,7 +11,7 @@ type Props = {
     placeholder?: string
 }
 
-const TextInputBox = ({
+const TextBox = ({
     style,
     fullWidth,
     onChange,
@@ -80,4 +80,4 @@ const TextInputBox = ({
     )
 }
 
-export default TextInputBox
+export default TextBox

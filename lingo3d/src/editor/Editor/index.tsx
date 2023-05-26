@@ -12,7 +12,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import addTargetInputs from "./addTargetInputs"
-import TextInputBox from "../component/TextInputBox"
+import TextBox from "../component/TextBox"
 import usePane from "./usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import getStaticProperties from "../../display/utils/getStaticProperties"
@@ -90,7 +90,7 @@ const Editor = () => {
                     </CloseableTab>
                 )}
             </AppBar>
-            <TextInputBox
+            <TextBox
                 onChange={(val) => {
                     if (!val) {
                         setIncludeKeys(undefined)

@@ -4,7 +4,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
-import TextInputBox from "../component/TextInputBox"
+import TextBox from "../component/TextBox"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { GameObjectType } from "../../api/serializer/types"
 import { stopPropagation } from "../utils/stopPropagation"
@@ -101,7 +101,7 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
                     templates
                 </Tab>
             </AppBar>
-            <TextInputBox
+            <TextBox
                 onChange={(val) => setSearch(val.toLowerCase())}
                 clearOnChange={deselect}
             />
