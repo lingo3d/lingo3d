@@ -5,12 +5,12 @@ import { stopPropagation } from "../utils/stopPropagation"
 import prevent from "../utils/prevent"
 
 interface DialogProps {
-    showSignal?: Signal<boolean | undefined>
+    signal?: Signal<any>
     children?: ComponentChildren
 }
 
-const Dialog = ({ showSignal, children }: DialogProps) => {
-    if (!showSignal?.value) return null
+const Dialog = ({ signal, children }: DialogProps) => {
+    if (!signal?.value) return null
 
     return createPortal(
         <div
@@ -21,7 +21,8 @@ const Dialog = ({ showSignal, children }: DialogProps) => {
         >
             <div
                 className="lingo3d-absfull"
-                onMouseDown={() => (showSignal.value = undefined)}
+                style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                onMouseDown={() => (signal.value = undefined)}
             />
             <div
                 className="lingo3d-bg-dark"
