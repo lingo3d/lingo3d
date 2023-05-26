@@ -15,7 +15,7 @@ import data from "monaco-themes/themes/Sunburst.json"
 import { getScript, setScript } from "../../states/useScript"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
-import { useEffect, useMemo } from "preact/hooks"
+import { useLayoutEffect, useMemo } from "preact/hooks"
 import { selectTab } from "../component/tabs/Tab"
 
 const { Monaco, controls } = makeMonaco()
@@ -35,12 +35,12 @@ const ScriptEditor = () => {
     const script = useSyncState(getScript)
     const scripts = useSyncState(getScripts)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const uuid = script?.uuid
         uuid && selectTab(selectedSignal, uuid)
     }, [script])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const uuid = selectedSignal.value.at(-1)
         setScript(scripts.find((script) => script.uuid === uuid))
     }, [selectedSignal.value])
