@@ -2,24 +2,16 @@ import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../hooks/useInitCSS"
 import WorldControls from "./WorldControls"
 import useInitEditor from "../hooks/useInitEditor"
-import { useLayoutEffect, useRef } from "preact/hooks"
-import { getManager } from "../../display/core/utils/getManager"
-import { getCameraComputed } from "../../states/useCameraComputed"
-import { getCameraList } from "../../states/useCameraList"
-import { setEditorCamera } from "../../states/useEditorCamera"
-import getDisplayName from "../utils/getDisplayName"
-import { createEffect } from "@lincode/reactivity"
 import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
-import usePane from "../Editor/usePane"
-import mergeRefs from "../hooks/mergeRefs"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
-import { stopPropagation } from "../utils/stopPropagation"
-import {
-    getWorldExpanded,
-    setWorldExpanded
-} from "../../states/useWorldExpanded"
+import { getWorldExpanded } from "../../states/useWorldExpanded"
+import SelectBox from "../component/SelectBox"
+import { getCameraList } from "../../states/useCameraList"
+import getDisplayName from "../utils/getDisplayName"
+import { getManager } from "../../display/core/utils/getManager"
+import { setEditorCamera } from "../../states/useEditorCamera"
 
 const Tabs = () => {
     useInitCSS()
@@ -27,48 +19,8 @@ const Tabs = () => {
 
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
+    const cameraList = useSyncState(getCameraList)
     const worldExpanded = useSyncState(getWorldExpanded)
-    const elRef = useRef<HTMLDivElement>(null)
-    const [pane, setContainer] = usePane()
-
-    useLayoutEffect(() => {
-        const el = elRef.current
-        if (!pane || !el) return
-
-        const handle = createEffect(() => {
-            const cameraList = getCameraList()
-            const camera = getCameraComputed()
-
-            const label = ""
-
-            const cameraSettings = {
-                get [label]() {
-                    return cameraList.indexOf(camera)
-                },
-                set [label](val) {
-                    setEditorCamera(cameraList[val])
-                }
-            }
-            const options: Record<string, number> = {}
-            let i = 0
-            for (const cam of cameraList)
-                options[getDisplayName(getManager(cam)!)] = i++
-
-            const cameraInput = pane.addInput(cameraSettings, label, {
-                options
-            })
-            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
-                "100px"
-
-            return () => {
-                cameraInput.dispose()
-            }
-        }, [getCameraList, getCameraComputed])
-
-        return () => {
-            handle.cancel()
-        }
-    }, [pane])
 
     return (
         <div
@@ -79,9 +31,11 @@ const Tabs = () => {
             }}
         >
             <AppBar style={{ gap: 4 }}>
-                <div
-                    ref={mergeRefs(elRef, setContainer, stopPropagation)}
-                    style={{ marginLeft: -20 }}
+                <SelectBox
+                    options={cameraList.map((cam) =>
+                        getDisplayName(getManager(cam)!)
+                    )}
+                    onChange={(index) => setEditorCamera(cameraList[index])}
                 />
                 <Switch
                     label="split"
