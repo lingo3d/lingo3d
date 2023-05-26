@@ -16,7 +16,9 @@ const CloseableTab = ({
     id = children
 }: CloseableTabProps) => {
     useEffect(() => {
-        if ((selected || !selectedSignal.value[0]) && id)
+        selectedSignal &&
+            (selected || !selectedSignal.value[0]) &&
+            id &&
             selectTab(selectedSignal, id)
     }, [selected])
 
@@ -24,6 +26,7 @@ const CloseableTab = ({
         if (!id) return
 
         return () => {
+            if (!selectedSignal) return
             const isSelected = selectedSignal.value.at(-1) === id
             selectedSignal.value = selectedSignal.value.filter(
                 (val) => val !== id
@@ -45,14 +48,14 @@ const CloseableTab = ({
                 height: 20,
                 paddingLeft: 12,
                 background:
-                    selectedSignal.value.at(-1) === id
+                    !selectedSignal || selectedSignal.value.at(-1) === id
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
             onClick={
                 disabled || !id
                     ? undefined
-                    : () => selectTab(selectedSignal, id)
+                    : selectedSignal && (() => selectTab(selectedSignal, id))
             }
         >
             <div

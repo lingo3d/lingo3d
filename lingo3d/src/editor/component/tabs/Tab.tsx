@@ -5,7 +5,7 @@ import { useEffect } from "preact/hooks"
 export type TabProps = {
     children?: string
     selected?: boolean
-    selectedSignal: Signal<Array<string>>
+    selectedSignal?: Signal<Array<string>>
     disabled?: boolean
     half?: boolean
     id?: string
@@ -29,7 +29,9 @@ const Tab = ({
     id = children
 }: TabProps) => {
     useEffect(() => {
-        if ((selected || !selectedSignal.value[0]) && id)
+        selectedSignal &&
+            (selected || !selectedSignal.value[0]) &&
+            id &&
             selectTab(selectedSignal, id)
     }, [selected, id])
 
@@ -42,14 +44,14 @@ const Tab = ({
                 height: 20,
                 padding: half ? undefined : 12,
                 background:
-                    selectedSignal.value.at(-1) === id
+                    !selectedSignal || selectedSignal.value.at(-1) === id
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
             onClick={
                 disabled || !id
                     ? undefined
-                    : () => selectTab(selectedSignal, id)
+                    : selectedSignal && (() => selectTab(selectedSignal, id))
             }
         >
             {children}

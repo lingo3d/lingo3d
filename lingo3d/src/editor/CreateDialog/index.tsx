@@ -1,5 +1,7 @@
 import { Signal, signal } from "@preact/signals"
 import Dialog from "../component/Dialog"
+import AppBar from "../component/bars/AppBar"
+import Tab from "../component/tabs/Tab"
 
 export const createDialogSignal: Signal<
     | {
@@ -15,7 +17,15 @@ export const createDialogSignal: Signal<
 > = signal(undefined)
 
 const CreateDialog = () => {
-    return <Dialog signal={createDialogSignal}></Dialog>
+    if (!createDialogSignal.value) return null
+
+    return (
+        <Dialog signal={createDialogSignal}>
+            <AppBar>
+                <Tab>{"New" + createDialogSignal.value.type}</Tab>
+            </AppBar>
+        </Dialog>
+    )
 }
 
 export default CreateDialog

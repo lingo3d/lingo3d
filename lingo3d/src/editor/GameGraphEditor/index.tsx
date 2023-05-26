@@ -16,7 +16,6 @@ const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
 
-    const selectedSignal = useSignal<Array<string>>([])
     const targetSignal = useSignal<Appendable | undefined>(undefined)
 
     return (
@@ -26,10 +25,7 @@ const GameGraphEditor = () => {
                 style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
             >
                 <AppBar>
-                    <CloseableTab
-                        selectedSignal={selectedSignal}
-                        onClose={() => setGameGraph(undefined)}
-                    >
+                    <CloseableTab onClose={() => setGameGraph(undefined)}>
                         GameGraph
                     </CloseableTab>
                 </AppBar>
