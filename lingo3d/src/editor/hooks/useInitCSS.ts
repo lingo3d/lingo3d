@@ -4,25 +4,29 @@ import createElement from "../../utils/createElement"
 
 const fontFamily = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
 
-const fix = `position: relative; box-sizing: border-box;`
-const ui = `overscroll-behavior: none; user-select: none; -webkit-user-select: none; scrollbar-width: none; scrollbar-color: rgba(100,100,100,0.1);`
-
 export default lazy(() => {
     const style = createElement(`
         <style>
             .lingo3d-ui * {
-                ${fix}
-                ${ui}
+                overscroll-behavior: none;
+                user-select: none;
+                -webkit-user-select: none;
+                position: relative;
+                box-sizing: border-box;
+                scrollbar-width: none;
+                scrollbar-color: rgba(100,100,100,0.1);
             }
-            .lingo3d-ui-nofix * {
-                ${ui}
+            .lingo3d-nofix * {
+                position: unset;
+                box-sizing: unset;
             }
             .lingo3d-font * {
                 font-family: ${fontFamily} !important;
             }
             .lingo3d-ui {
-                ${fix}
-                ${ui}
+                overscroll-behavior: none;
+                position: relative;
+                box-sizing: border-box;
                 overflow: hidden;
                 float: left;
                 color: white;
@@ -84,6 +88,11 @@ export default lazy(() => {
             }
             .tp-fldv_b {
                 border-radius: 0px !important;
+            }
+
+            .suggest-widget > .tree {
+                position: absolute;
+                top: 0px;
             }
 
             .lingo3d-lingoeditor {

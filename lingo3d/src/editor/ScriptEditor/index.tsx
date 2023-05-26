@@ -68,6 +68,7 @@ const ScriptEditor = () => {
                 ))}
             </AppBar>
             <Monaco
+                className="lingo3d-nofix"
                 style={{ flexGrow: 1 }}
                 theme="lingo3d"
                 language="typescript"
