@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import { PANELS_HEIGHT } from "../../globals"
+import { loadTerminal } from "./loadTerminal"
 
 const Terminal = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -10,9 +11,8 @@ const Terminal = () => {
         if (!el) return
 
         const handle = new Cancellable()
-        import("./loadTerminal").then(({ loadTerminal }) =>
-            loadTerminal(el, handle)
-        )
+        loadTerminal(el, handle)
+
         return () => {
             handle.cancel()
         }

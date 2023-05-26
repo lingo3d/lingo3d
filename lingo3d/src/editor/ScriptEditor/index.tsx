@@ -71,7 +71,7 @@ const ScriptEditor = () => {
                 className="lingo3d-nofix"
                 style={{ flexGrow: 1 }}
                 theme="lingo3d"
-                language="typescript"
+                language={script?.language.toLowerCase()}
                 fontSize={12}
                 files={monacoFiles}
                 file={script?.uuid}

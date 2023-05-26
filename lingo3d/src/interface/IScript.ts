@@ -8,17 +8,17 @@ import { ExtractProps } from "./utils/extractProps"
 
 export default interface IScript extends IAppendable {
     code: string
-    type: "JavaScript" | "TypeScript"
+    language: "JavaScript" | "TypeScript"
 }
 
 export const scriptSchema: Required<ExtractProps<IScript>> = {
     ...appendableSchema,
     code: String,
-    type: String
+    language: String
 }
 disableSchema.add("code")
 
 export const scriptDefaults = extendDefaults<IScript>([appendableDefaults], {
     code: "",
-    type: "TypeScript"
+    language: "TypeScript"
 })

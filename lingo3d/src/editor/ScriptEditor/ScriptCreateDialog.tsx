@@ -6,7 +6,7 @@ import TextBox from "../component/TextBox"
 import SelectBox from "../component/SelectBox"
 import IconButton from "../component/IconButton"
 
-export const createDialogSignal: Signal<
+export const scriptCreateDialogSignal: Signal<
     | {
           title?: string
           data: Record<string, any>
@@ -15,17 +15,17 @@ export const createDialogSignal: Signal<
     | undefined
 > = signal(undefined)
 
-const CreateDialog = () => {
-    const { value } = createDialogSignal
+const ScriptCreateDialog = () => {
+    const { value } = scriptCreateDialogSignal
     const nameSignal = useSignal("")
     if (!value) return null
 
     return (
-        <Dialog signal={createDialogSignal}>
+        <Dialog signal={scriptCreateDialogSignal}>
             <CloseableTab
                 width="100%"
                 height={APPBAR_HEIGHT}
-                onClose={() => (createDialogSignal.value = undefined)}
+                onClose={() => (scriptCreateDialogSignal.value = undefined)}
             >
                 {value.title}
             </CloseableTab>
@@ -57,7 +57,9 @@ const CreateDialog = () => {
                         label="Cancel"
                         fill="rgba(255, 255, 255, 0.05)"
                         borderless
-                        onClick={() => (createDialogSignal.value = undefined)}
+                        onClick={() =>
+                            (scriptCreateDialogSignal.value = undefined)
+                        }
                     />
                     <IconButton
                         label="Confirm"
@@ -66,7 +68,7 @@ const CreateDialog = () => {
                         onClick={() => {
                             if (!value.data.name) return
                             value.onConfirm(value.data)
-                            createDialogSignal.value = undefined
+                            scriptCreateDialogSignal.value = undefined
                         }}
                     />
                 </div>
@@ -75,4 +77,4 @@ const CreateDialog = () => {
     )
 }
 
-export default CreateDialog
+export default ScriptCreateDialog
