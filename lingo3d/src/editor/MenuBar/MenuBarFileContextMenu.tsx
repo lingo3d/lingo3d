@@ -8,7 +8,7 @@ import saveJSON from "../../api/files/saveJSON"
 import exportJSON from "../../api/files/exportJSON"
 import { setScript } from "../../states/useScript"
 import Script from "../../display/Script"
-import { scriptCreateDialogSignal } from "../ScriptEditor/ScriptCreateDialog"
+import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
 
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -19,7 +19,7 @@ const MenuBarFileContextMenu = () => {
             <MenuButton>New File</MenuButton>
             <MenuButton
                 onClick={() => {
-                    scriptCreateDialogSignal.value = {
+                    newScriptDialogSignal.value = {
                         title: "New Script",
                         data: {},
                         onConfirm: ({ name, type }) => {

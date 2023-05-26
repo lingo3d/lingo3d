@@ -23,7 +23,7 @@ import MenuBar from "../MenuBar"
 import { getScript } from "../../states/useScript"
 import ScriptEditor from "../ScriptEditor"
 import Terminal from "../Terminal"
-import ScriptCreateDialog from "../ScriptEditor/ScriptCreateDialog"
+import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -73,7 +73,7 @@ const LingoEditor = () => {
             </div>
             {stats && <Stats />}
             <HUD />
-            <ScriptCreateDialog />
+            <NewScriptDialog />
         </div>
     )
 }

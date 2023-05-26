@@ -6,7 +6,7 @@ import TextBox from "../component/TextBox"
 import SelectBox from "../component/SelectBox"
 import IconButton from "../component/IconButton"
 
-export const scriptCreateDialogSignal: Signal<
+export const newScriptDialogSignal: Signal<
     | {
           title?: string
           data: Record<string, any>
@@ -15,17 +15,17 @@ export const scriptCreateDialogSignal: Signal<
     | undefined
 > = signal(undefined)
 
-const ScriptCreateDialog = () => {
-    const { value } = scriptCreateDialogSignal
+const NewScriptDialog = () => {
+    const { value } = newScriptDialogSignal
     const nameSignal = useSignal("")
     if (!value) return null
 
     return (
-        <Dialog signal={scriptCreateDialogSignal}>
+        <Dialog signal={newScriptDialogSignal}>
             <CloseableTab
                 width="100%"
                 height={APPBAR_HEIGHT}
-                onClose={() => (scriptCreateDialogSignal.value = undefined)}
+                onClose={() => (newScriptDialogSignal.value = undefined)}
             >
                 {value.title}
             </CloseableTab>
@@ -58,7 +58,7 @@ const ScriptCreateDialog = () => {
                         fill="rgba(255, 255, 255, 0.05)"
                         borderless
                         onClick={() =>
-                            (scriptCreateDialogSignal.value = undefined)
+                            (newScriptDialogSignal.value = undefined)
                         }
                     />
                     <IconButton
@@ -68,7 +68,7 @@ const ScriptCreateDialog = () => {
                         onClick={() => {
                             if (!value.data.name) return
                             value.onConfirm(value.data)
-                            scriptCreateDialogSignal.value = undefined
+                            newScriptDialogSignal.value = undefined
                         }}
                     />
                 </div>
@@ -77,4 +77,4 @@ const ScriptCreateDialog = () => {
     )
 }
 
-export default ScriptCreateDialog
+export default NewScriptDialog
