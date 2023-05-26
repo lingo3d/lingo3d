@@ -29,7 +29,7 @@ const Dialog = ({ signal, children }: DialogProps) => {
                 style={{
                     border: "1px solid rgba(255, 255, 255, 0.2)",
                     minWidth: 300,
-                    minHeight: 200
+                    minHeight: 100
                 }}
             >
                 {children}

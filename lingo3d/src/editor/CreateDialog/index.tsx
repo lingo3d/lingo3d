@@ -4,6 +4,7 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import { APPBAR_HEIGHT } from "../../globals"
 import TextBox from "../component/TextBox"
 import SelectBox from "../component/SelectBox"
+import IconButton from "../component/IconButton"
 
 export const createDialogSignal: Signal<
     | {
@@ -36,6 +37,7 @@ const CreateDialog = () => {
                     style={{ paddingLeft: 12, paddingRight: 6 }}
                     options={["TypeScript", "JavaScript"]}
                 />
+                <IconButton>Confirm</IconButton>
             </div>
         </Dialog>
     )
