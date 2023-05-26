@@ -1,4 +1,4 @@
-import { Signal, signal } from "@preact/signals"
+import { Signal, signal, useSignal } from "@preact/signals"
 import Dialog from "../component/Dialog"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { APPBAR_HEIGHT } from "../../globals"
@@ -17,6 +17,7 @@ export const createDialogSignal: Signal<
 
 const CreateDialog = () => {
     const { value } = createDialogSignal
+    const nameSignal = useSignal("")
     if (!value) return null
 
     return (
@@ -32,7 +33,10 @@ const CreateDialog = () => {
                 <TextBox
                     placeholder="Script Name"
                     style={{ marginTop: 12 }}
-                    onChange={(val) => (value.data.name = val)}
+                    onChange={(val) => {
+                        value.data.name = val
+                        nameSignal.value = val
+                    }}
                 />
                 <SelectBox
                     label="Language"
@@ -56,6 +60,7 @@ const CreateDialog = () => {
                     <IconButton
                         label="Confirm"
                         fill
+                        disabled={!nameSignal.value}
                         onClick={() => value.onConfirm(value.data)}
                     />
                 </div>

@@ -50,7 +50,7 @@ const SelectBox = ({
         return () => {
             cameraInput.dispose()
         }
-    }, [pane, options])
+    }, [pane, JSON.stringify(options)])
 
     return (
         <div
