@@ -19,6 +19,7 @@ import { useLayoutEffect, useMemo } from "preact/hooks"
 import { selectTab } from "../component/tabs/Tab"
 import {
     addScriptsUnsaved,
+    deleteScriptsUnsaved,
     getScriptsUnsaved
 } from "../../states/useScriptsUnsaved"
 
@@ -83,7 +84,9 @@ const ScriptEditor = () => {
                 files={monacoFiles}
                 file={script?.uuid}
                 onChange={() => addScriptsUnsaved(script!)}
-                // onSave={handleSave}
+                onSave={() => {
+                    deleteScriptsUnsaved(script!)
+                }}
                 // onSaveAll={handleSaveAll}
             />
         </div>

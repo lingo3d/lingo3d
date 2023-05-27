@@ -1,6 +1,5 @@
 import settings from "../api/settings"
 import Cube from "../display/primitives/Cube"
-import { timer } from "../engine/eventLoop"
 
 const ground = new Cube()
 ground.width = 9999

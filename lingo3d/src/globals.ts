@@ -36,3 +36,17 @@ export const EDITOR_WIDTH = 300
 export const TREE_ITEM_HEIGHT = 18
 
 export const BACKGROUND_COLOR = "#121316"
+
+export const IS_MOBILE = (() => {
+    const ua = navigator.userAgent
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return true
+    } else if (
+        /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+            ua
+        )
+    ) {
+        return true
+    }
+    return false
+})()

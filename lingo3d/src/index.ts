@@ -12,8 +12,6 @@ import openFolder from "./api/files/openFolder"
 import openJSON from "./api/files/openJSON"
 import saveJSON from "./api/files/saveJSON"
 
-import { loop, timer } from "./engine/eventLoop"
-
 import ObjectManager from "./display/core/ObjectManager"
 import FoundManager from "./display/core/FoundManager"
 
@@ -36,8 +34,6 @@ export {
     openFolder,
     openJSON,
     saveJSON,
-    loop,
-    timer,
     ObjectManager as Object,
     FoundManager as Found,
     SimpleMouseEvent,

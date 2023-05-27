@@ -4,30 +4,11 @@ import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
 import { STANDARD_FRAME } from "../globals"
-import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { getEditorRuntime } from "../states/useEditorRuntime"
-
-let play = true
-getWorldPlayComputed((val) => (play = val))
-
-export const timer = (
-    time: number,
-    repeat: number,
-    cb: () => void,
-    editor?: boolean
-) => {
-    let count = 0
-    const handle = setInterval(() => {
-        if (!play && !editor) return
-        cb()
-        if (repeat !== -1 && ++count >= repeat) clearInterval(handle)
-    }, time)
-    return new Cancellable(() => clearInterval(handle))
-}
 
 const callbacks = new Set<() => void>()
 

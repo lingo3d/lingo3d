@@ -11,20 +11,7 @@ import { onMouseDown } from "../../../events/onMouseDown"
 import { onMouseUp } from "../../../events/onMouseUp"
 import { addGyrateInertiaSystem } from "../../../systems/gyrateInertiaSystem"
 import { cameraPointerLockPtr } from "../../../pointers/cameraPointerLockPtr"
-
-const isMobile = (() => {
-    const ua = navigator.userAgent
-    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-        return true
-    } else if (
-        /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
-            ua
-        )
-    ) {
-        return true
-    }
-    return false
-})()
+import { IS_MOBILE } from "../../../globals"
 
 export default function (this: CameraBase) {
     if (this.done) return
@@ -82,7 +69,7 @@ export default function (this: CameraBase) {
                 })
         }
 
-        if (isMobile) {
+        if (IS_MOBILE) {
             const handleTouchStart = (e: TouchEvent) => {
                 if (identifier !== undefined) return
                 identifier =
