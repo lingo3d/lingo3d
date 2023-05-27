@@ -17,6 +17,10 @@ import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { useLayoutEffect, useMemo } from "preact/hooks"
 import { selectTab } from "../component/tabs/Tab"
+import {
+    addScriptsUnsaved,
+    getScriptsUnsaved
+} from "../../states/useScriptsUnsaved"
 
 const { Monaco } = makeMonaco()
 
@@ -34,6 +38,7 @@ const ScriptEditor = () => {
     const selectedSignal = useSignal<Array<string>>([])
     const script = useSyncState(getScript)
     const scripts = useSyncState(getScripts)
+    const [scriptsUnsaved] = useSyncState(getScriptsUnsaved)
 
     useLayoutEffect(() => {
         const uuid = script?.uuid
@@ -63,6 +68,7 @@ const ScriptEditor = () => {
                         key={script.uuid}
                         id={script.uuid}
                         onClose={() => pullScripts(script)}
+                        unsaved={scriptsUnsaved.has(script)}
                     >
                         {script.name}
                     </CloseableTab>
@@ -76,6 +82,7 @@ const ScriptEditor = () => {
                 fontSize={12}
                 files={monacoFiles}
                 file={script?.uuid}
+                onChange={() => addScriptsUnsaved(script!)}
                 // onSave={handleSave}
                 // onSaveAll={handleSaveAll}
             />

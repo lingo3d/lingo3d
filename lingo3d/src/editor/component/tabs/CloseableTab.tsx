@@ -2,10 +2,12 @@ import CloseIcon from "../icons/CloseIcon"
 import { selectTab, TabProps } from "./Tab"
 import IconButton from "../IconButton"
 import { useEffect, useLayoutEffect } from "preact/hooks"
+import UnsavedIcon from "../icons/UnsavedIcon"
 
 type CloseableTabProps = TabProps & {
     height?: number | string
     onClose?: () => void
+    unsaved?: boolean
 }
 
 const CloseableTab = ({
@@ -16,7 +18,8 @@ const CloseableTab = ({
     disabled,
     width,
     height = 20,
-    id = children
+    id = children,
+    unsaved
 }: CloseableTabProps) => {
     useLayoutEffect(() => {
         selectedSignal &&
@@ -77,7 +80,7 @@ const CloseableTab = ({
             </div>
             <div style={{ flexGrow: 1 }} />
             <IconButton disabled={!onClose} onClick={onClose} borderless>
-                <CloseIcon />
+                {unsaved ? <UnsavedIcon /> : <CloseIcon />}
             </IconButton>
         </div>
     )
