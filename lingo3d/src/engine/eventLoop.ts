@@ -9,6 +9,7 @@ import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { getEditorRuntime } from "../states/useEditorRuntime"
+import { getTabPaused } from "../states/useTabPaused"
 
 const callbacks = new Set<() => void>()
 
@@ -16,7 +17,7 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    if (getEditorRuntime()) return
+    if (getEditorRuntime() || getTabPaused()) return
 
     const targetDelta = (1 / fpsPtr[0]) * 0.9
 
@@ -32,7 +33,7 @@ createEffect(() => {
     return () => {
         rendererPtr[0].setAnimationLoop(null)
     }
-}, [getFps, getRenderer, getEditorRuntime])
+}, [getFps, getRenderer, getEditorRuntime, getTabPaused])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

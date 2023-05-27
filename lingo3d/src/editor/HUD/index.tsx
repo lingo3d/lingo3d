@@ -9,6 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingAssetsCount } from "../../states/useLoadingAssetsCount"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
+import { getTabPaused } from "../../states/useTabPaused"
 
 const HUD = () => {
     useInitCSS()
@@ -16,6 +17,7 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const loadingAssetsCount = useSyncState(getLoadingAssetsCount)
+    const tabPaused = useSyncState(getTabPaused)
 
     return createPortal(
         <div
@@ -25,6 +27,12 @@ const HUD = () => {
             <InfoScreen mounted={!!loadingAssetsCount}>
                 <Spinner size={14} />
                 loading remote data
+            </InfoScreen>
+            <InfoScreen
+                style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                mounted={tabPaused}
+            >
+                paused
             </InfoScreen>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
