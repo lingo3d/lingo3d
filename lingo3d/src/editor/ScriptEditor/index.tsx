@@ -61,9 +61,10 @@ const ScriptEditor = () => {
                     <CloseableTab
                         selectedSignal={selectedSignal}
                         key={script.uuid}
+                        id={script.uuid}
                         onClose={() => pullScripts(script)}
                     >
-                        {script.uuid}
+                        {script.name}
                     </CloseableTab>
                 ))}
             </AppBar>
