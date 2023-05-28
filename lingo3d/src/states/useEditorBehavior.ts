@@ -4,7 +4,6 @@ import { setEditorCamera } from "./useEditorCamera"
 import { getEditorCount } from "./useEditorCount"
 import { setWorldPlay } from "./useWorldPlay"
 import { editorBehaviorPtr } from "../pointers/editorBehaviorPtr"
-import { resetMainCameraManager } from "../engine/mainCameraManager"
 
 export const [setEditorBehavior, getEditorBehavior] = store(false)
 
@@ -16,7 +15,6 @@ createEffect(() => {
     if (!editorBehaviorPtr[0]) return
 
     setEditorCamera(mainCamera)
-    resetMainCameraManager()
     setWorldPlay(false)
 
     return () => {

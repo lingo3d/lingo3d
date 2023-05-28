@@ -53,3 +53,7 @@ export const resetMainCameraManager = () => {
     mainCameraManager.polarAngle = editorBehaviorPtr[0] ? 120 : 0
     mainCameraManager.azimuthAngle = 0
 }
+
+getEditorBehavior(
+    (editorBehavior) => editorBehavior && resetMainCameraManager()
+)
