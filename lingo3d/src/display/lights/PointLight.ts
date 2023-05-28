@@ -4,10 +4,7 @@ import IPointLight, {
     pointLightSchema
 } from "../../interface/IPointLight"
 import PointLightBase from "../core/PointLightBase"
-import {
-    addPointLightShadowResolutionSystem,
-    deletePointLightShadowResolutionSystem
-} from "../../systems/pointLightShadowResolutionSystem"
+import { pointLightShadowResolutionSystem } from "../../systems/pointLightShadowResolutionSystem"
 
 export default class PointLight
     extends PointLightBase<ThreePointLight>
@@ -27,7 +24,7 @@ export default class PointLight
     public override set shadows(val) {
         super.shadows = val
         val
-            ? addPointLightShadowResolutionSystem(this, { step: undefined })
-            : deletePointLightShadowResolutionSystem(this)
+            ? pointLightShadowResolutionSystem.add(this)
+            : pointLightShadowResolutionSystem.delete(this)
     }
 }

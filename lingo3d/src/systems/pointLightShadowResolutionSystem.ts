@@ -1,5 +1,4 @@
 import PointLight from "../display/lights/PointLight"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
 import {
@@ -8,15 +7,14 @@ import {
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import { shadowModePtr } from "../pointers/shadowModePtr"
+import gameSystem from "./utils/gameSystem"
 
 const resolutions = [256, 256, 128, 32, 16, 512]
 const biases = [-0.02, -0.02, -0.03, -0.04, -0.05, -0.005]
 
-export const [
-    addPointLightShadowResolutionSystem,
-    deletePointLightShadowResolutionSystem
-] = renderSystemWithData(
-    (self: PointLight, data: { step: number | undefined }) => {
+export const pointLightShadowResolutionSystem = gameSystem({
+    data: { step: undefined as number | undefined },
+    update: (self: PointLight, data) => {
         if (!self.object3d.intensity || !shadowModePtr[0]) return
 
         const distance = getDistanceFromCamera(self)
@@ -43,4 +41,4 @@ export const [
         ])
         updateShadow(shadow)
     }
-)
+})

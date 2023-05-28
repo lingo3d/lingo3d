@@ -81,7 +81,7 @@ const withData = <
                 return
             }
             const _data =
-                initData ?? (typeof data === "function" ? data() : data!)
+                initData ?? (typeof data === "function" ? data() : { ...data! })
             queued.set(item, _data)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)

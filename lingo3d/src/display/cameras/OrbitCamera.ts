@@ -12,14 +12,11 @@ import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
 import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
-import {
-    addOrbitCameraPlaceAtSystem,
-    deleteOrbitCameraPlaceAtSystem
-} from "../../systems/orbitCameraPlaceAtSystem"
 import { container } from "../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { gyrateSystem } from "../../systems/gyrateSystem"
 import { flySystem } from "../../systems/flySystem"
+import { orbitCameraPlaceAtSystem } from "../../systems/orbitCameraPlaceAtSystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -39,9 +36,9 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            addOrbitCameraPlaceAtSystem(this, { target: found })
+            orbitCameraPlaceAtSystem.add(this, { target: found })
             return () => {
-                deleteOrbitCameraPlaceAtSystem(this)
+                orbitCameraPlaceAtSystem.delete(this)
             }
         }, [this.firstChildState.get])
 
