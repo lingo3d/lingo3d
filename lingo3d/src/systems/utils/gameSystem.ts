@@ -1,12 +1,34 @@
 import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../display/core/Appendable"
-import { onBeforeRender } from "../../runtime"
+import { onBeforeRender } from "../../events/onBeforeRender"
+import { onAfterRender } from "../../events/onAfterRender"
+import { onRender } from "../../events/onRender"
+import { onLoop } from "../../events/onLoop"
+import { assertExhaustive } from "@lincode/utils"
+
+type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
+
+const mapTicker = (ticker: Ticker) => {
+    switch (ticker) {
+        case "beforeRender":
+            return onBeforeRender
+        case "afterRender":
+            return onAfterRender
+        case "render":
+            return onRender
+        case "loop":
+            return onLoop
+        default:
+            assertExhaustive(ticker)
+    }
+}
 
 type Options<GameObject, Data extends Record<string, any> | void> = {
     data?: Data | (() => Data)
     setup?: (gameObject: GameObject, data: Data) => void
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
+    ticker?: Ticker
 }
 
 export default <GameObject, Data extends Record<string, any> | void>(
@@ -22,7 +44,8 @@ const withData = <GameObject, Data extends Record<string, any>>({
     data,
     setup,
     cleanup,
-    update
+    update,
+    ticker
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
 
@@ -31,7 +54,8 @@ const withData = <GameObject, Data extends Record<string, any>>({
     }
 
     let handle: Cancellable | undefined
-    const start = update ? () => (handle = onBeforeRender(execute)) : () => {}
+    const onEvent = mapTicker(ticker ?? "beforeRender")
+    const start = update ? () => (handle = onEvent(execute)) : () => {}
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.has(item)) return
@@ -58,7 +82,8 @@ const withData = <GameObject, Data extends Record<string, any>>({
 const noData = <GameObject>({
     setup,
     cleanup,
-    update
+    update,
+    ticker
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
 
@@ -67,7 +92,8 @@ const noData = <GameObject>({
     }
 
     let handle: Cancellable | undefined
-    const start = update ? () => (handle = onBeforeRender(execute)) : () => {}
+    const onEvent = mapTicker(ticker ?? "beforeRender")
+    const start = update ? () => (handle = onEvent(execute)) : () => {}
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.delete(item)) return
