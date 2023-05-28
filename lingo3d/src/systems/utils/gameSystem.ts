@@ -27,7 +27,7 @@ type Options<
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 > = {
-    data?: Data | (() => Data)
+    data?: Data | ((gameObject: GameObject) => Data)
     setup?: (gameObject: GameObject, data: Data) => void
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
@@ -81,7 +81,8 @@ const withData = <
                 return
             }
             const _data =
-                initData ?? (typeof data === "function" ? data() : { ...data! })
+                initData ??
+                (typeof data === "function" ? data(item) : { ...data! })
             queued.set(item, _data)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
