@@ -32,6 +32,7 @@ type Options<
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
+    sort?: (a: GameObject, b: GameObject) => number
 }
 
 export default <
@@ -54,13 +55,19 @@ const withData = <
     setup,
     cleanup,
     update,
-    ticker
+    ticker,
+    sort
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
 
-    const execute = () => {
-        for (const [target, data] of queued) update!(target, data)
-    }
+    const execute = sort
+        ? () => {
+              for (const target of [...queued.keys()].sort(sort))
+                  update!(target, queued.get(target)!)
+          }
+        : () => {
+              for (const [target, data] of queued) update!(target, data)
+          }
 
     let handle: Cancellable | undefined
     const onEvent = mapTicker(ticker ?? "beforeRender")
@@ -97,13 +104,18 @@ const noData = <GameObject extends object | Appendable>({
     setup,
     cleanup,
     update,
-    ticker
+    ticker,
+    sort
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
 
-    const execute = () => {
-        for (const target of queued) update!(target)
-    }
+    const execute = sort
+        ? () => {
+              for (const target of [...queued].sort(sort)) update!(target)
+          }
+        : () => {
+              for (const target of queued) update!(target)
+          }
 
     let handle: Cancellable | undefined
     const onEvent = mapTicker(ticker ?? "beforeRender")
