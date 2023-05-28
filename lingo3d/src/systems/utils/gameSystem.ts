@@ -32,6 +32,8 @@ type Options<
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
+    beforeTick?: () => void
+    afterTick?: () => void
     sort?: (a: GameObject, b: GameObject) => number
 }
 
@@ -56,18 +58,34 @@ const withData = <
     cleanup,
     update,
     ticker,
+    beforeTick,
+    afterTick,
     sort
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
 
-    const execute = sort
-        ? () => {
-              for (const target of [...queued.keys()].sort(sort))
-                  update!(target, queued.get(target)!)
-          }
-        : () => {
-              for (const [target, data] of queued) update!(target, data)
-          }
+    const execute =
+        beforeTick || afterTick
+            ? sort
+                ? () => {
+                      beforeTick?.()
+                      for (const target of [...queued.keys()].sort(sort))
+                          update!(target, queued.get(target)!)
+                      afterTick?.()
+                  }
+                : () => {
+                      beforeTick?.()
+                      for (const [target, data] of queued) update!(target, data)
+                      afterTick?.()
+                  }
+            : sort
+            ? () => {
+                  for (const target of [...queued.keys()].sort(sort))
+                      update!(target, queued.get(target)!)
+              }
+            : () => {
+                  for (const [target, data] of queued) update!(target, data)
+              }
 
     let handle: Cancellable | undefined
     const onEvent = mapTicker(ticker ?? "beforeRender")
@@ -105,17 +123,33 @@ const noData = <GameObject extends object | Appendable>({
     cleanup,
     update,
     ticker,
+    beforeTick,
+    afterTick,
     sort
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
 
-    const execute = sort
-        ? () => {
-              for (const target of [...queued].sort(sort)) update!(target)
-          }
-        : () => {
-              for (const target of queued) update!(target)
-          }
+    const execute =
+        beforeTick || afterTick
+            ? sort
+                ? () => {
+                      beforeTick?.()
+                      for (const target of [...queued].sort(sort))
+                          update!(target)
+                      afterTick?.()
+                  }
+                : () => {
+                      beforeTick?.()
+                      for (const target of queued) update!(target)
+                      afterTick?.()
+                  }
+            : sort
+            ? () => {
+                  for (const target of [...queued].sort(sort)) update!(target)
+              }
+            : () => {
+                  for (const target of queued) update!(target)
+              }
 
     let handle: Cancellable | undefined
     const onEvent = mapTicker(ticker ?? "beforeRender")
