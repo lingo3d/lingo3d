@@ -1,6 +1,7 @@
 import { emitKeyPress } from "../events/onKeyPress"
-import renderSystem from "./utils/renderSystem"
+import gameSystem from "./utils/gameSystem"
 
-export const [addKeyPressEmitSystem, deleteKeyPressEmitSystem] = renderSystem(
-    (keyPressSet: Set<string>) => keyPressSet.size && emitKeyPress()
-)
+export const keyPressEmitSystem = gameSystem({
+    update: (keyPressSet: Set<string>) =>
+        void keyPressSet.size && emitKeyPress()
+})

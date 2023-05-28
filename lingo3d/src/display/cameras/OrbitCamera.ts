@@ -16,10 +16,10 @@ import {
     addOrbitCameraPlaceAtSystem,
     deleteOrbitCameraPlaceAtSystem
 } from "../../systems/orbitCameraPlaceAtSystem"
-import { addGyrateSystem, deleteGyrateSystem } from "../../systems/gyrateSystem"
 import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
 import { container } from "../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import { gyrateSystem } from "../../systems/gyrateSystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -125,7 +125,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     }
     public set autoRotate(val) {
         this._autoRotate = val
-        val ? addGyrateSystem(this) : deleteGyrateSystem(this)
+        val ? gyrateSystem.add(this) : gyrateSystem.delete(this)
     }
 
     public autoRotateSpeed = 2

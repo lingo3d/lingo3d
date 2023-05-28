@@ -6,8 +6,8 @@ import IAreaLight, {
 import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
 import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
-import { addAreaLightIntensitySystem } from "../../systems/areaLightIntensitySystem"
 import { addAreaLightTransformEditSystem } from "../../systems/eventSystems/areaLightTransformEditSystem"
+import { areaLightIntensitySystem } from "../../systems/areaLightIntensitySystem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -35,7 +35,7 @@ export default class AreaLight extends Plane implements IAreaLight {
             addConfigAreaLightSystem(this)
         })
         addAreaLightTransformEditSystem(this)
-        addAreaLightIntensitySystem(this)
+        areaLightIntensitySystem.add(this)
     }
 
     public override get color() {

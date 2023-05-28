@@ -1,10 +1,10 @@
 import { forceGetInstance } from "@lincode/utils"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { HitEvent } from "../interface/IVisible"
-import renderSystem from "./utils/renderSystem"
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { getAppendablesById } from "../collections/idCollections"
+import gameSystem from "./utils/gameSystem"
 
 const getAppendables = (val: string | Array<string> | undefined) => {
     if (!val) return []
@@ -17,22 +17,22 @@ const getAppendables = (val: string | Array<string> | undefined) => {
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 
-export const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
-    (manager: VisibleMixin) => {
-        for (const target of getAppendables(manager.hitTarget)) {
+export const hitTestSystem = gameSystem({
+    update: (self: VisibleMixin) => {
+        for (const target of getAppendables(self.hitTarget)) {
             if (!("object3d" in target!)) return
-            const cache = forceGetInstance(hitCache, manager, WeakSet)
-            if (manager.hitTest(target)) {
+            const cache = forceGetInstance(hitCache, self, WeakSet)
+            if (self.hitTest(target)) {
                 if (!cache.has(target)) {
                     cache.add(target)
-                    manager.onHitStart?.(new HitEvent(target))
+                    self.onHitStart?.(new HitEvent(target))
                 }
-                manager.onHit?.(new HitEvent(target))
+                self.onHit?.(new HitEvent(target))
                 continue
             }
             if (!cache.has(target)) continue
             cache.delete(target)
-            manager.onHitEnd?.(new HitEvent(target))
+            self.onHitEnd?.(new HitEvent(target))
         }
     }
-)
+})

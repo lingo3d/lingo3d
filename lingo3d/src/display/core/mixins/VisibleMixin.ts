@@ -7,10 +7,6 @@ import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import getWorldPosition from "../../../memo/getWorldPosition"
 import { vector3_1 } from "../../utils/reusables"
-import {
-    addHitTestSystem,
-    deleteHitTestSystem
-} from "../../../systems/hitTestSystem"
 import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
 import {
     clickSet,
@@ -25,6 +21,7 @@ import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/con
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 import { idRenderCheckMap } from "../../../collections/idCollections"
 import getRendered from "../../../throttle/getRendered"
+import { hitTestSystem } from "../../../systems/hitTestSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -200,7 +197,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set hitTarget(val) {
         this._hitTarget = val
-        val ? addHitTestSystem(this) : deleteHitTestSystem(this)
+        val ? hitTestSystem.add(this) : hitTestSystem.delete(this)
     }
 
     public onHit: Nullable<(instance: HitEvent) => void>

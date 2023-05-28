@@ -2,20 +2,14 @@ import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../runtime"
 
-type Options<
-    GameObject extends Appendable,
-    Data extends Record<string, any> | void
-> = {
+type Options<GameObject, Data extends Record<string, any> | void> = {
     data?: Data | (() => Data)
     setup?: (gameObject: GameObject, data: Data) => void
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
 }
 
-export default <
-    GameObject extends Appendable,
-    Data extends Record<string, any> | void
->(
+export default <GameObject, Data extends Record<string, any> | void>(
     options: Options<GameObject, Data>
 ) => {
     const [add, remove] = options.data
@@ -24,10 +18,7 @@ export default <
     return { add, delete: remove }
 }
 
-const withData = <
-    GameObject extends Appendable,
-    Data extends Record<string, any>
->({
+const withData = <GameObject, Data extends Record<string, any>>({
     data,
     setup,
     cleanup,
@@ -46,7 +37,7 @@ const withData = <
         if (!queued.has(item)) return
         const _data = queued.get(item)!
         queued.delete(item)
-        item.$deleteSystemSet.delete(deleteSystem)
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item, _data)
     }
@@ -55,7 +46,8 @@ const withData = <
             if (queued.has(item)) return
             const _data = typeof data === "function" ? data() : data!
             queued.set(item, _data)
-            item.$deleteSystemSet.add(deleteSystem)
+            item instanceof Appendable &&
+                item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
             setup?.(item, _data)
         },
@@ -63,7 +55,7 @@ const withData = <
     ]
 }
 
-const noData = <GameObject extends Appendable>({
+const noData = <GameObject>({
     setup,
     cleanup,
     update
@@ -79,7 +71,7 @@ const noData = <GameObject extends Appendable>({
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.delete(item)) return
-        item.$deleteSystemSet.delete(deleteSystem)
+        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item)
     }
@@ -87,7 +79,8 @@ const noData = <GameObject extends Appendable>({
         (item: GameObject) => {
             if (queued.has(item)) return
             queued.add(item)
-            item.$deleteSystemSet.add(deleteSystem)
+            item instanceof Appendable &&
+                item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
             setup?.(item)
         },
