@@ -71,6 +71,7 @@ import Text from "./ui/Text"
 import Keyboard from "./display/Keyboard"
 import Mouse from "./display/Mouse"
 
+import gameSystem from "./systems/utils/gameSystem"
 import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
@@ -160,6 +161,7 @@ export {
     Text,
     Keyboard,
     Mouse,
+    gameSystem,
     createProxy,
     settings,
     preload,

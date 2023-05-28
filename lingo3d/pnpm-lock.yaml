@@ -1,9 +1,13 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@lincode/events':
-    specifier: ^1.0.32
-    version: 1.0.32
+    specifier: ^1.0.33
+    version: 1.0.33
   '@lincode/filetypes':
     specifier: ^1.0.3
     version: 1.0.3
@@ -213,7 +217,7 @@ packages:
       '@babel/compat-data': 7.22.3
       '@babel/core': 7.22.1
       '@babel/helper-validator-option': 7.21.0
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       lru-cache: 5.1.1
       semver: 6.3.0
     dev: true
@@ -625,8 +629,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@lincode/events@1.0.32:
-    resolution: {integrity: sha512-Kx/3OinUV9yMOzWBtrhvN0CurRYot7oUZ3bOJQHt6HEt/xGjhp4x56E3V7hGmDLO7aScOP0VlOcED5mbHEo5fQ==}
+  /@lincode/events@1.0.33:
+    resolution: {integrity: sha512-LLkDCB8OztsmdQAZlPeISUrPFUuxGSvjw+/bt9RSbM3t6pvVdrmzWa4AlKQkqETwTaB8Ejd02sBXFg+mq0bYgA==}
     dependencies:
       '@lincode/promiselikes': 1.0.25
       '@lincode/utils': 1.3.19
@@ -651,7 +655,7 @@ packages:
   /@lincode/reactivity@1.0.87:
     resolution: {integrity: sha512-5QZYgaNFy+OJGFNwysEilLZ1E4wQ8uBeJnC0fJtjoXLxUCnCFhmGBLVFU3NXTr6DRlxDmgkq/nYxHcLLpMKvAg==}
     dependencies:
-      '@lincode/events': 1.0.32
+      '@lincode/events': 1.0.33
       '@lincode/promiselikes': 1.0.25
       '@lincode/utils': 1.3.19
     dev: false
@@ -836,15 +840,15 @@ packages:
     resolution: {integrity: sha512-HPaRf2yimp8kWSuWJXc8Mi78dPbDzfduA+Gyq14H4jlMvd6XNfIRm36Y2yRLaa4x0gwcGuepj4zf14oiTlxrxQ==}
     dev: false
 
-  /browserslist@4.21.5:
-    resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
+  /browserslist@4.21.6:
+    resolution: {integrity: sha512-PF07dKGXKR+/bljJzCB6rAYtHEu21TthLxmJagtQizx+rwiqdRDBO5971Xu1N7MgcMLi4+mr4Cnl76x7O3DHtA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001489
       electron-to-chromium: 1.4.411
       node-releases: 2.0.12
-      update-browserslist-db: 1.0.11(browserslist@4.21.5)
+      update-browserslist-db: 1.0.11(browserslist@4.21.6)
     dev: true
 
   /buffer@6.0.3:
@@ -1178,8 +1182,8 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /postcss@8.4.23:
-    resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}
+  /postcss@8.4.24:
+    resolution: {integrity: sha512-M0RzbcI0sO/XJNucsGjvWU9ERWxb/ytp1w6dKtxTKgixdtQDq4rmx/g8W1hnaheq9jgwL/oyEdH5Bc4WwJKMqg==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -1337,13 +1341,13 @@ packages:
     hasBin: true
     dev: true
 
-  /update-browserslist-db@1.0.11(browserslist@4.21.5):
+  /update-browserslist-db@1.0.11(browserslist@4.21.6):
     resolution: {integrity: sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: true
@@ -1382,7 +1386,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.17.19
-      postcss: 8.4.23
+      postcss: 8.4.24
       rollup: 3.23.0
     optionalDependencies:
       fsevents: 2.3.2
