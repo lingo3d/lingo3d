@@ -1,3 +1,4 @@
+import "./compiler"
 import * as runtime from "./runtime"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"

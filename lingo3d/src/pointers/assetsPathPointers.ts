@@ -2,7 +2,6 @@ export const assetsPathPtr = [""]
 export const dummyUrlPtr = [""]
 export const ybotUrlPtr = [""]
 export const texturesUrlPtr = [""]
-export const waternormalsUrlPtr = [""]
 export const editorUrlPtr = [""]
 export const wasmUrlPtr = [""]
 
@@ -14,7 +13,6 @@ export const setAssetsPath = (val: string) => {
     dummyUrlPtr[0] = assetsPathPtr[0] + "dummy/"
     ybotUrlPtr[0] = dummyUrlPtr[0] + "ybot.fbx"
     texturesUrlPtr[0] = assetsPathPtr[0] + "textures/"
-    waternormalsUrlPtr[0] = texturesUrlPtr[0] + "waternormals.jpg"
     editorUrlPtr[0] = assetsPathPtr[0] + "editor/"
     wasmUrlPtr[0] = assetsPathPtr[0] + "wasm/"
 }

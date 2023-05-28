@@ -5,8 +5,8 @@ import { planeGeometry } from "../../display/primitives/Plane"
 import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
-import { waternormalsUrlPtr } from "../../pointers/assetsPathPointers"
 import { waterSystem } from "../waterSystem"
+import { texturesUrlPtr } from "../../pointers/assetsPathPointers"
 
 let WaterClass: typeof ThreeWater
 
@@ -17,7 +17,8 @@ const importWater = lazy(async () => {
 
 export const [addConfigWaterSystem] = configSystemWithCleanUp2(
     (self: Water) => {
-        const normalMap = self.normalMap || waternormalsUrlPtr[0]
+        const normalMap =
+            self.normalMap || texturesUrlPtr[0] + "waternormals.jpg"
 
         const isPlane = self.shape === "plane"
         const waterGeometry = isPlane ? planeGeometry : sphereGeometry
