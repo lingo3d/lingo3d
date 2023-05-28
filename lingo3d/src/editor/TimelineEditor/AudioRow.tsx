@@ -14,11 +14,8 @@ import {
     addTimelineWaveSurferPlaybackSystem,
     deleteTimelineWaveSurferPlaybackSystem
 } from "../../systems/timelineWaveSurferPlaybackSystem"
-import {
-    addTimelineWaveSurferFrameSystem,
-    deleteTimelineWaveSurferFrameSystem
-} from "../../systems/timelineWaveSurferFrameSystem"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
+import { timelineWaveSurferFrameSystem } from "../../systems/timelineWaveSurferFrameSystem"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -80,12 +77,12 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
                 timeline.$animationStates.pausedCount -= pausedCount
             }
         }
-        addTimelineWaveSurferFrameSystem(waveSurfer, {
+        timelineWaveSurferFrameSystem.add(waveSurfer, {
             frame: timelineFramePtr[0],
             startFrame
         })
         return () => {
-            deleteTimelineWaveSurferFrameSystem(waveSurfer)
+            timelineWaveSurferFrameSystem.delete(waveSurfer)
         }
     }, [waveSurfer, paused, timeline])
 
