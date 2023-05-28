@@ -8,10 +8,6 @@ import { CM2M, M2CM } from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
 import {
-    addLightIntensitySystem,
-    deleteLightIntensitySystem
-} from "../../systems/lightIntensitySystem"
-import {
     addUpdateShadowSystem,
     deleteUpdateShadowSystem
 } from "../../systems/updateShadowSystem"
@@ -19,6 +15,7 @@ import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderT
 import { shadowModePtr } from "../../pointers/shadowModePtr"
 import Cube from "../primitives/Cube"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { lightIntensitySystem } from "../../systems/lightIntensitySystem"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight = ThreePointLight
@@ -88,10 +85,10 @@ export default abstract class PointLightBase<
     public set fade(val) {
         this._fade = val
         if (val) {
-            addLightIntensitySystem(this)
+            lightIntensitySystem.add(this)
             return
         }
-        deleteLightIntensitySystem(this)
+        lightIntensitySystem.delete(this)
         this.intensity = this._intensity
     }
 }
