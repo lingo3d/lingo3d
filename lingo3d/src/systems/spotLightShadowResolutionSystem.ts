@@ -1,4 +1,3 @@
-import renderSystemWithData from "./utils/renderSystemWithData"
 import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
@@ -8,15 +7,14 @@ import {
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import { shadowModePtr } from "../pointers/shadowModePtr"
+import gameSystem from "./utils/gameSystem"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
 
-export const [
-    addSpotLightShadowResolutionSystem,
-    deleteSpotLightShadowResolutionSystem
-] = renderSystemWithData(
-    (self: SpotLight, data: { step: number | undefined }) => {
+export const spotLightShadowResolutionSystem = gameSystem({
+    data: { step: undefined as number | undefined },
+    update: (self: SpotLight, data) => {
         if (!self.object3d.intensity || !shadowModePtr[0]) return
 
         const distance = getDistanceFromCamera(self)
@@ -36,4 +34,4 @@ export const [
         shadow.map = requestShadowRenderTarget([res, res])
         updateShadow(shadow)
     }
-)
+})

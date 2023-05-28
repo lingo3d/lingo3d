@@ -17,12 +17,9 @@ import {
 import { Cancellable } from "@lincode/promiselikes"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import PointLightBase from "../../core/PointLightBase"
-import {
-    deleteSpotLightShadowResolutionSystem,
-    addSpotLightShadowResolutionSystem
-} from "../../../systems/spotLightShadowResolutionSystem"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import unsafeSetValue from "../../../utils/unsafeSetValue"
+import { spotLightShadowResolutionSystem } from "../../../systems/spotLightShadowResolutionSystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -51,8 +48,8 @@ export default class SpotLight
     public override set shadows(val) {
         super.shadows = val
         val
-            ? addSpotLightShadowResolutionSystem(this, { step: undefined })
-            : deleteSpotLightShadowResolutionSystem(this)
+            ? spotLightShadowResolutionSystem.add(this)
+            : spotLightShadowResolutionSystem.delete(this)
     }
 
     public get angle() {

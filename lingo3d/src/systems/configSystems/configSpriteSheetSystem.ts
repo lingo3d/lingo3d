@@ -6,11 +6,8 @@ import {
     requestSpriteSheet,
     releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
-import {
-    addSpriteSheetPlaySystem,
-    deleteSpriteSheetPlaySystem
-} from "../spriteSheetPlaySystem"
 import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import { spriteSheetPlaybackSystem } from "../spriteSheetPlaySystem"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
@@ -33,7 +30,7 @@ const playSpriteSheet = (
 ) => {
     material.visible = true
     const rows = Math.ceil(length / columns)
-    addSpriteSheetPlaySystem(material, {
+    spriteSheetPlaybackSystem.add(material, {
         x: 0,
         y: rows - 1,
         columns,
@@ -67,7 +64,7 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             })
             return () => {
                 releaseSpriteSheet(promise)
-                deleteSpriteSheetPlaySystem(material)
+                spriteSheetPlaybackSystem.delete(material)
                 handle.cancel()
             }
         }
@@ -81,7 +78,7 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
         )
         return () => {
             clearTimeout(timeout)
-            deleteSpriteSheetPlaySystem(material)
+            spriteSheetPlaybackSystem.delete(material)
             handle.cancel()
         }
     }
