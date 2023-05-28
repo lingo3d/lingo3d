@@ -1,5 +1,5 @@
-import renderSystem from "./utils/renderSystem"
+import gameSystem from "./utils/gameSystem"
 
-export const [addUpdateSystem, deleteUpdateSystem] = renderSystem(
-    (target: { update: () => void }) => target.update()
-)
+export const updateSystem = gameSystem({
+    update: (target: { update: () => void }) => target.update()
+})

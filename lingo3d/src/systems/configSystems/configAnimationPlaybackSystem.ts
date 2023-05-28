@@ -3,9 +3,9 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationStates"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import getContext from "../../memo/getContext"
-import { addUpdateDTSystem, deleteUpdateDTSystem } from "../updateDTSystem"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import { onAfterRender } from "../../events/onAfterRender"
+import { updateDTSystem } from "../updateDTSystem"
 
 export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
     (animationStates: AnimationStates) => {
@@ -55,7 +55,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
         action.play()
 
         context.playCount = (context.playCount ?? 0) + 1
-        context.playCount === 1 && addUpdateDTSystem(mixer)
+        context.playCount === 1 && updateDTSystem.add(mixer)
     },
     (animationStates) => {
         const mixer = animationStates.manager!.$mixer
@@ -64,7 +64,7 @@ export const [addConfigAnimationPlaybackSystem] = configSystemWithCleanUp2(
             playCount?: number
         }
         context.playCount = context.playCount! - 1
-        context.playCount === 0 && deleteUpdateDTSystem(mixer)
+        context.playCount === 0 && updateDTSystem.delete(mixer)
     },
     onAfterRender
 )

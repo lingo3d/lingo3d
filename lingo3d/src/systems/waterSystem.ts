@@ -1,8 +1,8 @@
 import { dtPtr } from "../pointers/dtPtr"
-import renderSystem from "./utils/renderSystem"
 import Water from "../display/Water"
+import gameSystem from "./utils/gameSystem"
 
-export const [addWaterSystem, deleteWaterSystem] = renderSystem(
-    (self: Water) =>
+export const waterSystem = gameSystem({
+    update: (self: Water) =>
         (self.$water!.material.uniforms["time"].value += dtPtr[0] * self.speed)
-)
+})

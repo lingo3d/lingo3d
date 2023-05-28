@@ -8,10 +8,10 @@ import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
 import AmbientLight from "./AmbientLight"
-import { addSkyLightSystem } from "../../systems/skyLightSystem"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { ColorString } from "../../interface/ITexturedStandard"
 import MeshAppendable from "../core/MeshAppendable"
+import { skyLightSystem } from "../../systems/skyLightSystem"
 
 export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static componentName = "skyLight"
@@ -25,7 +25,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
     public constructor() {
         super()
 
-        addSkyLightSystem(this)
+        skyLightSystem.add(this)
 
         const backLight = (this.$backLight = new DirectionalLight())
         backLight.$ghost()

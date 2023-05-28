@@ -4,9 +4,9 @@ import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 import { planeGeometry } from "../../display/primitives/Plane"
 import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
-import { addWaterSystem, deleteWaterSystem } from "../waterSystem"
 import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import { waternormalsUrlPtr } from "../../pointers/assetsPathPointers"
+import { waterSystem } from "../waterSystem"
 
 let WaterClass: typeof ThreeWater
 
@@ -34,11 +34,11 @@ export const [addConfigWaterSystem] = configSystemWithCleanUp2(
                 distortionScale: 3.7
             }))
         )
-        addWaterSystem(self)
+        waterSystem.add(self)
     },
     (self) => {
         self.object3d.remove(self.$water!)
-        deleteWaterSystem(self)
+        waterSystem.delete(self)
     },
     [importWater]
 )

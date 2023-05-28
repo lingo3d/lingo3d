@@ -16,7 +16,6 @@ import { fpsRatioPtr } from "../../pointers/fpsRatioPtr"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { addLerpToSystem, deleteLerpToSystem } from "../../systems/lerpToSystem"
 import { addMoveToSystem, deleteMoveToSystem } from "../../systems/moveToSystem"
-import { addOnMoveSystem, deleteOnMoveSystem } from "../../systems/onMoveSystem"
 import { addLookToSystem } from "../../systems/lookToSystem"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
@@ -27,6 +26,7 @@ import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
 import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
 import { addConfigMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
+import { onMoveSystem } from "../../systems/onMoveSystem"
 
 const up = new Vector3(0, 1, 0)
 
@@ -131,7 +131,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set onMove(cb) {
         this._onMove = cb
-        cb ? addOnMoveSystem(this) : deleteOnMoveSystem(this)
+        cb ? onMoveSystem.add(this) : onMoveSystem.delete(this)
     }
 
     public translateX(val: number) {

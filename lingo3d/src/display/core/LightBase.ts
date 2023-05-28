@@ -4,10 +4,10 @@ import ILightBase from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
-import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
+import { updateSystem } from "../../systems/updateSystem"
 
 export default abstract class LightBase<T extends Light>
     extends ObjectManager<T>
@@ -28,14 +28,14 @@ export default abstract class LightBase<T extends Light>
                 renderCheckExcludeSet.add(helper)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
-                "update" in helper && addUpdateSystem(helper)
+                "update" in helper && updateSystem.add(helper)
 
                 sprite.then(() => {
                     helper.dispose()
                     ssrExcludeSet.delete(helper)
                     renderCheckExcludeSet.delete(helper)
                     scene.remove(helper)
-                    "update" in helper && deleteUpdateSystem(helper)
+                    "update" in helper && updateSystem.delete(helper)
                 })
             }
             return () => {

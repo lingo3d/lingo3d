@@ -1,7 +1,8 @@
 import { positionChanged } from "../memo/positionChanged"
-import renderSystem from "./utils/renderSystem"
 import MeshAppendable from "../display/core/MeshAppendable"
+import gameSystem from "./utils/gameSystem"
 
-export const [addOnMoveSystem, deleteOnMoveSystem] = renderSystem(
-    (self: MeshAppendable) => positionChanged(self.object3d) && self.onMove!()
-)
+export const onMoveSystem = gameSystem({
+    update: (self: MeshAppendable) =>
+        positionChanged(self.object3d) && self.onMove!()
+})
