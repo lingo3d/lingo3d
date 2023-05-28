@@ -6,16 +6,13 @@ import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
 import { getSplitView } from "./useSplitView"
 import { getCameraComputed } from "./useCameraComputed"
-import {
-    addCameraInterpolationSystem,
-    deleteCameraInterpolationSystem
-} from "../systems/cameraInterpolationSystem"
 import { getResolution } from "./useResolution"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import { getWebXR } from "./useWebXR"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { cameraTransitionSet } from "../collections/cameraTransitionSet"
 import { resolutionPtr } from "../pointers/resolutionPtr"
+import { cameraInterpolationSystem } from "../systems/cameraInterpolationSystem"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -54,7 +51,7 @@ createEffect(() => {
     interpolationCamera.zoom = cameraFrom.zoom
     interpolationCamera.fov = cameraFrom.fov
 
-    addCameraInterpolationSystem(cameraTo, {
+    cameraInterpolationSystem.add(cameraTo, {
         positionFrom,
         quaternionFrom,
         cameraFrom,
@@ -63,7 +60,7 @@ createEffect(() => {
         onFinish: () => setCameraRendered(cameraTo)
     })
     return () => {
-        deleteCameraInterpolationSystem(cameraTo)
+        cameraInterpolationSystem.delete(cameraTo)
     }
 }, [getSplitView, getCameraComputed])
 
