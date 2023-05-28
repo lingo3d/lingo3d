@@ -7,7 +7,6 @@ import getStaticProperties from "../utils/getStaticProperties"
 import { emitDispose } from "../../events/onDispose"
 import IAppendable from "../../interface/IAppendable"
 import Nullable from "../../interface/utils/Nullable"
-import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
@@ -18,6 +17,7 @@ import {
     deleteEmitSceneGraphChangeSystem
 } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import { GameObjectType } from "../../api/serializer/types"
+import { loopSystem } from "../../systems/loopSystem"
 
 type EventName = "name" | "runtimeSchema" | "loaded" | "actor"
 
@@ -203,7 +203,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set onLoop(cb) {
         this._onLoop = cb
-        cb ? addLoopSystem(this) : deleteLoopSystem(this)
+        cb ? loopSystem.add(this) : loopSystem.delete(this)
     }
 
     public $disableSerialize?: boolean

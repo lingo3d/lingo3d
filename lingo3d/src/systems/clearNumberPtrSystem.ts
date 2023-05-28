@@ -1,7 +1,6 @@
-import { onAfterRender } from "../events/onAfterRender"
-import renderSystem from "./utils/renderSystem"
+import gameSystem from "./utils/gameSystem"
 
-export const [addClearNumberPtrSystem] = renderSystem(
-    (numberPtr: Array<number>) => (numberPtr[0] = 0),
-    onAfterRender
-)
+export const clearNumberPtrSystem = gameSystem({
+    update: (numberPtr: Array<number>) => (numberPtr[0] = 0),
+    ticker: "afterRender"
+})

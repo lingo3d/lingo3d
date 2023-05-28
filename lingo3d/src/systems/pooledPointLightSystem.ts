@@ -6,11 +6,11 @@ import {
 } from "../pools/objectPools/pointLightPool"
 import scene from "../engine/scene"
 import sortedRenderSystemWithData from "./utils/sortedRenderSystemWithData"
-import { addClearNumberPtrSystem } from "./clearNumberPtrSystem"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
+import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
 
 const countPtr = [0]
-addClearNumberPtrSystem(countPtr)
+clearNumberPtrSystem.add(countPtr)
 
 export const [addPooledPointLightSystem] = sortedRenderSystemWithData(
     (self: PooledPointLight, data: { visible: boolean }) => {
