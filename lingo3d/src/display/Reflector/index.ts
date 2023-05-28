@@ -1,7 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { Mesh } from "three"
 import scene from "../../engine/scene"
-import { onRender } from "../../events/onRender"
 import IReflector, {
     reflectorDefaults,
     reflectorSchema
@@ -13,6 +12,7 @@ import { planeGeometry } from "../primitives/Plane"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import { reflectorSystem } from "../../systems/reflectorSystem"
 
 export default class Reflector
     extends PhysicsObjectManager<Mesh>
@@ -34,10 +34,9 @@ export default class Reflector
                 this.createEffect(() => {
                     if (this.done) return
 
-                    const [camera] = cameraRenderedPtr
-                    const mat = (mesh.material = new MeshReflectorMaterial(
+                    const material = (mesh.material = new MeshReflectorMaterial(
                         rendererPtr[0],
-                        camera,
+                        cameraRenderedPtr[0],
                         scene,
                         mesh,
                         {
@@ -49,13 +48,10 @@ export default class Reflector
                             distortionMap: undefined
                         }
                     ))
-                    const handle = onRender(() => {
-                        camera.updateWorldMatrix(true, false)
-                        mat.update()
-                    })
+                    reflectorSystem.add(this, { material })
                     return () => {
-                        mat.dispose()
-                        handle.cancel()
+                        material.dispose()
+                        reflectorSystem.delete(this)
                     }
                 }, [
                     getRenderer,

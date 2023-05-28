@@ -66,9 +66,13 @@ const withData = <GameObject, Data extends Record<string, any>>({
         cleanup?.(item, _data)
     }
     return <const>[
-        (item: GameObject) => {
-            if (queued.has(item)) return
-            const _data = typeof data === "function" ? data() : data!
+        (item: GameObject, initData?: Data) => {
+            if (queued.has(item)) {
+                initData && queued.set(item, initData)
+                return
+            }
+            const _data =
+                initData ?? (typeof data === "function" ? data() : data!)
             queued.set(item, _data)
             item instanceof Appendable &&
                 item.$deleteSystemSet.add(deleteSystem)
