@@ -5,15 +5,16 @@ import {
     requestPointLight
 } from "../pools/objectPools/pointLightPool"
 import scene from "../engine/scene"
-import sortedRenderSystemWithData from "./utils/sortedRenderSystemWithData"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
+import gameSystem from "./utils/gameSystem"
 
 const countPtr = [0]
 clearNumberPtrSystem.add(countPtr)
 
-export const [addPooledPointLightSystem] = sortedRenderSystemWithData(
-    (self: PooledPointLight, data: { visible: boolean }) => {
+export const pooledPointLightSystem = gameSystem({
+    data: { visible: false },
+    update: (self: PooledPointLight, data) => {
         const intensityFactor = getIntensityFactor(self)
         const visible =
             !!intensityFactor && ++countPtr[0] <= pointLightPoolPtr[0]
@@ -34,5 +35,5 @@ export const [addPooledPointLightSystem] = sortedRenderSystemWithData(
         }
         data.visible = visible
     },
-    (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
-)
+    sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
+})
