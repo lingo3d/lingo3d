@@ -32,8 +32,8 @@ type Options<
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
-    beforeTick?: () => void
-    afterTick?: () => void
+    beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
+    afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
 }
 
@@ -68,15 +68,15 @@ const withData = <
         beforeTick || afterTick
             ? sort
                 ? () => {
-                      beforeTick?.()
+                      beforeTick?.(queued)
                       for (const target of [...queued.keys()].sort(sort))
                           update!(target, queued.get(target)!)
-                      afterTick?.()
+                      afterTick?.(queued)
                   }
                 : () => {
-                      beforeTick?.()
+                      beforeTick?.(queued)
                       for (const [target, data] of queued) update!(target, data)
-                      afterTick?.()
+                      afterTick?.(queued)
                   }
             : sort
             ? () => {
@@ -133,15 +133,15 @@ const noData = <GameObject extends object | Appendable>({
         beforeTick || afterTick
             ? sort
                 ? () => {
-                      beforeTick?.()
+                      beforeTick?.(queued)
                       for (const target of [...queued].sort(sort))
                           update!(target)
-                      afterTick?.()
+                      afterTick?.(queued)
                   }
                 : () => {
-                      beforeTick?.()
+                      beforeTick?.(queued)
                       for (const target of queued) update!(target)
-                      afterTick?.()
+                      afterTick?.(queued)
                   }
             : sort
             ? () => {

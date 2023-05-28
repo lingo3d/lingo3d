@@ -4,16 +4,13 @@ import type Model from "../../display/Model"
 import { NEAR } from "../../globals"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import {
-    addReflectionSystem,
-    deleteReflectionSystem
-} from "../reflectionSystem"
-import {
     reflectionChangedSet,
     reflectionDataMap
 } from "../../collections/reflectionCollections"
 import { uuidTextureMap } from "../../collections/idCollections"
 import FoundManager from "../../display/core/FoundManager"
 import configLoadedSystem from "../utils/configLoadedSystem"
+import { reflectionSystem } from "../reflectionSystem"
 
 const setFactor = (
     factor: number | undefined,
@@ -51,12 +48,12 @@ export const [addRefreshFactorsSystem] = configLoadedSystem((model: Model) => {
             reflectionDataMap.set(model, [reflectionTexture, reflectionHandle])
             const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
 
-            addReflectionSystem(model, { cubeCamera, cubeRenderTarget })
+            reflectionSystem.add(model, { cubeCamera, cubeRenderTarget })
             uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
 
             reflectionHandle.then(() => {
                 cubeRenderTarget.dispose()
-                deleteReflectionSystem(model)
+                reflectionSystem.delete(model)
                 uuidTextureMap.delete(reflectionTexture.uuid)
             })
         }
