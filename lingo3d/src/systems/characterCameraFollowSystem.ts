@@ -3,9 +3,9 @@ import CharacterCamera from "../display/core/CharacterCamera"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
 import { PI } from "../globals"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import { addGyrateResetSystem } from "./configSystems/gyrateResetSystem"
 import { positionChangedXZ } from "../memo/positionChangedXZ"
+import gameSystem from "./utils/gameSystem"
 
 const followTargetRotation = (
     self: CharacterCamera,
@@ -41,11 +41,9 @@ const rotateTarget = (
     target.outerObject3d.setRotationFromEuler(euler)
 }
 
-export const [
-    addCharacterCameraFollowSystem,
-    deleteCharacterCameraFollowSystem
-] = renderSystemWithData(
-    (self: CharacterCamera, { found }: { found: MeshAppendable }) => {
+export const characterCameraFollowSystem = gameSystem({
+    data: {} as { found: MeshAppendable },
+    update: (self: CharacterCamera, { found }) => {
         self.position.copy(found.position)
 
         if (!self.lockTargetRotation) return
@@ -66,4 +64,4 @@ export const [
         }
         rotateTarget(self, found, false)
     }
-)
+})

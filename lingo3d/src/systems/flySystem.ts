@@ -1,8 +1,9 @@
 import ObjectManager from "../display/core/ObjectManager"
-import renderSystemWithData from "./utils/renderSystemWithData"
+import gameSystem from "./utils/gameSystem"
 
-export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
-    (manager: ObjectManager, { downSet }: { downSet: Set<string> }) => {
+export const flySystem = gameSystem({
+    data: {} as { downSet: Set<string> },
+    update: (manager: ObjectManager, { downSet }) => {
         if (downSet.has("Meta") || downSet.has("Control")) return
 
         const speed = downSet.has("Shift") ? 50 : 10
@@ -30,4 +31,4 @@ export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
         if (downSet.has("ArrowDown")) manager.y -= speed
         else if (downSet.has("ArrowUp")) manager.y += speed
     }
-)
+})

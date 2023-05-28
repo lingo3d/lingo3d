@@ -8,11 +8,8 @@ import ICharacterCamera, {
 import { FAR, NEAR } from "../../globals"
 import CameraBase from "./CameraBase"
 import MeshAppendable from "./MeshAppendable"
-import {
-    addCharacterCameraFollowSystem,
-    deleteCharacterCameraFollowSystem
-} from "../../systems/characterCameraFollowSystem"
 import { addCharacterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
+import { characterCameraFollowSystem } from "../../systems/characterCameraFollowSystem"
 
 export default class CharacterCamera
     extends CameraBase
@@ -34,9 +31,9 @@ export default class CharacterCamera
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            addCharacterCameraFollowSystem(this, { found })
+            characterCameraFollowSystem.add(this, { found })
             return () => {
-                deleteCharacterCameraFollowSystem(this)
+                characterCameraFollowSystem.delete(this)
             }
         }, [this.firstChildState.get])
 

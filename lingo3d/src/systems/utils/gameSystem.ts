@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import Appendable from "../../display/core/Appendable"
+import type Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onAfterRender } from "../../events/onAfterRender"
 import { onRender } from "../../events/onRender"
@@ -23,7 +23,10 @@ const mapTicker = (ticker: Ticker) => {
     }
 }
 
-type Options<GameObject, Data extends Record<string, any> | void> = {
+type Options<
+    GameObject extends object | Appendable,
+    Data extends Record<string, any> | void
+> = {
     data?: Data | (() => Data)
     setup?: (gameObject: GameObject, data: Data) => void
     cleanup?: (gameObject: GameObject, data: Data) => void
@@ -31,7 +34,10 @@ type Options<GameObject, Data extends Record<string, any> | void> = {
     ticker?: Ticker
 }
 
-export default <GameObject, Data extends Record<string, any> | void>(
+export default <
+    GameObject extends object | Appendable,
+    Data extends Record<string, any> | void
+>(
     options: Options<GameObject, Data>
 ) => {
     const [add, remove] = options.data
@@ -40,7 +46,10 @@ export default <GameObject, Data extends Record<string, any> | void>(
     return { add, delete: remove }
 }
 
-const withData = <GameObject, Data extends Record<string, any>>({
+const withData = <
+    GameObject extends object | Appendable,
+    Data extends Record<string, any>
+>({
     data,
     setup,
     cleanup,
@@ -61,7 +70,7 @@ const withData = <GameObject, Data extends Record<string, any>>({
         if (!queued.has(item)) return
         const _data = queued.get(item)!
         queued.delete(item)
-        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item, _data)
     }
@@ -74,7 +83,7 @@ const withData = <GameObject, Data extends Record<string, any>>({
             const _data =
                 initData ?? (typeof data === "function" ? data() : data!)
             queued.set(item, _data)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
             setup?.(item, _data)
@@ -83,7 +92,7 @@ const withData = <GameObject, Data extends Record<string, any>>({
     ]
 }
 
-const noData = <GameObject>({
+const noData = <GameObject extends object | Appendable>({
     setup,
     cleanup,
     update,
@@ -101,7 +110,7 @@ const noData = <GameObject>({
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.delete(item)) return
-        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item)
     }
@@ -109,7 +118,7 @@ const noData = <GameObject>({
         (item: GameObject) => {
             if (queued.has(item)) return
             queued.add(item)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
             setup?.(item)

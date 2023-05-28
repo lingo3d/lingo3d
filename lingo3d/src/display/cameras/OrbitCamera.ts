@@ -16,10 +16,10 @@ import {
     addOrbitCameraPlaceAtSystem,
     deleteOrbitCameraPlaceAtSystem
 } from "../../systems/orbitCameraPlaceAtSystem"
-import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
 import { container } from "../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { gyrateSystem } from "../../systems/gyrateSystem"
+import { flySystem } from "../../systems/flySystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -68,7 +68,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
 
             if (this.enableFlyState.get()) {
                 const downSet = new Set<string>()
-                addFlySystem(this, { downSet })
+                flySystem.add(this, { downSet })
 
                 const handleKeyDown = (e: KeyboardEvent) => {
                     downSet.add(
@@ -85,7 +85,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
                 handle.watch(onKeyClear(() => downSet.clear()))
 
                 handle.then(() => {
-                    deleteFlySystem(this)
+                    flySystem.delete(this)
                     document.removeEventListener("keydown", handleKeyDown)
                     document.removeEventListener("keyup", handleKeyUp)
                 })

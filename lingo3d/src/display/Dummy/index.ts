@@ -1,7 +1,6 @@
-import { deg2Rad, endPoint, rad2Deg } from "@lincode/math"
+import { rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
-import { onRender } from "../../events/onRender"
 import IDummy, {
     dummyDefaults,
     dummySchema,
@@ -10,17 +9,12 @@ import IDummy, {
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/AnimatedObjectManager/AnimationManager"
 import Model from "../Model"
-import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
-import fpsAlpha from "../utils/fpsAlpha"
 import dirPath from "../../api/path/dirPath"
-import {
-    addDummyGroundedSystem,
-    deleteDummyGroundedSystem
-} from "../../systems/dummyGroundedSystem"
 import { indexChildrenNames } from "../../memo/indexChildrenNames"
-import { Point3dType } from "../../utils/isPoint"
 import { dummyUrlPtr, ybotUrlPtr } from "../../pointers/assetsPathPointers"
+import { dummyGroundedSystem } from "../../systems/dummyGroundedSystem"
+import { dummySystem } from "../../systems/dummySystem"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -130,9 +124,9 @@ export default class Dummy extends Model implements IDummy {
             if (pose !== "jumping") return
 
             this.velocityY = this.jumpHeight
-            addDummyGroundedSystem(this, { poseService })
+            dummyGroundedSystem.add(this, { poseService })
             return () => {
-                deleteDummyGroundedSystem(this)
+                dummyGroundedSystem.delete(this)
             }
         }, [getPose])
 
@@ -171,40 +165,17 @@ export default class Dummy extends Model implements IDummy {
             const spineQuaternion = spine?.quaternion.clone()
             const loadedItemQuaternion = loadedObject3d.quaternion.clone()
 
-            const handle = onRender(() => {
-                poseService.send(
-                    backwards ? "RUN_BACKWARDS_START" : "RUN_START"
-                )
-
-                const quaternionOld = loadedObject3d.quaternion.clone()
-
-                let spinePoint: Point3dType | undefined
-                if (strideMode === "aim" && spine && spineQuaternion) {
-                    loadedObject3d.quaternion.copy(loadedItemQuaternion)
-                    spine.quaternion.copy(spineQuaternion)
-                    spinePoint = spine.pointAt(1000)
-                }
-
-                loadedObject3d.quaternion.setFromEuler(
-                    euler.set(0, angle * deg2Rad, 0)
-                )
-                const quaternionNew = loadedObject3d.quaternion.clone()
-                loadedObject3d.quaternion
-                    .copy(quaternionOld)
-                    .slerp(quaternionNew, fpsAlpha(0.2))
-
-                spinePoint && spine?.lookAt(spinePoint)
-
-                if (!strideMove) return
-
-                const { x, y } = endPoint(
-                    0,
-                    0,
-                    angle + 90,
-                    Math.max(Math.abs(strideForward), Math.abs(strideRight))
-                )
-                this.moveForward(backwards ? y : -y)
-                this.moveRight(backwards ? x : -x)
+            dummySystem.add(this, {
+                poseService,
+                backwards,
+                strideMode,
+                spine,
+                spineQuaternion,
+                loadedItemQuaternion,
+                strideMove,
+                angle,
+                strideForward,
+                strideRight
             })
             return () => {
                 if (
@@ -214,7 +185,7 @@ export default class Dummy extends Model implements IDummy {
                 )
                     loadedObject3d.quaternion.set(0, 0, 0, 0)
 
-                handle.cancel()
+                dummySystem.delete(this)
             }
         }, [
             this.animationsState.get,
