@@ -1,13 +1,15 @@
 import { Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import MeshAppendable from "../display/core/MeshAppendable"
+import gameSystem from "./utils/gameSystem"
 
-export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
-    (
-        self: MeshAppendable,
-        data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }
-    ) => {
+export const lookToSystem = gameSystem({
+    data: {} as {
+        quaternion: Quaternion
+        quaternionNew: Quaternion
+        a1?: number
+    },
+    update: (self: MeshAppendable, data) => {
         const { quaternion, quaternionNew, a1 } = data
         quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
 
@@ -16,10 +18,9 @@ export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
         const z = Math.abs(quaternion.z - quaternionNew.z)
         const w = Math.abs(quaternion.w - quaternionNew.w)
         if (x + y + z + w < 0.001) {
-            deleteLookToSystem(self)
+            lookToSystem.delete(self)
             self.onLookToEnd?.()
-
             quaternion.copy(quaternionNew)
         }
     }
-)
+})

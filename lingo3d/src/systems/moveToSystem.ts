@@ -1,23 +1,21 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
+import gameSystem from "./utils/gameSystem"
 
-export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
-    (
-        self: MeshAppendable | PhysicsObjectManager,
-        data: {
-            sx: number
-            sy: number
-            sz: number
-            x: number
-            y: number | undefined
-            z: number
-            quad: number
-        }
-    ) => {
+export const moveToSystem = gameSystem({
+    data: {} as {
+        sx: number
+        sy: number
+        sz: number
+        x: number
+        y: number | undefined
+        z: number
+        quad: number
+    },
+    update: (self: MeshAppendable | PhysicsObjectManager, data) => {
         self.x += data.sx * fpsRatioPtr[0]
         if (data.y !== undefined) self.y += data.sy * fpsRatioPtr[0]
         self.z += data.sz * fpsRatioPtr[0]
@@ -34,9 +32,9 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
         )
 
         if (data.z > rotated.y) {
-            deleteMoveToSystem(self)
+            moveToSystem.delete(self)
             self.onMoveToEnd?.()
         }
         addConfigPhysicsSystem(self)
     }
-)
+})

@@ -9,9 +9,9 @@ import { container } from "../../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { onMouseDown } from "../../../events/onMouseDown"
 import { onMouseUp } from "../../../events/onMouseUp"
-import { addGyrateInertiaSystem } from "../../../systems/gyrateInertiaSystem"
 import { cameraPointerLockPtr } from "../../../pointers/cameraPointerLockPtr"
 import { IS_MOBILE } from "../../../globals"
+import { gyrateInertiaSystem } from "../../../systems/gyrateInertiaSystem"
 
 export default function (this: CameraBase) {
     if (this.done) return
@@ -27,7 +27,7 @@ export default function (this: CameraBase) {
             const handleMove = ({ movementX, movementY }: MouseEvent) => {
                 this.gyrate(movementX, movementY)
                 this.inertia &&
-                    addGyrateInertiaSystem(this, {
+                    gyrateInertiaSystem.add(this, {
                         factor: 1,
                         movementX,
                         movementY
@@ -62,7 +62,7 @@ export default function (this: CameraBase) {
                 (movementY / window.innerHeight) * 3000
             )
             this.inertia &&
-                addGyrateInertiaSystem(this, {
+                gyrateInertiaSystem.add(this, {
                     factor: 1,
                     movementX,
                     movementY
