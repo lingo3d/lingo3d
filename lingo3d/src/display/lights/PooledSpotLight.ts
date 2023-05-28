@@ -7,11 +7,11 @@ import IPooledSpotLight, {
     pooledSpotLightDefaults,
     pooledSpotLightSchema
 } from "../../interface/IPooledSpotLight"
-import { addPooledSpotLightSystem } from "../../systems/pooledSpotLightSystem"
 import SpotLight from "./SpotLight"
 import { onSpotLightPool } from "../../events/onSpotLightPool"
 import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
 import PooledPointLightBase from "../core/PooledPointLightBase"
+import { pooledSpotLightSystem } from "../../systems/pooledSpotLightSystem"
 
 const lightSet = new Set<PooledSpotLight>()
 
@@ -29,8 +29,7 @@ onSpotLightPool(() => {
     requested = false
     disposeSpotLights()
     requestSpotLights()
-    for (const light of lightSet)
-        addPooledSpotLightSystem(light, { visible: false })
+    for (const light of lightSet) pooledSpotLightSystem.add(light)
 })
 
 export default class PooledSpotLight
@@ -44,7 +43,7 @@ export default class PooledSpotLight
     public constructor() {
         super()
         requestSpotLights()
-        addPooledSpotLightSystem(this, { visible: false })
+        pooledSpotLightSystem.add(this)
         lightSet.add(this)
         this.then(() => lightSet.delete(this))
     }

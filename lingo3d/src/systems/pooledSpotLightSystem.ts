@@ -5,15 +5,16 @@ import {
     requestSpotLight
 } from "../pools/objectPools/spotLightPool"
 import scene from "../engine/scene"
-import sortedRenderSystemWithData from "./utils/sortedRenderSystemWithData"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
+import gameSystem from "./utils/gameSystem"
 
 const countPtr = [0]
 clearNumberPtrSystem.add(countPtr)
 
-export const [addPooledSpotLightSystem] = sortedRenderSystemWithData(
-    (self: PooledSpotLight, data: { visible: boolean }) => {
+export const pooledSpotLightSystem = gameSystem({
+    data: { visible: false },
+    update: (self: PooledSpotLight, data) => {
         const intensityFactor = getIntensityFactor(self)
         const visible =
             !!intensityFactor && ++countPtr[0] <= spotLightPoolPtr[0]
@@ -38,5 +39,5 @@ export const [addPooledSpotLightSystem] = sortedRenderSystemWithData(
         }
         data.visible = visible
     },
-    (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
-)
+    sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
+})
