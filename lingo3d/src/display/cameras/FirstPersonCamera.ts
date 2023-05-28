@@ -1,7 +1,7 @@
 import CharacterCamera from "../core/CharacterCamera"
 import { Reactive } from "@lincode/reactivity"
 import ObjectManager from "../core/ObjectManager"
-import { addCharacterCameraSystem } from "../../systems/characterCameraSystem"
+import { characterCameraSystem } from "../../systems/characterCameraSystem"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
@@ -9,7 +9,7 @@ export default class FirstPersonCamera extends CharacterCamera {
     public constructor() {
         super()
 
-        addCharacterCameraSystem(this)
+        characterCameraSystem.add(this)
 
         this.createEffect(() => {
             const found = this.firstChildState.get()

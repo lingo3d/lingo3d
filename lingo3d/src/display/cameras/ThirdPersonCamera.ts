@@ -4,11 +4,8 @@ import IThirdPersonCamera, {
 } from "../../interface/IThirdPersonCamera"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshAppendable from "../core/MeshAppendable"
-import {
-    addCharacterCameraSystem,
-    deleteCharacterCameraSystem
-} from "../../systems/characterCameraSystem"
 import { thirdPersonCameraSystem } from "../../systems/thirdPersonCameraSystem"
+import { characterCameraSystem } from "../../systems/characterCameraSystem"
 
 export default class ThirdPersonCamera
     extends CharacterCamera
@@ -26,9 +23,9 @@ export default class ThirdPersonCamera
         this.createEffect(() => {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) {
-                addCharacterCameraSystem(this)
+                characterCameraSystem.add(this)
                 return () => {
-                    deleteCharacterCameraSystem(this)
+                    characterCameraSystem.delete(this)
                 }
             }
             thirdPersonCameraSystem.add(this, { found, lerpCount: 0 })
