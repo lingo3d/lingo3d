@@ -10,12 +10,9 @@ import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
 import { getTimelineMute } from "../../states/useTimelineMute"
 import getReactive from "../../utils/getReactive"
-import {
-    addTimelineWaveSurferPlaybackSystem,
-    deleteTimelineWaveSurferPlaybackSystem
-} from "../../systems/timelineWaveSurferPlaybackSystem"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 import { timelineWaveSurferFrameSystem } from "../../systems/timelineWaveSurferFrameSystem"
+import { timelineWaveSurferPlaybackSystem } from "../../systems/timelineWaveSurferPlaybackSystem"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -59,7 +56,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
     useLayoutEffect(() => {
         if (!waveSurfer || !timeline) return
         if (!paused) {
-            addTimelineWaveSurferPlaybackSystem(waveSurfer, { startFrame })
+            timelineWaveSurferPlaybackSystem.add(waveSurfer, { startFrame })
 
             let pausedCount = 1
             timeline.$animationStates.pausedCount += pausedCount
@@ -71,7 +68,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
             }, (audioContext.baseLatency + audioContext.outputLatency) * 1000)
 
             return () => {
-                deleteTimelineWaveSurferPlaybackSystem(waveSurfer)
+                timelineWaveSurferPlaybackSystem.delete(waveSurfer)
                 clearTimeout(timeout)
                 waveSurfer.pause()
                 timeline.$animationStates.pausedCount -= pausedCount
