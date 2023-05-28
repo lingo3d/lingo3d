@@ -1,28 +1,21 @@
 import Appendable from "../display/core/Appendable"
 import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
-import renderSystemWithData from "./utils/renderSystemWithData"
 import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
+import gameSystem from "./utils/gameSystem"
 
-export const [addRefreshInputSystem, deleteRefreshInputSystem] =
-    renderSystemWithData(
-        (
-            input: InputBindingApi,
-            {
-                key,
-                params,
-                target
-            }: {
-                key: string
-                params: any
-                target: Appendable
-            }
-        ) => {
-            const val = getRuntimeValue(target, key)
-            if (equalsValue(target, val, params[key], key)) return
-            params[key] = val
-            inputSkipChangeSet.add(input)
-            input.refresh()
-        }
-    )
+export const refreshInputSystem = gameSystem({
+    data: {} as {
+        key: string
+        params: any
+        target: Appendable
+    },
+    update: (input: InputBindingApi, { key, params, target }) => {
+        const val = getRuntimeValue(target, key)
+        if (equalsValue(target, val, params[key], key)) return
+        params[key] = val
+        inputSkipChangeSet.add(input)
+        input.refresh()
+    }
+})

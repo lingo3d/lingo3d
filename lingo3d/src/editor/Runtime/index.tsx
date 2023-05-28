@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "preact/hooks"
-import {
-    addRuntimeIframeScriptSystem,
-    deleteRuntimeIframeScriptSystem
-} from "../../systems/runtimeIframeScriptSystem"
 import { serialize } from "../../runtime"
+import { runtimeIframeScriptSystem } from "../../systems/runtimeIframeScriptSystem"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -13,9 +10,9 @@ const Runtime = () => {
         if (!iframe) return
 
         const script = `deserialize(${JSON.stringify(serialize())})`
-        addRuntimeIframeScriptSystem(iframe, { script })
+        runtimeIframeScriptSystem.add(iframe, { script })
         return () => {
-            deleteRuntimeIframeScriptSystem(iframe)
+            runtimeIframeScriptSystem.delete(iframe)
         }
     }, [])
 

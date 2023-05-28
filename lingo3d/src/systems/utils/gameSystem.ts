@@ -6,9 +6,15 @@ import { onRender } from "../../events/onRender"
 import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
 
-type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
+type Ticker =
+    | "beforeRender"
+    | "afterRender"
+    | "render"
+    | "loop"
+    | ((cb: () => void) => Cancellable)
 
 const mapTicker = (ticker: Ticker) => {
+    if (typeof ticker === "function") return ticker
     switch (ticker) {
         case "beforeRender":
             return onBeforeRender

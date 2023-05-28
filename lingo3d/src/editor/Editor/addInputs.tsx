@@ -23,10 +23,6 @@ import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import SpawnNode from "../../visualScripting/SpawnNode"
-import {
-    addRefreshInputSystem,
-    deleteRefreshInputSystem
-} from "../../systems/refreshInputSystem"
 import { uuidMap } from "../../collections/idCollections"
 import {
     isDefaultMethodArg,
@@ -37,6 +33,7 @@ import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
 import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
+import { refreshInputSystem } from "../../systems/refreshInputSystem"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -224,7 +221,7 @@ export default async (
                     key,
                     optionsOmitted?.[key]
                 )
-                addRefreshInputSystem(input, { key, params, target })
+                refreshInputSystem.add(input, { key, params, target })
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
@@ -346,7 +343,7 @@ export default async (
     )
     handle.then(() => {
         for (const input of Object.values(result)) {
-            deleteRefreshInputSystem(input)
+            refreshInputSystem.delete(input)
             input.dispose()
         }
     })
