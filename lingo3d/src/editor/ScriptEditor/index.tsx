@@ -10,7 +10,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
 import makeMonaco from "./makeMonaco"
-import { editor } from "monaco-editor"
+import { editor, languages } from "monaco-editor"
 import data from "monaco-themes/themes/Sunburst.json"
 import { getScript, setScript } from "../../states/useScript"
 import AppBar from "../component/bars/AppBar"
@@ -22,6 +22,7 @@ import {
     deleteScriptsUnsaved,
     getScriptsUnsaved
 } from "../../states/useScriptsUnsaved"
+import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 
 const { Monaco } = makeMonaco()
 
@@ -31,6 +32,13 @@ Object.assign(data.colors, {
     // "editorSuggestWidget.selectedBackground": ""
 })
 editor.defineTheme("lingo3d", data as any)
+
+fetch(editorUrlPtr[0] + "lingo3d.d.ts").then(async (res) =>
+    languages.typescript.typescriptDefaults.addExtraLib(
+        await res.text(),
+        "lingo3d.d.ts"
+    )
+)
 
 const ScriptEditor = () => {
     useInitCSS()
