@@ -40,6 +40,7 @@
         "n8ao": "^1.4.2",
         "nanoid": "^4.0.2",
         "nipplejs": "0.10.1",
+        "parse-ts-to-ast": "^0.1.4",
         "postprocessing": "6.31.0",
         "preact": "^10.15.1",
         "preact-compat": "^3.19.0",

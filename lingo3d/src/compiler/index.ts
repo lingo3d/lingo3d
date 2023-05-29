@@ -1,17 +1,18 @@
-import * as esbuild from "esbuild-wasm"
-import { wasmUrlPtr } from "../pointers/assetsPathPointers"
-;(async () => {
-    await esbuild.initialize({
-        wasmURL: wasmUrlPtr[0] + "esbuild.wasm"
-    })
+// import { TypescriptParser } from "parse-ts-to-ast"
 
-    const code = `
-        import "lingo3d-runtime"
-        console.log("hello world")
-    `
 
-    let result1 = await esbuild.transform(code, {  })
-    let result2 = esbuild.build({  })
-    
-    console.log(result1, result2)
-})()
+// const parser = new TypescriptParser()
+
+// parser.parseSource(`
+// import "./engine";
+// `).then((result) => {
+//     console.log(result)
+// })
+
+// const f = await directoryOpen({
+//     recursive: true,
+//     startIn: "downloads",
+//     id: "lingo3d",
+//     skipDirectory: (entry) =>
+//         entry.name[0] === "." || entry.name === "node_modules"
+// })
