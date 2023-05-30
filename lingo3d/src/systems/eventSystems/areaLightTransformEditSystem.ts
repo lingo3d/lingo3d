@@ -1,6 +1,6 @@
 import AreaLight from "../../display/lights/AreaLight"
 import { onTransformEdit } from "../../events/onTransformEdit"
-import { addConfigAreaLightSystem } from "../configSystems/configAreaLightSystem"
+import { configAreaLightSystem } from "../configSystems/configAreaLightSystem"
 import eventSystem from "../utils/eventSystem"
 
 export const [addAreaLightTransformEditSystem] = eventSystem(
@@ -8,7 +8,7 @@ export const [addAreaLightTransformEditSystem] = eventSystem(
         self === target &&
             mode === "scale" &&
             phase === "end" &&
-            addConfigAreaLightSystem(self)
+            configAreaLightSystem.add(self)
     },
     onTransformEdit
 )

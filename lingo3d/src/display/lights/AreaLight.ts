@@ -5,9 +5,9 @@ import IAreaLight, {
 } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
-import { addConfigAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 import { addAreaLightTransformEditSystem } from "../../systems/eventSystems/areaLightTransformEditSystem"
 import { areaLightIntensitySystem } from "../../systems/areaLightIntensitySystem"
+import { configAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -32,7 +32,7 @@ export default class AreaLight extends Plane implements IAreaLight {
             const light = (this.$light = new RectAreaLight())
             this.outerObject3d.add(light)
             this.then(() => light.dispose())
-            addConfigAreaLightSystem(this)
+            configAreaLightSystem.add(this)
         })
         addAreaLightTransformEditSystem(this)
         areaLightIntensitySystem.add(this)
@@ -43,7 +43,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set color(val) {
         super.color = val
-        addConfigAreaLightSystem(this)
+        configAreaLightSystem.add(this)
     }
 
     public intensity = 1
@@ -53,7 +53,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set width(val) {
         super.width = val
-        addConfigAreaLightSystem(this)
+        configAreaLightSystem.add(this)
     }
 
     public override get height() {
@@ -61,7 +61,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set height(val) {
         super.height = val
-        addConfigAreaLightSystem(this)
+        configAreaLightSystem.add(this)
     }
 
     public override get scaleX() {
@@ -69,7 +69,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set scaleX(val) {
         super.scaleX = val
-        addConfigAreaLightSystem(this)
+        configAreaLightSystem.add(this)
     }
 
     public override get scaleY() {
@@ -77,7 +77,7 @@ export default class AreaLight extends Plane implements IAreaLight {
     }
     public override set scaleY(val) {
         super.scaleY = val
-        addConfigAreaLightSystem(this)
+        configAreaLightSystem.add(this)
     }
 
     public override get depth() {

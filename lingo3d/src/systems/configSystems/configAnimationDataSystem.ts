@@ -3,9 +3,9 @@ import { AnimationClip, BooleanKeyframeTrack, NumberKeyframeTrack } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
-import configSystem from "../utils/configSystem"
 import { uuidMap } from "../../collections/idCollections"
 import TimelineAudio from "../../display/TimelineAudio"
+import createSystem from "../utils/createSystem"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>
@@ -36,8 +36,8 @@ const framesToKeyframeTrack = (
         return new NumberKeyframeTrack(name, frameNums, values)
 }
 
-export const [addConfigAnimationDataSystem] = configSystem(
-    (self: AnimationManager) => {
+export const configAnimationDataSystem = createSystem({
+    setup: (self: AnimationManager) => {
         if (!self.data) {
             self.$clip = self.$loadedClip
             return false
@@ -60,4 +60,4 @@ export const [addConfigAnimationDataSystem] = configSystem(
                 .flat()
         )
     }
-)
+})

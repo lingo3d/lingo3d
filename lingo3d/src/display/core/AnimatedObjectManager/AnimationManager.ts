@@ -9,9 +9,9 @@ import Appendable from "../Appendable"
 import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
-import { addConfigAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 import getClipAction from "../../../memo/getClipAction"
 import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
+import { configAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -70,7 +70,7 @@ export default class AnimationManager
         super()
         this.$disableSerialize = true
         this.name = name
-        addConfigAnimationDataSystem(this)
+        configAnimationDataSystem.add(this)
         this.$mixer = forceGetInstance(
             targetMixerMap,
             target ?? this,
@@ -103,7 +103,7 @@ export default class AnimationManager
     }
     public set data(val: AnimationData | undefined) {
         this._data = val
-        addConfigAnimationDataSystem(this)
+        configAnimationDataSystem.add(this)
     }
 
     public mergeData(data: AnimationData) {

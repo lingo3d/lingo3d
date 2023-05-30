@@ -1,9 +1,11 @@
 import CameraBase from "../../display/core/CameraBase"
-import configSystem from "../utils/configSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigCameraSystem] = configSystem((self: CameraBase) => {
-    const { $camera } = self
-    $camera.fov = self.fov
-    $camera.zoom = self.zoom
-    $camera.updateProjectionMatrix()
+export const configCameraSystem = createSystem({
+    setup: (self: CameraBase) => {
+        const { $camera } = self
+        $camera.fov = self.fov
+        $camera.zoom = self.zoom
+        $camera.updateProjectionMatrix()
+    }
 })

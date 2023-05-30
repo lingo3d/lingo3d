@@ -22,9 +22,9 @@ import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateReset
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
-import { addConfigCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
+import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -87,7 +87,7 @@ export default abstract class CameraBase<
     }
     public set fov(val) {
         this._fov = val
-        addConfigCameraSystem(this)
+        configCameraSystem.add(this)
     }
 
     private _zoom = 1
@@ -96,7 +96,7 @@ export default abstract class CameraBase<
     }
     public set zoom(val) {
         this._zoom = val
-        addConfigCameraSystem(this)
+        configCameraSystem.add(this)
     }
 
     private _active?: boolean
