@@ -1,11 +1,11 @@
 import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import SphericalJoint from "../../display/joints/SphericalJoint"
-import configSystem from "../utils/configSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigSphericalJointSystem] = configSystem(
-    (target: SphericalJoint) => {
-        const { $pxJoint, limited, limitY, limitZ } = target
+export const configSphericalJointSystem = createSystem({
+    setup: (self: SphericalJoint) => {
+        const { $pxJoint, limited, limitY, limitZ } = self
         if (!$pxJoint) return
 
         const { PxJointLimitCone, PxSphericalJointFlagEnum, destroy } =
@@ -24,4 +24,4 @@ export const [addConfigSphericalJointSystem] = configSystem(
             limited
         )
     }
-)
+})

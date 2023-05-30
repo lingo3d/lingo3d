@@ -18,13 +18,13 @@ import { setManager } from "../utils/getManager"
 import MeshAppendable from "../MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
+import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -159,7 +159,7 @@ export default abstract class CameraBase<
     }
     public set minPolarAngle(val) {
         this._minPolarAngle = val
-        addGyrateResetSystem(this)
+        gyrateResetSystem.add(this)
     }
 
     private _maxPolarAngle = MAX_POLAR_ANGLE
@@ -168,7 +168,7 @@ export default abstract class CameraBase<
     }
     public set maxPolarAngle(val) {
         this._maxPolarAngle = val
-        addGyrateResetSystem(this)
+        gyrateResetSystem.add(this)
     }
 
     private _minAzimuthAngle = -Infinity
@@ -177,7 +177,7 @@ export default abstract class CameraBase<
     }
     public set minAzimuthAngle(val) {
         this._minAzimuthAngle = val
-        addGyrateResetSystem(this)
+        gyrateResetSystem.add(this)
     }
 
     private _maxAzimuthAngle = Infinity
@@ -186,7 +186,7 @@ export default abstract class CameraBase<
     }
     public set maxAzimuthAngle(val) {
         this._maxAzimuthAngle = val
-        addGyrateResetSystem(this)
+        gyrateResetSystem.add(this)
     }
 
     public setPolarAngle(angle: number) {

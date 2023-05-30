@@ -3,9 +3,9 @@ import CharacterCamera from "../display/core/CharacterCamera"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
 import { PI } from "../globals"
-import { addGyrateResetSystem } from "./configSystems/gyrateResetSystem"
 import { positionChangedXZ } from "../memo/positionChangedXZ"
 import createSystem from "./utils/createSystem"
+import { gyrateResetSystem } from "./configSystems/gyrateResetSystem"
 
 const followTargetRotation = (
     self: CharacterCamera,
@@ -20,7 +20,7 @@ const followTargetRotation = (
         self.midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
     } else self.midObject3d.setRotationFromEuler(euler)
 
-    addGyrateResetSystem(self)
+    gyrateResetSystem.add(self)
 }
 
 const rotateTarget = (
