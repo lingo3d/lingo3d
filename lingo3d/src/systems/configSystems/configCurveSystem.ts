@@ -1,19 +1,19 @@
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from "three"
 import Curve from "../../display/Curve"
-import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import getVecOnCurve from "../../display/utils/getVecOnCurve"
 import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
 import getCurveHelperSpherePool from "../../memo/getCurveHelperSpherePool"
-import { addConfigCurveSystemPtr } from "../../pointers/addConfigCurveSystemPtr"
+import { configCurveSystemPtr } from "../../pointers/addConfigCurveSystemPtr"
 import { nanoid } from "nanoid"
 import computeOnce from "../../memo/utils/computeOnce"
 import { PointType } from "../../utils/isPoint"
+import createSystem from "../utils/createSystem"
 
 const getUUID = computeOnce((_: PointType) => nanoid())
 
-export const [addConfigCurveSystem] = configSystemWithCleanUp2(
-    (self: Curve) => {
+export const configCurveSystem = createSystem({
+    setup: (self: Curve) => {
         const segments = self.points.length * self.subdivide
         const bufferAttribute = new BufferAttribute(
             new Float32Array(segments * 3),
@@ -44,7 +44,7 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
         const [requestHelperSphere] = getCurveHelperSpherePool(self)
         for (const pt of self.points) requestHelperSphere([], getUUID(pt), pt)
     },
-    (self) => {
+    cleanup: (self) => {
         self.$geometry!.dispose()
         self.$material!.dispose()
         self.outerObject3d.remove(self.$mesh!)
@@ -53,6 +53,6 @@ export const [addConfigCurveSystem] = configSystemWithCleanUp2(
         for (const child of self.children)
             child instanceof HelperSphere && releaseHelperSphere(child)
     }
-)
+})
 
-addConfigCurveSystemPtr[0] = addConfigCurveSystem
+configCurveSystemPtr[0] = configCurveSystem

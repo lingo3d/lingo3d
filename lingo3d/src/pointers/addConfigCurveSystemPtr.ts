@@ -1,5 +1,5 @@
-import { addConfigCurveSystem } from "../systems/configSystems/configCurveSystem"
+import { configCurveSystem } from "../systems/configSystems/configCurveSystem"
 
-export const addConfigCurveSystemPtr: [typeof addConfigCurveSystem] = [
+export const configCurveSystemPtr: [typeof configCurveSystem] = [
     undefined as any
 ]

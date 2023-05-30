@@ -1,8 +1,8 @@
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import MeshAppendable from "./core/MeshAppendable"
 import { Point3dType } from "../utils/isPoint"
-import { addConfigCurveSystem } from "../systems/configSystems/configCurveSystem"
 import { BufferGeometry, Line, LineBasicMaterial } from "three"
+import { configCurveSystem } from "../systems/configSystems/configCurveSystem"
 
 export default class Curve extends MeshAppendable implements ICurve {
     public static componentName = "curve"
@@ -19,7 +19,7 @@ export default class Curve extends MeshAppendable implements ICurve {
     }
     public set helper(val) {
         this._helper = val
-        addConfigCurveSystem(this)
+        configCurveSystem.add(this)
     }
 
     private _subdivide = 3
@@ -28,7 +28,7 @@ export default class Curve extends MeshAppendable implements ICurve {
     }
     public set subdivide(val) {
         this._subdivide = val
-        addConfigCurveSystem(this)
+        configCurveSystem.add(this)
     }
 
     private _points: Array<Point3dType> = []
@@ -37,11 +37,11 @@ export default class Curve extends MeshAppendable implements ICurve {
     }
     public set points(val) {
         this._points = val
-        addConfigCurveSystem(this)
+        configCurveSystem.add(this)
     }
 
     public addPoint(pt: Point3dType) {
         this._points.push(pt)
-        addConfigCurveSystem(this)
+        configCurveSystem.add(this)
     }
 }

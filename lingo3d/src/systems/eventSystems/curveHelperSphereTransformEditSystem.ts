@@ -2,7 +2,7 @@ import { curveHelperSpherePointMap } from "../../collections/curveHelperSpherePo
 import Curve from "../../display/Curve"
 import HelperSphere from "../../display/core/utils/HelperSphere"
 import { onTransformEdit } from "../../events/onTransformEdit"
-import { addConfigCurveSystemPtr } from "../../pointers/addConfigCurveSystemPtr"
+import { configCurveSystemPtr } from "../../pointers/addConfigCurveSystemPtr"
 import eventSystem from "../utils/eventSystem"
 
 export const [addCurveHelperSphereTransformEditSystem] = eventSystem(
@@ -12,7 +12,7 @@ export const [addCurveHelperSphereTransformEditSystem] = eventSystem(
         pt.x = self.x
         pt.y = self.y
         pt.z = self.z
-        addConfigCurveSystemPtr[0](self.parent as Curve)
+        configCurveSystemPtr[0].add(self.parent as Curve)
     },
     onTransformEdit
 )
