@@ -36,6 +36,7 @@ type Options<
     data?: Data | ((gameObject: GameObject) => Data)
     setup?: (gameObject: GameObject, data: Data) => void
     cleanup?: (gameObject: GameObject, data: Data) => void
+    setupTicker?: Ticker
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
@@ -56,6 +57,12 @@ const createSystem = <
 }
 export default createSystem
 
+const cancellable = new Cancellable()
+const microtaskTicker = (cb: () => void) => {
+    queueMicrotask(cb)
+    return cancellable
+}
+
 const withData = <
     GameObject extends object | Appendable,
     Data extends Record<string, any>
@@ -63,6 +70,7 @@ const withData = <
     data,
     setup,
     cleanup,
+    setupTicker,
     update,
     ticker,
     beforeTick,
@@ -73,35 +81,33 @@ const withData = <
     const setupQueued = new Map<GameObject, Data>()
     const cleanupQueued = new Map<GameObject, Data>()
 
-    let setupStarted = false
+    let setupHandle: Cancellable | undefined
+    let cleanupHandle: Cancellable | undefined
+    const onSetupOrCleanup = mapTicker(setupTicker ?? microtaskTicker)
+
     const executeSetup = () => {
         for (const [target, data] of setupQueued) setup!(target, data)
         setupQueued.clear()
-        setupStarted = false
+        setupHandle = undefined
     }
     const addSetup = (item: GameObject, data: Data) => {
         if (!setup) return
         setupQueued.set(item, data)
 
-        if (setupStarted) return
-        setupStarted = true
-
-        queueMicrotask(executeSetup)
+        if (setupHandle) return
+        setupHandle = onSetupOrCleanup(executeSetup, true)
     }
-    let cleanupStarted = false
     const executeCleanup = () => {
         for (const [target, data] of cleanupQueued) cleanup!(target, data)
         cleanupQueued.clear()
-        cleanupStarted = false
+        cleanupHandle = undefined
     }
     const addCleanup = (item: GameObject, data: Data) => {
         if (!cleanup) return
         cleanupQueued.set(item, data)
 
-        if (cleanupStarted) return
-        cleanupStarted = true
-
-        queueMicrotask(executeCleanup)
+        if (cleanupHandle) return
+        cleanupHandle = onSetupOrCleanup(executeCleanup, true)
     }
     const execute =
         beforeTick || afterTick
@@ -160,6 +166,7 @@ const withData = <
 const noData = <GameObject extends object | Appendable>({
     setup,
     cleanup,
+    setupTicker,
     update,
     ticker,
     beforeTick,
@@ -170,35 +177,33 @@ const noData = <GameObject extends object | Appendable>({
     const setupQueued = new Set<GameObject>()
     const cleanupQueued = new Set<GameObject>()
 
-    let setupStarted = false
+    let setupHandle: Cancellable | undefined
+    let cleanupHandle: Cancellable | undefined
+    const onSetupOrCleanup = mapTicker(setupTicker ?? microtaskTicker)
+
     const executeSetup = () => {
         for (const target of setupQueued) setup!(target)
         setupQueued.clear()
-        setupStarted = false
+        setupHandle = undefined
     }
     const addSetup = (item: GameObject) => {
         if (!setup) return
         setupQueued.add(item)
 
-        if (setupStarted) return
-        setupStarted = true
-
-        queueMicrotask(executeSetup)
+        if (setupHandle) return
+        setupHandle = onSetupOrCleanup(executeSetup, true)
     }
-    let cleanupStarted = false
     const executeCleanup = () => {
         for (const target of cleanupQueued) cleanup!(target)
         cleanupQueued.clear()
-        cleanupStarted = false
+        cleanupHandle = undefined
     }
     const addCleanup = (item: GameObject) => {
         if (!cleanup) return
         cleanupQueued.add(item)
 
-        if (cleanupStarted) return
-        cleanupStarted = true
-
-        queueMicrotask(executeCleanup)
+        if (cleanupHandle) return
+        cleanupHandle = onSetupOrCleanup(executeCleanup, true)
     }
     const execute =
         beforeTick || afterTick
