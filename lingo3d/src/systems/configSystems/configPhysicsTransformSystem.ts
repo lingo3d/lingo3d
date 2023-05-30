@@ -8,14 +8,14 @@ import {
 import { dtPtr } from "../../pointers/dtPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { physxPtr } from "../../pointers/physxPtr"
-import configSystem from "../utils/configSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigPhysicsTransformSystem] = configSystem(
-    (manager: PhysicsObjectManager) => {
-        const controller = managerControllerMap.get(manager)
+export const configPhysicsTransformSystem = createSystem({
+    setup: (self: PhysicsObjectManager) => {
+        const controller = managerControllerMap.get(self)
         if (controller) {
             if (physxLoopPtr[0]) {
-                const { x: px, y: py, z: pz } = manager.position
+                const { x: px, y: py, z: pz } = self.position
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
                 controller.move(
                     setPxVec(px - cx, py - cy, pz - cz),
@@ -25,11 +25,11 @@ export const [addConfigPhysicsTransformSystem] = configSystem(
                 )
                 return
             }
-            controller.setPosition(assignPxExtendedVec(manager.position))
+            controller.setPosition(assignPxExtendedVec(self.position))
         }
-        manager.$actor.setGlobalPose(assignPxTransform(manager))
-        if (!("setLinearVelocity" in manager.$actor)) return
-        manager.$actor.setLinearVelocity(setPxVec(0, 0, 0))
-        manager.$actor.setAngularVelocity(setPxVec(0, 0, 0))
+        self.$actor.setGlobalPose(assignPxTransform(self))
+        if (!("setLinearVelocity" in self.$actor)) return
+        self.$actor.setLinearVelocity(setPxVec(0, 0, 0))
+        self.$actor.setAngularVelocity(setPxVec(0, 0, 0))
     }
-)
+})

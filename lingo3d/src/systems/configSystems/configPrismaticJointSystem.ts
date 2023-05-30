@@ -1,12 +1,12 @@
 import { physxPtr } from "../../pointers/physxPtr"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import { CM2M } from "../../globals"
-import configSystem from "../utils/configSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigPrismaticJointSystem] = configSystem(
-    (target: PrismaticJoint) => {
+export const configPrismaticJointSystem = createSystem({
+    setup: (self: PrismaticJoint) => {
         const { $pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
-            target
+            self
         if (!$pxJoint) return
 
         const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum, destroy } =
@@ -27,4 +27,4 @@ export const [addConfigPrismaticJointSystem] = configSystem(
             limited
         )
     }
-)
+})

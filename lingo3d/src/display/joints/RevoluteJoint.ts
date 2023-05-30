@@ -2,10 +2,10 @@ import IRevoluteJoint, {
     revoluteJointDefaults,
     revoluteJointSchema
 } from "../../interface/IRevoluteJoint"
-import { addConfigRevoluteJointSystem } from "../../systems/configSystems/configRevoluteJointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { physxPtr } from "../../pointers/physxPtr"
+import { configRevoluteJointSystem } from "../../systems/configSystems/configRevoluteJointSystem"
 
 const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]
@@ -23,7 +23,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
         return createRevolute(
             fromManager.$actor,
             fromPxTransform,
@@ -37,7 +37,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limited(val) {
         this._limited = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 
     private _limitLow?: number
@@ -46,7 +46,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limitLow(val) {
         this._limitLow = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 
     private _limitHigh?: number
@@ -55,7 +55,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limitHigh(val) {
         this._limitHigh = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 
     private _stiffness?: number
@@ -64,7 +64,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set stiffness(val) {
         this._stiffness = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 
     private _damping?: number
@@ -73,7 +73,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set damping(val) {
         this._damping = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 
     private _driveVelocity?: number
@@ -82,6 +82,6 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set driveVelocity(val) {
         this._driveVelocity = val
-        addConfigRevoluteJointSystem(this)
+        configRevoluteJointSystem.add(this)
     }
 }

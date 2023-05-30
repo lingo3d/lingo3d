@@ -1,10 +1,10 @@
 import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
-import configSystem from "../utils/configSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigRevoluteJointSystem] = configSystem(
-    (target: RevoluteJoint) => {
+export const configRevoluteJointSystem = createSystem({
+    setup: (self: RevoluteJoint) => {
         const {
             $pxJoint,
             limited,
@@ -13,7 +13,7 @@ export const [addConfigRevoluteJointSystem] = configSystem(
             stiffness,
             damping,
             driveVelocity
-        } = target
+        } = self
         if (!$pxJoint) return
 
         const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum, destroy } =
@@ -39,4 +39,4 @@ export const [addConfigRevoluteJointSystem] = configSystem(
             driveVelocity > 0
         )
     }
-)
+})
