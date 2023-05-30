@@ -1,7 +1,7 @@
 import { SpriteMaterial } from "three"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const spriteSheetPlaybackSystem = gameSystem({
+export const spriteSheetPlaybackSystem = createSystem({
     data: {} as {
         x: number
         y: number

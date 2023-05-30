@@ -7,12 +7,12 @@ import {
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import { shadowModePtr } from "../pointers/shadowModePtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const resolutions = [256, 256, 128, 32, 16, 512]
 const biases = [-0.02, -0.02, -0.03, -0.04, -0.05, -0.005]
 
-export const pointLightShadowResolutionSystem = gameSystem({
+export const pointLightShadowResolutionSystem = createSystem({
     data: { step: undefined as number | undefined },
     update: (self: PointLight, data) => {
         if (!self.object3d.intensity || !shadowModePtr[0]) return

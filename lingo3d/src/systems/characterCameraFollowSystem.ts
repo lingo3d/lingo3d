@@ -5,7 +5,7 @@ import { euler, quaternion } from "../display/utils/reusables"
 import { PI } from "../globals"
 import { addGyrateResetSystem } from "./configSystems/gyrateResetSystem"
 import { positionChangedXZ } from "../memo/positionChangedXZ"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const followTargetRotation = (
     self: CharacterCamera,
@@ -41,7 +41,7 @@ const rotateTarget = (
     target.outerObject3d.setRotationFromEuler(euler)
 }
 
-export const characterCameraFollowSystem = gameSystem({
+export const characterCameraFollowSystem = createSystem({
     data: {} as { found: MeshAppendable },
     update: (self: CharacterCamera, { found }) => {
         self.position.copy(found.position)

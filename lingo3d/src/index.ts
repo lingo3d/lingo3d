@@ -1,5 +1,5 @@
 import "./compiler"
-import * as runtime from "./runtime"
+import * as lingo from "./runtime"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"
 import { undo, redo } from "./api/undoStack"
@@ -23,7 +23,7 @@ import { HitEvent } from "./interface/IVisible"
 export * from "./runtime"
 
 export {
-    runtime,
+    lingo,
     setAssetsPath,
     undo,
     redo,

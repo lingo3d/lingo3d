@@ -3,9 +3,9 @@ import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const refreshInputSystem = gameSystem({
+export const refreshInputSystem = createSystem({
     data: {} as {
         key: string
         params: any

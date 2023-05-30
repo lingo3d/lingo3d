@@ -1,7 +1,7 @@
 import { dtPtr } from "../pointers/dtPtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const updateDTSystem = gameSystem({
+export const updateDTSystem = createSystem({
     update: (target: { update: (dt: number) => void }) =>
         target.update(dtPtr[0])
 })

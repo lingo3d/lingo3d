@@ -5,9 +5,9 @@ import scene from "../engine/scene"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const reflectionSystem = gameSystem({
+export const reflectionSystem = createSystem({
     data: {} as {
         cubeCamera: CubeCamera
         cubeRenderTarget: WebGLCubeRenderTarget

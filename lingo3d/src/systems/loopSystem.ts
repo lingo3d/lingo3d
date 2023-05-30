@@ -1,8 +1,8 @@
 import Appendable from "../display/core/Appendable"
 import { dtPtr } from "../pointers/dtPtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const loopSystem = gameSystem({
+export const loopSystem = createSystem({
     update: (self: Appendable) => self.onLoop!(dtPtr[0]),
     ticker: "loop"
 })

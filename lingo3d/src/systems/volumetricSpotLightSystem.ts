@@ -3,9 +3,9 @@ import { Mesh } from "three"
 import SpotLight from "../display/lights/SpotLight"
 import getWorldPosition from "../memo/getWorldPosition"
 import { CM2M } from "../globals"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const volumetricSpotLightSystem = gameSystem({
+export const volumetricSpotLightSystem = createSystem({
     data: {} as { light: SpotLight; material: any },
     update: (cone: Mesh, { light, material }) => {
         cone.scale.y = light.distance * CM2M * light.volumetricDistance

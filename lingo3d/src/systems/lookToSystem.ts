@@ -1,9 +1,9 @@
 import { Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import MeshAppendable from "../display/core/MeshAppendable"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const lookToSystem = gameSystem({
+export const lookToSystem = createSystem({
     data: {} as {
         quaternion: Quaternion
         quaternionNew: Quaternion

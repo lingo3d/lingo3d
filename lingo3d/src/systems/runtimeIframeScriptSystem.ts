@@ -1,13 +1,13 @@
 import { Cancellable } from "@lincode/promiselikes"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const onInterval = (cb: () => void) => {
     const interval = setInterval(cb, 100)
     return new Cancellable(() => clearInterval(interval))
 }
 
-export const runtimeIframeScriptSystem = gameSystem({
+export const runtimeIframeScriptSystem = createSystem({
     data: { script: "" },
     update: (self: HTMLIFrameElement, data) => {
         const $eval = unsafeGetValue(self, "$eval")

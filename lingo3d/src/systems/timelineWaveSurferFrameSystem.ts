@@ -1,9 +1,9 @@
 import WaveSurfer from "wavesurfer.js"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
 import { INVERSE_STANDARD_FRAME } from "../globals"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const timelineWaveSurferFrameSystem = gameSystem({
+export const timelineWaveSurferFrameSystem = createSystem({
     data: {} as { frame: number; startFrame: number },
     update: (self: WaveSurfer, data) => {
         if (data.frame === timelineFramePtr[0]) return

@@ -1,7 +1,7 @@
 import Timeline from "../display/Timeline"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const timelineFramePtrSystem = gameSystem({
+export const timelineFramePtrSystem = createSystem({
     update: (self: Timeline) => (timelineFramePtr[0] = self.frame)
 })

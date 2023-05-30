@@ -5,11 +5,11 @@ import { shadowModePtr } from "../pointers/shadowModePtr"
 import updateShadow from "../display/utils/updateShadow"
 import PointLightBase from "../display/core/PointLightBase"
 import { shadowResolutionPtr } from "../pointers/shadowResolutionPtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const maxResolution = 1024
 
-export const updateShadowSystem = gameSystem({
+export const updateShadowSystem = createSystem({
     data: () => ({
         count: undefined as number | undefined,
         shadowMode: shadowModePtr[0]

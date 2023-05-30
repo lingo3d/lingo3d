@@ -43,7 +43,7 @@ type Options<
     sort?: (a: GameObject, b: GameObject) => number
 }
 
-export default <
+const createSystem = <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 >(
@@ -54,6 +54,7 @@ export default <
         : noData<GameObject>(options as any)
     return { add, delete: remove }
 }
+export default createSystem
 
 const withData = <
     GameObject extends object | Appendable,

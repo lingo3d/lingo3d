@@ -1,6 +1,6 @@
 import { emitKeyPress } from "../events/onKeyPress"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const keyPressEmitSystem = gameSystem({
+export const keyPressEmitSystem = createSystem({
     update: (keyPressSet: Set<string>) => keyPressSet.size && emitKeyPress()
 })

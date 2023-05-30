@@ -7,12 +7,12 @@ import {
 import scene from "../engine/scene"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const countPtr = [0]
 clearNumberPtrSystem.add(countPtr)
 
-export const pooledPointLightSystem = gameSystem({
+export const pooledPointLightSystem = createSystem({
     data: { visible: false },
     update: (self: PooledPointLight, data) => {
         const intensityFactor = getIntensityFactor(self)

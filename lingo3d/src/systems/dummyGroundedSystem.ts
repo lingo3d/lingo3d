@@ -1,8 +1,8 @@
 import { groundedControllerManagers } from "../collections/pxCollections"
 import Dummy from "../display/Dummy"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const dummyGroundedSystem = gameSystem({
+export const dummyGroundedSystem = createSystem({
     data: {} as { poseService: { send: (val: string) => void } },
     update: (self: Dummy, data) =>
         groundedControllerManagers.has(self) &&

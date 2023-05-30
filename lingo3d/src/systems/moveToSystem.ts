@@ -3,9 +3,9 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const moveToSystem = gameSystem({
+export const moveToSystem = createSystem({
     data: {} as {
         sx: number
         sy: number

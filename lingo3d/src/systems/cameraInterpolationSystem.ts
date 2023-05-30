@@ -3,11 +3,11 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
 import interpolationCamera from "../engine/interpolationCamera"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
-export const cameraInterpolationSystem = gameSystem({
+export const cameraInterpolationSystem = createSystem({
     data: {} as {
         positionFrom: Vector3
         quaternionFrom: Quaternion

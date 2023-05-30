@@ -1,8 +1,8 @@
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const gyrateSystem = gameSystem({
+export const gyrateSystem = createSystem({
     update: (self: OrbitCamera) =>
         self.$camera === cameraRenderedPtr[0] &&
         self.gyrate(self.autoRotateSpeed, 0)

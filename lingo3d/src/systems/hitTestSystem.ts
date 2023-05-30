@@ -4,7 +4,7 @@ import { HitEvent } from "../interface/IVisible"
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { getAppendablesById } from "../collections/idCollections"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
 const getAppendables = (val: string | Array<string> | undefined) => {
     if (!val) return []
@@ -17,7 +17,7 @@ const getAppendables = (val: string | Array<string> | undefined) => {
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 
-export const hitTestSystem = gameSystem({
+export const hitTestSystem = createSystem({
     update: (self: VisibleMixin) => {
         for (const target of getAppendables(self.hitTarget)) {
             if (!("object3d" in target!)) return

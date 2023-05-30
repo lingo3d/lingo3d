@@ -1,7 +1,7 @@
 import MeshAppendable from "../display/core/MeshAppendable"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const orbitCameraPlaceAtSystem = gameSystem({
+export const orbitCameraPlaceAtSystem = createSystem({
     data: {} as { target: MeshAppendable },
     update: (manager: MeshAppendable, data) =>
         manager.placeAt(data.target.getCenter())

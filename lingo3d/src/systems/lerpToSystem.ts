@@ -3,9 +3,9 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import MeshAppendable from "../display/core/MeshAppendable"
-import gameSystem from "./utils/gameSystem"
+import createSystem from "./utils/createSystem"
 
-export const lerpToSystem = gameSystem({
+export const lerpToSystem = createSystem({
     data: {} as {
         from: Vector3
         to: Vector3
