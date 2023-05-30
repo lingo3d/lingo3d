@@ -9,8 +9,8 @@ import HelperSphere from "./utils/HelperSphere"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "./MeshAppendable"
-import { addConfigJointSystem } from "../../systems/configSystems/configJointSystem"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
+import { configJointSystem } from "../../systems/configSystems/configJointSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -81,7 +81,7 @@ export default abstract class JointBase
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
-        addConfigJointSystem(this)
+        configJointSystem.add(this)
         addConfigPhysicsSystem(fromManager)
         addConfigPhysicsSystem(toManager)
     }
@@ -92,7 +92,7 @@ export default abstract class JointBase
     }
     public set to(val) {
         this._to = val
-        addConfigJointSystem(this)
+        configJointSystem.add(this)
     }
 
     private _from?: string
@@ -101,6 +101,6 @@ export default abstract class JointBase
     }
     public set from(val) {
         this._from = val
-        addConfigJointSystem(this)
+        configJointSystem.add(this)
     }
 }

@@ -3,7 +3,6 @@ import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import { physxPtr } from "../../pointers/physxPtr"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { importPhysX } from "./configPhysicsShapeSystem"
 import { uuidMap } from "../../collections/idCollections"
 import { Cancellable } from "@lincode/promiselikes"
@@ -11,7 +10,8 @@ import {
     addJointTargetTransformEditSystem,
     deleteJointTargetTransformSystem
 } from "../eventSystems/jointTargetTransformEditSystem"
-import { addConfigJointSystemPtr } from "../../pointers/addConfigJointSystemPtr"
+import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
+import createSystem from "../utils/createSystem"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -45,8 +45,8 @@ const getActor = (manager: PhysicsObjectManager) =>
         manager.$events.once("actor", resolve)
     })
 
-export const [addConfigJointSystem] = configSystemWithCleanUp(
-    (self: JointBase) => {
+export const configJointSystem = createSystem({
+    setup: (self: JointBase) => {
         const { to, from } = self
         if (!to || !from) return
 
@@ -88,7 +88,7 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
 
         addJointTargetTransformEditSystem(self, { fromManager, toManager })
 
-        const handleActor = () => addConfigJointSystem(self)
+        const handleActor = () => configJointSystem.add(self)
         const handle3 = fromManager.$events.on("actor", handleActor)
         const handle4 = toManager.$events.on("actor", handleActor)
 
@@ -103,7 +103,7 @@ export const [addConfigJointSystem] = configSystemWithCleanUp(
             self.$toManager = undefined
         }
     },
-    [importPhysX]
-)
+    setupTicker: [importPhysX]
+})
 
-addConfigJointSystemPtr[0] = addConfigJointSystem
+configJointSystemPtr[0] = configJointSystem
