@@ -70,7 +70,19 @@ const withData = <
     sort
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
+    const setupQueued = new Map<GameObject, Data>()
 
+    let setupStarted = false
+    const executeSetup = () => {
+        for (const [target, data] of setupQueued) setup!(target, data)
+        setupQueued.clear()
+        setupStarted = false
+    }
+    const startSetup = () => {
+        if (!setup || setupStarted || !setupQueued.size) return
+        setupStarted = true
+        queueMicrotask(executeSetup)
+    }
     const execute =
         beforeTick || afterTick
             ? sort
@@ -102,6 +114,7 @@ const withData = <
         if (!queued.has(item)) return
         const _data = queued.get(item)!
         queued.delete(item)
+        setupQueued.delete(item)
         "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item, _data)
@@ -116,10 +129,11 @@ const withData = <
                 initData ??
                 (typeof data === "function" ? data(item) : { ...data! })
             queued.set(item, _data)
+            setupQueued.set(item, _data)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
-            setup?.(item, _data)
+            startSetup()
         },
         deleteSystem
     ]
@@ -135,7 +149,19 @@ const noData = <GameObject extends object | Appendable>({
     sort
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
+    const setupQueued = new Set<GameObject>()
 
+    let setupStarted = false
+    const executeSetup = () => {
+        for (const target of setupQueued) setup!(target)
+        setupQueued.clear()
+        setupStarted = false
+    }
+    const runSetup = () => {
+        if (!setup || setupStarted || !setupQueued.size) return
+        setupStarted = true
+        queueMicrotask(executeSetup)
+    }
     const execute =
         beforeTick || afterTick
             ? sort
@@ -164,6 +190,7 @@ const noData = <GameObject extends object | Appendable>({
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.delete(item)) return
+        setupQueued.delete(item)
         "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
         cleanup?.(item)
@@ -172,10 +199,11 @@ const noData = <GameObject extends object | Appendable>({
         (item: GameObject) => {
             if (queued.has(item)) return
             queued.add(item)
+            setupQueued.add(item)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
-            setup?.(item)
+            runSetup()
         },
         deleteSystem
     ]

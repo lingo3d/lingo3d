@@ -1,10 +1,7 @@
 import Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T extends Appendable>(
-    cb: (target: T) => void,
-    ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask
-) => {
+export default <T extends Appendable>(cb: (target: T) => void) => {
     const queued = new Set<T>()
 
     const execute = () => {
@@ -17,7 +14,7 @@ export default <T extends Appendable>(
     const start = () => {
         if (started) return
         started = true
-        ticker(execute, true)
+        onBeforeRender(execute, true)
     }
 
     return <const>[
