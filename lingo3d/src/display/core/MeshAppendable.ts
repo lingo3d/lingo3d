@@ -22,11 +22,11 @@ import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
 import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
-import { addConfigMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
 import { onMoveSystem } from "../../systems/onMoveSystem"
 import { lerpToSystem } from "../../systems/lerpToSystem"
 import { lookToSystem } from "../../systems/lookToSystem"
 import { moveToSystem } from "../../systems/moveToSystem"
+import { configMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
 
 const up = new Vector3(0, 1, 0)
 
@@ -42,7 +42,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
-        addConfigMeshAppendableSystem(this)
+        configMeshAppendableSystem.add(this)
         this.object3d = outerObject3d
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion

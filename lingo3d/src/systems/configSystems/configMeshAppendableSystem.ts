@@ -1,8 +1,8 @@
 import scene from "../../engine/scene"
-import configSystem from "../utils/configSystem"
 import MeshAppendable from "../../display/core/MeshAppendable"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigMeshAppendableSystem] = configSystem(
-    (self: MeshAppendable) =>
+export const configMeshAppendableSystem = createSystem({
+    setup: (self: MeshAppendable) =>
         !self.outerObject3d.parent && scene.add(self.outerObject3d)
-)
+})
