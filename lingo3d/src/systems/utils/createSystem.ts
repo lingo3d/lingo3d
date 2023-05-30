@@ -8,8 +8,8 @@ import { assertExhaustive } from "@lincode/utils"
 
 const createSetupSystem = <T extends object | Appendable>(
     cb: (target: T) => void | false,
-    cleanup?: (target: T) => void,
-    ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
+    cleanup: ((target: T) => void) | undefined,
+    ticker: typeof onBeforeRender | typeof queueMicrotask
 ) => {
     const queued = new Set<T>()
     const needsCleanUp = cleanup && new WeakSet<T>()
@@ -36,8 +36,7 @@ const createSetupSystem = <T extends object | Appendable>(
     const start = () => {
         if (started) return
         started = true
-        if (Array.isArray(ticker)) ticker[0]().then(execute)
-        else ticker(execute)
+        ticker(execute, true)
     }
 
     const deleteSystem = cleanup
@@ -72,7 +71,9 @@ type Ticker =
     | "afterRender"
     | "render"
     | "loop"
-    | ((cb: () => void) => Cancellable)
+    | typeof onBeforeRender
+
+type SetupTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
 
 const mapTicker = (ticker: Ticker) => {
     if (typeof ticker === "function") return ticker
@@ -90,6 +91,15 @@ const mapTicker = (ticker: Ticker) => {
     }
 }
 
+const isQueueMicrotastk = (ticker: any): ticker is typeof queueMicrotask =>
+    ticker === queueMicrotask
+
+const mapSetupTicker = (ticker: SetupTicker) => {
+    if (Array.isArray(ticker)) return (cb: () => void) => ticker[0]().then(cb)
+    if (isQueueMicrotastk(ticker)) return ticker
+    return mapTicker(ticker)
+}
+
 type Options<
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
@@ -99,6 +109,7 @@ type Options<
     cleanup?: (gameObject: GameObject) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
+    setupTicker?: SetupTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
@@ -126,13 +137,15 @@ const withData = <
     cleanup,
     update,
     ticker,
+    setupTicker = queueMicrotask,
     beforeTick,
     afterTick,
     sort
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
+
     const [addSetupSystem, deleteSetupSystem] = setup
-        ? createSetupSystem(setup, cleanup)
+        ? createSetupSystem(setup, cleanup, mapSetupTicker(setupTicker))
         : [() => {}, () => {}]
 
     const execute =
@@ -199,13 +212,14 @@ const noData = <GameObject extends object | Appendable>({
     cleanup,
     update,
     ticker,
+    setupTicker = queueMicrotask,
     beforeTick,
     afterTick,
     sort
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
     const [addSetupSystem, deleteSetupSystem] = setup
-        ? createSetupSystem(setup, cleanup)
+        ? createSetupSystem(setup, cleanup, mapSetupTicker(setupTicker))
         : [() => {}, () => {}]
 
     const execute =
