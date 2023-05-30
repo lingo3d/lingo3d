@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "preact/hooks"
-import { settings } from "../../runtime"
+import settings from "../../api/settings"
 
 const World = () => {
     const elRef = useRef<HTMLDivElement>(null)

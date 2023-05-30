@@ -1,7 +1,7 @@
 import { upperFirst } from "@lincode/utils"
 import serialize from "../serializer/serialize"
 import { SceneGraphNode } from "../serializer/types"
-import downloadText from "./downloadText"
+import downloadText from "../../utils/downloadText"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const serializeReact = (nodes: Array<SceneGraphNode>) => {

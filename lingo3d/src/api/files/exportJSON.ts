@@ -1,4 +1,4 @@
-import downloadText from "./downloadText"
+import downloadText from "../../utils/downloadText"
 import serialize from "../serializer/serialize"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 

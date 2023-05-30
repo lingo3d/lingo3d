@@ -3,7 +3,7 @@ import { Point3dType } from "../utils/isPoint"
 import Point3d from "./Point3d"
 import { random } from "@lincode/utils"
 
-export default {
+const math = {
     abs: Math.abs,
     log: Math.log,
     sqrt: Math.sqrt,
@@ -118,3 +118,5 @@ export default {
         return new Point3d(a.x * b.x, a.y * b.y, a.z * b.z)
     }
 }
+
+export default math

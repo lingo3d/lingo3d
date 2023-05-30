@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "preact/hooks"
-import { serialize } from "../../runtime"
 import { runtimeIframeScriptSystem } from "../../systems/runtimeIframeScriptSystem"
+import serialize from "../../api/serializer/serialize"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)

@@ -1,12 +1,12 @@
 import { deg2Rad, endPoint } from "@lincode/math"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler } from "../display/utils/reusables"
-import { Dummy } from "../runtime"
 import { Point3dType } from "../utils/isPoint"
 import createSystem from "./utils/createSystem"
 import { StrideMode } from "../interface/IDummy"
 import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
+import Dummy from "../display/Dummy"
 
 export const dummySystem = createSystem({
     data: {} as {

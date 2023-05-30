@@ -1,4 +1,4 @@
-import mathFn from "../../math/mathFn"
+import math from "../../math"
 import { Token, TokenList } from "./tokenize"
 
 export const extractParenthesisTree = (
@@ -10,7 +10,7 @@ export const extractParenthesisTree = (
     ] of openCloseParenthesisTokens) {
         const { prev } = openParenthesisToken
         if (prev?.type === "text")
-            if (!(prev.value in mathFn))
+            if (!(prev.value in math))
                 throw new Error(`Invalid function call: ${prev.value}`)
             else prev.type = "function"
 
