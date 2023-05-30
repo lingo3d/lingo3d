@@ -8,32 +8,34 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import scene from "../../engine/scene"
 import { CM2M } from "../../globals"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigLineSystem] = configSystemWithCleanUp((self: Line) => {
-    const { from, to, bloom, thickness } = self
-    if (!from || !to) return
+export const configLineSystem = createSystem({
+    data: {} as { line: Line2; geometry: LineGeometry; material: LineMaterial },
+    setup: (self: Line, data) => {
+        const { from, to, bloom, thickness } = self
+        if (!from || !to) return false
 
-    const geometry = new LineGeometry().setPositions([
-        from.x * CM2M,
-        from.y * CM2M,
-        from.z * CM2M,
-        to.x * CM2M,
-        to.y * CM2M,
-        to.z * CM2M
-    ])
-    const material = new LineMaterial({
-        linewidth: thickness * CM2M
-    })
-    const line = new Line2(geometry, material)
-    scene.add(line)
+        const geometry = (data.geometry = new LineGeometry().setPositions([
+            from.x * CM2M,
+            from.y * CM2M,
+            from.z * CM2M,
+            to.x * CM2M,
+            to.y * CM2M,
+            to.z * CM2M
+        ]))
+        const material = (data.material = new LineMaterial({
+            linewidth: thickness * CM2M
+        }))
+        const line = (data.line = new Line2(geometry, material))
+        scene.add(line)
 
-    bloom && addSelectiveBloom(line)
-
-    return () => {
-        scene.remove(line)
-        geometry.dispose()
-        material.dispose()
-        bloom && deleteSelectiveBloom(line)
+        bloom && addSelectiveBloom(line)
+    },
+    cleanup: (self, data) => {
+        scene.remove(data.line)
+        data.geometry.dispose()
+        data.material.dispose()
+        self.bloom && deleteSelectiveBloom(data.line)
     }
 })
