@@ -40,7 +40,7 @@ export const configAnimationDataSystem = createSystem({
     setup: (self: AnimationManager) => {
         if (!self.data) {
             self.$clip = self.$loadedClip
-            return false
+            return
         }
         self.$clip = new AnimationClip(
             undefined,

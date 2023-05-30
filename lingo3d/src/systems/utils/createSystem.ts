@@ -45,8 +45,6 @@ const createSetupSystem = <
 
     const deleteSystem = cleanup
         ? (item: GameObject) => {
-              "$deleteSystemSet" in item &&
-                  item.$deleteSystemSet.delete(deleteSystem)
               if (needsCleanUp!.has(item)) {
                   cleanup(item, queued.get(item)!)
                   needsCleanUp!.delete(item)
@@ -55,25 +53,14 @@ const createSetupSystem = <
           }
         : (item: GameObject) => queued.delete(item)
 
-    const addSystem = cleanup
-        ? (item: GameObject, data: Data) => {
-              if (queued.has(item)) {
-                  queued.set(item, data)
-                  return
-              }
-              start()
-              queued.set(item, data)
-              "$deleteSystemSet" in item &&
-                  item.$deleteSystemSet.add(deleteSystem)
-          }
-        : (item: GameObject, data: Data) => {
-              if (queued.has(item)) {
-                  queued.set(item, data)
-                  return
-              }
-              start()
-              queued.set(item, data)
-          }
+    const addSystem = (item: GameObject, data: Data) => {
+        if (queued.has(item)) {
+            queued.set(item, data)
+            return
+        }
+        start()
+        queued.set(item, data)
+    }
 
     return <const>[addSystem, deleteSystem]
 }

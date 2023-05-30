@@ -46,9 +46,14 @@ const getActor = (manager: PhysicsObjectManager) =>
     })
 
 export const configJointSystem = createSystem({
-    setup: (self: JointBase) => {
+    data: {} as {
+        handle0: Cancellable
+        handle1: Cancellable
+        handle2: Cancellable
+    },
+    setup: (self: JointBase, data) => {
         const { to, from } = self
-        if (!to || !from) return
+        if (!to || !from) return false
 
         const toManager = uuidMap.get(to)
         const fromManager = uuidMap.get(from)
@@ -56,12 +61,12 @@ export const configJointSystem = createSystem({
             !(toManager instanceof PhysicsObjectManager) ||
             !(fromManager instanceof PhysicsObjectManager)
         )
-            return
+            return false
 
         fromManager.$jointCount++
         toManager.$jointCount++
 
-        const handle = new Cancellable()
+        const handle = (data.handle0 = new Cancellable())
         Promise.all([getActor(fromManager), getActor(toManager)]).then(() => {
             if (handle.done) return
             const joint = (self.$pxJoint = self.$createJoint(
@@ -89,19 +94,18 @@ export const configJointSystem = createSystem({
         addJointTargetTransformEditSystem(self, { fromManager, toManager })
 
         const handleActor = () => configJointSystem.add(self)
-        const handle3 = fromManager.$events.on("actor", handleActor)
-        const handle4 = toManager.$events.on("actor", handleActor)
-
-        return () => {
-            deleteJointTargetTransformSystem(self)
-            handle3.cancel()
-            handle4.cancel()
-            handle.cancel()
-            fromManager.$jointCount--
-            toManager.$jointCount--
-            self.$fromManager = undefined
-            self.$toManager = undefined
-        }
+        data.handle1 = fromManager.$events.on("actor", handleActor)
+        data.handle2 = toManager.$events.on("actor", handleActor)
+    },
+    cleanup: (self, data) => {
+        deleteJointTargetTransformSystem(self)
+        data.handle0.cancel()
+        data.handle1.cancel()
+        data.handle2.cancel()
+        self.$fromManager!.$jointCount--
+        self.$toManager!.$jointCount--
+        self.$fromManager = undefined
+        self.$toManager = undefined
     },
     setupTicker: [importPhysX]
 })
