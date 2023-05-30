@@ -71,6 +71,7 @@ const withData = <
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
     const setupQueued = new Map<GameObject, Data>()
+    const cleanupQueued = new Map<GameObject, Data>()
 
     let setupStarted = false
     const executeSetup = () => {
@@ -78,10 +79,29 @@ const withData = <
         setupQueued.clear()
         setupStarted = false
     }
-    const startSetup = () => {
-        if (!setup || setupStarted || !setupQueued.size) return
+    const addSetup = (item: GameObject, data: Data) => {
+        if (!setup) return
+        setupQueued.set(item, data)
+
+        if (setupStarted) return
         setupStarted = true
+
         queueMicrotask(executeSetup)
+    }
+    let cleanupStarted = false
+    const executeCleanup = () => {
+        for (const [target, data] of cleanupQueued) cleanup!(target, data)
+        cleanupQueued.clear()
+        cleanupStarted = false
+    }
+    const addCleanup = (item: GameObject, data: Data) => {
+        if (!cleanup) return
+        cleanupQueued.set(item, data)
+
+        if (cleanupStarted) return
+        cleanupStarted = true
+
+        queueMicrotask(executeCleanup)
     }
     const execute =
         beforeTick || afterTick
@@ -114,10 +134,9 @@ const withData = <
         if (!queued.has(item)) return
         const _data = queued.get(item)!
         queued.delete(item)
-        setupQueued.delete(item)
         "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
-        cleanup?.(item, _data)
+        addCleanup(item, _data)
     }
     return <const>[
         (item: GameObject, initData?: Data) => {
@@ -129,11 +148,10 @@ const withData = <
                 initData ??
                 (typeof data === "function" ? data(item) : { ...data! })
             queued.set(item, _data)
-            setupQueued.set(item, _data)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
-            startSetup()
+            addSetup(item, _data)
         },
         deleteSystem
     ]
@@ -150,6 +168,7 @@ const noData = <GameObject extends object | Appendable>({
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
     const setupQueued = new Set<GameObject>()
+    const cleanupQueued = new Set<GameObject>()
 
     let setupStarted = false
     const executeSetup = () => {
@@ -157,10 +176,29 @@ const noData = <GameObject extends object | Appendable>({
         setupQueued.clear()
         setupStarted = false
     }
-    const runSetup = () => {
-        if (!setup || setupStarted || !setupQueued.size) return
+    const addSetup = (item: GameObject) => {
+        if (!setup) return
+        setupQueued.add(item)
+
+        if (setupStarted) return
         setupStarted = true
+
         queueMicrotask(executeSetup)
+    }
+    let cleanupStarted = false
+    const executeCleanup = () => {
+        for (const target of cleanupQueued) cleanup!(target)
+        cleanupQueued.clear()
+        cleanupStarted = false
+    }
+    const addCleanup = (item: GameObject) => {
+        if (!cleanup) return
+        cleanupQueued.add(item)
+
+        if (cleanupStarted) return
+        cleanupStarted = true
+
+        queueMicrotask(executeCleanup)
     }
     const execute =
         beforeTick || afterTick
@@ -190,20 +228,18 @@ const noData = <GameObject extends object | Appendable>({
 
     const deleteSystem = (item: GameObject) => {
         if (!queued.delete(item)) return
-        setupQueued.delete(item)
         "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
-        cleanup?.(item)
+        addCleanup(item)
     }
     return <const>[
         (item: GameObject) => {
             if (queued.has(item)) return
             queued.add(item)
-            setupQueued.add(item)
             "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
             queued.size === 1 && start()
-            runSetup()
+            addSetup(item)
         },
         deleteSystem
     ]
