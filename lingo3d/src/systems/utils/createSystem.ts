@@ -27,7 +27,8 @@ const createSetupSystem = <T extends object | Appendable>(
               started = false
           }
         : () => {
-              for (const target of queued) cb(target)
+              for (const target of queued)
+                  !("done" in target && target.done) && cb(target)
               queued.clear()
               started = false
           }
@@ -49,21 +50,23 @@ const createSetupSystem = <T extends object | Appendable>(
               }
               queued.delete(item)
           }
-        : (item: T) => {
+        : (item: T) => queued.delete(item)
+
+    const addSystem = cleanup
+        ? (item: T) => {
+              if (queued.has(item)) return
+              start()
+              queued.add(item)
               "$deleteSystemSet" in item &&
-                  item.$deleteSystemSet.delete(deleteSystem)
-              queued.delete(item)
+                  item.$deleteSystemSet.add(deleteSystem)
           }
-    return <const>[
-        (item: T) => {
-            if (queued.has(item)) return
-            start()
-            queued.add(item)
-            "$deleteSystemSet" in item &&
-                item.$deleteSystemSet.add(deleteSystem)
-        },
-        deleteSystem
-    ]
+        : (item: T) => {
+              if (queued.has(item)) return
+              start()
+              queued.add(item)
+          }
+
+    return <const>[addSystem, deleteSystem]
 }
 
 type Ticker =
