@@ -1,10 +1,11 @@
 import Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T extends Appendable>(cb: (target: T) => void) => {
+export default <T extends object | Appendable>(cb: (target: T) => void) => {
     const queued = new Set<T>()
 
     const execute = () => {
+        //@ts-ignore
         for (const target of queued) !target.done && cb(target)
         queued.clear()
         started = false
