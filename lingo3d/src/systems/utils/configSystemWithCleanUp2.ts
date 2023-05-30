@@ -1,9 +1,13 @@
 import Appendable from "../../display/core/Appendable"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T extends object | Appendable>(
     cb: (target: T) => void | false,
     cleanup: (target: T) => void,
-    ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
+    ticker:
+        | [() => Promise<void>]
+        | typeof onBeforeRender
+        | typeof queueMicrotask = queueMicrotask
 ) => {
     const queued = new Set<T>()
     const needsCleanUp = new WeakSet<T>()
@@ -25,7 +29,7 @@ export default <T extends object | Appendable>(
         if (started) return
         started = true
         if (Array.isArray(ticker)) ticker[0]().then(execute)
-        else ticker(execute)
+        else ticker(execute, true)
     }
 
     const deleteSystem = (item: T) => {

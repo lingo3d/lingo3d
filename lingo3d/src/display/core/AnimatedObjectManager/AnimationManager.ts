@@ -10,8 +10,8 @@ import FoundManager from "../FoundManager"
 import { STANDARD_FRAME } from "../../../globals"
 import AnimationStates from "./AnimationStates"
 import getClipAction from "../../../memo/getClipAction"
-import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 import { configAnimationDataSystem } from "../../../systems/configSystems/configAnimationDataSystem"
+import { configAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 
@@ -37,7 +37,7 @@ export default class AnimationManager
         }
         this._clip = val
         if (val) this.$action = getClipAction(this.$mixer, val)
-        addConfigAnimationPlaybackSystem(this.$animationStates)
+        configAnimationPlaybackSystem.add(this.$animationStates)
         this.lastFrame = val ? Math.ceil(val.duration * STANDARD_FRAME) : 0
     }
 

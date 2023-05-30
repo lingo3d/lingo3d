@@ -1,5 +1,5 @@
+import { configAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 import type AnimationManager from "./AnimationManager"
-import { addConfigAnimationPlaybackSystem } from "../../../systems/configSystems/configAnimationPlaybackSystem"
 
 export default class AnimationStates {
     public managerRecord: Record<string, AnimationManager> = {}
@@ -10,7 +10,7 @@ export default class AnimationStates {
     }
     public set manager(val) {
         this._manager = val
-        addConfigAnimationPlaybackSystem(this)
+        configAnimationPlaybackSystem.add(this)
     }
 
     private _paused = false
@@ -19,7 +19,7 @@ export default class AnimationStates {
     }
     public set paused(val) {
         this._paused = val
-        addConfigAnimationPlaybackSystem(this)
+        configAnimationPlaybackSystem.add(this)
     }
 
     private _loop: boolean | number = true
@@ -28,7 +28,7 @@ export default class AnimationStates {
     }
     public set loop(val) {
         this._loop = val
-        addConfigAnimationPlaybackSystem(this)
+        configAnimationPlaybackSystem.add(this)
     }
 
     private _pausedCount = 0
@@ -37,7 +37,7 @@ export default class AnimationStates {
     }
     public set pausedCount(val) {
         this._pausedCount = val
-        addConfigAnimationPlaybackSystem(this)
+        configAnimationPlaybackSystem.add(this)
     }
 
     private _gotoFrame?: number
@@ -46,6 +46,6 @@ export default class AnimationStates {
     }
     public set gotoFrame(val) {
         this._gotoFrame = val
-        addConfigAnimationPlaybackSystem(this)
+        configAnimationPlaybackSystem.add(this)
     }
 }
