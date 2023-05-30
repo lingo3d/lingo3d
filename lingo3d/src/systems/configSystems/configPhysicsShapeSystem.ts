@@ -17,7 +17,7 @@ import {
 } from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
-import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import createSystem from "../utils/createSystem"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingAssetsCount()
@@ -32,8 +32,8 @@ export const importPhysX = lazy(async () => {
     decreaseLoadingAssetsCount()
 })
 
-export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
-    (self: PhysicsObjectManager) => {
+export const configPhysicsShapeSystem = createSystem({
+    setup: (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.$jointCount
         if (!mode) return false
 
@@ -92,7 +92,7 @@ export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
         pxScene.addActor(actor)
         managerActorMap.set(self, actor)
     },
-    (self) => {
+    cleanup: (self) => {
         if (self.$controller) {
             physicsSet.delete(self)
             actorPtrManagerMap.delete(self.$actor.ptr)
@@ -109,5 +109,5 @@ export const [addConfigPhysicsShapeSystem] = configSystemWithCleanUp2(
         managerActorMap.delete(self)
         self.$actor = undefined
     },
-    [importPhysX]
-)
+    setupTicker: [importPhysX]
+})

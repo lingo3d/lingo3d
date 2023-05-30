@@ -1,6 +1,6 @@
 import Appendable from "./core/Appendable"
-import { addConfigLineSystem } from "../systems/configSystems/configLineSystem"
 import { Point3dType } from "../utils/isPoint"
+import { configLineSystem } from "../systems/configSystems/configLineSystem"
 
 export default class Line extends Appendable {
     private _bloom?: boolean
@@ -9,7 +9,7 @@ export default class Line extends Appendable {
     }
     public set bloom(value) {
         this._bloom = value
-        addConfigLineSystem(this)
+        configLineSystem.add(this)
     }
 
     private _from?: Point3dType
@@ -18,7 +18,7 @@ export default class Line extends Appendable {
     }
     public set from(value) {
         this._from = value
-        addConfigLineSystem(this)
+        configLineSystem.add(this)
     }
 
     private _to?: Point3dType
@@ -27,7 +27,7 @@ export default class Line extends Appendable {
     }
     public set to(value) {
         this._to = value
-        addConfigLineSystem(this)
+        configLineSystem.add(this)
     }
 
     private _thickness = 1
@@ -36,6 +36,6 @@ export default class Line extends Appendable {
     }
     public set thickness(value) {
         this._thickness = value
-        addConfigLineSystem(this)
+        configLineSystem.add(this)
     }
 }

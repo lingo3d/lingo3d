@@ -7,10 +7,7 @@ import { physxPtr } from "../../pointers/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
-import {
-    addConfigLoadedSrcSystem,
-    deleteConfigLoadedSrcSystem
-} from "../../systems/configSystems/configLoadedSrcSystem"
+import { configLoadedSrcSystem } from "../../systems/configSystems/configLoadedSrcSystem"
 
 const material = new MeshStandardMaterial({ visible: false })
 
@@ -42,7 +39,9 @@ export default abstract class Loaded<T = Object3D>
     }
     public set src(val) {
         this._src = val
-        val ? addConfigLoadedSrcSystem(this) : deleteConfigLoadedSrcSystem(this)
+        val
+            ? configLoadedSrcSystem.add(this)
+            : configLoadedSrcSystem.delete(this)
     }
 
     private _onLoad?: () => void

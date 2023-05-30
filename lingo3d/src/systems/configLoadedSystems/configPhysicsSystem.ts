@@ -1,4 +1,4 @@
-import { addConfigPhysicsShapeSystem } from "../configSystems/configPhysicsShapeSystem"
+import { configPhysicsShapeSystem } from "../configSystems/configPhysicsShapeSystem"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import configLoadedSystem from "../utils/configLoadedSystem"
 
@@ -10,6 +10,6 @@ export const [addConfigPhysicsSystem] = configLoadedSystem((self) => {
     if (modeChanged && !mode && !self.userData.physicsMode) modeChanged = false
     self.userData.physicsMode = mode
 
-    if (modeChanged) addConfigPhysicsShapeSystem(self)
+    if (modeChanged) configPhysicsShapeSystem.add(self)
     else if (self.$actor) configPhysicsTransformSystem.add(self)
 })
