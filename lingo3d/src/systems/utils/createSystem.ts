@@ -5,8 +5,67 @@ import { onAfterRender } from "../../events/onAfterRender"
 import { onRender } from "../../events/onRender"
 import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
-import configSystem from "./configSystem"
-import configSystemWithCleanUp2 from "./configSystemWithCleanUp2"
+
+const createSetupSystem = <T extends object | Appendable>(
+    cb: (target: T) => void | false,
+    cleanup?: (target: T) => void,
+    ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
+) => {
+    const queued = new Set<T>()
+    const needsCleanUp = cleanup && new WeakSet<T>()
+
+    const execute = cleanup
+        ? () => {
+              for (const target of queued) {
+                  if (needsCleanUp!.has(target)) {
+                      cleanup(target)
+                      needsCleanUp!.delete(target)
+                  }
+                  cb(target) !== false && needsCleanUp!.add(target)
+              }
+              queued.clear()
+              started = false
+          }
+        : () => {
+              for (const target of queued) cb(target)
+              queued.clear()
+              started = false
+          }
+
+    let started = false
+    const start = () => {
+        if (started) return
+        started = true
+        if (Array.isArray(ticker)) ticker[0]().then(execute)
+        else ticker(execute)
+    }
+
+    const deleteSystem = cleanup
+        ? (item: T) => {
+              "$deleteSystemSet" in item &&
+                  item.$deleteSystemSet.delete(deleteSystem)
+              if (needsCleanUp!.has(item)) {
+                  cleanup(item)
+                  needsCleanUp!.delete(item)
+              }
+              queued.delete(item)
+          }
+        : (item: T) => {
+              "$deleteSystemSet" in item &&
+                  item.$deleteSystemSet.delete(deleteSystem)
+              queued.delete(item)
+          }
+    return <const>[
+        (item: T) => {
+            if (queued.has(item)) return
+            start()
+            queued.add(item)
+            "$deleteSystemSet" in item &&
+                item.$deleteSystemSet.add(deleteSystem)
+        },
+        deleteSystem
+    ]
+}
 
 type Ticker =
     | "beforeRender"
@@ -58,16 +117,6 @@ const createSystem = <
 }
 export default createSystem
 
-const makeSetupCleanup = <GameObject extends object | Appendable>(
-    setup?: (gameObject: GameObject) => void,
-    cleanup?: (gameObject: GameObject) => void
-) => {
-    if (!setup) return [() => {}, () => {}]
-    return cleanup
-        ? configSystemWithCleanUp2(setup, cleanup)
-        : configSystem(setup)
-}
-
 const withData = <
     GameObject extends object | Appendable,
     Data extends Record<string, any>
@@ -82,7 +131,9 @@ const withData = <
     sort
 }: Options<GameObject, Data>) => {
     const queued = new Map<GameObject, Data>()
-    const [addSetup, addCleanup] = makeSetupCleanup(setup, cleanup)
+    const [addSetupSystem, deleteSetupSystem] = setup
+        ? createSetupSystem(setup, cleanup)
+        : [() => {}, () => {}]
 
     const execute =
         beforeTick || afterTick
@@ -113,18 +164,18 @@ const withData = <
 
     const deleteSystem = update
         ? (item: GameObject) => {
-              addCleanup(item)
+              deleteSetupSystem(item)
               if (!queued.has(item)) return
               queued.delete(item)
               "$deleteSystemSet" in item &&
                   item.$deleteSystemSet.delete(deleteSystem)
               queued.size === 0 && handle?.cancel()
           }
-        : addCleanup
+        : deleteSetupSystem
 
     const addSystem = update
         ? (item: GameObject, initData?: Data) => {
-              addSetup(item)
+              addSetupSystem(item)
               if (queued.has(item)) {
                   initData && queued.set(item, initData)
                   return
@@ -138,7 +189,7 @@ const withData = <
                   item.$deleteSystemSet.add(deleteSystem)
               queued.size === 1 && start()
           }
-        : addSetup
+        : addSetupSystem
 
     return <const>[addSystem, deleteSystem]
 }
@@ -153,7 +204,9 @@ const noData = <GameObject extends object | Appendable>({
     sort
 }: Options<GameObject, void>) => {
     const queued = new Set<GameObject>()
-    const [addSetup, addCleanup] = makeSetupCleanup(setup, cleanup)
+    const [addSetupSystem, deleteSetupSystem] = setup
+        ? createSetupSystem(setup, cleanup)
+        : [() => {}, () => {}]
 
     const execute =
         beforeTick || afterTick
@@ -183,24 +236,24 @@ const noData = <GameObject extends object | Appendable>({
 
     const deleteSystem = update
         ? (item: GameObject) => {
-              addCleanup(item)
+              deleteSetupSystem(item)
               if (!queued.delete(item)) return
               "$deleteSystemSet" in item &&
                   item.$deleteSystemSet.delete(deleteSystem)
               queued.size === 0 && handle?.cancel()
           }
-        : addCleanup
+        : deleteSetupSystem
 
     const addSystem = update
         ? (item: GameObject) => {
-              addSetup(item)
+              addSetupSystem(item)
               if (queued.has(item)) return
               queued.add(item)
               "$deleteSystemSet" in item &&
                   item.$deleteSystemSet.add(deleteSystem)
               queued.size === 1 && start()
           }
-        : addSetup
+        : addSetupSystem
 
     return <const>[addSystem, deleteSystem]
 }

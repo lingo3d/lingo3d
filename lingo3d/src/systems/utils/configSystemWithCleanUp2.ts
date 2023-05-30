@@ -1,6 +1,6 @@
 import Appendable from "../../display/core/Appendable"
 
-export default <T extends object>(
+export default <T extends object | Appendable>(
     cb: (target: T) => void | false,
     cleanup: (target: T) => void,
     ticker: [() => Promise<void>] | typeof queueMicrotask = queueMicrotask
@@ -29,7 +29,7 @@ export default <T extends object>(
     }
 
     const deleteSystem = (item: T) => {
-        item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
+        "$deleteSystemSet" in item && item.$deleteSystemSet.delete(deleteSystem)
         if (needsCleanUp.has(item)) {
             cleanup(item)
             needsCleanUp.delete(item)
@@ -41,7 +41,7 @@ export default <T extends object>(
             if (queued.has(item)) return
             start()
             queued.add(item)
-            item instanceof Appendable &&
+            "$deleteSystemSet" in item &&
                 item.$deleteSystemSet.add(deleteSystem)
         },
         deleteSystem
