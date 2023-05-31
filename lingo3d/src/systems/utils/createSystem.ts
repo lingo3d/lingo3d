@@ -108,22 +108,21 @@ export default <
     const onEvent = mapTicker(ticker ?? "beforeRender")
     const start = update && (() => (handle = onEvent(execute)))
 
+    const executeDelete = (item: GameObject) => {
+        deleteSetupSystem(item)
+        const deleted = queued.delete(item)
+        deleted &&
+            "$deleteSystemSet" in item &&
+            item.$deleteSystemSet.delete(deleteSystem)
+        return deleted
+    }
+
     const deleteSystem = update
-        ? (item: GameObject) => {
-              console.log("delete")
+        ? (item: GameObject) =>
+              executeDelete(item) && queued.size === 0 && handle?.cancel()
+        : executeDelete
 
-              deleteSetupSystem(item)
-              if (!queued.delete(item)) return
-              "$deleteSystemSet" in item &&
-                  item.$deleteSystemSet.delete(deleteSystem)
-              queued.size === 0 && handle?.cancel()
-          }
-        : (item: GameObject) => {
-              deleteSetupSystem(item)
-              queued.delete(item)
-          }
-
-    const tryAddSetupSystem = (item: GameObject, initData?: Data) => {
+    const executeSetup = (item: GameObject, initData?: Data) => {
         const _data =
             initData ??
             queued.get(item) ??
@@ -136,20 +135,19 @@ export default <
         return _data
     }
 
+    const executeAdd = (item: GameObject, initData?: Data) => {
+        const added = !queued.has(item)
+        queued.set(item, executeSetup(item, initData))
+        added &&
+            "$deleteSystemSet" in item &&
+            item.$deleteSystemSet.add(deleteSystem)
+        return added
+    }
+
     const addSystem = update
-        ? (item: GameObject, initData?: Data) => {
-              const _data = tryAddSetupSystem(item, initData)
-              if (queued.has(item)) {
-                  queued.set(item, _data)
-                  return
-              }
-              queued.set(item, _data)
-              "$deleteSystemSet" in item &&
-                  item.$deleteSystemSet.add(deleteSystem)
-              queued.size === 1 && start!()
-          }
-        : (item: GameObject, initData?: Data) =>
-              queued.set(item, tryAddSetupSystem(item, initData))
+        ? (item: GameObject, initData?: Data) =>
+              executeAdd(item, initData) && queued.size === 1 && start!()
+        : executeAdd
 
     return {
         add: addSystem,
