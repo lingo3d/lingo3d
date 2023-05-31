@@ -1,7 +1,9 @@
-import { onAfterRender } from "../../events/onAfterRender"
-import configSimpleSystem from "../utils/configSimpleSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addClearBooleanPtrAfterRenderSystem] = configSimpleSystem(
-    (ptr: [boolean] | Array<boolean>) => (ptr[0] = false),
-    onAfterRender
+export const clearBooleanPtrAfterRenderSystem = createSystem(
+    "clearBooleanPtrAfterRenderSystem",
+    {
+        effect: (ptr: [boolean] | Array<boolean>) => (ptr[0] = false),
+        effectTicker: "afterRender"
+    }
 )

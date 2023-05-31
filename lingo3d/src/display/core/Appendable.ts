@@ -12,12 +12,9 @@ import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { userIdMap, uuidMap } from "../../collections/idCollections"
 import { emitId } from "../../events/onId"
-import {
-    addEmitSceneGraphChangeSystem,
-    deleteEmitSceneGraphChangeSystem
-} from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import { GameObjectType } from "../../api/serializer/types"
 import { loopSystem } from "../../systems/loopSystem"
+import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 
 type EventName = "name" | "runtimeSchema" | "loaded" | "actor"
 
@@ -25,7 +22,7 @@ export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()
         appendableRoot.add(this)
-        addEmitSceneGraphChangeSystem(this)
+        emitSceneGraphChangeSystem.add(this)
     }
 
     public get componentName(): GameObjectType {
@@ -53,7 +50,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
-        addEmitSceneGraphChangeSystem(child)
+        emitSceneGraphChangeSystem.add(child)
 
         const { parent } = child
         if (parent) {
@@ -105,7 +102,7 @@ export default class Appendable extends Disposable implements IAppendable {
             parent.refreshFirstChildState()
         } else appendableRoot.delete(this)
 
-        addEmitSceneGraphChangeSystem(this)
+        emitSceneGraphChangeSystem.add(this)
         return this
     }
 
@@ -215,13 +212,13 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$disableSerialize = true
         this.$disableSceneGraph = true
         this.$disableSelection = disableSelection
-        deleteEmitSceneGraphChangeSystem(this)
+        emitSceneGraphChangeSystem.delete(this)
     }
 
     public $unghost() {
         this.$disableSerialize = false
         this.$disableSceneGraph = false
         this.$disableSelection = false
-        addEmitSceneGraphChangeSystem(this)
+        emitSceneGraphChangeSystem.delete(this)
     }
 }

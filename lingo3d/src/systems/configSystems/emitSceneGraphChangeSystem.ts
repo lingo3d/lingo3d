@@ -1,8 +1,11 @@
 import Appendable from "../../display/core/Appendable"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-import configSimpleSystem from "../utils/configSimpleSystem"
+import createSystem from "../utils/createSystem"
 
-export const [addEmitSceneGraphChangeSystem, deleteEmitSceneGraphChangeSystem] =
-    configSimpleSystem(
-        (self: Appendable) => !self.$disableSceneGraph && emitSceneGraphChange()
-    )
+export const emitSceneGraphChangeSystem = createSystem(
+    "emitSceneGraphChangeSystem",
+    {
+        effect: (self: Appendable) =>
+            !self.$disableSceneGraph && emitSceneGraphChange()
+    }
+)

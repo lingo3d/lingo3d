@@ -4,7 +4,6 @@ import { physxPtr } from "../../pointers/physxPtr"
 import { simd } from "wasm-feature-detect"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { getGravity } from "../../states/useGravity"
-import { addClearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
 import {
     actorPtrManagerMap,
     controllerManagerContactMap,
@@ -12,6 +11,7 @@ import {
     managerContactMap
 } from "../../collections/pxCollections"
 import "./physxLoop"
+import { clearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
 ;(async () => {
     const simdSupported = await simd()
 
@@ -250,7 +250,7 @@ import "./physxLoop"
             Set<PhysicsObjectManager>
         )
         contacts.add(manager)
-        addClearCollectionAfterRenderSystem(contacts)
+        clearCollectionAfterRenderSystem.add(contacts)
     }
     controllerHitCallback.onControllerHit = (h: any) => {}
 

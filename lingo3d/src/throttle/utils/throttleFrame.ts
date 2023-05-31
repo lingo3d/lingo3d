@@ -1,4 +1,4 @@
-import { addClearBooleanPtrAfterRenderSystem } from "../../systems/configSystems/clearBooleanPtrAfterRenderSystem"
+import { clearBooleanPtrAfterRenderSystem } from "../../systems/configSystems/clearBooleanPtrAfterRenderSystem"
 
 export default <Args extends Array<unknown>, Result>(
     fn: (...args: Args) => Result
@@ -8,7 +8,7 @@ export default <Args extends Array<unknown>, Result>(
     return (...args: Args) => {
         if (scheduledPtr[0]) return result
         scheduledPtr[0] = true
-        addClearBooleanPtrAfterRenderSystem(scheduledPtr)
+        clearBooleanPtrAfterRenderSystem.add(scheduledPtr)
         return (result = fn(...args))
     }
 }

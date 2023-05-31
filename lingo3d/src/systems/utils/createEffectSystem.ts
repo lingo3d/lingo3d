@@ -40,7 +40,6 @@ export const createEffectSystem = <
           }
         : () => {
               for (const [target, data] of queued) {
-                  if ("done" in target && target.done) continue
                   tryRunCleanupCb(target)
                   runEffect(target, data)
               }
