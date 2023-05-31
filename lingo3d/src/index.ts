@@ -89,7 +89,7 @@ import Point3d from "./math/Point3d"
 import clientToWorld from "./display/utils/clientToWorld"
 import math from "./math"
 
-import { setAssetsPath } from "./api/setAssetsPath"
+import { setAssetsPath } from "./pointers/assetsPathPointers"
 import FoundManager from "./display/core/FoundManager"
 import ObjectManager from "./display/core/ObjectManager"
 import { LingoKeyboardEvent } from "./interface/IKeyboard"

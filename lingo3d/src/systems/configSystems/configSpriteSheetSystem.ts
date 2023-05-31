@@ -6,8 +6,8 @@ import {
     requestSpriteSheet,
     releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 import { spriteSheetPlaybackSystem } from "../spriteSheetPlaySystem"
+import createSystem from "../utils/createSystem"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
@@ -41,8 +41,8 @@ const playSpriteSheet = (
     })
 }
 
-export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
-    (self: SpriteSheet) => {
+export const configSpriteSheetSystem = createSystem({
+    setup: (self: SpriteSheet) => {
         const {
             textureStart,
             textureEnd,
@@ -82,4 +82,4 @@ export const [addConfigSpriteSheetSystem] = configSystemWithCleanUp(
             handle.cancel()
         }
     }
-)
+})

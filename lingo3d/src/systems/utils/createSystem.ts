@@ -10,12 +10,19 @@ const createSetupSystem = <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 >(
-    cb: (target: GameObject, data: Data) => void | false,
+    setup: (target: GameObject, data: Data) => void | false | (() => void),
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
     ticker: typeof onBeforeRender | typeof queueMicrotask
 ) => {
     const queued = new Map<GameObject, Data>()
     const needsCleanUp = cleanup && new WeakSet<GameObject>()
+    const cleanupCbs = new WeakMap<GameObject, () => void>()
+
+    const tryRunCleanupCb = (target: GameObject) => {
+        if (!cleanupCbs.has(target)) return
+        cleanupCbs.get(target)!()
+        cleanupCbs.delete(target)
+    }
 
     const execute = cleanup
         ? () => {
@@ -24,14 +31,22 @@ const createSetupSystem = <
                       cleanup(target, data)
                       needsCleanUp!.delete(target)
                   }
-                  cb(target, data) !== false && needsCleanUp!.add(target)
+                  tryRunCleanupCb(target)
+                  const result = setup(target, data)
+                  result !== false && needsCleanUp!.add(target)
+                  typeof result === "function" && cleanupCbs.set(target, result)
               }
               queued.clear()
               started = false
           }
         : () => {
               for (const [target, data] of queued)
-                  !("done" in target && target.done) && cb(target, data)
+                  if (!("done" in target && target.done)) {
+                      tryRunCleanupCb(target)
+                      const result = setup(target, data)
+                      typeof result === "function" &&
+                          cleanupCbs.set(target, result)
+                  }
               queued.clear()
               started = false
           }
@@ -49,9 +64,13 @@ const createSetupSystem = <
                   cleanup(item, queued.get(item)!)
                   needsCleanUp!.delete(item)
               }
+              tryRunCleanupCb(item)
               queued.delete(item)
           }
-        : (item: GameObject) => queued.delete(item)
+        : (item: GameObject) => {
+              tryRunCleanupCb(item)
+              queued.delete(item)
+          }
 
     const addSystem = (item: GameObject, data: Data) => {
         if (queued.has(item)) {
@@ -104,7 +123,7 @@ type Options<
     Data extends Record<string, any> | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
-    setup?: (gameObject: GameObject, data: Data) => void
+    setup?: (gameObject: GameObject, data: Data) => void | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker

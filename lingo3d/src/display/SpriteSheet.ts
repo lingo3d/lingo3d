@@ -4,9 +4,9 @@ import ISpriteSheet, {
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import { addConfigSpriteSheetSystem } from "../systems/configSystems/configSpriteSheetSystem"
 import { castBackBlending, castBlending } from "./utils/castBlending"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import { configSpriteSheetSystem } from "../systems/configSystems/configSpriteSheetSystem"
 
 export default class SpriteSheet
     extends PhysicsObjectManager<Sprite>
@@ -44,7 +44,7 @@ export default class SpriteSheet
     }
     public set textureStart(value) {
         this._textureStart = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     private _textureEnd?: string
@@ -53,7 +53,7 @@ export default class SpriteSheet
     }
     public set textureEnd(value) {
         this._textureEnd = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     private _texture?: string
@@ -62,7 +62,7 @@ export default class SpriteSheet
     }
     public set texture(value) {
         this._texture = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     private _columns?: number
@@ -71,7 +71,7 @@ export default class SpriteSheet
     }
     public set columns(value) {
         this._columns = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     private _length?: number
@@ -80,7 +80,7 @@ export default class SpriteSheet
     }
     public set length(value) {
         this._length = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     private _loop?: boolean
@@ -89,7 +89,7 @@ export default class SpriteSheet
     }
     public set loop(value) {
         this._loop = value
-        addConfigSpriteSheetSystem(this)
+        configSpriteSheetSystem.add(this)
     }
 
     public override get depth() {
