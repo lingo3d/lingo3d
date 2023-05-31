@@ -2,7 +2,7 @@ import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
-import { addConfigWaterSystem } from "../systems/configSystems/configWaterSystem"
+import { configWaterSystem } from "../systems/configSystems/configWaterSystem"
 
 export default class Water extends PhysicsObjectManager implements IWater {
     public static componentName = "water"
@@ -17,7 +17,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
     }
     public set shape(val) {
         this._shape = val
-        addConfigWaterSystem(this)
+        configWaterSystem.add(this)
     }
 
     private _normalMap: string | undefined
@@ -26,7 +26,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
     }
     public set normalMap(val) {
         this._normalMap = val
-        addConfigWaterSystem(this)
+        configWaterSystem.add(this)
     }
 
     private _resolution = 512
@@ -35,7 +35,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
     }
     public set resolution(val) {
         this._resolution = val
-        addConfigWaterSystem(this)
+        configWaterSystem.add(this)
     }
 
     public speed = 1
@@ -45,7 +45,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
         ssrExcludeSet.add(this.outerObject3d)
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
-        addConfigWaterSystem(this)
+        configWaterSystem.add(this)
     }
 
     protected override disposeNode() {

@@ -3,9 +3,9 @@ import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ColorString } from "../interface/ITexturedStandard"
 import { Point } from "@lincode/math"
-import { addConfigSpriteSystem } from "../systems/configSystems/configSpriteSystem"
 import { castBackBlending, castBlending } from "./utils/castBlending"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import { configSpriteSystem } from "../systems/configSystems/configSpriteSystem"
 
 export default class Sprite
     extends PhysicsObjectManager<ThreeSprite>
@@ -44,7 +44,7 @@ export default class Sprite
     }
     public set texture(val) {
         this._texture = val
-        addConfigSpriteSystem(this)
+        configSpriteSystem.add(this)
     }
 
     private _alphaMap?: string
@@ -53,7 +53,7 @@ export default class Sprite
     }
     public set alphaMap(val) {
         this._alphaMap = val
-        addConfigSpriteSystem(this)
+        configSpriteSystem.add(this)
     }
 
     public get color() {
@@ -76,7 +76,7 @@ export default class Sprite
     }
     public set textureRepeat(val) {
         this._textureRepeat = val
-        addConfigSpriteSystem(this)
+        configSpriteSystem.add(this)
     }
 
     private _textureFlipY = false
@@ -85,7 +85,7 @@ export default class Sprite
     }
     public set textureFlipY(val) {
         this._textureFlipY = val
-        addConfigSpriteSystem(this)
+        configSpriteSystem.add(this)
     }
 
     private _textureRotation = 0
@@ -94,7 +94,7 @@ export default class Sprite
     }
     public set textureRotation(val) {
         this._textureRotation = val
-        addConfigSpriteSystem(this)
+        configSpriteSystem.add(this)
     }
 
     public get depthTest() {

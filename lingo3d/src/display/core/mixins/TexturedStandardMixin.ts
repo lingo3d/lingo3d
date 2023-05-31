@@ -9,10 +9,10 @@ import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color } from "../../utils/reusables"
 import MeshAppendable from "../MeshAppendable"
 import { MaterialParams } from "../../../pools/materialPool"
-import { addRefreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"
 import { PointType, isPoint } from "../../../utils/isPoint"
 import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
+import { refreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 
 const standardDefaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [
@@ -53,7 +53,7 @@ export default abstract class TexturedStandardMixin
         this.$materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : this.$defaults.color
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get opacity() {
@@ -61,7 +61,7 @@ export default abstract class TexturedStandardMixin
     }
     public set opacity(val: number | undefined) {
         this.$materialParams[1] = toNullableFixed(val) ?? this.$defaults.opacity
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
         addConfigCastShadowSystem(this as any)
     }
 
@@ -70,7 +70,7 @@ export default abstract class TexturedStandardMixin
     }
     public set texture(val: string | undefined) {
         this.$materialParams[2] = val ?? this.$defaults.texture
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get alphaMap() {
@@ -78,7 +78,7 @@ export default abstract class TexturedStandardMixin
     }
     public set alphaMap(val: string | undefined) {
         this.$materialParams[3] = val ?? this.$defaults.alphaMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get textureRepeat() {
@@ -88,7 +88,7 @@ export default abstract class TexturedStandardMixin
         this.$materialParams[4] =
             (isPoint(val) ? toFixedPoint(val) : toNullableFixed(val)) ??
             this.$defaults.textureRepeat
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get textureFlipY() {
@@ -96,7 +96,7 @@ export default abstract class TexturedStandardMixin
     }
     public set textureFlipY(val: boolean | undefined) {
         this.$materialParams[5] = val ?? this.$defaults.textureFlipY
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get textureRotation() {
@@ -105,7 +105,7 @@ export default abstract class TexturedStandardMixin
     public set textureRotation(val: number | undefined) {
         this.$materialParams[6] =
             toNullableFixed(val) ?? this.$defaults.textureRotation
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get wireframe() {
@@ -113,7 +113,7 @@ export default abstract class TexturedStandardMixin
     }
     public set wireframe(val: boolean | undefined) {
         this.$materialParams[7] = val ?? this.$defaults.wireframe
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get envMap() {
@@ -121,7 +121,7 @@ export default abstract class TexturedStandardMixin
     }
     public set envMap(val: string | undefined) {
         this.$materialParams[8] = val ?? this.$defaults.envMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get envMapIntensity() {
@@ -130,7 +130,7 @@ export default abstract class TexturedStandardMixin
     public set envMapIntensity(val: number | undefined) {
         this.$materialParams[9] =
             toNullableFixed(val) ?? this.$defaults.envMapIntensity
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get aoMap() {
@@ -138,7 +138,7 @@ export default abstract class TexturedStandardMixin
     }
     public set aoMap(val: string | undefined) {
         this.$materialParams[10] = val ?? this.$defaults.aoMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get aoMapIntensity() {
@@ -147,7 +147,7 @@ export default abstract class TexturedStandardMixin
     public set aoMapIntensity(val: number | undefined) {
         this.$materialParams[11] =
             toNullableFixed(val) ?? this.$defaults.aoMapIntensity
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get bumpMap() {
@@ -155,7 +155,7 @@ export default abstract class TexturedStandardMixin
     }
     public set bumpMap(val: string | undefined) {
         this.$materialParams[12] = val ?? this.$defaults.bumpMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get bumpScale() {
@@ -164,7 +164,7 @@ export default abstract class TexturedStandardMixin
     public set bumpScale(val: number | undefined) {
         this.$materialParams[13] =
             toNullableFixed(val) ?? this.$defaults.bumpScale
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get displacementMap() {
@@ -172,7 +172,7 @@ export default abstract class TexturedStandardMixin
     }
     public set displacementMap(val: string | undefined) {
         this.$materialParams[14] = val ?? this.$defaults.displacementMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get displacementScale() {
@@ -181,7 +181,7 @@ export default abstract class TexturedStandardMixin
     public set displacementScale(val: number | undefined) {
         this.$materialParams[15] =
             toNullableFixed(val) ?? this.$defaults.displacementScale
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get displacementBias() {
@@ -190,7 +190,7 @@ export default abstract class TexturedStandardMixin
     public set displacementBias(val: number | undefined) {
         this.$materialParams[16] =
             toNullableFixed(val) ?? this.$defaults.displacementBias
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get emissive() {
@@ -198,7 +198,7 @@ export default abstract class TexturedStandardMixin
     }
     public set emissive(val: boolean | undefined) {
         this.$materialParams[17] = val ?? this.$defaults.emissive
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get emissiveIntensity() {
@@ -207,7 +207,7 @@ export default abstract class TexturedStandardMixin
     public set emissiveIntensity(val: number | undefined) {
         this.$materialParams[18] =
             toNullableFixed(val) ?? this.$defaults.emissiveIntensity
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get lightMap() {
@@ -215,7 +215,7 @@ export default abstract class TexturedStandardMixin
     }
     public set lightMap(val: string | undefined) {
         this.$materialParams[19] = val ?? this.$defaults.lightMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get lightMapIntensity() {
@@ -224,7 +224,7 @@ export default abstract class TexturedStandardMixin
     public set lightMapIntensity(val: number | undefined) {
         this.$materialParams[20] =
             toNullableFixed(val) ?? this.$defaults.lightMapIntensity
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get metalnessMap() {
@@ -232,7 +232,7 @@ export default abstract class TexturedStandardMixin
     }
     public set metalnessMap(val: string | undefined) {
         this.$materialParams[21] = val ?? this.$defaults.metalnessMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get metalness() {
@@ -241,7 +241,7 @@ export default abstract class TexturedStandardMixin
     public set metalness(val: number | undefined) {
         this.$materialParams[22] =
             toNullableFixed(val) ?? this.$defaults.metalness
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get roughnessMap() {
@@ -249,7 +249,7 @@ export default abstract class TexturedStandardMixin
     }
     public set roughnessMap(val: string | undefined) {
         this.$materialParams[23] = val ?? this.$defaults.roughnessMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get roughness() {
@@ -258,7 +258,7 @@ export default abstract class TexturedStandardMixin
     public set roughness(val: number | undefined) {
         this.$materialParams[24] =
             toNullableFixed(val) ?? this.$defaults.roughness
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get normalMap() {
@@ -266,7 +266,7 @@ export default abstract class TexturedStandardMixin
     }
     public set normalMap(val: string | undefined) {
         this.$materialParams[25] = val ?? this.$defaults.normalMap
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get normalScale() {
@@ -275,7 +275,7 @@ export default abstract class TexturedStandardMixin
     public set normalScale(val: number | undefined) {
         this.$materialParams[26] =
             toNullableFixed(val) ?? this.$defaults.normalScale
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get depthTest() {
@@ -283,7 +283,7 @@ export default abstract class TexturedStandardMixin
     }
     public set depthTest(val: boolean | undefined) {
         this.$materialParams[27] = val ?? this.$defaults.depthTest
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 
     public get blending() {
@@ -291,6 +291,6 @@ export default abstract class TexturedStandardMixin
     }
     public set blending(val: Blending | undefined) {
         this.$materialParams[28] = val ?? this.$defaults.blending
-        addRefreshTexturedStandardSystem(this)
+        refreshTexturedStandardSystem.add(this)
     }
 }

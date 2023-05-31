@@ -1,10 +1,10 @@
 import Sprite from "../../display/Sprite"
 import { releaseTexture } from "../../pools/texturePool"
 import { requestTexture } from "../../pools/texturePool"
-import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import createSystem from "../utils/createSystem"
 
-export const [addConfigSpriteSystem] = configSystemWithCleanUp2(
-    (self: Sprite) => {
+export const configSpriteSystem = createSystem({
+    setup: (self: Sprite) => {
         if (self.texture)
             self.$material.map = requestTexture([
                 self.texture,
@@ -20,7 +20,7 @@ export const [addConfigSpriteSystem] = configSystemWithCleanUp2(
                 self.textureRotation
             ])
     },
-    (self) => {
+    cleanup: (self) => {
         if (self.$material.map) {
             releaseTexture(self.$material.map)
             self.$material.map = null
@@ -30,4 +30,4 @@ export const [addConfigSpriteSystem] = configSystemWithCleanUp2(
             self.$material.alphaMap = null
         }
     }
-)
+})

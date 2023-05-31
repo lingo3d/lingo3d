@@ -46,7 +46,7 @@ type Options<
     Data extends Record<string, any> | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
-    setup?: (gameObject: GameObject, data: Data) => void | (() => void)
+    setup?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker

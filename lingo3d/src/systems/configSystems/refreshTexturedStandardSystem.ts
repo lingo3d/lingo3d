@@ -1,10 +1,10 @@
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { releaseMaterial, requestMaterial } from "../../pools/materialPool"
-import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
+import createSystem from "../utils/createSystem"
 
-export const [addRefreshTexturedStandardSystem] = configSystemWithCleanUp2(
-    (target: TexturedStandardMixin) => {
+export const refreshTexturedStandardSystem = createSystem({
+    setup: (target: TexturedStandardMixin) => {
         target.$material = requestMaterial(target.$materialParams)
     },
-    (target) => releaseMaterial(target.$material)
-)
+    cleanup: (target) => releaseMaterial(target.$material)
+})

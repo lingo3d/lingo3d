@@ -9,7 +9,7 @@ import {
     releaseCylinderGeometry,
     requestCylinderGeometry
 } from "../../pools/cylinderGeometryPool"
-import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
 export const cylinderGeometry = requestCylinderGeometry([
@@ -55,7 +55,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
     }
     public set segments(val) {
         this._segments = toFixed(val)
-        addRefreshPooledPrimitiveSystem(this)
+        refreshPooledPrimitiveSystem.add(this)
     }
 
     private _radiusTop?: number
@@ -64,7 +64,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
     }
     public set radiusTop(val) {
         this._radiusTop = toFixed(val)
-        addRefreshPooledPrimitiveSystem(this)
+        refreshPooledPrimitiveSystem.add(this)
     }
 
     private _radiusBottom?: number
@@ -73,6 +73,6 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
     }
     public set radiusBottom(val) {
         this._radiusBottom = toFixed(val)
-        addRefreshPooledPrimitiveSystem(this)
+        refreshPooledPrimitiveSystem.add(this)
     }
 }

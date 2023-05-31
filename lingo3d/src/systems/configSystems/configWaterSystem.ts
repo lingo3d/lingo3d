@@ -4,9 +4,9 @@ import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 import { planeGeometry } from "../../display/primitives/Plane"
 import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
-import configSystemWithCleanUp2 from "../utils/configSystemWithCleanUp2"
 import { waterSystem } from "../waterSystem"
 import { texturesUrlPtr } from "../../pointers/assetsPathPointers"
+import createSystem from "../utils/createSystem"
 
 let WaterClass: typeof ThreeWater
 
@@ -15,8 +15,8 @@ const importWater = lazy(async () => {
     WaterClass = Water
 })
 
-export const [addConfigWaterSystem] = configSystemWithCleanUp2(
-    (self: Water) => {
+export const configWaterSystem = createSystem({
+    setup: (self: Water) => {
         const normalMap =
             self.normalMap || texturesUrlPtr[0] + "waternormals.jpg"
 
@@ -37,9 +37,9 @@ export const [addConfigWaterSystem] = configSystemWithCleanUp2(
         )
         waterSystem.add(self)
     },
-    (self) => {
+    cleanup: (self) => {
         self.object3d.remove(self.$water!)
         waterSystem.delete(self)
     },
-    [importWater]
-)
+    setupTicker: [importWater]
+})

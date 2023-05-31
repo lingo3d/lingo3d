@@ -6,7 +6,7 @@ import {
     releaseConeGeometry,
     requestConeGeometry
 } from "../../pools/coneGeometryPool"
-import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
 const geometry = requestConeGeometry([0.5, 1, 32, 1, false, 0, PI2])
@@ -30,6 +30,6 @@ export default class Cone extends PooledPrimitve implements ICone {
     }
     public set segments(val) {
         this._segments = toFixed(val)
-        addRefreshPooledPrimitiveSystem(this)
+        refreshPooledPrimitiveSystem.add(this)
     }
 }
