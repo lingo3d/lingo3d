@@ -1,6 +1,6 @@
-import createSystem from "../utils/createSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const clearCollectionEffectSystem = createSystem(
+export const clearCollectionEffectSystem = createInternalSystem(
     "clearCollectionAfterRenderSystem",
     {
         effect: (collection: Map<any, any> | Set<any>) => collection.clear(),

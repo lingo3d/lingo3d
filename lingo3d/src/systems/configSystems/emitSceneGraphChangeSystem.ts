@@ -1,8 +1,8 @@
 import Appendable from "../../display/core/Appendable"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-import createSystem from "../utils/createSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const emitSceneGraphChangeSystem = createSystem(
+export const emitSceneGraphChangeSystem = createInternalSystem(
     "emitSceneGraphChangeSystem",
     {
         effect: (self: Appendable) =>
