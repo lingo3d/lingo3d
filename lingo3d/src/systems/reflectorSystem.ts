@@ -1,7 +1,7 @@
 import Reflector from "../display/Reflector"
 import MeshReflectorMaterial from "../display/Reflector/MeshReflectorMaterial"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const reflectorSystem = createSystem("reflectorSystem", {
     data: {} as { material: MeshReflectorMaterial },

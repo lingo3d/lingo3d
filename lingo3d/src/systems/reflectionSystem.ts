@@ -5,7 +5,7 @@ import scene from "../engine/scene"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const reflectionSystem = createSystem("reflectionSystem", {
     data: {} as {

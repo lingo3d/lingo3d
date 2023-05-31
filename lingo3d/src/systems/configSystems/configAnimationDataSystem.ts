@@ -5,7 +5,7 @@ import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
 import { uuidMap } from "../../collections/idCollections"
 import TimelineAudio from "../../display/TimelineAudio"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>

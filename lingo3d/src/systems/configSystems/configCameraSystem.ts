@@ -1,5 +1,5 @@
 import CameraBase from "../../display/core/CameraBase"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configCameraSystem = createSystem("configCameraSystem", {
     effect: (self: CameraBase) => {

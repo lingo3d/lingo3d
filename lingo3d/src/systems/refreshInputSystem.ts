@@ -3,7 +3,7 @@ import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const refreshInputSystem = createSystem("refreshInputSystem", {
     data: {} as {

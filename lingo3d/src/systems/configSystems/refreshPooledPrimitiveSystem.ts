@@ -1,5 +1,5 @@
 import PooledPrimitve from "../../display/core/PooledPrimitive"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const refreshPooledPrimitiveSystem = createSystem(
     "refreshPooledPrimitiveSystem",

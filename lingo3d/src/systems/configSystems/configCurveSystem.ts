@@ -8,7 +8,7 @@ import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
 import { nanoid } from "nanoid"
 import computeOnce from "../../memo/utils/computeOnce"
 import { PointType } from "../../utils/isPoint"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 const getUUID = computeOnce((_: PointType) => nanoid())
 

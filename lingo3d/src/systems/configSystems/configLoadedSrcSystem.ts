@@ -1,5 +1,5 @@
 import Loaded from "../../display/core/Loaded"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configLoadedSrcSystem = createSystem("configLoadedSrcSystem", {
     effect: (self: Loaded<any>) => {

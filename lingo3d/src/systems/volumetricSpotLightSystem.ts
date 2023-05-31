@@ -3,7 +3,7 @@ import { Mesh } from "three"
 import SpotLight from "../display/lights/SpotLight"
 import getWorldPosition from "../memo/getWorldPosition"
 import { CM2M } from "../globals"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const volumetricSpotLightSystem = createSystem(
     "volumetricSpotLightSystem",

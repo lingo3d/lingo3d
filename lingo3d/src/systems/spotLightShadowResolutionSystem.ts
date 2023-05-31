@@ -7,7 +7,7 @@ import {
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import { shadowModePtr } from "../pointers/shadowModePtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]

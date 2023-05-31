@@ -1,7 +1,7 @@
 import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import SphericalJoint from "../../display/joints/SphericalJoint"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configSphericalJointSystem = createSystem(
     "configSphericalJointSystem",

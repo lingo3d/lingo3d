@@ -5,7 +5,7 @@ import { shadowModePtr } from "../pointers/shadowModePtr"
 import updateShadow from "../display/utils/updateShadow"
 import PointLightBase from "../display/core/PointLightBase"
 import { shadowResolutionPtr } from "../pointers/shadowResolutionPtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 const maxResolution = 1024
 

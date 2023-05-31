@@ -1,7 +1,7 @@
 import CharacterCamera from "../display/core/CharacterCamera"
 import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const characterCameraSystem = createSystem("characterCameraSystem", {
     update: (self: CharacterCamera) => {

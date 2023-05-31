@@ -8,7 +8,7 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import scene from "../../engine/scene"
 import { CM2M } from "../../globals"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configLineSystem = createSystem("configLineSystem", {
     data: {} as { line: Line2; geometry: LineGeometry; material: LineMaterial },

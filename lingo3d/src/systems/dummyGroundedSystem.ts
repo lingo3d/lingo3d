@@ -1,6 +1,6 @@
 import { groundedControllerManagers } from "../collections/pxCollections"
 import Dummy from "../display/Dummy"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const dummyGroundedSystem = createSystem("dummyGroundedSystem", {
     data: {} as { poseService: { send: (val: string) => void } },

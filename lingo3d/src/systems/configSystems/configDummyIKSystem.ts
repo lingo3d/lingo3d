@@ -8,7 +8,7 @@ import { getBoneIndexMap } from "../../memo/getBoneIndexMap"
 import { CCDIKSolver } from "three/examples/jsm/animation/CCDIKSolver"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import scene from "../../engine/scene"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configDummyIKSystem = createSystem("configDummyIKSystem", {
     effect: (self: DummyIK) => {

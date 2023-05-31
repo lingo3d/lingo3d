@@ -1,6 +1,6 @@
 import { positionChanged } from "../memo/positionChanged"
 import MeshAppendable from "../display/core/MeshAppendable"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const onMoveSystem = createSystem("onMoveSystem", {
     update: (self: MeshAppendable) =>

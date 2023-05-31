@@ -1,5 +1,5 @@
 import ObjectManager from "../display/core/ObjectManager"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const flySystem = createSystem("flySystem", {
     data: {} as { downSet: Set<string> },

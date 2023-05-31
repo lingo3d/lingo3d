@@ -1,6 +1,6 @@
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const gyrateSystem = createSystem("gyrateSystem", {
     update: (self: OrbitCamera) =>

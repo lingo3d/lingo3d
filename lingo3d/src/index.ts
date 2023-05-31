@@ -71,7 +71,7 @@ import Text from "./ui/Text"
 import Keyboard from "./display/Keyboard"
 import Mouse from "./display/Mouse"
 
-import createSystem from "./systems/utils/createSystem"
+import createSystem from "./systems/utils/createInternalSystem"
 import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"

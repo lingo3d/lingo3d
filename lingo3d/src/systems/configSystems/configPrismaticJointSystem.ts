@@ -1,7 +1,7 @@
 import { physxPtr } from "../../pointers/physxPtr"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import { CM2M } from "../../globals"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configPrismaticJointSystem = createSystem(
     "configPrismaticJointSystem",

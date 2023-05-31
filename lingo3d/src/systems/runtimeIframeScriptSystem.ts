@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 const onInterval = (cb: () => void) => {
     const interval = setInterval(cb, 100)

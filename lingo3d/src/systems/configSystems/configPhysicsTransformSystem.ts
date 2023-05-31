@@ -8,7 +8,7 @@ import {
 import { dtPtr } from "../../pointers/dtPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { physxPtr } from "../../pointers/physxPtr"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configPhysicsTransformSystem = createSystem(
     "configPhysicsTransformSystem",

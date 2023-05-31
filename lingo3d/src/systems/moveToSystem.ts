@@ -3,7 +3,7 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const moveToSystem = createSystem("moveToSystem", {
     data: {} as {

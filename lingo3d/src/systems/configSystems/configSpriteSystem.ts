@@ -1,7 +1,7 @@
 import Sprite from "../../display/Sprite"
 import { releaseTexture } from "../../pools/texturePool"
 import { requestTexture } from "../../pools/texturePool"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configSpriteSystem = createSystem("configSpriteSystem", {
     effect: (self: Sprite) => {

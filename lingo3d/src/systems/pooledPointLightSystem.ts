@@ -7,7 +7,7 @@ import {
 import scene from "../engine/scene"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 const countPtr = [0]
 clearNumberPtrSystem.add(countPtr)

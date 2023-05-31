@@ -17,7 +17,7 @@ import {
 } from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingAssetsCount()

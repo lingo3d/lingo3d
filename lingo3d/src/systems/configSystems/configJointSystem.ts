@@ -11,7 +11,7 @@ import {
     deleteJointTargetTransformSystem
 } from "../eventSystems/jointTargetTransformEditSystem"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 const getRelativeTransform = (
     thisObject: Object3D,

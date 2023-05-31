@@ -1,6 +1,6 @@
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { releaseMaterial, requestMaterial } from "../../pools/materialPool"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const refreshTexturedStandardSystem = createSystem(
     "refreshTexturedStandardSystem",

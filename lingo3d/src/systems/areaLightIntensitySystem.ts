@@ -2,7 +2,7 @@ import { mapRange } from "@lincode/math"
 import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import AreaLight from "../display/lights/AreaLight"
 import { lightDistancePtr } from "../pointers/lightDistancePtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const areaLightIntensitySystem = createSystem(
     "areaLightIntensitySystem",

@@ -1,6 +1,6 @@
 import AreaLight from "../../display/lights/AreaLight"
 import { CM2M } from "../../globals"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 export const configAreaLightSystem = createSystem("configAreaLightSystem", {
     effect: (self: AreaLight) => {

@@ -10,7 +10,7 @@ import getWorldQuaternion from "../memo/getWorldQuaternion"
 import { vector3_ } from "../display/utils/reusables"
 import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const thirdPersonCameraSystem = createSystem("thirdPersonCameraSystem", {
     data: {} as {

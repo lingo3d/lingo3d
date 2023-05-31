@@ -1,5 +1,5 @@
 import { SpriteMaterial } from "three"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const spriteSheetPlaybackSystem = createSystem(
     "spriteSheetPlaybackSystem",

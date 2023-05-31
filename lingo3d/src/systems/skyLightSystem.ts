@@ -1,5 +1,5 @@
 import SkyLight from "../display/lights/SkyLight"
-import createSystem from "./utils/createSystem"
+import createSystem from "./utils/createInternalSystem"
 
 export const skyLightSystem = createSystem("skyLightSystem", {
     update: (self: SkyLight) => {

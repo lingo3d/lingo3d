@@ -7,7 +7,7 @@ import {
     releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
 import { spriteSheetPlaybackSystem } from "../spriteSheetPlaySystem"
-import createSystem from "../utils/createSystem"
+import createSystem from "../utils/createInternalSystem"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
