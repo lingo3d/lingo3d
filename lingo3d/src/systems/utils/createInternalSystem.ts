@@ -76,8 +76,9 @@ export default <
         ? createEffectSystem(effect, cleanup, mapSetupTicker(effectTicker))
         : [placeholderFn, placeholderFn]
 
-    const execute =
-        beforeTick || afterTick
+    const executeUpdate =
+        update &&
+        (beforeTick || afterTick
             ? sort
                 ? () => {
                       beforeTick?.(queued)
@@ -97,11 +98,12 @@ export default <
               }
             : () => {
                   for (const [target, data] of queued) update!(target, data)
-              }
+              })
 
     let handle: Cancellable | undefined
-    const onEvent = mapTicker(updateTicker)
-    const start = update && (() => (handle = onEvent(execute)))
+    const onUpdate = update && mapTicker(updateTicker)
+    const startUpdateLoop =
+        update && (() => (handle = onUpdate!(executeUpdate!)))
 
     const executeDelete = (item: GameObject) => {
         deleteEffectSystem(item)
@@ -141,7 +143,9 @@ export default <
 
     const addSystem = update
         ? (item: GameObject, initData?: Data) =>
-              executeAdd(item, initData) && queued.size === 1 && start!()
+              executeAdd(item, initData) &&
+              queued.size === 1 &&
+              startUpdateLoop!()
         : executeAdd
 
     return {
