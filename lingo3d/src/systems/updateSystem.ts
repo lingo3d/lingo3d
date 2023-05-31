@@ -1,5 +1,5 @@
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
-export const updateSystem = createSystem("updateSystem", {
+export const updateSystem = createInternalSystem("updateSystem", {
     update: (target: { update: () => void }) => target.update()
 })

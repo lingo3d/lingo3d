@@ -1,7 +1,7 @@
 import ObjectManager from "../display/core/ObjectManager"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
-export const flySystem = createSystem("flySystem", {
+export const flySystem = createInternalSystem("flySystem", {
     data: {} as { downSet: Set<string> },
     update: (manager: ObjectManager, { downSet }) => {
         if (downSet.has("Meta") || downSet.has("Control")) return

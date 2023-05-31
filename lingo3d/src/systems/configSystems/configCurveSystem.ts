@@ -8,11 +8,11 @@ import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
 import { nanoid } from "nanoid"
 import computeOnce from "../../memo/utils/computeOnce"
 import { PointType } from "../../utils/isPoint"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const getUUID = computeOnce((_: PointType) => nanoid())
 
-export const configCurveSystem = createSystem("configCurveSystem", {
+export const configCurveSystem = createInternalSystem("configCurveSystem", {
     effect: (self: Curve) => {
         const segments = self.points.length * self.subdivide
         const bufferAttribute = new BufferAttribute(

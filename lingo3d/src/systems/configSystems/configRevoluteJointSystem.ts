@@ -1,9 +1,9 @@
 import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const configRevoluteJointSystem = createSystem(
+export const configRevoluteJointSystem = createInternalSystem(
     "configRevoluteJointSystem",
     {
         effect: (self: RevoluteJoint) => {

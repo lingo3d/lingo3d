@@ -1,7 +1,7 @@
 import MeshAppendable from "../display/core/MeshAppendable"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
-export const orbitCameraPlaceAtSystem = createSystem(
+export const orbitCameraPlaceAtSystem = createInternalSystem(
     "orbitCameraPlaceAtSystem",
     {
         data: {} as { target: MeshAppendable },

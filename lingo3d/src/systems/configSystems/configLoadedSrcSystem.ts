@@ -1,7 +1,7 @@
 import Loaded from "../../display/core/Loaded"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const configLoadedSrcSystem = createSystem("configLoadedSrcSystem", {
+export const configLoadedSrcSystem = createInternalSystem("configLoadedSrcSystem", {
     effect: (self: Loaded<any>) => {
         const { src } = self
         if (!src) return false

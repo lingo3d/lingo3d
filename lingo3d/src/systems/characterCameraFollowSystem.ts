@@ -4,7 +4,7 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
 import { PI } from "../globals"
 import { positionChangedXZ } from "../memo/positionChangedXZ"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 import { gyrateResetSystem } from "./configSystems/gyrateResetSystem"
 
 const followTargetRotation = (
@@ -41,7 +41,7 @@ const rotateTarget = (
     target.outerObject3d.setRotationFromEuler(euler)
 }
 
-export const characterCameraFollowSystem = createSystem(
+export const characterCameraFollowSystem = createInternalSystem(
     "characterCameraFollowSystem",
     {
         data: {} as { found: MeshAppendable },

@@ -1,7 +1,7 @@
 import CameraBase from "../../display/core/CameraBase"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const configCameraSystem = createSystem("configCameraSystem", {
+export const configCameraSystem = createInternalSystem("configCameraSystem", {
     effect: (self: CameraBase) => {
         const { $camera } = self
         $camera.fov = self.fov

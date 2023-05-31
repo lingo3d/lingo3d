@@ -5,7 +5,7 @@ import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { FrameValue, FrameData } from "../../interface/IAnimationManager"
 import { uuidMap } from "../../collections/idCollections"
 import TimelineAudio from "../../display/TimelineAudio"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const isBooleanFrameData = (
     values: Array<FrameValue>
@@ -36,7 +36,7 @@ const framesToKeyframeTrack = (
         return new NumberKeyframeTrack(name, frameNums, values)
 }
 
-export const configAnimationDataSystem = createSystem(
+export const configAnimationDataSystem = createInternalSystem(
     "configAnimationDataSystem",
     {
         effect: (self: AnimationManager) => {

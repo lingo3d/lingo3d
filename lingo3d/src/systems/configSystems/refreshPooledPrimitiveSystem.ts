@@ -1,7 +1,7 @@
 import PooledPrimitve from "../../display/core/PooledPrimitive"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const refreshPooledPrimitiveSystem = createSystem(
+export const refreshPooledPrimitiveSystem = createInternalSystem(
     "refreshPooledPrimitiveSystem",
     {
         effect: (self: PooledPrimitve) => {

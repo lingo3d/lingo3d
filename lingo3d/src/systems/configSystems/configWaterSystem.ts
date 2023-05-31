@@ -6,7 +6,7 @@ import { sphereGeometry } from "../../display/primitives/Sphere"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { waterSystem } from "../waterSystem"
 import { texturesUrlPtr } from "../../pointers/assetsPathPointers"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 let WaterClass: typeof ThreeWater
 
@@ -15,7 +15,7 @@ const importWater = lazy(async () => {
     WaterClass = Water
 })
 
-export const configWaterSystem = createSystem("configWaterSystem", {
+export const configWaterSystem = createInternalSystem("configWaterSystem", {
     effect: (self: Water) => {
         const normalMap =
             self.normalMap || texturesUrlPtr[0] + "waternormals.jpg"

@@ -17,7 +17,7 @@ import {
 } from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingAssetsCount()
@@ -32,7 +32,7 @@ export const importPhysX = lazy(async () => {
     decreaseLoadingAssetsCount()
 })
 
-export const configPhysicsShapeSystem = createSystem(
+export const configPhysicsShapeSystem = createInternalSystem(
     "configPhysicsShapeSystem",
     {
         effect: (self: PhysicsObjectManager) => {

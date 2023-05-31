@@ -7,7 +7,7 @@ import {
     releaseSpriteSheet
 } from "../../pools/spriteSheetPool"
 import { spriteSheetPlaybackSystem } from "../spriteSheetPlaySystem"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
@@ -41,7 +41,7 @@ const playSpriteSheet = (
     })
 }
 
-export const configSpriteSheetSystem = createSystem("configSpriteSheetSystem", {
+export const configSpriteSheetSystem = createInternalSystem("configSpriteSheetSystem", {
     effect: (self: SpriteSheet) => {
         const {
             textureStart,

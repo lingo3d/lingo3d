@@ -3,11 +3,11 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
 import interpolationCamera from "../engine/interpolationCamera"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
-export const cameraInterpolationSystem = createSystem(
+export const cameraInterpolationSystem = createInternalSystem(
     "cameraInterpolationSystem",
     {
         data: {} as {

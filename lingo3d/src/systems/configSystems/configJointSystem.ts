@@ -11,7 +11,7 @@ import {
     deleteJointTargetTransformSystem
 } from "../eventSystems/jointTargetTransformEditSystem"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -45,7 +45,7 @@ const getActor = (manager: PhysicsObjectManager) =>
         manager.$events.once("actor", resolve)
     })
 
-export const configJointSystem = createSystem("configJointSystem", {
+export const configJointSystem = createInternalSystem("configJointSystem", {
     data: {} as {
         handle0: Cancellable
         handle1: Cancellable

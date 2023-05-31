@@ -10,9 +10,9 @@ import getWorldQuaternion from "../memo/getWorldQuaternion"
 import { vector3_ } from "../display/utils/reusables"
 import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
-export const thirdPersonCameraSystem = createSystem("thirdPersonCameraSystem", {
+export const thirdPersonCameraSystem = createInternalSystem("thirdPersonCameraSystem", {
     data: {} as {
         found: MeshAppendable
         lerpCount: number

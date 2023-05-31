@@ -1,9 +1,9 @@
 import Sprite from "../../display/Sprite"
 import { releaseTexture } from "../../pools/texturePool"
 import { requestTexture } from "../../pools/texturePool"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const configSpriteSystem = createSystem("configSpriteSystem", {
+export const configSpriteSystem = createInternalSystem("configSpriteSystem", {
     effect: (self: Sprite) => {
         if (self.texture)
             self.$material.map = requestTexture([

@@ -1,13 +1,13 @@
 import { Cancellable } from "@lincode/promiselikes"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
 const onInterval = (cb: () => void) => {
     const interval = setInterval(cb, 100)
     return new Cancellable(() => clearInterval(interval))
 }
 
-export const runtimeIframeScriptSystem = createSystem(
+export const runtimeIframeScriptSystem = createInternalSystem(
     "runtimeIframeScriptSystem",
     {
         data: { script: "" },

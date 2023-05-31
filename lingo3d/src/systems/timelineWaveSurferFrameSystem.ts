@@ -1,9 +1,9 @@
 import WaveSurfer from "wavesurfer.js"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
 import { INVERSE_STANDARD_FRAME } from "../globals"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 
-export const timelineWaveSurferFrameSystem = createSystem(
+export const timelineWaveSurferFrameSystem = createInternalSystem(
     "timelineWaveSurferFrameSystem",
     {
         data: {} as { frame: number; startFrame: number },

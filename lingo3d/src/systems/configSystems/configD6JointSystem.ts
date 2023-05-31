@@ -4,7 +4,7 @@ import { physxPtr } from "../../pointers/physxPtr"
 import D6Joint from "../../display/joints/D6Joint"
 import { CM2M } from "../../globals"
 import { D6MotionOptions } from "../../interface/ID6Joint"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const getMotion = (val: D6MotionOptions) => {
     const { PxD6MotionEnum } = physxPtr[0]
@@ -20,7 +20,7 @@ const getMotion = (val: D6MotionOptions) => {
     }
 }
 
-export const configD6JointSystem = createSystem("configD6JointSystem", {
+export const configD6JointSystem = createInternalSystem("configD6JointSystem", {
     effect: (self: D6Joint) => {
         const { $pxJoint } = self
         if (!$pxJoint) return

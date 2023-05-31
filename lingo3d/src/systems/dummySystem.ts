@@ -2,13 +2,13 @@ import { deg2Rad, endPoint } from "@lincode/math"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler } from "../display/utils/reusables"
 import { Point3dType } from "../utils/isPoint"
-import createSystem from "./utils/createInternalSystem"
+import createInternalSystem from "./utils/createInternalSystem"
 import { StrideMode } from "../interface/IDummy"
 import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
 import Dummy from "../display/Dummy"
 
-export const dummySystem = createSystem("dummySystem", {
+export const dummySystem = createInternalSystem("dummySystem", {
     data: {} as {
         poseService: { send: (val: string) => void }
         backwards: boolean

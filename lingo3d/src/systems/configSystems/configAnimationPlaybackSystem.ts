@@ -4,9 +4,9 @@ import AnimationStates from "../../display/core/AnimatedObjectManager/AnimationS
 import { INVERSE_STANDARD_FRAME } from "../../globals"
 import getContext from "../../memo/getContext"
 import { updateDTSystem } from "../updateDTSystem"
-import createSystem from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const configAnimationPlaybackSystem = createSystem(
+export const configAnimationPlaybackSystem = createInternalSystem(
     "configAnimationPlaybackSystem",
     {
         effect: (self: AnimationStates) => {
