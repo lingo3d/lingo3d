@@ -37,7 +37,7 @@
         "esbuild-wasm": "^0.17.19",
         "monaco-editor": "^0.38.0",
         "monaco-themes": "^0.4.4",
-        "n8ao": "^1.4.2",
+        "n8ao": "^1.4.4",
         "nanoid": "^4.0.2",
         "nipplejs": "0.10.1",
         "parse-ts-to-ast": "^0.1.4",

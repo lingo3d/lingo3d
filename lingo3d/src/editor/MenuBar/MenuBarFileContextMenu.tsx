@@ -24,6 +24,7 @@ const MenuBarFileContextMenu = () => {
                             const script = new Script()
                             script.name = name
                             script.language = language
+                            script.code = `import { createSystem } from "lingo3d"`
                             setScript(script)
                         }
                     }
