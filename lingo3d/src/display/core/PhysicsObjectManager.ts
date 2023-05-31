@@ -21,6 +21,8 @@ import {
 } from "../../collections/pxCollections"
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { addConfigCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
+import JointBase from "./JointBase"
+import { configJointSystem } from "../../systems/configSystems/configJointSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -136,13 +138,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.$actor?.addTorque(setPxVec(x, y, z))
     }
 
+    private _joints?: Set<JointBase>
+    public get $joints() {
+        return (this._joints ??= new Set())
+    }
+
     public $initActor(actor: any) {
         this.$actor = actor
         const { _mass } = this
         if (_mass !== undefined) actor.mass = _mass
         actorPtrManagerMap.set(actor.ptr, this)
         managerActorPtrMap.set(this, actor.ptr)
-        this.$emitEvent("actor", actor)
+        if (this._joints)
+            for (const joint of this._joints) configJointSystem.add(joint)
         return actor
     }
 

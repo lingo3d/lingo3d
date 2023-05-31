@@ -16,7 +16,7 @@ import { GameObjectType } from "../../api/serializer/types"
 import { loopSystem } from "../../systems/loopSystem"
 import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 
-type EventName = "name" | "runtimeSchema" | "loaded" | "actor"
+type EventName = "name" | "runtimeSchema" | "loaded"
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
