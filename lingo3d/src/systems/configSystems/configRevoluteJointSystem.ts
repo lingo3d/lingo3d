@@ -6,7 +6,7 @@ import createSystem from "../utils/createSystem"
 export const configRevoluteJointSystem = createSystem(
     "configRevoluteJointSystem",
     {
-        setup: (self: RevoluteJoint) => {
+        effect: (self: RevoluteJoint) => {
             const {
                 $pxJoint,
                 limited,

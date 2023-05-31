@@ -6,7 +6,7 @@ import createSystem from "../utils/createSystem"
 export const configSphericalJointSystem = createSystem(
     "configSphericalJointSystem",
     {
-        setup: (self: SphericalJoint) => {
+        effect: (self: SphericalJoint) => {
             const { $pxJoint, limited, limitY, limitZ } = self
             if (!$pxJoint) return
 

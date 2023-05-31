@@ -9,7 +9,7 @@ import createSystem from "../utils/createSystem"
 export const configAnimationPlaybackSystem = createSystem(
     "configAnimationPlaybackSystem",
     {
-        setup: (self: AnimationStates) => {
+        effect: (self: AnimationStates) => {
             const manager = self.manager
             if (!manager) return false
 
@@ -66,6 +66,6 @@ export const configAnimationPlaybackSystem = createSystem(
             context.playCount = context.playCount! - 1
             context.playCount === 0 && updateDTSystem.delete(mixer)
         },
-        setupTicker: "afterRender"
+        effectTicker: "afterRender"
     }
 )

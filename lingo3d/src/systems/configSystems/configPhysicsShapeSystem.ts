@@ -35,7 +35,7 @@ export const importPhysX = lazy(async () => {
 export const configPhysicsShapeSystem = createSystem(
     "configPhysicsShapeSystem",
     {
-        setup: (self: PhysicsObjectManager) => {
+        effect: (self: PhysicsObjectManager) => {
             const mode = self.physics || !!self.$jointCount
             if (!mode) return false
 
@@ -111,6 +111,6 @@ export const configPhysicsShapeSystem = createSystem(
             managerActorMap.delete(self)
             self.$actor = undefined
         },
-        setupTicker: [importPhysX]
+        effectTicker: [importPhysX]
     }
 )

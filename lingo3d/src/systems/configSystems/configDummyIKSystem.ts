@@ -11,7 +11,7 @@ import scene from "../../engine/scene"
 import createSystem from "../utils/createSystem"
 
 export const configDummyIKSystem = createSystem("configDummyIKSystem", {
-    setup: (self: DummyIK) => {
+    effect: (self: DummyIK) => {
         const { target, hips, spine0, spine1, spine2, neck } = self
         if (!target) return
 

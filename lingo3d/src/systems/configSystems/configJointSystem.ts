@@ -51,7 +51,7 @@ export const configJointSystem = createSystem("configJointSystem", {
         handle1: Cancellable
         handle2: Cancellable
     },
-    setup: (self: JointBase, data) => {
+    effect: (self: JointBase, data) => {
         const { to, from } = self
         if (!to || !from) return false
 
@@ -107,7 +107,7 @@ export const configJointSystem = createSystem("configJointSystem", {
         self.$fromManager = undefined
         self.$toManager = undefined
     },
-    setupTicker: [importPhysX]
+    effectTicker: [importPhysX]
 })
 
 configJointSystemPtr[0] = configJointSystem

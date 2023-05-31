@@ -42,7 +42,7 @@ const playSpriteSheet = (
 }
 
 export const configSpriteSheetSystem = createSystem("configSpriteSheetSystem", {
-    setup: (self: SpriteSheet) => {
+    effect: (self: SpriteSheet) => {
         const {
             textureStart,
             textureEnd,

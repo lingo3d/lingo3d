@@ -4,7 +4,7 @@ import { requestTexture } from "../../pools/texturePool"
 import createSystem from "../utils/createSystem"
 
 export const configSpriteSystem = createSystem("configSpriteSystem", {
-    setup: (self: Sprite) => {
+    effect: (self: Sprite) => {
         if (self.texture)
             self.$material.map = requestTexture([
                 self.texture,

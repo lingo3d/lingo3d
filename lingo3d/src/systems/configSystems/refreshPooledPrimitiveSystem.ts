@@ -4,7 +4,7 @@ import createSystem from "../utils/createSystem"
 export const refreshPooledPrimitiveSystem = createSystem(
     "refreshPooledPrimitiveSystem",
     {
-        setup: (self: PooledPrimitve) => {
+        effect: (self: PooledPrimitve) => {
             self.object3d.geometry = self.$requestGeometry(
                 self.$getParams() as any
             )

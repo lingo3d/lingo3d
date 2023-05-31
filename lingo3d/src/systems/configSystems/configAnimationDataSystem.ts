@@ -39,7 +39,7 @@ const framesToKeyframeTrack = (
 export const configAnimationDataSystem = createSystem(
     "configAnimationDataSystem",
     {
-        setup: (self: AnimationManager) => {
+        effect: (self: AnimationManager) => {
             if (!self.data) {
                 self.$clip = self.$loadedClip
                 return

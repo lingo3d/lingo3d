@@ -13,7 +13,7 @@ import createSystem from "../utils/createSystem"
 const getUUID = computeOnce((_: PointType) => nanoid())
 
 export const configCurveSystem = createSystem("configCurveSystem", {
-    setup: (self: Curve) => {
+    effect: (self: Curve) => {
         const segments = self.points.length * self.subdivide
         const bufferAttribute = new BufferAttribute(
             new Float32Array(segments * 3),

@@ -5,7 +5,7 @@ import createSystem from "../utils/createSystem"
 export const refreshTexturedStandardSystem = createSystem(
     "refreshTexturedStandardSystem",
     {
-        setup: (target: TexturedStandardMixin) => {
+        effect: (target: TexturedStandardMixin) => {
             target.$material = requestMaterial(target.$materialParams)
         },
         cleanup: (target) => releaseMaterial(target.$material)

@@ -12,7 +12,7 @@ import createSystem from "../utils/createSystem"
 
 export const configLineSystem = createSystem("configLineSystem", {
     data: {} as { line: Line2; geometry: LineGeometry; material: LineMaterial },
-    setup: (self: Line, data) => {
+    effect: (self: Line, data) => {
         const { from, to, bloom, thickness } = self
         if (!from || !to) return false
 

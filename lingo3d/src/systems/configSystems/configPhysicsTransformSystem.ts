@@ -13,7 +13,7 @@ import createSystem from "../utils/createSystem"
 export const configPhysicsTransformSystem = createSystem(
     "configPhysicsTransformSystem",
     {
-        setup: (self: PhysicsObjectManager) => {
+        effect: (self: PhysicsObjectManager) => {
             const controller = managerControllerMap.get(self)
             if (controller) {
                 if (physxLoopPtr[0]) {

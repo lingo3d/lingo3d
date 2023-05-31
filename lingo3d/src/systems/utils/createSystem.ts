@@ -46,11 +46,11 @@ type Options<
     Data extends Record<string, any> | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
-    setup?: (gameObject: GameObject, data: Data) => void | false | (() => void)
+    effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
     ticker?: Ticker
-    setupTicker?: SetupTicker
+    effectTicker?: SetupTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
@@ -65,11 +65,11 @@ export default <
     name: string,
     {
         data,
-        setup,
+        effect,
         cleanup,
         update,
         ticker,
-        setupTicker = queueMicrotask,
+        effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
         sort
@@ -77,8 +77,8 @@ export default <
 ) => {
     const queued = new Map<GameObject, Data>()
 
-    const [addSetupSystem, deleteSetupSystem] = setup
-        ? createSetupSystem(setup, cleanup, mapSetupTicker(setupTicker))
+    const [addSetupSystem, deleteSetupSystem] = effect
+        ? createSetupSystem(effect, cleanup, mapSetupTicker(effectTicker))
         : [placeholderFn, placeholderFn]
 
     const execute =

@@ -6,7 +6,7 @@ import createSystem from "../utils/createSystem"
 export const configPrismaticJointSystem = createSystem(
     "configPrismaticJointSystem",
     {
-        setup: (self: PrismaticJoint) => {
+        effect: (self: PrismaticJoint) => {
             const {
                 $pxJoint,
                 limited,

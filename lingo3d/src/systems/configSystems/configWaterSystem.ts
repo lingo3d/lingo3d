@@ -16,7 +16,7 @@ const importWater = lazy(async () => {
 })
 
 export const configWaterSystem = createSystem("configWaterSystem", {
-    setup: (self: Water) => {
+    effect: (self: Water) => {
         const normalMap =
             self.normalMap || texturesUrlPtr[0] + "waternormals.jpg"
 
@@ -41,5 +41,5 @@ export const configWaterSystem = createSystem("configWaterSystem", {
         self.object3d.remove(self.$water!)
         waterSystem.delete(self)
     },
-    setupTicker: [importWater]
+    effectTicker: [importWater]
 })
