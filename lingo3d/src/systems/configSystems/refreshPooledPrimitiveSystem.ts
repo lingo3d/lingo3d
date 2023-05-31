@@ -8,11 +8,7 @@ export const refreshPooledPrimitiveSystem = createSystem(
             self.object3d.geometry = self.$requestGeometry(
                 self.$getParams() as any
             )
-            console.log("setup")
         },
-        cleanup: (self) => {
-            self.$releaseGeometry(self.object3d.geometry as any)
-            console.log("cleanup")
-        }
+        cleanup: (self) => self.$releaseGeometry(self.object3d.geometry as any)
     }
 )
