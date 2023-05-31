@@ -56,6 +56,8 @@ type Options<
     sort?: (a: GameObject, b: GameObject) => number
 }
 
+const placeholderFn = () => {}
+
 export default <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
@@ -74,7 +76,7 @@ export default <
 
     const [addSetupSystem, deleteSetupSystem] = setup
         ? createSetupSystem(setup, cleanup, mapSetupTicker(setupTicker))
-        : [() => {}, () => {}]
+        : [placeholderFn, placeholderFn]
 
     const execute =
         beforeTick || afterTick
@@ -101,7 +103,7 @@ export default <
 
     let handle: Cancellable | undefined
     const onEvent = mapTicker(ticker ?? "beforeRender")
-    const start = update ? () => (handle = onEvent(execute)) : () => {}
+    const start = update && (() => (handle = onEvent(execute)))
 
     const deleteSystem = update
         ? (item: GameObject) => {
@@ -116,17 +118,22 @@ export default <
               queued.delete(item)
           }
 
+    const tryAddSetupSystem = (item: GameObject, initData?: Data) => {
+        const _data =
+            initData ??
+            queued.get(item) ??
+            (typeof data === "function"
+                ? data(item)
+                : data
+                ? { ...data }
+                : undefined)
+        addSetupSystem(item, _data)
+        return _data
+    }
+
     const addSystem = update
         ? (item: GameObject, initData?: Data) => {
-              const _data =
-                  initData ??
-                  queued.get(item) ??
-                  (typeof data === "function"
-                      ? data(item)
-                      : data
-                      ? { ...data }
-                      : undefined)
-              addSetupSystem(item, _data)
+              const _data = tryAddSetupSystem(item, initData)
               if (queued.has(item)) {
                   queued.set(item, _data)
                   return
@@ -134,20 +141,10 @@ export default <
               queued.set(item, _data)
               "$deleteSystemSet" in item &&
                   item.$deleteSystemSet.add(deleteSystem)
-              queued.size === 1 && start()
+              queued.size === 1 && start!()
           }
-        : (item: GameObject, initData?: Data) => {
-              const _data =
-                  initData ??
-                  queued.get(item) ??
-                  (typeof data === "function"
-                      ? data(item)
-                      : data
-                      ? { ...data }
-                      : undefined)
-              addSetupSystem(item, _data)
-              queued.set(item, _data)
-          }
+        : (item: GameObject, initData?: Data) =>
+              queued.set(item, tryAddSetupSystem(item, initData))
 
     return {
         add: addSystem,
