@@ -5,7 +5,7 @@ import { onAfterRender } from "../../events/onAfterRender"
 import { onRender } from "../../events/onRender"
 import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
-import { createSetupSystem } from "./createSetupSystem"
+import { createEffectSystem } from "./createEffectSystem"
 
 type Ticker =
     | "beforeRender"
@@ -77,8 +77,8 @@ export default <
 ) => {
     const queued = new Map<GameObject, Data>()
 
-    const [addSetupSystem, deleteSetupSystem] = effect
-        ? createSetupSystem(effect, cleanup, mapSetupTicker(effectTicker))
+    const [addEffectSystem, deleteEffectSystem] = effect
+        ? createEffectSystem(effect, cleanup, mapSetupTicker(effectTicker))
         : [placeholderFn, placeholderFn]
 
     const execute =
@@ -109,7 +109,7 @@ export default <
     const start = update && (() => (handle = onEvent(execute)))
 
     const executeDelete = (item: GameObject) => {
-        deleteSetupSystem(item)
+        deleteEffectSystem(item)
         const deleted = queued.delete(item)
         deleted &&
             "$deleteSystemSet" in item &&
@@ -131,7 +131,7 @@ export default <
                 : data
                 ? { ...data }
                 : undefined)
-        addSetupSystem(item, _data)
+        addEffectSystem(item, _data)
         return _data
     }
 

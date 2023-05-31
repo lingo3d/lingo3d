@@ -1,11 +1,11 @@
 import Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export const createSetupSystem = <
+export const createEffectSystem = <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 >(
-    setup: (target: GameObject, data: Data) => void | false | (() => void),
+    effect: (target: GameObject, data: Data) => void | false | (() => void),
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
     ticker: typeof onBeforeRender | typeof queueMicrotask
 ) => {
@@ -19,8 +19,8 @@ export const createSetupSystem = <
         cleanupCbs.delete(target)
     }
 
-    const runSetup = (target: GameObject, data: Data) => {
-        const result = setup(target, data)
+    const runEffect = (target: GameObject, data: Data) => {
+        const result = effect(target, data)
         typeof result === "function" && cleanupCbs.set(target, result)
         return result
     }
@@ -33,7 +33,7 @@ export const createSetupSystem = <
                       needsCleanUp!.delete(target)
                   }
                   tryRunCleanupCb(target)
-                  runSetup(target, data) !== false && needsCleanUp!.add(target)
+                  runEffect(target, data) !== false && needsCleanUp!.add(target)
               }
               queued.clear()
               started = false
@@ -42,7 +42,7 @@ export const createSetupSystem = <
               for (const [target, data] of queued) {
                   if ("done" in target && target.done) continue
                   tryRunCleanupCb(target)
-                  runSetup(target, data)
+                  runEffect(target, data)
               }
               queued.clear()
               started = false
