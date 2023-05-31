@@ -39,6 +39,8 @@ import {
     getSelectionHideId
 } from "../../../states/useSelectionHideId"
 import groupSelected from "../../../engine/hotkeys/groupSelected"
+import Script from "../../../display/Script"
+import { getScript, setScript } from "../../../states/useScript"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -49,6 +51,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
     const gameGraph = useSyncState(getGameGraph)
+    const script = useSyncState(getScript)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
     const [selectionHideId] = useSyncState(getSelectionHideId)
@@ -79,6 +82,18 @@ const MenuItems = ({ selectionTarget }: Props) => {
                     Group selected
                 </MenuButton>
             </>
+        )
+    else if (selectionTarget instanceof Script)
+        children.push(
+            <MenuButton
+                disabled={selectionTarget === script}
+                onClick={() => {
+                    setScript(selectionTarget)
+                    sceneGraphContextMenuSignal.value = undefined
+                }}
+            >
+                {selectionTarget === script ? "Already editing" : "Edit Script"}
+            </MenuButton>
         )
     else if (selectionTarget instanceof Timeline)
         children.push(

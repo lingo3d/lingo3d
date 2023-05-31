@@ -47,7 +47,7 @@ const ScriptEditor = () => {
     const selectedSignal = useSignal<Array<string>>([])
     const script = useSyncState(getScript)
     const scripts = useSyncState(getScripts)
-    const [scriptsUnsaved] = useSyncState(getScriptsUnsaved)
+    const scriptsUnsavedPtr = useSyncState(getScriptsUnsaved)
 
     useLayoutEffect(() => {
         const uuid = script?.uuid
@@ -63,7 +63,7 @@ const ScriptEditor = () => {
         const result: Record<string, string> = {}
         for (const script of scripts) result[script.uuid] = script.code
         return result
-    }, [scripts])
+    }, [scripts, scriptsUnsavedPtr])
 
     return (
         <div
@@ -77,7 +77,7 @@ const ScriptEditor = () => {
                         key={script.uuid}
                         id={script.uuid}
                         onClose={() => pullScripts(script)}
-                        unsaved={scriptsUnsaved.has(script)}
+                        unsaved={scriptsUnsavedPtr[0].has(script)}
                     >
                         {script.name}
                     </CloseableTab>
@@ -92,7 +92,8 @@ const ScriptEditor = () => {
                 files={monacoFiles}
                 file={script?.uuid}
                 onChange={() => addScriptsUnsaved(script!)}
-                onSave={() => {
+                onSave={(code) => {
+                    script!.code = code
                     deleteScriptsUnsaved(script!)
                 }}
                 // onSaveAll={handleSaveAll}
