@@ -19,6 +19,12 @@ export const createSetupSystem = <
         cleanupCbs.delete(target)
     }
 
+    const runSetup = (target: GameObject, data: Data) => {
+        const result = setup(target, data)
+        typeof result === "function" && cleanupCbs.set(target, result)
+        return result
+    }
+
     const execute = cleanup
         ? () => {
               for (const [target, data] of queued) {
@@ -27,21 +33,17 @@ export const createSetupSystem = <
                       needsCleanUp!.delete(target)
                   }
                   tryRunCleanupCb(target)
-                  const result = setup(target, data)
-                  result !== false && needsCleanUp!.add(target)
-                  typeof result === "function" && cleanupCbs.set(target, result)
+                  runSetup(target, data) !== false && needsCleanUp!.add(target)
               }
               queued.clear()
               started = false
           }
         : () => {
-              for (const [target, data] of queued)
-                  if (!("done" in target && target.done)) {
-                      tryRunCleanupCb(target)
-                      const result = setup(target, data)
-                      typeof result === "function" &&
-                          cleanupCbs.set(target, result)
-                  }
+              for (const [target, data] of queued) {
+                  if ("done" in target && target.done) continue
+                  tryRunCleanupCb(target)
+                  runSetup(target, data)
+              }
               queued.clear()
               started = false
           }
