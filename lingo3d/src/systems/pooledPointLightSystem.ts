@@ -12,7 +12,7 @@ import createSystem from "./utils/createSystem"
 const countPtr = [0]
 clearNumberPtrSystem.add(countPtr)
 
-export const pooledPointLightSystem = createSystem({
+export const pooledPointLightSystem = createSystem("pooledPointLightSystem", {
     data: { visible: false },
     update: (self: PooledPointLight, data) => {
         const intensityFactor = getIntensityFactor(self)

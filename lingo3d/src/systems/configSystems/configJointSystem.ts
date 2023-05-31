@@ -45,7 +45,7 @@ const getActor = (manager: PhysicsObjectManager) =>
         manager.$events.once("actor", resolve)
     })
 
-export const configJointSystem = createSystem({
+export const configJointSystem = createSystem("configJointSystem", {
     data: {} as {
         handle0: Cancellable
         handle1: Cancellable

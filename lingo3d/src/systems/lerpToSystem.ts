@@ -5,7 +5,7 @@ import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSyste
 import MeshAppendable from "../display/core/MeshAppendable"
 import createSystem from "./utils/createSystem"
 
-export const lerpToSystem = createSystem({
+export const lerpToSystem = createSystem("lerpToSystem", {
     data: {} as {
         from: Vector3
         to: Vector3

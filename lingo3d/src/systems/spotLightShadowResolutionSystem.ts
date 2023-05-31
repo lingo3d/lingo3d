@@ -12,26 +12,29 @@ import createSystem from "./utils/createSystem"
 const resolutions = [1024, 512, 256, 128]
 const biases = [-0.006, -0.005, -0.004, -0.003]
 
-export const spotLightShadowResolutionSystem = createSystem({
-    data: { step: undefined as number | undefined },
-    update: (self: SpotLight, data) => {
-        if (!self.object3d.intensity || !shadowModePtr[0]) return
+export const spotLightShadowResolutionSystem = createSystem(
+    "spotLightShadowResolutionSystem",
+    {
+        data: { step: undefined as number | undefined },
+        update: (self: SpotLight, data) => {
+            if (!self.object3d.intensity || !shadowModePtr[0]) return
 
-        const distance = getDistanceFromCamera(self)
-        let step = 3
-        if (distance < lightIncrementPtr[0]) step = 0
-        else if (distance < lightIncrementPtr[1]) step = 1
-        else if (distance < lightIncrementPtr[2]) step = 2
+            const distance = getDistanceFromCamera(self)
+            let step = 3
+            if (distance < lightIncrementPtr[0]) step = 0
+            else if (distance < lightIncrementPtr[1]) step = 1
+            else if (distance < lightIncrementPtr[2]) step = 2
 
-        if (step === data.step) return
-        data.step = step
+            if (step === data.step) return
+            data.step = step
 
-        const { shadow } = self.object3d
-        const res = resolutions[step]
-        shadow.mapSize.setScalar(res)
-        shadow.bias = biases[step]
-        releaseShadowRenderTarget(shadow.map)
-        shadow.map = requestShadowRenderTarget([res, res])
-        updateShadow(shadow)
+            const { shadow } = self.object3d
+            const res = resolutions[step]
+            shadow.mapSize.setScalar(res)
+            shadow.bias = biases[step]
+            releaseShadowRenderTarget(shadow.map)
+            shadow.map = requestShadowRenderTarget([res, res])
+            updateShadow(shadow)
+        }
     }
-})
+)

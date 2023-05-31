@@ -3,7 +3,7 @@ import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
 import createSystem from "./utils/createSystem"
 
-export const characterCameraSystem = createSystem({
+export const characterCameraSystem = createSystem("characterCameraSystem", {
     update: (self: CharacterCamera) => {
         self.$camera.position.copy(getWorldPosition(self.object3d))
         self.$camera.quaternion.copy(getWorldQuaternion(self.object3d))

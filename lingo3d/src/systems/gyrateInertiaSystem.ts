@@ -1,7 +1,7 @@
 import CameraBase from "../display/core/CameraBase"
 import createSystem from "./utils/createSystem"
 
-export const gyrateInertiaSystem = createSystem({
+export const gyrateInertiaSystem = createSystem("gyrateInertiaSystem", {
     data: {} as {
         factor: number
         movementX: number

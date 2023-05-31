@@ -17,7 +17,7 @@ const getAppendables = (val: string | Array<string> | undefined) => {
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 
-export const hitTestSystem = createSystem({
+export const hitTestSystem = createSystem("hitTestSystem", {
     update: (self: VisibleMixin) => {
         for (const target of getAppendables(self.hitTarget)) {
             if (!("object3d" in target!)) return

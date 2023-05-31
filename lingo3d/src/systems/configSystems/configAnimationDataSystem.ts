@@ -36,28 +36,35 @@ const framesToKeyframeTrack = (
         return new NumberKeyframeTrack(name, frameNums, values)
 }
 
-export const configAnimationDataSystem = createSystem({
-    setup: (self: AnimationManager) => {
-        if (!self.data) {
-            self.$clip = self.$loadedClip
-            return
+export const configAnimationDataSystem = createSystem(
+    "configAnimationDataSystem",
+    {
+        setup: (self: AnimationManager) => {
+            if (!self.data) {
+                self.$clip = self.$loadedClip
+                return
+            }
+            self.$clip = new AnimationClip(
+                undefined,
+                undefined,
+                Object.entries(self.data)
+                    .map(([uuid, tracks]) => {
+                        const instance = uuidMap.get(uuid)
+                        if (!instance || instance instanceof TimelineAudio)
+                            return []
+                        return Object.entries(tracks)
+                            .map(
+                                ([property, frames]) =>
+                                    framesToKeyframeTrack(
+                                        uuid,
+                                        property,
+                                        frames
+                                    )!
+                            )
+                            .filter(filterBoolean)
+                    })
+                    .flat()
+            )
         }
-        self.$clip = new AnimationClip(
-            undefined,
-            undefined,
-            Object.entries(self.data)
-                .map(([uuid, tracks]) => {
-                    const instance = uuidMap.get(uuid)
-                    if (!instance || instance instanceof TimelineAudio)
-                        return []
-                    return Object.entries(tracks)
-                        .map(
-                            ([property, frames]) =>
-                                framesToKeyframeTrack(uuid, property, frames)!
-                        )
-                        .filter(filterBoolean)
-                })
-                .flat()
-        )
     }
-})
+)

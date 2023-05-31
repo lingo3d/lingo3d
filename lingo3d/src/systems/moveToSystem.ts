@@ -5,7 +5,7 @@ import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createSystem from "./utils/createSystem"
 
-export const moveToSystem = createSystem({
+export const moveToSystem = createSystem("moveToSystem", {
     data: {} as {
         sx: number
         sy: number

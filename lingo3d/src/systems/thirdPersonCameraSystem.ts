@@ -12,7 +12,7 @@ import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
 import createSystem from "./utils/createSystem"
 
-export const thirdPersonCameraSystem = createSystem({
+export const thirdPersonCameraSystem = createSystem("thirdPersonCameraSystem", {
     data: {} as {
         found: MeshAppendable
         lerpCount: number

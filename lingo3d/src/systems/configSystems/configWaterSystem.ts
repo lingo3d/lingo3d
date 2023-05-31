@@ -15,7 +15,7 @@ const importWater = lazy(async () => {
     WaterClass = Water
 })
 
-export const configWaterSystem = createSystem({
+export const configWaterSystem = createSystem("configWaterSystem", {
     setup: (self: Water) => {
         const normalMap =
             self.normalMap || texturesUrlPtr[0] + "waternormals.jpg"

@@ -6,62 +6,66 @@ import getContext from "../../memo/getContext"
 import { updateDTSystem } from "../updateDTSystem"
 import createSystem from "../utils/createSystem"
 
-export const configAnimationPlaybackSystem = createSystem({
-    setup: (self: AnimationStates) => {
-        const manager = self.manager
-        if (!manager) return false
+export const configAnimationPlaybackSystem = createSystem(
+    "configAnimationPlaybackSystem",
+    {
+        setup: (self: AnimationStates) => {
+            const manager = self.manager
+            if (!manager) return false
 
-        const action = manager.$action
-        if (!action) return false
+            const action = manager.$action
+            if (!action) return false
 
-        const mixer = manager.$mixer
-        action.paused = manager.paused || self.pausedCount > 0
+            const mixer = manager.$mixer
+            action.paused = manager.paused || self.pausedCount > 0
 
-        if (action.paused) {
-            if (self.gotoFrame !== undefined) {
-                action.paused = false
-                action.play()
-                mixer.setTime(
-                    (action.time = self.gotoFrame * INVERSE_STANDARD_FRAME)
-                )
-                self.gotoFrame = undefined
-                action.paused = true
+            if (action.paused) {
+                if (self.gotoFrame !== undefined) {
+                    action.paused = false
+                    action.play()
+                    mixer.setTime(
+                        (action.time = self.gotoFrame * INVERSE_STANDARD_FRAME)
+                    )
+                    self.gotoFrame = undefined
+                    action.paused = true
+                }
+                return false
             }
-            return false
-        }
 
-        const context = getContext(mixer) as {
-            manager?: AnimationManager
-            playCount?: number
-        }
-        const prevManager = context.manager
-        context.manager = manager
-        if (prevManager && prevManager !== manager) {
-            action.crossFadeFrom(prevManager.$action!, 0.25, true)
-            if (self.gotoFrame === undefined) action.time = 0
-        }
-        if (self.gotoFrame !== undefined) {
-            action.time = self.gotoFrame * INVERSE_STANDARD_FRAME
-            self.gotoFrame = undefined
-        }
-        if (typeof self.loop === "number") action.setLoop(LoopRepeat, self.loop)
-        else action.setLoop(LoopRepeat, self.loop ? Infinity : 0)
+            const context = getContext(mixer) as {
+                manager?: AnimationManager
+                playCount?: number
+            }
+            const prevManager = context.manager
+            context.manager = manager
+            if (prevManager && prevManager !== manager) {
+                action.crossFadeFrom(prevManager.$action!, 0.25, true)
+                if (self.gotoFrame === undefined) action.time = 0
+            }
+            if (self.gotoFrame !== undefined) {
+                action.time = self.gotoFrame * INVERSE_STANDARD_FRAME
+                self.gotoFrame = undefined
+            }
+            if (typeof self.loop === "number")
+                action.setLoop(LoopRepeat, self.loop)
+            else action.setLoop(LoopRepeat, self.loop ? Infinity : 0)
 
-        action.clampWhenFinished = true
-        action.enabled = true
-        action.play()
+            action.clampWhenFinished = true
+            action.enabled = true
+            action.play()
 
-        context.playCount = (context.playCount ?? 0) + 1
-        context.playCount === 1 && updateDTSystem.add(mixer)
-    },
-    cleanup: (self) => {
-        const mixer = self.manager!.$mixer
-        const context = getContext(mixer) as {
-            manager?: AnimationManager
-            playCount?: number
-        }
-        context.playCount = context.playCount! - 1
-        context.playCount === 0 && updateDTSystem.delete(mixer)
-    },
-    setupTicker: "afterRender"
-})
+            context.playCount = (context.playCount ?? 0) + 1
+            context.playCount === 1 && updateDTSystem.add(mixer)
+        },
+        cleanup: (self) => {
+            const mixer = self.manager!.$mixer
+            const context = getContext(mixer) as {
+                manager?: AnimationManager
+                playCount?: number
+            }
+            context.playCount = context.playCount! - 1
+            context.playCount === 0 && updateDTSystem.delete(mixer)
+        },
+        setupTicker: "afterRender"
+    }
+)

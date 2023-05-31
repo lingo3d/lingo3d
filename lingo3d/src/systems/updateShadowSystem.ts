@@ -9,7 +9,7 @@ import createSystem from "./utils/createSystem"
 
 const maxResolution = 1024
 
-export const updateShadowSystem = createSystem({
+export const updateShadowSystem = createSystem("updateShadowSystem", {
     data: () => ({
         count: undefined as number | undefined,
         shadowMode: shadowModePtr[0]

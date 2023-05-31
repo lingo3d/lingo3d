@@ -3,7 +3,7 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createSystem from "./utils/createSystem"
 
-export const lookToSystem = createSystem({
+export const lookToSystem = createSystem("lookToSystem", {
     data: {} as {
         quaternion: Quaternion
         quaternionNew: Quaternion

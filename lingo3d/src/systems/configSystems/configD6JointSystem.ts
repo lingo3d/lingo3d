@@ -20,7 +20,7 @@ const getMotion = (val: D6MotionOptions) => {
     }
 }
 
-export const configD6JointSystem = createSystem({
+export const configD6JointSystem = createSystem("configD6JointSystem", {
     setup: (self: D6Joint) => {
         const { $pxJoint } = self
         if (!$pxJoint) return

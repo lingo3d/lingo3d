@@ -41,27 +41,30 @@ const rotateTarget = (
     target.outerObject3d.setRotationFromEuler(euler)
 }
 
-export const characterCameraFollowSystem = createSystem({
-    data: {} as { found: MeshAppendable },
-    update: (self: CharacterCamera, { found }) => {
-        self.position.copy(found.position)
+export const characterCameraFollowSystem = createSystem(
+    "characterCameraFollowSystem",
+    {
+        data: {} as { found: MeshAppendable },
+        update: (self: CharacterCamera, { found }) => {
+            self.position.copy(found.position)
 
-        if (!self.lockTargetRotation) return
+            if (!self.lockTargetRotation) return
 
-        if (self.lockTargetRotation === "follow") {
-            followTargetRotation(self, found, false)
-            return
+            if (self.lockTargetRotation === "follow") {
+                followTargetRotation(self, found, false)
+                return
+            }
+            if (self.lockTargetRotation === "dynamic-lock") {
+                positionChangedXZ(found.outerObject3d) &&
+                    rotateTarget(self, found, true)
+                return
+            }
+            if (self.lockTargetRotation === "dynamic-follow") {
+                positionChangedXZ(found.outerObject3d) &&
+                    followTargetRotation(self, found, true)
+                return
+            }
+            rotateTarget(self, found, false)
         }
-        if (self.lockTargetRotation === "dynamic-lock") {
-            positionChangedXZ(found.outerObject3d) &&
-                rotateTarget(self, found, true)
-            return
-        }
-        if (self.lockTargetRotation === "dynamic-follow") {
-            positionChangedXZ(found.outerObject3d) &&
-                followTargetRotation(self, found, true)
-            return
-        }
-        rotateTarget(self, found, false)
     }
-})
+)

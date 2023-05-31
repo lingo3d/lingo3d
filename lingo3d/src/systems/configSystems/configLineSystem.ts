@@ -10,7 +10,7 @@ import scene from "../../engine/scene"
 import { CM2M } from "../../globals"
 import createSystem from "../utils/createSystem"
 
-export const configLineSystem = createSystem({
+export const configLineSystem = createSystem("configLineSystem", {
     data: {} as { line: Line2; geometry: LineGeometry; material: LineMaterial },
     setup: (self: Line, data) => {
         const { from, to, bloom, thickness } = self

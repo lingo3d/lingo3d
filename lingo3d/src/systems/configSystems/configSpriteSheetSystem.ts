@@ -41,7 +41,7 @@ const playSpriteSheet = (
     })
 }
 
-export const configSpriteSheetSystem = createSystem({
+export const configSpriteSheetSystem = createSystem("configSpriteSheetSystem", {
     setup: (self: SpriteSheet) => {
         const {
             textureStart,

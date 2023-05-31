@@ -7,7 +7,7 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import createSystem from "./utils/createSystem"
 
-export const reflectionSystem = createSystem({
+export const reflectionSystem = createSystem("reflectionSystem", {
     data: {} as {
         cubeCamera: CubeCamera
         cubeRenderTarget: WebGLCubeRenderTarget

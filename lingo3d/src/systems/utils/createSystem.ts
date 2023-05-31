@@ -61,17 +61,20 @@ const placeholderFn = () => {}
 export default <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
->({
-    data,
-    setup,
-    cleanup,
-    update,
-    ticker,
-    setupTicker = queueMicrotask,
-    beforeTick,
-    afterTick,
-    sort
-}: Options<GameObject, Data>) => {
+>(
+    name: string,
+    {
+        data,
+        setup,
+        cleanup,
+        update,
+        ticker,
+        setupTicker = queueMicrotask,
+        beforeTick,
+        afterTick,
+        sort
+    }: Options<GameObject, Data>
+) => {
     const queued = new Map<GameObject, Data>()
 
     const [addSetupSystem, deleteSetupSystem] = setup
@@ -107,6 +110,8 @@ export default <
 
     const deleteSystem = update
         ? (item: GameObject) => {
+              console.log("delete")
+
               deleteSetupSystem(item)
               if (!queued.delete(item)) return
               "$deleteSystemSet" in item &&

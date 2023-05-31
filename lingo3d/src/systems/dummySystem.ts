@@ -8,7 +8,7 @@ import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
 import Dummy from "../display/Dummy"
 
-export const dummySystem = createSystem({
+export const dummySystem = createSystem("dummySystem", {
     data: {} as {
         poseService: { send: (val: string) => void }
         backwards: boolean

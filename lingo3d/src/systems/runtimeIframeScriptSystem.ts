@@ -7,13 +7,16 @@ const onInterval = (cb: () => void) => {
     return new Cancellable(() => clearInterval(interval))
 }
 
-export const runtimeIframeScriptSystem = createSystem({
-    data: { script: "" },
-    update: (self: HTMLIFrameElement, data) => {
-        const $eval = unsafeGetValue(self, "$eval")
-        if (!$eval) return
-        $eval(data.script)
-        runtimeIframeScriptSystem.delete(self)
-    },
-    ticker: onInterval
-})
+export const runtimeIframeScriptSystem = createSystem(
+    "runtimeIframeScriptSystem",
+    {
+        data: { script: "" },
+        update: (self: HTMLIFrameElement, data) => {
+            const $eval = unsafeGetValue(self, "$eval")
+            if (!$eval) return
+            $eval(data.script)
+            runtimeIframeScriptSystem.delete(self)
+        },
+        ticker: onInterval
+    }
+)

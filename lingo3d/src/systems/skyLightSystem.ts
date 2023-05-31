@@ -1,7 +1,7 @@
 import SkyLight from "../display/lights/SkyLight"
 import createSystem from "./utils/createSystem"
 
-export const skyLightSystem = createSystem({
+export const skyLightSystem = createSystem("skyLightSystem", {
     update: (self: SkyLight) => {
         const csm = self.$csm
         if (csm) {

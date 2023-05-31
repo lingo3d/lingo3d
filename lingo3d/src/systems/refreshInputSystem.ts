@@ -5,7 +5,7 @@ import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
 import createSystem from "./utils/createSystem"
 
-export const refreshInputSystem = createSystem({
+export const refreshInputSystem = createSystem("refreshInputSystem", {
     data: {} as {
         key: string
         params: any
