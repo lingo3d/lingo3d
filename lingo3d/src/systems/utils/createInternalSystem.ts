@@ -49,7 +49,7 @@ export type SystemOptions<
     effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
-    ticker?: Ticker
+    updateTicker?: Ticker
     effectTicker?: SetupTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
@@ -68,7 +68,7 @@ export default <
         effect,
         cleanup,
         update,
-        ticker,
+        updateTicker = "beforeRender",
         effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
@@ -106,7 +106,7 @@ export default <
               }
 
     let handle: Cancellable | undefined
-    const onEvent = mapTicker(ticker ?? "beforeRender")
+    const onEvent = mapTicker(updateTicker)
     const start = update && (() => (handle = onEvent(execute)))
 
     const executeDelete = (item: GameObject) => {

@@ -9,5 +9,5 @@ export const reflectorSystem = createInternalSystem("reflectorSystem", {
         cameraRenderedPtr[0].updateWorldMatrix(true, false)
         data.material.update()
     },
-    ticker: "render"
+    updateTicker: "render"
 })

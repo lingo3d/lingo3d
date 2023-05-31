@@ -17,6 +17,6 @@ export const runtimeIframeScriptSystem = createInternalSystem(
             $eval(data.script)
             runtimeIframeScriptSystem.delete(self)
         },
-        ticker: onInterval
+        updateTicker: onInterval
     }
 )

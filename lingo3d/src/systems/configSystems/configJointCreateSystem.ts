@@ -1,8 +1,8 @@
 import { Object3D } from "three"
 import JointBase from "../../display/core/JointBase"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
-import createSystem from "../utils/createSystem"
 import { physxPtr } from "../../pointers/physxPtr"
+import createInternalSystem from "../utils/createInternalSystem"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -27,29 +27,32 @@ const getRelativeTransform = (
     return fromPxTransform
 }
 
-export const configJointCreateSystem = createSystem("configJointCreateSystem", {
-    effect: (self: JointBase) => {
-        const fromManager = self.$fromManager!
-        const toManager = self.$toManager!
-        if (!fromManager.$actor || !toManager!.$actor) return false
+export const configJointCreateSystem = createInternalSystem(
+    "configJointCreateSystem",
+    {
+        effect: (self: JointBase) => {
+            const fromManager = self.$fromManager!
+            const toManager = self.$toManager!
+            if (!fromManager.$actor || !toManager!.$actor) return false
 
-        self.$pxJoint = self.$createJoint(
-            getRelativeTransform(
-                self.outerObject3d,
-                fromManager.outerObject3d,
-                setPxTransform_
-            ),
-            getRelativeTransform(
-                self.outerObject3d,
-                toManager.outerObject3d,
-                setPxTransform__
-            ),
-            fromManager,
-            toManager
-        )
-    },
-    cleanup: (self) => {
-        physxPtr[0].destroy(self.$pxJoint)
-        self.$pxJoint = undefined
+            self.$pxJoint = self.$createJoint(
+                getRelativeTransform(
+                    self.outerObject3d,
+                    fromManager.outerObject3d,
+                    setPxTransform_
+                ),
+                getRelativeTransform(
+                    self.outerObject3d,
+                    toManager.outerObject3d,
+                    setPxTransform__
+                ),
+                fromManager,
+                toManager
+            )
+        },
+        cleanup: (self) => {
+            physxPtr[0].destroy(self.$pxJoint)
+            self.$pxJoint = undefined
+        }
     }
-})
+)
