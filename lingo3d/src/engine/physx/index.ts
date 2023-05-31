@@ -11,7 +11,7 @@ import {
     managerContactMap
 } from "../../collections/pxCollections"
 import "./physxLoop"
-import { clearCollectionAfterRenderSystem } from "../../systems/configSystems/clearCollectionAfterRenderSystem"
+import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCollectionEffectSystem"
 ;(async () => {
     const simdSupported = await simd()
 
@@ -250,7 +250,7 @@ import { clearCollectionAfterRenderSystem } from "../../systems/configSystems/cl
             Set<PhysicsObjectManager>
         )
         contacts.add(manager)
-        clearCollectionAfterRenderSystem.add(contacts)
+        clearCollectionEffectSystem.add(contacts)
     }
     controllerHitCallback.onControllerHit = (h: any) => {}
 
