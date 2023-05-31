@@ -11,7 +11,11 @@ import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderT
 import Cube from "../primitives/Cube"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { lightIntensitySystem } from "../../systems/lightIntensitySystem"
-import { updateShadowSystem } from "../../systems/updateShadowSystem"
+import {
+    addUpdateShadowSystem,
+    deleteUpdateShadowSystem
+} from "../../systems/updateShadowSystem"
+import { shadowModePtr } from "../../pointers/shadowModePtr"
 
 export default abstract class PointLightBase<
         T extends ThreePointLight | ThreeSpotLight = ThreePointLight
@@ -57,7 +61,12 @@ export default abstract class PointLightBase<
     }
     public set shadows(val) {
         this.object3d.castShadow = val
-        val ? updateShadowSystem.add(this) : updateShadowSystem.delete(this)
+        val
+            ? addUpdateShadowSystem(this, {
+                  count: undefined,
+                  shadowMode: shadowModePtr[0]
+              })
+            : deleteUpdateShadowSystem(this)
     }
 
     private _intensity = 1
