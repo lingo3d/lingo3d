@@ -7,17 +7,11 @@ import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
 
-type Ticker =
-    | "beforeRender"
-    | "afterRender"
-    | "render"
-    | "loop"
-    | typeof onBeforeRender
+type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
 
 type SetupTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
 
 const mapTicker = (ticker: Ticker) => {
-    if (typeof ticker === "function") return ticker
     switch (ticker) {
         case "beforeRender":
             return onBeforeRender
