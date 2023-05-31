@@ -53,6 +53,7 @@ export type GameObjectType =
     | "environment"
     | "setup"
     | "template"
+    | "script"
     | "timeline"
     | "timelineAudio"
     | "gameGraph"

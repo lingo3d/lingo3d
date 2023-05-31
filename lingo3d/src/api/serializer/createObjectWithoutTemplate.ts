@@ -40,6 +40,7 @@ import OrbitCamera from "../../display/cameras/OrbitCamera"
 import Skybox from "../../display/Skybox"
 import Environment from "../../display/Environment"
 import Setup from "../../display/Setup"
+import Script from "../../display/Script"
 import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import GameGraph from "../../visualScripting/GameGraph"
@@ -116,6 +117,7 @@ export const createObjectRecord = {
     skybox: () => new Skybox(),
     environment: () => new Environment(),
     setup: () => new Setup(),
+    script: () => new Script(),
     timeline: () => new Timeline(),
     timelineAudio: () => new TimelineAudio(),
     gameGraph: () => new GameGraph(),
