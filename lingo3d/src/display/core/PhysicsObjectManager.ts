@@ -22,7 +22,7 @@ import {
 import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { addConfigCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
 import JointBase from "./JointBase"
-import { configJointSystem } from "../../systems/configSystems/configJointSystem"
+import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -150,7 +150,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         actorPtrManagerMap.set(actor.ptr, this)
         managerActorPtrMap.set(this, actor.ptr)
         if (this._joints)
-            for (const joint of this._joints) configJointSystem.add(joint)
+            for (const joint of this._joints) configJointSystemPtr[0].add(joint)
         return actor
     }
 
