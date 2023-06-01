@@ -1,4 +1,4 @@
-import { addSharedPoolReleaseSystem } from "../../systems/configSystems/sharedPoolReleaseSystem"
+import { sharedPoolReleaseSystem } from "../../systems/configSystems/sharedPoolReleaseSystem"
 import { PointType } from "../../utils/isPoint"
 
 export default <
@@ -32,7 +32,7 @@ export default <
 
     const release = (object: Type | undefined | null) =>
         object &&
-        addSharedPoolReleaseSystem(object, {
+        sharedPoolReleaseSystem.add(object, {
             objectParamStringMap,
             paramsCountRecord,
             dispose,
