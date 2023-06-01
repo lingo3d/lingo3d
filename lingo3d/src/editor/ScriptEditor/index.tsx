@@ -23,8 +23,9 @@ import {
     getScriptsUnsaved
 } from "../../states/useScriptsUnsaved"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
+import { getWorldPlay } from "../../states/useWorldPlay"
 
-const { Monaco } = makeMonaco()
+const { Monaco, controls } = makeMonaco()
 
 Object.assign(data.colors, {
     "editor.background": BACKGROUND_COLOR
@@ -48,6 +49,13 @@ const ScriptEditor = () => {
     const script = useSyncState(getScript)
     const scripts = useSyncState(getScripts)
     const scriptsUnsavedPtr = useSyncState(getScriptsUnsaved)
+    const worldPlay = useSyncState(getWorldPlay)
+
+    useLayoutEffect(() => {
+        if (!script || worldPlay !== "script") return
+        controls.save()
+        console.log(script.code)
+    }, [worldPlay, script])
 
     useLayoutEffect(() => {
         const uuid = script?.uuid
