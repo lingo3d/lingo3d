@@ -6,17 +6,30 @@ export const createLoadedEffectSystem = <
     Data extends Record<string, any> | void
 >(
     name: string,
-    { data, effect }: SystemOptions<GameObject, Data>
+    { data, effect, cleanup }: SystemOptions<GameObject, Data>
 ) => {
-    const system = createInternalSystem(name, {
+    const effectSystem = createInternalSystem(name, {
         data,
-        update: effect
-            ? (self, data) => {
-                  if ("$loadedObject3d" in self && !self.$loadedObject3d) return
-                  system.delete(self)
-                  effect(self, data)
-              }
-            : undefined
+        effect,
+        cleanup
     })
-    return system
+    const addSystem = createInternalSystem(name + "Add", {
+        data,
+        update: (self, data) => {
+            if ("$loadedObject3d" in self && !self.$loadedObject3d) return
+            addSystem.delete(self)
+            effectSystem.add(self, data)
+        }
+    })
+    const deleteSystem = createInternalSystem(name + "Delete", {
+        update: (self: GameObject) => {
+            if ("$loadedObject3d" in self && !self.$loadedObject3d) return
+            deleteSystem.delete(self)
+            effectSystem.delete(self)
+        }
+    })
+    return {
+        add: addSystem.add,
+        delete: deleteSystem.delete
+    }
 }
