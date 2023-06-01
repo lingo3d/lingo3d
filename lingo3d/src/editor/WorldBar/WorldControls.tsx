@@ -12,7 +12,7 @@ const WorldControls = () => {
             <div style={{ display: "flex" }}>
                 <IconButton
                     fill
-                    disabled={play}
+                    disabled={!!play}
                     onClick={() => setWorldPlay(true)}
                 >
                     <PlayIcon />

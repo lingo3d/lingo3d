@@ -27,7 +27,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
-import { setWorldPlay } from "../../states/useWorldPlay"
+import { getWorldPlay, setWorldPlay } from "../../states/useWorldPlay"
 import useInitEditor from "../hooks/useInitEditor"
 import { stopPropagation } from "../utils/stopPropagation"
 import { getScript } from "../../states/useScript"
@@ -41,6 +41,7 @@ const Toolbar = () => {
     const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
     const script = useSyncState(getScript)
+    const worldPlay = useSyncState(getWorldPlay)
 
     const canTranslate = target && "x" in target
     const canRotate = target && "rotationX" in target
@@ -146,7 +147,12 @@ const Toolbar = () => {
 
                 {script && (
                     <Section>
-                        <ToolbarButton onClick={() => {}}>
+                        <ToolbarButton
+                            active={worldPlay === "script"}
+                            onClick={() => {
+                                setWorldPlay("script")
+                            }}
+                        >
                             <RunIcon />
                         </ToolbarButton>
                     </Section>
