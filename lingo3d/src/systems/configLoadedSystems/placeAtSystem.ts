@@ -6,13 +6,12 @@ import { Point3dType } from "../../utils/isPoint"
 import getActualScale from "../../memo/getActualScale"
 import getCenter from "../../memo/getCenter"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
-import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
 import { configPhysicsSystem } from "./configPhysicsSystem"
+import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 
-type Data = { target: MeshAppendable | Point3dType | SpawnPoint | string }
-
-export const [addPlaceAtSystem] = configLoadedSystemWithData(
-    (self: MeshAppendable, { target }: Data) => {
+export const placeAtSystem = createLoadedEffectSystem("placeAtSystem", {
+    data: {} as { target: MeshAppendable | Point3dType | SpawnPoint | string },
+    effect: (self: MeshAppendable, { target }) => {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
             if (!("outerObject3d" in found)) return
@@ -27,4 +26,4 @@ export const [addPlaceAtSystem] = configLoadedSystemWithData(
         } else self.position.copy(point2Vec(target))
         configPhysicsSystem.add(self)
     }
-)
+})

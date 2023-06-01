@@ -20,13 +20,13 @@ import PhysicsObjectManager from "./PhysicsObjectManager"
 import scene from "../../engine/scene"
 import Point3d from "../../math/Point3d"
 import { Point3dType } from "../../utils/isPoint"
-import { addPlaceAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
 import { onMoveSystem } from "../../systems/onMoveSystem"
 import { lerpToSystem } from "../../systems/lerpToSystem"
 import { lookToSystem } from "../../systems/lookToSystem"
 import { moveToSystem } from "../../systems/moveToSystem"
 import { configMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
 import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { placeAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
 
 const up = new Vector3(0, 1, 0)
 
@@ -175,7 +175,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
-        addPlaceAtSystem(this, { target })
+        placeAtSystem.add(this, { target })
     }
 
     public moveForward(distance: number) {

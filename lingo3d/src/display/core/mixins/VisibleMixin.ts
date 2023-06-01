@@ -16,12 +16,12 @@ import {
     mouseOverSet,
     mouseUpSet
 } from "../../../collections/mouseSets"
-import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 import { idRenderCheckMap } from "../../../collections/idCollections"
 import getRendered from "../../../throttle/getRendered"
 import { hitTestSystem } from "../../../systems/hitTestSystem"
 import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { configOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
+import { configSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -36,7 +36,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set bloom(val) {
         this._bloom = val
-        addConfigSelectiveBloomSystem(this)
+        configSelectiveBloomSystem.add(this)
     }
 
     private _outline?: boolean
