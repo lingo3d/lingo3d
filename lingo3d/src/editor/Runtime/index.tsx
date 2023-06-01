@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "preact/hooks"
-import { runtimeIframeScriptSystem } from "../../systems/runtimeIframeScriptSystem"
 import serialize from "../../api/serializer/serialize"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -10,9 +10,16 @@ const Runtime = () => {
         if (!iframe) return
 
         const script = `deserialize(${JSON.stringify(serialize())})`
-        runtimeIframeScriptSystem.add(iframe, { script })
+
+        const interval = setInterval(() => {
+            const $eval = unsafeGetValue(iframe, "$eval")
+            if (!$eval) return
+            $eval(script)
+            clearInterval(interval)
+        }, 100)
+
         return () => {
-            runtimeIframeScriptSystem.delete(iframe)
+            clearInterval(interval)
         }
     }, [])
 

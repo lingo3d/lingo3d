@@ -1,10 +1,12 @@
-import { settings, runtime } from "lingo3d"
+import * as lingo from "lingo3d"
 
-settings.autoMount = true
+lingo.settings.autoMount = true
 
-for (const [key, value] of Object.entries(runtime)) {
-    //@ts-ignore
-    window[key] = value
+for (const [key, value] of Object.entries(lingo)) {
+    if (!(key in window)) {
+        //@ts-ignore
+        window[key] = value
+    } else console.warn(key)
 }
 
 const setFrameProperty = (key: string, value: any) =>
@@ -12,4 +14,3 @@ const setFrameProperty = (key: string, value: any) =>
     window.frameElement && (window.frameElement[key] = value)
 
 setFrameProperty("$eval", eval)
-setFrameProperty("$runtime", runtime)
