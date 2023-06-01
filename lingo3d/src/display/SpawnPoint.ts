@@ -2,13 +2,13 @@ import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
 } from "../interface/ISpawnPoint"
-import ObjectManager from "./core/ObjectManager"
+import GimbalObjectManager from "./core/GimbalObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import { getEditorHelper } from "../states/useEditorHelper"
 
-export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
+export default class SpawnPoint extends GimbalObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
     public static defaults = spawnPointDefaults
     public static schema = spawnPointSchema

@@ -3,14 +3,14 @@ import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
-import ObjectManager from "./ObjectManager"
+import GimbalObjectManager from "./GimbalObjectManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { updateSystem } from "../../systems/updateSystem"
 
 export default abstract class LightBase<T extends Light>
-    extends ObjectManager<T>
+    extends GimbalObjectManager<T>
     implements ILightBase
 {
     public constructor(

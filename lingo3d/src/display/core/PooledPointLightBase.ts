@@ -1,4 +1,4 @@
-import ObjectManager from "../core/ObjectManager"
+import GimbalObjectManager from "./GimbalObjectManager"
 import IPooledPointLight from "../../interface/IPooledPointLight"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { Sphere } from "three"
@@ -10,7 +10,7 @@ import Cube from "../primitives/Cube"
 export default abstract class PooledPointLightBase<
         T extends PointLight | SpotLight = PointLight
     >
-    extends ObjectManager
+    extends GimbalObjectManager
     implements IPooledPointLight
 {
     public $light?: T

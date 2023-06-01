@@ -1,9 +1,9 @@
-import ObjectManager from "../display/core/ObjectManager"
+import GimbalObjectManager from "../display/core/GimbalObjectManager"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const flySystem = createInternalSystem("flySystem", {
     data: {} as { downSet: Set<string> },
-    update: (manager: ObjectManager, { downSet }) => {
+    update: (manager: GimbalObjectManager, { downSet }) => {
         if (downSet.has("Meta") || downSet.has("Control")) return
 
         const speed = downSet.has("Shift") ? 50 : 10

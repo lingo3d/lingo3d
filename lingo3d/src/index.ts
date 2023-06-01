@@ -91,11 +91,6 @@ import clientToWorld from "./display/utils/clientToWorld"
 import math from "./math"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"
-import FoundManager from "./display/core/FoundManager"
-import ObjectManager from "./display/core/ObjectManager"
-import { LingoKeyboardEvent } from "./interface/IKeyboard"
-import { SimpleMouseEvent, LingoMouseEvent } from "./interface/IMouse"
-import { HitEvent } from "./interface/IVisible"
 
 const keyboard = new Keyboard()
 keyboard.$ghost()
@@ -186,11 +181,5 @@ export {
     math,
     keyboard,
     mouse,
-    setAssetsPath,
-    ObjectManager as Object,
-    FoundManager as Found,
-    SimpleMouseEvent,
-    LingoMouseEvent,
-    LingoKeyboardEvent,
-    HitEvent
+    setAssetsPath
 }

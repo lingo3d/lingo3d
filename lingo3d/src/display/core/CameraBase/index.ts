@@ -1,5 +1,5 @@
 import { CameraHelper, PerspectiveCamera } from "three"
-import ObjectManager from "../ObjectManager"
+import GimbalObjectManager from "../GimbalObjectManager"
 import { ray, euler } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad } from "@lincode/math"
@@ -29,7 +29,7 @@ import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSys
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
     >
-    extends ObjectManager
+    extends GimbalObjectManager
     implements ICameraBase
 {
     public midObject3d = this.outerObject3d

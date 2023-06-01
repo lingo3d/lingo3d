@@ -6,7 +6,7 @@ import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
-export default abstract class ObjectManager<T extends Object3D = Object3D>
+export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IObjectManager
 {
