@@ -150,10 +150,7 @@ const Toolbar = () => {
                     <Section>
                         <ToolbarButton
                             active={worldPlay === "script"}
-                            onClick={() => {
-                                setWorldPlay("script")
-                                setScriptCompile({ raw: script.code })
-                            }}
+                            onClick={() => setWorldPlay("script")}
                         >
                             <RunIcon />
                         </ToolbarButton>
