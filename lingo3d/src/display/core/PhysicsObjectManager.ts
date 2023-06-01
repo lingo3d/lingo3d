@@ -19,10 +19,10 @@ import {
     managerActorPtrMap,
     managerContactMap
 } from "../../collections/pxCollections"
-import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import JointBase from "./JointBase"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
 import { configCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
+import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -178,7 +178,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
-        addConfigPhysicsSystem(this)
+        configPhysicsSystem.add(this)
         configCastShadowSystem.add(this)
     }
 
@@ -188,7 +188,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set $jointCount(val) {
         this._jointCount = val
-        addConfigPhysicsSystem(this)
+        configPhysicsSystem.add(this)
         configCastShadowSystem.add(this)
     }
 

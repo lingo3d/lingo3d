@@ -1,9 +1,9 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
+import { configPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 
 export const moveToSystem = createInternalSystem("moveToSystem", {
     data: {} as {
@@ -35,6 +35,6 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
             moveToSystem.delete(self)
             self.onMoveToEnd?.()
         }
-        addConfigPhysicsSystem(self)
+        configPhysicsSystem.add(self)
     }
 })

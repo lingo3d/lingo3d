@@ -1,9 +1,9 @@
 import { Vector3 } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addConfigPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
+import { configPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
 
 export const lerpToSystem = createInternalSystem("lerpToSystem", {
     data: {} as {
@@ -25,6 +25,6 @@ export const lerpToSystem = createInternalSystem("lerpToSystem", {
         self.x = x
         self.y = y
         self.z = z
-        addConfigPhysicsSystem(self)
+        configPhysicsSystem.add(self)
     }
 })

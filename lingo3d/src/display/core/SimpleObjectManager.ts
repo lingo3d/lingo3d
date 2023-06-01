@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import ISimpleObjectManager from "../../interface/ISimpleObjectManager"
 import AnimatedObjectManager from "./AnimatedObjectManager"
-import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -13,7 +13,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     public set scaleX(val) {
         this.outerObject3d.scale.x = val
         this.userData.physicsMode = undefined
-        addConfigPhysicsSystem(this)
+        configPhysicsSystem.add(this)
     }
 
     public get scaleY() {
@@ -22,7 +22,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     public set scaleY(val) {
         this.outerObject3d.scale.y = val
         this.userData.physicsMode = undefined
-        addConfigPhysicsSystem(this)
+        configPhysicsSystem.add(this)
     }
 
     public get scaleZ() {
@@ -31,7 +31,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     public set scaleZ(val) {
         this.outerObject3d.scale.z = val
         this.userData.physicsMode = undefined
-        addConfigPhysicsSystem(this)
+        configPhysicsSystem.add(this)
     }
 
     public get scale() {

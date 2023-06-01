@@ -6,8 +6,8 @@ import { Point3dType } from "../../utils/isPoint"
 import getActualScale from "../../memo/getActualScale"
 import getCenter from "../../memo/getCenter"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
-import { addConfigPhysicsSystem } from "./configPhysicsSystem"
 import configLoadedSystemWithData from "../utils/configLoadedSystemWithData"
+import { configPhysicsSystem } from "./configPhysicsSystem"
 
 type Data = { target: MeshAppendable | Point3dType | SpawnPoint | string }
 
@@ -25,6 +25,6 @@ export const [addPlaceAtSystem] = configLoadedSystemWithData(
             "quaternion" in self &&
                 self.quaternion.copy(getWorldQuaternion(target.outerObject3d))
         } else self.position.copy(point2Vec(target))
-        addConfigPhysicsSystem(self)
+        configPhysicsSystem.add(self)
     }
 )

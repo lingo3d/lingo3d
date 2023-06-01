@@ -1,5 +1,5 @@
 import { TransformControlsPayload } from "../../events/onTransformControls"
-import { addConfigPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
 
 export default ({ phase, mode }: TransformControlsPayload) => {
@@ -8,10 +8,10 @@ export default ({ phase, mode }: TransformControlsPayload) => {
         for (const target of getAllSelectionTargets()) {
             if (!("object3d" in target)) continue
             target.userData.physicsMode = undefined
-            addConfigPhysicsSystem(target)
+            configPhysicsSystem.add(target)
         }
         return
     }
     for (const target of getAllSelectionTargets())
-        "object3d" in target && addConfigPhysicsSystem(target)
+        "object3d" in target && configPhysicsSystem.add(target)
 }
