@@ -5,7 +5,6 @@ import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import FoundManager from "./core/FoundManager"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
-import { addRefreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 import {
     reflectionDataMap,
     reflectionChangedSet
@@ -25,6 +24,7 @@ import {
 } from "../collections/idCollections"
 import { addConfigCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import getRendered from "../throttle/getRendered"
+import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -116,7 +116,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set metalnessFactor(val) {
         this._metalnessFactor = val
-        addRefreshFactorsSystem(this)
+        refreshFactorsSystem.add(this)
     }
 
     private _roughnessFactor?: number
@@ -125,7 +125,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set roughnessFactor(val) {
         this._roughnessFactor = val
-        addRefreshFactorsSystem(this)
+        refreshFactorsSystem.add(this)
     }
 
     private _opacityFactor?: number
@@ -134,7 +134,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
-        addRefreshFactorsSystem(this)
+        refreshFactorsSystem.add(this)
         addConfigCastShadowSystem(this)
     }
 
@@ -144,7 +144,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set envFactor(val) {
         this._envFactor = val
-        addRefreshFactorsSystem(this)
+        refreshFactorsSystem.add(this)
     }
 
     private _reflection?: boolean
@@ -154,7 +154,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public set reflection(val: boolean) {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
-        addRefreshFactorsSystem(this)
+        refreshFactorsSystem.add(this)
     }
 
     public find(name: string) {
