@@ -24,6 +24,9 @@ import {
 } from "../../states/useScriptsUnsaved"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { getWorldPlay } from "../../states/useWorldPlay"
+import { uuidMap } from "../../collections/idCollections"
+import Script from "../../display/Script"
+import { setScriptCompile } from "../../states/useScriptCompile"
 
 const { Monaco, controls } = makeMonaco()
 
@@ -49,13 +52,19 @@ const ScriptEditor = () => {
     const script = useSyncState(getScript)
     const scripts = useSyncState(getScripts)
     const scriptsUnsavedPtr = useSyncState(getScriptsUnsaved)
-    const worldPlay = useSyncState(getWorldPlay)
 
     useLayoutEffect(() => {
-        if (!script || worldPlay !== "script") return
-        controls.save()
-        console.log(script.code)
-    }, [worldPlay, script])
+        if (!script) return
+
+        const handle = getWorldPlay((worldPlay) => {
+            if (worldPlay !== "script") return
+            controls.saveAll()
+            setScriptCompile({ raw: script.code })
+        })
+        return () => {
+            handle.cancel()
+        }
+    }, [script])
 
     useLayoutEffect(() => {
         const uuid = script?.uuid
@@ -104,7 +113,13 @@ const ScriptEditor = () => {
                     script!.code = code
                     deleteScriptsUnsaved(script!)
                 }}
-                // onSaveAll={handleSaveAll}
+                onSaveAll={(entries) => {
+                    for (const [uri, code] of entries) {
+                        const script = uuidMap.get(uri.slice(1)) as Script
+                        script.code = code
+                        deleteScriptsUnsaved(script)
+                    }
+                }}
             />
         </div>
     )
