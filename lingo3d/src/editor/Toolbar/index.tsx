@@ -30,6 +30,8 @@ import { getTransformControlsSpaceComputed } from "../../states/useTransformCont
 import { setWorldPlay } from "../../states/useWorldPlay"
 import useInitEditor from "../hooks/useInitEditor"
 import { stopPropagation } from "../utils/stopPropagation"
+import { getScript } from "../../states/useScript"
+import RunIcon from "./icons/RunIcon"
 
 const Toolbar = () => {
     useInitCSS()
@@ -38,6 +40,7 @@ const Toolbar = () => {
     const mode = useSyncState(getEditorModeComputed)
     const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
+    const script = useSyncState(getScript)
 
     const canTranslate = target && "x" in target
     const canRotate = target && "rotationX" in target
@@ -140,6 +143,14 @@ const Toolbar = () => {
                         <PathIcon />
                     </ToolbarButton>
                 </Section>
+
+                {script && (
+                    <Section>
+                        <ToolbarButton onClick={() => {}}>
+                            <RunIcon />
+                        </ToolbarButton>
+                    </Section>
+                )}
 
                 {/* <Section>
                     <ToolbarButton onClick={openFolder}>
