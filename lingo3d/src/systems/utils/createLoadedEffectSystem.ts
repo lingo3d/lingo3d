@@ -21,15 +21,5 @@ export const createLoadedEffectSystem = <
             effectSystem.add(self, data)
         }
     })
-    const deleteSystem = createInternalSystem(name + "Delete", {
-        update: (self: GameObject) => {
-            if ("$loadedObject3d" in self && !self.$loadedObject3d) return
-            deleteSystem.delete(self)
-            effectSystem.delete(self)
-        }
-    })
-    return {
-        add: addSystem.add,
-        delete: deleteSystem.delete
-    }
+    return { add: addSystem.add }
 }
