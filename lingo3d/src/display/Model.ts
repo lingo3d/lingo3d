@@ -22,9 +22,9 @@ import {
     idRenderCheckMap,
     idRenderCheckModelMap
 } from "../collections/idCollections"
-import { addConfigCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import getRendered from "../throttle/getRendered"
 import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
+import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -135,7 +135,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public set opacityFactor(val) {
         this._opacityFactor = val
         refreshFactorsSystem.add(this)
-        addConfigCastShadowSystem(this)
+        configCastShadowSystem.add(this)
     }
 
     private _envFactor?: number

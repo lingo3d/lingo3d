@@ -1,8 +1,8 @@
-import Loaded from "../../display/core/Loaded"
+import MeshAppendable from "../../display/core/MeshAppendable"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
 export const createLoadedEffectSystem = <
-    GameObject extends Loaded,
+    GameObject extends MeshAppendable,
     Data extends Record<string, any> | void
 >(
     name: string,
@@ -12,7 +12,7 @@ export const createLoadedEffectSystem = <
         data,
         update: effect
             ? (self, data) => {
-                  if (!self.$loadedObject3d) return
+                  if ("$loadedObject3d" in self && !self.$loadedObject3d) return
                   system.delete(self)
                   effect(self, data)
               }

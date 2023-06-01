@@ -11,8 +11,8 @@ import MeshAppendable from "../MeshAppendable"
 import { MaterialParams } from "../../../pools/materialPool"
 import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"
 import { PointType, isPoint } from "../../../utils/isPoint"
-import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { refreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
+import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 
 const standardDefaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [
@@ -62,7 +62,7 @@ export default abstract class TexturedStandardMixin
     public set opacity(val: number | undefined) {
         this.$materialParams[1] = toNullableFixed(val) ?? this.$defaults.opacity
         refreshTexturedStandardSystem.add(this)
-        addConfigCastShadowSystem(this as any)
+        configCastShadowSystem.add(this as any)
     }
 
     public get texture() {

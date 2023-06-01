@@ -16,12 +16,12 @@ import {
     mouseOverSet,
     mouseUpSet
 } from "../../../collections/mouseSets"
-import { addConfigCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { addConfigOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { addConfigSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 import { idRenderCheckMap } from "../../../collections/idCollections"
 import getRendered from "../../../throttle/getRendered"
 import { hitTestSystem } from "../../../systems/hitTestSystem"
+import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -91,7 +91,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set castShadow(val) {
         this._castShadow = val
-        addConfigCastShadowSystem(this)
+        configCastShadowSystem.add(this)
     }
 
     public $addToRaycastSet(set: Set<Object3D>) {
