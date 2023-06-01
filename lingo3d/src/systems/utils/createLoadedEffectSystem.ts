@@ -6,7 +6,11 @@ export const createLoadedEffectSystem = <
     Data extends Record<string, any> | void
 >(
     name: string,
-    { data, effect, cleanup }: SystemOptions<GameObject, Data>
+    {
+        data,
+        effect,
+        cleanup
+    }: Pick<SystemOptions<GameObject, Data>, "data" | "effect" | "cleanup">
 ) => {
     const effectSystem = createInternalSystem(name, {
         data,
