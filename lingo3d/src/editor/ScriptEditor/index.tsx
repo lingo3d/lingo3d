@@ -27,6 +27,7 @@ import { getWorldPlay } from "../../states/useWorldPlay"
 import { uuidMap } from "../../collections/idCollections"
 import Script from "../../display/Script"
 import { setScriptCompile } from "../../states/useScriptCompile"
+import compileScript from "../../compiler/compileScript"
 
 const { Monaco, controls } = makeMonaco()
 
@@ -60,6 +61,7 @@ const ScriptEditor = () => {
             if (worldPlay !== "script") return
             controls.saveAll()
             setScriptCompile({ raw: script.code })
+            compileScript(script.code)
         })
         return () => {
             handle.cancel()
