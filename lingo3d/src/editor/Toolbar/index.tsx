@@ -32,6 +32,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import { stopPropagation } from "../utils/stopPropagation"
 import { getScript } from "../../states/useScript"
 import RunIcon from "./icons/RunIcon"
+import { setScriptCompile } from "../../states/useScriptCompile"
 
 const Toolbar = () => {
     useInitCSS()
@@ -151,6 +152,7 @@ const Toolbar = () => {
                             active={worldPlay === "script"}
                             onClick={() => {
                                 setWorldPlay("script")
+                                setScriptCompile({ raw: script.code })
                             }}
                         >
                             <RunIcon />

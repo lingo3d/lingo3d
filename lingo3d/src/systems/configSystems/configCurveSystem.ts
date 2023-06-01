@@ -5,12 +5,8 @@ import { point2Vec } from "../../display/utils/vec2Point"
 import HelperSphere from "../../display/core/utils/HelperSphere"
 import getCurveHelperSpherePool from "../../memo/getCurveHelperSpherePool"
 import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
-import { nanoid } from "nanoid"
-import computeOnce from "../../memo/utils/computeOnce"
-import { PointType } from "../../utils/isPoint"
 import createInternalSystem from "../utils/createInternalSystem"
-
-const getUUID = computeOnce((_: PointType) => nanoid())
+import getUUID from "../../memo/getUUID"
 
 export const configCurveSystem = createInternalSystem("configCurveSystem", {
     effect: (self: Curve) => {
