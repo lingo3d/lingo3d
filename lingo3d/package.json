@@ -20,6 +20,9 @@
         "clean": "node node_modules/rimraf/bin lib"
     },
     "dependencies": {
+        "@babel/generator": "^7.22.3",
+        "@babel/parser": "^7.22.4",
+        "@babel/traverse": "^7.22.4",
         "@lincode/events": "^1.0.33",
         "@lincode/filetypes": "^1.0.3",
         "@lincode/math": "^1.0.8",
@@ -34,7 +37,7 @@
         "@ungap/structured-clone": "^1.2.0",
         "@webcontainer/api": "^1.1.3",
         "browser-fs-access": "0.34.1",
-        "esbuild-wasm": "^0.17.19",
+        "buffer": "^6.0.3",
         "monaco-editor": "^0.38.0",
         "monaco-themes": "^0.4.4",
         "n8ao": "^1.4.4",
@@ -47,7 +50,6 @@
         "prettier": "^2.8.8",
         "stats.js": "^0.17.0",
         "three": "0.150.1",
-        "vite-plugin-monaco-editor": "^1.1.0",
         "wasm-feature-detect": "^1.5.1",
         "wavesurfer.js": "^6.6.3",
         "xstate": "^4.37.2",
@@ -56,6 +58,8 @@
     },
     "devDependencies": {
         "@preact/preset-vite": "^2.5.0",
+        "@types/babel__generator": "^7.6.4",
+        "@types/babel__traverse": "^7.6.4",
         "@types/preact-custom-element": "^4.0.1",
         "@types/prettier": "^2.7.2",
         "@types/randomcolor": "^0.5.7",
@@ -69,7 +73,8 @@
         "rimraf": "^3.0.2",
         "tweakpane": "^3.1.9",
         "typescript": "^5.0.4",
-        "vite": "^4.3.9"
+        "vite": "^4.3.9",
+        "vite-plugin-monaco-editor": "^1.1.0"
     },
     "private": false,
     "module": "lib/index.js",

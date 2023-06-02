@@ -1,6 +1,11 @@
 import structuredClone from "@ungap/structured-clone"
+import { Buffer } from "buffer"
 
-if (!("structuredClone" in window)) window.structuredClone = structuredClone
+//@ts-ignore
+window.process ??= { env: {} }
+//@ts-ignore
+window.Buffer ??= Buffer
+window.structuredClone ??= structuredClone
 
 function at(n) {
     // ToInteger() abstract op
