@@ -1,18 +1,32 @@
-import { pull, push, store } from "@lincode/reactivity"
+import { add, createEffect, remove, store } from "@lincode/reactivity"
 import { getScript } from "./useScript"
 import Script from "../display/Script"
 import { extendFunction } from "@lincode/utils"
 import { deleteScriptsUnsaved } from "./useScriptsUnsaved"
+import {
+    addDisposeCollectionStateSystem,
+    deleteDisposeCollectionStateSystem
+} from "../systems/eventSystems/disposeCollectionStateSystem"
 
-const [setScripts, getScripts] = store<Array<Script>>([])
+const scriptSet = new Set<Script>()
+
+const [setScripts, getScripts] = store([scriptSet])
 export { getScripts }
 
-export const pullScripts = extendFunction(
-    pull(setScripts, getScripts),
+export const deleteScripts = extendFunction(
+    remove(setScripts, getScripts),
     deleteScriptsUnsaved
 )
 
-const pushScripts = push(setScripts, getScripts)
-getScript(
-    (script) => script && !getScripts().includes(script) && pushScripts(script)
-)
+const addScripts = add(setScripts, getScripts)
+getScript((script) => script && !scriptSet.has(script) && addScripts(script))
+
+createEffect(() => {
+    if (!scriptSet.size) return
+    addDisposeCollectionStateSystem(scriptSet, {
+        deleteState: deleteScripts
+    })
+    return () => {
+        deleteDisposeCollectionStateSystem(scriptSet)
+    }
+}, [getScripts])

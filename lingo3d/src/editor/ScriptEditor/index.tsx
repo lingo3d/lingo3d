@@ -5,7 +5,7 @@ import {
     LIBRARY_WIDTH,
     SCENEGRAPH_WIDTH
 } from "../../globals"
-import { getScripts, pullScripts } from "../../states/useScripts"
+import { getScripts, deleteScripts } from "../../states/useScripts"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
@@ -50,7 +50,7 @@ const ScriptEditor = () => {
 
     const selectedSignal = useSignal<Array<string>>([])
     const script = useSyncState(getScript)
-    const scripts = useSyncState(getScripts)
+    const scriptsPtr = useSyncState(getScripts)
     const scriptsUnsavedPtr = useSyncState(getScriptsUnsaved)
 
     useLayoutEffect(() => {
@@ -70,16 +70,18 @@ const ScriptEditor = () => {
         uuid && selectTab(selectedSignal, uuid)
     }, [script])
 
+    const scriptsArray = useMemo(() => Array.from(scriptsPtr[0]), [scriptsPtr])
+
     useLayoutEffect(() => {
         const uuid = selectedSignal.value.at(-1)
-        setScript(scripts.find((script) => script.uuid === uuid))
-    }, [selectedSignal.value])
+        setScript(scriptsArray.find((script) => script.uuid === uuid))
+    }, [selectedSignal.value, scriptsArray])
 
     const monacoFiles = useMemo(() => {
         const result: Record<string, string> = {}
-        for (const script of scripts) result[script.uuid] = script.code
+        for (const script of scriptsArray) result[script.uuid] = script.code
         return result
-    }, [scripts, scriptsUnsavedPtr])
+    }, [scriptsArray, scriptsUnsavedPtr])
 
     return (
         <div
@@ -87,12 +89,12 @@ const ScriptEditor = () => {
             style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH + SCENEGRAPH_WIDTH }}
         >
             <AppBar>
-                {scripts.map((script) => (
+                {scriptsArray.map((script) => (
                     <CloseableTab
                         selectedSignal={selectedSignal}
                         key={script.uuid}
                         id={script.uuid}
-                        onClose={() => pullScripts(script)}
+                        onClose={() => deleteScripts(script)}
                         unsaved={scriptsUnsavedPtr[0].has(script)}
                     >
                         {script.name}
