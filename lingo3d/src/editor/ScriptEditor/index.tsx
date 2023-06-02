@@ -78,10 +78,11 @@ const ScriptEditor = () => {
     }, [selectedSignal.value, scriptsArray])
 
     const monacoFiles = useMemo(() => {
-        const result: Record<string, string> = {}
-        for (const script of scriptsArray) result[script.uuid] = script.code
-        return result
-    }, [scriptsArray, scriptsUnsavedPtr])
+        const monacoFiles: Record<string, string> = {}
+        for (const script of scriptsArray)
+            monacoFiles[script.uuid] = script.code
+        return monacoFiles
+    }, [scriptsArray])
 
     return (
         <div

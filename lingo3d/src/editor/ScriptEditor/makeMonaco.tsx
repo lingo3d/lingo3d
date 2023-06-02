@@ -41,6 +41,9 @@ export default () => {
     let currentOnSave: ((code: string, uri: string) => void) | undefined
     let currentOnUndo: (() => void) | undefined
     let currentOnRedo: (() => void) | undefined
+    let currentOnChange:
+        | ((e: editor.IModelContentChangedEvent) => void)
+        | undefined
     let currentFocused = false
 
     const currentDispose = () => {
@@ -105,6 +108,7 @@ export default () => {
         currentOnSave = onSave
         currentOnUndo = onUndo
         currentOnRedo = onRedo
+        currentOnChange = onChange
 
         useEffect(() => {
             currentEditor?.updateOptions({
@@ -188,14 +192,11 @@ export default () => {
                 editorInstance.onDidChangeCursorPosition(onCursorPositionChange)
             onScrollChange && editorInstance.onDidScrollChange(onScrollChange)
 
-            onChange &&
-                editorInstance.onDidChangeModelContent((e) => {
-                    if (programmaticSetValueRef.current) {
-                        programmaticSetValueRef.current = false
-                        return
-                    }
-                    onChange(e)
-                })
+            editorInstance.onDidChangeModelContent((e) => {
+                if (programmaticSetValueRef.current)
+                    programmaticSetValueRef.current = false
+                else currentOnChange?.(e)
+            })
 
             let observer: MutationObserver | undefined
             if (onSuggestionChange) {
