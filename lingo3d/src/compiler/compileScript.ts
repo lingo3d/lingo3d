@@ -1,3 +1,4 @@
+import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { setScriptCompile } from "../states/useScriptCompile"
@@ -33,13 +34,18 @@ export default async (script: Script) => {
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
 
-    const ast = parse(script.code, {
-        sourceType: "module",
-        plugins: ["typescript"]
-    })
+    let ast: ParseResult<any>
+    try {
+        ast = parse(script.code, {
+            sourceType: "module",
+            plugins: ["typescript"]
+        })
+    } catch (error) {
+        console.log(error)
+        return
+    }
 
     const systemNames: Array<string> = []
-
     traverse(ast, {
         FunctionDeclaration(path) {
             eraseFunctionTypes(path)
@@ -115,8 +121,6 @@ export default async (script: Script) => {
     systemNames.length
         ? assignScriptSystemNames({ [script.uuid]: systemNames })
         : omitScriptSystemNames(script.uuid)
-
-    console.log(systemNames)
 
     if (worldPlayPtr[0] !== "script") return
     const { code } = generate(ast)
