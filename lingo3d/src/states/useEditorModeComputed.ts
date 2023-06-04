@@ -3,17 +3,18 @@ import { EditorMode, getEditorMode } from "./useEditorMode"
 import { getSelectionTarget } from "./useSelectionTarget"
 import { getWorldPlay } from "./useWorldPlay"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 export const [setEditorModeComputed, getEditorModeComputed] = store<
-    EditorMode | "play"
->(getEditorMode())
+    EditorMode | undefined
+>(undefined)
 
 createEffect(() => {
     const [target] = selectionTargetPtr
     const mode = getEditorMode()
 
-    if (getWorldPlay()) {
-        setEditorModeComputed("play")
+    if (worldPlayPtr[0] !== "editor") {
+        setEditorModeComputed(undefined)
         return
     }
     if (

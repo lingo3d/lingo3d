@@ -1,9 +1,7 @@
 import { Vector3, Quaternion } from "three"
 import IJointBase from "../../interface/IJointBase"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
-import { getEditorHelper } from "../../states/useEditorHelper"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import HelperSphere from "./utils/HelperSphere"
 import { jointSet } from "../../collections/jointSet"
@@ -11,6 +9,8 @@ import MeshAppendable from "./MeshAppendable"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 import { configJointSystem } from "../../systems/configSystems/configJointSystem"
 import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -38,15 +38,15 @@ export default abstract class JointBase
         jointSet.add(this)
 
         this.createEffect(() => {
-            if (!getWorldPlayComputed() || !editorBehaviorPtr[0]) return
+            if (worldPlayPtr[0] !== "live" || !editorBehaviorPtr[0]) return
             flushMultipleSelectionTargets(() => this.savePos())
             return () => {
                 flushMultipleSelectionTargets(() => this.restorePos())
             }
-        }, [getWorldPlayComputed, getEditorBehavior])
+        }, [getWorldPlay, getEditorBehavior])
 
         this.createEffect(() => {
-            if (!getEditorHelper() || this.$disableSceneGraph) return
+            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
 
             const helper = new HelperSphere(this)
             helper.scale = 0.1
@@ -55,7 +55,7 @@ export default abstract class JointBase
             return () => {
                 helper.dispose()
             }
-        }, [getEditorHelper])
+        }, [getWorldPlay])
     }
 
     private fromPos: Vector3 | undefined

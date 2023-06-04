@@ -56,10 +56,9 @@ const ScriptEditor = () => {
     useLayoutEffect(() => {
         if (!script) return
 
-        const handle = getWorldPlay((worldPlay) => {
-            if (worldPlay !== "script") return
-            controls.saveAll()
-        })
+        const handle = getWorldPlay(
+            (val) => val === "script" && controls.saveAll()
+        )
         return () => {
             handle.cancel()
         }

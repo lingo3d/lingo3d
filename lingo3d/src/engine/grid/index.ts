@@ -1,15 +1,17 @@
 import { createEffect } from "@lincode/reactivity"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getGrid } from "../../states/useGrid"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import scene from "../scene"
 import InfiniteGridHelper from "./InfiniteGridHelper"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 createEffect(() => {
-    if (!getGrid() || !editorBehaviorPtr[0] || getWorldPlayComputed()) return
+    if (!getGrid() || !editorBehaviorPtr[0] || worldPlayPtr[0] !== "editor")
+        return
 
     const gridHelper = new InfiniteGridHelper()
     ssrExcludeSet.add(gridHelper)
@@ -21,4 +23,4 @@ createEffect(() => {
         ssrExcludeSet.delete(gridHelper)
         renderCheckExcludeSet.delete(gridHelper)
     }
-}, [getGrid, getEditorBehavior, getWorldPlayComputed])
+}, [getGrid, getEditorBehavior, getWorldPlay])

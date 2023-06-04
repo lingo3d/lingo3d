@@ -17,13 +17,13 @@ import prevent from "../utils/prevent"
 import { getWorldExpanded } from "../../states/useWorldExpanded"
 import Runtime from "../Runtime"
 import World from "../World"
-import { getEditorRuntime } from "../../states/useEditorRuntime"
 import { useEffect } from "preact/hooks"
 import MenuBar from "../MenuBar"
 import { getScript } from "../../states/useScript"
 import ScriptEditor from "../ScriptEditor"
 import Terminal from "../Terminal"
 import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
+import { getWorldPlay } from "../../states/useWorldPlay"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -31,7 +31,7 @@ const LingoEditor = () => {
     const script = useSyncState(getScript)
     const dummyIK = useSyncState(getDummyIK)
     const worldExpanded = useSyncState(getWorldExpanded)
-    const editorRuntime = useSyncState(getEditorRuntime)
+    const worldPlay = useSyncState(getWorldPlay)
 
     useEffect(() => {
         document.body.classList.add("lingo3d-body")
@@ -68,7 +68,11 @@ const LingoEditor = () => {
                 className="lingo3d-world lingo3d-bg lingo3d-flexcol"
                 style={{ flexGrow: 1 }}
             >
-                {editorRuntime ? <Runtime /> : <World />}
+                {worldPlay === "runtime" || worldPlay === "script" ? (
+                    <Runtime />
+                ) : (
+                    <World />
+                )}
                 <Terminal />
             </div>
             {stats && <Stats />}

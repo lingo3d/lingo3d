@@ -8,7 +8,6 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setEditorCamera, getEditorCamera } from "../../states/useEditorCamera"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
@@ -22,6 +21,8 @@ import { container } from "../renderLoop/containers"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { redo, undo } from "../../api/undoStack"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -45,7 +46,7 @@ const metaHotKey = (e: KeyboardEvent) => {
 }
 
 createEffect(() => {
-    if (getWorldPlayComputed() || !getHotKeysEnabled()) return
+    if (worldPlayPtr[0] !== "editor" || !getHotKeysEnabled()) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
@@ -124,4 +125,4 @@ createEffect(() => {
         document.removeEventListener("keyup", handleKeyUp)
         handle.cancel()
     }
-}, [getWorldPlayComputed, getHotKeysEnabled])
+}, [getWorldPlay, getHotKeysEnabled])

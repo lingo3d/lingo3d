@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import "../eventLoop"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import fpsAlpha from "../../display/utils/fpsAlpha"
@@ -19,6 +18,8 @@ import {
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
@@ -36,7 +37,7 @@ const lockHit = (manager: MeshAppendable, lock: boolean) => {
 
 createEffect(() => {
     const { pxScene, pxControllerFilters, pxRaycast } = physxPtr[0]
-    if (!pxScene || !getWorldPlayComputed()) return
+    if (!pxScene || worldPlayPtr[0] !== "live") return
 
     physxLoopPtr[0] = true
     const handle = onPhysXLoop(() => {
@@ -105,4 +106,4 @@ createEffect(() => {
         handle.cancel()
         physxLoopPtr[0] = false
     }
-}, [getPhysXLoaded, getWorldPlayComputed])
+}, [getPhysXLoaded, getWorldPlay])

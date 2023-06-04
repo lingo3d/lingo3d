@@ -9,8 +9,9 @@ import IEnvironment, {
     environmentSchema
 } from "../interface/IEnvironment"
 import HelperSprite from "./core/utils/HelperSprite"
-import { getEditorHelper } from "../states/useEditorHelper"
 import MeshAppendable from "./core/MeshAppendable"
+import { getWorldPlay } from "../states/useWorldPlay"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 export default class Environment
     extends MeshAppendable
@@ -25,12 +26,12 @@ export default class Environment
         pushEnvironmentStack(this)
 
         this.createEffect(() => {
-            if (!getEditorHelper() || this.$disableSceneGraph) return
+            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
             const helper = new HelperSprite("light", this)
             return () => {
                 helper.dispose()
             }
-        }, [getEditorHelper])
+        }, [getWorldPlay])
     }
 
     protected override disposeNode() {

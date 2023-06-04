@@ -3,10 +3,11 @@ import { AudioListener, PositionalAudio } from "three"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
-import { getEditorHelper } from "../states/useEditorHelper"
 import MeshAppendable from "./core/MeshAppendable"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { getWorldPlay } from "../states/useWorldPlay"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 const audioListener = new AudioListener()
 
@@ -32,12 +33,12 @@ export default class Audio
         super(sound)
 
         this.createEffect(() => {
-            if (!getEditorHelper || this.$disableSceneGraph) return
+            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
             const helper = new HelperSprite("audio", this)
             return () => {
                 helper.dispose()
             }
-        }, [getEditorHelper])
+        }, [getWorldPlay])
 
         const [setReady, getReady] = store(false)
 

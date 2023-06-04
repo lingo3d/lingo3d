@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { clearMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
 import attachRaycastEvent from "./attachRaycastEvent"
@@ -17,9 +16,11 @@ import { onMouseDown } from "../../events/onMouseDown"
 import { onMouseUp } from "../../events/onMouseUp"
 import { onMouseMove } from "../../events/onMouseMove"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 createEffect(() => {
-    if (!getWorldPlayComputed()) return
+    if (worldPlayPtr[0] !== "live") return
 
     const [selectionTargetBackup] = selectionTargetPtr
 
@@ -74,4 +75,4 @@ createEffect(() => {
         handle6.cancel()
         !selectionTargetPtr[0] && setSelectionTarget(selectionTargetBackup)
     }
-}, [getWorldPlayComputed])
+}, [getWorldPlay])

@@ -8,8 +8,9 @@ import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
-import { getEditorRuntime } from "../states/useEditorRuntime"
 import { getTabPaused } from "../states/useTabPaused"
+import { getWorldPlay } from "../states/useWorldPlay"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 const callbacks = new Set<() => void>()
 
@@ -17,7 +18,12 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    if (getEditorRuntime() || getTabPaused()) return
+    if (
+        worldPlayPtr[0] === "script" ||
+        worldPlayPtr[0] === "runtime" ||
+        getTabPaused()
+    )
+        return
 
     const targetDelta = (1 / fpsPtr[0]) * 0.9
 
@@ -33,7 +39,7 @@ createEffect(() => {
     return () => {
         rendererPtr[0].setAnimationLoop(null)
     }
-}, [getFps, getRenderer, getEditorRuntime, getTabPaused])
+}, [getFps, getRenderer, getWorldPlay, getTabPaused])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

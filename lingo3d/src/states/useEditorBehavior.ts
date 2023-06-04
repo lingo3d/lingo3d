@@ -15,10 +15,10 @@ createEffect(() => {
     if (!editorBehaviorPtr[0]) return
 
     setEditorCamera(mainCamera)
-    setWorldPlay(false)
+    setWorldPlay("editor")
 
     return () => {
         setEditorCamera(undefined)
-        setWorldPlay(true)
+        setWorldPlay("live")
     }
 }, [getEditorBehavior])

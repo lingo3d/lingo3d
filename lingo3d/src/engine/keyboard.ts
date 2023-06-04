@@ -3,9 +3,10 @@ import { onKeyClear } from "../events/onKeyClear"
 import { emitKeyDown } from "../events/onKeyDown"
 import { emitKeyPress } from "../events/onKeyPress"
 import { emitKeyUp } from "../events/onKeyUp"
-import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { keyPressSet } from "../collections/keyPressSet"
 import { keyPressEmitSystem } from "../systems/keyPressEmitSystem"
+import { getWorldPlay } from "../states/useWorldPlay"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 const processKey = (str: string) => {
     str = str.length === 1 ? str.toLocaleLowerCase() : str
@@ -14,7 +15,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (!getWorldPlayComputed()) return
+    if (worldPlayPtr[0] !== "live") return
 
     keyPressEmitSystem.add(keyPressSet)
     const handle = onKeyClear(() => {
@@ -44,4 +45,4 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getWorldPlayComputed])
+}, [getWorldPlay])

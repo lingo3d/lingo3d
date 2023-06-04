@@ -3,11 +3,10 @@ import math from "../math"
 import loadJSON from "../display/utils/loaders/loadJSON"
 import deserialize from "../api/serializer/deserialize"
 import { getAppendablesById } from "../collections/idCollections"
-import { ThirdPersonCamera, PointLight, onBeforeRender } from ".."
+import { ThirdPersonCamera, onBeforeRender } from ".."
 import HandTracker from "../display/HandTracker"
 import { mapRange } from "@lincode/math"
 import { getWorldPlay } from "../states/useWorldPlay"
-import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 
 const data: any = await loadJSON("car/bentley2.json")
 deserialize(data)
@@ -27,8 +26,8 @@ handTracker.x = 150
 handTracker.y = 100
 
 model.onLoad = () => {
-    const handle = getWorldPlayComputed((play) => {
-        if (play) {
+    const handle = getWorldPlay((val) => {
+        if (val === "live") {
             handle.cancel()
             handTracker.track = true
         }

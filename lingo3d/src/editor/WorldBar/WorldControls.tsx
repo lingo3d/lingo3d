@@ -5,22 +5,22 @@ import useSyncState from "../hooks/useSyncState"
 import { getWorldPlay, setWorldPlay } from "../../states/useWorldPlay"
 
 const WorldControls = () => {
-    const play = useSyncState(getWorldPlay)
+    const worldPlay = useSyncState(getWorldPlay)
 
     return (
         <div style={{ display: "flex", gap: 10 }}>
             <div style={{ display: "flex" }}>
                 <IconButton
                     fill
-                    disabled={!!play}
-                    onClick={() => setWorldPlay(true)}
+                    disabled={worldPlay !== "editor"}
+                    onClick={() => setWorldPlay("live")}
                 >
                     <PlayIcon />
                 </IconButton>
                 <IconButton
                     fill
-                    disabled={!play}
-                    onClick={() => setWorldPlay(false)}
+                    disabled={worldPlay === "editor"}
+                    onClick={() => setWorldPlay("editor")}
                 >
                     <PauseIcon />
                 </IconButton>

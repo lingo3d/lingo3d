@@ -16,7 +16,6 @@ import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../utils/getManager"
 import MeshAppendable from "../MeshAppendable"
-import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
@@ -25,6 +24,8 @@ import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
+import { getWorldPlay } from "../../../states/useWorldPlay"
+import { worldPlayPtr } from "../../../pointers/worldPlayPtr"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -42,7 +43,7 @@ export default abstract class CameraBase<
 
         this.createEffect(() => {
             if (
-                !getEditorHelper() ||
+                worldPlayPtr[0] !== "editor" ||
                 cameraRenderedPtr[0] === $camera ||
                 this.$disableSceneGraph
             )
@@ -62,7 +63,7 @@ export default abstract class CameraBase<
                 scene.remove(helper)
                 sprite.dispose()
             }
-        }, [getEditorHelper, getCameraRendered])
+        }, [getWorldPlay, getCameraRendered])
     }
 
     protected override disposeNode(): void {

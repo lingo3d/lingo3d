@@ -32,7 +32,6 @@ import useInitEditor from "../hooks/useInitEditor"
 import { stopPropagation } from "../utils/stopPropagation"
 import { getScript } from "../../states/useScript"
 import RunIcon from "./icons/RunIcon"
-import { setScriptCompile } from "../../states/useScriptCompile"
 
 const Toolbar = () => {
     useInitCSS()
@@ -66,7 +65,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "select"}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("select")
                         }}
                     >
@@ -75,7 +74,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "translate"}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("translate")
                         }}
                         disabled={!canTranslate}
@@ -86,7 +85,7 @@ const Toolbar = () => {
                         active={mode === "rotate"}
                         disabled={!canRotate}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("rotate")
                         }}
                     >
@@ -96,7 +95,7 @@ const Toolbar = () => {
                         active={mode === "scale"}
                         disabled={!canScale}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("scale")
                         }}
                     >
@@ -129,7 +128,7 @@ const Toolbar = () => {
                     {/* <ToolbarButton
                         active={mode === "mesh"}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("mesh")
                         }}
                     >
@@ -138,7 +137,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "curve"}
                         onClick={() => {
-                            setWorldPlay(false)
+                            setWorldPlay("editor")
                             setEditorMode("curve")
                         }}
                     >

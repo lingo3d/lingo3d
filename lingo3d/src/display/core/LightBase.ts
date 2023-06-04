@@ -1,13 +1,14 @@
 import { DirectionalLightHelper, Light, SpotLightHelper } from "three"
 import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
-import { getEditorHelper } from "../../states/useEditorHelper"
 import HelperSprite from "./utils/HelperSprite"
 import GimbalObjectManager from "./GimbalObjectManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { updateSystem } from "../../systems/updateSystem"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 export default abstract class LightBase<T extends Light>
     extends GimbalObjectManager<T>
@@ -19,7 +20,7 @@ export default abstract class LightBase<T extends Light>
     ) {
         super(light)
         this.createEffect(() => {
-            if (!getEditorHelper() || this.$disableSceneGraph) return
+            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
 
             const sprite = new HelperSprite("light", this)
             if (Helper) {
@@ -41,7 +42,7 @@ export default abstract class LightBase<T extends Light>
             return () => {
                 sprite.dispose()
             }
-        }, [getEditorHelper])
+        }, [getWorldPlay])
     }
 
     protected override disposeNode() {

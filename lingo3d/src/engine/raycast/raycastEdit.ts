@@ -8,7 +8,6 @@ import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../../events/onSelectionTarget"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { getMultipleSelection } from "../../states/useMultipleSelection"
 import {
     addMultipleSelectionTargets,
@@ -27,6 +26,8 @@ import MeshAppendable from "../../display/core/MeshAppendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -36,7 +37,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (getWorldPlayComputed() || getTransformControlsDragging()) return
+    if (worldPlayPtr[0] !== "editor" || getTransformControlsDragging()) return
 
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
@@ -91,7 +92,7 @@ createEffect(() => {
         handle5.cancel()
     }
 }, [
-    getWorldPlayComputed,
+    getWorldPlay,
     getTransformControlsDragging,
     getMultipleSelection,
     getSelectionFocus

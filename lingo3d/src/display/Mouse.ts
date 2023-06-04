@@ -6,13 +6,14 @@ import IMouse, {
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
 import { onMouseDown } from "../events/onMouseDown"
 import { onMouseUp } from "../events/onMouseUp"
 import { onMouseRightClick } from "../events/onMouseRightClick"
 import { onMouseClick } from "../events/onMouseClick"
 import { onMouseMove } from "../events/onMouseMove"
+import { getWorldPlay } from "../states/useWorldPlay"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
 export default class Mouse extends Appendable implements IMouse {
     public static componentName = "mouse"
@@ -44,7 +45,7 @@ export default class Mouse extends Appendable implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (!getWorldPlayComputed()) return
+            if (worldPlayPtr[0] !== "live") return
 
             const handle0 = onMouseMove((e) => {
                 this.onMouseMove?.(e)
@@ -76,6 +77,6 @@ export default class Mouse extends Appendable implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getWorldPlayComputed])
+        }, [getWorldPlay])
     }
 }
