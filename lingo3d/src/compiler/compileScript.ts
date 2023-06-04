@@ -17,52 +17,98 @@ export default async (script: string) => {
         // Remove type annotations from function parameters and return types
         FunctionDeclaration(path) {
             if (path.node.typeParameters) {
-                delete path.node.typeParameters
+                path.node.typeParameters = undefined
             }
-            // path.node.params.forEach((param) => {
-            //     delete param.typeAnnotation
-            // })
-            // if (path.node.returnType) {
-            //     delete path.node.returnType
-            // }
+            path.node.params.forEach((param) => {
+                param.typeAnnotation = undefined
+            })
+            if (path.node.returnType) {
+                path.node.returnType = undefined
+            }
         },
         // Remove type annotations from function expressions
         ArrowFunctionExpression(path) {
             if (path.node.typeParameters) {
-                delete path.node.typeParameters
+                path.node.typeParameters = undefined
             }
-            // path.node.params.forEach((param) => {
-            //     delete param.typeAnnotation
-            // })
-            // if (path.node.returnType) {
-            //     delete path.node.returnType
-            // }
+            path.node.params.forEach((param) => {
+                param.typeAnnotation = undefined
+            })
+            if (path.node.returnType) {
+                path.node.returnType = undefined
+            }
+        },
+        // Remove type arguments from function calls
+        CallExpression(path) {
+            if (path.node.typeArguments) {
+                path.node.typeArguments = undefined
+            }
+        },
+        // Remove type arguments from class instantiation
+        NewExpression(path) {
+            if (path.node.typeArguments) {
+                path.node.typeArguments = undefined
+            }
+        },
+        // Remove type parameters from class declarations
+        ClassDeclaration(path) {
+            if (path.node.typeParameters) {
+                path.node.typeParameters = undefined
+            }
         },
         // Remove type annotations from variable declarations
         VariableDeclaration(path) {
             path.node.declarations.forEach((declaration) => {
                 //@ts-ignore
-                delete declaration.id.typeAnnotation
+                declaration.id.typeAnnotation = undefined
             })
         },
         // Remove type annotations from class properties
         ClassProperty(path) {
+            if (
+                path.node.typeAnnotation &&
+                //@ts-ignore
+                path.node.typeAnnotation.typeParameters
+            ) {
+                //@ts-ignore
+                path.node.typeAnnotation.typeParameters = undefined
+            }
             if (path.node.typeAnnotation) {
-                delete path.node.typeAnnotation
+                path.node.typeAnnotation = undefined
             }
         },
         // Remove type annotations from class methods
         ClassMethod(path) {
+            if (path.node.typeParameters) {
+                path.node.typeParameters = undefined
+            }
             path.node.params.forEach((param) => {
                 //@ts-ignore
-                delete param.typeAnnotation
+                param.typeAnnotation = undefined
             })
             if (path.node.returnType) {
-                delete path.node.returnType
+                path.node.returnType = undefined
             }
+        },
+        // Remove type assertions
+        TSAsExpression(path) {
+            path.replaceWith(path.node.expression)
+        },
+        // Resolve imports
+        ImportDeclaration(path) {
+            const importSource = path.node.source.value
+            if (importSource !== "lingo3d") return
+            const imports = path.node.specifiers.map((specifier) => {
+                //@ts-ignore
+                const importedName = specifier.imported.name
+                const localName = specifier.local.name
+                return `${localName} = $lingo3d.${importedName}`
+            })
+            path.replaceWithMultiple(
+                imports.map((importCode) => parse(importCode).program.body[0])
+            )
         }
     })
-
     const transformedCode = generate(ast)
     console.log(transformedCode.code)
 }

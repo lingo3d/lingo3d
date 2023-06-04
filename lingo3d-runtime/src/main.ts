@@ -1,13 +1,8 @@
-import * as lingo from "lingo3d"
+import * as lingo3d from "lingo3d"
 
-lingo.settings.autoMount = true
-
-for (const [key, value] of Object.entries(lingo)) {
-    if (!(key in window)) {
-        //@ts-ignore
-        window[key] = value
-    } else console.warn(key)
-}
+lingo3d.settings.autoMount = true
+//@ts-ignore
+window.lingo3d = lingo3d
 
 const setFrameProperty = (key: string, value: any) =>
     //@ts-ignore

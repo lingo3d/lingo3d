@@ -14,7 +14,7 @@ const Runtime = () => {
 
         const script =
             scriptCompile?.compiled ??
-            `deserialize(${JSON.stringify(serialize())})`
+            `lingo3d.deserialize(${JSON.stringify(serialize())})`
 
         const interval = setInterval(() => {
             const $eval = unsafeGetValue(iframe, "$eval")
