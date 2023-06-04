@@ -1,3 +1,19 @@
+const eraseFunctionTypes = (path: any) => {
+    if (path.node.typeParameters) path.node.typeParameters = undefined
+    for (const param of path.node.params) param.typeAnnotation = undefined
+    if (path.node.returnType) path.node.returnType = undefined
+}
+
+const erasePropertyTypes = (path: any) => {
+    if (path.node.typeAnnotation) path.node.typeAnnotation = undefined
+}
+
+const eraseClassPropertyTypes = (path: any) => {
+    if (path.node.typeAnnotation && path.node.typeAnnotation.typeParameters)
+        path.node.typeAnnotation.typeParameters = undefined
+    erasePropertyTypes(path)
+}
+
 export default async (script: string) => {
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
@@ -8,89 +24,55 @@ export default async (script: string) => {
         plugins: ["typescript"]
     })
 
-    // Traverse the AST and remove type annotations
     traverse(ast, {
-        // Remove type annotations from function parameters and return types
         FunctionDeclaration(path) {
-            if (path.node.typeParameters) {
-                path.node.typeParameters = undefined
-            }
-            path.node.params.forEach((param) => {
-                param.typeAnnotation = undefined
-            })
-            if (path.node.returnType) {
-                path.node.returnType = undefined
-            }
+            eraseFunctionTypes(path)
         },
-        // Remove type annotations from function expressions
         ArrowFunctionExpression(path) {
-            if (path.node.typeParameters) {
-                path.node.typeParameters = undefined
-            }
-            path.node.params.forEach((param) => {
-                param.typeAnnotation = undefined
-            })
-            if (path.node.returnType) {
-                path.node.returnType = undefined
-            }
+            eraseFunctionTypes(path)
         },
-        // Remove type arguments from function calls
         CallExpression(path) {
             if (path.node.typeArguments) {
                 path.node.typeArguments = undefined
             }
         },
-        // Remove type arguments from class instantiation
         NewExpression(path) {
             if (path.node.typeArguments) {
                 path.node.typeArguments = undefined
             }
         },
-        // Remove type parameters from class declarations
         ClassDeclaration(path) {
             if (path.node.typeParameters) {
                 path.node.typeParameters = undefined
             }
         },
-        // Remove type annotations from variable declarations
         VariableDeclaration(path) {
             path.node.declarations.forEach((declaration) => {
                 //@ts-ignore
                 declaration.id.typeAnnotation = undefined
             })
         },
-        // Remove type annotations from class properties
         ClassProperty(path) {
-            if (
-                path.node.typeAnnotation &&
-                //@ts-ignore
-                path.node.typeAnnotation.typeParameters
-            ) {
-                //@ts-ignore
-                path.node.typeAnnotation.typeParameters = undefined
-            }
-            if (path.node.typeAnnotation) {
-                path.node.typeAnnotation = undefined
-            }
+            eraseClassPropertyTypes(path)
         },
-        // Remove type annotations from class methods
+        ClassPrivateProperty(path) {
+            eraseClassPropertyTypes(path)
+        },
         ClassMethod(path) {
-            if (path.node.typeParameters) {
-                path.node.typeParameters = undefined
-            }
-            path.node.params.forEach((param) => {
-                //@ts-ignore
-                param.typeAnnotation = undefined
-            })
-            if (path.node.returnType) {
-                path.node.returnType = undefined
-            }
+            eraseFunctionTypes(path)
         },
-        // Remove type assertions
+        ClassPrivateMethod(path) {
+            eraseFunctionTypes(path)
+        },
+        ObjectProperty(path) {
+            erasePropertyTypes(path)
+        },
+        ObjectMethod(path) {
+            eraseFunctionTypes(path)
+        },
         TSAsExpression(path) {
             path.replaceWith(path.node.expression)
         },
-        // Resolve imports
         ImportDeclaration(path) {
             const importSource = path.node.source.value
             if (importSource !== "lingo3d") return
@@ -98,7 +80,7 @@ export default async (script: string) => {
                 //@ts-ignore
                 const importedName = specifier.imported.name
                 const localName = specifier.local.name
-                return `${localName} = $lingo3d.${importedName}`
+                return `const ${localName} = lingo3d.${importedName}`
             })
             path.replaceWithMultiple(
                 imports.map((importCode) => parse(importCode).program.body[0])
