@@ -1,8 +1,4 @@
-import { setScriptCompile } from "../states/useScriptCompile"
-
 export default async (script: string) => {
-    setScriptCompile({ raw: script })
-
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
@@ -109,6 +105,5 @@ export default async (script: string) => {
             )
         }
     })
-    const transformedCode = generate(ast)
-    console.log(transformedCode.code)
+    return generate(ast).code
 }
