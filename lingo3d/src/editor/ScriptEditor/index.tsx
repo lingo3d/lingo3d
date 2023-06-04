@@ -114,7 +114,7 @@ const ScriptEditor = () => {
                 onSave={(code) => {
                     script!.code = code
                     deleteScriptsUnsaved(script!)
-                    worldPlayPtr[0] === "script" && compileScript(script!.code)
+                    worldPlayPtr[0] === "script" && compileScript(script!)
                 }}
                 onSaveAll={(entries) => {
                     for (const [uri, code] of entries) {
@@ -122,7 +122,7 @@ const ScriptEditor = () => {
                         script.code = code
                         deleteScriptsUnsaved(script)
                     }
-                    worldPlayPtr[0] === "script" && compileScript(script!.code)
+                    worldPlayPtr[0] === "script" && compileScript(script!)
                 }}
             />
         </div>

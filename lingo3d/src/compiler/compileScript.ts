@@ -1,4 +1,9 @@
+import Script from "../display/Script"
 import { setScriptCompile } from "../states/useScriptCompile"
+import {
+    assignScriptSystemNames,
+    omitScriptSystemNames
+} from "../states/useScriptSystemNames"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -20,17 +25,19 @@ const eraseExpressionTypes = (path: any) => {
     if (path.node.typeArguments) path.node.typeArguments = undefined
 }
 
-export default async (script: string) => {
-    setScriptCompile({ raw: script })
+export default async (script: Script) => {
+    setScriptCompile({ raw: script.code })
 
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
 
-    const ast = parse(script, {
+    const ast = parse(script.code, {
         sourceType: "module",
         plugins: ["typescript"]
     })
+
+    const systemNames: Array<string> = []
 
     traverse(ast, {
         FunctionDeclaration(path) {
@@ -51,8 +58,8 @@ export default async (script: string) => {
                 path.scope.getBinding(name).kind === "module"
             ) {
                 const firstArgument = path.node.arguments[0]
-                if (firstArgument?.type === "StringLiteral")
-                    console.log(firstArgument.value)
+                firstArgument?.type === "StringLiteral" &&
+                    systemNames.push(firstArgument.value)
             }
         },
         NewExpression(path) {
@@ -104,6 +111,10 @@ export default async (script: string) => {
             )
         }
     })
+    systemNames.length
+        ? assignScriptSystemNames({ [script.uuid]: systemNames })
+        : omitScriptSystemNames(script.uuid)
+
     const { code } = generate(ast)
     setScriptCompile({ compiled: code })
 }
