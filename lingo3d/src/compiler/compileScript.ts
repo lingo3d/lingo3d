@@ -1,4 +1,5 @@
 import Script from "../display/Script"
+import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { setScriptCompile } from "../states/useScriptCompile"
 import {
     assignScriptSystemNames,
@@ -26,7 +27,7 @@ const eraseExpressionTypes = (path: any) => {
 }
 
 export default async (script: Script) => {
-    setScriptCompile({ raw: script.code })
+    worldPlayPtr[0] === "script" && setScriptCompile({ raw: script.code })
 
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
@@ -115,6 +116,9 @@ export default async (script: Script) => {
         ? assignScriptSystemNames({ [script.uuid]: systemNames })
         : omitScriptSystemNames(script.uuid)
 
+    console.log(systemNames)
+
+    if (worldPlayPtr[0] !== "script") return
     const { code } = generate(ast)
     setScriptCompile({ compiled: code })
 }

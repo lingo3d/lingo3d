@@ -26,7 +26,6 @@ import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import { uuidMap } from "../../collections/idCollections"
 import Script from "../../display/Script"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 import compileScript from "../../compiler/compileScript"
 
 const { Monaco, controls } = makeMonaco()
@@ -114,7 +113,7 @@ const ScriptEditor = () => {
                 onSave={(code) => {
                     script!.code = code
                     deleteScriptsUnsaved(script!)
-                    worldPlayPtr[0] === "script" && compileScript(script!)
+                    compileScript(script!)
                 }}
                 onSaveAll={(entries) => {
                     for (const [uri, code] of entries) {
@@ -122,7 +121,7 @@ const ScriptEditor = () => {
                         script.code = code
                         deleteScriptsUnsaved(script)
                     }
-                    worldPlayPtr[0] === "script" && compileScript(script!)
+                    compileScript(script!)
                 }}
             />
         </div>
