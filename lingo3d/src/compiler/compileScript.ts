@@ -1,3 +1,5 @@
+import { setScriptCompile } from "../states/useScriptCompile"
+
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
     for (const param of path.node.params) param.typeAnnotation = undefined
@@ -14,7 +16,13 @@ const eraseClassPropertyTypes = (path: any) => {
     erasePropertyTypes(path)
 }
 
+const eraseExpressionTypes = (path: any) => {
+    if (path.node.typeArguments) path.node.typeArguments = undefined
+}
+
 export default async (script: string) => {
+    setScriptCompile({ raw: script })
+
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
@@ -32,14 +40,23 @@ export default async (script: string) => {
             eraseFunctionTypes(path)
         },
         CallExpression(path) {
-            if (path.node.typeArguments) {
-                path.node.typeArguments = undefined
+            eraseExpressionTypes(path)
+            //@ts-ignore
+            const { name, type } = path.node.callee
+            if (
+                name === "createSystem" &&
+                type === "Identifier" &&
+                path.scope.hasBinding(name) &&
+                //@ts-ignore
+                path.scope.getBinding(name).kind === "module"
+            ) {
+                const firstArgument = path.node.arguments[0]
+                if (firstArgument?.type === "StringLiteral")
+                    console.log(firstArgument.value)
             }
         },
         NewExpression(path) {
-            if (path.node.typeArguments) {
-                path.node.typeArguments = undefined
-            }
+            eraseExpressionTypes(path)
         },
         ClassDeclaration(path) {
             if (path.node.typeParameters) {
@@ -87,5 +104,6 @@ export default async (script: string) => {
             )
         }
     })
-    return generate(ast).code
+    const { code } = generate(ast)
+    setScriptCompile({ compiled: code })
 }
