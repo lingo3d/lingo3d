@@ -24,7 +24,7 @@ export const SHADOW_BIAS = -0.0055
 
 export const DEBUG = false
 export const VERSION = "2.0.44"
-export const USE_RUNTIME = true
+export const USE_RUNTIME = false
 export const USE_EDITOR_SYSTEMS = true
 
 export const FRAME_WIDTH = 12

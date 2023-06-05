@@ -1,5 +1,4 @@
 import Appendable from "../display/core/Appendable"
-import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
@@ -13,7 +12,7 @@ export const refreshInputSystem = createInternalSystem("refreshInputSystem", {
     },
     update: (input: InputBindingApi, { key, params, target }) => {
         const val = getRuntimeValue(target, key)
-        if (equalsValue(target, val, params[key], key)) return
+        if (params[key] === val) return
         params[key] = val
         inputSkipChangeSet.add(input)
         input.refresh()
