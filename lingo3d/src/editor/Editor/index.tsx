@@ -19,6 +19,9 @@ import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { onEditorRefresh } from "../../events/onEditorRefresh"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
+import ComboBox from "../component/Combobox"
+import { FolderApi } from "./tweakpane"
+import { createPortal } from "preact/compat"
 
 const Editor = () => {
     useInitCSS()
@@ -33,7 +36,9 @@ const Editor = () => {
         }
     }, [])
 
-    const [pane, setContainer] = usePane()
+    const [pane, setContainer, container] = usePane()
+    const [systemsFolderElement, setSystemsFolderElement] =
+        useState<HTMLDivElement>()
 
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<Array<string>>([])
@@ -49,7 +54,7 @@ const Editor = () => {
     }, [])
 
     useLayoutEffect(() => {
-        if (!pane || multipleSelectionTargets.size) return
+        if (!pane || multipleSelectionTargets.size || !container) return
         if (
             selectedSignal.value.at(-1) === "Settings" ||
             !selectionTarget ||
@@ -60,11 +65,19 @@ const Editor = () => {
                 handle.cancel()
             }
         }
+        let systemsFolder: FolderApi | undefined
+        if (!includeKeys) {
+            systemsFolder = pane.addFolder({ title: "systems" })
+            setSystemsFolderElement(
+                container.querySelector(".tp-fldv .tp-brkv") as HTMLDivElement
+            )
+        }
         const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
         const handle1 = selectionTarget.$events.on("runtimeSchema", () =>
             setRefresh({})
         )
         return () => {
+            systemsFolder?.dispose()
             handle0.cancel()
             handle1.cancel()
         }
@@ -106,6 +119,11 @@ const Editor = () => {
                 }}
                 clearOnChange={selectedSignal.value.at(-1)}
             />
+            {systemsFolderElement &&
+                createPortal(
+                    <ComboBox options={["hello", "world", "awesome"]} />,
+                    systemsFolderElement
+                )}
             <div
                 style={{
                     flexGrow: 1,

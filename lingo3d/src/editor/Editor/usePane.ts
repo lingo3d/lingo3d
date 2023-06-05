@@ -3,7 +3,7 @@ import { Pane } from "./tweakpane"
 
 export default () => {
     const [pane, setPane] = useState<Pane>()
-    const [container, setContainer] = useState<any>()
+    const [container, setContainer] = useState<HTMLDivElement>()
 
     useLayoutEffect(() => {
         if (!container) return
@@ -19,5 +19,5 @@ export default () => {
         }
     }, [container])
 
-    return <const>[pane, setContainer]
+    return <const>[pane, setContainer, container]
 }
