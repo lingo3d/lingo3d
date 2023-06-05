@@ -6,6 +6,7 @@ import {
     assignScriptSystemNames,
     omitScriptSystemNames
 } from "../states/useScriptSystemNames"
+import { Node } from "@babel/traverse"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -45,7 +46,9 @@ export default async (script: Script) => {
         return
     }
 
+    const systemASTs: Record<string, Node> = {}
     const systemNames: Array<string> = []
+
     traverse(ast, {
         FunctionDeclaration(path) {
             eraseFunctionTypes(path)
@@ -65,8 +68,18 @@ export default async (script: Script) => {
                 path.scope.getBinding(name).kind === "module"
             ) {
                 const firstArgument = path.node.arguments[0]
-                firstArgument?.type === "StringLiteral" &&
-                    systemNames.push(firstArgument.value)
+                if (!firstArgument || firstArgument.type !== "StringLiteral")
+                    return
+
+                const secondArgument = path.node.arguments[1]
+                if (
+                    !secondArgument ||
+                    secondArgument.type !== "ObjectExpression"
+                )
+                    return
+
+                systemASTs[firstArgument.value] = secondArgument
+                systemNames.push(firstArgument.value)
             }
         },
         NewExpression(path) {
@@ -118,9 +131,14 @@ export default async (script: Script) => {
             )
         }
     })
+
     systemNames.length
         ? assignScriptSystemNames({ [script.uuid]: systemNames })
         : omitScriptSystemNames(script.uuid)
+
+    for (const [name, ast] of Object.entries(systemASTs)) {
+        console.log(name, generate(ast).code)
+    }
 
     if (worldPlayPtr[0] !== "script") return
     const { code } = generate(ast)
