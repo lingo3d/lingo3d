@@ -7,6 +7,8 @@ import {
     omitScriptSystemNames
 } from "../states/useScriptSystemNames"
 import { Node } from "@babel/traverse"
+import createSystem from "../systems/utils/createSystem"
+import { USE_EDITOR_SYSTEMS } from "../globals"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -28,8 +30,12 @@ const eraseExpressionTypes = (path: any) => {
     if (path.node.typeArguments) path.node.typeArguments = undefined
 }
 
+//@ts-ignore
+window.lingo3dCreateSystem = createSystem
+
 export default async (script: Script) => {
-    worldPlayPtr[0] === "script" && setScriptCompile({ raw: script.code })
+    const scriptRuntime = worldPlayPtr[0] === "script"
+    scriptRuntime && setScriptCompile({ raw: script.code })
 
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
@@ -136,11 +142,9 @@ export default async (script: Script) => {
         ? assignScriptSystemNames({ [script.uuid]: systemNames })
         : omitScriptSystemNames(script.uuid)
 
-    for (const [name, ast] of Object.entries(systemASTs)) {
-        console.log(name, generate(ast).code)
-    }
+    if (USE_EDITOR_SYSTEMS)
+        for (const [name, ast] of Object.entries(systemASTs))
+            eval(`lingo3dCreateSystem("${name}", ${generate(ast).code})`)
 
-    if (worldPlayPtr[0] !== "script") return
-    const { code } = generate(ast)
-    setScriptCompile({ compiled: code })
+    scriptRuntime && setScriptCompile({ compiled: generate(ast).code })
 }

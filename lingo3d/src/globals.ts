@@ -25,6 +25,7 @@ export const SHADOW_BIAS = -0.0055
 export const DEBUG = false
 export const VERSION = "2.0.44"
 export const USE_RUNTIME = true
+export const USE_EDITOR_SYSTEMS = true
 
 export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2
@@ -35,7 +36,6 @@ export const LIBRARY_WIDTH = 200
 export const SCENEGRAPH_WIDTH = 200
 export const EDITOR_WIDTH = 300
 export const TREE_ITEM_HEIGHT = 18
-
 export const BACKGROUND_COLOR = "#121316"
 
 export const IS_MOBILE = (() => {
