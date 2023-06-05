@@ -1,3 +1,4 @@
+import { nameSystemMap } from "../../collections/nameSystemMap"
 import Appendable from "../../display/core/Appendable"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
@@ -7,4 +8,8 @@ export default <
 >(
     name: string,
     options: SystemOptions<GameObject, Data>
-) => createInternalSystem(name, options, true)
+) => {
+    const system = createInternalSystem(name, options, true)
+    nameSystemMap.set(name, system)
+    return system
+}

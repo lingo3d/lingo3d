@@ -52,6 +52,14 @@ export type SystemOptions<
 
 const placeholderFn = () => {}
 
+export type System<
+    GameObject extends object | Appendable,
+    Data extends Record<string, any> | void
+> = {
+    add: (item: GameObject, initData?: Data) => void
+    delete: (item: GameObject) => void
+}
+
 export default <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
@@ -148,7 +156,7 @@ export default <
               startUpdateLoop!()
         : executeAdd
 
-    return {
+    return <System<GameObject, Data>>{
         add: addSystem,
         delete: deleteSystem
     }
