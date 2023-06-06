@@ -76,8 +76,7 @@ export default <
         beforeTick,
         afterTick,
         sort
-    }: SystemOptions<GameObject, Data>,
-    userland?: boolean
+    }: SystemOptions<GameObject, Data>
 ) => {
     const queued = new Map<GameObject, Data>()
 

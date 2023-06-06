@@ -9,7 +9,7 @@ export default <
     name: string,
     options: SystemOptions<GameObject, Data>
 ) => {
-    const system = createInternalSystem(name, options, true)
+    const system = createInternalSystem(name, options)
     systemsMap.set(name, system)
     return system
 }
