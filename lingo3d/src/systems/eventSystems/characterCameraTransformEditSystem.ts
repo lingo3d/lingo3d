@@ -4,7 +4,7 @@ import { LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import getContext from "../../memo/getContext"
 import eventSystem from "../utils/eventSystem"
 
-export const [addCharacterCameraTransformEditSystem] = eventSystem(
+export const characterCameraTransformEditSystem = eventSystem(
     "characterCameraTransformEditSystem",
     (self: CharacterCamera, { target, phase, mode }) => {
         if (mode !== "rotate" || self !== target) return

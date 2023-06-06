@@ -3,19 +3,10 @@ import IKeyboard, {
     keyboardSchema,
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
+import { keyDownSystem } from "../systems/eventSystems/keyDownSystem"
+import { keyPressSystem } from "../systems/eventSystems/keyPressSystem"
+import { keyUpSystem } from "../systems/eventSystems/keyUpSystem"
 import Appendable from "./core/Appendable"
-import {
-    addKeyDownSystem,
-    deleteKeyDownSystem
-} from "../systems/eventSystems/keyDownSystem"
-import {
-    addKeyUpSystem,
-    deleteKeyUpSystem
-} from "../systems/eventSystems/keyUpSystem"
-import {
-    addKeyPressSystem,
-    deleteKeyPressSystem
-} from "../systems/eventSystems/keyPressSystem"
 
 export default class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
@@ -28,7 +19,7 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyPress(val) {
         this._onKeyPress = val
-        val ? addKeyPressSystem(this) : deleteKeyPressSystem(this)
+        val ? keyPressSystem.add(this) : keyPressSystem.delete(this)
     }
 
     private _onKeyUp?: (e: LingoKeyboardEvent) => void
@@ -37,7 +28,7 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyUp(val) {
         this._onKeyUp = val
-        val ? addKeyUpSystem(this) : deleteKeyUpSystem(this)
+        val ? keyUpSystem.add(this) : keyUpSystem.delete(this)
     }
 
     private _onKeyDown?: (e: LingoKeyboardEvent) => void
@@ -46,6 +37,6 @@ export default class Keyboard extends Appendable implements IKeyboard {
     }
     public set onKeyDown(val) {
         this._onKeyDown = val
-        val ? addKeyDownSystem(this) : deleteKeyDownSystem(this)
+        val ? keyDownSystem.add(this) : keyDownSystem.delete(this)
     }
 }

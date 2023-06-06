@@ -8,8 +8,8 @@ import ICharacterCamera, {
 import { FAR, NEAR } from "../../globals"
 import CameraBase from "./CameraBase"
 import MeshAppendable from "./MeshAppendable"
-import { addCharacterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
 import { characterCameraFollowSystem } from "../../systems/characterCameraFollowSystem"
+import { characterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
 
 export default class CharacterCamera
     extends CameraBase
@@ -37,7 +37,7 @@ export default class CharacterCamera
             }
         }, [this.firstChildState.get])
 
-        addCharacterCameraTransformEditSystem(this)
+        characterCameraTransformEditSystem.add(this)
     }
 
     protected override disposeNode() {

@@ -5,7 +5,7 @@ import { onTransformEdit } from "../../events/onTransformEdit"
 import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
 import eventSystem from "../utils/eventSystem"
 
-export const [addCurveHelperSphereTransformEditSystem] = eventSystem(
+export const curveHelperSphereTransformEditSystem = eventSystem(
     "curveHelperSphereTransformEditSystem",
     (self: HelperSphere, { target, phase, mode }) => {
         if (self !== target || mode !== "translate" || phase !== "end") return

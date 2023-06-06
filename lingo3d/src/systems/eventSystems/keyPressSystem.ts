@@ -4,10 +4,7 @@ import { onKeyPress } from "../../events/onKeyPress"
 import { LingoKeyboardEvent } from "../../interface/IKeyboard"
 import eventSystem from "../utils/eventSystem"
 
-export const [addKeyPressSystem, deleteKeyPressSystem] = eventSystem<
-    Keyboard,
-    void
->(
+export const keyPressSystem = eventSystem<Keyboard, void>(
     "keyPressSystem",
     (keyboard) =>
         keyboard.onKeyPress?.(

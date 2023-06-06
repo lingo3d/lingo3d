@@ -28,8 +28,9 @@ export default <T extends Appendable, Data extends Record<string, any>>(
         item instanceof Appendable && item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
     }
-    return <const>[
-        (item: T, data: Data) => {
+    return {
+        name,
+        add: (item: T, data: Data) => {
             if (queued.has(item)) {
                 queued.set(item, data)
                 return
@@ -39,6 +40,6 @@ export default <T extends Appendable, Data extends Record<string, any>>(
                 item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },
-        deleteSystem
-    ]
+        delete: deleteSystem
+    }
 }

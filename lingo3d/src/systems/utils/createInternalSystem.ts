@@ -157,6 +157,7 @@ export default <
         : executeAdd
 
     return <System<GameObject, Data>>{
+        name,
         add: addSystem,
         delete: deleteSystem
     }

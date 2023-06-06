@@ -2,7 +2,7 @@ import { curveHelperSpherePointMap } from "../collections/curveHelperSpherePoint
 import Curve from "../display/Curve"
 import HelperSphere from "../display/core/utils/HelperSphere"
 import createSharedPool from "../pools/utils/createSharedPool"
-import { addCurveHelperSphereTransformEditSystem } from "../systems/eventSystems/curveHelperSphereTransformEditSystem"
+import { curveHelperSphereTransformEditSystem } from "../systems/eventSystems/curveHelperSphereTransformEditSystem"
 import { getSelectionCandidates } from "../throttle/getSelectionCandidates"
 import { Point3dType } from "../utils/isPoint"
 import computeOnce from "./utils/computeOnce"
@@ -17,7 +17,7 @@ export default computeOnce((self: Curve) =>
             helper.y = pt.y
             helper.z = pt.z
             curveHelperSpherePointMap.set(helper, pt)
-            addCurveHelperSphereTransformEditSystem(helper)
+            curveHelperSphereTransformEditSystem.add(helper)
             getSelectionCandidates()
             return helper
         },

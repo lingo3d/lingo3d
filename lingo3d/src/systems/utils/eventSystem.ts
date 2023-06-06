@@ -20,13 +20,14 @@ export default <T extends Appendable, Payload>(
         item.$deleteSystemSet.delete(deleteSystem)
         queued.size === 0 && handle?.cancel()
     }
-    return <const>[
-        (item: T) => {
+    return {
+        name,
+        add: (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
             item.$deleteSystemSet.add(deleteSystem)
             if (queued.size === 1) start()
         },
-        deleteSystem
-    ]
+        delete: deleteSystem
+    }
 }
