@@ -11,6 +11,7 @@ const maxResolution = 1024
 
 export const [addUpdateShadowSystem, deleteUpdateShadowSystem] =
     deferredRenderSystemWithData(
+        "updateShadowSystem",
         (
             self: PointLightBase<any>,
             data: { count: number | undefined; shadowMode: boolean | "physics" }

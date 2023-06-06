@@ -6,6 +6,7 @@ import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
 import eventSystem from "../utils/eventSystem"
 
 export const [addCurveHelperSphereTransformEditSystem] = eventSystem(
+    "curveHelperSphereTransformEditSystem",
     (self: HelperSphere, { target, phase, mode }) => {
         if (self !== target || mode !== "translate" || phase !== "end") return
         const pt = curveHelperSpherePointMap.get(self)!

@@ -5,6 +5,7 @@ import getContext from "../../memo/getContext"
 import eventSystem from "../utils/eventSystem"
 
 export const [addCharacterCameraTransformEditSystem] = eventSystem(
+    "characterCameraTransformEditSystem",
     (self: CharacterCamera, { target, phase, mode }) => {
         if (mode !== "rotate" || self !== target) return
 

@@ -3,6 +3,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable, Data extends Record<string, any>>(
+    name: string,
     cb: (target: T, data: Data) => boolean
 ) => {
     const queued = new Map<T, Data>()

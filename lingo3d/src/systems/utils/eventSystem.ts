@@ -2,6 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable, Payload>(
+    name: string,
     cb: (target: T, payload: Payload) => void,
     ticker: (cb: (payload: Payload) => void) => Cancellable
 ) => {

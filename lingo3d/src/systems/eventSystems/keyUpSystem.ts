@@ -5,6 +5,7 @@ import { LingoKeyboardEvent } from "../../interface/IKeyboard"
 import eventSystem from "../utils/eventSystem"
 
 export const [addKeyUpSystem, deleteKeyUpSystem] = eventSystem(
+    "keyUpSystem",
     (keyboard: Keyboard, key: string) =>
         keyboard.onKeyUp?.(new LingoKeyboardEvent(key, keyPressSet)),
     onKeyUp

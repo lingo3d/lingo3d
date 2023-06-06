@@ -1,4 +1,4 @@
-import { createPortal, useMemo } from "preact/compat"
+import { createPortal, useMemo, useState } from "preact/compat"
 import ComboBox from "../component/Combobox"
 import { getScriptSystemNames } from "../../states/useScriptSystemNames"
 import useSyncState from "../hooks/useSyncState"
@@ -10,6 +10,8 @@ type Props = {
 }
 
 const SystemsComboList = ({ systemsFolderElement }: Props) => {
+    const [refresh, setRefresh] = useState({})
+
     const systemNamesRecord = useSyncState(getScriptSystemNames)
     const systemNames = useMemo(() => {
         const systemNames: Array<string> = []
@@ -19,10 +21,15 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
     }, [systemNamesRecord])
 
     return createPortal(
-        <ComboBox
-            options={systemNames}
-            onEnter={(val) => systemsMap.get(val)!.add(selectionTargetPtr[0])}
-        />,
+        <div style={{ width: "100%" }}>
+            <ComboBox
+                options={systemNames}
+                onEnter={(val) => {
+                    systemsMap.get(val)!.add(selectionTargetPtr[0])
+                    setRefresh({})
+                }}
+            />
+        </div>,
         systemsFolderElement
     )
 }

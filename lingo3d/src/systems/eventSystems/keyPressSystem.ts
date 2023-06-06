@@ -8,6 +8,7 @@ export const [addKeyPressSystem, deleteKeyPressSystem] = eventSystem<
     Keyboard,
     void
 >(
+    "keyPressSystem",
     (keyboard) =>
         keyboard.onKeyPress?.(
             new LingoKeyboardEvent([...keyPressSet].at(-1) ?? "", keyPressSet)
