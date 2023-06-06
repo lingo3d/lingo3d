@@ -91,7 +91,6 @@ const Editor = () => {
             systemNames.push(...val)
         return systemNames
     }, [systemNamesRecord])
-    console.log(systemNames)
 
     return (
         <div

@@ -5,9 +5,11 @@ import useComboBox from "../hooks/useComboBox"
 
 interface ComboBoxProps {
     options: string[]
+    onEnter?: (value: string) => void
+    onEscape?: (value: string) => void
 }
 
-const ComboBox = ({ options }: ComboBoxProps) => {
+const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
     const [text, setText] = useState("")
     const [filteredOptions, selected, selectNext, selectPrev] = useComboBox(
         options,
@@ -20,6 +22,16 @@ const ComboBox = ({ options }: ComboBoxProps) => {
                 fullWidth
                 debounce={0}
                 onChange={(val) => setText(val.toLowerCase())}
+                onEnter={(val) => {
+                    if (!options) {
+                        onEnter?.(val)
+                        return
+                    }
+                    selected && onEnter?.(selected)
+                }}
+                onEscape={onEscape}
+                onArrowDown={selectNext}
+                onArrowUp={selectPrev}
             />
             {text && (
                 <div

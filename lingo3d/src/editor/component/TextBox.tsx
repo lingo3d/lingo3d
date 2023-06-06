@@ -11,6 +11,10 @@ type Props = {
     clearOnChange?: any
     placeholder?: string
     debounce?: number
+    onEnter?: (value: string) => void
+    onEscape?: (value: string) => void
+    onArrowDown?: () => void
+    onArrowUp?: () => void
 }
 
 const TextBox = ({
@@ -19,7 +23,11 @@ const TextBox = ({
     onChange,
     clearOnChange,
     placeholder = "Search...",
-    debounce
+    debounce,
+    onEnter,
+    onEscape,
+    onArrowDown,
+    onArrowUp
 }: Props) => {
     const textSignal = useSignal("")
 
@@ -68,6 +76,10 @@ const TextBox = ({
                     placeholder={placeholder}
                     textSignal={textSignal}
                     inputPadding={6}
+                    onEnter={onEnter}
+                    onEscape={onEscape}
+                    onArrowDown={onArrowDown}
+                    onArrowUp={onArrowUp}
                 />
                 <div
                     className="lingo3d-flexcenter"
