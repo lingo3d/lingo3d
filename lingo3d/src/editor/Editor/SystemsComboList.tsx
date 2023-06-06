@@ -10,7 +10,7 @@ type Props = {
 }
 
 const SystemsComboList = ({ systemsFolderElement }: Props) => {
-    const [refresh, setRefresh] = useState({})
+    const [_, setRefresh] = useState({})
 
     const systemNamesRecord = useSyncState(getScriptSystemNames)
     const systemNames = useMemo(() => {
@@ -29,6 +29,10 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                     setRefresh({})
                 }}
             />
+            {selectionTargetPtr[0] &&
+                [...selectionTargetPtr[0].$systems.values()].map((system) => (
+                    <div key={system.name}>{system.name}</div>
+                ))}
         </div>,
         systemsFolderElement
     )
