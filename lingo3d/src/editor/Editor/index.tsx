@@ -130,7 +130,7 @@ const Editor = () => {
             />
             {systemsFolderElement &&
                 createPortal(
-                    <ComboBox options={systemNames} />,
+                    <ComboBox options={systemNames} onEnter={val => console.log(val)} />,
                     systemsFolderElement
                 )}
             <div

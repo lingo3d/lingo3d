@@ -23,13 +23,17 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
                 debounce={0}
                 onChange={(val) => setText(val.toLowerCase())}
                 onEnter={(val) => {
+                    setText("")
                     if (!options) {
                         onEnter?.(val)
                         return
                     }
                     selected && onEnter?.(selected)
                 }}
-                onEscape={onEscape}
+                onEscape={(val) => {
+                    setText("")
+                    onEscape?.(val)
+                }}
                 onArrowDown={selectNext}
                 onArrowUp={selectPrev}
             />
@@ -47,7 +51,16 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
                     }}
                 >
                     {filteredOptions.map((option) => (
-                        <MenuButton key={option}>{option}</MenuButton>
+                        <MenuButton
+                            key={option}
+                            onClick={() => {
+                                setText("")
+                                onEnter?.(option)
+                            }}
+                            highlight={selected === option}
+                        >
+                            {option}
+                        </MenuButton>
                     ))}
                 </div>
             )}
