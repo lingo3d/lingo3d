@@ -56,6 +56,7 @@ export type System<
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 > = {
+    name: string
     add: (item: GameObject, initData?: Data) => void
     delete: (item: GameObject) => void
 }
@@ -152,7 +153,7 @@ export default <
               startUpdateLoop!()
         : executeAdd
 
-    const system = <System<GameObject, Data>>{
+    const system: System<GameObject, Data> = {
         name,
         add: addSystem,
         delete: deleteSystem
