@@ -15,15 +15,18 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
         options,
         text
     )
+    const [clearCount, setClearCount] = useState(0)
 
     return (
         <div>
             <TextBox
                 fullWidth
                 debounce={0}
+                clearOnChange={clearCount}
                 onChange={(val) => setText(val.toLowerCase())}
                 onEnter={(val) => {
                     setText("")
+                    setClearCount(clearCount + 1)
                     if (!options) {
                         onEnter?.(val)
                         return
@@ -32,6 +35,7 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
                 }}
                 onEscape={(val) => {
                     setText("")
+                    setClearCount(clearCount + 1)
                     onEscape?.(val)
                 }}
                 onArrowDown={selectNext}
@@ -55,6 +59,7 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
                             key={option}
                             onClick={() => {
                                 setText("")
+                                setClearCount(clearCount + 1)
                                 onEnter?.(option)
                             }}
                             highlight={selected === option}
