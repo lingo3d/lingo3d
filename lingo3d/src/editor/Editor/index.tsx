@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import getDisplayName from "../utils/getDisplayName"
 import Setup, { defaultSetup } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
@@ -22,6 +22,7 @@ import { multipleSelectionTargets } from "../../collections/multipleSelectionTar
 import ComboBox from "../component/Combobox"
 import { FolderApi } from "./tweakpane"
 import { createPortal } from "preact/compat"
+import { getScriptSystemNames } from "../../states/useScriptSystemNames"
 
 const Editor = () => {
     useInitCSS()
@@ -83,6 +84,15 @@ const Editor = () => {
         }
     }, [selectionTarget, selectedSignal.value, includeKeys, pane, refresh])
 
+    const systemNamesRecord = useSyncState(getScriptSystemNames)
+    const systemNames = useMemo(() => {
+        const systemNames: Array<string> = []
+        for (const val of Object.values(systemNamesRecord))
+            systemNames.push(...val)
+        return systemNames
+    }, [systemNamesRecord])
+    console.log(systemNames)
+
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
@@ -121,20 +131,7 @@ const Editor = () => {
             />
             {systemsFolderElement &&
                 createPortal(
-                    <ComboBox
-                        options={[
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8",
-                            "9",
-                            "10"
-                        ]}
-                    />,
+                    <ComboBox options={systemNames} />,
                     systemsFolderElement
                 )}
             <div
