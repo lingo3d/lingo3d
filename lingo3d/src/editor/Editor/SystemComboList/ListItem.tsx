@@ -5,18 +5,26 @@ import MenuButton from "../../component/MenuButton"
 type Props = {
     system: System<any, any>
     onDelete?: () => void
+    disabled?: boolean
 }
 
-const ListItem = ({ system, onDelete }: Props) => {
+const ListItem = ({ system, onDelete, disabled }: Props) => {
     return (
-        <MenuButton key={system.name} compact padding={6} cursor="cursor">
+        <MenuButton
+            key={system.name}
+            compact
+            padding={6}
+            cursor="cursor"
+            disabled={disabled}
+        >
             <div
                 style={{
-                    cursor: "pointer",
+                    cursor: disabled ? undefined : "pointer",
                     padding: 4,
-                    margin: -4
+                    margin: -4,
+                    opacity: disabled ? 0.5 : 1
                 }}
-                onClick={onDelete}
+                onClick={disabled ? undefined : onDelete}
             >
                 <DeleteIcon />
             </div>

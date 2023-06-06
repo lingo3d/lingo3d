@@ -34,7 +34,17 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                 {selectionTargetPtr[0] &&
                     [...selectionTargetPtr[0].$systems.values()].map(
                         (system) => (
-                            <ListItem key={system.name} system={system} />
+                            <ListItem
+                                key={system.name}
+                                system={system}
+                                disabled={!systemsMap.has(system.name)}
+                                onDelete={() => {
+                                    systemsMap
+                                        .get(system.name)!
+                                        .delete(selectionTargetPtr[0])
+                                    setRefresh({})
+                                }}
+                            />
                         )
                     )}
             </div>
