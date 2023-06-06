@@ -1,10 +1,10 @@
 import { createPortal, useMemo, useState } from "preact/compat"
-import ComboBox from "../component/Combobox"
-import { getScriptSystemNames } from "../../states/useScriptSystemNames"
-import useSyncState from "../hooks/useSyncState"
-import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
-import { systemsMap } from "../../collections/systemsMap"
-import MenuButton from "../component/MenuButton"
+import ComboBox from "../../component/Combobox"
+import { getScriptSystemNames } from "../../../states/useScriptSystemNames"
+import useSyncState from "../../hooks/useSyncState"
+import { selectionTargetPtr } from "../../../pointers/selectionTargetPtr"
+import { systemsMap } from "../../../collections/systemsMap"
+import MenuButton from "../../component/MenuButton"
 
 type Props = {
     systemsFolderElement: HTMLDivElement

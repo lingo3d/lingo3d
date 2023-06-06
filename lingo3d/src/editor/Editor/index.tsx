@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import getDisplayName from "../utils/getDisplayName"
 import Setup, { defaultSetup } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
@@ -20,7 +20,7 @@ import { stopPropagation } from "../utils/stopPropagation"
 import { onEditorRefresh } from "../../events/onEditorRefresh"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 import { FolderApi } from "./tweakpane"
-import SystemsComboList from "./SystemsComboList"
+import SystemsComboList from "./SystemComboList"
 
 const Editor = () => {
     useInitCSS()
