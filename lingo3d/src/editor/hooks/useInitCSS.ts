@@ -22,6 +22,7 @@ export default lazy(() => {
             }
             .lingo3d-font * {
                 font-family: ${fontFamily} !important;
+                font-weight: normal !important;
             }
             .lingo3d-ui {
                 overscroll-behavior: none;
@@ -33,6 +34,7 @@ export default lazy(() => {
                 font-size: 11px;
                 max-height: 100%;
                 font-family: ${fontFamily};
+                font-weight: normal;
             }
             .lingo3d-ui *::-webkit-scrollbar {
                 width: 4px;

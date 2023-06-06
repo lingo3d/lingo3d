@@ -8,6 +8,7 @@ type MenuItemProps = {
     onClick?: (e: MouseEvent) => void
     children: string
     compact?: boolean
+    padding?: number
     activeSignal?: Signal<any>
 }
 
@@ -17,6 +18,7 @@ const MenuButton = ({
     onClick,
     children,
     compact,
+    padding,
     activeSignal
 }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
@@ -27,8 +29,10 @@ const MenuButton = ({
                 display: "flex",
                 alignItems: "center",
                 height: compact ? "100%" : APPBAR_HEIGHT,
-                paddingLeft: 20,
-                paddingRight: 20,
+                paddingLeft: padding ?? 20,
+                paddingRight: padding ?? 20,
+                paddingTop: padding,
+                paddingBottom: padding,
                 whiteSpace: "nowrap",
                 background: disabled
                     ? undefined
