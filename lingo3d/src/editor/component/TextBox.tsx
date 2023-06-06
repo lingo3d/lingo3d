@@ -10,6 +10,7 @@ type Props = {
     onChange?: (val: string) => void
     clearOnChange?: any
     placeholder?: string
+    debounce?: number
 }
 
 const TextBox = ({
@@ -17,7 +18,8 @@ const TextBox = ({
     fullWidth,
     onChange,
     clearOnChange,
-    placeholder = "Search..."
+    placeholder = "Search...",
+    debounce
 }: Props) => {
     const textSignal = useSignal("")
 
@@ -30,14 +32,18 @@ const TextBox = ({
             onChange?.("")
             return
         }
+        if (debounce === 0) {
+            onChange?.(textSignal.value)
+            return
+        }
         const timeout = setTimeout(
-            () => onChange?.(textSignal.value.trim()),
-            CLICK_TIME
+            () => onChange?.(textSignal.value),
+            debounce ?? CLICK_TIME
         )
         return () => {
             clearTimeout(timeout)
         }
-    }, [textSignal.value])
+    }, [textSignal.value, debounce])
 
     return (
         <div
