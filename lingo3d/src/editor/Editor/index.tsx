@@ -19,10 +19,8 @@ import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { onEditorRefresh } from "../../events/onEditorRefresh"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
-import ComboBox from "../component/Combobox"
 import { FolderApi } from "./tweakpane"
-import { createPortal } from "preact/compat"
-import { getScriptSystemNames } from "../../states/useScriptSystemNames"
+import SystemsComboList from "./SystemsComboList"
 
 const Editor = () => {
     useInitCSS()
@@ -84,14 +82,6 @@ const Editor = () => {
         }
     }, [selectionTarget, selectedSignal.value, includeKeys, pane, refresh])
 
-    const systemNamesRecord = useSyncState(getScriptSystemNames)
-    const systemNames = useMemo(() => {
-        const systemNames: Array<string> = []
-        for (const val of Object.values(systemNamesRecord))
-            systemNames.push(...val)
-        return systemNames
-    }, [systemNamesRecord])
-
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
@@ -128,11 +118,9 @@ const Editor = () => {
                 }}
                 clearOnChange={selectedSignal.value.at(-1)}
             />
-            {systemsFolderElement &&
-                createPortal(
-                    <ComboBox options={systemNames} onEnter={val => console.log(val)} />,
-                    systemsFolderElement
-                )}
+            {systemsFolderElement && (
+                <SystemsComboList systemsFolderElement={systemsFolderElement} />
+            )}
             <div
                 style={{
                     flexGrow: 1,
