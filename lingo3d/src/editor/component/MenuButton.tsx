@@ -1,14 +1,16 @@
 import { useState } from "preact/hooks"
 import { APPBAR_HEIGHT } from "../../globals"
 import { Signal } from "@preact/signals"
+import { ComponentChildren } from "preact"
 
 type MenuItemProps = {
     disabled?: boolean
     highlight?: boolean
     onClick?: (e: MouseEvent) => void
-    children: string
+    children: ComponentChildren
     compact?: boolean
     padding?: number
+    cursor?: string
     activeSignal?: Signal<any>
 }
 
@@ -19,6 +21,7 @@ const MenuButton = ({
     children,
     compact,
     padding,
+    cursor = "pointer",
     activeSignal
 }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
@@ -44,7 +47,7 @@ const MenuButton = ({
                     ? "rgba(255, 255, 255, 0.1)"
                     : undefined,
                 opacity: disabled ? 0.5 : 1,
-                cursor: disabled ? undefined : "pointer"
+                cursor: disabled ? undefined : cursor
             }}
             onClick={disabled ? undefined : onClick}
             onMouseEnter={disabled ? undefined : () => setHover(true)}

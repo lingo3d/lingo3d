@@ -4,7 +4,7 @@ import { getScriptSystemNames } from "../../../states/useScriptSystemNames"
 import useSyncState from "../../hooks/useSyncState"
 import { selectionTargetPtr } from "../../../pointers/selectionTargetPtr"
 import { systemsMap } from "../../../collections/systemsMap"
-import MenuButton from "../../component/MenuButton"
+import ListItem from "./ListItem"
 
 type Props = {
     systemsFolderElement: HTMLDivElement
@@ -34,9 +34,7 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                 {selectionTargetPtr[0] &&
                     [...selectionTargetPtr[0].$systems.values()].map(
                         (system) => (
-                            <MenuButton key={system.name} compact padding={6}>
-                                {system.name}
-                            </MenuButton>
+                            <ListItem key={system.name} system={system} />
                         )
                     )}
             </div>
