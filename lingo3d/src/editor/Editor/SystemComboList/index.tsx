@@ -1,10 +1,11 @@
-import { createPortal, useMemo, useState } from "preact/compat"
+import { createPortal, useEffect, useMemo, useState } from "preact/compat"
 import ComboBox from "../../component/Combobox"
 import { getScriptSystemNames } from "../../../states/useScriptSystemNames"
 import useSyncState from "../../hooks/useSyncState"
 import { selectionTargetPtr } from "../../../pointers/selectionTargetPtr"
 import { systemsMap } from "../../../collections/systemsMap"
 import ListItem from "./ListItem"
+import { onAfterRender } from "../../../events/onAfterRender"
 
 type Props = {
     systemsFolderElement: HTMLDivElement
@@ -21,14 +22,26 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
         return systemNames
     }, [systemNamesRecord])
 
+    useEffect(() => {
+        let count = selectionTargetPtr[0]?.$systems.size ?? 0
+        const handle = onAfterRender(() => {
+            const newCount = selectionTargetPtr[0]?.$systems.size ?? 0
+            if (newCount === count) return
+            count = newCount
+            setRefresh({})
+        })
+        return () => {
+            handle.cancel()
+        }
+    }, [])
+
     return createPortal(
         <div style={{ width: "100%" }}>
             <ComboBox
                 options={systemNames}
-                onEnter={(val) => {
+                onEnter={(val) =>
                     systemsMap.get(val)!.add(selectionTargetPtr[0])
-                    setRefresh({})
-                }}
+                }
             />
             <div style={{ opacity: 0.75 }}>
                 {selectionTargetPtr[0] &&
@@ -38,12 +51,11 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                                 key={system.name}
                                 system={system}
                                 disabled={!systemsMap.has(system.name)}
-                                onDelete={() => {
+                                onDelete={() =>
                                     systemsMap
                                         .get(system.name)!
                                         .delete(selectionTargetPtr[0])
-                                    setRefresh({})
-                                }}
+                                }
                             />
                         )
                     )}
