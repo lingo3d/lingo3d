@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import Appendable from "../../display/core/Appendable"
+import type Appendable from "../../display/core/Appendable"
 
 export default <T extends Appendable, Payload>(
     name: string,
@@ -17,17 +17,18 @@ export default <T extends Appendable, Payload>(
 
     const deleteSystem = (item: T) => {
         if (!queued.delete(item)) return
-        item.$deleteSystemSet.delete(deleteSystem)
+        item.$systems.delete(name)
         queued.size === 0 && handle?.cancel()
     }
-    return {
+    const system = {
         name,
         add: (item: T) => {
             if (queued.has(item)) return
             queued.add(item)
-            item.$deleteSystemSet.add(deleteSystem)
+            item.$systems.set(name, system)
             if (queued.size === 1) start()
         },
         delete: deleteSystem
     }
+    return system
 }

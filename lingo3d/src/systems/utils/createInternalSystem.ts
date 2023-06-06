@@ -116,9 +116,7 @@ export default <
     const executeDelete = (item: GameObject) => {
         deleteEffectSystem(item)
         const deleted = queued.delete(item)
-        deleted &&
-            "$deleteSystemSet" in item &&
-            item.$deleteSystemSet.delete(deleteSystem)
+        deleted && "$systems" in item && item.$systems.delete(name)
         return deleted
     }
 
@@ -143,9 +141,7 @@ export default <
     const executeAdd = (item: GameObject, initData?: Data) => {
         const added = !queued.has(item)
         queued.set(item, executeSetup(item, initData))
-        added &&
-            "$deleteSystemSet" in item &&
-            item.$deleteSystemSet.add(deleteSystem)
+        added && "$systems" in item && item.$systems.set(name, system)
         return added
     }
 
@@ -156,9 +152,10 @@ export default <
               startUpdateLoop!()
         : executeAdd
 
-    return <System<GameObject, Data>>{
+    const system = <System<GameObject, Data>>{
         name,
         add: addSystem,
         delete: deleteSystem
     }
+    return system
 }

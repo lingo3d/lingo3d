@@ -15,6 +15,7 @@ import { emitId } from "../../events/onId"
 import { GameObjectType } from "../../api/serializer/types"
 import { loopSystem } from "../../systems/loopSystem"
 import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
+import type { System } from "../../systems/utils/createInternalSystem"
 
 type EventName = "name" | "runtimeSchema" | "loaded"
 
@@ -70,9 +71,9 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$appendNode(child)
     }
 
-    private _deleteSystemSet?: Set<(self: any) => void>
-    public get $deleteSystemSet() {
-        return (this._deleteSystemSet ??= new Set())
+    private _systems?: Map<string, System<any, any>>
+    public get $systems() {
+        return (this._systems ??= new Map<string, System<any, any>>())
     }
 
     protected disposeNode() {
@@ -80,8 +81,8 @@ export default class Appendable extends Disposable implements IAppendable {
         this._id && userIdMap.get(this._id)!.delete(this)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
-        if (this._deleteSystemSet)
-            for (const deleteSystem of this._deleteSystemSet) deleteSystem(this)
+        if (this._systems)
+            for (const system of this._systems.values()) system.delete(this)
         emitDispose(this)
     }
 
