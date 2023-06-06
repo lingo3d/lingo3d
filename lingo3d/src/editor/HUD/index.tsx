@@ -9,7 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingAssetsCount } from "../../states/useLoadingAssetsCount"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
-import { getTabPaused } from "../../states/useTabPaused"
+import { getDocumentHidden } from "../../states/useDocumentHidden"
 
 const HUD = () => {
     useInitCSS()
@@ -17,7 +17,7 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const loadingAssetsCount = useSyncState(getLoadingAssetsCount)
-    const tabPaused = useSyncState(getTabPaused)
+    const documentHidden = useSyncState(getDocumentHidden)
 
     return createPortal(
         <div
@@ -30,7 +30,7 @@ const HUD = () => {
             </InfoScreen>
             <InfoScreen
                 style={{ background: "rgba(0, 0, 0, 0.5)" }}
-                mounted={tabPaused}
+                mounted={documentHidden}
             >
                 paused
             </InfoScreen>

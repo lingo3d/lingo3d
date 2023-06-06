@@ -8,7 +8,7 @@ import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
-import { getTabPaused } from "../states/useTabPaused"
+import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 
@@ -21,7 +21,7 @@ createEffect(() => {
     if (
         worldPlayPtr[0] === "script" ||
         worldPlayPtr[0] === "runtime" ||
-        getTabPaused()
+        getDocumentHidden()
     )
         return
 
@@ -39,7 +39,7 @@ createEffect(() => {
     return () => {
         rendererPtr[0].setAnimationLoop(null)
     }
-}, [getFps, getRenderer, getWorldPlay, getTabPaused])
+}, [getFps, getRenderer, getWorldPlay, getDocumentHidden])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)
