@@ -29,6 +29,44 @@ const eraseExpressionTypes = (path: any) => {
     if (path.node.typeArguments) path.node.typeArguments = undefined
 }
 
+const eraseTypes = {
+    FunctionDeclaration: eraseFunctionTypes,
+    ArrowFunctionExpression: eraseFunctionTypes,
+    NewExpression: eraseExpressionTypes,
+    CallExpression: eraseExpressionTypes,
+    ClassDeclaration(path: any) {
+        if (path.node.typeParameters) {
+            path.node.typeParameters = undefined
+        }
+    },
+    VariableDeclaration(path: any) {
+        path.node.declarations.forEach((declaration: any) => {
+            declaration.id.typeAnnotation = undefined
+        })
+    },
+    ClassProperty: eraseClassPropertyTypes,
+    ClassPrivateProperty: eraseClassPropertyTypes,
+    ClassMethod: eraseFunctionTypes,
+    ClassPrivateMethod: eraseFunctionTypes,
+    ObjectProperty: erasePropertyTypes,
+    ObjectMethod: eraseFunctionTypes,
+    TSAsExpression(path: any) {
+        path.replaceWith(path.node.expression)
+    }
+}
+
+const systemOptionKeys = new Set([
+    "data",
+    "effect",
+    "cleanup",
+    "update",
+    "updateTicker",
+    "effectTicker",
+    "beforeTick",
+    "afterTick",
+    "sort"
+])
+
 //@ts-ignore
 window.lingo3dCreateSystem = createSystem
 
@@ -54,22 +92,20 @@ export default async (script: Script) => {
     const systemASTs: Record<string, Node> = {}
     const systemNames: Array<string> = []
 
+    const convertExportsToSystemOptionsNodes: Array<Node> = []
+
     traverse(ast, {
-        FunctionDeclaration(path) {
-            eraseFunctionTypes(path)
-        },
-        ArrowFunctionExpression(path) {
-            eraseFunctionTypes(path)
-        },
-        CallExpression(path) {
+        ...eraseTypes,
+        CallExpression(path: any) {
             eraseExpressionTypes(path)
-            //@ts-ignore
+
+            if (script.type !== "script") return
+
             const { name, type } = path.node.callee
             if (
                 name === "createSystem" &&
                 type === "Identifier" &&
                 path.scope.hasBinding(name) &&
-                //@ts-ignore
                 path.scope.getBinding(name).kind === "module"
             ) {
                 const firstArgument = path.node.arguments[0]
@@ -87,41 +123,6 @@ export default async (script: Script) => {
                 systemNames.push(firstArgument.value)
             }
         },
-        NewExpression(path) {
-            eraseExpressionTypes(path)
-        },
-        ClassDeclaration(path) {
-            if (path.node.typeParameters) {
-                path.node.typeParameters = undefined
-            }
-        },
-        VariableDeclaration(path) {
-            path.node.declarations.forEach((declaration) => {
-                //@ts-ignore
-                declaration.id.typeAnnotation = undefined
-            })
-        },
-        ClassProperty(path) {
-            eraseClassPropertyTypes(path)
-        },
-        ClassPrivateProperty(path) {
-            eraseClassPropertyTypes(path)
-        },
-        ClassMethod(path) {
-            eraseFunctionTypes(path)
-        },
-        ClassPrivateMethod(path) {
-            eraseFunctionTypes(path)
-        },
-        ObjectProperty(path) {
-            erasePropertyTypes(path)
-        },
-        ObjectMethod(path) {
-            eraseFunctionTypes(path)
-        },
-        TSAsExpression(path) {
-            path.replaceWith(path.node.expression)
-        },
         ImportDeclaration(path) {
             const importSource = path.node.source.value
             if (importSource !== "lingo3d") return
@@ -134,30 +135,67 @@ export default async (script: Script) => {
             path.replaceWithMultiple(
                 imports.map((importCode) => parse(importCode).program.body[0])
             )
-        }
+        },
+        ...(script.type === "system" && {
+            ExportNamedDeclaration(path) {
+                const declaration = path.node.declaration
+                if (!declaration || declaration.type !== "VariableDeclaration")
+                    return
+
+                const variableDeclarator = declaration.declarations[0]
+                //@ts-ignore
+                const identifier = variableDeclarator.id.name
+                if (!systemOptionKeys.has(identifier)) return
+
+                const functionExpressionNode = variableDeclarator.init
+                if (
+                    functionExpressionNode?.type !==
+                        "ArrowFunctionExpression" &&
+                    functionExpressionNode?.type !== "FunctionExpression"
+                )
+                    return
+
+                convertExportsToSystemOptionsNodes.push(functionExpressionNode)
+                path.remove()
+            }
+        })
     })
 
-    if (USE_EDITOR_SYSTEMS) {
-        const systemQueuedMap = new Map<string, Array<any>>()
-        if (scriptUUIDSystemNamesMap.has(script.uuid))
-            for (const name of scriptUUIDSystemNamesMap.get(script.uuid)!) {
-                const system = systemsMap.get(name)!
-                for (const item of system.queued)
-                    forceGetInstance(systemQueuedMap, name, Array).push(item)
-                system.dispose()
-                systemsMap.delete(name)
-            }
-        for (const [name, ast] of Object.entries(systemASTs)) {
-            const system = eval(
-                `lingo3dCreateSystem("${name}", ${generate(ast).code})`
-            )
-            if (!systemQueuedMap.has(name)) continue
-            for (const item of systemQueuedMap.get(name)!) system.add(item)
-        }
+    if (convertExportsToSystemOptionsNodes.length) {
+        const systemAST = parse(`lingo3dCreateSystem("${script.name}", {})`)
+        const systemNode = systemAST.program.body[0]
+        //@ts-ignore
+        const { properties } = systemNode.expression.arguments[1]
+        for (const node of convertExportsToSystemOptionsNodes)
+            properties.push(node)
+
+        traverse(systemAST, eraseTypes)
+        ast.program.body.push(systemNode)
     }
-    systemNames.length
-        ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
-        : scriptUUIDSystemNamesMap.delete(script.uuid)
+
+    console.log(generate(ast).code)
+
+    // if (USE_EDITOR_SYSTEMS) {
+    //     const systemQueuedMap = new Map<string, Array<any>>()
+    //     if (scriptUUIDSystemNamesMap.has(script.uuid))
+    //         for (const name of scriptUUIDSystemNamesMap.get(script.uuid)!) {
+    //             const system = systemsMap.get(name)!
+    //             for (const item of system.queued)
+    //                 forceGetInstance(systemQueuedMap, name, Array).push(item)
+    //             system.dispose()
+    //             systemsMap.delete(name)
+    //         }
+    //     for (const [name, ast] of Object.entries(systemASTs)) {
+    //         const system = eval(
+    //             `lingo3dCreateSystem("${name}", ${generate(ast).code})`
+    //         )
+    //         if (!systemQueuedMap.has(name)) continue
+    //         for (const item of systemQueuedMap.get(name)!) system.add(item)
+    //     }
+    // }
+    // systemNames.length
+    //     ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
+    //     : scriptUUIDSystemNamesMap.delete(script.uuid)
 
     scriptRuntime && setScriptCompile({ compiled: generate(ast).code })
 }
