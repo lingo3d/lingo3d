@@ -39,7 +39,10 @@ export default <T extends Appendable, Data extends Record<string, any>>(
             item.$systems.set(name, system)
             if (queued.size === 1) start()
         },
-        delete: deleteSystem
+        delete: deleteSystem,
+        dispose: () => {
+            for (const [item] of queued) deleteSystem(item)
+        }
     }
     return system
 }

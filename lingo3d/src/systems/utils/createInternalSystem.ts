@@ -59,6 +59,7 @@ export type System<
     name: string
     add: (item: GameObject, initData?: Data) => void
     delete: (item: GameObject) => void
+    dispose: () => void
 }
 
 export default <
@@ -155,7 +156,10 @@ export default <
     const system: System<GameObject, Data> = {
         name,
         add: addSystem,
-        delete: deleteSystem
+        delete: deleteSystem,
+        dispose: () => {
+            for (const [item] of queued) deleteSystem(item)
+        }
     }
     return system
 }
