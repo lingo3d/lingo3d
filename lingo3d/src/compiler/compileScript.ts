@@ -142,21 +142,19 @@ export default async (script: Script) => {
     })
 
     if (USE_EDITOR_SYSTEMS) {
-        const queuedMap = new Map<string, Array<any>>()
-        for (const names of Object.values(getScriptSystemNames()))
-            for (const name of names) {
-                const system = systemsMap.get(name)!
-                for (const item of system.queued)
-                    forceGetInstance(queuedMap, name, Array).push(item)
-                system.dispose()
-                systemsMap.delete(name)
-            }
+        const systemQueuedMap = new Map<string, Array<any>>()
+        for (const [name, system] of systemsMap) {
+            for (const item of system.queued)
+                forceGetInstance(systemQueuedMap, name, Array).push(item)
+            system.dispose()
+            systemsMap.delete(name)
+        }
         for (const [name, ast] of Object.entries(systemASTs)) {
             const system = eval(
                 `lingo3dCreateSystem("${name}", ${generate(ast).code})`
             )
-            if (!queuedMap.has(name)) continue
-            for (const item of queuedMap.get(name)!) system.add(item)
+            if (!systemQueuedMap.has(name)) continue
+            for (const item of systemQueuedMap.get(name)!) system.add(item)
         }
     }
     systemNames.length
