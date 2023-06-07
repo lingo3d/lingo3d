@@ -1,8 +1,14 @@
+import { systemsMap } from "../collections/systemsMap"
+import { USE_EDITOR_SYSTEMS } from "../globals"
 import IScript, {
     ScriptLanguage,
     scriptDefaults,
     scriptSchema
 } from "../interface/IScript"
+import {
+    getScriptSystemNames,
+    omitScriptSystemNames
+} from "../states/useScriptSystemNames"
 import Appendable from "./core/Appendable"
 
 export default class Script extends Appendable implements IScript {
@@ -12,4 +18,14 @@ export default class Script extends Appendable implements IScript {
 
     public code = ""
     public language: ScriptLanguage = "TypeScript"
+
+    protected override disposeNode() {
+        super.disposeNode()
+        if (USE_EDITOR_SYSTEMS)
+            for (const name of getScriptSystemNames()[this.uuid] ?? []) {
+                systemsMap.get(name)!.dispose()
+                systemsMap.delete(name)
+            }
+        omitScriptSystemNames(this.uuid)
+    }
 }

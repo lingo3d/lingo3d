@@ -143,7 +143,8 @@ export default async (script: Script) => {
 
     if (USE_EDITOR_SYSTEMS) {
         const systemQueuedMap = new Map<string, Array<any>>()
-        for (const [name, system] of systemsMap) {
+        for (const name of getScriptSystemNames()[script.uuid] ?? []) {
+            const system = systemsMap.get(name)!
             for (const item of system.queued)
                 forceGetInstance(systemQueuedMap, name, Array).push(item)
             system.dispose()
