@@ -2,16 +2,12 @@ import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { setScriptCompile } from "../states/useScriptCompile"
-import {
-    assignScriptSystemNames,
-    getScriptSystemNames,
-    omitScriptSystemNames
-} from "../states/useScriptSystemNames"
 import { Node } from "@babel/traverse"
 import createSystem from "../systems/utils/createSystem"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import { systemsMap } from "../collections/systemsMap"
 import { forceGetInstance } from "@lincode/utils"
+import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -143,13 +139,14 @@ export default async (script: Script) => {
 
     if (USE_EDITOR_SYSTEMS) {
         const systemQueuedMap = new Map<string, Array<any>>()
-        for (const name of getScriptSystemNames()[script.uuid] ?? []) {
-            const system = systemsMap.get(name)!
-            for (const item of system.queued)
-                forceGetInstance(systemQueuedMap, name, Array).push(item)
-            system.dispose()
-            systemsMap.delete(name)
-        }
+        if (scriptUUIDSystemNamesMap.has(script.uuid))
+            for (const name of scriptUUIDSystemNamesMap.get(script.uuid)!) {
+                const system = systemsMap.get(name)!
+                for (const item of system.queued)
+                    forceGetInstance(systemQueuedMap, name, Array).push(item)
+                system.dispose()
+                systemsMap.delete(name)
+            }
         for (const [name, ast] of Object.entries(systemASTs)) {
             const system = eval(
                 `lingo3dCreateSystem("${name}", ${generate(ast).code})`
@@ -159,8 +156,8 @@ export default async (script: Script) => {
         }
     }
     systemNames.length
-        ? assignScriptSystemNames({ [script.uuid]: systemNames })
-        : omitScriptSystemNames(script.uuid)
+        ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
+        : scriptUUIDSystemNamesMap.delete(script.uuid)
 
     scriptRuntime && setScriptCompile({ compiled: generate(ast).code })
 }

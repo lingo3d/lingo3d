@@ -1,11 +1,10 @@
 import { createPortal, useEffect, useMemo, useState } from "preact/compat"
 import ComboBox from "../../component/Combobox"
-import { getScriptSystemNames } from "../../../states/useScriptSystemNames"
-import useSyncState from "../../hooks/useSyncState"
 import { selectionTargetPtr } from "../../../pointers/selectionTargetPtr"
 import { systemsMap } from "../../../collections/systemsMap"
 import ListItem from "./ListItem"
 import { onAfterRender } from "../../../events/onAfterRender"
+import { scriptUUIDSystemNamesMap } from "../../../collections/scriptUUIDSystemNamesMap"
 
 type Props = {
     systemsFolderElement: HTMLDivElement
@@ -14,13 +13,12 @@ type Props = {
 const SystemsComboList = ({ systemsFolderElement }: Props) => {
     const [_, setRefresh] = useState({})
 
-    const systemNamesRecord = useSyncState(getScriptSystemNames)
     const systemNames = useMemo(() => {
         const systemNames: Array<string> = []
-        for (const val of Object.values(systemNamesRecord))
+        for (const val of scriptUUIDSystemNamesMap.values())
             systemNames.push(...val)
         return systemNames
-    }, [systemNamesRecord])
+    }, [])
 
     useEffect(() => {
         let count = selectionTargetPtr[0]?.$systems.size ?? 0

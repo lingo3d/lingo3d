@@ -1,3 +1,4 @@
+import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
 import { systemsMap } from "../collections/systemsMap"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import IScript, {
@@ -5,10 +6,6 @@ import IScript, {
     scriptDefaults,
     scriptSchema
 } from "../interface/IScript"
-import {
-    getScriptSystemNames,
-    omitScriptSystemNames
-} from "../states/useScriptSystemNames"
 import Appendable from "./core/Appendable"
 
 export default class Script extends Appendable implements IScript {
@@ -21,11 +18,11 @@ export default class Script extends Appendable implements IScript {
 
     protected override disposeNode() {
         super.disposeNode()
-        if (USE_EDITOR_SYSTEMS)
-            for (const name of getScriptSystemNames()[this.uuid] ?? []) {
+        if (USE_EDITOR_SYSTEMS && scriptUUIDSystemNamesMap.has(this.uuid))
+            for (const name of scriptUUIDSystemNamesMap.get(this.uuid)!) {
                 systemsMap.get(name)!.dispose()
                 systemsMap.delete(name)
             }
-        omitScriptSystemNames(this.uuid)
+        scriptUUIDSystemNamesMap.delete(this.uuid)
     }
 }
