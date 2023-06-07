@@ -3,6 +3,7 @@ import { systemsMap } from "../collections/systemsMap"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import IScript, {
     ScriptLanguage,
+    ScriptType,
     scriptDefaults,
     scriptSchema
 } from "../interface/IScript"
@@ -15,6 +16,7 @@ export default class Script extends Appendable implements IScript {
 
     public code = ""
     public language: ScriptLanguage = "TypeScript"
+    public type: ScriptType = "script"
 
     protected override disposeNode() {
         super.disposeNode()

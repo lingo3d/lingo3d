@@ -5,12 +5,16 @@ import { APPBAR_HEIGHT } from "../../globals"
 import TextBox from "../component/TextBox"
 import SelectBox from "../component/SelectBox"
 import IconButton from "../component/IconButton"
-import { ScriptLanguage } from "../../interface/IScript"
+import { ScriptLanguage, ScriptType } from "../../interface/IScript"
 import { useRef } from "preact/hooks"
 
 export const newScriptDialogSignal: Signal<
     | {
-          onConfirm: (name: string, language: ScriptLanguage) => void
+          onConfirm: (
+              name: string,
+              language: ScriptLanguage,
+              type: ScriptType
+          ) => void
       }
     | undefined
 > = signal(undefined)
@@ -19,6 +23,8 @@ const NewScriptDialog = () => {
     const { value } = newScriptDialogSignal
     const nameSignal = useSignal("")
     const langaugeRef = useRef<ScriptLanguage>("TypeScript")
+    const typeRef = useRef<ScriptType>("script")
+
     if (!value) return null
 
     return (
@@ -43,6 +49,12 @@ const NewScriptDialog = () => {
                     onChange={(_, val) =>
                         (langaugeRef.current = val as ScriptLanguage)
                     }
+                />
+                <SelectBox
+                    label="Type"
+                    style={{ paddingLeft: 12, paddingRight: 6 }}
+                    options={["script", "system"]}
+                    onChange={(_, val) => (typeRef.current = val as ScriptType)}
                 />
                 <div
                     style={{
@@ -69,7 +81,8 @@ const NewScriptDialog = () => {
                             if (!nameSignal.value) return
                             value.onConfirm(
                                 nameSignal.value,
-                                langaugeRef.current
+                                langaugeRef.current,
+                                typeRef.current
                             )
                             newScriptDialogSignal.value = undefined
                         }}

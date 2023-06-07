@@ -13,6 +13,20 @@ import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
 
+const systemScript = `import {  } from "lingo3d"
+
+export const update = (target: any) => {
+    // executes once every frame
+}
+
+export const effect = (target: any) => {
+    // executes when target is added to system
+}
+
+export const cleanup = () => {
+    // executes when target is deleted from system, or if target id disposed
+}`
+
 const MenuBarFileContextMenu = () => {
     return (
         <ContextMenu positionSignal={menuBarFileContextMenuSignal}>
@@ -20,11 +34,15 @@ const MenuBarFileContextMenu = () => {
             <MenuButton
                 onClick={() => {
                     newScriptDialogSignal.value = {
-                        onConfirm: (name, language) => {
+                        onConfirm: (name, language, type) => {
                             const script = new Script()
                             script.name = name
                             script.language = language
-                            script.code = `import { createSystem } from "lingo3d"`
+                            script.type = type
+                            script.code =
+                                type === "script"
+                                    ? `import { createSystem } from "lingo3d"\n\n`
+                                    : systemScript
                             setScript(script)
                         }
                     }
