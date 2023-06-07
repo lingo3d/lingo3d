@@ -4,11 +4,14 @@ import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { setScriptCompile } from "../states/useScriptCompile"
 import {
     assignScriptSystemNames,
+    getScriptSystemNames,
     omitScriptSystemNames
 } from "../states/useScriptSystemNames"
 import { Node } from "@babel/traverse"
 import createSystem from "../systems/utils/createSystem"
 import { USE_EDITOR_SYSTEMS } from "../globals"
+import { systemsMap } from "../collections/systemsMap"
+import { forceGetInstance } from "@lincode/utils"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -138,13 +141,27 @@ export default async (script: Script) => {
         }
     })
 
+    if (USE_EDITOR_SYSTEMS) {
+        const queuedMap = new Map<string, Array<any>>()
+        for (const names of Object.values(getScriptSystemNames()))
+            for (const name of names) {
+                const system = systemsMap.get(name)!
+                for (const item of system.queued)
+                    forceGetInstance(queuedMap, name, Array).push(item)
+                system.dispose()
+                systemsMap.delete(name)
+            }
+        for (const [name, ast] of Object.entries(systemASTs)) {
+            const system = eval(
+                `lingo3dCreateSystem("${name}", ${generate(ast).code})`
+            )
+            if (!queuedMap.has(name)) continue
+            for (const item of queuedMap.get(name)!) system.add(item)
+        }
+    }
     systemNames.length
         ? assignScriptSystemNames({ [script.uuid]: systemNames })
         : omitScriptSystemNames(script.uuid)
-
-    if (USE_EDITOR_SYSTEMS)
-        for (const [name, ast] of Object.entries(systemASTs))
-            eval(`lingo3dCreateSystem("${name}", ${generate(ast).code})`)
 
     scriptRuntime && setScriptCompile({ compiled: generate(ast).code })
 }

@@ -60,6 +60,7 @@ export type System<
     add: (item: GameObject, initData?: Data) => void
     delete: (item: GameObject) => void
     dispose: () => void
+    queued: Array<GameObject>
 }
 
 export default <
@@ -159,6 +160,9 @@ export default <
         delete: deleteSystem,
         dispose: () => {
             for (const [item] of queued) deleteSystem(item)
+        },
+        get queued() {
+            return [...queued.keys()]
         }
     }
     return system

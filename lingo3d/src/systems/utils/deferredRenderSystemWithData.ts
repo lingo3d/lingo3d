@@ -42,6 +42,9 @@ export default <T extends Appendable, Data extends Record<string, any>>(
         delete: deleteSystem,
         dispose: () => {
             for (const [item] of queued) deleteSystem(item)
+        },
+        get queued() {
+            return [...queued.keys()]
         }
     }
     return system

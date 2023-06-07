@@ -31,6 +31,9 @@ export default <T extends Appendable, Payload>(
         delete: deleteSystem,
         dispose: () => {
             for (const item of queued) deleteSystem(item)
+        },
+        get queued() {
+            return [...queued]
         }
     }
     return system
