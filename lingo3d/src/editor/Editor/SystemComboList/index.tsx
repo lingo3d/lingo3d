@@ -38,6 +38,7 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
     return createPortal(
         <div style={{ width: "100%" }}>
             <ComboBox
+                placeholder="Search systems..."
                 options={systemNames}
                 onEnter={(val) =>
                     systemsMap.get(val)!.add(selectionTargetPtr[0])

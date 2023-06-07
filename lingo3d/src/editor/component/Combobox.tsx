@@ -7,9 +7,15 @@ interface ComboBoxProps {
     options: string[]
     onEnter?: (value: string) => void
     onEscape?: (value: string) => void
+    placeholder?: string
 }
 
-const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
+const ComboBox = ({
+    options,
+    onEnter,
+    onEscape,
+    placeholder
+}: ComboBoxProps) => {
     const [text, setText] = useState("")
     const [filteredOptions, selected, selectNext, selectPrev] = useComboBox(
         options,
@@ -20,6 +26,7 @@ const ComboBox = ({ options, onEnter, onEscape }: ComboBoxProps) => {
     return (
         <div>
             <TextBox
+                placeholder={placeholder}
                 fullWidth
                 debounce={0}
                 clearOnChange={clearCount}
