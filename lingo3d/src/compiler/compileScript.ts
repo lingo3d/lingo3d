@@ -203,16 +203,20 @@ export default async (script: Script) => {
                     ":undefined,"
                 )}:undefined})`
             )
-            const systemNode = systemAST.program.body[0]
-            //@ts-ignore
-            const { properties } = systemNode.expression.arguments[1]
-            for (const [key, node] of convertExportsToSystemOptionsNodes)
-                properties.find((node: any) => node.key.name === key).value =
-                    node
-
-            traverse(systemAST, eraseTypes)
-            ast.program.body.push(systemNode)
-            createSystems(script, () => ({ [name!]: generate(ast).code }))
+            traverse(systemAST, {
+                ...eraseTypes,
+                ObjectProperty(path) {
+                    erasePropertyTypes(path)
+                    const targetNode = convertExportsToSystemOptionsNodes.get(
+                        //@ts-ignore
+                        path.node.key.name
+                    )
+                    targetNode && path.get("value").replaceWith(targetNode)
+                }
+            })
+            createSystems(script, () => ({
+                [name!]: generate(ast).code + "\n" + generate(systemAST).code
+            }))
         }
     }
     systemNames.length
