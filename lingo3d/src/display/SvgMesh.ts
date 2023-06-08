@@ -1,5 +1,5 @@
-import { applyMixins, forceGet } from "@lincode/utils"
-import { ExtrudeGeometry, Group, Mesh, Shape } from "three"
+import { applyMixins } from "@lincode/utils"
+import { Group, Mesh } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
 import TexturedStandardMixin, {
@@ -14,11 +14,9 @@ import {
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
-import { measure } from "../memo/measure"
 import { shadowModePtr } from "../pointers/shadowModePtr"
 import isOpaque from "../memo/isOpaque"
-
-const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
+import getSVGExtrudeGeometries from "../memo/getSVGExtrudeGeometries"
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
@@ -43,35 +41,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         const loadedObject3d = new Group()
         loadedObject3d.scale.y *= -1
 
-        const geometries = forceGet(svgGeometryCache, svgData, () => {
-            const shapes: Array<Shape> = []
-            for (const path of svgData.paths)
-                for (const shape of path.toShapes(true)) shapes.push(shape)
-
-            if (!shapes.length) return []
-
-            const testGroup = new Group()
-            for (const shape of shapes) {
-                const geom = new ExtrudeGeometry(shape, {
-                    depth: 0,
-                    bevelEnabled: false
-                })
-                geom.dispose()
-                testGroup.add(new Mesh(geom))
-            }
-
-            const [{ y }] = measure(src, { target: testGroup })
-            const result: Array<ExtrudeGeometry> = []
-            for (const shape of shapes)
-                result.push(
-                    new ExtrudeGeometry(shape, {
-                        depth: y,
-                        bevelEnabled: false
-                    })
-                )
-            return result
-        })
-
+        const geometries = getSVGExtrudeGeometries(svgData, { src })
         for (const geometry of geometries) {
             const mesh = new Mesh(geometry, this._material)
             loadedObject3d.add(mesh)
