@@ -13,18 +13,18 @@ import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
 
-const systemScript = `import {  } from "lingo3d"
+const systemScript = `import { dt } from "lingo3d"
 
+// executes once every frame
 export const update = (target: any) => {
-    // executes once every frame
 }
 
+// executes when target is added to system
 export const effect = (target: any) => {
-    // executes when target is added to system
 }
 
+// executes when target is deleted from system, or if target id disposed
 export const cleanup = () => {
-    // executes when target is deleted from system, or if target id disposed
 }`
 
 const MenuBarFileContextMenu = () => {
@@ -41,7 +41,7 @@ const MenuBarFileContextMenu = () => {
                             script.type = type
                             script.code =
                                 type === "script"
-                                    ? `import { createSystem } from "lingo3d"\n\n`
+                                    ? `import { dt } from "lingo3d"\n\n`
                                     : systemScript
                             setScript(script)
                         }
