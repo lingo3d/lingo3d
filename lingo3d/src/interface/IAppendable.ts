@@ -9,7 +9,7 @@ import {
 } from "./utils/NullableCallback"
 
 export default interface IAppendable {
-    onLoop: Nullable<(dt: number) => void>
+    onLoop: Nullable<() => void>
     proxy: Nullable<Appendable>
     uuid: string
     id: Nullable<string>

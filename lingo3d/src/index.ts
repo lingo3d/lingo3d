@@ -78,7 +78,7 @@ import settings from "./api/settings"
 import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 import root from "./api/root"
-import dt from "./api/dt"
+import timeSync from "./api/timeSync"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
@@ -172,7 +172,7 @@ export {
     preload,
     screenshot,
     root,
-    dt,
+    timeSync,
     serialize,
     deserialize,
     onAfterRender,

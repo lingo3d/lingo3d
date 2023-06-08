@@ -195,7 +195,7 @@ export default class Appendable extends Disposable implements IAppendable {
         return handle
     }
 
-    private _onLoop?: (dt: number) => void
+    private _onLoop?: () => void
     public get onLoop() {
         return this._onLoop
     }
