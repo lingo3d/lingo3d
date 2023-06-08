@@ -1,3 +1,3 @@
-import { dtNormPtr } from "../pointers/dtNormPtr"
+import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 
-export default (num: number) => num * dtNormPtr[0]
+export default (num: number) => num * fpsRatioPtr[0]
