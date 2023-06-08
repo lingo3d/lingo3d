@@ -11,6 +11,8 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { dtNormPtr } from "../pointers/dtNormPtr"
+import { mapRange } from "@lincode/math"
 
 const callbacks = new Set<() => void>()
 
@@ -25,14 +27,16 @@ createEffect(() => {
     )
         return
 
-    const targetDelta = (1 / fpsPtr[0]) * 0.9
+    const targetDelta = 1 / fpsPtr[0]
+    const targetDeltaAdjusted = targetDelta * 0.9
 
     rendererPtr[0].setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta > 0.2) delta = 0
-        if (delta < targetDelta) return
+        if (delta < targetDeltaAdjusted) return
         fpsRatioPtr[0] = delta * STANDARD_FRAME
         dtPtr[0] = delta
+        dtNormPtr[0] = mapRange(delta, 0, targetDelta, 0, 1)
         delta = 0
         for (const cb of callbacks) cb()
     })
