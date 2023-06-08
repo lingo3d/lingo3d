@@ -28,7 +28,8 @@ export const scriptDefaults = extendDefaults<IScript>(
     [appendableDefaults],
     {
         code: "",
-        language: "TypeScript"
+        language: "TypeScript",
+        type: "system"
     },
     {
         language: new Choices({
