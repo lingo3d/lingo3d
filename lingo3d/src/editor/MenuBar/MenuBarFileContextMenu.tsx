@@ -13,7 +13,7 @@ import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
 
-const systemScript = `import { dt } from "lingo3d"
+const systemScript = `import { frameSync } from "lingo3d"
 
 // executes once every frame
 export const update = (target: any) => {
@@ -41,7 +41,7 @@ const MenuBarFileContextMenu = () => {
                             script.type = type
                             script.code =
                                 type === "script"
-                                    ? `import { dt } from "lingo3d"\n\n`
+                                    ? `import { frameSync } from "lingo3d"\n\n`
                                     : systemScript
                             setScript(script)
                         }
