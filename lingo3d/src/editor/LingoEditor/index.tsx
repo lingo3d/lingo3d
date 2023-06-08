@@ -24,6 +24,7 @@ import ScriptEditor from "../ScriptEditor"
 import Terminal from "../Terminal"
 import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
 import { getWorldPlay } from "../../states/useWorldPlay"
+import Console from "../Console"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -73,7 +74,7 @@ const LingoEditor = () => {
                 ) : (
                     <World />
                 )}
-                <Terminal />
+                <Console />
             </div>
             {stats && <Stats />}
             <HUD />

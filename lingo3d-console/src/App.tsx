@@ -9,11 +9,11 @@ function App() {
   const [logs, setLogs] = useState<Array<any>>([]);
 
   useEffect(() => {
-    setFrameProperty("$hook", (myConsole: typeof console) => {
+    setFrameProperty("$hook", (myConsole: typeof console) =>
       Hook(myConsole, (log) => {
         setLogs((currLogs) => [...currLogs, Decode(log)]);
-      });
-    });
+      })
+    );
     setFrameProperty("$unhook", Unhook);
   }, []);
 
