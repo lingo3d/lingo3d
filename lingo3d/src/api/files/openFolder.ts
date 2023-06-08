@@ -10,6 +10,7 @@ const isFileArray = (files: any): files is FileWithDirectoryAndFileHandle[] =>
 
 const makeDSStoreFile = (directoryHandle: FileSystemDirectoryHandle) => {
     const file = new File([], ".DS_Store") as FileWithDirectoryAndFileHandle
+    file.directoryHandle = directoryHandle
     Object.defineProperty(file, "webkitRelativePath", {
         value: `${directoryHandle.name}/.DS_Store`
     })

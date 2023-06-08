@@ -38,6 +38,7 @@
         "@webcontainer/api": "^1.1.5",
         "browser-fs-access": "0.34.1",
         "buffer": "^6.0.3",
+        "console-feed": "^3.5.0",
         "monaco-editor": "^0.39.0",
         "monaco-themes": "^0.4.4",
         "n8ao": "^1.5.1",
