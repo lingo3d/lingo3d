@@ -18,11 +18,9 @@ import { getSSAO } from "../../../states/useSSAO"
 import { N8AOPostPass } from "n8ao"
 import { Cancellable } from "@lincode/promiselikes"
 
-const effectComposer = new EffectComposer()
+const effectComposer = new EffectComposer(undefined, { multisampling: 4 })
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
 export default effectComposer
-
-effectComposer.multisampling = 4
 
 createEffect(() => {
     const renderPass = new RenderPass(scene, cameraRenderedPtr[0])
