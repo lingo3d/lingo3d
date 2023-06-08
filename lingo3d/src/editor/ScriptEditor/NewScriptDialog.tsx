@@ -53,7 +53,7 @@ const NewScriptDialog = () => {
                 <SelectBox
                     label="Type"
                     style={{ paddingLeft: 12, paddingRight: 6 }}
-                    options={["script", "system"]}
+                    options={["system", "script"]}
                     onChange={(_, val) => (typeRef.current = val as ScriptType)}
                 />
                 <div

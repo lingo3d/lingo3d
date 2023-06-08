@@ -3,7 +3,6 @@ import Script from "../display/Script"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { setScriptCompile } from "../states/useScriptCompile"
 import { Node } from "@babel/traverse"
-import createSystem from "../systems/utils/createSystem"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import { systemsMap } from "../collections/systemsMap"
 import { forceGetInstance } from "@lincode/utils"
@@ -68,9 +67,6 @@ const systemOptionKeys = [
 ]
 const systemOptionKeySet = new Set(systemOptionKeys)
 
-//@ts-ignore
-window.lingo3dCreateSystem = createSystem
-
 const createSystems = (
     script: Script,
     codeRecordFactory: () => Record<string, string>
@@ -98,6 +94,9 @@ export default async (script: Script) => {
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
+    const lingo3d = await import("../index")
+    //@ts-ignore
+    window.lingo3d = lingo3d
 
     let ast: ParseResult<any>
     try {
@@ -189,7 +188,7 @@ export default async (script: Script) => {
             createSystems(script, () => {
                 const codeRecord: Record<string, string> = {}
                 for (const [name, ast] of Object.entries(systemASTs))
-                    codeRecord[name] = `lingo3dCreateSystem("${name}", ${
+                    codeRecord[name] = `lingo3d.createSystem("${name}", ${
                         generate(ast).code
                     })`
                 return codeRecord
@@ -199,7 +198,7 @@ export default async (script: Script) => {
             systemNames.push(name!)
 
             const systemAST = parse(
-                `lingo3dCreateSystem("${name}", {${systemOptionKeys.join(
+                `lingo3d.createSystem("${name}", {${systemOptionKeys.join(
                     ":undefined,"
                 )}:undefined})`
             )
