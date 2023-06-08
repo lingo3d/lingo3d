@@ -24,7 +24,7 @@ export const effect = (target: any) => {
 }
 
 // executes when target is deleted from system, or if target id disposed
-export const cleanup = () => {
+export const cleanup = (target: any) => {
 }`
 
 const MenuBarFileContextMenu = () => {
