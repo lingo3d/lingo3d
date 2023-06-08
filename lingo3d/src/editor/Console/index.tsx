@@ -2,7 +2,7 @@ import { useEffect, useRef } from "preact/hooks"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { Cancellable } from "@lincode/promiselikes"
-import { PANELS_HEIGHT } from "../../globals"
+import { PANELS_HEIGHT, VERSION } from "../../globals"
 
 const Console = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -16,7 +16,11 @@ const Console = () => {
             const $hook = unsafeGetValue(iframe, "$hook")
             const $unhook = unsafeGetValue(iframe, "$unhook")
             if (!$hook || !$unhook) return
+
             const hookedConsole = $hook(console)
+            console.log(`lingo3d version ${VERSION}`)
+            console.log("console initialized")
+
             clearInterval(interval)
             handle.then(() => $unhook(hookedConsole))
         }, 100)
