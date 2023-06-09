@@ -1,7 +1,6 @@
 import { traverse } from "@lincode/utils"
 import { FileStructure } from "../states/useFileStructure"
 
-export const pathFileMap = new Map<string, File>()
 export const pathObjMap = new WeakMap<Record<string, any>, string>()
 
 export const initPathObjMap = (fileStructure: FileStructure) =>

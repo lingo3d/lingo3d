@@ -6,7 +6,7 @@ import joinPaths from "../../../api/path/joinPaths"
 import { getFileCurrent } from "../../../states/useFileCurrent"
 import { getFiles } from "../../../states/useFiles"
 import setURLModifier from "../../utils/loaders/utils/setURLModifier"
-import { pathFileMap } from "../../../collections/pathCollections"
+import { pathFileMap } from "../../../collections/pathFileMap"
 
 const objectURLExtensionMap = new Map<string, string>()
 const fileObjectURLMap = new Map<File, string>()

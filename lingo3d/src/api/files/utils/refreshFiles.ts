@@ -1,7 +1,11 @@
 import { set } from "@lincode/utils"
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
-import { pathFileMap, initPathObjMap } from "../../../collections/pathCollections"
-import { FileStructure, mergeFileStructure } from "../../../states/useFileStructure"
+import { pathFileMap } from "../../../collections/pathFileMap"
+import {
+    FileStructure,
+    mergeFileStructure
+} from "../../../states/useFileStructure"
+import { initPathObjMap } from "../../../collections/pathObjMap"
 
 export default (files: Array<FileWithDirectoryAndFileHandle>, file: File) => {
     files.push(file)
