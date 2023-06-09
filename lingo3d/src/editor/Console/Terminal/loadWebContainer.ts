@@ -4,7 +4,7 @@ import { FitAddon } from "xterm-addon-fit"
 import "xterm/css/xterm.css"
 import { WebContainer } from "@webcontainer/api"
 import mountDumpScript from "./mountDumpScript"
-import { BACKGROUND_COLOR } from "../../globals"
+import { BACKGROUND_COLOR } from "../../../globals"
 
 export const loadWebContainer = async (
     el: HTMLDivElement,

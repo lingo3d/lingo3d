@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
-import { PANELS_HEIGHT } from "../../globals"
 import { loadTerminal } from "./loadTerminal"
 
 const Terminal = () => {
@@ -19,10 +18,7 @@ const Terminal = () => {
     }, [])
 
     return (
-        <div
-            className="lingo3d-ui lingo3d-bg"
-            style={{ height: PANELS_HEIGHT }}
-        >
+        <div style={{ flexGrow: 1 }}>
             <div
                 ref={elRef}
                 style={{

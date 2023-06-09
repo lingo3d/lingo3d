@@ -2,7 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Terminal } from "xterm"
 import { FitAddon } from "xterm-addon-fit"
 import "xterm/css/xterm.css"
-import { BACKGROUND_COLOR } from "../../globals"
+import { BACKGROUND_COLOR } from "../../../globals"
 
 export const loadTerminal = (el: HTMLDivElement, handle: Cancellable) => {
     const fitAddon = new FitAddon()

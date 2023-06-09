@@ -1,43 +1,28 @@
-import { useEffect, useRef } from "preact/hooks"
-import unsafeGetValue from "../../utils/unsafeGetValue"
-import { editorUrlPtr } from "../../pointers/assetsPathPointers"
-import { Cancellable } from "@lincode/promiselikes"
-import { PANELS_HEIGHT, VERSION } from "../../globals"
+import { useSignal } from "@preact/signals"
+import AppBar from "../component/bars/AppBar"
+import CloseableTab from "../component/tabs/CloseableTab"
+import OutputConsole from "./OutputConsole"
+import Terminal from "./Terminal"
 
 const Console = () => {
-    const iframeRef = useRef<HTMLIFrameElement>(null)
-
-    useEffect(() => {
-        const iframe = iframeRef.current
-        if (!iframe) return
-
-        const handle = new Cancellable()
-        const interval = setInterval(() => {
-            const $hook = unsafeGetValue(iframe, "$hook")
-            const $unhook = unsafeGetValue(iframe, "$unhook")
-            if (!$hook || !$unhook) return
-
-            const hookedConsole = $hook(console)
-            console.log(`lingo3d version ${VERSION}`)
-            console.log("console initialized")
-
-            clearInterval(interval)
-            handle.then(() => $unhook(hookedConsole))
-        }, 100)
-
-        return () => {
-            clearInterval(interval)
-            handle.cancel()
-        }
-    }, [])
+    const selectedSignal = useSignal<Array<string>>([])
 
     return (
-        <iframe
-            ref={iframeRef}
-            className="lingo3d-ui lingo3d-bg"
-            style={{ border: "none", height: PANELS_HEIGHT }}
-            src={editorUrlPtr + "console/index.html"}
-        />
+        <div className="lingo3d-ui lingo3d-bg lingo3d-flexcol">
+            <AppBar>
+                <CloseableTab selectedSignal={selectedSignal}>
+                    console
+                </CloseableTab>
+                <CloseableTab selectedSignal={selectedSignal}>
+                    terminal
+                </CloseableTab>
+            </AppBar>
+            {selectedSignal.value.at(-1) === "console" ? (
+                <OutputConsole />
+            ) : (
+                <Terminal />
+            )}
+        </div>
     )
 }
 
