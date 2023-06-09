@@ -10,6 +10,8 @@ import { setScript } from "../../states/useScript"
 import Script from "../../display/Script"
 import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
 import createJSON from "../../api/files/createJSON"
+import exportReact from "../../api/files/exportReact"
+import exportVue from "../../api/files/exportVue"
 
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -84,8 +86,22 @@ const MenuBarFileContextMenu = () => {
             >
                 Save As
             </MenuButton>
-            <MenuButton>Export for React</MenuButton>
-            <MenuButton>Export for Vue 3</MenuButton>
+            <MenuButton
+                onClick={() => {
+                    exportReact()
+                    menuBarFileContextMenuSignal.value = undefined
+                }}
+            >
+                Export for React
+            </MenuButton>
+            <MenuButton
+                onClick={() => {
+                    exportVue()
+                    menuBarFileContextMenuSignal.value = undefined
+                }}
+            >
+                Export for Vue 3
+            </MenuButton>
         </ContextMenu>
     )
 }
