@@ -5,7 +5,6 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
-import { useMemo } from "preact/hooks"
 import { firstFolderNamePtr } from "../../pointers/firstFolderNamePtr"
 import { useSignal } from "@preact/signals"
 import { pathObjMap } from "../../collections/pathObjMap"
@@ -21,15 +20,11 @@ const FileTreeItem = ({
     folderName,
     myPath
 }: FileTreeItemProps) => {
-    const fileEntries = useMemo(
-        () => Object.entries<any>(fileStructure),
-        [Object.keys(fileStructure).length]
-    )
     const fileBrowserDir = useSyncState(getFileBrowserDir)
     const expandedSignal = useSignal(true)
 
     const children = () =>
-        fileEntries.map(([name, fileOrFolder]) =>
+        Object.entries<any>(fileStructure).map(([name, fileOrFolder]) =>
             fileOrFolder instanceof File ? null : (
                 <FileTreeItem
                     key={name}
