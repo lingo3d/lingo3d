@@ -68,7 +68,7 @@ const MenuBarFileContextMenu = () => {
                     menuBarFileContextMenuSignal.value = undefined
                 }}
             >
-                Open Folder
+                Open Project
             </MenuButton>
             <MenuButton
                 onClick={() => {

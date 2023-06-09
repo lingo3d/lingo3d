@@ -5,7 +5,7 @@ import FileBrowser from "../FileBrowser"
 import { useEffect } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"
 import { PANELS_HEIGHT } from "../../globals"
-import { getTimeline, setTimeline } from "../../states/useTimeline"
+import { getTimeline } from "../../states/useTimeline"
 import { useSignal } from "@preact/signals"
 import TimelineControls from "../TimelineEditor/TimelineControls"
 import useSyncState from "../hooks/useSyncState"
@@ -37,10 +37,7 @@ const Panels = () => {
         >
             <div style={{ display: "flex" }}>
                 <AppBar style={{ width: 200 }}>
-                    <CloseableTab
-                        selectedSignal={selectedSignal}
-                        onClose={() => setTimeline(undefined)}
-                    >
+                    <CloseableTab selectedSignal={selectedSignal}>
                         timeline
                     </CloseableTab>
                     <CloseableTab

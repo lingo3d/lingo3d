@@ -51,7 +51,7 @@ const HUD = () => {
                     </div>
                     <div style={{ display: "flex", gap: 4 }}>
                         <HotKey hotkey="⌘" />
-                        <HotKey hotkey="O" description="open folder" />
+                        <HotKey hotkey="O" description="open project" />
                     </div>
                     <div style={{ display: "flex", gap: 4 }}>
                         <HotKey hotkey="⌘" />
