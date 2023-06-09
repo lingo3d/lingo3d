@@ -23,7 +23,7 @@ const FileTreeItem = ({
 }: FileTreeItemProps) => {
     const fileEntries = useMemo(
         () => Object.entries<any>(fileStructure),
-        [fileStructure]
+        [Object.keys(fileStructure).length]
     )
     const fileBrowserDir = useSyncState(getFileBrowserDir)
     const expandedSignal = useSignal(true)
