@@ -9,6 +9,7 @@ import exportJSON from "../../api/files/exportJSON"
 import { setScript } from "../../states/useScript"
 import Script from "../../display/Script"
 import { newScriptDialogSignal } from "../ScriptEditor/NewScriptDialog"
+import createJSON from "../../api/files/createJSON"
 
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -30,7 +31,7 @@ export const cleanup = (target: any) => {
 const MenuBarFileContextMenu = () => {
     return (
         <ContextMenu positionSignal={menuBarFileContextMenuSignal}>
-            <MenuButton>New File</MenuButton>
+            <MenuButton onClick={createJSON}>New File</MenuButton>
             <MenuButton
                 onClick={() => {
                     newScriptDialogSignal.value = {

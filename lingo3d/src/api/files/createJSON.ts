@@ -14,11 +14,10 @@ import { pathFileMap } from "../../collections/pathCollections"
 
 export default async () => {
     const files = getFiles()
-    if (!files) return
-
     const dir = getFileBrowserDir()
-    const f = files?.find((f) => dirPath(f.webkitRelativePath) === dir)
-    if (!f) return
+    const f = dir
+        ? files?.find((f) => dirPath(f.webkitRelativePath) === dir)
+        : undefined
 
     const { default: prettier } = await import("prettier/standalone")
     const { default: parser } = await import("prettier/parser-babel")
@@ -33,7 +32,7 @@ export default async () => {
     )
     const fileHandle = await fileSave(new Blob([code], { type: "text/json" }), {
         fileName: "scene.json",
-        startIn: f.directoryHandle as any
+        startIn: f?.directoryHandle as any
     })
     const file = await fileHandle?.getFile()
     if (!file) return
@@ -45,13 +44,14 @@ export default async () => {
     })
     unsafeSetValue(file, "handle", fileHandle)
 
-    files.push(file)
-    pathFileMap.set(file.webkitRelativePath, file)
+    if (files) {
+        files.push(file)
+        pathFileMap.set(file.webkitRelativePath, file)
 
-    const fileStructure: FileStructure = {}
-    set(fileStructure, file.webkitRelativePath.split("/"), file)
-    setPathMap(fileStructure)
-    mergeFileStructure(fileStructure)
-
+        const fileStructure: FileStructure = {}
+        set(fileStructure, file.webkitRelativePath.split("/"), file)
+        setPathMap(fileStructure)
+        mergeFileStructure(fileStructure)
+    }
     loadFile(file)
 }
