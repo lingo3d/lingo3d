@@ -1,3 +1,4 @@
+import { get } from "@lincode/utils"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import { getFileStructure } from "../../states/useFileStructure"
 import { getFiles } from "../../states/useFiles"
@@ -6,8 +7,10 @@ import refreshFiles from "./utils/refreshFiles"
 
 export default async (folderName: string) => {
     const dir = getFileBrowserDir()
-    const directoryHandle = Object.values(getFileStructure()[dir])[0]
-        ?.directoryHandle
+    const directoryHandle = Object.values(
+        get(getFileStructure(), dir.split("/"))
+        //@ts-ignore
+    )[0]?.directoryHandle
 
     const parentDirectoryHandle: FileSystemDirectoryHandle =
         //@ts-ignore
