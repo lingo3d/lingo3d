@@ -3,14 +3,8 @@ import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import { getFiles } from "../../states/useFiles"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { VERSION } from "../../globals"
-import {
-    FileStructure,
-    mergeFileStructure,
-    setPathMap
-} from "../../states/useFileStructure"
-import { set } from "@lincode/utils"
 import loadFile from "./loadFile"
-import { pathFileMap } from "../../collections/pathCollections"
+import refreshFiles from "./utils/refreshFiles"
 
 export default async () => {
     const files = getFiles()
@@ -44,14 +38,6 @@ export default async () => {
     })
     unsafeSetValue(file, "handle", fileHandle)
 
-    if (files) {
-        files.push(file)
-        pathFileMap.set(file.webkitRelativePath, file)
-
-        const fileStructure: FileStructure = {}
-        set(fileStructure, file.webkitRelativePath.split("/"), file)
-        setPathMap(fileStructure)
-        mergeFileStructure(fileStructure)
-    }
+    files && refreshFiles(files, file)
     loadFile(file)
 }

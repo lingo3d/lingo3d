@@ -4,18 +4,10 @@ import {
 } from "browser-fs-access"
 import { setFiles } from "../../states/useFiles"
 import loadFile from "./loadFile"
+import makeDSStoreFile from "./utils/makeDSStoreFile"
 
 const isFileArray = (files: any): files is FileWithDirectoryAndFileHandle[] =>
     files[0] && "webkitRelativePath" in files[0]
-
-const makeDSStoreFile = (directoryHandle: FileSystemDirectoryHandle) => {
-    const file = new File([], ".DS_Store") as FileWithDirectoryAndFileHandle
-    file.directoryHandle = directoryHandle
-    Object.defineProperty(file, "webkitRelativePath", {
-        value: `${directoryHandle.name}/.DS_Store`
-    })
-    return file
-}
 
 export default async () => {
     const f = await directoryOpen({
