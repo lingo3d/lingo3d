@@ -1,8 +1,13 @@
 import { useEffect, useRef } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import { loadTerminal } from "./loadTerminal"
+import { CSSProperties } from "preact/compat"
 
-const Terminal = () => {
+type Props = {
+    style?: CSSProperties
+}
+
+const Terminal = ({ style }: Props) => {
     const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -18,7 +23,7 @@ const Terminal = () => {
     }, [])
 
     return (
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, ...style }}>
             <div
                 ref={elRef}
                 style={{

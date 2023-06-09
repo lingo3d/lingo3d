@@ -3,8 +3,13 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { Cancellable } from "@lincode/promiselikes"
 import { VERSION } from "../../globals"
+import { CSSProperties } from "preact/compat"
 
-const OutputConsole = () => {
+type Props = {
+    style?: CSSProperties
+}
+
+const OutputConsole = ({ style }: Props) => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
 
     useEffect(() => {
@@ -34,7 +39,7 @@ const OutputConsole = () => {
     return (
         <iframe
             ref={iframeRef}
-            style={{ border: "none", flexGrow: 1 }}
+            style={{ border: "none", flexGrow: 1, ...style }}
             src={editorUrlPtr + "console/index.html"}
         />
     )
