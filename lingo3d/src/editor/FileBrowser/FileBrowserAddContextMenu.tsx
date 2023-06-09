@@ -2,6 +2,7 @@ import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
+import createFolder from "../../api/files/createFolder"
 
 export const fileBrowserAddContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -14,28 +15,29 @@ const FileBrowserAddContextMenu = () => {
                     fileBrowserAddContextMenuSignal.value = undefined
                 }}
             >
-                New scene
+                New File
+            </MenuButton>
+            <MenuButton
+                onClick={() => {
+                    createFolder()
+                    fileBrowserAddContextMenuSignal.value = undefined
+                }}
+            >
+                New Folder
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserAddContextMenuSignal.value = undefined
                 }}
             >
-                New folder
+                Upload File
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserAddContextMenuSignal.value = undefined
                 }}
             >
-                Add file
-            </MenuButton>
-            <MenuButton
-                onClick={() => {
-                    fileBrowserAddContextMenuSignal.value = undefined
-                }}
-            >
-                Add folder
+                Upload Folder
             </MenuButton>
         </ContextMenu>
     )
