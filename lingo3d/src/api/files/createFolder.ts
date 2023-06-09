@@ -5,9 +5,9 @@ import makeDSStoreFile from "./utils/makeDSStoreFile"
 import refreshFiles from "./utils/refreshFiles"
 
 export default async () => {
-    const directoryHandle = Object.values(
-        getFileStructure()[getFileBrowserDir()]
-    )[0]?.directoryHandle
+    const dir = getFileBrowserDir()
+    const directoryHandle = Object.values(getFileStructure()[dir])[0]
+        ?.directoryHandle
 
     const parentDirectoryHandle: FileSystemDirectoryHandle =
         //@ts-ignore
@@ -20,8 +20,8 @@ export default async () => {
     )
     const files = getFiles()
     if (!files) return
-    
-    const file = makeDSStoreFile(newDirectoryHandle)
+
+    const file = makeDSStoreFile(newDirectoryHandle, dir + "/" + folderName)
     if (files.find((f) => f.webkitRelativePath === file.webkitRelativePath))
         return
 

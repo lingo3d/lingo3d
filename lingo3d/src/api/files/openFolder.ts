@@ -17,7 +17,7 @@ export default async () => {
         skipDirectory: (entry) =>
             entry.name[0] === "." || entry.name === "node_modules"
     })
-    const files = isFileArray(f) ? f : [makeDSStoreFile(f[0])]
+    const files = isFileArray(f) ? f : [makeDSStoreFile(f[0], f[0].name)]
     setFiles(files)
     for (const file of files)
         if (file.webkitRelativePath.split("/").length < 3)
