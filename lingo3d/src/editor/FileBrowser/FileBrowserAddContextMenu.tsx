@@ -4,12 +4,20 @@ import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import createFolder from "../../api/files/createFolder"
 
-export const fileBrowserAddContextMenuSignal: Signal<Point | undefined> =
-    signal(undefined)
+export const fileBrowserAddContextMenuSignal: Signal<
+    (Point & { createFolder?: boolean }) | undefined
+> = signal(undefined)
 
 const FileBrowserAddContextMenu = () => {
     return (
-        <ContextMenu positionSignal={fileBrowserAddContextMenuSignal}>
+        <ContextMenu
+            positionSignal={fileBrowserAddContextMenuSignal}
+            input={
+                fileBrowserAddContextMenuSignal.value?.createFolder
+                    ? { label: "Folder name", onInput: createFolder }
+                    : undefined
+            }
+        >
             <MenuButton
                 onClick={() => {
                     fileBrowserAddContextMenuSignal.value = undefined
@@ -19,8 +27,10 @@ const FileBrowserAddContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
-                    createFolder()
-                    fileBrowserAddContextMenuSignal.value = undefined
+                    fileBrowserAddContextMenuSignal.value = {
+                        ...fileBrowserAddContextMenuSignal.value!,
+                        createFolder: true
+                    }
                 }}
             >
                 New Folder

@@ -14,7 +14,7 @@ const FileBrowserControls = () => {
     return (
         <AppBar style={{ gap: 4 }}>
             <IconButton
-                label="add"
+                label="Add"
                 onClick={(e) =>
                     (fileBrowserAddContextMenuSignal.value = {
                         x: e.clientX,
@@ -24,11 +24,11 @@ const FileBrowserControls = () => {
             >
                 <AddIcon />
             </IconButton>
-            <IconButton label="rename" disabled={!fileSelected}>
+            <IconButton label="Rename" disabled={!fileSelected}>
                 <RenameIcon />
             </IconButton>
             <IconButton
-                label="delete"
+                label="Delete"
                 disabled={!fileSelected}
                 onClick={deleteFile}
             >

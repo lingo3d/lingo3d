@@ -48,7 +48,10 @@ const FileTreeItem = ({
             label={folderName}
             expandedSignal={expandedSignal}
             selected={myPath === fileBrowserDir}
-            onClick={() => setFileBrowserDir(myPath)}
+            onClick={() => {
+                setFileBrowserDir(myPath)
+                console.log(myPath)
+            }}
             IconComponent={FolderIcon}
         >
             {children}

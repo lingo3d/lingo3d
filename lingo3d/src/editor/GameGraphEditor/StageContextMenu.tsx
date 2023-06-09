@@ -47,8 +47,7 @@ const StageContextMenu = () => {
             <MenuButton
                 onClick={() => {
                     stageContextMenuSignal.value = {
-                        x: stageContextMenuSignal.value?.x ?? 0,
-                        y: stageContextMenuSignal.value?.y ?? 0,
+                        ...stageContextMenuSignal.value!,
                         create: true
                     }
                 }}

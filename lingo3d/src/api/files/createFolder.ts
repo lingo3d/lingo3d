@@ -4,7 +4,7 @@ import { getFiles } from "../../states/useFiles"
 import makeDSStoreFile from "./utils/makeDSStoreFile"
 import refreshFiles from "./utils/refreshFiles"
 
-export default async () => {
+export default async (folderName: string) => {
     const dir = getFileBrowserDir()
     const directoryHandle = Object.values(getFileStructure()[dir])[0]
         ?.directoryHandle
@@ -13,7 +13,6 @@ export default async () => {
         //@ts-ignore
         directoryHandle ?? (await window.showDirectoryPicker())
 
-    const folderName = "hello"
     const newDirectoryHandle = await parentDirectoryHandle.getDirectoryHandle(
         folderName,
         { create: true }

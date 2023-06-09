@@ -67,8 +67,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                     disabled={multipleSelectionTargets.size === 1}
                     onClick={() => {
                         sceneGraphContextMenuSignal.value = {
-                            x: sceneGraphContextMenuSignal.value?.x ?? 0,
-                            y: sceneGraphContextMenuSignal.value?.y ?? 0,
+                            ...sceneGraphContextMenuSignal.value!,
                             createJoint: true
                         }
                     }}
@@ -146,8 +145,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                     <MenuButton
                         onClick={() =>
                             (sceneGraphContextMenuSignal.value = {
-                                x: sceneGraphContextMenuSignal.value?.x ?? 0,
-                                y: sceneGraphContextMenuSignal.value?.y ?? 0,
+                                ...sceneGraphContextMenuSignal.value!,
                                 search: true
                             })
                         }
@@ -239,8 +237,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
         <MenuButton
             onClick={() =>
                 (sceneGraphContextMenuSignal.value = {
-                    x: sceneGraphContextMenuSignal.value?.x ?? 0,
-                    y: sceneGraphContextMenuSignal.value?.y ?? 0,
+                    ...sceneGraphContextMenuSignal.value!,
                     hideId: true
                 })
             }
