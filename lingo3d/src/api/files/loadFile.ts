@@ -1,4 +1,4 @@
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
+import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { resetMainCameraManager } from "../../engine/mainCameraManager"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import deserialize from "../serializer/deserialize"

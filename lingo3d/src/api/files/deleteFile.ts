@@ -7,7 +7,7 @@ import { unset } from "@lincode/utils"
 import { getFileSelected } from "../../states/useFileSelected"
 import { unloadFile } from "./loadFile"
 import { pathFileMap } from "../../collections/pathFileMap"
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
+import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 
 export default async () => {
     const file = getFileSelected() as FileWithDirectoryAndFileHandle

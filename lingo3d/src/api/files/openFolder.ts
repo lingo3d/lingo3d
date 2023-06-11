@@ -1,7 +1,4 @@
-import {
-    directoryOpen,
-    FileWithDirectoryAndFileHandle
-} from "browser-fs-access"
+import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import loadFile from "./loadFile"
 import makeDSStoreFile from "./utils/makeDSStoreFile"
 import { emitOpenFolder } from "../../events/onOpenFolder"
@@ -11,6 +8,7 @@ const isFileArray = (files: any): files is FileWithDirectoryAndFileHandle[] =>
     files[0] && "webkitRelativePath" in files[0]
 
 export default async () => {
+    const { directoryOpen } = await import("browser-fs-access")
     const f = await directoryOpen({
         recursive: true,
         startIn: "downloads",

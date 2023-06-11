@@ -1,4 +1,4 @@
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
+import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 
 export default (
     directoryHandle: FileSystemDirectoryHandle,

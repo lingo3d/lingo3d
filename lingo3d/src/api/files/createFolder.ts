@@ -4,7 +4,7 @@ import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
 export default async (folderName: string) => {
     const parentDirectoryHandle = getDirectoryHandle()
-    const newDirectoryHandle = await parentDirectoryHandle.getDirectoryHandle(
+    const newDirectoryHandle = await parentDirectoryHandle!.getDirectoryHandle(
         folderName,
         { create: true }
     )
