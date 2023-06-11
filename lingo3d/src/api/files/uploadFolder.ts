@@ -11,7 +11,13 @@ const copyDirectory = async (
             const fileHandle = await sourceHandle.getFileHandle(entry.name)
             const file = await fileHandle.getFile()
             //@ts-ignore
-            await destinationHandle.writeFile(entry.name, file)
+            await destinationHandle.requestPermission({ mode: "readwrite" })
+            const writable = await destinationHandle.getFileHandle(entry.name, {
+                create: true
+            })
+            const writableFile = await writable.createWritable()
+            await writableFile.write(file)
+            await writableFile.close()
         } else if (entry.kind === "directory") {
             const directoryHandle = await sourceHandle.getDirectoryHandle(
                 entry.name
