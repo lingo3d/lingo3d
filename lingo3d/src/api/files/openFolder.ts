@@ -1,6 +1,4 @@
-import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import loadFile from "./loadFile"
-import makeDSStoreFile from "./utils/makeDSStoreFile"
 import { emitOpenFolder } from "../../events/onOpenFolder"
 import directoryOpen from "./utils/directory-open"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
@@ -12,13 +10,10 @@ import { setFileBrowserDir } from "../../states/useFileBrowserDir"
 import { FileStructure, setFileStructure } from "../../states/useFileStructure"
 import closeFolder from "./closeFolder"
 
-const isFileArray = (files: any): files is FileWithDirectoryAndFileHandle[] =>
-    files[0] && "webkitRelativePath" in files[0]
-
 export default async () => {
     closeFolder()
 
-    const f = await directoryOpen({
+    const [handle, files] = await directoryOpen({
         recursive: true,
         startIn: "downloads",
         id: "lingo3d",
@@ -30,14 +25,13 @@ export default async () => {
             return entry.name[0] === "." || entry.name === "node_modules"
         }
     })
-    const files = isFileArray(f) ? f : [makeDSStoreFile(f[0], f[0].name)]
-
     const fileStructure: FileStructure = {}
     for (const file of files) {
         set(fileStructure, file.webkitRelativePath.split("/"), file)
         pathFileMap.set(file.webkitRelativePath, file)
     }
     firstFolderNamePtr[0] = Object.keys(fileStructure)[0] ?? ""
+    pathDirectoryHandleMap.set(firstFolderNamePtr[0], handle)
     setFileStructurePathMap(fileStructure)
     setFileStructure(fileStructure)
     setFileBrowserDir(firstFolderNamePtr[0])

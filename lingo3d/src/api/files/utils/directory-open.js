@@ -45,8 +45,11 @@ export default async (options = {}) => {
     })
     // If the directory is empty, return an array with the handle.
     if ((await (await handle.values()).next()).done) {
-        return [handle]
+        return [handle, []]
     }
     // Else, return an array of File objects.
-    return getFiles(handle, options.recursive, undefined, options.skipDirectory)
+    return [
+        handle,
+        await getFiles(handle, options.recursive, undefined, options.skipDirectory)
+    ]
 }

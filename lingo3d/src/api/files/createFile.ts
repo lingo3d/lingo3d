@@ -1,6 +1,7 @@
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
-import getDirectoryHandle from "./utils/getDirectoryHandle"
 import updateFileStructure from "./utils/updateFileStructure"
+import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
 export default async (
     fileName: string,
@@ -8,7 +9,8 @@ export default async (
     parentDirectoryHandle?: FileSystemDirectoryHandle,
     parentDirectoryPath?: string
 ) => {
-    const directoryHandle = parentDirectoryHandle ?? getDirectoryHandle()
+    const directoryHandle =
+        parentDirectoryHandle ?? pathDirectoryHandleMap.get(getFileBrowserDir())
     let fileHandle: FileSystemFileHandle
     if (directoryHandle) {
         fileHandle = await directoryHandle.getFileHandle(fileName, {
