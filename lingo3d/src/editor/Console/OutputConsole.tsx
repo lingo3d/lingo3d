@@ -32,9 +32,12 @@ const OutputConsole = ({ style }: Props) => {
             throw new Error("success??")
         }, 100)
 
+        window.onerror = console.error.bind(console)
+
         return () => {
             clearInterval(interval)
             handle.cancel()
+            window.onerror = null
         }
     }, [])
 
