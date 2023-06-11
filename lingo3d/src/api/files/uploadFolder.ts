@@ -1,8 +1,14 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
-import { FileStructure } from "../../states/useFileStructure"
+import {
+    FileStructure,
+    mergeFileStructure
+} from "../../states/useFileStructure"
 import createFolder from "./createFolder"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
+import { set } from "@lincode/utils"
+import { pathFileMap } from "../../collections/pathFileMap"
+import { setFileStructurePathMap } from "../../collections/fileStructurePathMap"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
@@ -34,6 +40,8 @@ const copyDirectory = async (
             Object.defineProperty(file, "webkitRelativePath", {
                 value: nestedPath
             })
+            set(fileStructure, file.webkitRelativePath.split("/"), file)
+            pathFileMap.set(file.webkitRelativePath, file)
         } else if (
             entry.kind === "directory" &&
             !(entry.name[0] === "." || entry.name === "node_modules")
@@ -65,4 +73,6 @@ export default async () => {
     const destinationHandle = await createFolder(sourceHandle.name)
     const fileStructure: FileStructure = {}
     await copyDirectory(sourceHandle, destinationHandle, fileStructure)
+    setFileStructurePathMap(fileStructure)
+    mergeFileStructure(fileStructure)
 }
