@@ -26,7 +26,7 @@ export default async (
         fileHandle = (await fileSave(
             new Blob([content], { type: "text/json" }),
             {
-                fileName: "scene.json",
+                fileName,
                 startIn: "downloads",
                 id: "lingo3d"
             }
@@ -36,7 +36,7 @@ export default async (
     file.handle = fileHandle
     file.directoryHandle = directoryHandle
     Object.defineProperty(file, "webkitRelativePath", {
-        value: `${parentDirectoryPath}/.DS_Store`
+        value: `${parentDirectoryPath}/${fileName}`
     })
     updateFileStructure(file)
     return file
