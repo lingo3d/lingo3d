@@ -38,6 +38,6 @@ export default async () => {
     })
     unsafeSetValue(file, "handle", fileHandle)
 
-    files && refreshFiles(files, file)
+    refreshFiles(file)
     loadFile(file)
 }

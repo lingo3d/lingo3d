@@ -1,13 +1,16 @@
 import { set } from "@lincode/utils"
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { pathFileMap } from "../../../collections/pathFileMap"
 import {
     FileStructure,
     mergeFileStructure
 } from "../../../states/useFileStructure"
 import { initPathObjMap } from "../../../collections/pathObjMap"
+import { getFiles } from "../../../states/useFiles"
 
-export default (files: Array<FileWithDirectoryAndFileHandle>, file: File) => {
+export default (file: File) => {
+    const files = getFiles()
+    if (!files) return
+
     files.push(file)
     pathFileMap.set(file.webkitRelativePath, file)
 

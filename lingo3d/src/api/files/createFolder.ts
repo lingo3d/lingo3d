@@ -20,5 +20,5 @@ export default async (folderName: string) => {
     if (files.find((f) => f.webkitRelativePath === file.webkitRelativePath))
         return
 
-    refreshFiles(files, file)
+    refreshFiles(file)
 }
