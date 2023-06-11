@@ -1,8 +1,7 @@
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
-import { resetMainCameraManager } from "../../engine/mainCameraManager"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import deserialize from "../serializer/deserialize"
-import { appendableRoot } from "../../collections/appendableRoot"
+import { unloadFile } from "./unloadFile"
 
 export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false
@@ -19,10 +18,4 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
     } catch {
         return false
     }
-}
-
-export const unloadFile = () => {
-    for (const child of appendableRoot) !child.$disableUnload && child.dispose()
-    resetMainCameraManager()
-    setFileCurrent(undefined)
 }
