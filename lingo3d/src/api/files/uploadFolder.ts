@@ -1,27 +1,39 @@
+import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
 import { FileStructure } from "../../states/useFileStructure"
 import createFolder from "./createFolder"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
     destinationHandle: FileSystemDirectoryHandle,
     fileStructure: FileStructure,
-    path = destinationHandle.name
+    path = getFileBrowserDir() + "/" + destinationHandle.name
 ) => {
     //@ts-ignore
     for await (const entry of sourceHandle.values()) {
         const nestedPath = `${path}/${entry.name}`
         if (entry.kind === "file") {
-            const fileHandle = await sourceHandle.getFileHandle(entry.name)
-            const file = await fileHandle.getFile()
+            const sourceFileHandle = await sourceHandle.getFileHandle(
+                entry.name
+            )
+            const sourceFile = await sourceFileHandle.getFile()
             //@ts-ignore
             await destinationHandle.requestPermission({ mode: "readwrite" })
             const writable = await destinationHandle.getFileHandle(entry.name, {
                 create: true
             })
             const writableFile = await writable.createWritable()
-            await writableFile.write(file)
+            await writableFile.write(sourceFile)
             await writableFile.close()
+
+            const file: FileWithDirectoryAndFileHandle =
+                await writable.getFile()
+            file.directoryHandle = destinationHandle
+            file.handle = writable
+            Object.defineProperty(file, "webkitRelativePath", {
+                value: nestedPath
+            })
         } else if (
             entry.kind === "directory" &&
             !(entry.name[0] === "." || entry.name === "node_modules")
