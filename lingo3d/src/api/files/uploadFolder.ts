@@ -1,11 +1,18 @@
+import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
 import createFolder from "./createFolder"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
-    destinationHandle: FileSystemDirectoryHandle
+    destinationHandle: FileSystemDirectoryHandle,
+    path: string,
+    skipDirectory: (
+        entry: FileSystemDirectoryHandle,
+        nestedPath: string
+    ) => boolean
 ) => {
     //@ts-ignore
     for await (const entry of sourceHandle.values()) {
+        const nestedPath = `${path}/${entry.name}`
         if (entry.kind === "file") {
             const fileHandle = await sourceHandle.getFileHandle(entry.name)
             const file = await fileHandle.getFile()
@@ -17,7 +24,10 @@ const copyDirectory = async (
             const writableFile = await writable.createWritable()
             await writableFile.write(file)
             await writableFile.close()
-        } else if (entry.kind === "directory") {
+        } else if (
+            entry.kind === "directory" &&
+            !skipDirectory(entry, nestedPath)
+        ) {
             const directoryHandle = await sourceHandle.getDirectoryHandle(
                 entry.name
             )
@@ -25,7 +35,12 @@ const copyDirectory = async (
                 await destinationHandle.getDirectoryHandle(entry.name, {
                     create: true
                 })
-            await copyDirectory(directoryHandle, newDirectoryHandle)
+            await copyDirectory(
+                directoryHandle,
+                newDirectoryHandle,
+                nestedPath,
+                skipDirectory
+            )
         }
     }
 }
@@ -37,5 +52,13 @@ export default async () => {
         id: "lingo3d-upload"
     })
     const destinationHandle = await createFolder(sourceHandle.name)
-    await copyDirectory(sourceHandle, destinationHandle)
+    await copyDirectory(
+        sourceHandle,
+        destinationHandle,
+        destinationHandle.name,
+        (entry: FileSystemDirectoryHandle, nestedPath: string) => {
+            pathDirectoryHandleMap.set(nestedPath, entry)
+            return entry.name[0] === "." || entry.name === "node_modules"
+        }
+    )
 }
