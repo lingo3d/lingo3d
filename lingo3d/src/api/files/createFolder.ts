@@ -1,6 +1,5 @@
-import { getFiles } from "../../states/useFiles"
 import makeDSStoreFile from "./utils/makeDSStoreFile"
-import refreshFiles from "./utils/refreshFiles"
+import updateFileStructure from "./utils/updateFileStructure"
 import getDirectoryHandle from "./utils/getDirectoryHandle"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
@@ -10,15 +9,10 @@ export default async (folderName: string) => {
         folderName,
         { create: true }
     )
-    const files = getFiles()
-    if (!files) return
-
-    const file = makeDSStoreFile(
-        newDirectoryHandle,
-        getFileBrowserDir() + "/" + folderName
+    updateFileStructure(
+        makeDSStoreFile(
+            newDirectoryHandle,
+            getFileBrowserDir() + "/" + folderName
+        )
     )
-    if (files.find((f) => f.webkitRelativePath === file.webkitRelativePath))
-        return
-
-    refreshFiles(file)
 }

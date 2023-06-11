@@ -2,7 +2,7 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../hooks/useInitCSS"
 import FileBrowser from "../FileBrowser"
-import { useEffect } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"
 import { PANELS_HEIGHT } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
@@ -12,15 +12,22 @@ import useSyncState from "../hooks/useSyncState"
 import useInitEditor from "../hooks/useInitEditor"
 import FileBrowserControls from "../FileBrowser/FileBrowserControls"
 import { selectTab } from "../component/tabs/Tab"
-import { getFiles } from "../../states/useFiles"
+import { onOpenFolder } from "../../events/onOpenFolder"
 
 const Panels = () => {
     useInitCSS()
     useInitEditor()
 
-    const files = useSyncState(getFiles)
+    const [files, setFiles] = useState(false)
     const timeline = useSyncState(getTimeline)
     const selectedSignal = useSignal<Array<string>>([])
+
+    useEffect(() => {
+        const handle = onOpenFolder(() => setFiles(true))
+        return () => {
+            handle.cancel()
+        }
+    }, [])
 
     useEffect(() => {
         files && selectTab(selectedSignal, "files")

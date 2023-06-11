@@ -275,7 +275,7 @@ export default () => {
 
                 if (model) continue
 
-                const extension = splitFileName(uri.path)[1]
+                const extension = splitFileName(uri.path)[1]?.toLowerCase()
                 const newModel = editor.createModel(
                     "",
                     languages?.[extension ?? ""] ?? language,

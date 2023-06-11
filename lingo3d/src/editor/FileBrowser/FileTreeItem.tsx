@@ -7,7 +7,7 @@ import {
 import FolderIcon from "./icons/FolderIcon"
 import { firstFolderNamePtr } from "../../pointers/firstFolderNamePtr"
 import { useSignal } from "@preact/signals"
-import { webkitRelativePathObjMap } from "../../collections/webkitRelativePathObjMap"
+import { fileStructurePathMap } from "../../collections/fileStructurePathMap"
 
 type FileTreeItemProps = {
     fileStructure: any
@@ -31,7 +31,7 @@ const FileTreeItem = ({
                     fileStructure={fileOrFolder}
                     folderName={name}
                     myPath={
-                        firstFolderNamePtr[0] + webkitRelativePathObjMap.get(fileOrFolder)
+                        firstFolderNamePtr[0] + fileStructurePathMap.get(fileOrFolder)
                     }
                 />
             )

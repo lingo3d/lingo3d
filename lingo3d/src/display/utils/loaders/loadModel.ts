@@ -1,16 +1,16 @@
 import { Group } from "three"
-import { getExtensionIncludingObjectURL } from "../../core/utils/objectURL"
 import {
     increaseLoadingCount,
     decreaseLoadingCount
 } from "../../../states/useLoadingCount"
+import { splitFileName } from "@lincode/utils"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 
 export default async (url: string, clone: boolean) => {
     increaseLoadingCount()
 
-    const extension = getExtensionIncludingObjectURL(url)
+    const extension = splitFileName(url)[1]?.toLowerCase()
     if (!extension || !supported.has(extension)) {
         decreaseLoadingCount()
         throw new Error("Unsupported file extension " + extension)

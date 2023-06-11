@@ -1,28 +1,22 @@
 import { getFileCurrent } from "../../states/useFileCurrent"
-import { getFiles } from "../../states/useFiles"
 import {
     getFileStructure,
     setFileStructure
 } from "../../states/useFileStructure"
-import { pull, unset } from "@lincode/utils"
+import { unset } from "@lincode/utils"
 import { getFileSelected } from "../../states/useFileSelected"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import { unloadFile } from "./loadFile"
-import { webkitRelativePathFileMap } from "../../collections/webkitRelativePathFileMap"
+import { pathFileMap } from "../../collections/pathFileMap"
+import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 
 export default async () => {
-    const file = getFileSelected()
-    const files = getFiles()
-    if (!file || !files) return
-
-    const handle = unsafeGetValue(file, "handle")
-    handle.remove()
-
-    pull(files, file)
-    webkitRelativePathFileMap.delete(file.webkitRelativePath)
+    const file = getFileSelected() as FileWithDirectoryAndFileHandle
+    //@ts-ignore
+    file.handle!.remove()
 
     const fileStructure = getFileStructure()
     unset(fileStructure, file.webkitRelativePath.split("/"))
+    pathFileMap.delete(file.webkitRelativePath)
     setFileStructure({ ...fileStructure })
 
     file === getFileCurrent() && unloadFile()
