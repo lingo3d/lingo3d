@@ -1,3 +1,4 @@
+import unsafeSetValue from "../../utils/unsafeSetValue"
 import getDirectoryHandle from "./utils/getDirectoryHandle"
 
 export default async (fileName: string, content = "") => {
@@ -10,5 +11,6 @@ export default async (fileName: string, content = "") => {
         await writable.write(content)
         await writable.close()
     }
-    return fileHandle.getFile()
+    const file = await fileHandle.getFile()
+    unsafeSetValue(file, "handle", fileHandle)
 }
