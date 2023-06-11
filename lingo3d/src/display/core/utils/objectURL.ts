@@ -6,7 +6,7 @@ import joinPaths from "../../../api/path/joinPaths"
 import { getFileCurrent } from "../../../states/useFileCurrent"
 import { getFiles } from "../../../states/useFiles"
 import setURLModifier from "../../utils/loaders/utils/setURLModifier"
-import { pathFileMap } from "../../../collections/pathFileMap"
+import { webkitRelativePathFileMap } from "../../../collections/webkitRelativePathFileMap"
 
 const objectURLExtensionMap = new Map<string, string>()
 const fileObjectURLMap = new Map<File, string>()
@@ -28,12 +28,12 @@ createEffect(() => {
     const files = getFiles()
     if (!files) return
 
-    for (const file of files) pathFileMap.set(file.webkitRelativePath, file)
+    for (const file of files) webkitRelativePathFileMap.set(file.webkitRelativePath, file)
     return () => {
         for (const objecURL of fileObjectURLMap.values())
             URL.revokeObjectURL(objecURL)
 
-        pathFileMap.clear()
+        webkitRelativePathFileMap.clear()
         objectURLExtensionMap.clear()
         fileObjectURLMap.clear()
     }
@@ -45,7 +45,7 @@ createEffect(() => {
 
     setURLModifier((url) => {
         if (isRelativePath(url)) {
-            const file = pathFileMap.get(joinPaths(dirPath(urlCurrent), url))
+            const file = webkitRelativePathFileMap.get(joinPaths(dirPath(urlCurrent), url))
             if (file) return createObjectURL(file)
         }
         return url

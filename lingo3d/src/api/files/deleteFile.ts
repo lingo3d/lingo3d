@@ -8,7 +8,7 @@ import { pull, unset } from "@lincode/utils"
 import { getFileSelected } from "../../states/useFileSelected"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import { unloadFile } from "./loadFile"
-import { pathFileMap } from "../../collections/pathFileMap"
+import { webkitRelativePathFileMap } from "../../collections/webkitRelativePathFileMap"
 
 export default async () => {
     const file = getFileSelected()
@@ -19,7 +19,7 @@ export default async () => {
     handle.remove()
 
     pull(files, file)
-    pathFileMap.delete(file.webkitRelativePath)
+    webkitRelativePathFileMap.delete(file.webkitRelativePath)
 
     const fileStructure = getFileStructure()
     unset(fileStructure, file.webkitRelativePath.split("/"))

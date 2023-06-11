@@ -3,7 +3,7 @@ import { set } from "@lincode/utils"
 import { setFileBrowserDir } from "./useFileBrowserDir"
 import { getFiles } from "./useFiles"
 import { firstFolderNamePtr } from "../pointers/firstFolderNamePtr"
-import { initPathObjMap } from "../collections/pathObjMap"
+import { initWebkitRelativePathObjMap } from "../collections/webkitRelativePathObjMap"
 
 export interface FileStructure {
     [key: string]: FileStructure | File
@@ -20,7 +20,7 @@ getFiles((files) => {
         for (const file of files)
             set(fileStructure, file.webkitRelativePath.split("/"), file)
         firstFolderNamePtr[0] = Object.keys(fileStructure)[0]
-        initPathObjMap(fileStructure)
+        initWebkitRelativePathObjMap(fileStructure)
     }
     setFileBrowserDir(firstFolderNamePtr[0])
     setFileStructure(fileStructure)

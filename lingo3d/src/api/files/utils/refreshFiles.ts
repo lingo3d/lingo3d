@@ -1,10 +1,10 @@
 import { set } from "@lincode/utils"
-import { pathFileMap } from "../../../collections/pathFileMap"
+import { webkitRelativePathFileMap } from "../../../collections/webkitRelativePathFileMap"
 import {
     FileStructure,
     mergeFileStructure
 } from "../../../states/useFileStructure"
-import { initPathObjMap } from "../../../collections/pathObjMap"
+import { initWebkitRelativePathObjMap } from "../../../collections/webkitRelativePathObjMap"
 import { getFiles } from "../../../states/useFiles"
 
 export default (file: File) => {
@@ -12,10 +12,10 @@ export default (file: File) => {
     if (!files) return
 
     files.push(file)
-    pathFileMap.set(file.webkitRelativePath, file)
+    webkitRelativePathFileMap.set(file.webkitRelativePath, file)
 
     const fileStructure: FileStructure = {}
     set(fileStructure, file.webkitRelativePath.split("/"), file)
-    initPathObjMap(fileStructure)
+    initWebkitRelativePathObjMap(fileStructure)
     mergeFileStructure(fileStructure)
 }
