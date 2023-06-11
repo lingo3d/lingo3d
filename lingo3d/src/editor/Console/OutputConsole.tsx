@@ -28,11 +28,9 @@ const OutputConsole = ({ style }: Props) => {
 
             clearInterval(interval)
             handle.then(() => $unhook(hookedConsole, window))
-
-            throw new Error("success??")
         }, 100)
 
-        window.onerror = console.error.bind(console)
+        window.onerror = (error) => console.error(error)
 
         return () => {
             clearInterval(interval)
