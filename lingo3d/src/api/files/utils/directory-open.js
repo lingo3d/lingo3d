@@ -31,10 +31,6 @@ const getFiles = async (
     return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))]
 }
 
-/**
- * Opens a directory from disk using the File System Access API.
- * @type { typeof import("../index").directoryOpen }
- */
 export default async (options = {}) => {
     options.recursive = options.recursive || false
     options.mode = options.mode || "read"
@@ -43,13 +39,14 @@ export default async (options = {}) => {
         startIn: options.startIn,
         mode: options.mode
     })
-    // If the directory is empty, return an array with the handle.
-    if ((await (await handle.values()).next()).done) {
-        return [handle, []]
-    }
-    // Else, return an array of File objects.
+    if ((await (await handle.values()).next()).done) return [handle, []]
     return [
         handle,
-        await getFiles(handle, options.recursive, undefined, options.skipDirectory)
+        await getFiles(
+            handle,
+            options.recursive,
+            undefined,
+            options.skipDirectory
+        )
     ]
 }
