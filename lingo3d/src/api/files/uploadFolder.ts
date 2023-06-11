@@ -1,5 +1,4 @@
-import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
+import createFolder from "./createFolder"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
@@ -37,6 +36,6 @@ export default async () => {
         startIn: "downloads",
         id: "lingo3d-upload"
     })
-    const destinationHandle = pathDirectoryHandleMap.get(getFileBrowserDir())!
+    const destinationHandle = await createFolder(sourceHandle.name)
     await copyDirectory(sourceHandle, destinationHandle)
 }
