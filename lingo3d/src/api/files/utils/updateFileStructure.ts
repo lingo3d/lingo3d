@@ -4,12 +4,12 @@ import {
     FileStructure,
     mergeFileStructure
 } from "../../../states/useFileStructure"
-import { initFileStructurePathMap } from "../../../collections/fileStructurePathMap"
+import { setFileStructurePathMap } from "../../../collections/fileStructurePathMap"
 
 export default (file: File) => {
     const fileStructure: FileStructure = {}
     set(fileStructure, file.webkitRelativePath.split("/"), file)
     pathFileMap.set(file.webkitRelativePath, file)
-    initFileStructurePathMap(fileStructure)
+    setFileStructurePathMap(fileStructure)
     mergeFileStructure(fileStructure)
 }

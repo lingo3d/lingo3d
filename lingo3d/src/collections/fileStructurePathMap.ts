@@ -3,7 +3,7 @@ import { FileStructure } from "../states/useFileStructure"
 
 export const fileStructurePathMap = new WeakMap<Record<string, any>, string>()
 
-export const initFileStructurePathMap = (fileStructure: FileStructure) =>
+export const setFileStructurePathMap = (fileStructure: FileStructure) =>
     traverse(fileStructure, (key, child, parent) => {
         let path = ""
         if (fileStructurePathMap.has(parent))

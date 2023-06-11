@@ -1,5 +1,5 @@
 import { set } from "@lincode/utils"
-import { initFileStructurePathMap } from "../../../collections/fileStructurePathMap"
+import { setFileStructurePathMap } from "../../../collections/fileStructurePathMap"
 import { pathFileMap } from "../../../collections/pathFileMap"
 import { firstFolderNamePtr } from "../../../pointers/firstFolderNamePtr"
 import { setFileBrowserDir } from "../../../states/useFileBrowserDir"
@@ -15,7 +15,7 @@ export default (files: Array<File>) => {
         pathFileMap.set(file.webkitRelativePath, file)
     }
     firstFolderNamePtr[0] = Object.keys(fileStructure)[0] ?? ""
-    initFileStructurePathMap(fileStructure)
+    setFileStructurePathMap(fileStructure)
     setFileBrowserDir(firstFolderNamePtr[0])
     setFileStructure(fileStructure)
 }

@@ -2,8 +2,11 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import getDirectoryHandle from "./utils/getDirectoryHandle"
 import updateFileStructure from "./utils/updateFileStructure"
 
-export default async (fileName: string, content = "") => {
-    const directoryHandle = getDirectoryHandle()
+export default async (
+    fileName: string,
+    content = "",
+    directoryHandle = getDirectoryHandle()
+) => {
     const fileHandle = await directoryHandle.getFileHandle(fileName, {
         create: true
     })

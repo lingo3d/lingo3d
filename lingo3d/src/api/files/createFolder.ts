@@ -1,7 +1,5 @@
-import makeDSStoreFile from "./utils/makeDSStoreFile"
-import updateFileStructure from "./utils/updateFileStructure"
 import getDirectoryHandle from "./utils/getDirectoryHandle"
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
+import createFile from "./createFile"
 
 export default async (folderName: string) => {
     const parentDirectoryHandle = getDirectoryHandle()
@@ -9,10 +7,6 @@ export default async (folderName: string) => {
         folderName,
         { create: true }
     )
-    updateFileStructure(
-        makeDSStoreFile(
-            newDirectoryHandle,
-            getFileBrowserDir() + "/" + folderName
-        )
-    )
+    await createFile(".DS_Store", "", newDirectoryHandle)
+    return newDirectoryHandle
 }
