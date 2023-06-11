@@ -1,21 +1,11 @@
-import { get } from "@lincode/utils"
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
-import { getFileStructure } from "../../states/useFileStructure"
 import { getFiles } from "../../states/useFiles"
 import makeDSStoreFile from "./utils/makeDSStoreFile"
 import refreshFiles from "./utils/refreshFiles"
+import getDirectoryHandle from "./utils/getDirectoryHandle"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
 export default async (folderName: string) => {
-    const dir = getFileBrowserDir()
-    const directoryHandle = Object.values(
-        get(getFileStructure(), dir.split("/"))
-        //@ts-ignore
-    )[0]?.directoryHandle
-
-    const parentDirectoryHandle: FileSystemDirectoryHandle =
-        //@ts-ignore
-        directoryHandle ?? (await window.showDirectoryPicker())
-
+    const parentDirectoryHandle = getDirectoryHandle()
     const newDirectoryHandle = await parentDirectoryHandle.getDirectoryHandle(
         folderName,
         { create: true }
@@ -23,7 +13,10 @@ export default async (folderName: string) => {
     const files = getFiles()
     if (!files) return
 
-    const file = makeDSStoreFile(newDirectoryHandle, dir + "/" + folderName)
+    const file = makeDSStoreFile(
+        newDirectoryHandle,
+        getFileBrowserDir() + "/" + folderName
+    )
     if (files.find((f) => f.webkitRelativePath === file.webkitRelativePath))
         return
 
