@@ -1,10 +1,12 @@
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
+import { FileStructure } from "../../states/useFileStructure"
 import createFolder from "./createFolder"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
     destinationHandle: FileSystemDirectoryHandle,
-    path: string
+    fileStructure: FileStructure,
+    path = destinationHandle.name
 ) => {
     //@ts-ignore
     for await (const entry of sourceHandle.values()) {
@@ -32,7 +34,12 @@ const copyDirectory = async (
                 await destinationHandle.getDirectoryHandle(entry.name, {
                     create: true
                 })
-            await copyDirectory(directoryHandle, newDirectoryHandle, nestedPath)
+            await copyDirectory(
+                directoryHandle,
+                newDirectoryHandle,
+                fileStructure,
+                nestedPath
+            )
         }
     }
 }
@@ -44,5 +51,6 @@ export default async () => {
         id: "lingo3d-upload"
     })
     const destinationHandle = await createFolder(sourceHandle.name)
-    await copyDirectory(sourceHandle, destinationHandle, destinationHandle.name)
+    const fileStructure: FileStructure = {}
+    await copyDirectory(sourceHandle, destinationHandle, fileStructure)
 }
