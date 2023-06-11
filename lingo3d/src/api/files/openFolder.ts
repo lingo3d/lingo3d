@@ -5,7 +5,6 @@ import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap
 import { set } from "@lincode/utils"
 import { setFileStructurePathMap } from "../../collections/fileStructurePathMap"
 import { pathFileMap } from "../../collections/pathFileMap"
-import { rootFolderNamePtr } from "../../pointers/rootFolderNamePtr"
 import { setFileBrowserDir } from "../../states/useFileBrowserDir"
 import { FileStructure, setFileStructure } from "../../states/useFileStructure"
 import closeFolder from "./closeFolder"
@@ -30,11 +29,11 @@ export default async () => {
         set(fileStructure, file.webkitRelativePath.split("/"), file)
         pathFileMap.set(file.webkitRelativePath, file)
     }
-    rootFolderNamePtr[0] = Object.keys(fileStructure)[0] ?? ""
-    pathDirectoryHandleMap.set(rootFolderNamePtr[0], handle)
+    const rootFolderName = Object.keys(fileStructure)[0] ?? ""
+    pathDirectoryHandleMap.set(rootFolderName, handle)
     setFileStructurePathMap(fileStructure)
     setFileStructure(fileStructure)
-    setFileBrowserDir(rootFolderNamePtr[0])
+    setFileBrowserDir(rootFolderName)
 
     for (const file of files)
         if (file.webkitRelativePath.split("/").length < 3)

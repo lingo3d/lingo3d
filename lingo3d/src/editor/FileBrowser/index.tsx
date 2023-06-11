@@ -28,6 +28,11 @@ const FileBrowser = () => {
         return filteredFiles
     }, [fileStructure, fileBrowserDir])
 
+    const rootFolderName = useMemo(
+        () => Object.keys(fileStructure)[0] ?? "",
+        [fileStructure]
+    )
+
     return (
         <>
             <div
@@ -39,7 +44,10 @@ const FileBrowser = () => {
                 }}
             >
                 <div style={{ overflow: "scroll", width: 200 }}>
-                    <FileTreeItem fileStructure={fileStructure} />
+                    <FileTreeItem
+                        fileStructure={fileStructure}
+                        rootFolderName={rootFolderName}
+                    />
                 </div>
                 <div style={{ flexGrow: 1 }}>
                     <div
