@@ -33,7 +33,10 @@ const copyDirectory = async (
 
 export default async () => {
     //@ts-ignore
-    const sourceHandle = await window.showDirectoryPicker()
+    const sourceHandle = await window.showDirectoryPicker({
+        startIn: "downloads",
+        id: "lingo3d-upload"
+    })
     const destinationHandle = pathDirectoryHandleMap.get(getFileBrowserDir())!
     await copyDirectory(sourceHandle, destinationHandle)
 }
