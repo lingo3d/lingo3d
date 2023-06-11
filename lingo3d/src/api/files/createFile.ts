@@ -3,14 +3,9 @@ import updateFileStructure from "./utils/updateFileStructure"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
-export default async (
-    fileName: string,
-    content = "",
-    parentDirectoryHandle?: FileSystemDirectoryHandle,
-    parentDirectoryPath?: string
-) => {
-    const directoryHandle =
-        parentDirectoryHandle ?? pathDirectoryHandleMap.get(getFileBrowserDir())
+export default async (fileName: string, content: string) => {
+    const dir = getFileBrowserDir()
+    const directoryHandle = pathDirectoryHandleMap.get(dir)
     let fileHandle: FileSystemFileHandle
     if (directoryHandle) {
         fileHandle = await directoryHandle.getFileHandle(fileName, {
@@ -36,7 +31,7 @@ export default async (
     file.handle = fileHandle
     file.directoryHandle = directoryHandle
     Object.defineProperty(file, "webkitRelativePath", {
-        value: `${parentDirectoryPath}/${fileName}`
+        value: `${dir}/${fileName}`
     })
     updateFileStructure(file)
     return file
