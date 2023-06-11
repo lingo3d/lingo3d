@@ -1,5 +1,6 @@
 import getDirectoryHandle from "./utils/getDirectoryHandle"
 import createFile from "./createFile"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 
 export default async (folderName: string) => {
     const parentDirectoryHandle = getDirectoryHandle()
@@ -7,6 +8,11 @@ export default async (folderName: string) => {
         folderName,
         { create: true }
     )
-    await createFile(".DS_Store", "", newDirectoryHandle)
+    await createFile(
+        ".DS_Store",
+        "",
+        newDirectoryHandle,
+        `${getFileBrowserDir()}/${folderName}`
+    )
     return newDirectoryHandle
 }
