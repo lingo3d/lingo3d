@@ -46,3 +46,6 @@ if (!("group" in Array.prototype))
         enumerable: false,
         configurable: true
     })
+
+const warn = console.warn
+console.warn = (...data) => !data[0].startsWith("THREE.") && warn(...data)

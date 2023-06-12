@@ -14,6 +14,8 @@ const textureLoader = new TextureLoader()
 const rgbeLoader = new RGBELoader()
 const loaded = new Events()
 
+Texture.DEFAULT_ANISOTROPY = 4
+
 export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
