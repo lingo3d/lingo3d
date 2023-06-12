@@ -1,20 +1,14 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
-import {
-    FileStructure,
-    mergeFileStructure
-} from "../../states/useFileStructure"
 import createFolder from "./createFolder"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
-import { set } from "@lincode/utils"
-import { pathFileMap } from "../../collections/pathFileMap"
-import { setFileStructurePathMap } from "../../collections/fileStructurePathMap"
+import updateFileStructure from "./utils/updateFileStructure"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
     destinationHandle: FileSystemDirectoryHandle,
-    fileStructure: FileStructure,
-    path = getFileBrowserDir() + "/" + destinationHandle.name
+    path = getFileBrowserDir() + "/" + destinationHandle.name,
+    files: Array<FileWithDirectoryAndFileHandle> = []
 ) => {
     //@ts-ignore
     for await (const entry of sourceHandle.values()) {
@@ -40,8 +34,7 @@ const copyDirectory = async (
             Object.defineProperty(file, "webkitRelativePath", {
                 value: nestedPath
             })
-            set(fileStructure, file.webkitRelativePath.split("/"), file)
-            pathFileMap.set(file.webkitRelativePath, file)
+            files.push(file)
         } else if (
             entry.kind === "directory" &&
             !(entry.name[0] === "." || entry.name === "node_modules")
@@ -57,11 +50,12 @@ const copyDirectory = async (
             await copyDirectory(
                 directoryHandle,
                 newDirectoryHandle,
-                fileStructure,
-                nestedPath
+                nestedPath,
+                files
             )
         }
     }
+    return files
 }
 
 export default async () => {
@@ -71,8 +65,6 @@ export default async () => {
         id: "lingo3d-upload"
     })
     const destinationHandle = await createFolder(sourceHandle.name)
-    const fileStructure: FileStructure = {}
-    await copyDirectory(sourceHandle, destinationHandle, fileStructure)
-    setFileStructurePathMap(fileStructure)
-    mergeFileStructure(fileStructure)
+    const files = await copyDirectory(sourceHandle, destinationHandle)
+    updateFileStructure(files)
 }

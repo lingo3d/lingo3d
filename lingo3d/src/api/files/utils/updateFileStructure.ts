@@ -6,10 +6,17 @@ import {
 } from "../../../states/useFileStructure"
 import { setFileStructurePathMap } from "../../../collections/fileStructurePathMap"
 
-export default (file: File) => {
+export default (file: File | Array<File>) => {
     const fileStructure: FileStructure = {}
-    set(fileStructure, file.webkitRelativePath.split("/"), file)
-    pathFileMap.set(file.webkitRelativePath, file)
+    if (Array.isArray(file))
+        for (const f of file) {
+            set(fileStructure, f.webkitRelativePath.split("/"), f)
+            pathFileMap.set(f.webkitRelativePath, f)
+        }
+    else {
+        set(fileStructure, file.webkitRelativePath.split("/"), file)
+        pathFileMap.set(file.webkitRelativePath, file)
+    }
     setFileStructurePathMap(fileStructure)
     mergeFileStructure(fileStructure)
 }
