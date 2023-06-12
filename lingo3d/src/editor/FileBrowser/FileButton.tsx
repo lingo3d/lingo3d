@@ -11,6 +11,7 @@ import { getFileCurrent } from "../../states/useFileCurrent"
 import relativePath from "../../api/path/relativePath"
 import { pathDataMap } from "../../collections/pathDataMap"
 import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
+import logStatus from "../../utils/logStatus"
 
 type TextureType =
     | "texture"
@@ -58,7 +59,7 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         if (!prop) return
 
         hitManager[prop] = url
-        console.log(`set texture: ${prop}`)
+        logStatus(`set texture: ${prop}`)
     }
 })
 

@@ -4,6 +4,7 @@ import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { Cancellable } from "@lincode/promiselikes"
 import { VERSION } from "../../globals"
 import { CSSProperties } from "preact/compat"
+import logStatus from "../../utils/logStatus"
 
 type Props = {
     style?: CSSProperties
@@ -23,8 +24,8 @@ const OutputConsole = ({ style }: Props) => {
             if (!$hook || !$unhook) return
 
             const hookedConsole = $hook(console, window)
-            console.log(`lingo3d version ${VERSION}`)
-            console.log("console initialized")
+            logStatus(`lingo3d version ${VERSION}`)
+            logStatus("console initialized")
 
             clearInterval(interval)
             handle.then(() => $unhook(hookedConsole, window))
