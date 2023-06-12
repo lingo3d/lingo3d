@@ -1,3 +1,4 @@
+import { pathDataMap } from "../../collections/pathDataMap"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
 import { pathFileMap } from "../../collections/pathFileMap"
 import { setFileBrowserDir } from "../../states/useFileBrowserDir"
@@ -7,6 +8,7 @@ import { unloadFile } from "./unloadFile"
 export default () => {
     pathDirectoryHandleMap.clear()
     pathFileMap.clear()
+    pathDataMap.clear()
     setFileStructure({})
     setFileBrowserDir("")
     unloadFile()
