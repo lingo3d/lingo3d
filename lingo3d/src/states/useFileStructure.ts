@@ -35,21 +35,31 @@ getFileBrowserDir((dir) => {
     if (pathDataMap.has(dir)) return
 
     const subFileStructure = get(getFileStructure(), dir.split("/"))
-    if (!subFileStructure) return
+    if (!subFileStructure) {
+        pathDataMap.set(dir, {})
+        return
+    }
+
+    const files = Object.values(subFileStructure).filter(
+        (f) => f instanceof File
+    ) as Array<File>
+    const imageFiles = files.filter((f) => f.type.includes("image"))
+    if (imageFiles.length / files.length < 0.5) {
+        pathDataMap.set(dir, {})
+        return
+    }
 
     let fileOld: File | undefined
-    let overlappingSubstring: string | undefined
-    for (const file of Object.values(subFileStructure)) {
-        if (!(file instanceof File)) continue
+    let fileNameOverlap: string | undefined
+    for (const file of imageFiles) {
         if (fileOld) {
             const overlap = getOverlappingSubstring(file.name, fileOld.name)
             if (!overlap) {
-                overlappingSubstring = overlap
+                fileNameOverlap = overlap
                 break
             }
         }
         fileOld = file
     }
-
-    pathDataMap.set(dir, {})
+    pathDataMap.set(dir, { fileNameOverlap })
 })

@@ -1,5 +1,6 @@
 export type PathData = {
-    sharedFileNameString?: string
+    fileNameOverlap?: string
+    isMaterialFolder?: boolean
 }
 
 export const pathDataMap = new Map<string, PathData>()
