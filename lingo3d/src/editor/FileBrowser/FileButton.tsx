@@ -7,8 +7,6 @@ import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import FileIcon from "./icons/FileIcon"
 import { stopPropagation } from "../utils/stopPropagation"
-import { getFileCurrent } from "../../states/useFileCurrent"
-import relativePath from "../../api/path/relativePath"
 import { pathDataMap } from "../../collections/pathDataMap"
 import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 import logStatus from "../../utils/logStatus"
@@ -36,13 +34,9 @@ const getTextureProp = (name: string): TextureType | undefined => {
 
 const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
-    const url = relativePath(
-        getFileCurrent()?.webkitRelativePath ?? "",
-        draggingItem.webkitRelativePath
-    )
     if (filetype === "model") {
         const manager = new Model()
-        manager.src = url
+        manager.src = draggingItem.webkitRelativePath
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
         const pathData = pathDataMap.get(fileBrowserDirPtr[0])
@@ -58,7 +52,7 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         const prop = getTextureProp(processedFileName)
         if (!prop) return
 
-        hitManager[prop] = url
+        hitManager[prop] = draggingItem.webkitRelativePath
         logStatus(`set texture: ${prop}`)
     }
 })
