@@ -12,7 +12,9 @@ function App() {
     useEffect(() => {
         setFrameProperty("$hook", (myConsole: typeof console) =>
             Hook(myConsole, (log) => {
-                setLogs((currLogs) => [...currLogs, Decode(log)])
+                const decoded = Decode(log)
+                !decoded.data?.[0].startsWith("THREE.") &&
+                    setLogs((currLogs) => [...currLogs, decoded])
             })
         )
         setFrameProperty("$unhook", Unhook)
