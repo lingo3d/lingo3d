@@ -4,7 +4,7 @@ import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import useInitCSS from "../hooks/useInitCSS"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
-import { setFileSelected } from "../../states/useFileSelected"
+import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import useSyncState from "../hooks/useSyncState"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import useInitEditor from "../hooks/useInitEditor"
@@ -17,6 +17,7 @@ const FileBrowser = () => {
 
     const fileBrowserDir = useSyncState(getFileBrowserDir)
     const fileStructure = useSyncState(getFileStructure)
+    const fileSelected = useSyncState(getFileSelected)
 
     const filteredFiles = useMemo(() => {
         const currentFolder = get(fileStructure, fileBrowserDir.split("/"))
@@ -55,7 +56,8 @@ const FileBrowser = () => {
                         style={{
                             overflow: "scroll",
                             display: "flex",
-                            flexWrap: "wrap"
+                            flexWrap: "wrap",
+                            paddingBottom: 28
                         }}
                         onMouseDown={() => setFileSelected(undefined)}
                     >
@@ -63,6 +65,24 @@ const FileBrowser = () => {
                             <FileButton key={file.name} file={file} />
                         ))}
                     </div>
+                    {fileSelected && (
+                        <div
+                            className="lingo3d-bg-dark"
+                            style={{
+                                position: "absolute",
+                                bottom: 8,
+                                width: "100%",
+                                alignItems: "center",
+                                display: "flex",
+                                paddingLeft: 8,
+                                paddingBottom: 8
+                            }}
+                        >
+                            <div style={{ opacity: 0.5 }}>
+                                {fileSelected.name}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
             <FileBrowserAddContextMenu />
