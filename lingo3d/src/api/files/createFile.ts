@@ -1,11 +1,10 @@
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import updateFileStructure from "./utils/updateFileStructure"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
+import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 
 export default async (fileName: string, content: string) => {
-    const dir = getFileBrowserDir()
-    const directoryHandle = pathDirectoryHandleMap.get(dir)
+    const directoryHandle = pathDirectoryHandleMap.get(fileBrowserDirPtr[0])
     let fileHandle: FileSystemFileHandle
     if (directoryHandle) {
         fileHandle = await directoryHandle.getFileHandle(fileName, {
@@ -31,7 +30,7 @@ export default async (fileName: string, content: string) => {
     file.handle = fileHandle
     file.directoryHandle = directoryHandle
     Object.defineProperty(file, "webkitRelativePath", {
-        value: `${dir}/${fileName}`
+        value: `${fileBrowserDirPtr[0]}/${fileName}`
     })
     updateFileStructure(file)
     return file

@@ -21,13 +21,16 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         manager.src = url
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
-        const [filename] = splitFileName(draggingItem.name)
-        const name = filename.toLowerCase()
-        if (name.includes("rough")) hitManager.roughnessMap = url
-        else if (name.includes("metal")) hitManager.metalnessMap = url
-        else if (name.includes("normal")) hitManager.normalMap = url
-        else if (name.includes("disp")) hitManager.displacementMap = url
-        else hitManager.texture = url
+
+        
+
+        // const [filename] = splitFileName(draggingItem.name)
+        // const name = filename.toLowerCase()
+        // if (name.includes("rough")) hitManager.roughnessMap = url
+        // else if (name.includes("metal")) hitManager.metalnessMap = url
+        // else if (name.includes("normal")) hitManager.normalMap = url
+        // else if (name.includes("disp")) hitManager.displacementMap = url
+        // else hitManager.texture = url
     }
 })
 

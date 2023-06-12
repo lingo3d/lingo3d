@@ -1,14 +1,14 @@
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
+import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 
 export default async (folderName: string) => {
-    const directoryHandle = pathDirectoryHandleMap.get(getFileBrowserDir())
+    const directoryHandle = pathDirectoryHandleMap.get(fileBrowserDirPtr[0])
     const newDirectoryHandle = await directoryHandle!.getDirectoryHandle(
         folderName,
         { create: true }
     )
     pathDirectoryHandleMap.set(
-        `${getFileBrowserDir()}/${folderName}`,
+        `${fileBrowserDirPtr[0]}/${folderName}`,
         newDirectoryHandle
     )
     return newDirectoryHandle

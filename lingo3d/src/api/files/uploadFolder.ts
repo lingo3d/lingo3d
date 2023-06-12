@@ -1,13 +1,13 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { pathDirectoryHandleMap } from "../../collections/pathDirectoryHandleMap"
 import createFolder from "./createFolder"
-import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import updateFileStructure from "./utils/updateFileStructure"
+import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 
 const copyDirectory = async (
     sourceHandle: FileSystemDirectoryHandle,
     destinationHandle: FileSystemDirectoryHandle,
-    path = getFileBrowserDir() + "/" + destinationHandle.name,
+    path = fileBrowserDirPtr[0] + "/" + destinationHandle.name,
     files: Array<FileWithDirectoryAndFileHandle> = []
 ) => {
     //@ts-ignore
