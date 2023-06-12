@@ -1,7 +1,7 @@
 import store, { merge } from "@lincode/reactivity"
 import { getFileBrowserDir } from "./useFileBrowserDir"
 import { get } from "@lincode/utils"
-import { pathDataMap } from "../collections/pathDataMap"
+import { pathDirectoryDataMap } from "../collections/pathDirectoryDataMap"
 
 export interface FileStructure {
     [key: string]: FileStructure | File
@@ -32,11 +32,11 @@ const getOverlappingSubstring = (str1: string, str2: string) => {
 }
 
 getFileBrowserDir((dir) => {
-    if (pathDataMap.has(dir)) return
+    if (pathDirectoryDataMap.has(dir)) return
 
     const subFileStructure = get(getFileStructure(), dir.split("/"))
     if (!subFileStructure) {
-        pathDataMap.set(dir, {})
+        pathDirectoryDataMap.set(dir, {})
         return
     }
 
@@ -45,7 +45,7 @@ getFileBrowserDir((dir) => {
     ) as Array<File>
     const imageFiles = files.filter((f) => f.type.includes("image"))
     if (imageFiles.length / files.length < 0.5) {
-        pathDataMap.set(dir, {})
+        pathDirectoryDataMap.set(dir, {})
         return
     }
 
@@ -64,5 +64,5 @@ getFileBrowserDir((dir) => {
     const fileNameOverlap = Object.entries(fileNameOverlapRecord).sort(
         (a, b) => b[1] - a[1]
     )[0][0]
-    pathDataMap.set(dir, { fileNameOverlap, isMaterialFolder: true })
+    pathDirectoryDataMap.set(dir, { fileNameOverlap, isMaterialFolder: true })
 })

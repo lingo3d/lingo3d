@@ -7,7 +7,7 @@ import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import FileIcon from "./icons/FileIcon"
 import { stopPropagation } from "../utils/stopPropagation"
-import { pathDataMap } from "../../collections/pathDataMap"
+import { pathDirectoryDataMap } from "../../collections/pathDirectoryDataMap"
 import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 import logStatus from "../../utils/logStatus"
 
@@ -26,8 +26,7 @@ const getTextureProp = (name: string): TextureType | undefined => {
     else if (name.startsWith("rough")) return "roughnessMap"
     else if (name.startsWith("metal")) return "metalnessMap"
     else if (name.startsWith("norm")) return "normalMap"
-    else if (name.startsWith("disp") || name.startsWith("height"))
-        return "displacementMap"
+    else if (name.startsWith("disp")) return "displacementMap"
     else if (name.startsWith("env")) return "envMap"
     else if (name.startsWith("ao")) return "aoMap"
 }
@@ -39,7 +38,7 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         manager.src = draggingItem.webkitRelativePath
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
-        const pathData = pathDataMap.get(fileBrowserDirPtr[0])
+        const pathData = pathDirectoryDataMap.get(fileBrowserDirPtr[0])
         if (!pathData?.isMaterialFolder) return
 
         const [filename] = splitFileName(draggingItem.name)

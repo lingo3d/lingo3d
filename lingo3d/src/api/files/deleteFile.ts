@@ -8,6 +8,7 @@ import { getFileSelected } from "../../states/useFileSelected"
 import { pathFileMap } from "../../collections/pathFileMap"
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { unloadFile } from "./unloadFile"
+import { pathObjectURLMap } from "../../collections/pathObjectURLMap"
 
 export default async () => {
     const file = getFileSelected() as FileWithDirectoryAndFileHandle
@@ -17,6 +18,7 @@ export default async () => {
     const fileStructure = getFileStructure()
     unset(fileStructure, file.webkitRelativePath.split("/"))
     pathFileMap.delete(file.webkitRelativePath)
+    pathObjectURLMap.delete(file.webkitRelativePath)
     setFileStructure({ ...fileStructure })
 
     file === getFileCurrent() && unloadFile()
