@@ -9,6 +9,29 @@ import FileIcon from "./icons/FileIcon"
 import { stopPropagation } from "../utils/stopPropagation"
 import { getFileCurrent } from "../../states/useFileCurrent"
 import relativePath from "../../api/path/relativePath"
+import { pathDataMap } from "../../collections/pathDataMap"
+import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
+
+type TextureType =
+    | "texture"
+    | "metalnessMap"
+    | "roughnessMap"
+    | "normalMap"
+    | "aoMap"
+    | "envMap"
+    | "displacementMap"
+
+const getTextureProp = (name: string): TextureType | undefined => {
+    if (name.startsWith("diffuse") || name.startsWith("albedo"))
+        return "texture"
+    else if (name.startsWith("rough")) return "roughnessMap"
+    else if (name.startsWith("metal")) return "metalnessMap"
+    else if (name.startsWith("norm")) return "normalMap"
+    else if (name.startsWith("disp") || name.startsWith("height"))
+        return "displacementMap"
+    else if (name.startsWith("env")) return "envMap"
+    else if (name.startsWith("ao")) return "aoMap"
+}
 
 const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
@@ -21,16 +44,21 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         manager.src = url
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
+        const pathData = pathDataMap.get(fileBrowserDirPtr[0])
+        if (!pathData?.isMaterialFolder) return
 
-        
+        const [filename] = splitFileName(draggingItem.name)
+        const processedFileName = (
+            pathData.fileNameOverlap
+                ? filename.replace(pathData.fileNameOverlap, "")
+                : filename
+        ).toLowerCase()
 
-        // const [filename] = splitFileName(draggingItem.name)
-        // const name = filename.toLowerCase()
-        // if (name.includes("rough")) hitManager.roughnessMap = url
-        // else if (name.includes("metal")) hitManager.metalnessMap = url
-        // else if (name.includes("normal")) hitManager.normalMap = url
-        // else if (name.includes("disp")) hitManager.displacementMap = url
-        // else hitManager.texture = url
+        const prop = getTextureProp(processedFileName)
+        if (!prop) return
+
+        hitManager[prop] = url
+        console.log(`set texture: ${prop}`)
     }
 })
 
