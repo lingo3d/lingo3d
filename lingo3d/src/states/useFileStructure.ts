@@ -50,16 +50,19 @@ getFileBrowserDir((dir) => {
     }
 
     let fileOld: File | undefined
-    let fileNameOverlap: string | undefined
+    const fileNameOverlapRecord: Record<string, number> = {}
     for (const file of imageFiles) {
         if (fileOld) {
             const overlap = getOverlappingSubstring(file.name, fileOld.name)
-            if (!overlap) {
-                fileNameOverlap = overlap
-                break
-            }
+            if (!overlap) continue
+            fileNameOverlapRecord[overlap] ??= 0
+            ++fileNameOverlapRecord[overlap]
+            break
         }
         fileOld = file
     }
-    pathDataMap.set(dir, { fileNameOverlap })
+    const fileNameOverlap = Object.entries(fileNameOverlapRecord).sort(
+        (a, b) => b[1] - a[1]
+    )[0][0]
+    pathDataMap.set(dir, { fileNameOverlap, isMaterialFolder: true })
 })
