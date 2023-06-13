@@ -21,7 +21,7 @@ import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
 import { vector3 } from "../../display/utils/reusables"
-import { setTransformControlsSnapDirection } from "../../states/useTransformControlsSnapDirection"
+import { snapRaycastSystem } from "../../systems/snapRaycastSystem"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -76,7 +76,7 @@ createEffect(() => {
 
         const handle0 = onTransformControls((phase) => {
             if (phase !== "start" || mode !== "translate") {
-                setTransformControlsSnapDirection(undefined)
+                snapRaycastSystem.delete(transformControls)
                 return
             }
             const {
@@ -90,7 +90,7 @@ createEffect(() => {
                 pointStart
             } = transformControls as any
             if (!(axis === "X" || axis === "Y" || axis === "Z")) {
-                setTransformControlsSnapDirection(undefined)
+                snapRaycastSystem.delete(transformControls)
                 return
             }
             vector3.copy(pointEnd).sub(pointStart)
@@ -109,7 +109,9 @@ createEffect(() => {
                     .applyQuaternion(_parentQuaternionInv)
                     .divide(_parentScale)
             }
-            setTransformControlsSnapDirection(vector3.clone())
+            snapRaycastSystem.add(transformControls, {
+                direction: vector3.clone()
+            })
         })
 
         handle.then(() => {

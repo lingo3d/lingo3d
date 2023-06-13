@@ -7,7 +7,7 @@ const sphereMap = new Map<string, Sphere>()
 
 export default (
     name: string,
-    pt: Point3dType,
+    pt?: Point3dType,
     properties?: Partial<IPrimitive>
 ) => {
     const sphere = forceGet(sphereMap, name, () => {
@@ -15,6 +15,6 @@ export default (
         sphere.$ghost()
         return sphere
     })
-    sphere.placeAt(pt)
+    pt && sphere.placeAt(pt)
     return sphere
 }
