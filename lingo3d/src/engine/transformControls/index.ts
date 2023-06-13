@@ -20,9 +20,8 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
-import { ray, vector3 } from "../../display/utils/reusables"
-import visualize from "../../display/utils/visualize"
-import { vec2Point } from "../../display/utils/vec2Point"
+import { vector3 } from "../../display/utils/reusables"
+import { setTransformControlsSnapDirection } from "../../states/useTransformControlsSnapDirection"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -76,7 +75,10 @@ createEffect(() => {
         renderCheckExcludeSet.add(transformControls)
 
         const handle0 = onTransformControls((phase) => {
-            if (phase !== "start" || mode !== "translate") return
+            if (phase !== "start" || mode !== "translate") {
+                setTransformControlsSnapDirection(undefined)
+                return
+            }
             const {
                 space,
                 axis,
@@ -85,9 +87,12 @@ createEffect(() => {
                 _parentScale,
                 _parentQuaternionInv,
                 pointEnd,
-                pointStart,
-                worldPosition
+                pointStart
             } = transformControls as any
+            if (!(axis === "X" || axis === "Y" || axis === "Z")) {
+                setTransformControlsSnapDirection(undefined)
+                return
+            }
             vector3.copy(pointEnd).sub(pointStart)
 
             if (space === "local" && axis !== "XYZ")
@@ -104,14 +109,7 @@ createEffect(() => {
                     .applyQuaternion(_parentQuaternionInv)
                     .divide(_parentScale)
             }
-
-            if (axis === "Z") {
-                ray.set(worldPosition, vector3.normalize())
-                const pt0 = vec2Point(ray.at(1, vector3))
-                const pt1 = vec2Point(ray.at(-1, vector3))
-                visualize("pt0", pt0)
-                visualize("pt1", pt1)
-            }
+            setTransformControlsSnapDirection(vector3.clone())
         })
 
         handle.then(() => {
