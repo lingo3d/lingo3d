@@ -20,7 +20,6 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
-import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
 import { ray, vector3 } from "../../display/utils/reusables"
 import visualize from "../../display/utils/visualize"
 import { vec2Point } from "../../display/utils/vec2Point"
@@ -78,8 +77,6 @@ createEffect(() => {
 
         const handle0 = onTransformControls((phase) => {
             if (phase !== "start" || mode !== "translate") return
-            getSelectionCandidates()
-
             const {
                 space,
                 axis,
