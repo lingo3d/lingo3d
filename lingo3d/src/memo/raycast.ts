@@ -1,4 +1,4 @@
-import { Raycaster, Object3D } from "three"
+import { Raycaster, Object3D, Vector3, Vector2 } from "three"
 import { getManager } from "../display/core/utils/getManager"
 import { actorPtrManagerMap } from "../collections/pxCollections"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"
@@ -6,8 +6,8 @@ import { FAR, M2CM } from "../globals"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { physxPtr } from "../pointers/physxPtr"
 import computePerFrameWithData from "./utils/computePerFrameWithData"
-import { pt3d0, vector2 } from "../display/utils/reusables"
-import { vec2Point } from "../display/utils/vec2Point"
+import { pt3d0 } from "../display/utils/reusables"
+import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import type VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { Point3dType } from "../utils/isPoint"
 import Point3d from "../math/Point3d"
@@ -21,16 +21,24 @@ type RaycastResult = {
     manager: VisibleMixin
 }
 type RaycastData = {
-    x: number
-    y: number
+    pointer?: {
+        x: number
+        y: number
+    }
+    origin?: Point3dType
+    direction?: Point3dType
     additionalCandidate?: Object3D
 }
-export const mouseRaycast = computePerFrameWithData(
+export const raycast = computePerFrameWithData(
     (
         candidates: Set<Object3D>,
-        { additionalCandidate, x, y }: RaycastData
+        { additionalCandidate, pointer, origin, direction }: RaycastData
     ): RaycastResult | undefined => {
-        raycaster.setFromCamera(vector2.set(x, y), cameraRenderedPtr[0])
+        if (pointer)
+            raycaster.setFromCamera(pointer as Vector2, cameraRenderedPtr[0])
+        else if (origin && direction)
+            raycaster.set(point2Vec(origin), direction as Vector3)
+            
         const candidateArray = [...candidates]
         additionalCandidate && candidateArray.push(additionalCandidate)
         const [intersection] = raycaster.intersectObjects(candidateArray, false)

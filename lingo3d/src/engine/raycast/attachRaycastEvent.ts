@@ -2,7 +2,7 @@ import { Object3D } from "three"
 import { LingoMouseEvent } from "../../interface/IMouse"
 import VisibleMixin from "../../display/core/mixins/VisibleMixin"
 import { onMouseDown } from "../../events/onMouseDown"
-import { mouseRaycast } from "../../memo/mouseRaycast"
+import { raycast } from "../../memo/raycast"
 
 export default (
     onEvent: typeof onMouseDown,
@@ -10,9 +10,8 @@ export default (
     cbManager: (manager: VisibleMixin, e: LingoMouseEvent) => void
 ) =>
     onEvent((e) => {
-        const result = mouseRaycast(candidates, {
-            x: e.xNorm,
-            y: e.yNorm
+        const result = raycast(candidates, {
+            pointer: { x: e.xNorm, y: e.yNorm }
         })
         if (!result) return
 

@@ -75,7 +75,10 @@ createEffect(() => {
 
         const handle0 = onTransformControls((phase) => {
             if (phase !== "start") return
-            root.traverse((manager) => {})
+            for (const child of selectionTargetPtr[0]?.parent?.children ?? []) {
+                if (child === selectionTargetPtr[0]) continue
+                
+            }
         })
 
         handle.then(() => {

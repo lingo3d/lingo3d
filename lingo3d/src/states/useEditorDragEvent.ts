@@ -11,7 +11,7 @@ import { standardMaterial } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
-import { mouseRaycast } from "../memo/mouseRaycast"
+import { raycast } from "../memo/raycast"
 import { Point3dType } from "../utils/isPoint"
 import { pushUndoStack } from "../api/undoStack"
 import { serializeAppendable } from "../api/serializer/serialize"
@@ -64,9 +64,8 @@ createEffect(() => {
     if (!isDragEvent || !indicator) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const hit = mouseRaycast(selectionCandidates, {
-        x: xNorm,
-        y: yNorm,
+    const hit = raycast(selectionCandidates, {
+        pointer: { x: xNorm, y: yNorm },
         additionalCandidate: getGrid() ? editorPlane : undefined
     })
     hitManagerRef.current = hit?.manager
