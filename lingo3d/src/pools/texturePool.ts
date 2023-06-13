@@ -6,6 +6,7 @@ import { uuidTextureMap } from "../collections/idCollections"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import loadVideoTexture from "../display/utils/loaders/loadVideoTexture"
 import { isSelector } from "../utils/isSelector"
+import { loadTextureSet } from "../collections/loadTextureSet"
 
 export type TextureParams = [
     texture: string,
@@ -21,11 +22,7 @@ const initMap = (
     textureRotation: number
 ) => {
     map.repeat.set(textureRepeat, textureRepeat)
-    // if (map.userData.needsUpdate) map.needsUpdate = true
-    // map.userData.needsUpdate = true
-    map.flipY = map.userData.flipY = map.userData.flipped
-        ? !textureFlipY
-        : textureFlipY
+    map.flipY = loadTextureSet.has(map) ? !textureFlipY : textureFlipY
     map.rotation = textureRotation * deg2Rad
     return map
 }
