@@ -32,4 +32,5 @@ export default (url: string) => {
         dispose.call(texture)
         video.pause()
     }
+    return texture
 }
