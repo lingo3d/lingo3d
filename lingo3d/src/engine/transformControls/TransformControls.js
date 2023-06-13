@@ -9,6 +9,7 @@ import {
     LineBasicMaterial,
     Matrix4,
     Mesh,
+    MeshBasicMaterial,
     MeshStandardMaterial,
     Object3D,
     OctahedronGeometry,
@@ -22,10 +23,10 @@ import {
 
 const ratio = 1
 const translatePlaneSize = 0.1
-const hexRed = 0xcc4444
-const hexGreen = 0x44cc44
-const hexBlue = 0x4444cc
-const hexYellow = 0xccbb44
+const hexRed = 0xff0000
+const hexGreen = 0x00ff00
+const hexBlue = 0x0000ff
+const hexYellow = 0xffff00
 const hexGray = 0x787878
 const showOpposite = true
 const showCentral = false
@@ -743,7 +744,9 @@ class TransformControlsGizmo extends Object3D {
             depthWrite: false,
             fog: false,
             toneMapped: false,
-            transparent: true
+            transparent: true,
+            emissive: 0x000000,
+            emissiveIntensity: 0.5
         })
 
         const gizmoLineMaterial = new LineBasicMaterial({
@@ -764,23 +767,29 @@ class TransformControlsGizmo extends Object3D {
 
         const matRed = gizmoMaterial.clone()
         matRed.color.setHex(hexRed)
+        matRed.emissive.setHex(hexRed)
 
         const matGreen = gizmoMaterial.clone()
         matGreen.color.setHex(hexGreen)
+        matGreen.emissive.setHex(hexGreen)
 
         const matBlue = gizmoMaterial.clone()
         matBlue.color.setHex(hexBlue)
+        matBlue.emissive.setHex(hexBlue)
 
         const matRedTransparent = gizmoMaterial.clone()
         matRedTransparent.color.setHex(hexRed)
+        matRedTransparent.emissive.setHex(hexRed)
         matRedTransparent.opacity = 1
 
         const matGreenTransparent = gizmoMaterial.clone()
         matGreenTransparent.color.setHex(hexGreen)
+        matGreenTransparent.emissive.setHex(hexGreen)
         matGreenTransparent.opacity = 1
 
         const matBlueTransparent = gizmoMaterial.clone()
         matBlueTransparent.color.setHex(hexBlue)
+        matBlueTransparent.emissive.setHex(hexBlue)
         matBlueTransparent.opacity = 1
 
         const matWhiteTransparent = gizmoMaterial.clone()
@@ -788,13 +797,16 @@ class TransformControlsGizmo extends Object3D {
 
         const matYellowTransparent = gizmoMaterial.clone()
         matYellowTransparent.color.setHex(hexYellow)
+        matYellowTransparent.emissive.setHex(hexYellow)
         matYellowTransparent.opacity = 0.25
 
         const matYellow = gizmoMaterial.clone()
         matYellow.color.setHex(hexYellow)
+        matYellow.emissive.setHex(hexYellow)
 
         const matGray = gizmoMaterial.clone()
         matGray.color.setHex(hexGray)
+        matGray.emissive.setHex(hexGray)
 
         // reusable geometry
 
@@ -917,7 +929,7 @@ class TransformControlsGizmo extends Object3D {
                           [0, 0, 0]
                       ]
                   ]
-                : [],
+                : []
             // XY: [
             //     [
             //         new Mesh(
@@ -1948,7 +1960,7 @@ class TransformControlsPlane extends Mesh {
     constructor() {
         super(
             new PlaneGeometry(100000, 100000, 2, 2),
-            new MeshStandardMaterial({
+            new MeshBasicMaterial({
                 visible: false,
                 wireframe: true,
                 side: DoubleSide,
