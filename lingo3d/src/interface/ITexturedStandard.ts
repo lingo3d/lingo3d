@@ -120,8 +120,8 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
     },
     {
         opacity: new Range(0, 1),
+        textureRepeat: new Range(1, 10),
         textureRotation: new Range(0, 360),
-
         envMapIntensity: new Range(0, 4),
         aoMapIntensity: new Range(0, 4),
         bumpScale: new Range(0, 4),

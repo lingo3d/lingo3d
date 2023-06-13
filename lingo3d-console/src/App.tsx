@@ -13,7 +13,7 @@ function App() {
         setFrameProperty("$hook", (myConsole: typeof console) =>
             Hook(myConsole, (log) => {
                 const decoded = Decode(log)
-                !decoded.data?.[0].startsWith("THREE.") &&
+                !decoded.data?.[0]?.startsWith("THREE.") &&
                     setLogs((currLogs) => [...currLogs, decoded])
             })
         )

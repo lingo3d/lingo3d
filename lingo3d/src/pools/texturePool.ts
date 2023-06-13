@@ -21,8 +21,8 @@ const initMap = (
     textureRotation: number
 ) => {
     map.repeat.set(textureRepeat, textureRepeat)
-    if (map.userData.needsUpdate) map.needsUpdate = true
-    map.userData.needsUpdate = true
+    // if (map.userData.needsUpdate) map.needsUpdate = true
+    // map.userData.needsUpdate = true
     map.flipY = map.userData.flipY = map.userData.flipped
         ? !textureFlipY
         : textureFlipY

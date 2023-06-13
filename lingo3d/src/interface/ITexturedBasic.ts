@@ -45,6 +45,7 @@ export const texturedBasicDefaults = extendDefaults<ITexturedBasic>(
     },
     {
         opacity: new Range(0, 1),
+        textureRepeat: new Range(1, 10),
         textureRotation: new Range(0, 360),
         blending: new Choices({
             additive: "additive",
