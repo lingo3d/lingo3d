@@ -11,7 +11,8 @@ import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import type VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { Point3dType } from "../utils/isPoint"
 import Point3d from "../math/Point3d"
-import MeshAppendable from "../display/core/MeshAppendable"
+import type MeshAppendable from "../display/core/MeshAppendable"
+import type PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 
 const raycaster = new Raycaster()
 
@@ -29,12 +30,12 @@ type RaycastData = {
     origin?: Point3dType
     direction?: Point3dType
     include?: Object3D
-    exclude?: MeshAppendable
+    exclude?: MeshAppendable | PhysicsObjectManager
 }
 export const raycast = computePerFrameWithData(
     (
         candidates: Set<Object3D>,
-        { include, pointer, origin, direction }: RaycastData
+        { include, exclude, pointer, origin, direction }: RaycastData
     ): RaycastResult | undefined => {
         if (pointer)
             raycaster.setFromCamera(pointer as Vector2, cameraRenderedPtr[0])
@@ -43,13 +44,17 @@ export const raycast = computePerFrameWithData(
 
         const candidateArray = [...candidates]
         include && candidateArray.push(include)
-        const [intersection] = raycaster.intersectObjects(candidateArray, false)
+        const intersections = raycaster.intersectObjects(candidateArray, false)
+        const intersection = exclude
+            ? intersections.find((i) => getManager(i.object) !== exclude)
+            : intersections[0]
         const manager = intersection && getManager(intersection.object)
 
         const pxHit = physxPtr[0].pxRaycast?.(
             assignPxVec(raycaster.ray.origin),
             assignPxVec_(raycaster.ray.direction),
-            FAR
+            FAR,
+            exclude && "$actor" in exclude ? exclude.$actor.ptr : undefined
         )
         if (pxHit) {
             const pxHitManager = actorPtrManagerMap.get(pxHit.actor.ptr)!
