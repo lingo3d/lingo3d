@@ -9,7 +9,8 @@ import {
     MeshStandardMaterial,
     Vector2,
     DoubleSide,
-    Color
+    Color,
+    Object3D
 } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
 import Point3d from "../../math/Point3d"
@@ -25,6 +26,8 @@ export const quaternion_ = new Quaternion()
 
 export const obb = new OBB()
 export const obb_ = new OBB()
+
+export const testObject = new Object3D()
 
 export const vector3_0 = Object.freeze(new Vector3(0, 0, 0))
 export const vector3_1 = Object.freeze(new Vector3(1, 1, 1))

@@ -1,5 +1,8 @@
 import { createEffect } from "@lincode/reactivity"
-import { emitTransformControls } from "../../events/onTransformControls"
+import {
+    emitTransformControls,
+    onTransformControls
+} from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import scene from "../scene"
@@ -17,6 +20,7 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
+import root from "../../api/root"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -69,12 +73,18 @@ createEffect(() => {
         ssrExcludeSet.add(transformControls)
         renderCheckExcludeSet.add(transformControls)
 
+        const handle0 = onTransformControls((phase) => {
+            if (phase !== "start") return
+            root.traverse((manager) => {})
+        })
+
         handle.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
             transformControls.enabled = false
             ssrExcludeSet.delete(transformControls)
             renderCheckExcludeSet.delete(transformControls)
+            handle0.cancel()
         })
     })
     return () => {

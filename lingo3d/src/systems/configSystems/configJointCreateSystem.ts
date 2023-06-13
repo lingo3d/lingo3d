@@ -3,6 +3,7 @@ import JointBase from "../../display/core/JointBase"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import { physxPtr } from "../../pointers/physxPtr"
 import createInternalSystem from "../utils/createInternalSystem"
+import { testObject } from "../../display/utils/reusables"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -10,20 +11,19 @@ const getRelativeTransform = (
     setPxTransform: typeof setPxTransform_
 ) => {
     const fromScale = fromObject.scale
-    const clone = new Object3D()
-    clone.position.copy(thisObject.position)
-    clone.quaternion.copy(thisObject.quaternion)
-    fromObject.attach(clone)
+    testObject.position.copy(thisObject.position)
+    testObject.quaternion.copy(thisObject.quaternion)
+    fromObject.attach(testObject)
     const fromPxTransform = setPxTransform(
-        clone.position.x * fromScale.x,
-        clone.position.y * fromScale.y,
-        clone.position.z * fromScale.z,
-        clone.quaternion.x,
-        clone.quaternion.y,
-        clone.quaternion.z,
-        clone.quaternion.w
+        testObject.position.x * fromScale.x,
+        testObject.position.y * fromScale.y,
+        testObject.position.z * fromScale.z,
+        testObject.quaternion.x,
+        testObject.quaternion.y,
+        testObject.quaternion.z,
+        testObject.quaternion.w
     )
-    fromObject.remove(clone)
+    fromObject.remove(testObject)
     return fromPxTransform
 }
 
