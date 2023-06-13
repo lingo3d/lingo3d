@@ -6,7 +6,6 @@ import { Blending, ColorString } from "../interface/ITexturedStandard"
 import { uuidMaterialMap } from "../collections/idCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
-import { PointType } from "../utils/isPoint"
 import { castBlending } from "../display/utils/castBlending"
 import { releaseTexture, requestTexture } from "./texturePool"
 
@@ -15,7 +14,7 @@ export type MaterialParams = [
     opacity: number,
     texture: string,
     alphaMap: string,
-    textureRepeat: number | PointType,
+    textureRepeat: number,
     textureFlipY: boolean,
     textureRotation: number,
     wireframe: boolean,
@@ -68,7 +67,7 @@ const setMaterial = (
 
 const createMap = (
     texture: string,
-    textureRepeat: number | PointType,
+    textureRepeat: number,
     textureFlipY: boolean,
     textureRotation: number
 ) =>

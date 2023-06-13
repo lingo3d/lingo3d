@@ -9,8 +9,7 @@ import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color } from "../../utils/reusables"
 import MeshAppendable from "../MeshAppendable"
 import { MaterialParams } from "../../../pools/materialPool"
-import { toFixedPoint, toNullableFixed } from "../../../api/serializer/toFixed"
-import { PointType, isPoint } from "../../../utils/isPoint"
+import { toNullableFixed } from "../../../api/serializer/toFixed"
 import { refreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 
@@ -84,10 +83,9 @@ export default abstract class TexturedStandardMixin
     public get textureRepeat() {
         return this.$materialParams[4]
     }
-    public set textureRepeat(val: number | PointType | undefined) {
+    public set textureRepeat(val: number | undefined) {
         this.$materialParams[4] =
-            (isPoint(val) ? toFixedPoint(val) : toNullableFixed(val)) ??
-            this.$defaults.textureRepeat
+            toNullableFixed(val) ?? this.$defaults.textureRepeat
         refreshTexturedStandardSystem.add(this)
     }
 

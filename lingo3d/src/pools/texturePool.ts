@@ -1,6 +1,5 @@
 import { Texture } from "three"
 import createSharedPool from "./utils/createSharedPool"
-import { PointType } from "../utils/isPoint"
 import { deg2Rad } from "@lincode/math"
 import { getExtensionType } from "@lincode/filetypes"
 import { uuidTextureMap } from "../collections/idCollections"
@@ -10,20 +9,18 @@ import { isSelector } from "../utils/isSelector"
 
 export type TextureParams = [
     texture: string,
-    textureRepeat: number | PointType,
+    textureRepeat: number,
     textureFlipY: boolean,
     textureRotation: number
 ]
 
 const initMap = (
     map: Texture,
-    textureRepeat: number | PointType,
+    textureRepeat: number,
     textureFlipY: boolean,
     textureRotation: number
 ) => {
-    typeof textureRepeat === "number"
-        ? map.repeat.set(textureRepeat, textureRepeat)
-        : map.repeat.set(textureRepeat.x, textureRepeat.y)
+    map.repeat.set(textureRepeat, textureRepeat)
     if (map.userData.needsUpdate) map.needsUpdate = true
     map.userData.needsUpdate = true
     map.flipY = map.userData.flipY = map.userData.flipped

@@ -2,7 +2,6 @@ import { Sprite as ThreeSprite, SpriteMaterial } from "three"
 import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ColorString } from "../interface/ITexturedStandard"
-import { Point } from "@lincode/math"
 import { castBackBlending, castBlending } from "./utils/castBlending"
 import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import { configSpriteSystem } from "../systems/configSystems/configSpriteSystem"
@@ -70,7 +69,7 @@ export default class Sprite
         this.$material.opacity = val
     }
 
-    private _textureRepeat: Point | number = new Point(1, 1)
+    private _textureRepeat = 1
     public get textureRepeat() {
         return this._textureRepeat
     }

@@ -29,7 +29,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             opacity: material.opacity,
             texture: "",
             alphaMap: "",
-            textureRepeat: material.map?.repeat ?? { x: 1, y: 1 },
+            textureRepeat: material.map?.repeat.x ?? 1,
             textureFlipY: material.map?.flipY ?? false,
             textureRotation: (material.map?.rotation ?? 0) * rad2Deg,
             wireframe: material.wireframe,

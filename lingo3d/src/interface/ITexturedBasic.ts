@@ -1,4 +1,3 @@
-import { Point } from "@lincode/math"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -12,7 +11,7 @@ export default interface ITexturedBasic {
     opacity: Nullable<number>
     texture: Nullable<string>
     alphaMap: Nullable<string>
-    textureRepeat: Nullable<Point | number>
+    textureRepeat: Nullable<number>
     textureFlipY: Nullable<boolean>
     textureRotation: Nullable<number>
     depthTest: Nullable<boolean>
@@ -24,7 +23,7 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     opacity: Number,
     texture: String,
     alphaMap: String,
-    textureRepeat: [Object, Number],
+    textureRepeat: Number,
     textureFlipY: Boolean,
     textureRotation: Number,
     depthTest: Boolean,
@@ -38,7 +37,7 @@ export const texturedBasicDefaults = extendDefaults<ITexturedBasic>(
         opacity: nullableDefault(1),
         texture: undefined,
         alphaMap: undefined,
-        textureRepeat: nullableDefault({ x: 1, y: 1 }),
+        textureRepeat: nullableDefault(1),
         textureFlipY: nullableDefault(false),
         textureRotation: nullableDefault(0),
         depthTest: nullableDefault(true),
