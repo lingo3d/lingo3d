@@ -917,48 +917,48 @@ class TransformControlsGizmo extends Object3D {
                           [0, 0, 0]
                       ]
                   ]
-                : undefined,
-            XY: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            translatePlaneSize * ratio,
-                            translatePlaneSize * ratio,
-                            0.01 * ratio
-                        ),
-                        matBlueTransparent.clone()
-                    ),
-                    [translatePlaneSize * ratio, translatePlaneSize * ratio, 0]
-                ]
-            ],
-            YZ: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            translatePlaneSize * ratio,
-                            translatePlaneSize * ratio,
-                            0.01 * ratio
-                        ),
-                        matRedTransparent.clone()
-                    ),
-                    [0, translatePlaneSize * ratio, translatePlaneSize * ratio],
-                    [0, Math.PI / 2, 0]
-                ]
-            ],
-            XZ: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            translatePlaneSize * ratio,
-                            translatePlaneSize * ratio,
-                            0.01 * ratio
-                        ),
-                        matGreenTransparent.clone()
-                    ),
-                    [translatePlaneSize * ratio, 0, translatePlaneSize * ratio],
-                    [-Math.PI / 2, 0, 0]
-                ]
-            ]
+                : [],
+            // XY: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 translatePlaneSize * ratio,
+            //                 translatePlaneSize * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matBlueTransparent.clone()
+            //         ),
+            //         [translatePlaneSize * ratio, translatePlaneSize * ratio, 0]
+            //     ]
+            // ],
+            // YZ: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 translatePlaneSize * ratio,
+            //                 translatePlaneSize * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matRedTransparent.clone()
+            //         ),
+            //         [0, translatePlaneSize * ratio, translatePlaneSize * ratio],
+            //         [0, Math.PI / 2, 0]
+            //     ]
+            // ],
+            // XZ: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 translatePlaneSize * ratio,
+            //                 translatePlaneSize * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matGreenTransparent.clone()
+            //         ),
+            //         [translatePlaneSize * ratio, 0, translatePlaneSize * ratio],
+            //         [-Math.PI / 2, 0, 0]
+            //     ]
+            // ]
         }
 
         const pickerTranslate = {
@@ -1051,7 +1051,7 @@ class TransformControlsGizmo extends Object3D {
                           )
                       ]
                   ]
-                : undefined,
+                : [],
             XY: [
                 [
                     new Mesh(
@@ -1174,7 +1174,7 @@ class TransformControlsGizmo extends Object3D {
                           [0, Math.PI / 2, 0]
                       ]
                   ]
-                : undefined
+                : []
         }
 
         const helperRotate = {
@@ -1199,7 +1199,7 @@ class TransformControlsGizmo extends Object3D {
                           )
                       ]
                   ]
-                : undefined,
+                : [],
             X: [
                 [
                     new Mesh(
@@ -1244,7 +1244,7 @@ class TransformControlsGizmo extends Object3D {
                           )
                       ]
                   ]
-                : undefined
+                : []
         }
 
         const gizmoScale = {
@@ -1303,47 +1303,47 @@ class TransformControlsGizmo extends Object3D {
                       ]
                     : [])
             ],
-            XY: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
-                            0.01 * ratio
-                        ),
-                        matBlueTransparent
-                    ),
-                    [0.15 * ratio, 0.15 * ratio, 0]
-                ]
-            ],
-            YZ: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
-                            0.01 * ratio
-                        ),
-                        matRedTransparent
-                    ),
-                    [0, 0.15 * ratio, 0.15 * ratio],
-                    [0, Math.PI / 2, 0]
-                ]
-            ],
-            XZ: [
-                [
-                    new Mesh(
-                        new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
-                            0.01 * ratio
-                        ),
-                        matGreenTransparent
-                    ),
-                    [0.15 * ratio, 0, 0.15 * ratio],
-                    [-Math.PI / 2, 0, 0]
-                ]
-            ],
+            // XY: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 0.15 * ratio,
+            //                 0.15 * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matBlueTransparent
+            //         ),
+            //         [0.15 * ratio, 0.15 * ratio, 0]
+            //     ]
+            // ],
+            // YZ: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 0.15 * ratio,
+            //                 0.15 * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matRedTransparent
+            //         ),
+            //         [0, 0.15 * ratio, 0.15 * ratio],
+            //         [0, Math.PI / 2, 0]
+            //     ]
+            // ],
+            // XZ: [
+            //     [
+            //         new Mesh(
+            //             new BoxGeometry(
+            //                 0.15 * ratio,
+            //                 0.15 * ratio,
+            //                 0.01 * ratio
+            //             ),
+            //             matGreenTransparent
+            //         ),
+            //         [0.15 * ratio, 0, 0.15 * ratio],
+            //         [-Math.PI / 2, 0, 0]
+            //     ]
+            // ],
             XYZ: [
                 [
                     new Mesh(
