@@ -11,8 +11,8 @@ import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import type VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { Point3dType } from "../utils/isPoint"
 import Point3d from "../math/Point3d"
-import type MeshAppendable from "../display/core/MeshAppendable"
 import type PhysicsObjectManager from "../display/core/PhysicsObjectManager"
+import type Appendable from "../display/core/Appendable"
 
 const raycaster = new Raycaster()
 
@@ -30,7 +30,7 @@ type RaycastData = {
     origin?: Point3dType
     direction?: Point3dType
     include?: Object3D
-    exclude?: MeshAppendable | PhysicsObjectManager
+    exclude?: Appendable | PhysicsObjectManager
 }
 export const raycast = computePerFrameWithData(
     (

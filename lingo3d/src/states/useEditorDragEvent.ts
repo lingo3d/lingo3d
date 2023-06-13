@@ -1,4 +1,3 @@
-import { deg2Rad } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../display/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
@@ -6,15 +5,12 @@ import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
-import { Mesh, PlaneGeometry } from "three"
-import { standardMaterial } from "../display/utils/reusables"
-import scene from "../engine/scene"
-import { getGrid } from "./useGrid"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { raycast } from "../memo/raycast"
 import { Point3dType } from "../utils/isPoint"
 import { pushUndoStack } from "../api/undoStack"
 import { serializeAppendable } from "../api/serializer/serialize"
+import { editorPlanePtr } from "../pointers/editorPlanePtr"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -28,11 +24,6 @@ const snap = (point: Point3dType) => {
     point.z = Math.round(point.z / 10) * 10
     return point
 }
-
-const editorPlane = new Mesh(new PlaneGeometry(1000, 1000), standardMaterial)
-editorPlane.rotateX(90 * deg2Rad)
-editorPlane.visible = false
-scene.add(editorPlane)
 
 createEffect(() => {
     const e = getEditorDragEvent()
@@ -66,7 +57,7 @@ createEffect(() => {
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
     const hit = raycast(selectionCandidates, {
         pointer: { x: xNorm, y: yNorm },
-        include: getGrid() ? editorPlane : undefined
+        include: editorPlanePtr[0]
     })
     hitManagerRef.current = hit?.manager
     const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
