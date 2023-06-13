@@ -887,7 +887,7 @@ class TransformControlsGizmo extends Object3D {
                               [Math.PI, 0, 0]
                           ]
                       ]
-                    : undefined),
+                    : []),
                 [new Mesh(lineGeometry2, matGreen)]
             ],
             Z: [
@@ -907,7 +907,7 @@ class TransformControlsGizmo extends Object3D {
                     : []),
                 [new Mesh(lineGeometry2, matBlue), null, [Math.PI / 2, 0, 0]]
             ],
-            XYZ: showOpposite
+            XYZ: showCentral
                 ? [
                       [
                           new Mesh(
@@ -1042,7 +1042,7 @@ class TransformControlsGizmo extends Object3D {
                       ]
                     : [])
             ],
-            XYZ: showOpposite
+            XYZ: showCentral
                 ? [
                       [
                           new Mesh(
@@ -1163,7 +1163,7 @@ class TransformControlsGizmo extends Object3D {
                     [0, Math.PI / 2, 0]
                 ]
             ],
-            E: showOpposite
+            E: showCentral
                 ? [
                       [
                           new Mesh(
@@ -1190,7 +1190,7 @@ class TransformControlsGizmo extends Object3D {
         }
 
         const pickerRotate = {
-            XYZE: showOpposite
+            XYZE: showCentral
                 ? [
                       [
                           new Mesh(
@@ -1230,7 +1230,7 @@ class TransformControlsGizmo extends Object3D {
                     [0, 0, -Math.PI / 2]
                 ]
             ],
-            E: showOpposite
+            E: showCentral
                 ? [
                       [
                           new Mesh(
@@ -1267,7 +1267,7 @@ class TransformControlsGizmo extends Object3D {
                               [0, 0, Math.PI / 2]
                           ]
                       ]
-                    : undefined)
+                    : [])
             ],
             Y: [
                 [new Mesh(scaleHandleGeometry, matGreen), [0, 0.5 * ratio, 0]],
@@ -1301,7 +1301,7 @@ class TransformControlsGizmo extends Object3D {
                               [-Math.PI / 2, 0, 0]
                           ]
                       ]
-                    : undefined)
+                    : [])
             ],
             XY: [
                 [
@@ -1380,7 +1380,7 @@ class TransformControlsGizmo extends Object3D {
                               [0, 0, Math.PI / 2]
                           ]
                       ]
-                    : undefined)
+                    : [])
             ],
             Y: [
                 [
