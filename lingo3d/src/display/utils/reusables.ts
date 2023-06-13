@@ -11,6 +11,7 @@ import {
     DoubleSide,
     Color
 } from "three"
+import { OBB } from "three/examples/jsm/math/OBB"
 import Point3d from "../../math/Point3d"
 
 export const vector2 = new Vector2()
@@ -21,6 +22,9 @@ export const vector3__ = new Vector3()
 
 export const quaternion = new Quaternion()
 export const quaternion_ = new Quaternion()
+
+export const obb = new OBB()
+export const obb_ = new OBB()
 
 export const vector3_0 = Object.freeze(new Vector3(0, 0, 0))
 export const vector3_1 = Object.freeze(new Vector3(1, 1, 1))

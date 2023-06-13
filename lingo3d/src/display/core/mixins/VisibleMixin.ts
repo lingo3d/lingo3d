@@ -1,12 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Matrix3, Object3D } from "three"
-import { OBB } from "three/examples/jsm/math/OBB"
 import MeshAppendable from "../MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import getWorldPosition from "../../../memo/getWorldPosition"
-import { vector3_1 } from "../../utils/reusables"
+import { obb, obb_, vector3_1 } from "../../utils/reusables"
 import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
 import {
     clickSet,
@@ -22,9 +21,6 @@ import { hitTestSystem } from "../../../systems/hitTestSystem"
 import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { configOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { configSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
-
-const thisOBB = new OBB()
-const targetOBB = new OBB()
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -176,19 +172,19 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         if (target.done) return false
         if (this === target) return false
 
-        thisOBB.set(
+        obb.set(
             getWorldPosition(this.object3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        thisOBB.applyMatrix4(this.object3d.matrixWorld)
-        targetOBB.set(
+        obb.applyMatrix4(this.object3d.matrixWorld)
+        obb_.set(
             getWorldPosition(target.object3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        targetOBB.applyMatrix4(target.object3d.matrixWorld)
-        return thisOBB.intersectsOBB(targetOBB)
+        obb_.applyMatrix4(target.object3d.matrixWorld)
+        return obb.intersectsOBB(obb_)
     }
 
     private _hitTarget?: string | Array<string>
