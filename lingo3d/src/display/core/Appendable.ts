@@ -108,14 +108,18 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public traverse(cb: (appendable: Appendable) => void) {
-        for (const child of this.children ?? []) {
+        if (!this.children) return
+        for (const child of this.children) {
+            if (child.$disableSceneGraph) continue
             cb(child)
             child.traverse(cb)
         }
     }
 
     public traverseSome(cb: (appendable: Appendable) => unknown) {
-        for (const child of this.children ?? []) {
+        if (!this.children) return
+        for (const child of this.children) {
+            if (child.$disableSceneGraph) continue
             if (cb(child)) return true
             child.traverseSome(cb)
         }
