@@ -1937,14 +1937,14 @@ class TransformControlsGizmo extends Object3D {
 
             if (this.enabled && this.axis) {
                 if (handle.name === this.axis) {
-                    handle.material.color.setHex(hexYellow)
+                    handle.material.color.setHex(0xffffff)
                     handle.material.opacity = 1.0
                 } else if (
                     this.axis.split("").some(function (a) {
                         return handle.name === a
                     })
                 ) {
-                    handle.material.color.setHex(hexYellow)
+                    handle.material.color.setHex(0xffffff)
                     handle.material.opacity = 1.0
                 }
             }

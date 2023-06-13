@@ -20,7 +20,10 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
-import root from "../../api/root"
+import { getSelectionCandidates } from "../../throttle/getSelectionCandidates"
+import { ray, vector3 } from "../../display/utils/reusables"
+import visualize from "../../display/utils/visualize"
+import { vec2Point } from "../../display/utils/vec2Point"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -74,10 +77,43 @@ createEffect(() => {
         renderCheckExcludeSet.add(transformControls)
 
         const handle0 = onTransformControls((phase) => {
-            if (phase !== "start") return
-            for (const child of selectionTargetPtr[0]?.parent?.children ?? []) {
-                if (child === selectionTargetPtr[0]) continue
-                
+            if (phase !== "start" || mode !== "translate") return
+            getSelectionCandidates()
+
+            const {
+                space,
+                axis,
+                _worldQuaternionInv,
+                _quaternionStart,
+                _parentScale,
+                _parentQuaternionInv,
+                pointEnd,
+                pointStart,
+                worldPosition
+            } = transformControls as any
+            vector3.copy(pointEnd).sub(pointStart)
+
+            if (space === "local" && axis !== "XYZ")
+                vector3.applyQuaternion(_worldQuaternionInv)
+
+            if (axis!.indexOf("X") === -1) vector3.x = 0
+            if (axis!.indexOf("Y") === -1) vector3.y = 0
+            if (axis!.indexOf("Z") === -1) vector3.z = 0
+
+            if (space === "local" && axis !== "XYZ") {
+                vector3.applyQuaternion(_quaternionStart).divide(_parentScale)
+            } else {
+                vector3
+                    .applyQuaternion(_parentQuaternionInv)
+                    .divide(_parentScale)
+            }
+
+            if (axis === "Z") {
+                ray.set(worldPosition, vector3.normalize())
+                const pt0 = vec2Point(ray.at(1, vector3))
+                const pt1 = vec2Point(ray.at(-1, vector3))
+                visualize("pt0", pt0)
+                visualize("pt1", pt1)
             }
         })
 
