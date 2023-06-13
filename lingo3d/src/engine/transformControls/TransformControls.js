@@ -9,7 +9,7 @@ import {
     LineBasicMaterial,
     Matrix4,
     Mesh,
-    MeshBasicMaterial,
+    MeshStandardMaterial,
     Object3D,
     OctahedronGeometry,
     PlaneGeometry,
@@ -738,7 +738,7 @@ class TransformControlsGizmo extends Object3D {
 
         // shared materials
 
-        const gizmoMaterial = new MeshBasicMaterial({
+        const gizmoMaterial = new MeshStandardMaterial({
             depthTest: false,
             depthWrite: false,
             fog: false,
@@ -1948,7 +1948,7 @@ class TransformControlsPlane extends Mesh {
     constructor() {
         super(
             new PlaneGeometry(100000, 100000, 2, 2),
-            new MeshBasicMaterial({
+            new MeshStandardMaterial({
                 visible: false,
                 wireframe: true,
                 side: DoubleSide,
