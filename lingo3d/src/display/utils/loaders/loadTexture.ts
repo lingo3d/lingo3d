@@ -14,8 +14,6 @@ const rgbeLoader = new RGBELoader()
 Texture.DEFAULT_ANISOTROPY = 8
 
 export default (url: string, onLoad?: () => void) => {
-    console.log("loadTexture called")
-
     const isAssets = url.startsWith(assetsPathPtr[0])
     isAssets && increaseLoadingAssetsCount()
 
