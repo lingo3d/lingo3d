@@ -125,8 +125,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         return worldToCanvas(this.object3d)
     }
 
-    public getVertices() {}
-
     private _onMove?: () => void
     public get onMove() {
         return this._onMove
