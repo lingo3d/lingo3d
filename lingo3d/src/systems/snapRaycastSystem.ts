@@ -9,15 +9,31 @@ import { Point3dType } from "../utils/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
-    data: {} as { direction: Point3dType },
+    data: {} as { direction0: Point3dType; direction1: Point3dType },
     update: (self: TransformControls, data) => {
-        const result = raycast(selectionCandidates, {
-            //@ts-ignore
-            origin: vec2Point(self.worldPosition),
-            direction: data.direction,
-            include: editorPlanePtr[0],
-            exclude: selectionTargetPtr[0]
-        })
-        visualize("result", result?.point)
+        const result0 = raycast(
+            selectionCandidates,
+            {
+                //@ts-ignore
+                origin: vec2Point(self.worldPosition),
+                direction: data.direction0,
+                include: editorPlanePtr[0],
+                exclude: selectionTargetPtr[0]
+            },
+            true
+        )
+        const result1 = raycast(
+            selectionCandidates,
+            {
+                //@ts-ignore
+                origin: vec2Point(self.worldPosition),
+                direction: data.direction1,
+                include: editorPlanePtr[0],
+                exclude: selectionTargetPtr[0]
+            },
+            true
+        )
+        visualize("result0", result0?.point)
+        visualize("result1", result1?.point)
     }
 })

@@ -110,7 +110,8 @@ createEffect(() => {
                     .divide(_parentScale)
             }
             snapRaycastSystem.add(transformControls, {
-                direction: vector3.clone()
+                direction0: vector3.clone(),
+                direction1: vector3.clone().multiplyScalar(-1)
             })
         })
 
