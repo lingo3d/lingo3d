@@ -11,6 +11,7 @@ import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import type VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { Point3dType } from "../utils/isPoint"
 import Point3d from "../math/Point3d"
+import MeshAppendable from "../display/core/MeshAppendable"
 
 const raycaster = new Raycaster()
 
@@ -27,20 +28,21 @@ type RaycastData = {
     }
     origin?: Point3dType
     direction?: Point3dType
-    additionalCandidate?: Object3D
+    include?: Object3D
+    exclude?: MeshAppendable
 }
 export const raycast = computePerFrameWithData(
     (
         candidates: Set<Object3D>,
-        { additionalCandidate, pointer, origin, direction }: RaycastData
+        { include, pointer, origin, direction }: RaycastData
     ): RaycastResult | undefined => {
         if (pointer)
             raycaster.setFromCamera(pointer as Vector2, cameraRenderedPtr[0])
         else if (origin && direction)
             raycaster.set(point2Vec(origin), direction as Vector3)
-            
+
         const candidateArray = [...candidates]
-        additionalCandidate && candidateArray.push(additionalCandidate)
+        include && candidateArray.push(include)
         const [intersection] = raycaster.intersectObjects(candidateArray, false)
         const manager = intersection && getManager(intersection.object)
 

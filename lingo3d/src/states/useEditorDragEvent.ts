@@ -66,7 +66,7 @@ createEffect(() => {
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
     const hit = raycast(selectionCandidates, {
         pointer: { x: xNorm, y: yNorm },
-        additionalCandidate: getGrid() ? editorPlane : undefined
+        include: getGrid() ? editorPlane : undefined
     })
     hitManagerRef.current = hit?.manager
     const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
