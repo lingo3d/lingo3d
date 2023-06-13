@@ -1,10 +1,9 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { Matrix3, Object3D } from "three"
+import { Object3D } from "three"
 import MeshAppendable from "../MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
-import getWorldPosition from "../../../memo/getWorldPosition"
 import { obb, obb_, vector3_1 } from "../../utils/reusables"
 import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
 import {
@@ -21,6 +20,7 @@ import { hitTestSystem } from "../../../systems/hitTestSystem"
 import { configCastShadowSystem } from "../../../systems/configLoadedSystems/configCastShadowSystem"
 import { configOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { configSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
+import setOBB from "../../utils/setOBB"
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -172,18 +172,8 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         if (target.done) return false
         if (this === target) return false
 
-        obb.set(
-            getWorldPosition(this.object3d),
-            vector3_1.clone(),
-            new Matrix3()
-        )
-        obb.applyMatrix4(this.object3d.matrixWorld)
-        obb_.set(
-            getWorldPosition(target.object3d),
-            vector3_1.clone(),
-            new Matrix3()
-        )
-        obb_.applyMatrix4(target.object3d.matrixWorld)
+        setOBB(this.object3d, obb)
+        setOBB(target.object3d, obb_)
         return obb.intersectsOBB(obb_)
     }
 
