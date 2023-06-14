@@ -87,7 +87,8 @@ export default <
             ? createEffectSystem(
                   effect ?? placeholderFn,
                   cleanup,
-                  mapSetupTicker(effectTicker)
+                  mapSetupTicker(effectTicker),
+                  queued
               )
             : [placeholderFn, placeholderFn]
 
@@ -132,22 +133,19 @@ export default <
               executeDelete(item) && queued.size === 0 && handle?.cancel()
         : executeDelete
 
-    const executeSetup = (item: GameObject, initData?: Data) => {
-        const _data =
-            initData ??
-            queued.get(item) ??
-            (typeof data === "function"
-                ? data(item)
-                : data
-                ? { ...data }
-                : undefined)
-        addEffectSystem(item, _data)
-        return _data
-    }
-
     const executeAdd = (item: GameObject, initData?: Data) => {
         const added = !queued.has(item)
-        queued.set(item, executeSetup(item, initData))
+        addEffectSystem(item)
+        queued.set(
+            item,
+            initData ??
+                queued.get(item) ??
+                (typeof data === "function"
+                    ? data(item)
+                    : data
+                    ? { ...data }
+                    : undefined)
+        )
         added && "$systems" in item && item.$systems.set(name, system)
         return added
     }

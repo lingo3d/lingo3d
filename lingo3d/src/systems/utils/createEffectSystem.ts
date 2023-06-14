@@ -7,9 +7,10 @@ export const createEffectSystem = <
 >(
     effect: (target: GameObject, data: Data) => void | false | (() => void),
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
-    ticker: typeof onBeforeRender | typeof queueMicrotask
+    ticker: typeof onBeforeRender | typeof queueMicrotask,
+    dataMap: Map<GameObject, Data>
 ) => {
-    const queued = new Map<GameObject, Data>()
+    const queued = new Set<GameObject>()
     const needsCleanUp = cleanup && new WeakSet<GameObject>()
     const cleanupCbs = new WeakMap<GameObject, () => void>()
 
@@ -27,7 +28,8 @@ export const createEffectSystem = <
 
     const execute = cleanup
         ? () => {
-              for (const [target, data] of queued) {
+              for (const target of queued) {
+                  const data = dataMap.get(target)!
                   if (needsCleanUp!.has(target)) {
                       cleanup(target, data)
                       needsCleanUp!.delete(target)
@@ -39,9 +41,9 @@ export const createEffectSystem = <
               started = false
           }
         : () => {
-              for (const [target, data] of queued) {
+              for (const target of queued) {
                   tryRunCleanupCb(target)
-                  runEffect(target, data)
+                  runEffect(target, dataMap.get(target)!)
               }
               queued.clear()
               started = false
@@ -57,7 +59,7 @@ export const createEffectSystem = <
     const deleteSystem = cleanup
         ? (item: GameObject) => {
               if (needsCleanUp!.has(item)) {
-                  cleanup(item, queued.get(item)!)
+                  cleanup(item, dataMap.get(item)!)
                   needsCleanUp!.delete(item)
               }
               tryRunCleanupCb(item)
@@ -68,13 +70,10 @@ export const createEffectSystem = <
               queued.delete(item)
           }
 
-    const addSystem = (item: GameObject, data: Data) => {
-        if (queued.has(item)) {
-            queued.set(item, data)
-            return
-        }
+    const addSystem = (item: GameObject) => {
+        if (queued.has(item)) return
         start()
-        queued.set(item, data)
+        queued.add(item)
     }
 
     return <const>[addSystem, deleteSystem]
