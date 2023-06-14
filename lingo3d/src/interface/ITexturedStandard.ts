@@ -131,7 +131,7 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         lightMapIntensity: new Range(0, 4),
         metalness: new Range(-2, 2),
         roughness: new Range(0, 4),
-        normalScale: new Range(0, 4),
+        normalScale: new Range(0, 20),
         blending: blendingChoices
     }
 )
