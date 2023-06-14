@@ -37,3 +37,5 @@ for (const key of Object.keys(setupSchema))
         })
 interface Setup extends Appendable, ISetup {}
 export default Setup
+
+new Setup()
