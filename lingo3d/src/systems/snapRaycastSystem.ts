@@ -1,3 +1,4 @@
+import { lazy } from "@lincode/utils"
 import { selectionCandidates } from "../collections/selectionCandidates"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { point2Vec, vec2Point } from "../display/utils/vec2Point"
@@ -7,6 +8,19 @@ import { editorPlanePtr } from "../pointers/editorPlanePtr"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { Point3dType } from "../utils/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
+import { Object3D } from "three"
+
+const lazySnapObjects = lazy(() => {
+    const snapObjects: Array<Object3D> = []
+    for (const x of [-0.5, 0, 0.5])
+        for (const y of [-0.5, 0, 0.5])
+            for (const z of [-0.5, 0, 0.5]) {
+                const snapObject = new Object3D()
+                snapObject.position.set(x, y, z)
+                snapObjects.push(snapObject)
+            }
+    return snapObjects
+})
 
 const trySnap = (self: TransformControls, direction: Point3dType) => {
     const selectionTarget = selectionTargetPtr[0] as MeshAppendable
@@ -33,5 +47,14 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
     update: (self: TransformControls, data) => {
         trySnap(self, data.direction0)
         trySnap(self, data.direction1)
+    },
+    effect: () => {
+        const selectionTarget = selectionTargetPtr[0] as MeshAppendable
+        for (const obj of lazySnapObjects()) selectionTarget.object3d.add(obj)
+    },
+    cleanup: () => {
+        const selectionTarget = selectionTargetPtr[0] as MeshAppendable
+        for (const obj of lazySnapObjects())
+            selectionTarget.object3d.remove(obj)
     }
 })
