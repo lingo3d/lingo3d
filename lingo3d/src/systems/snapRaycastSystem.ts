@@ -62,7 +62,6 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
     data: {} as {
         direction0: Point3dType
         direction1: Point3dType
-        snapPosition?: Vector3
     },
     update: (self: TransformControls, data) => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
@@ -75,15 +74,13 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
 
         const diff = point2Vec(targetPoint).sub(getWorldPosition(snapObject))
         selectionTarget.position.add(diff)
-        data.snapPosition = selectionTarget.position.clone()
     },
     effect: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
         for (const obj of snapObjects) selectionTarget.object3d.add(obj)
     },
-    cleanup: (_, { snapPosition }) => {
+    cleanup: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
         for (const obj of snapObjects) selectionTarget.object3d.remove(obj)
-        snapPosition && selectionTarget.position.copy(snapPosition)
     }
 })
