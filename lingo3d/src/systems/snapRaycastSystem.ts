@@ -1,6 +1,5 @@
 import { selectionCandidates } from "../collections/selectionCandidates"
 import { vec2Point } from "../display/utils/vec2Point"
-import visualize from "../display/utils/visualize"
 import { TransformControls } from "../engine/transformControls/TransformControls"
 import { raycast } from "../memo/raycast"
 import { editorPlanePtr } from "../pointers/editorPlanePtr"
@@ -33,7 +32,7 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
             },
             true
         )
-        visualize("result0", result0?.point)
-        visualize("result1", result1?.point)
+        // visualize("result0", result0?.point)
+        // visualize("result1", result1?.point)
     }
 })

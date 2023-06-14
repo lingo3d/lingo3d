@@ -82,9 +82,14 @@ export default <
 ) => {
     const queued = new Map<GameObject, Data>()
 
-    const [addEffectSystem, deleteEffectSystem] = effect
-        ? createEffectSystem(effect, cleanup, mapSetupTicker(effectTicker))
-        : [placeholderFn, placeholderFn]
+    const [addEffectSystem, deleteEffectSystem] =
+        effect || cleanup
+            ? createEffectSystem(
+                  effect ?? placeholderFn,
+                  cleanup,
+                  mapSetupTicker(effectTicker)
+              )
+            : [placeholderFn, placeholderFn]
 
     const executeUpdate =
         update &&
