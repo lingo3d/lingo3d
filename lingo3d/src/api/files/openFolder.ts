@@ -12,8 +12,6 @@ import setURLModifier from "../../display/utils/loaders/utils/setURLModifier"
 import { pathObjectURLMap } from "../../collections/pathObjectURLMap"
 
 export default async () => {
-    closeFolder()
-
     const [handle, files] = await directoryOpen({
         recursive: true,
         startIn: "downloads",
@@ -26,6 +24,8 @@ export default async () => {
             return entry.name[0] === "." || entry.name === "node_modules"
         }
     })
+    closeFolder()
+
     const fileStructure: FileStructure = {}
     for (const file of files) {
         set(fileStructure, file.webkitRelativePath.split("/"), file)
