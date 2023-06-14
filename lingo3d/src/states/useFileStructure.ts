@@ -11,24 +11,12 @@ export const [setFileStructure, getFileStructure] = store<FileStructure>({})
 export const mergeFileStructure = merge(setFileStructure, getFileStructure)
 
 const getOverlappingSubstring = (str1: string, str2: string) => {
-    let overlap = 0
-    let startIndex = 0
-    for (let i = 0; i < str1.length; i++)
-        for (let j = 0; j < str2.length; j++) {
-            let k = 0
-            while (
-                i + k < str1.length &&
-                j + k < str2.length &&
-                str1[i + k] === str2[j + k]
-            ) {
-                k++
-            }
-            if (k > overlap) {
-                overlap = k
-                startIndex = i
-            }
-        }
-    return str1.substring(startIndex, startIndex + overlap)
+    let overlap = ""
+    for (let i = 0; i < str1.length; ++i) {
+        if (str1[i] !== str2[i]) break
+        overlap += str1[i]
+    }
+    return overlap
 }
 
 getFileBrowserDir((dir) => {

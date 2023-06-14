@@ -25,17 +25,15 @@ const getTextureProp = (name: string): TextureType | undefined => {
     if (
         name.startsWith("diffuse") ||
         name.startsWith("albedo") ||
-        name.startsWith("basecolor")
+        name.startsWith("base")
     )
         return "texture"
-    else if (name.startsWith("rough")) return "roughnessMap"
-    else if (name.startsWith("metal")) return "metalnessMap"
-    else if (name.startsWith("norm")) return "normalMap"
-    else if (name.startsWith("disp")) return "displacementMap"
-    else if (name.startsWith("env")) return "envMap"
-    else if (name.startsWith("ao" || name.startsWith("ambientocclusion")))
-        return "aoMap"
-    else if (name.startsWith("alpha") || name.startsWith("opacity"))
+    if (name.startsWith("rough")) return "roughnessMap"
+    if (name.startsWith("metal")) return "metalnessMap"
+    if (name.startsWith("norm")) return "normalMap"
+    if (name.startsWith("env")) return "envMap"
+    if (name.startsWith("ao") || name.startsWith("ambient")) return "aoMap"
+    if (name.startsWith("alpha") || name.startsWith("opacity"))
         return "alphaMap"
 }
 
