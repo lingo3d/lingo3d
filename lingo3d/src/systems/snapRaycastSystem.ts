@@ -1,7 +1,6 @@
 import { selectionCandidates } from "../collections/selectionCandidates"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { point2Vec, vec2Point } from "../display/utils/vec2Point"
-import visualize from "../display/utils/visualize"
 import { TransformControls } from "../engine/transformControls/TransformControls"
 import getWorldPosition from "../memo/getWorldPosition"
 import { raycast } from "../memo/raycast"
@@ -20,8 +19,17 @@ for (const x of [-0.5, 0, 0.5])
             snapObjects.push(snapObject)
         }
 
-const trySnap = (self: TransformControls, direction: Point3dType) => {
-    const selectionTarget = selectionTargetPtr[0] as MeshAppendable
+type SnapResult = {
+    distance: number
+    snapObject: Object3D | undefined
+    targetPoint: Point3dType | undefined
+}
+
+const trySnap = (
+    self: TransformControls,
+    direction: Point3dType,
+    selectionTarget: MeshAppendable
+): SnapResult => {
     const result = raycast(
         selectionCandidates,
         {
@@ -36,13 +44,15 @@ const trySnap = (self: TransformControls, direction: Point3dType) => {
     if (!result)
         return {
             distance: Infinity,
-            obj: undefined
+            snapObject: undefined,
+            targetPoint: undefined
         }
     const targetVec = point2Vec(result.point)
     const sorted = snapObjects
-        .map((obj) => ({
-            distance: getWorldPosition(obj).distanceTo(targetVec),
-            obj
+        .map((snapObject) => ({
+            distance: getWorldPosition(snapObject).distanceTo(targetVec),
+            snapObject,
+            targetPoint: result.point
         }))
         .sort((a, b) => a.distance - b.distance)
     return sorted[0]
@@ -51,10 +61,16 @@ const trySnap = (self: TransformControls, direction: Point3dType) => {
 export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
     data: {} as { direction0: Point3dType; direction1: Point3dType },
     update: (self: TransformControls, data) => {
-        const snap0 = trySnap(self, data.direction0)
-        const snap1 = trySnap(self, data.direction1)
-        visualize("snap0", snap0.obj && getWorldPosition(snap0.obj), { color: "yellow", scale: 2 })
-        visualize("snap1", snap1.obj && getWorldPosition(snap1.obj), { color: "red", scale: 2 })
+        const selectionTarget = selectionTargetPtr[0] as MeshAppendable
+        const snap0 = trySnap(self, data.direction0, selectionTarget)
+        const snap1 = trySnap(self, data.direction1, selectionTarget)
+
+        const { targetPoint, snapObject, distance } =
+            snap0.distance < snap1.distance ? snap0 : snap1
+        if (!snapObject || !targetPoint || distance > 0.2 ) return
+
+        const diff = point2Vec(targetPoint).sub(getWorldPosition(snapObject))
+        selectionTarget.position.add(diff)
     },
     effect: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
