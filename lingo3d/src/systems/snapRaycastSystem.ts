@@ -53,9 +53,8 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
     update: (self: TransformControls, data) => {
         const snap0 = trySnap(self, data.direction0)
         const snap1 = trySnap(self, data.direction1)
-        const snap = snap0.distance < snap1.distance ? snap0 : snap1
-        visualize("snap", snap.obj ? vec2Point(getWorldPosition(snap.obj)) : undefined)
-        console.log(snap)
+        visualize("snap0", snap0.obj && getWorldPosition(snap0.obj), { color: "yellow", scale: 2 })
+        visualize("snap1", snap1.obj && getWorldPosition(snap1.obj), { color: "red", scale: 2 })
     },
     effect: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
