@@ -19,16 +19,24 @@ type TextureType =
     | "aoMap"
     | "envMap"
     | "displacementMap"
+    | "alphaMap"
 
 const getTextureProp = (name: string): TextureType | undefined => {
-    if (name.startsWith("diffuse") || name.startsWith("albedo"))
+    if (
+        name.startsWith("diffuse") ||
+        name.startsWith("albedo") ||
+        name.startsWith("basecolor")
+    )
         return "texture"
     else if (name.startsWith("rough")) return "roughnessMap"
     else if (name.startsWith("metal")) return "metalnessMap"
     else if (name.startsWith("norm")) return "normalMap"
     else if (name.startsWith("disp")) return "displacementMap"
     else if (name.startsWith("env")) return "envMap"
-    else if (name.startsWith("ao")) return "aoMap"
+    else if (name.startsWith("ao" || name.startsWith("ambientocclusion")))
+        return "aoMap"
+    else if (name.startsWith("alpha") || name.startsWith("opacity"))
+        return "alphaMap"
 }
 
 const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
