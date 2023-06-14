@@ -32,7 +32,6 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
             },
             true
         )
-        // visualize("result0", result0?.point)
-        // visualize("result1", result1?.point)
+        // if ("position" in selectionTargetPtr[0])
     }
 })

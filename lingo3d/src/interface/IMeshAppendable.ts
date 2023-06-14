@@ -12,7 +12,6 @@ import {
 import Nullable from "./utils/Nullable"
 import { nullableCallback } from "./utils/NullableCallback"
 import Range from "./utils/Range"
-import { disableSchema } from "../collections/disableSchema"
 
 export default interface IMeshAppendable extends IAppendable {
     x: number
@@ -22,7 +21,6 @@ export default interface IMeshAppendable extends IAppendable {
     rotationX: number
     rotationY: number
     rotationZ: number
-    rotation: number
 
     onMove: Nullable<() => void>
     onMoveToEnd: Nullable<() => void>
@@ -55,7 +53,6 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     rotationX: Number,
     rotationY: Number,
     rotationZ: Number,
-    rotation: Number,
 
     onMove: Function,
     onMoveToEnd: Function,
@@ -78,7 +75,6 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
     lookAt: [Function, Array],
     lookTo: [Function, Array]
 }
-disableSchema.add("rotation")
 
 export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
     [appendableDefaults],
@@ -90,7 +86,6 @@ export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
         rotationX: 0,
         rotationY: 0,
         rotationZ: 0,
-        rotation: 0,
 
         onMove: nullableCallback(),
         onMoveToEnd: nullableCallback(),
@@ -116,7 +111,6 @@ export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
     {
         rotationX: new Range(0, 360),
         rotationY: new Range(0, 360),
-        rotationZ: new Range(0, 360),
-        rotation: new Range(0, 360)
+        rotationZ: new Range(0, 360)
     }
 )

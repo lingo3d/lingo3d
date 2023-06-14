@@ -259,13 +259,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         configPhysicsSystem.add(this)
     }
 
-    public get rotation() {
-        return this.rotationZ
-    }
-    public set rotation(val) {
-        this.rotationZ = val
-    }
-
     public lookAt(target: MeshAppendable | Point3dType): void
     public lookAt(x: number, y: number | undefined, z: number): void
     public lookAt(

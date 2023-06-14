@@ -38,13 +38,6 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
         this.object3d.rotation.z = val * deg2Rad
     }
 
-    public get innerRotation() {
-        return this.innerRotationZ
-    }
-    public set innerRotation(val) {
-        this.innerRotationZ = val
-    }
-
     public get innerX() {
         return this.object3d.position.x * M2CM
     }
