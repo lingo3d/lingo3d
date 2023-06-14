@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import getDisplayName from "../utils/getDisplayName"
-import Setup, { defaultSetup } from "../../display/Setup"
+import Setup from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
@@ -21,6 +21,7 @@ import { onEditorRefresh } from "../../events/onEditorRefresh"
 import { multipleSelectionTargets } from "../../collections/multipleSelectionTargets"
 import { FolderApi } from "./tweakpane"
 import SystemsComboList from "./SystemComboList"
+import { defaultSetupPtr } from "../../pointers/defaultSetupPtr"
 
 const Editor = () => {
     useInitCSS()
@@ -59,9 +60,9 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            const handle = addSetupInputs(pane, defaultSetup, includeKeys)
+            const handle = addSetupInputs(pane, includeKeys)
             return () => {
-                handle.cancel()
+                handle?.cancel()
             }
         }
         let systemsFolder: FolderApi | undefined
@@ -108,12 +109,13 @@ const Editor = () => {
                         setIncludeKeys(undefined)
                         return
                     }
+                    const target = selectionTarget ?? defaultSetupPtr[0]
+                    if (!target) return
                     val = val.toLowerCase()
                     setIncludeKeys(
-                        Object.keys(
-                            getStaticProperties(selectionTarget ?? defaultSetup)
-                                .schema
-                        ).filter((key) => key.toLowerCase().includes(val))
+                        Object.keys(getStaticProperties(target).schema).filter(
+                            (key) => key.toLowerCase().includes(val)
+                        )
                     )
                 }}
                 clearOnChange={selectedSignal.value.at(-1)}

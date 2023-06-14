@@ -3,13 +3,12 @@ import addInputs from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Cancellable } from "@lincode/promiselikes"
-import Setup from "../../display/Setup"
+import { defaultSetupPtr } from "../../pointers/defaultSetupPtr"
 
-export default (
-    pane: Pane,
-    targetSetup: Setup,
-    includeKeys: Array<string> | undefined
-) => {
+export default (pane: Pane, includeKeys: Array<string> | undefined) => {
+    const [targetSetup] = defaultSetupPtr
+    if (!targetSetup) return
+
     const handle = new Cancellable()
     const [params, manager] = createParams(targetSetup, includeKeys, true)
     const [editorParams, editorRest] = splitObject(params, ["grid", "stats"])

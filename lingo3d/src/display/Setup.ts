@@ -3,8 +3,8 @@ import setupStruct from "../api/settings/setupStruct"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
+import { defaultSetupPtr } from "../pointers/defaultSetupPtr"
 
-let setup: Setup | undefined
 const setupStructDefaults = { ...setupStruct }
 
 class Setup extends Appendable {
@@ -15,13 +15,13 @@ class Setup extends Appendable {
     public constructor() {
         super()
         this.$disableSceneGraph = true
-        setup?.dispose()
-        setup = this
+        defaultSetupPtr[0]?.dispose()
+        defaultSetupPtr[0] = this
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        setup = undefined
+        defaultSetupPtr[0] = undefined
         Object.assign(setupStruct, setupStructDefaults)
     }
 }
@@ -37,5 +37,3 @@ for (const key of Object.keys(setupSchema))
         })
 interface Setup extends Appendable, ISetup {}
 export default Setup
-
-export const defaultSetup = new Setup()
