@@ -819,9 +819,9 @@ class TransformControlsGizmo extends Object3D {
         arrowGeometry.translate(0, 0.05 * ratio, 0)
 
         const scaleHandleGeometry = new BoxGeometry(
-            0.08 * ratio,
-            0.08 * ratio,
-            0.08 * ratio
+            0.05 * ratio,
+            0.05 * ratio,
+            0.05 * ratio
         )
         scaleHandleGeometry.translate(0, 0.04 * ratio, 0)
 
