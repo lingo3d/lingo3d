@@ -8,7 +8,7 @@ import { editorPlanePtr } from "../pointers/editorPlanePtr"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import { Point3dType } from "../utils/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
-import { Object3D } from "three"
+import { Object3D, Vector3 } from "three"
 
 const snapObjects: Array<Object3D> = []
 for (const x of [-0.5, 0, 0.5])
@@ -59,7 +59,11 @@ const trySnap = (
 }
 
 export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
-    data: {} as { direction0: Point3dType; direction1: Point3dType },
+    data: {} as {
+        direction0: Point3dType
+        direction1: Point3dType
+        snapPosition?: Vector3
+    },
     update: (self: TransformControls, data) => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
         const snap0 = trySnap(self, data.direction0, selectionTarget)
@@ -67,17 +71,19 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
 
         const { targetPoint, snapObject, distance } =
             snap0.distance < snap1.distance ? snap0 : snap1
-        if (!snapObject || !targetPoint || distance > 0.2 ) return
+        if (!snapObject || !targetPoint || distance > 0.2) return
 
         const diff = point2Vec(targetPoint).sub(getWorldPosition(snapObject))
         selectionTarget.position.add(diff)
+        data.snapPosition = selectionTarget.position.clone()
     },
     effect: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
         for (const obj of snapObjects) selectionTarget.object3d.add(obj)
     },
-    cleanup: () => {
+    cleanup: (_, { snapPosition }) => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
         for (const obj of snapObjects) selectionTarget.object3d.remove(obj)
+        snapPosition && selectionTarget.position.copy(snapPosition)
     }
 })
