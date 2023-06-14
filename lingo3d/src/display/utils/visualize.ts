@@ -15,6 +15,9 @@ export default (
         sphere.$ghost()
         return sphere
     })
-    pt && sphere.placeAt(pt)
+    if (pt) {
+        sphere.placeAt(pt)
+        sphere.visible = true
+    } else sphere.visible = false
     return sphere
 }
