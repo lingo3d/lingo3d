@@ -23,7 +23,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
     grid: Boolean,
     stats: Boolean,
-    antiAlias: [Boolean, String],
     pixelRatio: Number,
     fps: Number,
     gravity: Number,
@@ -36,7 +35,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     ssrIntensity: Number,
     ssrJitter: Number,
     ssao: Boolean,
-    ssaoIntensity: Number,
     outlineColor: String,
     outlineHiddenColor: String,
     outlinePattern: String,
@@ -48,8 +46,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-for (const key of ["antiAlias", "pixelRatio", "ssaoIntensity"])
-    disableSchema.add(key)
+for (const key of ["pixelRatio"]) disableSchema.add(key)
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
@@ -74,9 +71,7 @@ export const setupDefaults = extendDefaults<ISetup>(
         bloomRadius: new Range(0, 1),
         ssrIntensity: new Range(0, 2),
         ssrJitter: new Range(0, 1),
-        ssaoIntensity: new Range(0, 4),
         outlinePulse: new Range(0, 2),
-        outlineStrength: new Range(0, 4),
-        antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false })
+        outlineStrength: new Range(0, 4)
     }
 )

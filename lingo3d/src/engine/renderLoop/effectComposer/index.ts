@@ -17,7 +17,6 @@ import { getSSAO } from "../../../states/useSSAO"
 //@ts-ignore
 import { N8AOPostPass } from "n8ao"
 import { Cancellable } from "@lincode/promiselikes"
-import { emitRenderSSAO } from "../../../events/onRenderSSAO"
 
 const effectComposer = new EffectComposer(undefined, { multisampling: 4 })
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -37,16 +36,9 @@ createEffect(() => {
     effectComposer.setSize(w, h)
 }, [getRenderer, getResolution])
 
-const lazyAOPass = lazy(() => {
-    const pass = new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
-    const { render } = pass
-    pass.render = function (...args: Array<any>) {
-        emitRenderSSAO("before")
-        render.apply(this, args)
-        emitRenderSSAO("after")
-    }
-    return pass
-})
+const lazyAOPass = lazy(
+    () => new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
+)
 
 createEffect(() => {
     const handle = new Cancellable()

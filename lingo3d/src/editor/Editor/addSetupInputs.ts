@@ -15,7 +15,6 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
     addInputs(handle, pane, "editor", manager, editorParams)
 
     const [rendererParams, rendererRest] = splitObject(editorRest, [
-        "antiAlias",
         "pixelRatio",
         "fps"
     ])
@@ -47,7 +46,6 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
         "ssrIntensity",
         "ssrJitter",
         "ssao",
-        "ssaoIntensity",
         "bokeh",
         "bokehScale",
         "vignette"
