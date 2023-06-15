@@ -78,6 +78,7 @@ export default abstract class TexturedStandardMixin
     public set alphaMap(val: string | undefined) {
         this.$materialParams[3] = val ?? this.$defaults.alphaMap
         refreshTexturedStandardSystem.add(this)
+        configCastShadowSystem.add(this as any)
     }
 
     public get textureRepeat() {
