@@ -12,7 +12,7 @@ import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 import logStatus from "../../utils/logStatus"
 import { fileBrowserMaterialContextMenuSignal } from "./FileBrowserMaterialContextMenu"
 
-type TextureType =
+export type TextureType =
     | "texture"
     | "metalnessMap"
     | "roughnessMap"
@@ -59,7 +59,9 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager, e) => {
         if (!prop) {
             fileBrowserMaterialContextMenuSignal.value = {
                 x: e.clientX,
-                y: e.clientY
+                y: e.clientY,
+                onSelect: (type) =>
+                    (hitManager[type] = draggingItem.webkitRelativePath)
             }
             return
         }

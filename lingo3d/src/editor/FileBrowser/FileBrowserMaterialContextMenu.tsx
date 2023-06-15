@@ -2,15 +2,20 @@ import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
+import { TextureType } from "./FileButton"
 
-export const fileBrowserMaterialContextMenuSignal: Signal<Point | undefined> =
-    signal(undefined)
+export const fileBrowserMaterialContextMenuSignal: Signal<
+    (Point & { onSelect: (channel: TextureType) => void }) | undefined
+> = signal(undefined)
 
 const FileBrowserMaterialContextMenu = () => {
     return (
         <ContextMenu positionSignal={fileBrowserMaterialContextMenuSignal}>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "texture"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -18,6 +23,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "metalnessMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -25,6 +33,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "roughnessMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -32,6 +43,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "normalMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -39,6 +53,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "envMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -46,6 +63,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "aoMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
@@ -53,6 +73,9 @@ const FileBrowserMaterialContextMenu = () => {
             </MenuButton>
             <MenuButton
                 onClick={() => {
+                    fileBrowserMaterialContextMenuSignal.value!.onSelect(
+                        "alphaMap"
+                    )
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
