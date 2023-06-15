@@ -1,7 +1,7 @@
 import { BufferGeometry } from "three"
 import MeshAppendable from "../MeshAppendable"
 import Primitive from "../Primitive"
-import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../../../collections/excludeSSRSet"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
 
 export default abstract class HelperPrimitive extends Primitive {
@@ -10,7 +10,7 @@ export default abstract class HelperPrimitive extends Primitive {
         owner: MeshAppendable | undefined
     ) {
         super(geometry)
-        ssrExcludeSet.add(this.outerObject3d)
+        excludeSSRSet.add(this.outerObject3d)
         this.$ghost(false)
         this.opacity = 0.5
 
@@ -21,6 +21,6 @@ export default abstract class HelperPrimitive extends Primitive {
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        excludeSSRSet.delete(this.outerObject3d)
     }
 }

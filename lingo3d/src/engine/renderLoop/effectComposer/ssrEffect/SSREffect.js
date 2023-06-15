@@ -5,10 +5,10 @@ import finalSSRShader from "./material/shader/finalSSRShader"
 import helperFunctions from "./material/shader/helperFunctions"
 import trCompose from "./material/shader/trCompose"
 import { ReflectionsPass } from "./pass/ReflectionsPass"
-import { afterRenderSSR, beforeRenderSSR } from "./renderSetup"
 import { defaultSSROptions } from "./SSROptions"
 import { TemporalResolvePass } from "./temporal-resolve/pass/TemporalResolvePass"
 import { generateHalton23Points } from "./utils/generateHalton23Points"
+import { emitRenderSSR } from "../../../../events/onRenderSSR"
 
 const finalFragmentShader = finalSSRShader
     .replace("#include <helperFunctions>", helperFunctions)
@@ -245,7 +245,7 @@ export class SSREffect extends Effect {
     }
 
     update(renderer, inputBuffer) {
-        beforeRenderSSR()
+        emitRenderSSR("before")
 
         this.haltonIndex = (this.haltonIndex + 1) % this.haltonSequence.length
 
@@ -267,6 +267,6 @@ export class SSREffect extends Effect {
 
         this._camera.clearViewOffset()
 
-        afterRenderSSR()
+        emitRenderSSR("after")
     }
 }

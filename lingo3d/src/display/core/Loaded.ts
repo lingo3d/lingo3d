@@ -6,7 +6,7 @@ import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import { physxPtr } from "../../pointers/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
-import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../../collections/excludeSSRSet"
 import { configLoadedSrcSystem } from "../../systems/configSystems/configLoadedSrcSystem"
 
 const material = new MeshStandardMaterial({ visible: false })
@@ -20,13 +20,13 @@ export default abstract class Loaded<T = Object3D>
 
     public constructor() {
         super(new Mesh(boxGeometry, material))
-        ssrExcludeSet.add(this.object3d)
+        excludeSSRSet.add(this.object3d)
         this.outerObject3d.add(this.$loadedGroup)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.object3d)
+        excludeSSRSet.delete(this.object3d)
     }
 
     public abstract $load(src: string): Promise<T>

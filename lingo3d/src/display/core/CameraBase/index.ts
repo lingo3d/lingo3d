@@ -19,7 +19,7 @@ import MeshAppendable from "../MeshAppendable"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../utils/isPoint"
-import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../../../collections/excludeSSRSet"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
@@ -50,7 +50,7 @@ export default abstract class CameraBase<
                 return
 
             const helper = new CameraHelper($camera)
-            ssrExcludeSet.add(helper)
+            excludeSSRSet.add(helper)
             renderCheckExcludeSet.add(helper)
             scene.add(helper)
 
@@ -58,7 +58,7 @@ export default abstract class CameraBase<
             helper.add(sprite.outerObject3d)
             return () => {
                 helper.dispose()
-                ssrExcludeSet.delete(helper)
+                excludeSSRSet.delete(helper)
                 renderCheckExcludeSet.delete(helper)
                 scene.remove(helper)
                 sprite.dispose()

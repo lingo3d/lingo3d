@@ -1,6 +1,6 @@
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../collections/excludeSSRSet"
 import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 import { configWaterSystem } from "../systems/configSystems/configWaterSystem"
 
@@ -42,7 +42,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
 
     public constructor() {
         super()
-        ssrExcludeSet.add(this.outerObject3d)
+        excludeSSRSet.add(this.outerObject3d)
         this.rotationX = 270
         this.object3d.scale.z = Number.EPSILON
         configWaterSystem.add(this)
@@ -50,7 +50,7 @@ export default class Water extends PhysicsObjectManager implements IWater {
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        excludeSSRSet.delete(this.outerObject3d)
     }
 
     public override get depth() {

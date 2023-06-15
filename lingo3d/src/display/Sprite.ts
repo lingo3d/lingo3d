@@ -3,7 +3,7 @@ import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import { ColorString } from "../interface/ITexturedStandard"
 import { castBackBlending, castBlending } from "./utils/castBlending"
-import { ssrExcludeSet } from "../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../collections/excludeSSRSet"
 import { configSpriteSystem } from "../systems/configSystems/configSpriteSystem"
 
 export default class Sprite
@@ -20,12 +20,12 @@ export default class Sprite
         const material = new SpriteMaterial({ transparent: true })
         super(new ThreeSprite(material))
         this.$material = material
-        ssrExcludeSet.add(this.outerObject3d)
+        excludeSSRSet.add(this.outerObject3d)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        excludeSSRSet.delete(this.outerObject3d)
     }
 
     public override get depth() {

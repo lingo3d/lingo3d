@@ -11,7 +11,7 @@ import ISpotLight, {
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { SpotLightMaterial } from "./SpotLightMaterial"
 import { Cancellable } from "@lincode/promiselikes"
-import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../../../collections/excludeSSRSet"
 import PointLightBase from "../../core/PointLightBase"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import unsafeSetValue from "../../../utils/unsafeSetValue"
@@ -80,7 +80,7 @@ export default class SpotLight
 
                     const cone = new Mesh(coneGeometry, material)
                     this.outerObject3d.add(cone)
-                    ssrExcludeSet.add(cone)
+                    excludeSSRSet.add(cone)
                     renderCheckExcludeSet.add(cone)
                     volumetricSpotLightSystem.add(cone, {
                         light: this,
@@ -89,7 +89,7 @@ export default class SpotLight
                     return new Cancellable(() => {
                         material.dispose()
                         this.outerObject3d.remove(cone)
-                        ssrExcludeSet.delete(cone)
+                        excludeSSRSet.delete(cone)
                         renderCheckExcludeSet.delete(cone)
                         volumetricSpotLightSystem.delete(cone)
                     })

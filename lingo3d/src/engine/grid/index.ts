@@ -3,7 +3,7 @@ import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getGrid } from "../../states/useGrid"
 import scene from "../scene"
 import InfiniteGridHelper from "./InfiniteGridHelper"
-import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import { excludeSSRSet } from "../../collections/excludeSSRSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 import { getWorldPlay } from "../../states/useWorldPlay"
@@ -18,7 +18,7 @@ createEffect(() => {
         return
 
     const gridHelper = new InfiniteGridHelper()
-    ssrExcludeSet.add(gridHelper)
+    excludeSSRSet.add(gridHelper)
     renderCheckExcludeSet.add(gridHelper)
     scene.add(gridHelper)
 
@@ -32,7 +32,7 @@ createEffect(() => {
 
     return () => {
         scene.remove(gridHelper)
-        ssrExcludeSet.delete(gridHelper)
+        excludeSSRSet.delete(gridHelper)
         renderCheckExcludeSet.delete(gridHelper)
 
         editorPlane.geometry.dispose()
