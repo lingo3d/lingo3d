@@ -29,10 +29,11 @@ import {
     isNullableCallbackParam,
     isTemplateNode
 } from "../../collections/typeGuards"
-import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
 import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
+import { clearBooleanPtrEffectSystem } from "../../systems/configSystems/clearBooleanPtrEffectSystem"
+import { onTransformControls } from "../../events/onTransformControls"
 import { refreshInputSystem } from "../../systems/refreshInputSystem"
 
 const processValue = (value: any) => {
@@ -118,6 +119,7 @@ export const initConnectorIn = (
 }
 
 const omitOptionsMap = new WeakMap<Record<string, any>, Array<string>>()
+const skipChangePtr = [false]
 
 export default async (
     handle: Cancellable,
@@ -206,7 +208,8 @@ export default async (
                         // so that when the callback is called, inputs will be refreshed
                         new PassthroughCallback((val) => {
                             params[key] = val
-                            inputSkipChangeSet.add(input)
+                            skipChangePtr[0] = true
+                            clearBooleanPtrEffectSystem.add(skipChangePtr)
                             input.refresh()
                         }, handle)
                     )
@@ -221,8 +224,26 @@ export default async (
                     key,
                     optionsOmitted?.[key]
                 )
-                refreshInputSystem.add(input, { key, params, target })
-
+                if (
+                    key === "x" ||
+                    key === "y" ||
+                    key === "z" ||
+                    key.startsWith("rotation") ||
+                    key.startsWith("scale")
+                )
+                    handle.watch(
+                        onTransformControls((phase) => {
+                            if ((skipChangePtr[0] = phase === "start")) {
+                                refreshInputSystem.add(input, {
+                                    key,
+                                    params,
+                                    target
+                                })
+                                return
+                            }
+                            refreshInputSystem.delete(input)
+                        })
+                    )
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
 
@@ -246,10 +267,7 @@ export default async (
 
                 input.on("change", ({ value }: any) => {
                     updateResetButton()
-                    if (inputSkipChangeSet.has(input)) {
-                        inputSkipChangeSet.delete(input)
-                        return
-                    }
+                    if (skipChangePtr[0]) return
                     if (value === "custom" && options) {
                         forceGetInstance(omitOptionsMap, options, Array).push(
                             key
@@ -342,10 +360,7 @@ export default async (
         })
     )
     handle.then(() => {
-        for (const input of Object.values(result)) {
-            refreshInputSystem.delete(input)
-            input.dispose()
-        }
+        for (const input of Object.values(result)) input.dispose()
     })
     return result
 }
