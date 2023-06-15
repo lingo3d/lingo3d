@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { Color, Texture } from "three"
-import { excludeSSRSet } from "../collections/excludeSSRSet"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import scene from "../engine/scene"
 
 export const [emitRenderSSR, onRenderSSR] = event<"before" | "after">()
@@ -10,9 +10,9 @@ onRenderSSR((phase) => {
     if (phase === "before") {
         sceneBackground = scene.background
         scene.background = null
-        for (const target of excludeSSRSet) target.visible = false
+        for (const target of ssrExcludeSet) target.visible = false
         return
     }
     scene.background = sceneBackground
-    for (const target of excludeSSRSet) target.visible = true
+    for (const target of ssrExcludeSet) target.visible = true
 })

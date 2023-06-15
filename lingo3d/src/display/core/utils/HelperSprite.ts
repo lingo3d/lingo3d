@@ -1,6 +1,6 @@
 import MeshAppendable from "../MeshAppendable"
 import { selectionRedirectMap } from "../../../collections/selectionRedirectMap"
-import { excludeSSRSet } from "../../../collections/excludeSSRSet"
+import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import Sprite from "../../Sprite"
 import { editorUrlPtr } from "../../../pointers/assetsPathPointers"
 
@@ -10,7 +10,7 @@ export default class HelperSprite extends Sprite {
         owner: MeshAppendable
     ) {
         super()
-        excludeSSRSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.outerObject3d)
         this.$ghost(false)
         this.texture = `${editorUrlPtr[0]}${type}Sprite.png`
         this.scale = 0.5
@@ -21,6 +21,6 @@ export default class HelperSprite extends Sprite {
 
     protected override disposeNode() {
         super.disposeNode()
-        excludeSSRSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.outerObject3d)
     }
 }

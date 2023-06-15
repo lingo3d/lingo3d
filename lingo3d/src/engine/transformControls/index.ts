@@ -15,7 +15,7 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
 import { container } from "../renderLoop/containers"
-import { excludeSSRSet } from "../../collections/excludeSSRSet"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
@@ -71,7 +71,7 @@ createEffect(() => {
         transformControls.attach(target)
         transformControls.enabled = true
 
-        excludeSSRSet.add(transformControls)
+        ssrExcludeSet.add(transformControls)
         renderCheckExcludeSet.add(transformControls)
 
         const handle0 = onTransformControls((phase) => {
@@ -119,7 +119,7 @@ createEffect(() => {
             scene.remove(transformControls)
             transformControls.detach()
             transformControls.enabled = false
-            excludeSSRSet.delete(transformControls)
+            ssrExcludeSet.delete(transformControls)
             renderCheckExcludeSet.delete(transformControls)
             handle0.cancel()
         })

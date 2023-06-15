@@ -4,7 +4,7 @@ import getWorldPosition from "../memo/getWorldPosition"
 import scene from "../engine/scene"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"
 import { rendererPtr } from "../pointers/rendererPtr"
-import { excludeSSRSet } from "../collections/excludeSSRSet"
+import { ssrExcludeSet } from "../collections/ssrExcludeSet"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const reflectionSystem = createInternalSystem("reflectionSystem", {
@@ -22,13 +22,13 @@ export const reflectionSystem = createInternalSystem("reflectionSystem", {
             manager.outerObject3d.visible = true
         for (const manager of queued.keys())
             manager.outerObject3d.visible = false
-        for (const object of excludeSSRSet) object.visible = false
+        for (const object of ssrExcludeSet) object.visible = false
     },
     afterTick: (queued) => {
         for (const manager of reflectionVisibleSet)
             manager.outerObject3d.visible = false
         for (const manager of queued.keys())
             manager.outerObject3d.visible = true
-        for (const object of excludeSSRSet) object.visible = true
+        for (const object of ssrExcludeSet) object.visible = true
     }
 })

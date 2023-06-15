@@ -4,7 +4,7 @@ import ILightBase from "../../interface/ILightBase"
 import HelperSprite from "./utils/HelperSprite"
 import GimbalObjectManager from "./GimbalObjectManager"
 import { ColorString } from "../../interface/ITexturedStandard"
-import { excludeSSRSet } from "../../collections/excludeSSRSet"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { updateSystem } from "../../systems/updateSystem"
 import { getWorldPlay } from "../../states/useWorldPlay"
@@ -25,7 +25,7 @@ export default abstract class LightBase<T extends Light>
             const sprite = new HelperSprite("light", this)
             if (Helper) {
                 const helper = new Helper(light as any)
-                excludeSSRSet.add(helper)
+                ssrExcludeSet.add(helper)
                 renderCheckExcludeSet.add(helper)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
@@ -33,7 +33,7 @@ export default abstract class LightBase<T extends Light>
 
                 sprite.then(() => {
                     helper.dispose()
-                    excludeSSRSet.delete(helper)
+                    ssrExcludeSet.delete(helper)
                     renderCheckExcludeSet.delete(helper)
                     scene.remove(helper)
                     "update" in helper && updateSystem.delete(helper)
