@@ -20,6 +20,7 @@ import {
 } from "../../collections/typeGuards"
 import { disableSchema } from "../../collections/disableSchema"
 import { runtimeSchemaMap } from "../../collections/runtimeCollections"
+import { getFixedRuntimeValue } from "../../utils/getRuntimeValue"
 
 export class PassthroughCallback {
     public constructor(
@@ -108,7 +109,8 @@ export default (
             methodParams[schemaKey] = defaultValue
             continue
         }
-        rawParams[schemaKey] = defaultValue
+        rawParams[schemaKey] =
+            getFixedRuntimeValue(manager, schemaKey) ?? defaultValue
     }
     return [
         { ...rawParams, ...callbackParams, ...methodParams },
