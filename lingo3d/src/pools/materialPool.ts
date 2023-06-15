@@ -97,8 +97,8 @@ export const [requestMaterial, releaseMaterial] = createSharedPool<
                 material,
                 "transparent",
                 referenceMaterial.transparent ||
-                    (params[1] !== undefined && params[1] < 1) ||
-                    params[3] !== undefined,
+                    params[1] < 1 ||
+                    params[3].length > 0,
                 defaults
             )
             setMaterial(
@@ -189,9 +189,7 @@ export const [requestMaterial, releaseMaterial] = createSharedPool<
                     side: DoubleSide,
                     color: params[0],
                     opacity: params[1],
-                    transparent:
-                        (params[1] !== undefined && params[1] < 1) ||
-                        params[3] !== undefined,
+                    transparent: params[1] < 1 || params[3].length > 0,
                     map: createMap(params[2], params[4], params[5], params[6]),
                     alphaMap: createMap(
                         params[3],

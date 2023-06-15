@@ -34,8 +34,6 @@ const getTextureProp = (name: string): TextureType | undefined => {
     if (name.startsWith("norm")) return "normalMap"
     if (name.startsWith("env")) return "envMap"
     if (name.startsWith("ao") || name.startsWith("ambient")) return "aoMap"
-    if (name.startsWith("alpha") || name.startsWith("opacity"))
-        return "alphaMap"
 }
 
 const setDraggingItem = dragToCreate<File>((draggingItem, hitManager, e) => {
