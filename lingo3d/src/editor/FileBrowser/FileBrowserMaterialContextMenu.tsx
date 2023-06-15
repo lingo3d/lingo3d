@@ -14,49 +14,49 @@ const FileBrowserMaterialContextMenu = () => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                texture channel
+                texture
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                metalnessMap channel
+                metalnessMap
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                roughnessMap channel
+                roughnessMap
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                normalMap channel
+                normalMap
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                envMap channel
+                envMap
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                aoMap channel
+                aoMap
             </MenuButton>
             <MenuButton
                 onClick={() => {
                     fileBrowserMaterialContextMenuSignal.value = undefined
                 }}
             >
-                alphaMap channel
+                alphaMap
             </MenuButton>
         </ContextMenu>
     )

@@ -10,6 +10,7 @@ import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import useInitEditor from "../hooks/useInitEditor"
 import { getFileStructure } from "../../states/useFileStructure"
 import FileBrowserAddContextMenu from "./FileBrowserAddContextMenu"
+import FileBrowserMaterialContextMenu from "./FileBrowserMaterialContextMenu"
 
 const FileBrowser = () => {
     useInitCSS()
@@ -86,6 +87,7 @@ const FileBrowser = () => {
                 </div>
             </div>
             <FileBrowserAddContextMenu />
+            <FileBrowserMaterialContextMenu />
         </>
     )
 }

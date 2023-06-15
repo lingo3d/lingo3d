@@ -27,7 +27,8 @@ createEffect(() => {
 export default <T>(
     onDrop: (
         draggingItem: T,
-        hitManager?: Appendable | TexturedStandardMixin
+        hitManager: Appendable | TexturedStandardMixin | undefined,
+        e: DragEvent
     ) => Appendable | undefined
 ) => {
     let draggingItem: T | undefined
@@ -38,11 +39,11 @@ export default <T>(
     container.addEventListener("dragleave", () => setEditorDragEvent(undefined))
     container.addEventListener(
         "drop",
-        () =>
+        (e) =>
             draggingItem &&
             !draggingItemPtr[0] &&
             setEditorDragEvent((hitManager) =>
-                onDrop(draggingItem!, hitManager)
+                onDrop(draggingItem!, hitManager, e)
             )
     )
     return (val: T | undefined) => (draggingItem = val)

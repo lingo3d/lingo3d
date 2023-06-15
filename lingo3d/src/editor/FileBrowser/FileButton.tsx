@@ -10,6 +10,7 @@ import { stopPropagation } from "../utils/stopPropagation"
 import { pathDirectoryDataMap } from "../../collections/pathDirectoryDataMap"
 import { fileBrowserDirPtr } from "../../pointers/fileBrowserDirPtr"
 import logStatus from "../../utils/logStatus"
+import { fileBrowserMaterialContextMenuSignal } from "./FileBrowserMaterialContextMenu"
 
 type TextureType =
     | "texture"
@@ -37,7 +38,7 @@ const getTextureProp = (name: string): TextureType | undefined => {
         return "alphaMap"
 }
 
-const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
+const setDraggingItem = dragToCreate<File>((draggingItem, hitManager, e) => {
     const filetype = getExtensionType(draggingItem.name)
     if (filetype === "model") {
         const manager = new Model()
@@ -55,8 +56,13 @@ const setDraggingItem = dragToCreate<File>((draggingItem, hitManager) => {
         ).toLowerCase()
 
         const prop = getTextureProp(processedFileName)
-        if (!prop) return
-
+        if (!prop) {
+            fileBrowserMaterialContextMenuSignal.value = {
+                x: e.clientX,
+                y: e.clientY
+            }
+            return
+        }
         hitManager[prop] = draggingItem.webkitRelativePath
         logStatus(`set texture: ${prop}`)
     }
