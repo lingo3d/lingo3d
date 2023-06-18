@@ -6,7 +6,7 @@ import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
-import { getWorldExpanded } from "../../states/useWorldExpanded"
+import { getWorldExpanded, setWorldExpanded } from "../../states/useWorldExpanded"
 import SelectBox from "../component/SelectBox"
 import { getCameraList } from "../../states/useCameraList"
 import getDisplayName from "../utils/getDisplayName"
@@ -48,11 +48,11 @@ const Tabs = () => {
                     on={uiLayer}
                     onChange={(val) => setUILayer(val)}
                 />
-                {/* <Switch
+                <Switch
                     label="expand"
                     on={worldExpanded}
                     onChange={(val) => setWorldExpanded(val)}
-                /> */}
+                />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <WorldControls />
             </AppBar>

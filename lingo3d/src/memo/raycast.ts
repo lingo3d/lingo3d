@@ -54,7 +54,7 @@ export const raycast = computePerFrameWithData(
             assignPxVec(raycaster.ray.origin),
             assignPxVec_(raycaster.ray.direction),
             FAR,
-            exclude && "$actor" in exclude ? exclude.$actor.ptr : undefined
+            exclude && "$actor" in exclude && exclude.$actor ? exclude.$actor.ptr : undefined
         )
         if (pxHit) {
             const pxHitManager = actorPtrManagerMap.get(pxHit.actor.ptr)!

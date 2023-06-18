@@ -1,5 +1,5 @@
 import "./index"
-// import "./tests/testLight"
+import "./tests/testStory"
 import LingoEditor from "./editor"
 
 const editor = new LingoEditor()
