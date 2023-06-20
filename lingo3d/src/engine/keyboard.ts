@@ -30,12 +30,12 @@ createEffect(() => {
             document.addEventListener("keyup", handleKeyUp)
         }
     }
-
     keyPressEmitSystem.add(keyPressSet)
-    const handle = onKeyClear(() => {
+    const keyClear = () => {
         for (const key of keyPressSet) emitKeyUp(key)
         keyPressSet.clear()
-    })
+    }
+    const handle = onKeyClear(keyClear)
 
     const handleKeyDown = (e: KeyboardEvent): void => {
         const key = processKey(e.key)
@@ -52,7 +52,7 @@ createEffect(() => {
     document.addEventListener("keyup", handleKeyUp)
 
     return () => {
-        keyPressSet.clear()
+        keyClear()
         keyPressEmitSystem.delete(keyPressSet)
         handle.cancel()
         document.removeEventListener("keydown", handleKeyDown)
