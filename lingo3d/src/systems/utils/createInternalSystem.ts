@@ -39,7 +39,14 @@ const mapEffectTicker = (ticker: EffectTicker) => {
 export type SystemOptions<
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void,
-    EventData extends Record<string, any> | void
+    EventData extends
+        | Record<string, any>
+        | string
+        | boolean
+        | number
+        | Array<any>
+        | Function
+        | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
     effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
@@ -68,7 +75,14 @@ const placeholderFn = () => {}
 export default <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void,
-    EventData extends Record<string, any> | void
+    EventData extends
+        | Record<string, any>
+        | string
+        | boolean
+        | number
+        | Array<any>
+        | Function
+        | void
 >(
     name: string,
     {
