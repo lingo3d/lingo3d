@@ -41,10 +41,9 @@ export type SystemOptions<
     EventData extends Record<string, any> | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
-    eventData?: EventData
     effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
-    update?: (gameObject: GameObject, data: Data) => void
+    update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
     updateTicker?: Ticker | On<EventData>
     effectTicker?: SetupTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
@@ -73,7 +72,6 @@ export default <
     name: string,
     {
         data,
-        eventData,
         effect,
         cleanup,
         update,
@@ -100,24 +98,26 @@ export default <
         update &&
         (beforeTick || afterTick
             ? sort
-                ? () => {
+                ? (eventData: EventData | void) => {
                       beforeTick?.(queued)
                       for (const target of [...queued.keys()].sort(sort))
-                          update!(target, queued.get(target)!)
+                          update!(target, queued.get(target)!, eventData!)
                       afterTick?.(queued)
                   }
-                : () => {
+                : (eventData: EventData | void) => {
                       beforeTick?.(queued)
-                      for (const [target, data] of queued) update!(target, data)
+                      for (const [target, data] of queued)
+                          update!(target, data, eventData!)
                       afterTick?.(queued)
                   }
             : sort
-            ? () => {
+            ? (eventData: EventData | void) => {
                   for (const target of [...queued.keys()].sort(sort))
-                      update!(target, queued.get(target)!)
+                      update!(target, queued.get(target)!, eventData!)
               }
-            : () => {
-                  for (const [target, data] of queued) update!(target, data)
+            : (eventData: EventData | void) => {
+                  for (const [target, data] of queued)
+                      update!(target, data, eventData!)
               })
 
     let handle: Cancellable | undefined
