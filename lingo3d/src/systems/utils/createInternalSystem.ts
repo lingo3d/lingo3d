@@ -90,7 +90,8 @@ export default <
                   effect ?? placeholderFn,
                   cleanup,
                   mapEffectTicker(effectTicker),
-                  queued
+                  queued,
+                  !!data
               )
             : [placeholderFn, placeholderFn]
 
