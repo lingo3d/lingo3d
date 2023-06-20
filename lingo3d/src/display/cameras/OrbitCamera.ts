@@ -64,28 +64,8 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             }
 
             if (this.enableFlyState.get()) {
-                const downSet = new Set<string>()
-                flySystem.add(this, { downSet })
-
-                const handleKeyDown = (e: KeyboardEvent) => {
-                    downSet.add(
-                        e.key.length === 1 ? e.key.toLocaleLowerCase() : e.key
-                    )
-                }
-                const handleKeyUp = (e: KeyboardEvent) => {
-                    downSet.delete(
-                        e.key.length === 1 ? e.key.toLocaleLowerCase() : e.key
-                    )
-                }
-                document.addEventListener("keydown", handleKeyDown)
-                document.addEventListener("keyup", handleKeyUp)
-                handle.watch(onKeyClear(() => downSet.clear()))
-
-                handle.then(() => {
-                    flySystem.delete(this)
-                    document.removeEventListener("keydown", handleKeyDown)
-                    document.removeEventListener("keyup", handleKeyUp)
-                })
+                flySystem.add(this)
+                handle.then(() => flySystem.delete(this))
             }
             return () => {
                 handle.cancel()

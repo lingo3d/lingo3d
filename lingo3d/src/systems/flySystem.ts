@@ -1,34 +1,34 @@
+import { keyPressSet } from "../collections/keyPressSet"
 import GimbalObjectManager from "../display/core/GimbalObjectManager"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const flySystem = createInternalSystem("flySystem", {
-    data: {} as { downSet: Set<string> },
-    update: (manager: GimbalObjectManager, { downSet }) => {
-        if (downSet.has("Meta") || downSet.has("Control")) return
+    update: (manager: GimbalObjectManager) => {
+        if (keyPressSet.has("Meta") || keyPressSet.has("Control")) return
 
-        const speed = downSet.has("Shift") ? 50 : 10
+        const speed = keyPressSet.has("Shift") ? 50 : 10
 
-        if (downSet.has("w")) manager.translateZ(-speed)
-        else if (downSet.has("s")) manager.translateZ(speed)
+        if (keyPressSet.has("w")) manager.translateZ(-speed)
+        else if (keyPressSet.has("s")) manager.translateZ(speed)
 
-        if (downSet.has("a") || downSet.has("ArrowLeft"))
+        if (keyPressSet.has("a") || keyPressSet.has("ArrowLeft"))
             manager.moveRight(-speed)
-        else if (downSet.has("d") || downSet.has("ArrowRight"))
+        else if (keyPressSet.has("d") || keyPressSet.has("ArrowRight"))
             manager.moveRight(speed)
 
         if (
-            downSet.has("w") ||
-            downSet.has("s") ||
-            downSet.has("a") ||
-            downSet.has("d")
+            keyPressSet.has("w") ||
+            keyPressSet.has("s") ||
+            keyPressSet.has("a") ||
+            keyPressSet.has("d")
         ) {
             const worldPos = manager.getWorldPosition()
             manager.innerZ = 0
             manager.placeAt(worldPos)
         }
-        if (downSet.has("Meta") || downSet.has("Control")) return
+        if (keyPressSet.has("Meta") || keyPressSet.has("Control")) return
 
-        if (downSet.has("ArrowDown")) manager.y -= speed
-        else if (downSet.has("ArrowUp")) manager.y += speed
+        if (keyPressSet.has("ArrowDown")) manager.y -= speed
+        else if (keyPressSet.has("ArrowUp")) manager.y += speed
     }
 })
