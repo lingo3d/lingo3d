@@ -8,8 +8,8 @@ import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
 
 type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
-
 type SetupTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
+type On<T> = (cb: (val: T) => void, once?: boolean) => Cancellable
 
 const mapTicker = (ticker: Ticker) => {
     switch (ticker) {
@@ -37,20 +37,20 @@ const mapSetupTicker = (ticker: SetupTicker) => {
 
 export type SystemOptions<
     GameObject extends object | Appendable,
-    Data extends Record<string, any> | void
+    Data extends Record<string, any> | void,
+    EventData extends Record<string, any> | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
+    eventData?: EventData
     effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data) => void
-    updateTicker?: Ticker
+    updateTicker?: Ticker | On<EventData>
     effectTicker?: SetupTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
 }
-
-const placeholderFn = () => {}
 
 export type System<
     GameObject extends object | Appendable,
@@ -63,13 +63,17 @@ export type System<
     queued: Array<GameObject>
 }
 
+const placeholderFn = () => {}
+
 export default <
     GameObject extends object | Appendable,
-    Data extends Record<string, any> | void
+    Data extends Record<string, any> | void,
+    EventData extends Record<string, any> | void
 >(
     name: string,
     {
         data,
+        eventData,
         effect,
         cleanup,
         update,
@@ -78,7 +82,7 @@ export default <
         beforeTick,
         afterTick,
         sort
-    }: SystemOptions<GameObject, Data>
+    }: SystemOptions<GameObject, Data, EventData>
 ) => {
     const queued = new Map<GameObject, Data>()
 
@@ -117,7 +121,12 @@ export default <
               })
 
     let handle: Cancellable | undefined
-    const onUpdate = update && mapTicker(updateTicker)
+    const onUpdate =
+        update &&
+        (typeof updateTicker === "string"
+            ? mapTicker(updateTicker)
+            : updateTicker)
+
     const startUpdateLoop =
         update && (() => (handle = onUpdate!(executeUpdate!)))
 
