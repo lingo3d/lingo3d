@@ -2,10 +2,7 @@ import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { importPhysX } from "./configPhysicsShapeSystem"
 import { uuidMap } from "../../collections/idCollections"
-import {
-    addJointTargetTransformEditSystem,
-    deleteJointTargetTransformSystem
-} from "../eventSystems/jointTargetTransformEditSystem"
+import { jointTargetTransformEditSystem } from "../eventSystems/jointTargetTransformEditSystem"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
 import createInternalSystem from "../utils/createInternalSystem"
 import { configJointCreateSystem } from "./configJointCreateSystem"
@@ -30,11 +27,11 @@ export const configJointSystem = createInternalSystem("configJointSystem", {
         fromManager.$joints.add(self)
         toManager.$joints.add(self)
 
-        addJointTargetTransformEditSystem(self, { fromManager, toManager })
+        jointTargetTransformEditSystem.add(self, { fromManager, toManager })
         configJointCreateSystem.add(self)
     },
     cleanup: (self) => {
-        deleteJointTargetTransformSystem(self)
+        jointTargetTransformEditSystem.delete(self)
         configJointCreateSystem.delete(self)
 
         self.$fromManager!.$jointCount--

@@ -1,9 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import Timeline from "../display/Timeline"
-import {
-    addDisposeStateSystem,
-    deleteDisposeStateSystem
-} from "../systems/eventSystems/disposeStateSystem"
+import { disposeStateSystem } from "../systems/eventSystems/disposeStateSystem"
 import { timelinePtr } from "../pointers/timelinePtr"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
 import { timelineFramePtrSystem } from "../systems/timelineFramePtrSystem"
@@ -18,10 +15,10 @@ getTimeline((val) => {
 createEffect(() => {
     const [timeline] = timelinePtr
     if (!timeline) return
-    addDisposeStateSystem(timeline, { setState: setTimeline })
+    disposeStateSystem.add(timeline, { setState: setTimeline })
     timelineFramePtrSystem.add(timeline)
     return () => {
-        deleteDisposeStateSystem(timeline)
+        disposeStateSystem.delete(timeline)
         timelineFramePtrSystem.delete(timeline)
     }
 }, [getTimeline])

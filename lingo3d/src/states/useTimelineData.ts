@@ -10,10 +10,7 @@ import getReactive from "../utils/getReactive"
 import { onTransformControls } from "../events/onTransformControls"
 import { onEditorEdit } from "../events/onEditorEdit"
 import { timelineDataPtr } from "../pointers/timelineDataPtr"
-import {
-    addDisposeTimelineInstanceSystem,
-    deleteDisposeTimelineInstanceSystem
-} from "../systems/eventSystems/disposeTimelineInstanceSystem"
+import { disposeTimelineInstanceSystem } from "../systems/eventSystems/disposeTimelineInstanceSystem"
 import { timelinePtr } from "../pointers/timelinePtr"
 import getTransformControlsData from "../display/utils/getTransformControlsData"
 import { timelineFramePtr } from "../pointers/timelineFramePtr"
@@ -116,14 +113,15 @@ createEffect(() => {
             timeline.mergeData(changeData)
         })
     })
+    //todo:
     const handle1 = onEditorEdit(({ phase, value, key }) => {})
 
-    addDisposeTimelineInstanceSystem(timelineInstances)
+    disposeTimelineInstanceSystem.add(timelineInstances)
 
     return () => {
         handle0.cancel()
         handle1.cancel()
-        deleteDisposeTimelineInstanceSystem(timelineInstances)
+        disposeTimelineInstanceSystem.delete(timelineInstances)
     }
 }, [getTimelineData, getTimelineRecord])
 

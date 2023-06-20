@@ -1,8 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import {
-    addDisposeStateSystem,
-    deleteDisposeStateSystem
-} from "../systems/eventSystems/disposeStateSystem"
+import { disposeStateSystem } from "../systems/eventSystems/disposeStateSystem"
 import Script from "../display/Script"
 
 export const [setScript, getScript] = store<Script | undefined>(undefined)
@@ -10,8 +7,8 @@ export const [setScript, getScript] = store<Script | undefined>(undefined)
 createEffect(() => {
     const script = getScript()
     if (!script) return
-    addDisposeStateSystem(script, { setState: setScript })
+    disposeStateSystem.add(script, { setState: setScript })
     return () => {
-        deleteDisposeStateSystem(script)
+        disposeStateSystem.delete(script)
     }
 }, [getScript])

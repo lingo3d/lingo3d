@@ -1,10 +1,10 @@
 import Appendable from "../../display/core/Appendable"
 import { onDispose } from "../../events/onDispose"
-import eventSimpleSystemWithData from "../utils/eventSimpleSystemWithData"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const [addDisposeStateSystem, deleteDisposeStateSystem] =
-    eventSimpleSystemWithData(
-        (self: Appendable, data: { setState: (val: any) => void }, payload) =>
-            self === payload && data.setState(undefined),
-        onDispose
-    )
+export const disposeStateSystem = createInternalSystem("disposeStateSystem", {
+    data: {} as { setState: (val: any) => void },
+    update: (self: Appendable, data, payload) =>
+        self === payload && data.setState(undefined),
+    updateTicker: onDispose
+})
