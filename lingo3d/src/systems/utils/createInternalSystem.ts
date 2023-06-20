@@ -49,6 +49,7 @@ export type SystemOptions<
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
+    autoDelete?: boolean
 }
 
 export type System<
@@ -79,7 +80,8 @@ export default <
         effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
-        sort
+        sort,
+        autoDelete = true
     }: SystemOptions<GameObject, Data, EventData>
 ) => {
     const queued = new Map<GameObject, Data>()
@@ -158,7 +160,10 @@ export default <
     const executeDelete = (item: GameObject) => {
         deleteEffectSystem(item)
         const deleted = queued.delete(item)
-        deleted && "$systems" in item && item.$systems.delete(name)
+        deleted &&
+            autoDelete &&
+            "$systems" in item &&
+            item.$systems.delete(name)
         return deleted
     }
 
@@ -180,7 +185,10 @@ export default <
                     ? { ...data }
                     : undefined)
         )
-        added && "$systems" in item && item.$systems.set(name, system)
+        added &&
+            autoDelete &&
+            "$systems" in item &&
+            item.$systems.set(name, system)
         return added
     }
 
