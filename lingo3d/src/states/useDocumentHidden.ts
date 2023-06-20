@@ -4,8 +4,11 @@ import { IS_MOBILE } from "../globals"
 const [setDocumentHidden, getDocumentHidden] = store(false)
 export { getDocumentHidden }
 
-!IS_MOBILE &&
-    setInterval(
-        () => setDocumentHidden(document.hidden || !document.hasFocus()),
-        1000
-    )
+if (!IS_MOBILE) {
+    const setHidden = () =>
+        setDocumentHidden(document.hidden || !document.hasFocus())
+    setInterval(setHidden, 1000)
+    window.addEventListener("blur", () => setDocumentHidden(true))
+    window.addEventListener("focus", () => setDocumentHidden(false))
+    document.addEventListener("visibilitychange", setHidden)
+}

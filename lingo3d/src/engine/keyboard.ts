@@ -15,14 +15,26 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (worldPlayPtr[0] !== "live") return
+    if (worldPlayPtr[0] !== "live") {
+        const handle = onKeyClear(() => keyPressSet.clear())
+        const handleKeyDown = (e: KeyboardEvent) =>
+            keyPressSet.add(processKey(e.key))
+        const handleKeyUp = (e: KeyboardEvent) =>
+            keyPressSet.delete(processKey(e.key))
+        document.addEventListener("keydown", handleKeyDown)
+        document.addEventListener("keyup", handleKeyUp)
+        return () => {
+            keyPressSet.clear()
+            handle.cancel()
+            document.addEventListener("keydown", handleKeyDown)
+            document.addEventListener("keyup", handleKeyUp)
+        }
+    }
 
     keyPressEmitSystem.add(keyPressSet)
     const handle = onKeyClear(() => {
-        if (!keyPressSet.size) return
-        const pressed = [...keyPressSet]
+        for (const key of keyPressSet) emitKeyUp(key)
         keyPressSet.clear()
-        for (const key of pressed) emitKeyUp(key)
     })
 
     const handleKeyDown = (e: KeyboardEvent): void => {
@@ -40,6 +52,7 @@ createEffect(() => {
     document.addEventListener("keyup", handleKeyUp)
 
     return () => {
+        keyPressSet.clear()
         keyPressEmitSystem.delete(keyPressSet)
         handle.cancel()
         document.removeEventListener("keydown", handleKeyDown)

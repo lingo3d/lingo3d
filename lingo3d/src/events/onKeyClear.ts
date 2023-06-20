@@ -1,10 +1,7 @@
 import { event } from "@lincode/events"
-import throttleFrameTrailing from "../throttle/utils/throttleFrameTrailing"
 
-const [_emitKeyClear, onKeyClear] = event()
+const [emitKeyClear, onKeyClear] = event()
 export { onKeyClear }
-
-const emitKeyClear = throttleFrameTrailing(_emitKeyClear)
 
 window.addEventListener("blur", () => emitKeyClear())
 window.addEventListener("focus", () => emitKeyClear())
