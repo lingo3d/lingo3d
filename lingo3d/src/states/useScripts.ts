@@ -3,10 +3,7 @@ import { getScript } from "./useScript"
 import Script from "../display/Script"
 import { extendFunction } from "@lincode/utils"
 import { deleteScriptsUnsaved } from "./useScriptsUnsaved"
-import {
-    addDisposeCollectionStateSystem,
-    deleteDisposeCollectionStateSystem
-} from "../systems/eventSystems/disposeCollectionStateSystem"
+import { disposeCollectionStateSystem } from "../systems/eventSystems/disposeCollectionStateSystem"
 
 const scriptSet = new Set<Script>()
 
@@ -23,10 +20,10 @@ getScript((script) => script && !scriptSet.has(script) && addScripts(script))
 
 createEffect(() => {
     if (!scriptSet.size) return
-    addDisposeCollectionStateSystem(scriptSet, {
+    disposeCollectionStateSystem.add(scriptSet, {
         deleteState: deleteScripts
     })
     return () => {
-        deleteDisposeCollectionStateSystem(scriptSet)
+        disposeCollectionStateSystem.delete(scriptSet)
     }
 }, [getScripts])

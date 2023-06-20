@@ -10,7 +10,10 @@ export const createLoadedEffectSystem = <
         data,
         effect,
         cleanup
-    }: Pick<SystemOptions<GameObject, Data>, "data" | "effect" | "cleanup">
+    }: Pick<
+        SystemOptions<GameObject, Data, void>,
+        "data" | "effect" | "cleanup"
+    >
 ) => {
     const effectSystem = createInternalSystem(name, {
         data,

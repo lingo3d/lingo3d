@@ -4,10 +4,7 @@ import { box3, vector3 } from "../display/utils/reusables"
 import { setSelectionTarget } from "./useSelectionTarget"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
-import {
-    addDisposeCollectionStateSystem,
-    deleteDisposeCollectionStateSystem
-} from "../systems/eventSystems/disposeCollectionStateSystem"
+import { disposeCollectionStateSystem } from "../systems/eventSystems/disposeCollectionStateSystem"
 import { multipleSelectionGroupPtr } from "../pointers/multipleSelectionGroupPtr"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
@@ -97,10 +94,10 @@ createEffect(() => {
 
 createEffect(() => {
     if (!multipleSelectionTargets.size) return
-    addDisposeCollectionStateSystem(multipleSelectionTargets, {
+    disposeCollectionStateSystem.add(multipleSelectionTargets, {
         deleteState: deleteMultipleSelectionTargets
     })
     return () => {
-        deleteDisposeCollectionStateSystem(multipleSelectionTargets)
+        disposeCollectionStateSystem.delete(multipleSelectionTargets)
     }
 }, [getMultipleSelectionTargets])

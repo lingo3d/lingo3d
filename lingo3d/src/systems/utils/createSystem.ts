@@ -4,10 +4,11 @@ import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
 export default <
     GameObject extends object | Appendable,
-    Data extends Record<string, any> | void
+    Data extends Record<string, any> | void,
+    EventData extends Record<string, any> | void
 >(
     name: string,
-    options: SystemOptions<GameObject, Data>
+    options: SystemOptions<GameObject, Data, EventData>
 ) => {
     const system = createInternalSystem(name, options)
     systemsMap.set(name, system)
