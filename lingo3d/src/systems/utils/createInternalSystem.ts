@@ -8,7 +8,7 @@ import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
 
 type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
-type SetupTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
+type EffectTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
 type On<T> = (cb: (val: T) => void, once?: boolean) => Cancellable
 
 const mapTicker = (ticker: Ticker) => {
@@ -29,7 +29,7 @@ const mapTicker = (ticker: Ticker) => {
 const isQueueMicrotastk = (ticker: any): ticker is typeof queueMicrotask =>
     ticker === queueMicrotask
 
-const mapSetupTicker = (ticker: SetupTicker) => {
+const mapEffectTicker = (ticker: EffectTicker) => {
     if (Array.isArray(ticker)) return (cb: () => void) => ticker[0]().then(cb)
     if (isQueueMicrotastk(ticker)) return ticker
     return mapTicker(ticker)
@@ -45,7 +45,7 @@ export type SystemOptions<
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
     updateTicker?: Ticker | On<EventData>
-    effectTicker?: SetupTicker
+    effectTicker?: EffectTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
@@ -89,7 +89,7 @@ export default <
             ? createEffectSystem(
                   effect ?? placeholderFn,
                   cleanup,
-                  mapSetupTicker(effectTicker),
+                  mapEffectTicker(effectTicker),
                   queued
               )
             : [placeholderFn, placeholderFn]
@@ -98,26 +98,50 @@ export default <
         update &&
         (beforeTick || afterTick
             ? sort
+                ? data
+                    ? (eventData: EventData | void) => {
+                          beforeTick?.(queued)
+                          for (const target of [...queued.keys()].sort(sort))
+                              update!(target, queued.get(target)!, eventData!)
+                          afterTick?.(queued)
+                      }
+                    : (eventData: EventData | void) => {
+                          beforeTick?.(queued)
+                          for (const target of [...queued.keys()].sort(sort))
+                              update!(target, undefined as any, eventData!)
+                          afterTick?.(queued)
+                      }
+                : data
                 ? (eventData: EventData | void) => {
-                      beforeTick?.(queued)
-                      for (const target of [...queued.keys()].sort(sort))
-                          update!(target, queued.get(target)!, eventData!)
-                      afterTick?.(queued)
-                  }
-                : (eventData: EventData | void) => {
                       beforeTick?.(queued)
                       for (const [target, data] of queued)
                           update!(target, data, eventData!)
                       afterTick?.(queued)
                   }
+                : (eventData: EventData | void) => {
+                      beforeTick?.(queued)
+                      for (const target of queued.keys())
+                          update!(target, undefined as any, eventData!)
+                      afterTick?.(queued)
+                  }
             : sort
+            ? data
+                ? (eventData: EventData | void) => {
+                      for (const target of [...queued.keys()].sort(sort))
+                          update!(target, queued.get(target)!, eventData!)
+                  }
+                : (eventData: EventData | void) => {
+                      for (const target of [...queued.keys()].sort(sort))
+                          update!(target, undefined as any, eventData!)
+                  }
+            : data
             ? (eventData: EventData | void) => {
-                  for (const target of [...queued.keys()].sort(sort))
-                      update!(target, queued.get(target)!, eventData!)
-              }
-            : (eventData: EventData | void) => {
                   for (const [target, data] of queued)
                       update!(target, data, eventData!)
+              }
+            : (eventData: EventData | void) => {
+                  for (const target of queued.keys())
+                      update!(target, undefined as any, eventData!)
               })
 
     let handle: Cancellable | undefined
