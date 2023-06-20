@@ -6,6 +6,7 @@ import { onRender } from "../../events/onRender"
 import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
+import { onDispose } from "../../events/onDispose"
 
 type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
 type EffectTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
@@ -49,7 +50,6 @@ export type SystemOptions<
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
-    autoDelete?: boolean
 }
 
 export type System<
@@ -80,8 +80,7 @@ export default <
         effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
-        sort,
-        autoDelete = true
+        sort
     }: SystemOptions<GameObject, Data, EventData>
 ) => {
     const queued = new Map<GameObject, Data>()
@@ -157,6 +156,8 @@ export default <
     const startUpdateLoop =
         update && (() => (handle = onUpdate!(executeUpdate!)))
 
+    //@ts-ignore
+    const autoDelete = onUpdate !== onDispose
     const executeDelete = (item: GameObject) => {
         deleteEffectSystem(item)
         const deleted = queued.delete(item)

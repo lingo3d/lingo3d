@@ -9,6 +9,5 @@ export const deselectSystem = createInternalSystem("deselectSystem", {
         self === payload &&
         self === selectionTargetPtr[0] &&
         setSelectionTarget(undefined),
-    updateTicker: onDispose,
-    autoDelete: false
+    updateTicker: onDispose
 })
