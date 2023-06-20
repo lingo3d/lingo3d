@@ -26,8 +26,7 @@ export const flySystem = createInternalSystem("flySystem", {
             manager.innerZ = 0
             manager.placeAt(worldPos)
         }
-        if (keyPressSet.has("Meta") || keyPressSet.has("Control")) return
-
+        
         if (keyPressSet.has("ArrowDown")) manager.y -= speed
         else if (keyPressSet.has("ArrowUp")) manager.y += speed
     }
