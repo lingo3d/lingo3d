@@ -2,11 +2,10 @@ import { keyPressSet } from "../../collections/keyPressSet"
 import Keyboard from "../../display/Keyboard"
 import { onKeyUp } from "../../events/onKeyUp"
 import { LingoKeyboardEvent } from "../../interface/IKeyboard"
-import eventSystem from "../utils/eventSystem"
+import createInternalSystem from "../utils/createInternalSystem"
 
-export const keyUpSystem = eventSystem(
-    "keyUpSystem",
-    (keyboard: Keyboard, key: string) =>
+export const keyUpSystem = createInternalSystem("keyUpSystem", {
+    update: (keyboard: Keyboard, _, key) =>
         keyboard.onKeyUp?.(new LingoKeyboardEvent(key, keyPressSet)),
-    onKeyUp
-)
+    updateTicker: onKeyUp
+})
