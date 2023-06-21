@@ -3,7 +3,8 @@ import CameraBase from "../display/core/CameraBase"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const flySystem = createInternalSystem("flySystem", {
-    update: (self: CameraBase) => {
+    data: { pressed: false },
+    update: (self: CameraBase, data) => {
         if (keyPressSet.has("Meta") || keyPressSet.has("Control")) return
 
         const speed = keyPressSet.has("Shift") ? 50 : 10
@@ -30,10 +31,11 @@ export const flySystem = createInternalSystem("flySystem", {
             self.y += speed
             pressed = true
         }
-        if (!pressed || !self.innerZ) return
-
-        const worldPos = self.getWorldPosition()
-        self.innerZ = 0
-        self.placeAt(worldPos)
+        if (pressed && !data.pressed) {
+            const worldPos = self.getWorldPosition()
+            self.innerZ = 0
+            self.placeAt(worldPos)
+        }
+        data.pressed = pressed
     }
 })

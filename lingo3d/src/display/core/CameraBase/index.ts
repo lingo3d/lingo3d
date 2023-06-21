@@ -119,14 +119,6 @@ export default abstract class CameraBase<
             : cameraTransitionSet.delete(this.$camera)
     }
 
-    public override getWorldPosition() {
-        return getWorldPosition(this.$camera)
-    }
-
-    public override getWorldDirection() {
-        return getWorldDirection(this.$camera)
-    }
-
     protected override getRay() {
         return ray.set(
             getWorldPosition(this.$camera),
