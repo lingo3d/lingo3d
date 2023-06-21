@@ -1,40 +1,39 @@
 import { keyPressSet } from "../collections/keyPressSet"
-import GimbalObjectManager from "../display/core/GimbalObjectManager"
+import CameraBase from "../display/core/CameraBase"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const flySystem = createInternalSystem("flySystem", {
-    update: (manager: GimbalObjectManager) => {
+    update: (self: CameraBase) => {
         if (keyPressSet.has("Meta") || keyPressSet.has("Control")) return
 
         const speed = keyPressSet.has("Shift") ? 50 : 10
         let pressed = false
 
         if (keyPressSet.has("w")) {
-            manager.translateZ(-speed)
+            self.translateZ(-speed)
             pressed = true
         } else if (keyPressSet.has("s")) {
-            manager.translateZ(speed)
+            self.translateZ(speed)
             pressed = true
         }
         if (keyPressSet.has("a") || keyPressSet.has("ArrowLeft")) {
-            manager.moveRight(-speed)
+            self.moveRight(-speed)
             pressed = true
         } else if (keyPressSet.has("d") || keyPressSet.has("ArrowRight")) {
-            manager.moveRight(speed)
+            self.moveRight(speed)
             pressed = true
         }
         if (keyPressSet.has("ArrowDown")) {
-            manager.y -= speed
+            self.y -= speed
             pressed = true
         } else if (keyPressSet.has("ArrowUp")) {
-            manager.y += speed
+            self.y += speed
             pressed = true
         }
-        if (!pressed || !manager.innerZ) return
-        
-        const worldPos = manager.getWorldPosition()
-        manager.innerZ = 0
-        manager.placeAt(worldPos)
-        console.log("center")
+        if (!pressed || !self.innerZ) return
+
+        const worldPos = self.getWorldPosition()
+        self.innerZ = 0
+        self.placeAt(worldPos)
     }
 })

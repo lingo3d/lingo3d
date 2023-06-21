@@ -26,7 +26,9 @@ import { lookToSystem } from "../../systems/lookToSystem"
 import { moveToSystem } from "../../systems/moveToSystem"
 import { configMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
 import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
-import { placeAtSystem } from "../../systems/configLoadedSystems/placeAtSystem"
+import { getAppendablesById } from "../../collections/idCollections"
+import getActualScale from "../../memo/getActualScale"
+import getWorldQuaternion from "../../memo/getWorldQuaternion"
 
 const up = new Vector3(0, 1, 0)
 
@@ -175,7 +177,19 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
-        placeAtSystem.add(this, { target })
+        if (typeof target === "string") {
+            const [found] = getAppendablesById(target)
+            if (!("outerObject3d" in found)) return
+            target = found
+        }
+        if ("outerObject3d" in target) {
+            if ("isSpawnPoint" in target)
+                target.object3d.position.y = getActualScale(this).y * 0.5
+            this.position.copy(getCenter(target.object3d))
+            "quaternion" in this &&
+                this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
+        } else this.position.copy(point2Vec(target))
+        configPhysicsSystem.add(this)
     }
 
     public moveForward(distance: number) {

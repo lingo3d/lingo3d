@@ -4,7 +4,6 @@ import IOrbitCamera, {
     orbitCameraSchema
 } from "../../interface/IOrbitCamera"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
-import { onKeyClear } from "../../events/onKeyClear"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"

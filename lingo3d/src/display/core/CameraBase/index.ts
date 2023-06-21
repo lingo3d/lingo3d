@@ -1,4 +1,4 @@
-import { CameraHelper, PerspectiveCamera, Vector3 } from "three"
+import { CameraHelper, PerspectiveCamera } from "three"
 import GimbalObjectManager from "../GimbalObjectManager"
 import { ray, euler } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
