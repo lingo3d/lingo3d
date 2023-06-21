@@ -1,6 +1,6 @@
 import { PointType } from "../../utils/isPoint"
 
-const toFixed = (v: number) => Number(v.toFixed(2))
+const toFixed = (v: number, places = 2) => Number(v.toFixed(places))
 export default toFixed
 
 export const toNullableFixed = (v: number | undefined) =>

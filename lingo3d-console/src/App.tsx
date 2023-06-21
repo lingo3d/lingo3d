@@ -1,5 +1,5 @@
 import "./App.css"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Hook, Unhook, Console, Decode } from "console-feed"
 
 const setFrameProperty = (key: string, value: any) =>
@@ -8,17 +8,22 @@ const setFrameProperty = (key: string, value: any) =>
 
 function App() {
     const [logs, setLogs] = useState<Array<any>>([])
+    const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         setFrameProperty("$hook", (myConsole: typeof console) =>
             Hook(myConsole, (log) => {
                 const decoded = Decode(log)
                 // !decoded.data?.[0]?.startsWith("THREE.") &&
-                    setLogs((currLogs) => [...currLogs, decoded])
+                setLogs((currLogs) => [...currLogs, decoded])
             })
         )
         setFrameProperty("$unhook", Unhook)
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, document.documentElement.scrollHeight)
+    }, [logs])
 
     return (
         <div
@@ -29,6 +34,7 @@ function App() {
                 width: "100%",
                 height: "100%"
             }}
+            ref={containerRef}
         >
             <Console logs={logs} variant="dark" />
         </div>

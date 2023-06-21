@@ -7,7 +7,6 @@ import { getRenderer } from "../../states/useRenderer"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
-import { getPixelRatio } from "../../states/usePixelRatio"
 import { getUILayer } from "../../states/useUILayer"
 import { getSplitView } from "../../states/useSplitView"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
@@ -101,8 +100,7 @@ createEffect(() => {
     const [renderer] = rendererPtr
     const [[w, h]] = resolutionPtr
     renderer.setSize(w, h)
-    renderer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
-}, [getRenderer, getResolution, getPixelRatio])
+}, [getRenderer, getResolution])
 
 createEffect(() => {
     const [renderer] = rendererPtr

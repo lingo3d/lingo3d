@@ -1,4 +1,3 @@
-import { disableSchema } from "../collections/disableSchema"
 import setupStruct from "../api/settings/setupStruct"
 import { environmentChoices } from "./IEnvironment"
 import Choices from "./utils/Choices"
@@ -23,7 +22,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
     grid: Boolean,
     stats: Boolean,
-    pixelRatio: Number,
     fps: Number,
     gravity: Number,
     exposure: Number,
@@ -46,7 +44,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-for (const key of ["pixelRatio"]) disableSchema.add(key)
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
@@ -61,7 +58,6 @@ export const setupDefaults = extendDefaults<ISetup>(
             physics: "physics"
         }),
         environment: environmentChoices,
-        pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
         gravity: new Range(-20, 0),
         exposure: new Range(0, 2),

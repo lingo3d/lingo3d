@@ -31,16 +31,14 @@ createEffect(() => {
     }
 }, [getCameraRendered])
 
-createEffect(() => {
-    const [[w, h]] = resolutionPtr
-    effectComposer.setSize(w, h)
-}, [getRenderer, getResolution])
-
 const lazyAOPass = lazy(
     () => new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
 )
 
 createEffect(() => {
+    const [[w, h]] = resolutionPtr
+    effectComposer.setSize(w, h)
+
     const handle = new Cancellable()
     if (getSSAO()) {
         const n8aopass = lazyAOPass()
@@ -68,6 +66,7 @@ createEffect(() => {
 }, [
     getCameraRendered,
     getRenderer,
+    getResolution,
     getSSAO,
     getBloomEffect,
     getSelectiveBloomEffect,

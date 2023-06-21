@@ -33,7 +33,6 @@ import {
     getOutlineStrength,
     setOutlineStrength
 } from "../../states/useOutlineStrength"
-import { getPixelRatio, setPixelRatio } from "../../states/usePixelRatio"
 import { getFps, setFps } from "../../states/useFps"
 import { getSSR, setSSR } from "../../states/useSSR"
 import { getSSRIntensity, setSSRIntensity } from "../../states/useSSRIntensity"
@@ -124,13 +123,6 @@ export default {
     },
     set stats(value) {
         setStats(value)
-    },
-
-    get pixelRatio() {
-        return getPixelRatio()
-    },
-    set pixelRatio(value) {
-        setPixelRatio(value)
     },
 
     get fps() {

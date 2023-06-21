@@ -14,10 +14,7 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
     const [editorParams, editorRest] = splitObject(params, ["grid", "stats"])
     addInputs(handle, pane, "editor", manager, editorParams)
 
-    const [rendererParams, rendererRest] = splitObject(editorRest, [
-        "pixelRatio",
-        "fps"
-    ])
+    const [rendererParams, rendererRest] = splitObject(editorRest, ["fps"])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 
     const [physicsParams, physicsRest] = splitObject(rendererRest, ["gravity"])

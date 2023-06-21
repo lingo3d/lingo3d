@@ -11,6 +11,8 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { mapRange } from "@lincode/math"
+import toFixed from "../api/serializer/toFixed"
 
 const callbacks = new Set<() => void>()
 
@@ -28,6 +30,9 @@ createEffect(() => {
     const targetDelta = 1 / fpsPtr[0]
     const targetDeltaAdjusted = targetDelta * 0.9
 
+    const ratio = mapRange(fpsPtr[0], 0, 60, 0, 1)
+    let pixelRatio = 1
+
     rendererPtr[0].setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta > 0.2) delta = 0
@@ -35,6 +40,14 @@ createEffect(() => {
         fpsRatioPtr[0] = delta * STANDARD_FRAME
         dtPtr[0] = delta
         delta = 0
+
+        const coeff = 1 / (fpsRatioPtr[0] * ratio)
+        if (coeff < pixelRatio) pixelRatio = coeff
+        else pixelRatio += 0.01
+        if (pixelRatio < 0.5) pixelRatio = 0.5
+        else if (pixelRatio > 1) pixelRatio = 1
+        rendererPtr[0].setPixelRatio(toFixed(pixelRatio, 1))
+
         for (const cb of callbacks) cb()
     })
     return () => {

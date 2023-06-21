@@ -3,17 +3,12 @@ import {
     DefaultSkyLight,
     Dummy,
     Model,
-    PooledPointLight,
-    Sprite,
     ThirdPersonCamera,
-    createSystem,
     keyboard,
-    onBeforeRender,
     settings
 } from ".."
-import Cube from "../display/primitives/Cube"
 import createElement from "../utils/createElement"
-import { container, uiContainer } from "../engine/renderLoop/containers"
+import { container } from "../engine/renderLoop/containers"
 import { createEffect, store } from "@lincode/reactivity"
 import axios from "redaxios"
 
@@ -22,7 +17,6 @@ settings.environment = "studio"
 settings.bloom = true
 settings.ssr = true
 settings.vignette = true
-settings.pixelRatio = 0.75
 
 const pub = new Model()
 pub.src = "british_pub/scene.gltf"
@@ -94,18 +88,19 @@ tommy.onLoop = () => {
     }
 }
 
-const selectedVoice = speechSynthesis.getVoices().find(voice => voice.name.includes("Albert"))
-
+const selectedVoice = speechSynthesis
+    .getVoices()
+    .find((voice) => voice.name.includes("Albert"))
 
 const speakText = (text: string) => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = selectedVoice!
-      speechSynthesis.speak(utterance);
+    if ("speechSynthesis" in window) {
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.voice = selectedVoice!
+        speechSynthesis.speak(utterance)
     } else {
-      console.error('Speech synthesis is not supported in this browser.');
+        console.error("Speech synthesis is not supported in this browser.")
     }
-  };
+}
 
 //@ts-ignore
 const recognition = new window.webkitSpeechRecognition()
@@ -114,11 +109,11 @@ recognition.continuous = true
 
 const sendChat = async (text: string) => {
     const result = await axios.post("http://127.0.0.1:8000/chat", {
-      name: "Roy Winterson",
-      text,
+        name: "Roy Winterson",
+        text
     })
     return result.data
-  }
+}
 
 recognition.onresult = async (event: any) => {
     let interimTranscript = ""
