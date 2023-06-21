@@ -10,7 +10,7 @@ export default class InfiniteGridHelper extends Mesh {
         distance = 100,
         axes = "xzy"
     ) {
-        const planeAxes = axes.substr(0, 2)
+        const planeAxes = axes.substring(0, 2)
 
         const material = new ShaderMaterial({
             side: DoubleSide,
@@ -81,7 +81,7 @@ export default class InfiniteGridHelper extends Mesh {
                   
                   
                   gl_FragColor = vec4(uColor.rgb, mix(g2, g1, g1) * pow(d, 3.0));
-                  gl_FragColor.a = mix(0.5 * gl_FragColor.a, gl_FragColor.a, g2);
+                  gl_FragColor.a = mix(0.1 * gl_FragColor.a, gl_FragColor.a, g2);
                 
                   if ( gl_FragColor.a <= 0.0 ) discard;
                 
