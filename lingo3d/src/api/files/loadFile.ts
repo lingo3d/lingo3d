@@ -12,7 +12,7 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
         unloadFile()
         setFileCurrent(file)
         await new Promise((resolve) => setTimeout(resolve))
-        deserialize(JSON.parse(text))
+        deserialize(JSON.parse(text) as any)
 
         return true
     } catch {

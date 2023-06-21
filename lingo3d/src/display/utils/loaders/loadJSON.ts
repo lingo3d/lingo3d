@@ -25,7 +25,7 @@ export default (url: string) =>
                             assert(typeof data === "string")
                             const parsed = JSON.parse(data)
                             isAssets && decreaseLoadingAssetsCount()
-                            resolve(parsed)
+                            resolve(parsed as any)
                         } catch {}
                     },
                     handleProgress(url),

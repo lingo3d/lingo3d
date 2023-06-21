@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import { filterBoolean, lazy } from "@lincode/utils"
+import { lazy } from "@lincode/utils"
 import { EffectComposer, EffectPass, RenderPass } from "postprocessing"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
@@ -56,7 +56,7 @@ createEffect(() => {
             getOutlineEffect(),
             getBokehEffect(),
             getVignetteEffect()
-        ].filter(filterBoolean)
+        ].filter(Boolean)
     )
     effectComposer.addPass(effectPass)
 

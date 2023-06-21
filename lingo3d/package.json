@@ -33,6 +33,7 @@
         "@pmndrs/vanilla": "^1.7.0",
         "@preact/signals": "^1.1.3",
         "@qiwi/dts-bundle": "^0.7.5",
+        "@total-typescript/ts-reset": "^0.4.2",
         "@types/three": "0.150.1",
         "@ungap/structured-clone": "^1.2.0",
         "@webcontainer/api": "^1.1.5",

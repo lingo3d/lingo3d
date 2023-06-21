@@ -1,4 +1,3 @@
-import { filterBoolean } from "@lincode/utils"
 import { AnimationClip, BooleanKeyframeTrack, NumberKeyframeTrack } from "three"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { INVERSE_STANDARD_FRAME } from "../../globals"
@@ -61,7 +60,7 @@ export const configAnimationDataSystem = createInternalSystem(
                                         frames
                                     )!
                             )
-                            .filter(filterBoolean)
+                            .filter(Boolean)
                     })
                     .flat()
             )

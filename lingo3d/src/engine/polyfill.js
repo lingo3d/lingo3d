@@ -1,5 +1,6 @@
 import structuredClone from "@ungap/structured-clone"
 import { Buffer } from "buffer"
+import "@total-typescript/ts-reset"
 
 //@ts-ignore
 window.process ??= { env: {} }
