@@ -8,8 +8,7 @@ export const createEffectSystem = <
     effect: (target: GameObject, data: Data) => void | false | (() => void),
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
     ticker: typeof onBeforeRender | typeof queueMicrotask,
-    dataMap: Map<GameObject, Data>,
-    useData: boolean
+    dataMap?: Map<GameObject, Data>
 ) => {
     const queued = new Set<GameObject>()
     const needsCleanUp = cleanup && new WeakSet<GameObject>()
@@ -28,7 +27,7 @@ export const createEffectSystem = <
     }
 
     const execute = cleanup
-        ? useData
+        ? dataMap
             ? () => {
                   for (const target of queued) {
                       const data = dataMap.get(target)!
@@ -56,7 +55,7 @@ export const createEffectSystem = <
                   queued.clear()
                   started = false
               }
-        : useData
+        : dataMap
         ? () => {
               for (const target of queued) {
                   tryRunCleanupCb(target)
@@ -82,7 +81,7 @@ export const createEffectSystem = <
     }
 
     const deleteSystem = cleanup
-        ? useData
+        ? dataMap
             ? (item: GameObject) => {
                   if (needsCleanUp!.has(item)) {
                       cleanup(item, dataMap.get(item)!)
