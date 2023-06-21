@@ -35,5 +35,6 @@ export const flySystem = createInternalSystem("flySystem", {
         const worldPos = manager.getWorldPosition()
         manager.innerZ = 0
         manager.placeAt(worldPos)
+        console.log("center")
     }
 })

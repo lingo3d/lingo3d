@@ -1,4 +1,4 @@
-import { CameraHelper, PerspectiveCamera } from "three"
+import { CameraHelper, PerspectiveCamera, Vector3 } from "three"
 import GimbalObjectManager from "../GimbalObjectManager"
 import { ray, euler } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
@@ -117,6 +117,14 @@ export default abstract class CameraBase<
         val
             ? cameraTransitionSet.add(this.$camera)
             : cameraTransitionSet.delete(this.$camera)
+    }
+
+    public override getWorldPosition() {
+        return getWorldPosition(this.$camera)
+    }
+
+    public override getWorldDirection() {
+        return getWorldDirection(this.$camera)
     }
 
     protected override getRay() {
