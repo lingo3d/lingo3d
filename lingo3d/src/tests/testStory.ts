@@ -1,4 +1,3 @@
-import { distance3d } from "@lincode/math"
 import {
     DefaultSkyLight,
     Dummy,
@@ -7,8 +6,6 @@ import {
     keyboard,
     settings
 } from ".."
-import createElement from "../utils/createElement"
-import { container } from "../engine/renderLoop/containers"
 import { createEffect, store } from "@lincode/reactivity"
 import axios from "redaxios"
 
@@ -73,17 +70,10 @@ cam.lockTargetRotation = "dynamic-lock"
 let canSpeak = false
 const [setSpeaking, getSpeaking] = store(false)
 
-const indicator = createElement(`
-    <div class="lingo3d-absfull lingo3d-flexcenter" style="z-index: 9999; pointer-events: none">press space bar to speak</div>
-`) as HTMLDivElement
-container.appendChild(indicator)
-
 tommy.onLoop = () => {
     if (tommy.position.distanceTo(player.position) < 1) {
-        indicator.style.display = "block"
         canSpeak = true
     } else {
-        indicator.style.display = "none"
         canSpeak = false
     }
 }

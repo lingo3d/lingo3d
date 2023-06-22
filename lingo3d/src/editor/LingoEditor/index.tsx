@@ -21,7 +21,6 @@ import { useEffect } from "preact/hooks"
 import MenuBar from "../MenuBar"
 import { getScript } from "../../states/useScript"
 import ScriptEditor from "../ScriptEditor"
-import Terminal from "../Console/Terminal"
 import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import Console from "../Console"
@@ -74,7 +73,7 @@ const LingoEditor = () => {
                 ) : (
                     <World />
                 )}
-                {!worldExpanded && <Console />}
+                <Console />
             </div>
             {stats && <Stats />}
             <HUD />
