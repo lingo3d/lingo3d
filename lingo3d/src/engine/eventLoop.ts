@@ -32,8 +32,7 @@ createEffect(() => {
     const targetDeltaAdjusted = targetDelta * 0.9
 
     const ratio = mapRange(fpsPtr[0], 0, 60, 0, 1)
-    let totalPixelRatio = 0
-    let pixelRatioCount = 0
+    let pixelRatio = 1
 
     rendererPtr[0].setAnimationLoop(() => {
         delta += clock.getDelta()
@@ -44,16 +43,10 @@ createEffect(() => {
         delta = 0
 
         const targetPixelRatio = 1 / (fpsRatioPtr[0] * ratio)
-        totalPixelRatio += targetPixelRatio
-        if (++pixelRatioCount === 10) {
-            const pixelRatio = totalPixelRatio / 10
-            pixelRatioCount = 0
-            totalPixelRatio = 0
-            rendererPtr[0].setPixelRatio(
-                math.clamp(toFixed(pixelRatio, 1), 0.5, 1)
-            )
-        }
-
+        pixelRatio = math.lerp(pixelRatio, targetPixelRatio, 0.1)
+        const finalPixelRatio = math.mapRange(pixelRatio, 0.7, 1, 0.5, 1, true)
+        rendererPtr[0].setPixelRatio(finalPixelRatio)
+        console.log(finalPixelRatio)
         for (const cb of callbacks) cb()
     })
     return () => {
