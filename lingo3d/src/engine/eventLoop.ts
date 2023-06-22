@@ -14,11 +14,18 @@ import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { mapRange } from "@lincode/math"
 import math from "../math"
 import toFixed from "../api/serializer/toFixed"
+import { resolutionPtr } from "../pointers/resolutionPtr"
 
 const callbacks = new Set<() => void>()
 
 const clock = new Clock()
 let delta = 0
+
+const clampPixelRatio = (pixelRatio: number) => {
+    const pixelCount = resolutionPtr[0][0] * resolutionPtr[0][1]
+    const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.75, 0.5, true)
+    return math.clamp(pixelRatio, clampMin, 1)
+}
 
 createEffect(() => {
     if (
@@ -42,10 +49,12 @@ createEffect(() => {
         dtPtr[0] = delta
         delta = 0
 
-        const targetPixelRatio = 1 / (fpsRatioPtr[0] * ratio)
+        const targetPixelRatio = clampPixelRatio(1 / (fpsRatioPtr[0] * ratio))
         if (targetPixelRatio < pixelRatio) pixelRatio = targetPixelRatio
-        else pixelRatio += 0.01
-        pixelRatio = math.clamp(pixelRatio, 0.5, 1)
+        else {
+            pixelRatio += 0.01
+            if (pixelRatio > 1) pixelRatio = 1
+        }
         rendererPtr[0].setPixelRatio(toFixed(pixelRatio, 1))
 
         for (const cb of callbacks) cb()
