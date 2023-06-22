@@ -12,8 +12,8 @@ import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { mapRange } from "@lincode/math"
-import toFixed from "../api/serializer/toFixed"
 import math from "../math"
+import toFixed from "../api/serializer/toFixed"
 
 const callbacks = new Set<() => void>()
 
@@ -43,10 +43,11 @@ createEffect(() => {
         delta = 0
 
         const targetPixelRatio = 1 / (fpsRatioPtr[0] * ratio)
-        pixelRatio = math.lerp(pixelRatio, targetPixelRatio, 0.1)
-        const finalPixelRatio = math.mapRange(pixelRatio, 0.7, 1, 0.5, 1, true)
-        rendererPtr[0].setPixelRatio(finalPixelRatio)
-        console.log(finalPixelRatio)
+        if (targetPixelRatio < pixelRatio) pixelRatio = targetPixelRatio
+        else pixelRatio += 0.01
+        pixelRatio = math.clamp(pixelRatio, 0.5, 1)
+        rendererPtr[0].setPixelRatio(toFixed(pixelRatio, 1))
+
         for (const cb of callbacks) cb()
     })
     return () => {

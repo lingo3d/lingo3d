@@ -73,7 +73,7 @@ const LingoEditor = () => {
                 ) : (
                     <World />
                 )}
-                <Console />
+                {!worldExpanded && <Console />}
             </div>
             {stats && <Stats />}
             <HUD />
