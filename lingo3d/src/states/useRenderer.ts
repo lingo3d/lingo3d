@@ -2,6 +2,7 @@ import store, { createEffect } from "@lincode/reactivity"
 import { PCFSoftShadowMap, WebGLRenderer } from "three"
 import { getBackgroundColor } from "./useBackgroundColor"
 import { rendererPtr } from "../pointers/rendererPtr"
+import { getSplitView } from "./useSplitView"
 
 const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
@@ -9,10 +10,12 @@ export { getRenderer }
 createEffect(() => {
     const renderer = new WebGLRenderer({
         powerPreference: "high-performance",
-        // precision: "lowp",
-        // antialias: false,
-        // stencil: false,
-        // depth: false,
+        precision: "lowp",
+        ...(!getSplitView() && {
+            antialias: false,
+            stencil: false,
+            depth: false
+        }),
         alpha: getBackgroundColor() === "transparent"
     })
     renderer.shadowMap.enabled = true
@@ -22,4 +25,4 @@ createEffect(() => {
     return () => {
         renderer.dispose()
     }
-}, [getBackgroundColor])
+}, [getBackgroundColor, getSplitView])
