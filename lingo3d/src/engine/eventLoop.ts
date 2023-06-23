@@ -11,7 +11,7 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
-import { pixelRatioSystem } from "../systems/pixelRatioSystem"
+import { dynamicResolutionSystem } from "../systems/dynamicResolutionSystem"
 import { getResolution } from "../states/useResolution"
 
 const callbacks = new Set<() => void>()
@@ -28,7 +28,7 @@ createEffect(() => {
         return
 
     const [renderer] = rendererPtr
-    pixelRatioSystem.add(renderer)
+    dynamicResolutionSystem.add(renderer)
     const targetDelta = 1 / fpsPtr[0]
     const targetDeltaAdjusted = targetDelta * 0.9
 
@@ -43,7 +43,7 @@ createEffect(() => {
         for (const cb of callbacks) cb()
     })
     return () => {
-        pixelRatioSystem.delete(renderer)
+        dynamicResolutionSystem.delete(renderer)
         renderer.setAnimationLoop(null)
     }
 }, [getFps, getRenderer, getWorldPlay, getDocumentHidden, getResolution])

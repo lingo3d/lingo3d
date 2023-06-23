@@ -8,6 +8,7 @@ import { resolutionPtr } from "../pointers/resolutionPtr"
 import { setPixelRatio } from "../states/usePixelRatio"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
+import { busyCountPtr } from "../pointers/busyCountPtr"
 
 const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
     const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.7, 0.5, true)
@@ -17,7 +18,7 @@ const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
 const sortPixelRatio = (a: number, b: number) => a - b
 const SAMPLES = 20
 
-export const pixelRatioSystem = createSystem("pixelRatioSystem", {
+export const dynamicResolutionSystem = createSystem("dynamicResolutionSystem", {
     data: () => ({
         pixelCount: resolutionPtr[0][0] * resolutionPtr[0][1],
         pixelRatio: Infinity,
@@ -25,6 +26,8 @@ export const pixelRatioSystem = createSystem("pixelRatioSystem", {
         pixelRatioArray: [] as Array<number>
     }),
     update: (_: WebGLRenderer, data) => {
+        if (busyCountPtr[0]) return
+
         data.pixelRatioArray.push(
             clampPixelRatio(data.pixelCount, 1 / (fpsRatioPtr[0] * data.ratio))
         )
