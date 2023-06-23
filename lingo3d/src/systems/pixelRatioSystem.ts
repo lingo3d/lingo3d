@@ -39,6 +39,6 @@ export const pixelRatioSystem = createSystem("pixelRatioSystem", {
 
         rendererPtr[0].setPixelRatio(median)
         setPixelRatio(median)
-        console.log(median)
+        console.log("pixelRatio", median)
     }
 })
