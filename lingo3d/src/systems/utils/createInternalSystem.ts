@@ -27,12 +27,9 @@ const mapTicker = (ticker: Ticker) => {
     }
 }
 
-const isQueueMicrotastk = (ticker: any): ticker is typeof queueMicrotask =>
-    ticker === queueMicrotask
-
 const mapEffectTicker = (ticker: EffectTicker) => {
     if (Array.isArray(ticker)) return (cb: () => void) => ticker[0]().then(cb)
-    if (isQueueMicrotastk(ticker)) return ticker
+    if (typeof ticker === "function") return ticker
     return mapTicker(ticker)
 }
 

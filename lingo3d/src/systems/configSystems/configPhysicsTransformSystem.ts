@@ -33,7 +33,6 @@ export const configPhysicsTransformSystem = createInternalSystem(
             if (!("setLinearVelocity" in self.$actor)) return
             self.$actor.setLinearVelocity(setPxVec(0, 0, 0))
             self.$actor.setAngularVelocity(setPxVec(0, 0, 0))
-        },
-        effectTicker: queueMicrotask
+        }
     }
 )
