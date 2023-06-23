@@ -34,7 +34,7 @@ export const dynamicResolutionSystem = createSystem("dynamicResolutionSystem", {
         if (data.pixelRatioArray.length < SAMPLES) return
 
         data.pixelRatioArray.sort(sortPixelRatio)
-        const median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
+        const median = data.pixelRatioArray[Math.floor(SAMPLES * 0.4)]
         data.pixelRatioArray.length = 0
 
         if (median >= data.pixelRatio) return
