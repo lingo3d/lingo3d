@@ -15,6 +15,7 @@ import { container, uiContainer, overlayContainer } from "./containers"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
 import { timelinePausedPtr } from "../../pointers/timelinePausedPtr"
+import { getDocumentHidden } from "../../states/useDocumentHidden"
 
 container.appendChild(uiContainer)
 uiContainer.appendChild(overlayContainer)
@@ -25,8 +26,10 @@ getSplitView((val) => {
 })
 createEffect(() => {
     uiContainer.style.display =
-        getUILayer() || !timelinePausedPtr[0] ? "block" : "none"
-}, [getUILayer, getTimelinePaused])
+        getUILayer() || !timelinePausedPtr[0] || getDocumentHidden()
+            ? "block"
+            : "none"
+}, [getUILayer, getTimelinePaused, getDocumentHidden])
 
 export const containerBounds = [container.getBoundingClientRect()]
 
