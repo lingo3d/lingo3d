@@ -22,6 +22,11 @@ const math = {
     acos: Math.acos,
     atan: Math.atan,
     atan2: Math.atan2,
+    average: (...values: Array<number>) => {
+        let sum = 0
+        for (let i = 0, iMax = values.length; i < iMax; ++i) sum += values[i]
+        return sum / values.length
+    },
     radToDeg: (rad: number) => rad * rad2Deg,
     degToRad: (deg: number) => deg * deg2Rad,
     mToCM: (m: number) => m * 100,

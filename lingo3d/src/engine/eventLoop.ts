@@ -12,7 +12,7 @@ import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
 import { pixelRatioSystem } from "../systems/pixelRatioSystem"
-import math from "../math"
+import { getResolution } from "../states/useResolution"
 
 const callbacks = new Set<() => void>()
 
@@ -28,10 +28,7 @@ createEffect(() => {
         return
 
     const [renderer] = rendererPtr
-    pixelRatioSystem.add(renderer, {
-        pixelRatio: Infinity,
-        ratio: math.mapRange(fpsPtr[0], 0, 60, 0, 1)
-    })
+    pixelRatioSystem.add(renderer)
     const targetDelta = 1 / fpsPtr[0]
     const targetDeltaAdjusted = targetDelta * 0.9
 
@@ -49,7 +46,7 @@ createEffect(() => {
         pixelRatioSystem.delete(renderer)
         renderer.setAnimationLoop(null)
     }
-}, [getFps, getRenderer, getWorldPlay, getDocumentHidden])
+}, [getFps, getRenderer, getWorldPlay, getDocumentHidden, getResolution])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)
