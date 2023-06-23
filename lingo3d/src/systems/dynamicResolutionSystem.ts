@@ -42,6 +42,5 @@ export const dynamicResolutionSystem = createSystem("dynamicResolutionSystem", {
 
         rendererPtr[0].setPixelRatio(median)
         setPixelRatio(median)
-        console.log("dynamic resolution", median)
     }
 })
