@@ -1,24 +1,27 @@
+import Loaded from "../../display/core/Loaded"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
 export const createLoadedEffectSystem = <
-    GameObject extends MeshAppendable,
+    GameObject extends MeshAppendable | Loaded,
     Data extends Record<string, any> | void
 >(
     name: string,
     {
         data,
         effect,
-        cleanup
+        cleanup,
+        effectTicker
     }: Pick<
         SystemOptions<GameObject, Data, void>,
-        "data" | "effect" | "cleanup"
+        "data" | "effect" | "cleanup" | "effectTicker"
     >
 ) => {
     const effectSystem = createInternalSystem(name, {
         data,
         effect,
-        cleanup
+        cleanup,
+        effectTicker
     })
     const addSystem = createInternalSystem(name + "Add", {
         data,
@@ -28,5 +31,13 @@ export const createLoadedEffectSystem = <
             effectSystem.add(self, data)
         }
     })
-    return { add: addSystem.add }
+    return {
+        add: (item: GameObject, initData?: Data) => {
+            if ("$loadedObject3d" in item && !item.$loadedObject3d) {
+                addSystem.add(item, initData)
+                return
+            }
+            effectSystem.add(item, initData)
+        }
+    }
 }
