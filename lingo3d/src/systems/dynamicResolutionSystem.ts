@@ -9,7 +9,6 @@ import { setPixelRatio } from "../states/usePixelRatio"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
 import { busyCountPtr } from "../pointers/busyCountPtr"
-import { getDocumentHidden } from "../states/useDocumentHidden"
 
 const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
     const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.7, 0.5, true)
@@ -27,7 +26,7 @@ export const dynamicResolutionSystem = createSystem("dynamicResolutionSystem", {
         pixelRatioArray: [] as Array<number>
     }),
     update: (_: WebGLRenderer, data) => {
-        if (busyCountPtr[0] || getDocumentHidden()) return
+        if (busyCountPtr[0]) return
 
         data.pixelRatioArray.push(
             clampPixelRatio(data.pixelCount, 1 / (fpsRatioPtr[0] * data.ratio))
