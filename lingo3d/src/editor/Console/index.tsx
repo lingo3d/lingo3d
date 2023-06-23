@@ -5,14 +5,27 @@ import OutputConsole from "./OutputConsole"
 import Terminal from "./Terminal"
 import { PANELS_HEIGHT } from "../../globals"
 
-const Console = () => {
+type Props = {
+    floating?: boolean
+}
+
+const Console = ({ floating }: Props) => {
     const selectedSignal = useSignal<Array<string>>([])
     const consoleSelected = selectedSignal.value.at(-1) === "console"
 
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-flexcol"
-            style={{ height: PANELS_HEIGHT }}
+            style={{
+                height: PANELS_HEIGHT,
+                ...(floating && {
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    width: 500,
+                    height: 200
+                })
+            }}
         >
             <AppBar>
                 <CloseableTab selectedSignal={selectedSignal}>

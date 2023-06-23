@@ -17,6 +17,7 @@ import { getSSAO } from "../../../states/useSSAO"
 //@ts-ignore
 import { N8AOPostPass } from "n8ao"
 import { Cancellable } from "@lincode/promiselikes"
+import { getPixelRatio } from "../../../states/usePixelRatio"
 
 const effectComposer = new EffectComposer(undefined, { multisampling: 4 })
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -67,6 +68,7 @@ createEffect(() => {
     getCameraRendered,
     getRenderer,
     getResolution,
+    getPixelRatio,
     getSSAO,
     getBloomEffect,
     getSelectiveBloomEffect,

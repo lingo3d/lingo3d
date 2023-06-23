@@ -15,17 +15,19 @@ import { mapRange } from "@lincode/math"
 import math from "../math"
 import toFixed from "../api/serializer/toFixed"
 import { resolutionPtr } from "../pointers/resolutionPtr"
+import { setPixelRatio } from "../states/usePixelRatio"
 
 const callbacks = new Set<() => void>()
 
 const clock = new Clock()
 let delta = 0
 
-const clampPixelRatio = (pixelRatio: number) => {
-    const pixelCount = resolutionPtr[0][0] * resolutionPtr[0][1]
+const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
     const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.75, 0.5, true)
-    return math.clamp(pixelRatio, clampMin, 1)
+    return toFixed(math.clamp(pixelRatio, clampMin, 1), 1)
 }
+
+const pixelCountLowestRatioMap = new Map<number, number>()
 
 createEffect(() => {
     if (
@@ -39,7 +41,7 @@ createEffect(() => {
     const targetDeltaAdjusted = targetDelta * 0.9
 
     const ratio = mapRange(fpsPtr[0], 0, 60, 0, 1)
-    let pixelRatio = 1
+    let pixelRatioOld: number
 
     rendererPtr[0].setAnimationLoop(() => {
         delta += clock.getDelta()
@@ -49,14 +51,22 @@ createEffect(() => {
         dtPtr[0] = delta
         delta = 0
 
-        const targetPixelRatio = clampPixelRatio(1 / (fpsRatioPtr[0] * ratio))
-        if (targetPixelRatio < pixelRatio) pixelRatio = targetPixelRatio
-        else {
-            pixelRatio += 0.01
-            if (pixelRatio > 1) pixelRatio = 1
+        const pixelCount = resolutionPtr[0][0] * resolutionPtr[0][1]
+        const targetPixelRatio = clampPixelRatio(
+            pixelCount,
+            1 / (fpsRatioPtr[0] * ratio)
+        )
+        let pixelRatio = pixelCountLowestRatioMap.get(pixelCount) ?? Infinity
+        if (targetPixelRatio < pixelRatio) {
+            pixelRatio = targetPixelRatio
+            pixelCountLowestRatioMap.set(pixelCount, pixelRatio)
         }
-        rendererPtr[0].setPixelRatio(toFixed(pixelRatio, 1))
-
+        if (pixelRatio !== pixelRatioOld) {
+            pixelRatioOld = pixelRatio
+            rendererPtr[0].setPixelRatio(pixelRatio)
+            setPixelRatio(pixelRatio)
+            console.log(pixelRatio)
+        }
         for (const cb of callbacks) cb()
     })
     return () => {
