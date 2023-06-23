@@ -4,6 +4,7 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import computePxVertices from "../engine/physx/computePxVertices"
 import { physxPtr } from "../pointers/physxPtr"
 import createSharedPool from "./utils/createSharedPool"
+import { busyCountPtr } from "../pointers/busyCountPtr"
 
 type PhysxConvexGeometryParams = [
     typeSrc: string,
@@ -36,6 +37,7 @@ export const [requestPhysxConvexGeometry, releasePhysxConvexGeometry] =
             if (typeSrc === "sphere" && x === y && x === z)
                 return new PxSphereGeometry(x * 0.5)
 
+            busyCountPtr[0]++
             const [vec3Vector, count] = computePxVertices(manager)
             const desc = new PxConvexMeshDesc()
             desc.flags = getConvexFlags()
@@ -52,6 +54,7 @@ export const [requestPhysxConvexGeometry, releasePhysxConvexGeometry] =
             destroy(desc)
             vec3Vector.clear()
             destroy(vec3Vector)
+            busyCountPtr[0]--
 
             return pxGeometry
         },
