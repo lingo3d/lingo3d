@@ -15,7 +15,7 @@ const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
 }
 
 const sortPixelRatio = (a: number, b: number) => a - b
-const SAMPLES = 10
+const SAMPLES = 20
 
 export const pixelRatioSystem = createSystem("pixelRatioSystem", {
     data: () => ({
@@ -30,18 +30,16 @@ export const pixelRatioSystem = createSystem("pixelRatioSystem", {
         if (data.pixelRatioArray.length < SAMPLES) return
 
         data.pixelRatioArray.sort(sortPixelRatio)
-        let median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
+        const median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
         data.pixelRatioArray.length = 0
 
-        if (pixelRatio > 1.09) {
-            data.pixelRatio += 0.1
-            console.log("reevaluate", pixelRatio, data.pixelRatio)
-        }
-
-        if (median >= data.pixelRatio || data.pixelRatio - median <= 0.1) return
+        if (pixelRatio > 1.05) data.pixelRatio += 0.1
+        if (median >= data.pixelRatio) return
         data.pixelRatio = median
 
+        if (median > getPixelRatio() && median - getPixelRatio() < 0.2) return
         if (median === getPixelRatio()) return
+
         rendererPtr[0].setPixelRatio(median)
         setPixelRatio(median)
         console.log("pixelRatio", median)
