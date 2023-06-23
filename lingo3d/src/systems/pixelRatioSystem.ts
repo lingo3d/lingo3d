@@ -5,7 +5,7 @@ import toFixed from "../api/serializer/toFixed"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { resolutionPtr } from "../pointers/resolutionPtr"
-import { setPixelRatio } from "../states/usePixelRatio"
+import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
 
@@ -25,18 +25,23 @@ export const pixelRatioSystem = createSystem("pixelRatioSystem", {
         pixelRatioArray: [] as Array<number>
     }),
     update: (_: WebGLRenderer, data) => {
-        data.pixelRatioArray.push(
-            clampPixelRatio(data.pixelCount, 1 / (fpsRatioPtr[0] * data.ratio))
-        )
+        const pixelRatio = 1 / (fpsRatioPtr[0] * data.ratio)
+        data.pixelRatioArray.push(clampPixelRatio(data.pixelCount, pixelRatio))
         if (data.pixelRatioArray.length < SAMPLES) return
 
         data.pixelRatioArray.sort(sortPixelRatio)
-        const median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
+        let median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
         data.pixelRatioArray.length = 0
 
-        if (median >= data.pixelRatio) return
+        if (pixelRatio > 1.09) {
+            data.pixelRatio += 0.1
+            console.log("reevaluate", pixelRatio, data.pixelRatio)
+        }
+
+        if (median >= data.pixelRatio || data.pixelRatio - median <= 0.1) return
         data.pixelRatio = median
 
+        if (median === getPixelRatio()) return
         rendererPtr[0].setPixelRatio(median)
         setPixelRatio(median)
         console.log("pixelRatio", median)
