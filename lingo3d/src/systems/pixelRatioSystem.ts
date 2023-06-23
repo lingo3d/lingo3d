@@ -5,12 +5,12 @@ import toFixed from "../api/serializer/toFixed"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { resolutionPtr } from "../pointers/resolutionPtr"
-import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
+import { setPixelRatio } from "../states/usePixelRatio"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
 
 const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
-    const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.75, 0.5, true)
+    const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.7, 0.5, true)
     return toFixed(math.clamp(pixelRatio, clampMin, 1), 1)
 }
 
@@ -25,23 +25,20 @@ export const pixelRatioSystem = createSystem("pixelRatioSystem", {
         pixelRatioArray: [] as Array<number>
     }),
     update: (_: WebGLRenderer, data) => {
-        const pixelRatio = 1 / (fpsRatioPtr[0] * data.ratio)
-        data.pixelRatioArray.push(clampPixelRatio(data.pixelCount, pixelRatio))
+        data.pixelRatioArray.push(
+            clampPixelRatio(data.pixelCount, 1 / (fpsRatioPtr[0] * data.ratio))
+        )
         if (data.pixelRatioArray.length < SAMPLES) return
 
         data.pixelRatioArray.sort(sortPixelRatio)
         const median = data.pixelRatioArray[Math.floor(SAMPLES * 0.5)]
         data.pixelRatioArray.length = 0
 
-        if (pixelRatio > 1.05) data.pixelRatio += 0.1
         if (median >= data.pixelRatio) return
         data.pixelRatio = median
 
-        if (median > getPixelRatio() && median - getPixelRatio() < 0.2) return
-        if (median === getPixelRatio()) return
-
         rendererPtr[0].setPixelRatio(median)
         setPixelRatio(median)
-        console.log("pixelRatio", median)
+        console.log("dynamic resolution", median)
     }
 })
