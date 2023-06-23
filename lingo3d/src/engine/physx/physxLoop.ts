@@ -3,7 +3,7 @@ import "../eventLoop"
 import { setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import fpsAlpha from "../../display/utils/fpsAlpha"
-import { onPhysXLoop } from "../../events/onPhysXLoop"
+import { onPhysics } from "../../events/onPhysics"
 import { physxPtr } from "../../pointers/physxPtr"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import MeshAppendable from "../../display/core/MeshAppendable"
@@ -40,7 +40,7 @@ createEffect(() => {
     if (!pxScene || worldPlayPtr[0] !== "live") return
 
     physxLoopPtr[0] = true
-    const handle = onPhysXLoop(() => {
+    const handle = onPhysics(() => {
         groundedControllerManagers.clear()
 
         for (const [manager, controller] of managerControllerMap) {
