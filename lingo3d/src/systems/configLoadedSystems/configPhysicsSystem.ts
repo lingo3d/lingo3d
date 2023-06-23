@@ -18,6 +18,7 @@ export const configPhysicsSystem = createLoadedEffectSystem(
 
             if (modeChanged) configPhysicsShapeSystem.add(self)
             else if (self.$actor) configPhysicsTransformSystem.add(self)
-        }
+        },
+        effectTicker: queueMicrotask
     }
 )
