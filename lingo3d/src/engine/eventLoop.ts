@@ -11,8 +11,6 @@ import { rendererPtr } from "../pointers/rendererPtr"
 import { getDocumentHidden } from "../states/useDocumentHidden"
 import { getWorldPlay } from "../states/useWorldPlay"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
-import { getResolution } from "../states/useResolution"
-import { dynamicResolutionSystem } from "../systems/dynamicResolutionSystem"
 
 const callbacks = new Set<() => void>()
 
@@ -45,15 +43,6 @@ createEffect(() => {
         renderer.setAnimationLoop(null)
     }
 }, [getFps, getRenderer, getWorldPlay, getDocumentHidden])
-
-createEffect(() => {
-    const [renderer] = rendererPtr
-    dynamicResolutionSystem.add(renderer)
-
-    return () => {
-        dynamicResolutionSystem.delete(renderer)
-    }
-}, [getFps, getRenderer, getResolution])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)
