@@ -25,7 +25,6 @@ import { lerpToSystem } from "../../systems/lerpToSystem"
 import { lookToSystem } from "../../systems/lookToSystem"
 import { moveToSystem } from "../../systems/moveToSystem"
 import { configMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
-import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { getAppendablesById } from "../../collections/idCollections"
 import getActualScale from "../../memo/getActualScale"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
@@ -92,7 +91,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set x(val) {
         this.position.x = val * CM2M
-        configPhysicsSystem.add(this)
     }
 
     public get y() {
@@ -100,7 +98,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set y(val) {
         this.position.y = val * CM2M
-        configPhysicsSystem.add(this)
     }
 
     public get z() {
@@ -108,7 +105,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set z(val) {
         this.position.z = val * CM2M
-        configPhysicsSystem.add(this)
     }
 
     public getWorldPosition() {
@@ -138,32 +134,26 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public translateX(val: number) {
         this.outerObject3d.translateX(val * CM2M * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public translateY(val: number) {
         this.outerObject3d.translateY(val * CM2M * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public translateZ(val: number) {
         this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public rotateX(val: number) {
         this.outerObject3d.rotateX(val * deg2Rad * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public rotateY(val: number) {
         this.outerObject3d.rotateY(val * deg2Rad * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public rotateZ(val: number) {
         this.outerObject3d.rotateZ(val * deg2Rad * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public setRotationFromDirection(direction: Point3dType) {
@@ -189,20 +179,17 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             "quaternion" in this &&
                 this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
         } else this.position.copy(point2Vec(target))
-        configPhysicsSystem.add(this)
     }
 
     public moveForward(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         vector3.crossVectors(this.outerObject3d.up, vector3)
         this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public moveRight(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
-        configPhysicsSystem.add(this)
     }
 
     public onMoveToEnd: Nullable<() => void>
@@ -254,7 +241,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set rotationX(val) {
         this.outerObject3d.rotation.x = val * deg2Rad
-        configPhysicsSystem.add(this)
     }
 
     public get rotationY() {
@@ -262,7 +248,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set rotationY(val) {
         this.outerObject3d.rotation.y = val * deg2Rad
-        configPhysicsSystem.add(this)
     }
 
     public get rotationZ() {
@@ -270,7 +255,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
     public set rotationZ(val) {
         this.outerObject3d.rotation.z = val * deg2Rad
-        configPhysicsSystem.add(this)
     }
 
     public lookAt(target: MeshAppendable | Point3dType): void

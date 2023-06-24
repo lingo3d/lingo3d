@@ -3,7 +3,7 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
-import { configPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
+import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
 
 export const moveToSystem = createInternalSystem("moveToSystem", {
     data: {} as {
@@ -35,6 +35,8 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
             moveToSystem.delete(self)
             self.onMoveToEnd?.()
         }
-        configPhysicsSystem.add(self)
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
     }
 })

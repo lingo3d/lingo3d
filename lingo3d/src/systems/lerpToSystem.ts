@@ -3,7 +3,7 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
-import { configPhysicsSystem } from "./configLoadedSystems/configPhysicsSystem"
+import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
 
 export const lerpToSystem = createInternalSystem("lerpToSystem", {
     data: {} as {
@@ -25,6 +25,8 @@ export const lerpToSystem = createInternalSystem("lerpToSystem", {
         self.x = x
         self.y = y
         self.z = z
-        configPhysicsSystem.add(self)
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
     }
 })

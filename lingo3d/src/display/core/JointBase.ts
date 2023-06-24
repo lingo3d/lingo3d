@@ -8,9 +8,9 @@ import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "./MeshAppendable"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 import { configJointSystem } from "../../systems/configSystems/configJointSystem"
-import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -82,8 +82,8 @@ export default abstract class JointBase
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
         configJointSystem.add(this)
-        configPhysicsSystem.add(fromManager)
-        configPhysicsSystem.add(toManager)
+        configPhysicsTransformSystem.add(fromManager)
+        configPhysicsTransformSystem.add(toManager)
     }
 
     private _to?: string

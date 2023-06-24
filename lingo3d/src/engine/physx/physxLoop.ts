@@ -13,8 +13,7 @@ import {
     controllerVZUpdateMap,
     groundedControllerManagers,
     managerActorMap,
-    managerControllerMap,
-    controllerMoveSet
+    managerControllerMap
 } from "../../collections/pxCollections"
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
@@ -77,23 +76,23 @@ createEffect(() => {
                 }
             }
 
-            if (controllerMoveSet.has(manager)) {
-                controllerMoveSet.delete(manager)
-                const { x: px, y: py, z: pz } = manager.position
-                const { x: cx, y: cy, z: cz } = controller.getPosition()
-                controller.move(
-                    setPxVec(px - cx + dx, py - cy + dy, pz - cz + dz),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
-            } else
-                controller.move(
-                    setPxVec(dx, dy, dz),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
+            // if (controllerMoveMap.has(manager)) {
+            //     const { x: px, y: py, z: pz } = controllerMoveMap.get(manager)!
+            //     const { x: cx, y: cy, z: cz } = manager.position
+            //     controller.move(
+            //         setPxVec(px - cx + dx, py - cy + dy, pz - cz + dz),
+            //         0.001,
+            //         dtPtr[0],
+            //         pxControllerFilters
+            //     )
+            //     controllerMoveMap.delete(manager)
+            // } else
+            controller.move(
+                setPxVec(dx, dy, dz),
+                0.001,
+                dtPtr[0],
+                pxControllerFilters
+            )
         }
         pxScene.simulate(dtPtr[0])
         pxScene.fetchResults(true)

@@ -2,6 +2,8 @@ import { Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
+import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
+import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 
 export const lookToSystem = createInternalSystem("lookToSystem", {
     data: {} as {
@@ -9,7 +11,7 @@ export const lookToSystem = createInternalSystem("lookToSystem", {
         quaternionNew: Quaternion
         a1?: number
     },
-    update: (self: MeshAppendable, data) => {
+    update: (self: MeshAppendable | PhysicsObjectManager, data) => {
         const { quaternion, quaternionNew, a1 } = data
         quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
 
@@ -22,5 +24,8 @@ export const lookToSystem = createInternalSystem("lookToSystem", {
             self.onLookToEnd?.()
             quaternion.copy(quaternionNew)
         }
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
     }
 })

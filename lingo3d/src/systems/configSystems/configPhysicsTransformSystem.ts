@@ -1,7 +1,4 @@
-import {
-    controllerMoveSet,
-    managerControllerMap
-} from "../../collections/pxCollections"
+import { managerControllerMap } from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import {
     assignPxExtendedVec,
@@ -17,10 +14,7 @@ export const configPhysicsTransformSystem = createInternalSystem(
         effect: (self: PhysicsObjectManager) => {
             const controller = managerControllerMap.get(self)
             if (controller) {
-                if (physxLoopPtr[0]) {
-                    controllerMoveSet.add(self)
-                    return
-                }
+                if (physxLoopPtr[0]) return
                 controller.setPosition(assignPxExtendedVec(self.position))
             }
             self.$actor.setGlobalPose(assignPxTransform(self))

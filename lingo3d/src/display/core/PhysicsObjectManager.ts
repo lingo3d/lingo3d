@@ -22,7 +22,10 @@ import {
 import JointBase from "./JointBase"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
 import { configCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
-import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
+import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
+import { Point3dType } from "../../utils/isPoint"
+import SpawnPoint from "../SpawnPoint"
+import { configPhysicsShapeSystem } from "../../systems/configSystems/configPhysicsShapeSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -32,6 +35,166 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public $capsuleHeight?: number
     public $controller?: any
     public $convexGeometry?: any
+
+    public override get x() {
+        return super.x
+    }
+    public override set x(val) {
+        super.x = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get y() {
+        return super.y
+    }
+    public override set y(val) {
+        super.y = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get z() {
+        return super.z
+    }
+    public override set z(val) {
+        super.z = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get rotationX() {
+        return super.rotationX
+    }
+    public override set rotationX(val) {
+        super.rotationX = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get rotationY() {
+        return super.rotationY
+    }
+    public override set rotationY(val) {
+        super.rotationY = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get rotationZ() {
+        return super.rotationZ
+    }
+    public override set rotationZ(val) {
+        super.rotationZ = val
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override get scaleX() {
+        return super.scaleX
+    }
+    public override set scaleX(val) {
+        super.scaleX = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override get scaleY() {
+        return super.scaleY
+    }
+    public override set scaleY(val) {
+        super.scaleY = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override get scaleZ() {
+        return super.scaleZ
+    }
+    public override set scaleZ(val) {
+        super.scaleZ = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override get width() {
+        return super.width
+    }
+    public override set width(val) {
+        super.width = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override get height() {
+        return super.height
+    }
+    public override set height(val) {
+        super.height = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override get depth() {
+        return super.depth
+    }
+    public override set depth(val) {
+        super.depth = val
+        this.$actor && configPhysicsShapeSystem.add(this)
+    }
+
+    public override translateX(val: number) {
+        super.translateX(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override translateY(val: number) {
+        super.translateY(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override translateZ(val: number) {
+        super.translateZ(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override rotateX(val: number) {
+        super.rotateX(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override rotateY(val: number) {
+        super.rotateY(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override rotateZ(val: number) {
+        super.rotateZ(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override setRotationFromDirection(direction: Point3dType) {
+        super.setRotationFromDirection(direction)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override placeAt(
+        target: MeshAppendable | Point3dType | SpawnPoint | string
+    ) {
+        super.placeAt(target)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override moveForward(distance: number) {
+        super.moveForward(distance)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override moveRight(distance: number) {
+        super.moveRight(distance)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
+
+    public override lookAt(target: MeshAppendable | Point3dType): void
+    public override lookAt(x: number, y: number | undefined, z: number): void
+    public override lookAt(
+        a0: MeshAppendable | Point3dType | number,
+        a1?: number,
+        a2?: number
+    ) {
+        //@ts-ignore
+        super.lookAt(a0, a1, a2)
+        this.$actor && configPhysicsTransformSystem.add(this)
+    }
 
     private _mass?: number
     public get mass(): number {
@@ -178,7 +341,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
-        configPhysicsSystem.add(this)
+        configPhysicsShapeSystem.add(this)
         configCastShadowSystem.add(this)
     }
 
@@ -188,7 +351,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set $jointCount(val) {
         this._jointCount = val
-        configPhysicsSystem.add(this)
+        configPhysicsShapeSystem.add(this)
         configCastShadowSystem.add(this)
     }
 

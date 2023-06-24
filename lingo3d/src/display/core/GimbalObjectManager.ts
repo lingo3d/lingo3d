@@ -4,7 +4,6 @@ import IObjectManager from "../../interface/IObjectManager"
 import { setManager } from "./utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
-import { configPhysicsSystem } from "../../systems/configLoadedSystems/configPhysicsSystem"
 
 export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -64,8 +63,6 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     }
     public set width(val) {
         this.object3d.scale.x = val * CM2M
-        this.userData.physicsMode = undefined
-        configPhysicsSystem.add(this)
     }
 
     public get height() {
@@ -73,8 +70,6 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     }
     public set height(val) {
         this.object3d.scale.y = val * CM2M
-        this.userData.physicsMode = undefined
-        configPhysicsSystem.add(this)
     }
 
     public get depth() {
@@ -82,7 +77,5 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     }
     public set depth(val) {
         this.object3d.scale.z = val * CM2M
-        this.userData.physicsMode = undefined
-        configPhysicsSystem.add(this)
     }
 }
