@@ -16,6 +16,10 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
         quad: number
     },
     update: (self: MeshAppendable | PhysicsObjectManager, data) => {
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
+
         self.x += data.sx * fpsRatioPtr[0]
         if (data.y !== undefined) self.y += data.sy * fpsRatioPtr[0]
         self.z += data.sz * fpsRatioPtr[0]
@@ -35,8 +39,5 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
             moveToSystem.delete(self)
             self.onMoveToEnd?.()
         }
-        "$actor" in self &&
-            self.$actor &&
-            configPhysicsTransformSystem.add(self)
     }
 })
