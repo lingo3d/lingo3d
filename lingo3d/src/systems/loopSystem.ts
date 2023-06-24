@@ -3,5 +3,5 @@ import createInternalSystem from "./utils/createInternalSystem"
 
 export const loopSystem = createInternalSystem("loopSystem", {
     update: (self: Appendable) => self.onLoop!(),
-    updateTicker: "loop"
+    updateTicker: "render"
 })

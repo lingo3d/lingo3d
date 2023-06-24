@@ -3,12 +3,11 @@ import type Appendable from "../../display/core/Appendable"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onAfterRender } from "../../events/onAfterRender"
 import { onRender } from "../../events/onRender"
-import { onLoop } from "../../events/onLoop"
 import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
 import { onDispose } from "../../events/onDispose"
 
-type Ticker = "beforeRender" | "afterRender" | "render" | "loop"
+type Ticker = "beforeRender" | "afterRender" | "render"
 type EffectTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
 type On<T> = (cb: (val: T) => void, once?: boolean) => Cancellable
 
@@ -20,8 +19,6 @@ const mapTicker = (ticker: Ticker) => {
             return onAfterRender
         case "render":
             return onRender
-        case "loop":
-            return onLoop
         default:
             assertExhaustive(ticker)
     }

@@ -12,7 +12,6 @@ import effectComposer from "./effectComposer"
 import { getSplitView } from "../../states/useSplitView"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { emitPhysics } from "../../events/onPhysics"
-import { emitLoop } from "../../events/onLoop"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { dtPtr } from "../../pointers/dtPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
@@ -36,7 +35,6 @@ createEffect(() => {
             emitPhysics()
             emitBeforeRender()
             emitRender()
-            emitLoop()
 
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
@@ -66,7 +64,6 @@ createEffect(() => {
             emitPhysics()
             emitBeforeRender()
             emitRender()
-            emitLoop()
             renderer.render(scene, camera)
             emitAfterRender()
         })
@@ -79,7 +76,6 @@ createEffect(() => {
         emitPhysics()
         emitBeforeRender()
         emitRender()
-        emitLoop()
         effectComposer.render(dtPtr[0])
         emitAfterRender()
     })
