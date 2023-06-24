@@ -1,13 +1,14 @@
-import { managerControllerMap } from "../../collections/pxCollections"
+import {
+    controllerMoveSet,
+    managerControllerMap
+} from "../../collections/pxCollections"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import {
     assignPxExtendedVec,
     assignPxTransform,
     setPxVec
 } from "../../engine/physx/pxMath"
-import { dtPtr } from "../../pointers/dtPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
-import { physxPtr } from "../../pointers/physxPtr"
 import createInternalSystem from "../utils/createInternalSystem"
 
 export const configPhysicsTransformSystem = createInternalSystem(
@@ -17,14 +18,7 @@ export const configPhysicsTransformSystem = createInternalSystem(
             const controller = managerControllerMap.get(self)
             if (controller) {
                 if (physxLoopPtr[0]) {
-                    const { x: px, y: py, z: pz } = self.position
-                    const { x: cx, y: cy, z: cz } = controller.getPosition()
-                    controller.move(
-                        setPxVec(px - cx, py - cy, pz - cz),
-                        0.001,
-                        dtPtr[0],
-                        physxPtr[0].pxControllerFilters
-                    )
+                    controllerMoveSet.add(self)
                     return
                 }
                 controller.setPosition(assignPxExtendedVec(self.position))

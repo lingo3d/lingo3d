@@ -4,6 +4,7 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 export const controllerVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
 export const controllerVYUpdateMap = new WeakMap<PhysicsObjectManager, number>()
 export const controllerVZUpdateMap = new WeakMap<PhysicsObjectManager, number>()
+export const controllerMoveSet = new WeakSet<PhysicsObjectManager>()
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 export const managerActorMap = new Map<PhysicsObjectManager, any>()
 export const actorPtrManagerMap = new Map<number, PhysicsObjectManager>()
