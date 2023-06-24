@@ -17,7 +17,7 @@ import {
 } from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
-import { configPhysicsTransformSystem } from "./configPhysicsTransformSystem"
+import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 
 export const importPhysX = lazy(async () => {

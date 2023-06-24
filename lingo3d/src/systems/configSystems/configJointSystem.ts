@@ -1,6 +1,6 @@
 import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import { importPhysX } from "./configPhysicsShapeSystem"
+import { importPhysX } from "../configLoadedSystems/configPhysicsShapeSystem"
 import { uuidMap } from "../../collections/idCollections"
 import { jointTargetTransformEditSystem } from "../eventSystems/jointTargetTransformEditSystem"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"

@@ -25,7 +25,7 @@ import { configCastShadowSystem } from "../../systems/configLoadedSystems/config
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
 import { Point3dType } from "../../utils/isPoint"
 import SpawnPoint from "../SpawnPoint"
-import { configPhysicsShapeSystem } from "../../systems/configSystems/configPhysicsShapeSystem"
+import { configPhysicsShapeSystem } from "../../systems/configLoadedSystems/configPhysicsShapeSystem"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>

@@ -1,5 +1,5 @@
 import { TransformControlsPayload } from "../../events/onTransformControls"
-import { configPhysicsShapeSystem } from "../../systems/configSystems/configPhysicsShapeSystem"
+import { configPhysicsShapeSystem } from "../../systems/configLoadedSystems/configPhysicsShapeSystem"
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
 import getAllSelectionTargets from "../../throttle/getAllSelectionTargets"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
