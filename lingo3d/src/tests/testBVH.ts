@@ -26,12 +26,6 @@ player.z = -100
 player.y = 2000
 player.physics = "character"
 
-const player2 = new Dummy()
-player2.src = "ready.glb"
-player2.z = -200
-player2.y = 2000
-player2.physics = "character"
-
 // setTimeout(() => {
 //     player2.animation = ["running", "jumping", "death"]
 // }, 5000)

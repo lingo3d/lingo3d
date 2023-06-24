@@ -22,7 +22,6 @@ import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 
-const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
 const lockHitSet = new WeakSet<MeshAppendable>()
@@ -63,8 +62,6 @@ createEffect(() => {
                           manager.$capsuleHeight!,
                           manager.$actor.ptr
                       )
-                hitMap.set(manager, hit)
-
                 if (hit) {
                     dy = -manager.$capsuleHeight!
                     vyMap.set(manager, 0)
@@ -78,7 +75,7 @@ createEffect(() => {
                     vyMap.set(manager, vy)
                     dy = vy * dtPtr[0]
                 }
-            } else hitMap.set(manager, false)
+            }
 
             if (controllerMoveSet.has(manager)) {
                 controllerMoveSet.delete(manager)
@@ -109,7 +106,10 @@ createEffect(() => {
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
             const { p } = manager.$actor.getGlobalPose()
-            position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.3 : 1))
+            position.lerp(
+                p,
+                fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
+            )
             position.x = p.x
             position.z = p.z
         }
