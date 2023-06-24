@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import { Object3D, Vector3 } from "three"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../interface/IPhysicsObjectManager"
@@ -26,6 +26,8 @@ import { configPhysicsTransformSystem } from "../../systems/configSystems/config
 import { Point3dType } from "../../utils/isPoint"
 import SpawnPoint from "../SpawnPoint"
 import { configPhysicsShapeSystem } from "../../systems/configLoadedSystems/configPhysicsShapeSystem"
+import { physxLoopPtr } from "../../pointers/physxLoopPtr"
+import { vector3__ } from "../utils/reusables"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -34,6 +36,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public $actor?: any
     public $capsuleHeight?: number
     public $controller?: any
+    public $controllerMove?: Vector3
     public $convexGeometry?: any
 
     public override get x() {
@@ -175,11 +178,29 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public override moveForward(distance: number) {
+        if (this.$controller && physxLoopPtr[0]) {
+            vector3__.copy(this.position)
+            super.moveForward(distance)
+            ;(this.$controllerMove ??= new Vector3())
+                .add(this.position)
+                .sub(vector3__)
+            this.position.copy(vector3__)
+            return
+        }
         super.moveForward(distance)
         this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override moveRight(distance: number) {
+        if (this.$controller && physxLoopPtr[0]) {
+            vector3__.copy(this.position)
+            super.moveRight(distance)
+            ;(this.$controllerMove ??= new Vector3())
+                .add(this.position)
+                .sub(vector3__)
+            this.position.copy(vector3__)
+            return
+        }
         super.moveRight(distance)
         this.$actor && configPhysicsTransformSystem.add(this)
     }

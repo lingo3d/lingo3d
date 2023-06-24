@@ -76,23 +76,22 @@ createEffect(() => {
                 }
             }
 
-            // if (controllerMoveMap.has(manager)) {
-            //     const { x: px, y: py, z: pz } = controllerMoveMap.get(manager)!
-            //     const { x: cx, y: cy, z: cz } = manager.position
-            //     controller.move(
-            //         setPxVec(px - cx + dx, py - cy + dy, pz - cz + dz),
-            //         0.001,
-            //         dtPtr[0],
-            //         pxControllerFilters
-            //     )
-            //     controllerMoveMap.delete(manager)
-            // } else
-            controller.move(
-                setPxVec(dx, dy, dz),
-                0.001,
-                dtPtr[0],
-                pxControllerFilters
-            )
+            if (manager.$controllerMove) {
+                const { x, y, z } = manager.$controllerMove
+                controller.move(
+                    setPxVec(x + dx, y + dy, z + dz),
+                    0.001,
+                    dtPtr[0],
+                    pxControllerFilters
+                )
+                manager.$controllerMove = undefined
+            } else
+                controller.move(
+                    setPxVec(dx, dy, dz),
+                    0.001,
+                    dtPtr[0],
+                    pxControllerFilters
+                )
         }
         pxScene.simulate(dtPtr[0])
         pxScene.fetchResults(true)
@@ -105,12 +104,11 @@ createEffect(() => {
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
             const { p } = manager.$actor.getGlobalPose()
-            // position.lerp(
-            //     p,
-            //     fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
-            // )
+            position.lerp(
+                p,
+                fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
+            )
             position.x = p.x
-            position.y = p.y
             position.z = p.z
         }
     })
