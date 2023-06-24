@@ -17,7 +17,6 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { dtPtr } from "../../pointers/dtPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
-import { emitBeforePhysics } from "../../events/onBeforePhysics"
 
 createEffect(() => {
     const [renderer] = rendererPtr
@@ -34,7 +33,6 @@ createEffect(() => {
         secondaryCamera.updateProjectionMatrix()
 
         const handle = loop(() => {
-            emitBeforePhysics()
             emitPhysics()
             emitBeforeRender()
             emitRender()
@@ -65,7 +63,6 @@ createEffect(() => {
 
     if (getWebXR()) {
         const handle = loop(() => {
-            emitBeforePhysics()
             emitPhysics()
             emitBeforeRender()
             emitRender()
@@ -79,7 +76,6 @@ createEffect(() => {
     }
 
     const handle = loop(() => {
-        emitBeforePhysics()
         emitPhysics()
         emitBeforeRender()
         emitRender()
