@@ -106,11 +106,12 @@ createEffect(() => {
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
             const { p } = manager.$actor.getGlobalPose()
-            position.lerp(
-                p,
-                fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
-            )
+            // position.lerp(
+            //     p,
+            //     fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
+            // )
             position.x = p.x
+            position.y = p.y
             position.z = p.z
         }
     })
