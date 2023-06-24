@@ -62,7 +62,7 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(self).multiplyScalar(0.5)
                 self.$capsuleHeight = y * 2
-                desc.height = y * 1.2
+                desc.height = y * 1.3
                 desc.radius = x
                 Object.assign(desc.position, self.position)
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
