@@ -18,6 +18,7 @@ import {
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
 import createInternalSystem from "../utils/createInternalSystem"
+import { configPhysicsTransformSystem } from "./configPhysicsTransformSystem"
 
 export const importPhysX = lazy(async () => {
     increaseLoadingAssetsCount()
@@ -39,6 +40,7 @@ export const configPhysicsShapeSystem = createInternalSystem(
             const mode = self.physics || !!self.$jointCount
             if (!mode) return false
 
+            configPhysicsTransformSystem.delete(self)
             physicsSet.add(self)
 
             const {
@@ -95,6 +97,7 @@ export const configPhysicsShapeSystem = createInternalSystem(
             managerActorMap.set(self, actor)
         },
         cleanup: (self) => {
+            configPhysicsTransformSystem.delete(self)
             if (self.$controller) {
                 physicsSet.delete(self)
                 actorPtrManagerMap.delete(self.$actor.ptr)
