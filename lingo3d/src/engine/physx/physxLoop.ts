@@ -20,6 +20,7 @@ import { gravityPtr } from "../../pointers/gravityPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import math from "../../math"
 
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
@@ -104,11 +105,10 @@ createEffect(() => {
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
             const { p } = manager.$actor.getGlobalPose()
-            position.lerp(
-                p,
-                fpsAlpha(groundedControllerManagers.has(manager) ? 0.3 : 1)
-            )
             position.x = p.x
+            position.y = groundedControllerManagers.has(manager)
+                ? math.lerp(position.y, p.y, fpsAlpha(0.3))
+                : p.y
             position.z = p.z
         }
     })
