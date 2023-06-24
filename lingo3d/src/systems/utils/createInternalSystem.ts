@@ -43,6 +43,7 @@ export type SystemOptions<
         | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
+    onAdd?: (gameObject: GameObject, data: Data) => void
     effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
@@ -81,6 +82,7 @@ export default <
     name: string,
     {
         data,
+        onAdd = placeholderFn,
         effect,
         cleanup,
         update,
@@ -183,20 +185,20 @@ export default <
     const executeAdd = (item: GameObject, initData?: Data) => {
         const added = !queued.has(item)
         addEffectSystem(item)
-        queued.set(
-            item,
+        const dataCached =
             initData ??
-                queued.get(item) ??
-                (typeof data === "function"
-                    ? data(item)
-                    : data
-                    ? { ...data }
-                    : undefined)
-        )
+            queued.get(item) ??
+            (typeof data === "function"
+                ? data(item)
+                : data
+                ? { ...data }
+                : undefined)
+        queued.set(item, dataCached)
         added &&
             autoDelete &&
             "$systems" in item &&
             item.$systems.set(name, system)
+        onAdd(item, dataCached)
         return added
     }
 
