@@ -76,15 +76,14 @@ export default abstract class JointBase
         const { $fromManager: fromManager, $toManager: toManager } = this
         if (!fromManager || !toManager) return
 
-        configPhysicsTransformSystem.add(fromManager)
-        configPhysicsTransformSystem.add(toManager)
-
         this.fromPos && fromManager.position.copy(this.fromPos)
         this.toPos && toManager.position.copy(this.toPos)
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
         configJointSystem.add(this)
+        configPhysicsTransformSystem.add(fromManager)
+        configPhysicsTransformSystem.add(toManager)
     }
 
     private _to?: string

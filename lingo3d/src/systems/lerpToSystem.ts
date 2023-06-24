@@ -12,10 +12,6 @@ export const lerpToSystem = createInternalSystem("lerpToSystem", {
         alpha: number
     },
     update: (self: MeshAppendable | PhysicsObjectManager, data) => {
-        "$actor" in self &&
-            self.$actor &&
-            configPhysicsTransformSystem.add(self)
-
         const { x, y, z } = data.from.lerp(data.to, fpsAlpha(data.alpha))
 
         if (
@@ -29,5 +25,9 @@ export const lerpToSystem = createInternalSystem("lerpToSystem", {
         self.x = x
         self.y = y
         self.z = z
+
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
     }
 })

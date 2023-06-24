@@ -40,48 +40,48 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return super.x
     }
     public override set x(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.x = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get y() {
         return super.y
     }
     public override set y(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.y = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get z() {
         return super.z
     }
     public override set z(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.z = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get rotationX() {
         return super.rotationX
     }
     public override set rotationX(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotationX = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get rotationY() {
         return super.rotationY
     }
     public override set rotationY(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotationY = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get rotationZ() {
         return super.rotationZ
     }
     public override set rotationZ(val) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotationZ = val
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override get scaleX() {
@@ -133,55 +133,55 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public override translateX(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.translateX(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override translateY(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.translateY(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override translateZ(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.translateZ(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override rotateX(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotateX(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override rotateY(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotateY(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override rotateZ(val: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.rotateZ(val)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override setRotationFromDirection(direction: Point3dType) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.setRotationFromDirection(direction)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override placeAt(
         target: MeshAppendable | Point3dType | SpawnPoint | string
     ) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.placeAt(target)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override moveForward(distance: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.moveForward(distance)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override moveRight(distance: number) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         super.moveRight(distance)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     public override lookAt(target: MeshAppendable | Point3dType): void
@@ -191,9 +191,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         a1?: number,
         a2?: number
     ) {
-        this.$actor && configPhysicsTransformSystem.add(this)
         //@ts-ignore
         super.lookAt(a0, a1, a2)
+        this.$actor && configPhysicsTransformSystem.add(this)
     }
 
     private _mass?: number

@@ -12,10 +12,6 @@ export const lookToSystem = createInternalSystem("lookToSystem", {
         a1?: number
     },
     update: (self: MeshAppendable | PhysicsObjectManager, data) => {
-        "$actor" in self &&
-            self.$actor &&
-            configPhysicsTransformSystem.add(self)
-
         const { quaternion, quaternionNew, a1 } = data
         quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
 
@@ -28,5 +24,8 @@ export const lookToSystem = createInternalSystem("lookToSystem", {
             self.onLookToEnd?.()
             quaternion.copy(quaternionNew)
         }
+        "$actor" in self &&
+            self.$actor &&
+            configPhysicsTransformSystem.add(self)
     }
 })
