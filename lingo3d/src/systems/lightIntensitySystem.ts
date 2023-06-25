@@ -1,10 +1,28 @@
 import getIntensityFactor from "../memo/getIntensityFactor"
 import PointLightBase from "../display/core/PointLightBase"
 import createInternalSystem from "./utils/createInternalSystem"
+import { mapRange } from "@lincode/math"
+import frameSync from "../api/frameSync"
 
-export const lightIntensitySystem = createInternalSystem("lightIntensitySystem", {
-    update: (self: PointLightBase) => {
-        self.object3d.intensity = self.intensity * getIntensityFactor(self)
-        // self.object3d.visible = !!intensityFactor
+export const lightIntensitySystem = createInternalSystem(
+    "lightIntensitySystem",
+    {
+        data: { count: 0 },
+        update: (self: PointLightBase, data) => {
+            const targetIntensity = self.intensity * getIntensityFactor(self)
+            if (data.count < 30) {
+                self.object3d.intensity = mapRange(
+                    data.count,
+                    0,
+                    30,
+                    0,
+                    targetIntensity
+                )
+                data.count += frameSync(1)
+                return
+            }
+            self.object3d.intensity = targetIntensity
+            // self.object3d.visible = !!intensityFactor
+        }
     }
-})
+)

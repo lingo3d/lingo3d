@@ -32,6 +32,7 @@ export const pooledPointLightSystem = createInternalSystem(
                 const light = self.$light!
                 releasePointLight(light)
                 scene.add(light.outerObject3d)
+                light.fade = false
                 light.intensity = 0
                 self.$light = undefined
             }
