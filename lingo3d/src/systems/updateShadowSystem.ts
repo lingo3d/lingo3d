@@ -4,7 +4,7 @@ import { shadowResolutionPtr } from "../pointers/shadowResolutionPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 import getIntensityFactor from "../memo/getIntensityFactor"
 
-const maxResolution = 1024
+const maxResolution = 2048
 
 export const updateShadowSystem = createInternalSystem("updateShadowSystem", {
     afterTick: () => {
