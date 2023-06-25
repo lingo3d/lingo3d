@@ -38,6 +38,8 @@ const lazyAOPass = lazy(() => {
     const pass = new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
     getSSAOIntensity((val) => (pass.configuration.intensity = val))
     getSSAORadius((val) => (pass.configuration.aoRadius = val))
+    // pass.configuration.halfRes = true
+    // pass.configuration.depthAwareUpsampling = false
     return pass
 })
 
