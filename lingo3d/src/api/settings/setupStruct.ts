@@ -53,6 +53,11 @@ import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
 import { emitPointLightPool } from "../../events/onPointLightPool"
 import { emitSpotLightPool } from "../../events/onSpotLightPool"
 import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
+import {
+    getSSAOIntensity,
+    setSSAOIntensity
+} from "../../states/useSSAOIntensity"
+import { getSSAORadius, setSSAORadius } from "../../states/useSSAORadius"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.$ghost()
@@ -207,6 +212,20 @@ export default {
     },
     set ssao(value) {
         setSSAO(value)
+    },
+
+    get ssaoIntensity() {
+        return getSSAOIntensity()
+    },
+    set ssaoIntensity(value) {
+        setSSAOIntensity(value)
+    },
+
+    get ssaoRadius() {
+        return getSSAORadius()
+    },
+    set ssaoRadius(value) {
+        setSSAORadius(value)
     },
 
     get outlineColor() {

@@ -43,6 +43,8 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
         "ssrIntensity",
         "ssrJitter",
         "ssao",
+        "ssaoIntensity",
+        "ssaoRadius",
         "bokeh",
         "bokehScale",
         "vignette"

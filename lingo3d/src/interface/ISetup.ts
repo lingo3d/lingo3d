@@ -33,6 +33,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     ssrIntensity: Number,
     ssrJitter: Number,
     ssao: Boolean,
+    ssaoIntensity: Number,
+    ssaoRadius: Number,
     outlineColor: String,
     outlineHiddenColor: String,
     outlinePattern: String,
@@ -67,6 +69,8 @@ export const setupDefaults = extendDefaults<ISetup>(
         bloomRadius: new Range(0, 1),
         ssrIntensity: new Range(0, 2),
         ssrJitter: new Range(0, 1),
+        ssaoIntensity: new Range(0, 2),
+        ssaoRadius: new Range(0, 2),
         outlinePulse: new Range(0, 2),
         outlineStrength: new Range(0, 4)
     }

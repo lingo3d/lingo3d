@@ -18,6 +18,8 @@ import { getSSAO } from "../../../states/useSSAO"
 import { N8AOPostPass } from "n8ao"
 import { Cancellable } from "@lincode/promiselikes"
 import { getPixelRatio } from "../../../states/usePixelRatio"
+import { getSSAOIntensity } from "../../../states/useSSAOIntensity"
+import { getSSAORadius } from "../../../states/useSSAORadius"
 
 const effectComposer = new EffectComposer(undefined, { multisampling: 4 })
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -34,8 +36,8 @@ createEffect(() => {
 
 const lazyAOPass = lazy(() => {
     const pass = new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
-    pass.configuration.aoRadius = 1
-    pass.configuration.intensity = 1
+    getSSAOIntensity((val) => (pass.configuration.intensity = val))
+    getSSAORadius((val) => (pass.configuration.radius = val))
     return pass
 })
 
