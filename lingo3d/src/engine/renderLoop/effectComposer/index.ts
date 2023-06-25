@@ -37,7 +37,7 @@ createEffect(() => {
 const lazyAOPass = lazy(() => {
     const pass = new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
     getSSAOIntensity((val) => (pass.configuration.intensity = val))
-    getSSAORadius((val) => (pass.configuration.radius = val))
+    getSSAORadius((val) => (pass.configuration.aoRadius = val))
     return pass
 })
 
