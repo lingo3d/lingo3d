@@ -24,8 +24,6 @@ aura.blending = "additive"
 aura.depthTest = false
 aura.$disableSelection = true
 
-// settings.shadowMode = "physics"
-
 const dummy = new Dummy()
 dummy.physics = "character"
 dummy.y = -150

@@ -10,7 +10,6 @@ import IPrimitive, {
 import { standardMaterial } from "../utils/reusables"
 import MixinType from "./mixins/utils/MixinType"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import { shadowModePtr } from "../../pointers/shadowModePtr"
 
 abstract class Primitive
     extends PhysicsObjectManager<StandardMesh>
@@ -23,7 +22,7 @@ abstract class Primitive
         const mesh = new Mesh(geometry, standardMaterial)
         super(mesh)
         mesh.receiveShadow = true
-        if (shadowModePtr[0] === true) mesh.castShadow = true
+        mesh.castShadow = true
     }
 }
 interface Primitive

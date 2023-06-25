@@ -14,7 +14,6 @@ import {
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
-import { shadowModePtr } from "../pointers/shadowModePtr"
 import isOpaque from "../memo/isOpaque"
 import getSVGExtrudeGeometries from "../memo/getSVGExtrudeGeometries"
 
@@ -46,8 +45,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             const mesh = new Mesh(geometry, this._material)
             loadedObject3d.add(mesh)
             mesh.receiveShadow = true
-            if (shadowModePtr[0] === true && isOpaque(mesh))
-                mesh.castShadow = true
+            if (isOpaque(mesh)) mesh.castShadow = true
         }
 
         const [{ x, y, z }] = fit(loadedObject3d, src)

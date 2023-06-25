@@ -11,7 +11,6 @@ import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderT
 import Cube from "../primitives/Cube"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { lightIntensitySystem } from "../../systems/lightIntensitySystem"
-import { shadowModePtr } from "../../pointers/shadowModePtr"
 import { updateShadowSystem } from "../../systems/updateShadowSystem"
 
 export default abstract class PointLightBase<
@@ -59,10 +58,7 @@ export default abstract class PointLightBase<
     public set shadows(val) {
         this.object3d.castShadow = val
         val
-            ? updateShadowSystem.add(this, {
-                  count: undefined,
-                  shadowMode: shadowModePtr[0]
-              })
+            ? updateShadowSystem.add(this, { count: undefined })
             : updateShadowSystem.delete(this)
     }
 

@@ -17,7 +17,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     lightDistance: Number,
     pointLightPool: Number,
     spotLightPool: Number,
-    shadowMode: [Boolean, String],
     environment: String,
     skybox: [String, Array],
     grid: Boolean,
@@ -54,11 +53,6 @@ export const setupDefaults = extendDefaults<ISetup>(
         lightDistance: new Range(500, 5000),
         pointLightPool: new Range(1, 10, 1),
         spotLightPool: new Range(1, 10, 1),
-        shadowMode: new Choices({
-            true: true,
-            false: false,
-            physics: "physics"
-        }),
         environment: environmentChoices,
         fps: new Range(30, 60, 30),
         gravity: new Range(-20, 0),

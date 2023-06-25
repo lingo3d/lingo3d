@@ -6,7 +6,6 @@ import {
     requestShadowRenderTarget
 } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
-import { shadowModePtr } from "../pointers/shadowModePtr"
 import createInternalSystem from "./utils/createInternalSystem"
 
 const resolutions = [256, 256, 128, 32, 16, 512]
@@ -17,7 +16,7 @@ export const pointLightShadowResolutionSystem = createInternalSystem(
     {
         data: { step: undefined as number | undefined },
         update: (self: PointLight, data) => {
-            if (!self.object3d.intensity || !shadowModePtr[0]) return
+            if (!self.object3d.intensity) return
 
             const distance = getDistanceFromCamera(self)
             let step = 4

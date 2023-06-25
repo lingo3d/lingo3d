@@ -26,7 +26,6 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
         "lightDistance",
         "pointLightPool",
         "spotLightPool",
-        "shadowMode",
         "environment",
         "skybox",
         "texture",

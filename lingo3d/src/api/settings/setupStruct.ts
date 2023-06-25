@@ -47,7 +47,6 @@ import { getGravity, setGravity } from "../../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../../states/useSSRJitter"
 import { lightDistancePtr } from "../../pointers/lightDistancePtr"
 import { CM2M, M2CM } from "../../globals"
-import { getShadowMode, setShadowMode } from "../../states/useShadowMode"
 import { computeLightIncrement } from "../../pointers/lightIncrementPtr"
 import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
 import { emitPointLightPool } from "../../events/onPointLightPool"
@@ -93,13 +92,6 @@ export default {
     set spotLightPool(value) {
         spotLightPoolPtr[0] = value
         emitSpotLightPool()
-    },
-
-    get shadowMode() {
-        return getShadowMode()
-    },
-    set shadowMode(value) {
-        setShadowMode(value)
     },
 
     get environment() {
