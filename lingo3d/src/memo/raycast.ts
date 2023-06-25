@@ -64,9 +64,7 @@ export const raycast = computePerFrameWithData(
                 candidates.has(pxHitManager.object3d) &&
                 (!intersection ||
                     pxHit.distance < intersection.distance ||
-                    (manager === pxHitManager &&
-                        "$loadedObject3d" in manager &&
-                        manager.$loadedObject3d))
+                    manager === pxHitManager)
             ) {
                 const { x, y, z } = pxHit.normal
                 return {
