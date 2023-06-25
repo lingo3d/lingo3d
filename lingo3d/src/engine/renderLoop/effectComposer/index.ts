@@ -32,9 +32,12 @@ createEffect(() => {
     }
 }, [getCameraRendered])
 
-const lazyAOPass = lazy(
-    () => new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
-)
+const lazyAOPass = lazy(() => {
+    const pass = new N8AOPostPass(scene, cameraRenderedPtr[0], 128, 128)
+    pass.configuration.aoRadius = 1
+    pass.configuration.intensity = 2
+    return pass
+})
 
 createEffect(() => {
     const [[w, h]] = resolutionPtr

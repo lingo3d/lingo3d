@@ -9,10 +9,12 @@ export default ({ phase, mode }: TransformControlsPayload) => {
     if (mode === "scale") {
         for (const target of getAllSelectionTargets())
             target instanceof PhysicsObjectManager &&
+                target.$actor &&
                 configPhysicsShapeSystem.add(target)
         return
     }
     for (const target of getAllSelectionTargets())
         target instanceof PhysicsObjectManager &&
+            target.$actor &&
             configPhysicsTransformSystem.add(target)
 }
