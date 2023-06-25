@@ -10,7 +10,7 @@ import { vector3_ } from "../display/utils/reusables"
 import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
 import createInternalSystem from "./utils/createInternalSystem"
-import frameSync from "../api/frameSync"
+import { frameSyncAlpha } from "../api/frameSync"
 
 export const thirdPersonCameraSystem = createInternalSystem(
     "thirdPersonCameraSystem",
@@ -36,12 +36,14 @@ export const thirdPersonCameraSystem = createInternalSystem(
                 managerActorPtrMap.get(data.found)
             )
             if (pxHit) {
-                cam.position.lerp(pxHit.position, frameSync(0.2))
+                cam.position.lerp(pxHit.position, frameSyncAlpha(0.2))
                 data.lerpCount = fpsPtr[0]
             } else {
                 cam.position.lerp(
                     position,
-                    frameSync(mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1))
+                    frameSyncAlpha(
+                        mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1)
+                    )
                 )
                 if (data.lerpCount) data.lerpCount--
             }

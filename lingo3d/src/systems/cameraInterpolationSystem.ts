@@ -3,7 +3,7 @@ import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
 import interpolationCamera from "../engine/interpolationCamera"
 import createInternalSystem from "./utils/createInternalSystem"
-import frameSync from "../api/frameSync"
+import { frameSyncAlpha } from "../api/frameSync"
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
@@ -46,8 +46,10 @@ export const cameraInterpolationSystem = createInternalSystem(
             interpolationCamera.updateProjectionMatrix()
 
             data.progress =
-                Math.min((1 - data.progress) * frameSync(0.1), data.diffMax) +
-                data.progress
+                Math.min(
+                    (1 - data.progress) * frameSyncAlpha(0.1),
+                    data.diffMax
+                ) + data.progress
 
             if (data.progress < 0.9999) return
             cameraInterpolationSystem.delete(cameraTo)

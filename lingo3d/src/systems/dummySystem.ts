@@ -6,7 +6,7 @@ import { StrideMode } from "../interface/IDummy"
 import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
 import Dummy from "../display/Dummy"
-import frameSync from "../api/frameSync"
+import { frameSyncAlpha } from "../api/frameSync"
 
 export const dummySystem = createInternalSystem("dummySystem", {
     data: {} as {
@@ -52,7 +52,7 @@ export const dummySystem = createInternalSystem("dummySystem", {
         const quaternionNew = loadedObject3d.quaternion.clone()
         loadedObject3d.quaternion
             .copy(quaternionOld)
-            .slerp(quaternionNew, frameSync(0.2))
+            .slerp(quaternionNew, frameSyncAlpha(0.2))
 
         spinePoint && spine?.lookAt(spinePoint)
 
