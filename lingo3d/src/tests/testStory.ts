@@ -13,7 +13,7 @@ settings.exposure = 0.5
 settings.environment = "studio"
 settings.bloom = true
 settings.ssr = true
-settings.vignette = true
+settings.ssao = true
 
 const pub = new Model()
 pub.src = "british_pub/scene.gltf"
