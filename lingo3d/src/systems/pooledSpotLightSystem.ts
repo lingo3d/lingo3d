@@ -6,38 +6,41 @@ import {
 } from "../pools/objectPools/spotLightPool"
 import scene from "../engine/scene"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
-import { clearNumberPtrSystem } from "./clearNumberPtrSystem"
 import createInternalSystem from "./utils/createInternalSystem"
 
-const countPtr = [0]
-clearNumberPtrSystem.add(countPtr)
+let count = 0
 
-export const pooledSpotLightSystem = createInternalSystem("pooledSpotLightSystem", {
-    data: { visible: false },
-    update: (self: PooledSpotLight, data) => {
-        const intensityFactor = getIntensityFactor(self)
-        const visible =
-            !!intensityFactor && ++countPtr[0] <= spotLightPoolPtr[0]
-        if (visible && !data.visible) {
-            const light = (self.$light = requestSpotLight([], ""))
-            self.object3d.add(light.outerObject3d)
-            light.distance = self.distance
-            light.intensity = self.intensity
-            light.color = self.color
-            light.shadows = self.shadows
-            light.fade = self.fade
-            light.angle = self.angle
-            light.penumbra = self.penumbra
-            light.volumetric = self.volumetric
-            light.volumetricDistance = self.volumetricDistance
-        } else if (!visible && data.visible) {
-            const light = self.$light!
-            releaseSpotLight(light)
-            scene.add(light.outerObject3d)
-            light.intensity = 0
-            self.$light = undefined
-        }
-        data.visible = visible
-    },
-    sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
-})
+export const pooledSpotLightSystem = createInternalSystem(
+    "pooledSpotLightSystem",
+    {
+        data: { visible: false },
+        afterTick: () => {
+            count = 0
+        },
+        update: (self: PooledSpotLight, data) => {
+            const intensityFactor = getIntensityFactor(self)
+            const visible = !!intensityFactor && ++count <= spotLightPoolPtr[0]
+            if (visible && !data.visible) {
+                const light = (self.$light = requestSpotLight([], ""))
+                self.object3d.add(light.outerObject3d)
+                light.distance = self.distance
+                light.intensity = self.intensity
+                light.color = self.color
+                light.shadows = self.shadows
+                light.fade = self.fade
+                light.angle = self.angle
+                light.penumbra = self.penumbra
+                light.volumetric = self.volumetric
+                light.volumetricDistance = self.volumetricDistance
+            } else if (!visible && data.visible) {
+                const light = self.$light!
+                releaseSpotLight(light)
+                scene.add(light.outerObject3d)
+                light.intensity = 0
+                self.$light = undefined
+            }
+            data.visible = visible
+        },
+        sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
+    }
+)
