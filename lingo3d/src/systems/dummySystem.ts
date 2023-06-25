@@ -1,5 +1,4 @@
 import { deg2Rad, endPoint } from "@lincode/math"
-import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler } from "../display/utils/reusables"
 import { Point3dType } from "../utils/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
@@ -7,6 +6,7 @@ import { StrideMode } from "../interface/IDummy"
 import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
 import Dummy from "../display/Dummy"
+import frameSync from "../api/frameSync"
 
 export const dummySystem = createInternalSystem("dummySystem", {
     data: {} as {
@@ -52,7 +52,7 @@ export const dummySystem = createInternalSystem("dummySystem", {
         const quaternionNew = loadedObject3d.quaternion.clone()
         loadedObject3d.quaternion
             .copy(quaternionOld)
-            .slerp(quaternionNew, fpsAlpha(0.2))
+            .slerp(quaternionNew, frameSync(0.2))
 
         spinePoint && spine?.lookAt(spinePoint)
 

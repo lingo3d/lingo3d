@@ -12,7 +12,6 @@ import SpawnPoint from "../SpawnPoint"
 import getCenter from "../../memo/getCenter"
 import worldToCanvas from "../../memo/worldToCanvas"
 import Nullable from "../../interface/utils/Nullable"
-import { fpsRatioPtr } from "../../pointers/fpsRatioPtr"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../collections/pxCollections"
@@ -28,6 +27,7 @@ import { configMeshAppendableSystem } from "../../systems/configSystems/configMe
 import { getAppendablesById } from "../../collections/idCollections"
 import getActualScale from "../../memo/getActualScale"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
+import frameSync from "../../api/frameSync"
 
 const up = new Vector3(0, 1, 0)
 
@@ -133,27 +133,27 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public translateX(val: number) {
-        this.outerObject3d.translateX(val * CM2M * fpsRatioPtr[0])
+        this.outerObject3d.translateX(frameSync(val * CM2M))
     }
 
     public translateY(val: number) {
-        this.outerObject3d.translateY(val * CM2M * fpsRatioPtr[0])
+        this.outerObject3d.translateY(frameSync(val * CM2M))
     }
 
     public translateZ(val: number) {
-        this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
+        this.outerObject3d.translateZ(frameSync(val * CM2M))
     }
 
     public rotateX(val: number) {
-        this.outerObject3d.rotateX(val * deg2Rad * fpsRatioPtr[0])
+        this.outerObject3d.rotateX(frameSync(val * deg2Rad))
     }
 
     public rotateY(val: number) {
-        this.outerObject3d.rotateY(val * deg2Rad * fpsRatioPtr[0])
+        this.outerObject3d.rotateY(frameSync(val * deg2Rad))
     }
 
     public rotateZ(val: number) {
-        this.outerObject3d.rotateZ(val * deg2Rad * fpsRatioPtr[0])
+        this.outerObject3d.rotateZ(frameSync(val * deg2Rad))
     }
 
     public setRotationFromDirection(direction: Point3dType) {
@@ -184,12 +184,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public moveForward(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         vector3.crossVectors(this.outerObject3d.up, vector3)
-        this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
+        this.position.addScaledVector(vector3, frameSync(distance * CM2M))
     }
 
     public moveRight(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-        this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
+        this.position.addScaledVector(vector3, frameSync(distance * CM2M))
     }
 
     public onMoveToEnd: Nullable<() => void>

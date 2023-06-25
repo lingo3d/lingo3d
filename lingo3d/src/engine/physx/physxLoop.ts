@@ -2,7 +2,6 @@ import { createEffect } from "@lincode/reactivity"
 import "../eventLoop"
 import { setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import fpsAlpha from "../../display/utils/fpsAlpha"
 import { onPhysics } from "../../events/onPhysics"
 import { physxPtr } from "../../pointers/physxPtr"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
@@ -21,6 +20,7 @@ import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { getWorldPlay } from "../../states/useWorldPlay"
 import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 import math from "../../math"
+import frameSync from "../../api/frameSync"
 
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
@@ -107,7 +107,7 @@ createEffect(() => {
             const { p } = manager.$actor.getGlobalPose()
             position.x = p.x
             position.y = groundedControllerManagers.has(manager)
-                ? math.lerp(position.y, p.y, fpsAlpha(0.3))
+                ? math.lerp(position.y, p.y, frameSync(0.3))
                 : p.y
             position.z = p.z
         }

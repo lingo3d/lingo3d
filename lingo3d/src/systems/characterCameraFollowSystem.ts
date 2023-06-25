@@ -1,11 +1,11 @@
 import MeshAppendable from "../display/core/MeshAppendable"
 import CharacterCamera from "../display/core/CharacterCamera"
-import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
 import { PI } from "../globals"
 import { positionChangedXZ } from "../memo/positionChangedXZ"
 import createInternalSystem from "./utils/createInternalSystem"
 import { gyrateResetSystem } from "./configSystems/gyrateResetSystem"
+import frameSync from "../api/frameSync"
 
 const followTargetRotation = (
     self: CharacterCamera,
@@ -17,7 +17,7 @@ const followTargetRotation = (
 
     if (slerp) {
         quaternion.setFromEuler(euler)
-        self.midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
+        self.midObject3d.quaternion.slerp(quaternion, frameSync(0.1))
     } else self.midObject3d.setRotationFromEuler(euler)
 
     gyrateResetSystem.add(self)
@@ -35,7 +35,7 @@ const rotateTarget = (
 
     if (slerp) {
         quaternion.setFromEuler(euler)
-        target.quaternion.slerp(quaternion, fpsAlpha(0.1))
+        target.quaternion.slerp(quaternion, frameSync(0.1))
         return
     }
     target.outerObject3d.setRotationFromEuler(euler)

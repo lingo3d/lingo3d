@@ -1,9 +1,9 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
 import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
+import frameSync from "../api/frameSync"
 
 export const moveToSystem = createInternalSystem("moveToSystem", {
     data: {} as {
@@ -16,9 +16,9 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
         quad: number
     },
     update: (self: MeshAppendable | PhysicsObjectManager, data) => {
-        self.x += data.sx * fpsRatioPtr[0]
-        if (data.y !== undefined) self.y += data.sy * fpsRatioPtr[0]
-        self.z += data.sz * fpsRatioPtr[0]
+        self.x += frameSync(data.sx)
+        if (data.y !== undefined) self.y += frameSync(data.sy)
+        self.z += frameSync(data.sz)
 
         const angle = vertexAngle(
             new Point(self.x, self.z),

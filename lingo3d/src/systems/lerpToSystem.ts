@@ -1,9 +1,9 @@
 import { Vector3 } from "three"
-import fpsAlpha from "../display/utils/fpsAlpha"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
 import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
+import frameSync from "../api/frameSync"
 
 export const lerpToSystem = createInternalSystem("lerpToSystem", {
     data: {} as {
@@ -12,7 +12,7 @@ export const lerpToSystem = createInternalSystem("lerpToSystem", {
         alpha: number
     },
     update: (self: MeshAppendable | PhysicsObjectManager, data) => {
-        const { x, y, z } = data.from.lerp(data.to, fpsAlpha(data.alpha))
+        const { x, y, z } = data.from.lerp(data.to, frameSync(data.alpha))
 
         if (
             Math.abs(self.x - x) < 0.1 &&

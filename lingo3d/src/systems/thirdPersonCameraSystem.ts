@@ -3,7 +3,6 @@ import MeshAppendable from "../display/core/MeshAppendable"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { physxPtr } from "../pointers/physxPtr"
 import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"
-import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldDirection from "../memo/getWorldDirection"
 import getWorldPosition from "../memo/getWorldPosition"
 import getWorldQuaternion from "../memo/getWorldQuaternion"
@@ -11,39 +10,43 @@ import { vector3_ } from "../display/utils/reusables"
 import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
 import createInternalSystem from "./utils/createInternalSystem"
+import frameSync from "../api/frameSync"
 
-export const thirdPersonCameraSystem = createInternalSystem("thirdPersonCameraSystem", {
-    data: {} as {
-        found: MeshAppendable
-        lerpCount: number
-    },
-    update: (self: ThirdPersonCamera, data) => {
-        const cam = self.$camera
+export const thirdPersonCameraSystem = createInternalSystem(
+    "thirdPersonCameraSystem",
+    {
+        data: {} as {
+            found: MeshAppendable
+            lerpCount: number
+        },
+        update: (self: ThirdPersonCamera, data) => {
+            const cam = self.$camera
 
-        const { innerZ } = self
-        self.innerZ = 0
-        const origin = self.object3d.getWorldPosition(vector3_)
-        self.innerZ = innerZ
+            const { innerZ } = self
+            self.innerZ = 0
+            const origin = self.object3d.getWorldPosition(vector3_)
+            self.innerZ = innerZ
 
-        const position = getWorldPosition(self.object3d)
+            const position = getWorldPosition(self.object3d)
 
-        const pxHit = physxPtr[0].pxRaycast?.(
-            assignPxVec(origin),
-            assignPxVec_(getWorldDirection(self.object3d)),
-            position.distanceTo(origin),
-            managerActorPtrMap.get(data.found)
-        )
-        if (pxHit) {
-            cam.position.lerp(pxHit.position, fpsAlpha(0.2))
-            data.lerpCount = fpsPtr[0]
-        } else {
-            cam.position.lerp(
-                position,
-                fpsAlpha(mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1))
+            const pxHit = physxPtr[0].pxRaycast?.(
+                assignPxVec(origin),
+                assignPxVec_(getWorldDirection(self.object3d)),
+                position.distanceTo(origin),
+                managerActorPtrMap.get(data.found)
             )
-            if (data.lerpCount) data.lerpCount--
-        }
+            if (pxHit) {
+                cam.position.lerp(pxHit.position, frameSync(0.2))
+                data.lerpCount = fpsPtr[0]
+            } else {
+                cam.position.lerp(
+                    position,
+                    frameSync(mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1))
+                )
+                if (data.lerpCount) data.lerpCount--
+            }
 
-        cam.quaternion.copy(getWorldQuaternion(self.object3d))
+            cam.quaternion.copy(getWorldQuaternion(self.object3d))
+        }
     }
-})
+)
