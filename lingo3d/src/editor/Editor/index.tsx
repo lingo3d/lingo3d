@@ -129,7 +129,12 @@ const Editor = () => {
                     overflowY: "scroll",
                     overflowX: "hidden",
                     paddingLeft: 8,
-                    paddingRight: 8
+                    paddingRight: 8,
+                    border:
+                        selectionTarget &&
+                        selectedSignal.value.at(-1) !== "Settings"
+                            ? "1px dashed rgba(255, 255, 255, 0.3)"
+                            : undefined
                 }}
                 ref={mergeRefs(stopPropagation, setContainer)}
             />
