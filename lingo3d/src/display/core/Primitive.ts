@@ -22,7 +22,6 @@ abstract class Primitive
         const mesh = new Mesh(geometry, standardMaterial)
         super(mesh)
         mesh.receiveShadow = true
-        mesh.castShadow = true
     }
 }
 interface Primitive
