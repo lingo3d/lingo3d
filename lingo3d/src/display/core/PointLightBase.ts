@@ -57,9 +57,7 @@ export default abstract class PointLightBase<
     }
     public set shadows(val) {
         this.object3d.castShadow = val
-        val
-            ? updateShadowSystem.add(this, { count: undefined })
-            : updateShadowSystem.delete(this)
+        val ? updateShadowSystem.add(this) : updateShadowSystem.delete(this)
     }
 
     private _intensity = 1

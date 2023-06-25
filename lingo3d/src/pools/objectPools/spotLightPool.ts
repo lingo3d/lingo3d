@@ -6,7 +6,6 @@ export const [requestSpotLight, releaseSpotLight, disposeSpotLights] =
         () => {
             const light = new SpotLight()
             light.$ghost()
-            light.intensity = 0
             return light
         },
         (light) => light.dispose()
