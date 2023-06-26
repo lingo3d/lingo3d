@@ -346,7 +346,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
-        const shape: any = PxRigidActorExt.prototype.createExclusiveShape(
+        const shape = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
             cookConvexGeometry(this.componentName, this),
             material,
@@ -363,7 +363,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set physics(val) {
         this._physics = val
         configPhysicsShapeSystem.add(this)
-        configCastShadowSystem.add(this)
     }
 
     private _jointCount?: number
@@ -373,7 +372,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set $jointCount(val) {
         this._jointCount = val
         configPhysicsShapeSystem.add(this)
-        configCastShadowSystem.add(this)
     }
 
     //@ts-ignore

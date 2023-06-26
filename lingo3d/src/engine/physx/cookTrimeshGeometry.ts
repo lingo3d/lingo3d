@@ -3,6 +3,7 @@ import { physxPtr } from "../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { busyPhysicsPtr } from "../../pointers/busyPhysicsPtr"
 
 const pxGeometryCache = new Map<string, any>()
 
@@ -20,11 +21,13 @@ export default (src: string, manager: PhysicsObjectManager) => {
     } = physxPtr[0]
 
     busyCountPtr[0]++
+    busyPhysicsPtr[0]++
     const [pointVector, count, index] = computeMergedPxVertices(manager)
     if (!index) {
         pointVector.clear()
         destroy(pointVector)
         busyCountPtr[0]--
+        busyPhysicsPtr[0]--
         return cookConvexGeometry(src, manager)
     }
 
@@ -63,5 +66,6 @@ export default (src: string, manager: PhysicsObjectManager) => {
     pxGeometryCache.set(src, pxGeometry)
 
     busyCountPtr[0]--
+    busyPhysicsPtr[0]--
     return pxGeometry
 }

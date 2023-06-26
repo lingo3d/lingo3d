@@ -21,6 +21,7 @@ import { getWorldPlay } from "../../states/useWorldPlay"
 import { worldPlayPtr } from "../../pointers/worldPlayPtr"
 import math from "../../math"
 import { frameSyncAlpha } from "../../api/frameSync"
+import { busyPhysicsPtr } from "../../pointers/busyPhysicsPtr"
 
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
@@ -41,6 +42,8 @@ createEffect(() => {
 
     physxLoopPtr[0] = true
     const handle = onPhysics(() => {
+        if (busyPhysicsPtr[0]) return
+
         groundedControllerManagers.clear()
 
         for (const [manager, controller] of managerControllerMap) {

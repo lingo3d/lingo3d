@@ -16,9 +16,11 @@ import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { busyPhysicsPtr } from "../../pointers/busyPhysicsPtr"
 
 export const importPhysX = lazy(async () => {
     busyCountPtr[0]++
+    busyPhysicsPtr[0]++
     await import("../../engine/physx")
     await new Promise<void>((resolve) =>
         getPhysXLoaded((loaded, handle) => {
@@ -28,6 +30,7 @@ export const importPhysX = lazy(async () => {
         })
     )
     busyCountPtr[0]--
+    busyPhysicsPtr[0]--
 })
 
 export const configPhysicsShapeSystem = createLoadedEffectSystem(
