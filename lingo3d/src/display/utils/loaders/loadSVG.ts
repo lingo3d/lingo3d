@@ -1,11 +1,7 @@
 import { SVGLoader, SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./utils/bytesLoaded"
-import {
-    decreaseLoadingAssetsCount,
-    increaseLoadingAssetsCount
-} from "../../../states/useLoadingAssetsCount"
-import { assetsPathPtr } from "../../../pointers/assetsPathPointers"
+import { busyCountPtr } from "../../../pointers/busyCountPtr"
 
 const cache = new Map<string, Promise<SVGResult>>()
 export const loader = new SVGLoader()
@@ -16,16 +12,18 @@ export default (url: string) =>
         url,
         () =>
             new Promise<SVGResult>((resolve, reject) => {
-                const isAssets = url.startsWith(assetsPathPtr[0])
-                isAssets && increaseLoadingAssetsCount()
+                busyCountPtr[0]++
                 loader.load(
                     url,
                     (svg) => {
-                        isAssets && decreaseLoadingAssetsCount()
+                        busyCountPtr[0]--
                         resolve(svg)
                     },
                     handleProgress(url),
-                    reject
+                    () => {
+                        busyCountPtr[0]--
+                        reject()
+                    }
                 )
             })
     )
