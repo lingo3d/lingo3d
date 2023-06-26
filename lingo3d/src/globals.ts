@@ -23,7 +23,7 @@ export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 
 export const DEBUG = false
-export const VERSION = "2.1.1-alpha.0"
+export const VERSION = "2.1.1-alpha.2"
 export const USE_RUNTIME = true
 export const USE_EDITOR_SYSTEMS = true
 
