@@ -11,6 +11,7 @@ import { materialDefaultsMap } from "../../../../collections/materialDefaultsMap
 import { rad2Deg } from "@lincode/math"
 import { blackColor } from "../../reusables"
 import { castBackBlending } from "../../castBlending"
+import isOpaque from "../../../../memo/isOpaque"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
     const lights: Array<Light> = []
@@ -58,6 +59,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             blending: castBackBlending(material.blending),
             referenceUUID: material.uuid
         })
+        child.castShadow = isOpaque(child)
         child.receiveShadow = true
     })
     for (const light of lights) light.parent!.remove(light)
