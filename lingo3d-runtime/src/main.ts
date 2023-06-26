@@ -9,5 +9,6 @@ const setFrameProperty = (key: string, value: any) =>
     window.frameElement && (window.frameElement[key] = value)
 
 setFrameProperty("$eval", eval)
+setFrameProperty("$lingo3d", lingo3d)
 
 console.log("runtime version", lingo3d.VERSION)
