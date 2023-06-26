@@ -16,6 +16,7 @@ import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { busyPhysicsPtr } from "../../pointers/busyPhysicsPtr"
 
 export const importPhysX = lazy(async () => {
     busyCountPtr[0]++
@@ -36,6 +37,8 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
         effect: (self: PhysicsObjectManager) => {
             const mode = self.physics || !!self.$jointCount
             if (!mode) return false
+
+            busyPhysicsPtr[0]++
 
             configPhysicsTransformSystem.delete(self)
             physicsSet.add(self)
@@ -80,6 +83,8 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
                 self.$initActor(controller.getActor())
                 managerControllerMap.set(self, controller)
                 controllerManagerMap.set(controller, self)
+
+                setTimeout(() => busyPhysicsPtr[0]--, 100)
                 return
             }
             const pxTransform = assignPxTransform(self)
@@ -92,6 +97,8 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
             self.$getPxShape(mode, actor)
             pxScene.addActor(actor)
             managerActorMap.set(self, actor)
+
+            setTimeout(() => busyPhysicsPtr[0]--, 100)
         },
         cleanup: (self) => {
             configPhysicsTransformSystem.delete(self)
