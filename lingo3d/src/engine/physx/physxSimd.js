@@ -1,8 +1,5 @@
 import { wasmUrlPtr } from "../../pointers/assetsPathPointers"
-import {
-    decreaseLoadingAssetsCount,
-    increaseLoadingAssetsCount
-} from "../../states/useLoadingAssetsCount"
+import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 var PhysX = (() => {
     var _scriptDir =
@@ -5466,10 +5463,10 @@ var PhysX = (() => {
             // So use fetch if it is available and the url is not a file, otherwise fall back to XHR.
             if (!wasmBinary && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER)) {
                 if (typeof fetch == "function") {
-                    increaseLoadingAssetsCount()
+                    busyCountPtr[0]++
                     return fetch(wasmBinaryFile, { credentials: "same-origin" })
                         .then(function (response) {
-                            decreaseLoadingAssetsCount()
+                            busyCountPtr[0]--
                             if (!response["ok"]) {
                                 throw (
                                     "failed to load wasm binary file at '" +
@@ -5480,6 +5477,7 @@ var PhysX = (() => {
                             return response["arrayBuffer"]()
                         })
                         .catch(function () {
+                            busyCountPtr[0]--
                             return getBinary(wasmBinaryFile)
                         })
                 }
@@ -5574,34 +5572,43 @@ var PhysX = (() => {
                     !isDataURI(wasmBinaryFile) &&
                     typeof fetch == "function"
                 ) {
-                    increaseLoadingAssetsCount()
+                    busyCountPtr[0]++
                     return fetch(wasmBinaryFile, {
                         credentials: "same-origin"
-                    }).then(function (response) {
-                        decreaseLoadingAssetsCount()
-                        // Suppress closure warning here since the upstream definition for
-                        // instantiateStreaming only allows Promise<Repsponse> rather than
-                        // an actual Response.
-                        // TODO(https://github.com/google/closure-compiler/pull/3913): Remove if/when upstream closure is fixed.
-                        /** @suppress {checkTypes} */
-                        var result = WebAssembly.instantiateStreaming(
-                            response,
-                            info
-                        )
-
-                        return result.then(
-                            receiveInstantiationResult,
-                            function (reason) {
-                                // We expect the most common failure cause to be a bad MIME type for the binary,
-                                // in which case falling back to ArrayBuffer instantiation should work.
-                                err("wasm streaming compile failed: " + reason)
-                                err("falling back to ArrayBuffer instantiation")
-                                return instantiateArrayBuffer(
-                                    receiveInstantiationResult
-                                )
-                            }
-                        )
                     })
+                        .then(function (response) {
+                            busyCountPtr[0]--
+                            // Suppress closure warning here since the upstream definition for
+                            // instantiateStreaming only allows Promise<Repsponse> rather than
+                            // an actual Response.
+                            // TODO(https://github.com/google/closure-compiler/pull/3913): Remove if/when upstream closure is fixed.
+                            /** @suppress {checkTypes} */
+                            var result = WebAssembly.instantiateStreaming(
+                                response,
+                                info
+                            )
+
+                            return result.then(
+                                receiveInstantiationResult,
+                                function (reason) {
+                                    // We expect the most common failure cause to be a bad MIME type for the binary,
+                                    // in which case falling back to ArrayBuffer instantiation should work.
+                                    err(
+                                        "wasm streaming compile failed: " +
+                                            reason
+                                    )
+                                    err(
+                                        "falling back to ArrayBuffer instantiation"
+                                    )
+                                    return instantiateArrayBuffer(
+                                        receiveInstantiationResult
+                                    )
+                                }
+                            )
+                        })
+                        .catch(() => {
+                            busyCountPtr[0]--
+                        })
                 } else {
                     return instantiateArrayBuffer(receiveInstantiationResult)
                 }

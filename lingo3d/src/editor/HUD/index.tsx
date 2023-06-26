@@ -1,30 +1,43 @@
 import HotKey from "./HotKey"
 import mainCamera from "../../engine/mainCamera"
-import { createPortal } from "preact/compat"
+import { createPortal, useEffect, useState } from "preact/compat"
 import useInitCSS from "../hooks/useInitCSS"
 import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getLoadingAssetsCount } from "../../states/useLoadingAssetsCount"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
 import { getDocumentHidden } from "../../states/useDocumentHidden"
+import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 const HUD = () => {
     useInitCSS()
     useInitEditor()
 
     const cameraRendered = useSyncState(getCameraRendered)
-    const loadingAssetsCount = useSyncState(getLoadingAssetsCount)
     const documentHidden = useSyncState(getDocumentHidden)
+    const [busyCount, setBusyCount] = useState(0)
+
+    useEffect(() => {
+        let busyCountOld = 0
+        const interval = setInterval(
+            () =>
+                busyCountOld !== busyCountPtr[0] &&
+                setBusyCount((busyCountOld = busyCountPtr[0])),
+            100
+        )
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
 
     return createPortal(
         <div
             className="lingo3d-ui lingo3d-absfull"
             style={{ pointerEvents: "none", padding: 10 }}
         >
-            <InfoScreen mounted={!!loadingAssetsCount}>
+            <InfoScreen mounted={!!busyCount}>
                 <Spinner size={14} />
                 loading remote data
             </InfoScreen>

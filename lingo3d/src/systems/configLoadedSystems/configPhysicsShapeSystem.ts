@@ -11,17 +11,14 @@ import {
     managerControllerMap
 } from "../../collections/pxCollections"
 import { lazy } from "@lincode/utils"
-import {
-    increaseLoadingAssetsCount,
-    decreaseLoadingAssetsCount
-} from "../../states/useLoadingAssetsCount"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
+import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 export const importPhysX = lazy(async () => {
-    increaseLoadingAssetsCount()
+    busyCountPtr[0]++
     await import("../../engine/physx")
     await new Promise<void>((resolve) =>
         getPhysXLoaded((loaded, handle) => {
@@ -30,7 +27,7 @@ export const importPhysX = lazy(async () => {
             resolve()
         })
     )
-    decreaseLoadingAssetsCount()
+    busyCountPtr[0]--
 })
 
 export const configPhysicsShapeSystem = createLoadedEffectSystem(

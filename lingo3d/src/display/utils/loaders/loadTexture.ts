@@ -9,7 +9,7 @@ const rgbeLoader = new RGBELoader()
 
 Texture.DEFAULT_ANISOTROPY = 8
 
-export default (url: string, onLoad?: () => void) => {
+export default (url: string, onLoad?: (texture: Texture) => void) => {
     busyCountPtr[0]++
 
     const hdr = url.toLowerCase().endsWith(".hdr")
@@ -19,7 +19,7 @@ export default (url: string, onLoad?: () => void) => {
         url,
         () => {
             busyCountPtr[0]--
-            onLoad?.()
+            onLoad?.(texture)
         },
         handleProgress(url),
         () => busyCountPtr[0]--

@@ -63,23 +63,20 @@ import {
     LinearEncoding
 } from "three"
 import { toTrianglesDrawMode } from "three/examples/jsm/utils/BufferGeometryUtils.js"
-import {
-    decreaseLoadingAssetsCount,
-    increaseLoadingAssetsCount
-} from "../../../../states/useLoadingAssetsCount"
+import { busyCountPtr } from "../../../../pointers/busyCountPtr"
 
 let increased = false
 const increaseOnce = () => {
     if (increased) return
     increased = true
-    increaseLoadingAssetsCount()
+    busyCountPtr[0]++
 }
 
 let decreased = false
 const decreaseOnce = () => {
     if (decreased) return
     decreased = true
-    decreaseLoadingAssetsCount()
+    busyCountPtr[0]--
 }
 
 class GLTFLoader extends Loader {
