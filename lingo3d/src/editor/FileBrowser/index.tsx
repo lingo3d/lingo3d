@@ -11,6 +11,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import { getFileStructure } from "../../states/useFileStructure"
 import FileBrowserAddContextMenu from "./FileBrowserAddContextMenu"
 import FileBrowserMaterialContextMenu from "./FileBrowserMaterialContextMenu"
+import { sceneGraphWidthSignal } from "../signals/sizeSignals"
 
 const FileBrowser = () => {
     useInitCSS()
@@ -45,7 +46,12 @@ const FileBrowser = () => {
                     display: "flex"
                 }}
             >
-                <div style={{ overflow: "scroll", width: 200 }}>
+                <div
+                    style={{
+                        overflow: "scroll",
+                        width: sceneGraphWidthSignal.value
+                    }}
+                >
                     <FileTreeItem
                         fileStructure={fileStructure}
                         rootFolderName={rootFolderName}
