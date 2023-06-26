@@ -1,10 +1,11 @@
 import { Point } from "@lincode/math"
 import { useState } from "preact/hooks"
-import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
+import { LIBRARY_WIDTH } from "../../globals"
 import Tooltip from "../component/Tooltip"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
+import { editorWidthSignal } from "../signals/sizeSignals"
 
 const DummyIKEditor = () => {
     useInitCSS()
@@ -16,7 +17,7 @@ const DummyIKEditor = () => {
         <>
             <div
                 className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcenter"
-                style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
+                style={{ width: editorWidthSignal.value + LIBRARY_WIDTH }}
             >
                 <div
                     style={{

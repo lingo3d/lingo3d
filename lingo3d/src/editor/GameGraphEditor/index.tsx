@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals"
 import Appendable from "../../display/core/Appendable"
-import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
+import { LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
@@ -11,6 +11,7 @@ import GameGraphLibrary from "./GameGraphLibrary"
 import GameGraphEditPanel from "./GameGraphEditPanel"
 import StageContextMenu from "./StageContextMenu"
 import NodeContextMenu from "./NodeContextMenu"
+import { editorWidthSignal } from "../signals/sizeSignals"
 
 const GameGraphEditor = () => {
     useInitCSS()
@@ -22,7 +23,7 @@ const GameGraphEditor = () => {
         <>
             <div
                 className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
-                style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
+                style={{ width: editorWidthSignal.value + LIBRARY_WIDTH }}
             >
                 <AppBar>
                     <CloseableTab onClose={() => setGameGraph(undefined)}>

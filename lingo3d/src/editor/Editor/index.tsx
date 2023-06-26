@@ -9,7 +9,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import { useSignal } from "@preact/signals"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { DEBUG, EDITOR_WIDTH } from "../../globals"
+import { DEBUG } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import addTargetInputs from "./addTargetInputs"
 import TextBox from "../component/TextBox"
@@ -22,6 +22,7 @@ import { multipleSelectionTargets } from "../../collections/multipleSelectionTar
 import { FolderApi } from "./tweakpane"
 import SystemsComboList from "./SystemComboList"
 import { defaultSetupPtr } from "../../pointers/defaultSetupPtr"
+import { editorWidthSignal } from "../signals/sizeSignals"
 
 const Editor = () => {
     useInitCSS()
@@ -86,7 +87,7 @@ const Editor = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
-            style={{ width: EDITOR_WIDTH, height: "100%" }}
+            style={{ width: editorWidthSignal.value, height: "100%" }}
         >
             <AppBar>
                 <CloseableTab selectedSignal={selectedSignal}>

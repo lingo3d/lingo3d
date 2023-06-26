@@ -13,6 +13,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import FileBrowserControls from "../FileBrowser/FileBrowserControls"
 import { selectTab } from "../component/tabs/Tab"
 import { onOpenFolder } from "../../events/onOpenFolder"
+import { sceneGraphWidthSignal } from "../signals/sizeSignals"
 
 const Panels = () => {
     useInitCSS()
@@ -43,7 +44,7 @@ const Panels = () => {
             style={{ height: PANELS_HEIGHT, width: "100%" }}
         >
             <div style={{ display: "flex" }}>
-                <AppBar style={{ width: 200 }}>
+                <AppBar style={{ width: sceneGraphWidthSignal.value }}>
                     <CloseableTab selectedSignal={selectedSignal}>
                         timeline
                     </CloseableTab>

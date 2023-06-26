@@ -33,8 +33,6 @@ export const FRAME_MAX = Number.MAX_SAFE_INTEGER / FRAME_WIDTH
 export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
 export const LIBRARY_WIDTH = 200
-export const SCENEGRAPH_WIDTH = 200
-export const EDITOR_WIDTH = 300
 export const TREE_ITEM_HEIGHT = 18
 export const BACKGROUND_COLOR = "#121316"
 

@@ -1,10 +1,5 @@
 import { useSignal } from "@preact/signals"
-import {
-    BACKGROUND_COLOR,
-    EDITOR_WIDTH,
-    LIBRARY_WIDTH,
-    SCENEGRAPH_WIDTH
-} from "../../globals"
+import { BACKGROUND_COLOR, LIBRARY_WIDTH } from "../../globals"
 import { getScripts, deleteScripts } from "../../states/useScripts"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
@@ -27,6 +22,10 @@ import { getWorldPlay } from "../../states/useWorldPlay"
 import { uuidMap } from "../../collections/idCollections"
 import Script from "../../display/Script"
 import compileScript from "../../compiler/compileScript"
+import {
+    editorWidthSignal,
+    sceneGraphWidthSignal
+} from "../signals/sizeSignals"
 
 const { Monaco, controls } = makeMonaco()
 
@@ -86,7 +85,12 @@ const ScriptEditor = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
-            style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH + SCENEGRAPH_WIDTH }}
+            style={{
+                width:
+                    editorWidthSignal.value +
+                    LIBRARY_WIDTH +
+                    sceneGraphWidthSignal.value
+            }}
         >
             <AppBar>
                 {scriptsArray.map((script) => (

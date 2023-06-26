@@ -2,11 +2,11 @@ import { Signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
 import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { EDITOR_WIDTH } from "../../globals"
 import Drawer from "../component/Drawer"
 import TextBox from "../component/TextBox"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
+import { editorWidthSignal } from "../signals/sizeSignals"
 
 type GameGraphEditPanelProps = {
     targetSignal: Signal<Appendable | undefined>
@@ -48,7 +48,7 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
             show={!!targetSignal.value}
             onHide={() => (targetSignal.value = undefined)}
             className="lingo3d-flexcol lingo3d-bg"
-            width={EDITOR_WIDTH + 50}
+            width={editorWidthSignal.value + 50}
         >
             <TextBox
                 style={{ marginTop: 8 }}

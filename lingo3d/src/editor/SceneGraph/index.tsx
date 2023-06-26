@@ -7,7 +7,7 @@ import { stopPropagation } from "../utils/stopPropagation"
 import mergeRefs from "../hooks/mergeRefs"
 import { enableHotKeysOnElement } from "../../engine/hotkeys"
 import { toggleRightClick } from "../../engine/mouse"
-import { SCENEGRAPH_WIDTH } from "../../globals"
+import { sceneGraphWidthSignal } from "../signals/sizeSignals"
 
 const SceneGraph = () => {
     useInitCSS()
@@ -23,7 +23,7 @@ const SceneGraph = () => {
                     toggleRightClick(e.clientX, e.clientY)
                     emitSelectionTarget(undefined)
                 }}
-                style={{ width: SCENEGRAPH_WIDTH, height: "100%" }}
+                style={{ width: sceneGraphWidthSignal.value, height: "100%" }}
             >
                 <AccordionSceneGraph />
             </div>

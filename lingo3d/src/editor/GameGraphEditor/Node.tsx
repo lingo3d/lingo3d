@@ -4,7 +4,6 @@ import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../display/core/Appendable"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -27,6 +26,7 @@ import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
 import { uuidMap } from "../../collections/idCollections"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
+import { editorWidthSignal } from "../signals/sizeSignals"
 
 let panningUUID: string | undefined
 
@@ -135,7 +135,7 @@ const Node = memo(
             <>
                 <div
                     style={{
-                        width: EDITOR_WIDTH + 10,
+                        width: editorWidthSignal.value + 10,
                         position: "absolute",
                         left: data.x,
                         top: data.y,

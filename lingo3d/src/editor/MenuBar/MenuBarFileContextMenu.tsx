@@ -84,7 +84,7 @@ const MenuBarFileContextMenu = () => {
                     menuBarFileContextMenuSignal.value = undefined
                 }}
             >
-                Save As
+                Export JSON
             </MenuButton>
             <MenuButton
                 onClick={() => {
