@@ -1,6 +1,6 @@
 {
     "name": "lingo3d-runtime",
-    "version": "2.0.44",
+    "version": "0.0.0",
     "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
     "author": "Lingo3D",
     "license": "MIT",
@@ -18,7 +18,6 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "lingo3d": "2.0.44"
     },
     "devDependencies": {
         "typescript": "^5.0.4",

@@ -92,6 +92,7 @@ import clientToWorld from "./display/utils/clientToWorld"
 import math from "./math"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"
+import { VERSION } from "./globals"
 
 const keyboard = new Keyboard()
 keyboard.$ghost()
@@ -183,5 +184,6 @@ export {
     math,
     keyboard,
     mouse,
-    setAssetsPath
+    setAssetsPath,
+    VERSION
 }

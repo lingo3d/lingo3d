@@ -3,6 +3,7 @@ import PlayIcon from "../component/icons/PlayIcon"
 import PauseIcon from "../component/icons/PauseIcon"
 import useSyncState from "../hooks/useSyncState"
 import { getWorldPlay, setWorldPlay } from "../../states/useWorldPlay"
+import { USE_RUNTIME } from "../../globals"
 
 const WorldControls = () => {
     const worldPlay = useSyncState(getWorldPlay)
@@ -13,7 +14,9 @@ const WorldControls = () => {
                 <IconButton
                     fill
                     disabled={worldPlay !== "editor"}
-                    onClick={() => setWorldPlay("live")}
+                    onClick={() =>
+                        setWorldPlay(USE_RUNTIME ? "runtime" : "live")
+                    }
                 >
                     <PlayIcon />
                 </IconButton>
