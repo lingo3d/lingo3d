@@ -3,6 +3,7 @@ import { physxPtr } from "../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { busyPhysicsPtr } from "../../pointers/busyPhysicsPtr"
 
 const pxGeometryCache = new Map<string, any>()
 
@@ -27,6 +28,8 @@ export default (src: string, manager: PhysicsObjectManager) => {
         busyCountPtr[0]--
         return cookConvexGeometry(src, manager)
     }
+
+    busyPhysicsPtr[0]++
 
     const { array } = index
     const indexVector = new Vector_PxU32()
@@ -62,6 +65,10 @@ export default (src: string, manager: PhysicsObjectManager) => {
 
     pxGeometryCache.set(src, pxGeometry)
 
-    busyCountPtr[0]--
+    setTimeout(() => {
+        busyCountPtr[0]--
+        busyPhysicsPtr[0]--
+    }, 1000)
+
     return pxGeometry
 }
