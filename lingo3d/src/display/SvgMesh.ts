@@ -12,6 +12,7 @@ import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
 import getSVGExtrudeGeometries from "../memo/getSVGExtrudeGeometries"
 import { busyCountPtr } from "../pointers/busyCountPtr"
+import isOpaque from "../memo/isOpaque"
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
@@ -40,6 +41,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         for (const geometry of geometries) {
             const mesh = new Mesh(geometry, this._material)
             loadedObject3d.add(mesh)
+            mesh.castShadow = isOpaque(mesh)
             mesh.receiveShadow = true
         }
 

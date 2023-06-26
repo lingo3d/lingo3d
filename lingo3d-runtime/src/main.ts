@@ -11,4 +11,4 @@ const setFrameProperty = (key: string, value: any) =>
 setFrameProperty("$eval", eval)
 setFrameProperty("$lingo3d", lingo3d)
 
-console.log("runtime version", lingo3d.VERSION)
+console.log("lingo3d runtime", lingo3d.VERSION)
