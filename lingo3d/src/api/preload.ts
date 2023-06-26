@@ -5,7 +5,7 @@ import {
 } from "../display/utils/loaders/utils/bytesLoaded"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import loadModel from "../display/utils/loaders/loadModel"
-import { busyCountPtr } from "../pointers/busyCountPtr"
+import { isBusy } from "../pointers/busyCountPtr"
 
 export default async (
     urls: Array<string>,
@@ -45,7 +45,7 @@ export default async (
 
     await new Promise<void>((resolve) => {
         const interval = setInterval(() => {
-            if (busyCountPtr[0]) return
+            if (isBusy()) return
             clearInterval(interval)
             resolve()
         }, 500)

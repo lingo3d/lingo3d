@@ -9,7 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
 import { getDocumentHidden } from "../../states/useDocumentHidden"
-import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { isBusy } from "../../pointers/busyCountPtr"
 
 const HUD = () => {
     useInitCSS()
@@ -17,16 +17,10 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const documentHidden = useSyncState(getDocumentHidden)
-    const [busyCount, setBusyCount] = useState(0)
+    const [busy, setBusy] = useState(false)
 
     useEffect(() => {
-        let busyCountOld = 0
-        const interval = setInterval(
-            () =>
-                busyCountOld !== busyCountPtr[0] &&
-                setBusyCount((busyCountOld = busyCountPtr[0])),
-            100
-        )
+        const interval = setInterval(() => setBusy(isBusy()), 100)
         return () => {
             clearInterval(interval)
         }
@@ -37,7 +31,7 @@ const HUD = () => {
             className="lingo3d-ui lingo3d-absfull"
             style={{ pointerEvents: "none", padding: 10 }}
         >
-            <InfoScreen mounted={!!busyCount}>
+            <InfoScreen mounted={busy}>
                 <Spinner size={14} />
                 loading remote data
             </InfoScreen>

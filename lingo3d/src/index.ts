@@ -93,6 +93,7 @@ import math from "./math"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"
 import { VERSION } from "./globals"
+import { isBusy } from "./pointers/busyCountPtr"
 
 const keyboard = new Keyboard()
 keyboard.$ghost()
@@ -185,5 +186,6 @@ export {
     keyboard,
     mouse,
     setAssetsPath,
-    VERSION
+    VERSION,
+    isBusy
 }
