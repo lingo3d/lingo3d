@@ -4,12 +4,9 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { forceGet, lazy } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
-import {
-    decreaseLoadingAssetsCount,
-    increaseLoadingAssetsCount
-} from "../../../states/useLoadingAssetsCount"
 import processChildren from "./utils/processChildren"
-import { assetsPathPtr, wasmUrlPtr } from "../../../pointers/assetsPathPointers"
+import { wasmUrlPtr } from "../../../pointers/assetsPathPointers"
+import { busyCountPtr } from "../../../pointers/busyCountPtr"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -27,8 +24,7 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[GLTF, boolean]>((resolve, reject) => {
-                const isAssets = url.startsWith(assetsPathPtr[0])
-                isAssets && increaseLoadingAssetsCount()
+                busyCountPtr[0]++
                 loader.load(
                     url,
                     (gltf: GLTF) => {
@@ -36,11 +32,14 @@ export default async (url: string, clone: boolean) => {
                         for (const scene of gltf.scenes)
                             processChildren(scene, noBonePtr)
 
-                        isAssets && decreaseLoadingAssetsCount()
+                        busyCountPtr[0]--
                         resolve([gltf, noBonePtr[0]])
                     },
                     handleProgress(url),
-                    reject
+                    () => {
+                        busyCountPtr[0]--
+                        reject()
+                    }
                 )
             })
     )

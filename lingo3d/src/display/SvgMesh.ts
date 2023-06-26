@@ -7,14 +7,11 @@ import TexturedStandardMixin, {
 } from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
-import {
-    decreaseLoadingCount,
-    increaseLoadingCount
-} from "../states/useLoadingCount"
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
 import getSVGExtrudeGeometries from "../memo/getSVGExtrudeGeometries"
+import { busyCountPtr } from "../pointers/busyCountPtr"
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
@@ -22,16 +19,16 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static schema = svgMeshSchema
 
     public async $load(url: string) {
-        increaseLoadingCount()
+        busyCountPtr[0]++
         const module = await import("./utils/loaders/loadSVG")
         let result: SVGResult
         try {
             result = await module.default(url)
         } catch {
-            decreaseLoadingCount()
+            busyCountPtr[0]--
             throw new Error("Failed to load svg, check if src is correct")
         }
-        decreaseLoadingCount()
+        busyCountPtr[0]--
         return result
     }
 

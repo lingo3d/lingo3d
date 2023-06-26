@@ -4,8 +4,8 @@ import {
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/utils/bytesLoaded"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
-import { getLoadingCount } from "../states/useLoadingCount"
 import loadModel from "../display/utils/loaders/loadModel"
+import { busyCountPtr } from "../pointers/busyCountPtr"
 
 export default async (
     urls: Array<string>,
@@ -44,11 +44,11 @@ export default async (
     removeLoadedBytesChangedEventListeners(handleLoadedBytesChanged)
 
     await new Promise<void>((resolve) => {
-        getLoadingCount((count, handle) => {
-            if (count > 0) return
-            handle.cancel()
+        const interval = setInterval(() => {
+            if (busyCountPtr[0]) return
+            clearInterval(interval)
             resolve()
-        })
+        }, 500)
     })
     onProgress?.(100)
 }

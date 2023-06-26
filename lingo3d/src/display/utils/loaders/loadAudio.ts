@@ -1,11 +1,7 @@
 import { forceGet } from "@lincode/utils"
 import { AudioLoader } from "three"
-import {
-    decreaseLoadingAssetsCount,
-    increaseLoadingAssetsCount
-} from "../../../states/useLoadingAssetsCount"
 import { handleProgress } from "./utils/bytesLoaded"
-import { assetsPathPtr } from "../../../pointers/assetsPathPointers"
+import { busyCountPtr } from "../../../pointers/busyCountPtr"
 
 const cache = new Map<string, Promise<AudioBuffer>>()
 const loader = new AudioLoader()
@@ -16,16 +12,18 @@ export default (url: string) =>
         url,
         () =>
             new Promise<AudioBuffer>((resolve, reject) => {
-                const isAssets = url.startsWith(assetsPathPtr[0])
-                isAssets && increaseLoadingAssetsCount()
+                busyCountPtr[0]++
                 loader.load(
                     url,
                     (buffer) => {
-                        isAssets && decreaseLoadingAssetsCount()
+                        busyCountPtr[0]--
                         resolve(buffer)
                     },
                     handleProgress(url),
-                    reject
+                    () => {
+                        busyCountPtr[0]--
+                        reject()
+                    }
                 )
             })
     )
