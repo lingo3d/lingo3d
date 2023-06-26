@@ -1,7 +1,7 @@
-import { signal } from "@preact/signals"
+import { Signal, signal } from "@preact/signals"
 
-export const sceneGraphWidthSignal = signal(0)
-export const editorWidthSignal = signal(0)
+export const sceneGraphWidthSignal: Signal<number> = signal(0)
+export const editorWidthSignal: Signal<number> = signal(0)
 
 const handleResize = () => {
     sceneGraphWidthSignal.value = Math.max(window.innerWidth * 0.15, 200)
