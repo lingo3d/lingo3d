@@ -6,7 +6,7 @@ import PointLight from "../lights/PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
 import SpotLight from "../lights/SpotLight"
 import Cube from "../primitives/Cube"
-import { POINTLIGHT_DISTANCE } from "../../globals"
+import { POINTLIGHT_DISTANCE, POINTLIGHT_INTENSITY } from "../../globals"
 
 export default abstract class PooledPointLightBase<
         T extends PointLight | SpotLight = PointLight
@@ -38,7 +38,7 @@ export default abstract class PooledPointLightBase<
         if (this.$light) this.$light.distance = value
     }
 
-    private _intensity = 10
+    private _intensity = POINTLIGHT_INTENSITY
     public get intensity() {
         return this._intensity
     }

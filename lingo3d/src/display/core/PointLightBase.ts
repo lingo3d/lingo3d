@@ -4,7 +4,12 @@ import {
     PointLight as ThreePointLight,
     SpotLight as ThreeSpotLight
 } from "three"
-import { CM2M, M2CM, POINTLIGHT_DISTANCE } from "../../globals"
+import {
+    CM2M,
+    M2CM,
+    POINTLIGHT_DISTANCE,
+    POINTLIGHT_INTENSITY
+} from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
 import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
@@ -23,7 +28,7 @@ export default abstract class PointLightBase<
         super(light, helper)
         light.shadow.autoUpdate = false
         this.distance = POINTLIGHT_DISTANCE
-        this.intensity = 10
+        this.intensity = POINTLIGHT_INTENSITY
         this.shadows = true
     }
 
@@ -60,7 +65,7 @@ export default abstract class PointLightBase<
         val ? updateShadowSystem.add(this) : updateShadowSystem.delete(this)
     }
 
-    private _intensity = 1
+    private _intensity = POINTLIGHT_INTENSITY
     public override get intensity() {
         return this._intensity
     }
