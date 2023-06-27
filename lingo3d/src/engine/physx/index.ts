@@ -70,6 +70,7 @@ import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCo
         PxContactPairHeader,
         PxControllerShapeHit,
         PxQueryFilterData,
+        PxInsertionCallback,
 
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH,
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE,
