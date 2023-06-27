@@ -2,6 +2,9 @@ import computeMergedPxVertices from "./computeMergedPxVertices"
 import { physxPtr } from "../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import { M2CM } from "../../globals"
+import getActualScale from "../../memo/getActualScale"
+import { busyCookingPtr } from "../../pointers/busyCookingPtr"
 
 const pxGeometryCache = new Map<string, any>()
 
@@ -56,6 +59,19 @@ export default (src: string, manager: PhysicsObjectManager) => {
     destroy(points)
     destroy(triangles)
     destroy(desc)
+
+    busyCookingPtr[0]++
+    const { x, y, z } = getActualScale(manager).multiplyScalar(0.5)
+    const interval = setInterval(() => {
+        if (
+            manager
+                .queryPhysicsNearby(Math.max(x, y, z) * M2CM)
+                .includes(manager)
+        ) {
+            clearInterval(interval)
+            busyCookingPtr[0]--
+        }
+    }, 1000)
 
     pxGeometryCache.set(src, pxGeometry)
     return pxGeometry
