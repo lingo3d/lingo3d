@@ -9,8 +9,10 @@ import { busyCookingPtr } from "../../pointers/busyCookingPtr"
 const pxGeometryCache = new Map<string, any>()
 
 export default (src: string, manager: PhysicsObjectManager) => {
-    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
-
+    if (pxGeometryCache.has(src)) {
+        busyCookingPtr[0]--
+        return pxGeometryCache.get(src)
+    }
     const {
         PxBoundedData,
         Vector_PxU32,
@@ -25,6 +27,7 @@ export default (src: string, manager: PhysicsObjectManager) => {
     if (!index) {
         pointVector.clear()
         destroy(pointVector)
+        busyCookingPtr[0]--
         return cookConvexGeometry(src, manager)
     }
 
@@ -60,7 +63,6 @@ export default (src: string, manager: PhysicsObjectManager) => {
     destroy(triangles)
     destroy(desc)
 
-    busyCookingPtr[0]++
     const { x, y, z } = getActualScale(manager).multiplyScalar(0.5)
     const interval = setInterval(() => {
         if (

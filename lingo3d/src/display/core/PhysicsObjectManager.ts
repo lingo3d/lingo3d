@@ -32,6 +32,7 @@ import SpawnPoint from "../SpawnPoint"
 import { configPhysicsShapeSystem } from "../../systems/configLoadedSystems/configPhysicsShapeSystem"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
 import { vector3__ } from "../utils/reusables"
+import { busyCookingPtr } from "../../pointers/busyCookingPtr"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends VisibleObjectManager<T>
@@ -369,6 +370,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
+        val === "map" && busyCookingPtr[0]++
         configPhysicsShapeSystem.add(this)
     }
 
