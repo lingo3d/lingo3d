@@ -12,6 +12,12 @@ type PhysX = {
         excludePtr?: number
     ) => any
     pxOverlap: (shape: any, transform: any) => Array<any>
+    pxSweep: (
+        shape: any,
+        transform: any,
+        direction: any,
+        distance: number
+    ) => Array<any>
     pxQuat: any
     pxVec: any
     pxVec_: any

@@ -17,11 +17,11 @@ import {
     actorPtrManagerMap,
     controllerManagerContactMap,
     managerActorPtrMap,
-    managerContactMap
+    managerContactMap,
+    managerGeometryMap
 } from "../../collections/pxCollections"
 import JointBase from "./JointBase"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
-import { configCastShadowSystem } from "../../systems/configLoadedSystems/configCastShadowSystem"
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
 import { Point3dType } from "../../utils/isPoint"
 import SpawnPoint from "../SpawnPoint"
@@ -346,9 +346,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
+        const geometry = cookConvexGeometry(this.componentName, this)
+        managerGeometryMap.set(this, geometry)
+
         const shape = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
-            cookConvexGeometry(this.componentName, this),
+            geometry,
             material,
             shapeFlags
         )

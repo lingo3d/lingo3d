@@ -8,6 +8,7 @@ export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 export const managerActorMap = new Map<PhysicsObjectManager, any>()
 export const actorPtrManagerMap = new Map<number, PhysicsObjectManager>()
 export const managerActorPtrMap = new WeakMap<MeshAppendable, number>()
+export const managerGeometryMap = new WeakMap<MeshAppendable, any>()
 export const managerControllerMap = new Map<PhysicsObjectManager, any>()
 export const controllerManagerMap = new WeakMap<any, PhysicsObjectManager>()
 export const managerContactMap = new WeakMap<

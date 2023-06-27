@@ -8,6 +8,7 @@ import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { configLoadedSrcSystem } from "../../systems/configSystems/configLoadedSrcSystem"
+import { managerGeometryMap } from "../../collections/pxCollections"
 
 const material = new MeshStandardMaterial({ visible: false })
 
@@ -147,9 +148,12 @@ export default abstract class Loaded<T = Object3D>
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physxPtr[0]
 
+            const geometry = cookTrimeshGeometry(this._src!, this)
+            managerGeometryMap.set(this, geometry)
+
             const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
-                cookTrimeshGeometry(this._src!, this),
+                geometry,
                 material,
                 shapeFlags
             )

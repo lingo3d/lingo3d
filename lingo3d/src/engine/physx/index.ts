@@ -56,6 +56,7 @@ import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCo
         PxControllerFilters,
         PxRaycastBuffer10,
         PxOverlapBuffer10,
+        PxSweepBuffer10,
         PxJointLimitCone,
         PxJointAngularLimitPair,
         PxJointLinearLimit,
@@ -363,6 +364,25 @@ import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCo
         return hits
     }
 
+    // create sweep query
+    const sweepResult = new PxSweepBuffer10()
+    const pxSweep = (
+        shape: any,
+        transform: any,
+        direction: any,
+        distance: number
+    ) => {
+        if (!pxScene.sweep(shape, transform, direction, distance, sweepResult))
+            return []
+        const hits = []
+        const iMax = sweepResult.getNbAnyHits()
+        for (let i = 0; i < iMax; ++i) {
+            const hit = sweepResult.getAnyHit(i)
+            hits.push(hit)
+        }
+        return hits
+    }
+
     // create PxController
     const getPxControllerManager = lazy(() =>
         Px.CreateControllerManager(pxScene)
@@ -606,6 +626,7 @@ import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCo
         shapeFlags,
         pxRaycast,
         pxOverlap,
+        pxSweep,
         pxQuat,
         pxVec,
         pxVec_,

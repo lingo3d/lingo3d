@@ -92,6 +92,15 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
             self.$getPxShape(mode, actor)
             pxScene.addActor(actor)
             managerActorMap.set(self, actor)
+
+            // const interval = setInterval(() => {
+            //     console.log("yay")
+            //     const { x, y, z } = getActualScale(self).multiplyScalar(0.5)
+            //     if (self.queryNearbyPhysics(Math.max(x, y, z) * M2CM).includes(self)) {
+            //         clearInterval(interval)
+            //         console.log("done")
+            //     }
+            // }, 1000)
         },
         cleanup: (self) => {
             configPhysicsTransformSystem.delete(self)
