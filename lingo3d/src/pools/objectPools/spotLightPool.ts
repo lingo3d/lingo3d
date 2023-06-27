@@ -5,6 +5,7 @@ export const [requestSpotLight, releaseSpotLight, disposeSpotLights] =
     createObjectPool<SpotLight, []>(
         () => {
             const light = new SpotLight()
+            light.intensity = 0
             light.$ghost()
             return light
         },
