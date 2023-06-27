@@ -16,6 +16,7 @@ import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { M2CM } from "../../globals"
 
 export const importPhysX = lazy(async () => {
     busyCountPtr[0]++
@@ -93,12 +94,17 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
             pxScene.addActor(actor)
             managerActorMap.set(self, actor)
 
+            const { x, y, z } = getActualScale(self).multiplyScalar(0.5)
             const interval = setInterval(() => {
-                if (self.queryPhysicsOverlap().includes(self)) {
+                if (
+                    self
+                        .queryPhysicsNearby(Math.max(x, y, z) * M2CM)
+                        .includes(self)
+                ) {
                     clearInterval(interval)
                     console.log("done")
                 }
-            }, 1000)
+            }, 100)
         },
         cleanup: (self) => {
             configPhysicsTransformSystem.delete(self)
