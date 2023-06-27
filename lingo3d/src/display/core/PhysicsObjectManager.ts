@@ -2,7 +2,11 @@ import { Object3D, Vector3 } from "three"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../interface/IPhysicsObjectManager"
-import { setPxVec, setPxVec_ } from "../../engine/physx/pxMath"
+import {
+    assignPxTransform,
+    setPxVec,
+    setPxVec_
+} from "../../engine/physx/pxMath"
 import Nullable from "../../interface/utils/Nullable"
 import MeshAppendable from "./MeshAppendable"
 import cookConvexGeometry, {
@@ -387,5 +391,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return !!managerContactMap.get(this)?.has(target)
         }
         return super.hitTest(target)
+    }
+
+    public queryPhysicsOverlap() {
+        const { pxOverlap } = physxPtr[0]
+        const geometry = managerGeometryMap.get(this)
+        if (!pxOverlap || !geometry) return []
+
+        const result: Array<PhysicsObjectManager> = []
+        for (const item of pxOverlap(geometry, assignPxTransform(this)))
+            result.push(actorPtrManagerMap.get(item.actor.ptr)!)
+        return result
     }
 }

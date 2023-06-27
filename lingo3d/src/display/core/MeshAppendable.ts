@@ -307,7 +307,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     private queryRadius?: number
     private querySphere?: any
-    public queryPhysicsOverlap(radius: number) {
+    public queryPhysicsNearby(radius: number) {
         const { PxSphereGeometry, pxOverlap, destroy } = physxPtr[0]
         if (!PxSphereGeometry) return []
 
@@ -320,22 +320,5 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         for (const item of pxOverlap(this.querySphere, assignPxTransform(this)))
             result.push(actorPtrManagerMap.get(item.actor.ptr)!)
         return result
-    }
-
-    public queryPhysicsSweep(direction: Point3dType, distance: number) {
-        const { pxSweep } = physxPtr[0]
-        if (!pxSweep) return []
-
-        
-
-        // const { x, y, z } = direction
-        // const result: Array<PhysicsObjectManager> = []
-        // for (const item of pxSweep(
-
-        //     assignPxTransform(this),
-        //     assignPxVec3(x, y, z),
-        //     distance * CM2M
-        // ))
-        //     result.push(actorPtrManagerMap.get(item.actor.ptr)!)
     }
 }

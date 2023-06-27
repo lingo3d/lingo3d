@@ -93,14 +93,12 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
             pxScene.addActor(actor)
             managerActorMap.set(self, actor)
 
-            // const interval = setInterval(() => {
-            //     console.log("yay")
-            //     const { x, y, z } = getActualScale(self).multiplyScalar(0.5)
-            //     if (self.queryNearbyPhysics(Math.max(x, y, z) * M2CM).includes(self)) {
-            //         clearInterval(interval)
-            //         console.log("done")
-            //     }
-            // }, 1000)
+            const interval = setInterval(() => {
+                if (self.queryPhysicsOverlap().includes(self)) {
+                    clearInterval(interval)
+                    console.log("done")
+                }
+            }, 1000)
         },
         cleanup: (self) => {
             configPhysicsTransformSystem.delete(self)
