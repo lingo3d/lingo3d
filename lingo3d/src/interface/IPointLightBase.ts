@@ -3,6 +3,8 @@ import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 
+export const pointLightDistance = 500
+
 export default interface IPointLightBase extends ILightBase {
     distance: number
     shadows: boolean
@@ -19,7 +21,7 @@ export const pointLightBaseSchema: Required<ExtractProps<IPointLightBase>> = {
 export const pointLightBaseDefaults = extendDefaults<IPointLightBase>(
     [lightBaseDefaults],
     {
-        distance: 500,
+        distance: pointLightDistance,
         intensity: 10,
         shadows: true,
         fade: false
