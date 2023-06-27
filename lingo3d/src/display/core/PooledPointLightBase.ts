@@ -6,7 +6,7 @@ import PointLight from "../lights/PointLight"
 import HelperSprite from "../core/utils/HelperSprite"
 import SpotLight from "../lights/SpotLight"
 import Cube from "../primitives/Cube"
-import { pointLightDistance } from "../../interface/IPointLightBase"
+import { POINTLIGHT_DISTANCE } from "../../globals"
 
 export default abstract class PooledPointLightBase<
         T extends PointLight | SpotLight = PointLight
@@ -29,7 +29,7 @@ export default abstract class PooledPointLightBase<
         this.helperSprite.dispose()
     }
 
-    private _distance = pointLightDistance
+    private _distance = POINTLIGHT_DISTANCE
     public get distance() {
         return this._distance
     }

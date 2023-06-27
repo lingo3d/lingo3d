@@ -4,10 +4,8 @@ import {
     PointLight as ThreePointLight,
     SpotLight as ThreeSpotLight
 } from "three"
-import { CM2M, M2CM } from "../../globals"
-import IPointLightBase, {
-    pointLightDistance
-} from "../../interface/IPointLightBase"
+import { CM2M, M2CM, POINTLIGHT_DISTANCE } from "../../globals"
+import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
 import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
 import Cube from "../primitives/Cube"
@@ -24,7 +22,7 @@ export default abstract class PointLightBase<
     public constructor(light: T, helper?: typeof SpotLightHelper) {
         super(light, helper)
         light.shadow.autoUpdate = false
-        this.distance = pointLightDistance
+        this.distance = POINTLIGHT_DISTANCE
         this.intensity = 10
         this.shadows = true
     }
