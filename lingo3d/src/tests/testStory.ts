@@ -9,20 +9,19 @@ import {
 import { createEffect, store } from "@lincode/reactivity"
 import axios from "redaxios"
 
-// settings.exposure = 0.5
-settings.environment = "night"
+settings.exposure = 0.5
+settings.environment = "studio"
 settings.bloom = true
 settings.ssr = true
 settings.ssao = true
-settings.defaultLight = false
 
 const pub = new Model()
 pub.src = "british_pub/scene.gltf"
 pub.scale = 5
 pub.physics = "map"
 
-// const light = new DefaultSkyLight()
-// light.shadows = false
+const light = new DefaultSkyLight()
+light.shadows = false
 
 const player = new Dummy()
 player.x = 550.51
