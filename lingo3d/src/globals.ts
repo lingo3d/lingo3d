@@ -21,7 +21,8 @@ export const ORTHOGRAPHIC_FRUSTUM = 5.7
 export const NEAR = 0.1
 export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
-export const POINTLIGHT_DISTANCE = 1000
+
+export const POINTLIGHT_DISTANCE = 800
 export const POINTLIGHT_INTENSITY = 4
 
 export const DEBUG = false
