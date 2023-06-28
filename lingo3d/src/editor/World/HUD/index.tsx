@@ -9,6 +9,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import useInitEditor from "../../hooks/useInitEditor"
 import { getDocumentHidden } from "../../../states/useDocumentHidden"
 import { isBusy } from "../../../pointers/busyCountPtr"
+import { getWorldPlay } from "../../../states/useWorldPlay"
 
 const HUD = () => {
     useInitCSS()
@@ -16,6 +17,8 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const documentHidden = useSyncState(getDocumentHidden)
+    const worldPlay = useSyncState(getWorldPlay)
+    const runtime = worldPlay === "runtime" || worldPlay === "script"
     const [busy, setBusy] = useState(false)
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const HUD = () => {
             >
                 paused
             </InfoScreen>
-            {cameraRendered === mainCamera && (
+            {cameraRendered === mainCamera && !runtime && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />
                     <HotKey hotkey="W" description="move forward" />
