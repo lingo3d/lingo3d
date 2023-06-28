@@ -25,6 +25,3 @@ export const container = createElement<HTMLDivElement>(
 export const uiContainer = createElement<HTMLDivElement>(
     `<div class="lingo3d-container lingo3d-uicontainer"></div>`
 )
-export const overlayContainer = createElement<HTMLDivElement>(
-    `<div class="lingo3d-container lingo3d-uicontainer"></div>`
-)

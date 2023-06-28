@@ -1,6 +1,6 @@
 import { ComponentChildren } from "preact"
 import { CSSProperties } from "preact/compat"
-import Transition from "../component/Transition"
+import Transition from "../../component/Transition"
 
 interface InfoScreen {
     mounted?: boolean

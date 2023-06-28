@@ -1,15 +1,14 @@
 import HotKey from "./HotKey"
-import mainCamera from "../../engine/mainCamera"
-import { createPortal, useEffect, useState } from "preact/compat"
-import useInitCSS from "../hooks/useInitCSS"
-import Spinner from "../component/Spinner"
+import mainCamera from "../../../engine/mainCamera"
+import { useEffect, useState } from "preact/compat"
+import useInitCSS from "../../hooks/useInitCSS"
+import Spinner from "../../component/Spinner"
 import InfoScreen from "./InfoScreen"
-import useSyncState from "../hooks/useSyncState"
-import { getCameraRendered } from "../../states/useCameraRendered"
-import useInitEditor from "../hooks/useInitEditor"
-import { overlayContainer } from "../../engine/renderLoop/containers"
-import { getDocumentHidden } from "../../states/useDocumentHidden"
-import { isBusy } from "../../pointers/busyCountPtr"
+import useSyncState from "../../hooks/useSyncState"
+import { getCameraRendered } from "../../../states/useCameraRendered"
+import useInitEditor from "../../hooks/useInitEditor"
+import { getDocumentHidden } from "../../../states/useDocumentHidden"
+import { isBusy } from "../../../pointers/busyCountPtr"
 
 const HUD = () => {
     useInitCSS()
@@ -26,7 +25,7 @@ const HUD = () => {
         }
     }, [])
 
-    return createPortal(
+    return (
         <div
             className="lingo3d-ui lingo3d-absfull"
             style={{ pointerEvents: "none", padding: 10 }}
@@ -67,8 +66,7 @@ const HUD = () => {
                     <HotKey hotkey="G" description="toggle grid" />
                 </div>
             )}
-        </div>,
-        overlayContainer
+        </div>
     )
 }
 export default HUD

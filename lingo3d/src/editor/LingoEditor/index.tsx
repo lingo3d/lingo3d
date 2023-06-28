@@ -2,13 +2,10 @@ import Toolbar from "../Toolbar"
 import SceneGraph from "../SceneGraph"
 import Editor from "../Editor"
 import Library from "../Library"
-import HUD from "../HUD"
-import Stats from "../Stats"
 import WorldBar from "../WorldBar"
 import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
-import { getStats } from "../../states/useStats"
 import DummyIKEditor from "../DummyIKEditor"
 import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
@@ -24,7 +21,6 @@ import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
 import Console from "../Console"
 
 const LingoEditor = () => {
-    const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
     const script = useSyncState(getScript)
     const dummyIK = useSyncState(getDummyIK)
@@ -68,8 +64,6 @@ const LingoEditor = () => {
                 <World />
                 {!worldExpanded && <Console floating={worldExpanded} />}
             </div>
-            {stats && <Stats />}
-            <HUD />
             <NewScriptDialog />
         </div>
     )
