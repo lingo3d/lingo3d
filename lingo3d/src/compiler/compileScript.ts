@@ -56,14 +56,18 @@ const createSystems = (
     codeRecordFactory: () => Record<string, string>
 ) => {
     const systemQueuedMap = new Map<string, Array<any>>()
+    // find existing systems created by current script
     if (scriptUUIDSystemNamesMap.has(script.uuid))
         for (const name of scriptUUIDSystemNamesMap.get(script.uuid)!) {
             const system = systemsMap.get(name)!
+            // backup queued items
             for (const item of system.queued)
                 forceGetInstance(systemQueuedMap, name, Array).push(item)
+            // dispose system
             system.dispose()
             systemsMap.delete(name)
         }
+    // create new systems
     for (const [name, code] of Object.entries(codeRecordFactory())) {
         const system = eval(code)
         if (!systemQueuedMap.has(name)) continue
@@ -137,15 +141,14 @@ export default async (script: Script) => {
             )
         }
     })
-    if (script.type === "editorScript")
-        createSystems(script, () => {
-            const codeRecord: Record<string, string> = {}
-            for (const [name, ast] of Object.entries(systemASTs))
-                codeRecord[name] = `lingo3d.createSystem("${name}", ${
-                    generate(ast).code
-                })`
-            return codeRecord
-        })
+    createSystems(script, () => {
+        const codeRecord: Record<string, string> = {}
+        for (const [name, ast] of Object.entries(systemASTs))
+            codeRecord[name] = `lingo3d.createSystem("${name}", ${
+                script.type === "editorScript" ? generate(ast).code : "{}"
+            })`
+        return codeRecord
+    })
     systemNames.length
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
