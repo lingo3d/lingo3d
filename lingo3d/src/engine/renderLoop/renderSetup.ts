@@ -11,13 +11,14 @@ import { getUILayer } from "../../states/useUILayer"
 import { getSplitView } from "../../states/useSplitView"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { emitResize } from "../../events/onResize"
-import { container, uiContainer } from "./containers"
+import { container, uiContainer, overlayContainer } from "./containers"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
 import { timelinePausedPtr } from "../../pointers/timelinePausedPtr"
 import { getDocumentHidden } from "../../states/useDocumentHidden"
 
 container.appendChild(uiContainer)
+uiContainer.appendChild(overlayContainer)
 container.addEventListener("touchstart", (e) => e.preventDefault())
 getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"

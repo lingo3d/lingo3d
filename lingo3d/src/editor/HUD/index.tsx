@@ -1,15 +1,15 @@
 import HotKey from "./HotKey"
-import mainCamera from "../../../engine/mainCamera"
-import { useEffect, useState } from "preact/compat"
-import useInitCSS from "../../hooks/useInitCSS"
-import Spinner from "../../component/Spinner"
+import mainCamera from "../../engine/mainCamera"
+import { createPortal, useEffect, useState } from "preact/compat"
+import useInitCSS from "../hooks/useInitCSS"
+import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
-import useSyncState from "../../hooks/useSyncState"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import useInitEditor from "../../hooks/useInitEditor"
-import { getDocumentHidden } from "../../../states/useDocumentHidden"
-import { isBusy } from "../../../pointers/busyCountPtr"
-import { getWorldPlay } from "../../../states/useWorldPlay"
+import useSyncState from "../hooks/useSyncState"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import useInitEditor from "../hooks/useInitEditor"
+import { overlayContainer } from "../../engine/renderLoop/containers"
+import { getDocumentHidden } from "../../states/useDocumentHidden"
+import { isBusy } from "../../pointers/busyCountPtr"
 
 const HUD = () => {
     useInitCSS()
@@ -17,8 +17,6 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const documentHidden = useSyncState(getDocumentHidden)
-    const worldPlay = useSyncState(getWorldPlay)
-    const runtime = worldPlay === "runtime" || worldPlay === "script"
     const [busy, setBusy] = useState(false)
 
     useEffect(() => {
@@ -28,7 +26,7 @@ const HUD = () => {
         }
     }, [])
 
-    return (
+    return createPortal(
         <div
             className="lingo3d-ui lingo3d-absfull"
             style={{ pointerEvents: "none", padding: 10 }}
@@ -43,7 +41,7 @@ const HUD = () => {
             >
                 paused
             </InfoScreen>
-            {cameraRendered === mainCamera && !runtime && (
+            {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />
                     <HotKey hotkey="W" description="move forward" />
@@ -69,7 +67,8 @@ const HUD = () => {
                     <HotKey hotkey="G" description="toggle grid" />
                 </div>
             )}
-        </div>
+        </div>,
+        overlayContainer
     )
 }
 export default HUD
