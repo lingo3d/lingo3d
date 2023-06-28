@@ -99,17 +99,17 @@ export default lazy(() => {
 
             .lingo3d-lingoeditor {
                 display: grid;
-                grid-template: "menubar menubar    menubar menubar tabs"
-                               "toolbar scenegraph editor library world"
-                               "toolbar scenegraph editor library world"
-                               "toolbar panels     panels panels  world";
+                grid-template: "menubar menubar    menubar menubar worldbar"
+                               "toolbar scenegraph editor library  world"
+                               "toolbar scenegraph editor library  world"
+                               "toolbar panels     panels panels   world";
                 grid-template-columns: auto auto auto auto 1fr;
                 grid-template-rows: ${APPBAR_HEIGHT + 8}px auto 1fr auto;
             }
             .lingo3d-scenegraph { grid-area: scenegraph; }
             .lingo3d-editor { grid-area: editor; }
             .lingo3d-library { grid-area: library; }
-            .lingo3d-tabs { grid-area: tabs; }
+            .lingo3d-worldbar { grid-area: worldbar; }
             .lingo3d-panels { grid-area: panels; }
             .lingo3d-toolbar { grid-area: toolbar; }
             .lingo3d-world { grid-area: world; }

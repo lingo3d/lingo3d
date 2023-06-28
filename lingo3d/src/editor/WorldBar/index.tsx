@@ -6,14 +6,17 @@ import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
-import { getWorldExpanded, setWorldExpanded } from "../../states/useWorldExpanded"
+import {
+    getWorldExpanded,
+    setWorldExpanded
+} from "../../states/useWorldExpanded"
 import SelectBox from "../component/SelectBox"
 import { getCameraList } from "../../states/useCameraList"
 import getDisplayName from "../utils/getDisplayName"
 import { getManager } from "../../display/core/utils/getManager"
 import { setEditorCamera } from "../../states/useEditorCamera"
 
-const Tabs = () => {
+const WorldBar = () => {
     useInitCSS()
     useInitEditor()
 
@@ -24,7 +27,7 @@ const Tabs = () => {
 
     return (
         <div
-            className="lingo3d-ui lingo3d-bg-dark lingo3d-tabs"
+            className="lingo3d-ui lingo3d-bg-dark lingo3d-worldbar"
             style={{
                 width: "100%",
                 borderBottom: "1px solid rgba(255, 255, 255, 0.1)"
@@ -59,4 +62,4 @@ const Tabs = () => {
         </div>
     )
 }
-export default Tabs
+export default WorldBar
