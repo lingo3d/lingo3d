@@ -5,9 +5,8 @@ import deleteSelected from "./deleteSelected"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { setEditorCamera, getEditorCamera } from "../../states/useEditorCamera"
+import { setEditorCamera } from "../../states/useEditorCamera"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
-import { getSplitView, setSplitView } from "../../states/useSplitView"
 import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
@@ -64,20 +63,7 @@ createEffect(() => {
             settings.grid = !settings.grid
             return
         }
-        if (keyLowerCase === "1") {
-            if (!getSplitView())
-                setEditorCamera(
-                    getEditorCamera() === mainCamera ? undefined : mainCamera
-                )
-            setSplitView(false)
-            return
-        }
-        if (keyLowerCase === "2") {
-            setSplitView(true)
-            setEditorCamera(undefined)
-            return
-        }
-        if (keyLowerCase === "3") {
+        if (keyLowerCase === "u") {
             setUILayer(!getUILayer())
             return
         }
