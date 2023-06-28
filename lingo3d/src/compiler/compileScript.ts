@@ -1,7 +1,6 @@
 import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
 import { Node } from "@babel/traverse"
-import { USE_EDITOR_SYSTEMS } from "../globals"
 import { systemsMap } from "../collections/systemsMap"
 import { forceGetInstance } from "@lincode/utils"
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
@@ -138,7 +137,7 @@ export default async (script: Script) => {
             )
         }
     })
-    if (USE_EDITOR_SYSTEMS)
+    if (script.type === "editorScript")
         createSystems(script, () => {
             const codeRecord: Record<string, string> = {}
             for (const [name, ast] of Object.entries(systemASTs))
