@@ -1,8 +1,3 @@
-import "./Editor"
-import "./SceneGraph"
-import "./Toolbar"
-import "./Library"
-import "./HUD"
 import LingoEditor from "./LingoEditor"
 import { Disposable } from "@lincode/promiselikes"
 import { render } from "preact"
