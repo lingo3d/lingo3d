@@ -7,6 +7,7 @@ import {
 import scene from "../engine/scene"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
+import { configParentSystem } from "./configSystems/configParentSystem"
 
 let count = 0
 
@@ -22,7 +23,9 @@ export const pooledSpotLightSystem = createInternalSystem(
             const visible = !!intensityFactor && ++count <= spotLightPoolPtr[0]
             if (visible && !data.visible) {
                 const light = (self.$light = requestSpotLight([], ""))
-                self.object3d.add(light.outerObject3d)
+                configParentSystem.add(light.outerObject3d, {
+                    parent: self.object3d
+                })
                 light.distance = self.distance
                 light.intensity = self.intensity
                 light.color = self.color
@@ -35,7 +38,9 @@ export const pooledSpotLightSystem = createInternalSystem(
             } else if (!visible && data.visible) {
                 const light = self.$light!
                 releaseSpotLight(light)
-                scene.add(light.outerObject3d)
+                configParentSystem.add(light.outerObject3d, {
+                    parent: scene
+                })
                 light.fade = false
                 light.intensity = 0
                 self.$light = undefined
