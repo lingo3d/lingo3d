@@ -1,7 +1,5 @@
 import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
-import { setScriptTest } from "../states/useScriptTest"
 import { Node } from "@babel/traverse"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import { systemsMap } from "../collections/systemsMap"
@@ -75,8 +73,8 @@ const createSystems = (
 }
 
 export default async (script: Script) => {
-    const testScript = worldPlayPtr[0] === "testScript"
-    testScript && setScriptTest({ raw: script.code })
+    // const testScript = worldPlayPtr[0] === "testScript"
+    // testScript && setScriptTest({ raw: script.code })
 
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
@@ -153,5 +151,5 @@ export default async (script: Script) => {
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
 
-    testScript && setScriptTest({ compiled: "" })
+    // testScript && setScriptTest({ compiled: "" })
 }

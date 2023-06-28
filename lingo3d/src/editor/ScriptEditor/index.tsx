@@ -18,7 +18,6 @@ import {
     getScriptsUnsaved
 } from "../../states/useScriptsUnsaved"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
-import { getWorldPlay } from "../../states/useWorldPlay"
 import { uuidMap } from "../../collections/idCollections"
 import Script from "../../display/Script"
 import compileScript from "../../compiler/compileScript"
@@ -51,17 +50,6 @@ const ScriptEditor = () => {
     const script = useSyncState(getScript)
     const scriptsPtr = useSyncState(getScripts)
     const scriptsUnsavedPtr = useSyncState(getScriptsUnsaved)
-
-    useLayoutEffect(() => {
-        if (!script) return
-
-        const handle = getWorldPlay(
-            (val) => val === "testScript" && controls.saveAll()
-        )
-        return () => {
-            handle.cancel()
-        }
-    }, [script])
 
     useLayoutEffect(() => {
         const uuid = script?.uuid

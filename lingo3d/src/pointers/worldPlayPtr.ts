@@ -1,3 +1,1 @@
-export const worldPlayPtr: ["live" | "editor" | "testScript" | "runtime"] = [
-    "live"
-]
+export const worldPlayPtr: ["live" | "editor" | "runtime"] = ["live"]

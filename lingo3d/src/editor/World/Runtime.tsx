@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "preact/hooks"
 import serialize from "../../api/serializer/serialize"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import useSyncState from "../hooks/useSyncState"
-import { getScriptTest } from "../../states/useScriptTest"
+import { getScriptRuntime } from "../../states/useScriptRuntime"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
-    const scriptCompile = useSyncState(getScriptTest)
+    const runtimeScript = useSyncState(getScriptRuntime)
     const [busy, setBusy] = useState(false)
 
     useEffect(() => {
@@ -20,10 +20,10 @@ const Runtime = () => {
 
     useEffect(() => {
         const iframe = iframeRef.current
-        if (!iframe || scriptCompile?.raw) return
+        if (!iframe || runtimeScript?.raw) return
 
         const script =
-            scriptCompile?.compiled ??
+            runtimeScript?.compiled ??
             `lingo3d.deserialize(${JSON.stringify(serialize())})`
 
         const interval = setInterval(() => {
@@ -42,7 +42,7 @@ const Runtime = () => {
             clearInterval(interval)
             clearInterval(busyInterval)
         }
-    }, [scriptCompile])
+    }, [runtimeScript])
 
     return (
         <iframe

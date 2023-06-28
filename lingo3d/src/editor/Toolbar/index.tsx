@@ -145,17 +145,6 @@ const Toolbar = () => {
                     </ToolbarButton>
                 </Section>
 
-                {script && (
-                    <Section>
-                        <ToolbarButton
-                            active={worldPlay === "testScript"}
-                            onClick={() => setWorldPlay("testScript")}
-                        >
-                            <RunIcon />
-                        </ToolbarButton>
-                    </Section>
-                )}
-
                 {/* <Section>
                     <ToolbarButton onClick={openFolder}>
                         <FolderIcon />

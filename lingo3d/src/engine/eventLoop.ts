@@ -18,12 +18,7 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    if (
-        worldPlayPtr[0] === "testScript" ||
-        worldPlayPtr[0] === "runtime" ||
-        getDocumentHidden()
-    )
-        return
+    if (worldPlayPtr[0] === "runtime" || getDocumentHidden()) return
 
     const [renderer] = rendererPtr
     const targetDelta = 1 / fpsPtr[0]
