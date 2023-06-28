@@ -1,8 +1,12 @@
 import { useRef, useEffect } from "preact/hooks"
 import settings from "../../api/settings"
+import { getWorldPlay } from "../../states/useWorldPlay"
+import Runtime from "./Runtime"
+import useSyncState from "../hooks/useSyncState"
 
 const World = () => {
     const elRef = useRef<HTMLDivElement>(null)
+    const worldPlay = useSyncState(getWorldPlay)
 
     useEffect(() => {
         const el = elRef.current
@@ -14,7 +18,11 @@ const World = () => {
         }
     }, [])
 
-    return <div ref={elRef} style={{ flexGrow: 1 }} />
+    return (
+        <div ref={elRef} style={{ flexGrow: 1 }}>
+            {(worldPlay === "runtime" || worldPlay === "script") && <Runtime />}
+        </div>
+    )
 }
 
 export default World
