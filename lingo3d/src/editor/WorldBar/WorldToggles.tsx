@@ -8,11 +8,7 @@ import Switch from "../component/Switch"
 import AppBar from "../component/bars/AppBar"
 import useSyncState from "../hooks/useSyncState"
 
-type Props = {
-    topLevel?: boolean
-}
-
-const WorldToggles = ({ topLevel }: Props) => {
+const WorldToggles = () => {
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
     const worldExpanded = useSyncState(getWorldExpanded)
@@ -20,7 +16,7 @@ const WorldToggles = ({ topLevel }: Props) => {
     return (
         <AppBar
             className="lingo3d-ui lingo3d-bg-dark lingo3d-worldtoggles"
-            style={{ gap: 4, width: topLevel ? "100%" : "auto" }}
+            style={{ gap: 4 }}
         >
             <Switch
                 label="split"
