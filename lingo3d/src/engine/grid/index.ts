@@ -6,15 +6,15 @@ import InfiniteGridHelper from "./InfiniteGridHelper"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 import { deg2Rad } from "@lincode/math"
 import { Mesh, PlaneGeometry } from "three"
 import { standardMaterial } from "../../display/utils/reusables"
 import { editorPlanePtr } from "../../pointers/editorPlanePtr"
 
 createEffect(() => {
-    if (!getGrid() || !editorBehaviorPtr[0] || worldPlayPtr[0] !== "editor")
+    if (!getGrid() || !editorBehaviorPtr[0] || worldModePtr[0] !== "editor")
         return
 
     const gridHelper = new InfiniteGridHelper()
@@ -39,4 +39,4 @@ createEffect(() => {
         scene.remove(editorPlane)
         editorPlanePtr[0] = undefined
     }
-}, [getGrid, getEditorBehavior, getWorldPlay])
+}, [getGrid, getEditorBehavior, getWorldMode])

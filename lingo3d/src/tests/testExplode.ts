@@ -6,7 +6,7 @@ import { getAppendablesById } from "../collections/idCollections"
 import { ThirdPersonCamera, onBeforeRender } from ".."
 import HandTracker from "../display/HandTracker"
 import { mapRange } from "@lincode/math"
-import { getWorldPlay } from "../states/useWorldPlay"
+import { getWorldMode } from "../states/useWorldMode"
 
 const data: any = await loadJSON("car/bentley2.json")
 deserialize(data)
@@ -26,8 +26,8 @@ handTracker.x = 150
 handTracker.y = 100
 
 model.onLoad = () => {
-    const handle = getWorldPlay((val) => {
-        if (val === "live") {
+    const handle = getWorldMode((val) => {
+        if (val === "default") {
             handle.cancel()
             handTracker.track = true
         }

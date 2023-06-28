@@ -5,8 +5,8 @@ import { emitKeyPress } from "../events/onKeyPress"
 import { emitKeyUp } from "../events/onKeyUp"
 import { keyPressSet } from "../collections/keyPressSet"
 import { keyPressEmitSystem } from "../systems/keyPressEmitSystem"
-import { getWorldPlay } from "../states/useWorldPlay"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { getWorldMode } from "../states/useWorldMode"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 const processKey = (str: string) => {
     str = str.length === 1 ? str.toLocaleLowerCase() : str
@@ -15,7 +15,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (worldPlayPtr[0] !== "live") {
+    if (worldModePtr[0] !== "default") {
         const handle = onKeyClear(() => keyPressSet.clear())
         const handleKeyDown = (e: KeyboardEvent) =>
             keyPressSet.add(processKey(e.key))
@@ -58,4 +58,4 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getWorldPlay])
+}, [getWorldMode])

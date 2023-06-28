@@ -7,8 +7,8 @@ import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { updateSystem } from "../../systems/updateSystem"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 
 export default abstract class LightBase<T extends Light>
     extends GimbalObjectManager<T>
@@ -20,7 +20,7 @@ export default abstract class LightBase<T extends Light>
     ) {
         super(light)
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
+            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
 
             const sprite = new HelperSprite("light", this)
             if (Helper) {
@@ -42,7 +42,7 @@ export default abstract class LightBase<T extends Light>
             return () => {
                 sprite.dispose()
             }
-        }, [getWorldPlay])
+        }, [getWorldMode])
     }
 
     protected override disposeNode() {

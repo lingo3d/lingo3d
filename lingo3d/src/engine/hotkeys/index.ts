@@ -21,8 +21,8 @@ import { container } from "../renderLoop/containers"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import { redo, undo } from "../../api/undoStack"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -46,7 +46,7 @@ const metaHotKey = (e: KeyboardEvent) => {
 }
 
 createEffect(() => {
-    if (worldPlayPtr[0] !== "editor" || !getHotKeysEnabled()) return
+    if (worldModePtr[0] !== "editor" || !getHotKeysEnabled()) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
@@ -125,4 +125,4 @@ createEffect(() => {
         document.removeEventListener("keyup", handleKeyUp)
         handle.cancel()
     }
-}, [getWorldPlay, getHotKeysEnabled])
+}, [getWorldMode, getHotKeysEnabled])

@@ -11,8 +11,8 @@ import { onMouseUp } from "../../../events/onMouseUp"
 import { cameraPointerLockPtr } from "../../../pointers/cameraPointerLockPtr"
 import { IS_MOBILE } from "../../../globals"
 import { gyrateInertiaSystem } from "../../../systems/gyrateInertiaSystem"
-import { getWorldPlay } from "../../../states/useWorldPlay"
-import { worldPlayPtr } from "../../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../../states/useWorldMode"
+import { worldModePtr } from "../../../pointers/worldModePtr"
 
 export default function (this: CameraBase) {
     if (this.done) return
@@ -132,7 +132,7 @@ export default function (this: CameraBase) {
         if (
             this.mouseControlState.get() !== true ||
             camera !== this.$camera ||
-            worldPlayPtr[0] !== "live"
+            worldModePtr[0] !== "default"
         )
             return
 
@@ -154,5 +154,5 @@ export default function (this: CameraBase) {
             document.exitPointerLock()
             setCameraPointerLock(undefined)
         }
-    }, [this.mouseControlState.get, getCameraRendered, getWorldPlay])
+    }, [this.mouseControlState.get, getCameraRendered, getWorldMode])
 }

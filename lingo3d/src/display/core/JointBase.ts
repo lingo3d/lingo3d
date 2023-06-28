@@ -8,8 +8,8 @@ import { jointSet } from "../../collections/jointSet"
 import MeshAppendable from "./MeshAppendable"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 import { configJointSystem } from "../../systems/configSystems/configJointSystem"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
 
 export default abstract class JointBase
@@ -38,15 +38,15 @@ export default abstract class JointBase
         jointSet.add(this)
 
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "live" || !editorBehaviorPtr[0]) return
+            if (worldModePtr[0] !== "default" || !editorBehaviorPtr[0]) return
             flushMultipleSelectionTargets(() => this.savePos())
             return () => {
                 flushMultipleSelectionTargets(() => this.restorePos())
             }
-        }, [getWorldPlay, getEditorBehavior])
+        }, [getWorldMode, getEditorBehavior])
 
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
+            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
 
             const helper = new HelperSphere(this)
             helper.scale = 0.1
@@ -55,7 +55,7 @@ export default abstract class JointBase
             return () => {
                 helper.dispose()
             }
-        }, [getWorldPlay])
+        }, [getWorldMode])
     }
 
     private fromPos: Vector3 | undefined

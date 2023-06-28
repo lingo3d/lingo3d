@@ -17,8 +17,8 @@ import {
 import { dtPtr } from "../../pointers/dtPtr"
 import { gravityPtr } from "../../pointers/gravityPtr"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 import math from "../../math"
 import { frameSyncAlpha } from "../../api/frameSync"
 import { busyCookingPtr } from "../../pointers/busyCookingPtr"
@@ -38,7 +38,7 @@ const lockHit = (manager: MeshAppendable, lock: boolean) => {
 
 createEffect(() => {
     const { pxScene, pxControllerFilters, pxRaycast } = physxPtr[0]
-    if (!pxScene || worldPlayPtr[0] !== "live") return
+    if (!pxScene || worldModePtr[0] !== "default") return
 
     physxLoopPtr[0] = true
     const handle = onPhysics(() => {
@@ -119,4 +119,4 @@ createEffect(() => {
         handle.cancel()
         physxLoopPtr[0] = false
     }
-}, [getPhysXLoaded, getWorldPlay])
+}, [getPhysXLoaded, getWorldMode])

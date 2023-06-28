@@ -5,33 +5,18 @@ import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import ToolbarButton from "./ToolbarButton"
 import CursorIcon from "./icons/CursorIcon"
-import OpenIcon from "./icons/OpenIcont"
-import ReactIcon from "./icons/ReactIcon"
-import VueIcon from "./icons/VueIcon"
-import exportReact from "../../api/files/exportReact"
-import exportVue from "../../api/files/exportVue"
-import openJSON from "../../api/files/openJSON"
 import Section from "./Section"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
-import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
-import FolderIcon from "./icons/FolderIcon"
-import SaveIcon from "./icons/SaveIcon"
-import saveJSON from "../../api/files/saveJSON"
-import openFolder from "../../api/files/openFolder"
-import exportJSON from "../../api/files/exportJSON"
-import JSONIcon from "./icons/JSONIcon"
 import useInitCSS from "../hooks/useInitCSS"
 import { setEditorMode } from "../../states/useEditorMode"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
-import { getWorldPlay, setWorldPlay } from "../../states/useWorldPlay"
+import { setWorldMode } from "../../states/useWorldMode"
 import useInitEditor from "../hooks/useInitEditor"
 import { stopPropagation } from "../utils/stopPropagation"
-import { getScript } from "../../states/useScript"
-import RunIcon from "./icons/RunIcon"
 
 const Toolbar = () => {
     useInitCSS()
@@ -40,8 +25,6 @@ const Toolbar = () => {
     const mode = useSyncState(getEditorModeComputed)
     const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
-    const script = useSyncState(getScript)
-    const worldPlay = useSyncState(getWorldPlay)
 
     const canTranslate = target && "x" in target
     const canRotate = target && "rotationX" in target
@@ -65,7 +48,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "select"}
                         onClick={() => {
-                            setWorldPlay("editor")
+                            setWorldMode("editor")
                             setEditorMode("select")
                         }}
                     >
@@ -74,7 +57,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "translate"}
                         onClick={() => {
-                            setWorldPlay("editor")
+                            setWorldMode("editor")
                             setEditorMode("translate")
                         }}
                         disabled={!canTranslate}
@@ -85,7 +68,7 @@ const Toolbar = () => {
                         active={mode === "rotate"}
                         disabled={!canRotate}
                         onClick={() => {
-                            setWorldPlay("editor")
+                            setWorldMode("editor")
                             setEditorMode("rotate")
                         }}
                     >
@@ -95,7 +78,7 @@ const Toolbar = () => {
                         active={mode === "scale"}
                         disabled={!canScale}
                         onClick={() => {
-                            setWorldPlay("editor")
+                            setWorldMode("editor")
                             setEditorMode("scale")
                         }}
                     >
@@ -137,7 +120,7 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "curve"}
                         onClick={() => {
-                            setWorldPlay("editor")
+                            setWorldMode("editor")
                             setEditorMode("curve")
                         }}
                     >

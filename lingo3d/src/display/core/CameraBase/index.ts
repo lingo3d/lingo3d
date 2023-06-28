@@ -24,8 +24,8 @@ import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
-import { getWorldPlay } from "../../../states/useWorldPlay"
-import { worldPlayPtr } from "../../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../../states/useWorldMode"
+import { worldModePtr } from "../../../pointers/worldModePtr"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -43,7 +43,7 @@ export default abstract class CameraBase<
 
         this.createEffect(() => {
             if (
-                worldPlayPtr[0] !== "editor" ||
+                worldModePtr[0] !== "editor" ||
                 cameraRenderedPtr[0] === $camera ||
                 this.$disableSceneGraph
             )
@@ -63,7 +63,7 @@ export default abstract class CameraBase<
                 scene.remove(helper)
                 sprite.dispose()
             }
-        }, [getWorldPlay, getCameraRendered])
+        }, [getWorldMode, getCameraRendered])
     }
 
     protected override disposeNode(): void {

@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "preact/hooks"
 import settings from "../../api/settings"
-import { getWorldPlay } from "../../states/useWorldPlay"
+import { getWorldMode } from "../../states/useWorldMode"
 import Runtime from "./Runtime"
 import useSyncState from "../hooks/useSyncState"
 
 const World = () => {
     const elRef = useRef<HTMLDivElement>(null)
-    const worldPlay = useSyncState(getWorldPlay)
+    const worldPlay = useSyncState(getWorldMode)
 
     useEffect(() => {
         const el = elRef.current

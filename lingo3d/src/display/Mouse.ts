@@ -12,8 +12,8 @@ import { onMouseUp } from "../events/onMouseUp"
 import { onMouseRightClick } from "../events/onMouseRightClick"
 import { onMouseClick } from "../events/onMouseClick"
 import { onMouseMove } from "../events/onMouseMove"
-import { getWorldPlay } from "../states/useWorldPlay"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { getWorldMode } from "../states/useWorldMode"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 export default class Mouse extends Appendable implements IMouse {
     public static componentName = "mouse"
@@ -45,7 +45,7 @@ export default class Mouse extends Appendable implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "live") return
+            if (worldModePtr[0] !== "default") return
 
             const handle0 = onMouseMove((e) => {
                 this.onMouseMove?.(e)
@@ -77,6 +77,6 @@ export default class Mouse extends Appendable implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getWorldPlay])
+        }, [getWorldMode])
     }
 }

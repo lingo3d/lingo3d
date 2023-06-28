@@ -16,11 +16,11 @@ import { onMouseDown } from "../../events/onMouseDown"
 import { onMouseUp } from "../../events/onMouseUp"
 import { onMouseMove } from "../../events/onMouseMove"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
-import { getWorldPlay } from "../../states/useWorldPlay"
-import { worldPlayPtr } from "../../pointers/worldPlayPtr"
+import { getWorldMode } from "../../states/useWorldMode"
+import { worldModePtr } from "../../pointers/worldModePtr"
 
 createEffect(() => {
-    if (worldPlayPtr[0] !== "live") return
+    if (worldModePtr[0] !== "default") return
 
     const [selectionTargetBackup] = selectionTargetPtr
 
@@ -75,4 +75,4 @@ createEffect(() => {
         handle6.cancel()
         !selectionTargetPtr[0] && setSelectionTarget(selectionTargetBackup)
     }
-}, [getWorldPlay])
+}, [getWorldMode])

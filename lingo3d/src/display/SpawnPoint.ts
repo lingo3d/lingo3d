@@ -6,8 +6,8 @@ import GimbalObjectManager from "./core/GimbalObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
 import HelperCylinder from "./core/utils/HelperCylinder"
-import { getWorldPlay } from "../states/useWorldPlay"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { getWorldMode } from "../states/useWorldMode"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 export default class SpawnPoint
     extends GimbalObjectManager
@@ -23,13 +23,13 @@ export default class SpawnPoint
         super()
 
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
+            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
             const helper = new HelperCylinder(this)
             helper.height = 10
             return () => {
                 helper.dispose()
             }
-        }, [getWorldPlay])
+        }, [getWorldMode])
     }
 
     public override append(child: SimpleObjectManager) {

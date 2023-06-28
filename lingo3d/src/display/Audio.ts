@@ -6,8 +6,8 @@ import loadAudio from "./utils/loaders/loadAudio"
 import MeshAppendable from "./core/MeshAppendable"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { getWorldPlay } from "../states/useWorldPlay"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { getWorldMode } from "../states/useWorldMode"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 const audioListener = new AudioListener()
 
@@ -33,12 +33,12 @@ export default class Audio
         super(sound)
 
         this.createEffect(() => {
-            if (worldPlayPtr[0] !== "editor" || this.$disableSceneGraph) return
+            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
             const helper = new HelperSprite("audio", this)
             return () => {
                 helper.dispose()
             }
-        }, [getWorldPlay])
+        }, [getWorldMode])
 
         const [setReady, getReady] = store(false)
 

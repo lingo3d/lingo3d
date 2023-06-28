@@ -9,8 +9,8 @@ import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { getDocumentHidden } from "../states/useDocumentHidden"
-import { getWorldPlay } from "../states/useWorldPlay"
-import { worldPlayPtr } from "../pointers/worldPlayPtr"
+import { getWorldMode } from "../states/useWorldMode"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 const callbacks = new Set<() => void>()
 
@@ -18,7 +18,7 @@ const clock = new Clock()
 let delta = 0
 
 createEffect(() => {
-    if (worldPlayPtr[0] === "runtime" || getDocumentHidden()) return
+    if (worldModePtr[0] === "runtime" || getDocumentHidden()) return
 
     const [renderer] = rendererPtr
     const targetDelta = 1 / fpsPtr[0]
@@ -37,7 +37,7 @@ createEffect(() => {
     return () => {
         renderer.setAnimationLoop(null)
     }
-}, [getFps, getRenderer, getWorldPlay, getDocumentHidden])
+}, [getFps, getRenderer, getWorldMode, getDocumentHidden])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

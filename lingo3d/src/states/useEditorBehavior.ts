@@ -2,7 +2,7 @@ import store, { createEffect } from "@lincode/reactivity"
 import mainCamera from "../engine/mainCamera"
 import { setEditorCamera } from "./useEditorCamera"
 import { getEditorCount } from "./useEditorCount"
-import { setWorldPlay } from "./useWorldPlay"
+import { setWorldMode } from "./useWorldMode"
 import { editorBehaviorPtr } from "../pointers/editorBehaviorPtr"
 
 export const [setEditorBehavior, getEditorBehavior] = store(false)
@@ -15,10 +15,10 @@ createEffect(() => {
     if (!editorBehaviorPtr[0]) return
 
     setEditorCamera(mainCamera)
-    setWorldPlay("editor")
+    setWorldMode("editor")
 
     return () => {
         setEditorCamera(undefined)
-        setWorldPlay("live")
+        setWorldMode("default")
     }
 }, [getEditorBehavior])
