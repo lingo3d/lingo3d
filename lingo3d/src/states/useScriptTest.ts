@@ -5,6 +5,4 @@ type Data = {
     compiled?: string
 }
 
-export const [setScriptCompile, getScriptCompile] = store<Data | undefined>(
-    undefined
-)
+export const [setScriptTest, getScriptTest] = store<Data | undefined>(undefined)

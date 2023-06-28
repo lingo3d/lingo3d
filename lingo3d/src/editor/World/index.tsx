@@ -20,7 +20,9 @@ const World = () => {
 
     return (
         <div ref={elRef} style={{ flexGrow: 1 }}>
-            {(worldPlay === "runtime" || worldPlay === "script") && <Runtime />}
+            {(worldPlay === "runtime" || worldPlay === "testScript") && (
+                <Runtime />
+            )}
         </div>
     )
 }

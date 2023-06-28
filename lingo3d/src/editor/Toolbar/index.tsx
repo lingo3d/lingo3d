@@ -148,8 +148,8 @@ const Toolbar = () => {
                 {script && (
                     <Section>
                         <ToolbarButton
-                            active={worldPlay === "script"}
-                            onClick={() => setWorldPlay("script")}
+                            active={worldPlay === "testScript"}
+                            onClick={() => setWorldPlay("testScript")}
                         >
                             <RunIcon />
                         </ToolbarButton>

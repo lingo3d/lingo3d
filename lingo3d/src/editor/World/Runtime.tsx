@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "preact/hooks"
 import serialize from "../../api/serializer/serialize"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import useSyncState from "../hooks/useSyncState"
-import { getScriptCompile } from "../../states/useScriptCompile"
+import { getScriptTest } from "../../states/useScriptTest"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
-    const scriptCompile = useSyncState(getScriptCompile)
+    const scriptCompile = useSyncState(getScriptTest)
     const [busy, setBusy] = useState(false)
 
     useEffect(() => {

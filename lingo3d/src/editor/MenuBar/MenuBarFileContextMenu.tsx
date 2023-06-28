@@ -16,20 +16,6 @@ import exportVue from "../../api/files/exportVue"
 export const menuBarFileContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
 
-const systemScript = `import { frameSync } from "lingo3d"
-
-// executes once every frame
-export const update = (target: any) => {
-}
-
-// executes when target is added to system
-export const effect = (target: any) => {
-}
-
-// executes when target is deleted from system, or if target id disposed
-export const cleanup = (target: any) => {
-}`
-
 const MenuBarFileContextMenu = () => {
     return (
         <ContextMenu positionSignal={menuBarFileContextMenuSignal}>
@@ -42,10 +28,7 @@ const MenuBarFileContextMenu = () => {
                             script.name = name
                             script.language = language
                             script.type = type
-                            script.code =
-                                type === "script"
-                                    ? `import { frameSync } from "lingo3d"\n\n`
-                                    : systemScript
+                            script.code = `import { createSystem } from "lingo3d"\n\n`
                             setScript(script)
                         }
                     }

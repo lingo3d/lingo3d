@@ -56,7 +56,7 @@ const ScriptEditor = () => {
         if (!script) return
 
         const handle = getWorldPlay(
-            (val) => val === "script" && controls.saveAll()
+            (val) => val === "testScript" && controls.saveAll()
         )
         return () => {
             handle.cancel()

@@ -19,7 +19,7 @@ let delta = 0
 
 createEffect(() => {
     if (
-        worldPlayPtr[0] === "script" ||
+        worldPlayPtr[0] === "testScript" ||
         worldPlayPtr[0] === "runtime" ||
         getDocumentHidden()
     )

@@ -16,7 +16,7 @@ export default class Script extends Appendable implements IScript {
 
     public code = ""
     public language: ScriptLanguage = "TypeScript"
-    public type: ScriptType = "system"
+    public type: ScriptType = "script"
 
     protected override disposeNode() {
         super.disposeNode()

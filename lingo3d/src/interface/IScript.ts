@@ -8,7 +8,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export type ScriptLanguage = "JavaScript" | "TypeScript"
-export type ScriptType = "script" | "system"
+export type ScriptType = "script" | "editorScript"
 
 export default interface IScript extends IAppendable {
     code: string
@@ -29,13 +29,13 @@ export const scriptDefaults = extendDefaults<IScript>(
     {
         code: "",
         language: "TypeScript",
-        type: "system"
+        type: "script"
     },
     {
         language: new Choices({
             JavaScript: "JavaScript",
             TypeScript: "TypeScript"
         }),
-        type: new Choices({ script: "script", system: "system" })
+        type: new Choices({ script: "script", editorScript: "editorScript" })
     }
 )

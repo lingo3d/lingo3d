@@ -1,7 +1,7 @@
 import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
 import { worldPlayPtr } from "../pointers/worldPlayPtr"
-import { setScriptCompile } from "../states/useScriptCompile"
+import { setScriptTest } from "../states/useScriptTest"
 import { Node } from "@babel/traverse"
 import { USE_EDITOR_SYSTEMS } from "../globals"
 import { systemsMap } from "../collections/systemsMap"
@@ -54,19 +54,6 @@ const eraseTypes = {
     }
 }
 
-const systemOptionKeys = [
-    "data",
-    "effect",
-    "cleanup",
-    "update",
-    "updateTicker",
-    "effectTicker",
-    "beforeTick",
-    "afterTick",
-    "sort"
-]
-const systemOptionKeySet = new Set(systemOptionKeys)
-
 const createSystems = (
     script: Script,
     codeRecordFactory: () => Record<string, string>
@@ -88,8 +75,8 @@ const createSystems = (
 }
 
 export default async (script: Script) => {
-    const scriptRuntime = worldPlayPtr[0] === "script"
-    scriptRuntime && setScriptCompile({ raw: script.code })
+    const testScript = worldPlayPtr[0] === "testScript"
+    testScript && setScriptTest({ raw: script.code })
 
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
@@ -112,14 +99,10 @@ export default async (script: Script) => {
     const systemASTs: Record<string, Node> = {}
     const systemNames: Array<string> = []
 
-    const convertExportsToSystemOptionsNodes = new Map<string, Node>()
-
     traverse(ast, {
         ...eraseTypes,
         CallExpression(path: any) {
             eraseExpressionTypes(path)
-
-            if (script.type !== "script") return
 
             const { name, type } = path.node.callee
             if (
@@ -155,72 +138,20 @@ export default async (script: Script) => {
             path.replaceWithMultiple(
                 imports.map((importCode) => parse(importCode).program.body[0])
             )
-        },
-        ...(script.type === "system" && {
-            ExportNamedDeclaration(path) {
-                const declaration = path.node.declaration
-                if (!declaration || declaration.type !== "VariableDeclaration")
-                    return
-
-                const variableDeclarator = declaration.declarations[0]
-                //@ts-ignore
-                const identifier = variableDeclarator.id.name
-                if (!systemOptionKeySet.has(identifier)) return
-
-                const functionExpressionNode = variableDeclarator.init
-                if (
-                    functionExpressionNode?.type !==
-                        "ArrowFunctionExpression" &&
-                    functionExpressionNode?.type !== "FunctionExpression"
-                )
-                    return
-
-                convertExportsToSystemOptionsNodes.set(
-                    identifier,
-                    functionExpressionNode
-                )
-                path.remove()
-            }
-        })
-    })
-    if (USE_EDITOR_SYSTEMS) {
-        if (script.type === "script")
-            createSystems(script, () => {
-                const codeRecord: Record<string, string> = {}
-                for (const [name, ast] of Object.entries(systemASTs))
-                    codeRecord[name] = `lingo3d.createSystem("${name}", ${
-                        generate(ast).code
-                    })`
-                return codeRecord
-            })
-        else {
-            const { name } = script
-            systemNames.push(name!)
-
-            const systemAST = parse(
-                `lingo3d.createSystem("${name}", {${systemOptionKeys.join(
-                    ":undefined,"
-                )}:undefined})`
-            )
-            traverse(systemAST, {
-                ...eraseTypes,
-                ObjectProperty(path) {
-                    erasePropertyTypes(path)
-                    const targetNode = convertExportsToSystemOptionsNodes.get(
-                        //@ts-ignore
-                        path.node.key.name
-                    )
-                    targetNode && path.get("value").replaceWith(targetNode)
-                }
-            })
-            createSystems(script, () => ({
-                [name!]: generate(ast).code + "\n" + generate(systemAST).code
-            }))
         }
-    }
+    })
+    if (USE_EDITOR_SYSTEMS)
+        createSystems(script, () => {
+            const codeRecord: Record<string, string> = {}
+            for (const [name, ast] of Object.entries(systemASTs))
+                codeRecord[name] = `lingo3d.createSystem("${name}", ${
+                    generate(ast).code
+                })`
+            return codeRecord
+        })
     systemNames.length
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
 
-    scriptRuntime && setScriptCompile({ compiled: "" })
+    testScript && setScriptTest({ compiled: "" })
 }
