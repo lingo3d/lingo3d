@@ -4,6 +4,7 @@ import { Node } from "@babel/traverse"
 import { systemsMap } from "../collections/systemsMap"
 import { forceGetInstance } from "@lincode/utils"
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
+import { worldModePtr } from "../pointers/worldModePtr"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -145,7 +146,9 @@ export default async (script: Script) => {
         const codeRecord: Record<string, string> = {}
         for (const [name, ast] of Object.entries(systemASTs))
             codeRecord[name] = `lingo3d.createSystem("${name}", ${
-                script.type === "editorScript" ? generate(ast).code : "{}"
+                script.type === "editorScript" || worldModePtr[0] === "default"
+                    ? generate(ast).code
+                    : "{}"
             })`
         return codeRecord
     })
