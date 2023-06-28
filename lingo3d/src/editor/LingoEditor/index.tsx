@@ -22,6 +22,7 @@ import { getScript } from "../../states/useScript"
 import ScriptEditor from "../ScriptEditor"
 import NewScriptDialog from "../ScriptEditor/NewScriptDialog"
 import Console from "../Console"
+import WorldToggles from "../WorldBar/WorldToggles"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
@@ -61,6 +62,7 @@ const LingoEditor = () => {
                 </>
             )}
             <WorldBar />
+            <WorldToggles topLevel />
             <div
                 className="lingo3d-world lingo3d-bg lingo3d-flexcol"
                 style={{ flexGrow: 1 }}

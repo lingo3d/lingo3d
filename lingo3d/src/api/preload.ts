@@ -5,7 +5,7 @@ import {
 } from "../display/utils/loaders/utils/bytesLoaded"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import loadModel from "../display/utils/loaders/loadModel"
-import { isBusy } from "../pointers/busyCountPtr"
+import isBusy from "./isBusy"
 
 export default async (
     urls: Array<string>,

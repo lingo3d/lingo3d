@@ -2,28 +2,19 @@ import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../hooks/useInitCSS"
 import WorldControls from "./WorldControls"
 import useInitEditor from "../hooks/useInitEditor"
-import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
-import { getSplitView, setSplitView } from "../../states/useSplitView"
-import { getUILayer, setUILayer } from "../../states/useUILayer"
-import {
-    getWorldExpanded,
-    setWorldExpanded
-} from "../../states/useWorldExpanded"
 import SelectBox from "../component/SelectBox"
 import { getCameraList } from "../../states/useCameraList"
 import getDisplayName from "../utils/getDisplayName"
 import { getManager } from "../../display/core/utils/getManager"
 import { setEditorCamera } from "../../states/useEditorCamera"
+import WorldToggles from "./WorldToggles"
 
 const WorldBar = () => {
     useInitCSS()
     useInitEditor()
 
-    const splitView = useSyncState(getSplitView)
-    const uiLayer = useSyncState(getUILayer)
     const cameraList = useSyncState(getCameraList)
-    const worldExpanded = useSyncState(getWorldExpanded)
 
     return (
         <div
@@ -41,21 +32,7 @@ const WorldBar = () => {
                     )}
                     onChange={(index) => setEditorCamera(cameraList[index])}
                 />
-                <Switch
-                    label="split"
-                    on={splitView}
-                    onChange={(val) => setSplitView(val)}
-                />
-                <Switch
-                    label="ui"
-                    on={uiLayer}
-                    onChange={(val) => setUILayer(val)}
-                />
-                <Switch
-                    label="expand"
-                    on={worldExpanded}
-                    onChange={(val) => setWorldExpanded(val)}
-                />
+                <WorldToggles />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <WorldControls />
             </AppBar>

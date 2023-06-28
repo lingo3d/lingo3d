@@ -79,6 +79,7 @@ import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 import root from "./api/root"
 import frameSync from "./api/frameSync"
+import isBusy from "./api/isBusy"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
@@ -93,7 +94,6 @@ import math from "./math"
 
 import { setAssetsPath } from "./pointers/assetsPathPointers"
 import { VERSION } from "./globals"
-import { isBusy } from "./pointers/busyCountPtr"
 
 const keyboard = new Keyboard()
 keyboard.$ghost()
@@ -175,6 +175,7 @@ export {
     screenshot,
     root,
     frameSync,
+    isBusy,
     serialize,
     deserialize,
     onAfterRender,
@@ -186,6 +187,5 @@ export {
     keyboard,
     mouse,
     setAssetsPath,
-    VERSION,
-    isBusy
+    VERSION
 }

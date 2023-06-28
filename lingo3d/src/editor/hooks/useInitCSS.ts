@@ -100,7 +100,7 @@ export default lazy(() => {
             .lingo3d-lingoeditor {
                 display: grid;
                 grid-template: "menubar menubar    menubar menubar worldbar"
-                               "toolbar scenegraph editor library  world"
+                               "toolbar scenegraph editor library  worldtoggles"
                                "toolbar scenegraph editor library  world"
                                "toolbar panels     panels panels   world";
                 grid-template-columns: auto auto auto auto 1fr;
@@ -110,6 +110,7 @@ export default lazy(() => {
             .lingo3d-editor { grid-area: editor; }
             .lingo3d-library { grid-area: library; }
             .lingo3d-worldbar { grid-area: worldbar; }
+            .lingo3d-worldtoggles { grid-area: worldtoggles; }
             .lingo3d-panels { grid-area: panels; }
             .lingo3d-toolbar { grid-area: toolbar; }
             .lingo3d-world { grid-area: world; }

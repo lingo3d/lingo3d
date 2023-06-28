@@ -9,7 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/containers"
 import { getDocumentHidden } from "../../states/useDocumentHidden"
-import { isBusy } from "../../pointers/busyCountPtr"
+import isBusy from "../../api/isBusy"
 
 const HUD = () => {
     useInitCSS()

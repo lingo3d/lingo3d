@@ -8,7 +8,7 @@ import { resolutionPtr } from "../pointers/resolutionPtr"
 import { setPixelRatio } from "../states/usePixelRatio"
 import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
-import { isBusy } from "../pointers/busyCountPtr"
+import isBusy from "../api/isBusy"
 
 const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
     const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.7, 0.5, true)
