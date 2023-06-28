@@ -4,7 +4,6 @@ import {
     releasePointLight,
     requestPointLight
 } from "../pools/objectPools/pointLightPool"
-import scene from "../engine/scene"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 
@@ -31,7 +30,6 @@ export const pooledPointLightSystem = createInternalSystem(
             } else if (!visible && data.visible) {
                 const light = self.$light!
                 releasePointLight(light)
-                scene.add(light.outerObject3d)
                 light.fade = false
                 light.intensity = 0
                 self.$light = undefined

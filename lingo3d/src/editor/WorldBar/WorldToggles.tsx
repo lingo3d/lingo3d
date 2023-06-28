@@ -23,22 +23,31 @@ const WorldToggles = () => {
             style={{ gap: 4 }}
         >
             <Switch
+                compact
                 label="split"
                 on={splitView}
                 onChange={(val) => setSplitView(val)}
             />
             <Switch
+                compact
                 label="ui"
                 on={uiLayer}
                 onChange={(val) => setUILayer(val)}
             />
-            <Switch label="grid" on={grid} onChange={(val) => setGrid(val)} />
             <Switch
+                compact
+                label="grid"
+                on={grid}
+                onChange={(val) => setGrid(val)}
+            />
+            <Switch
+                compact
                 label="stats"
                 on={stats}
                 onChange={(val) => setStats(val)}
             />
             <Switch
+                compact
                 label="expand"
                 on={worldExpanded}
                 onChange={(val) => setWorldExpanded(val)}
