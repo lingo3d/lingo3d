@@ -1,6 +1,6 @@
 import setupStruct from "../api/settings/setupStruct"
+import { disableSchema } from "../collections/disableSchema"
 import { environmentChoices } from "./IEnvironment"
-import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
@@ -45,6 +45,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
+disableSchema.add("grid")
+disableSchema.add("stats")
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],

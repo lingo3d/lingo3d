@@ -11,10 +11,8 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
 
     const handle = new Cancellable()
     const [params, manager] = createParams(targetSetup, includeKeys, true)
-    const [editorParams, editorRest] = splitObject(params, ["grid", "stats"])
-    addInputs(handle, pane, "editor", manager, editorParams)
 
-    const [rendererParams, rendererRest] = splitObject(editorRest, ["fps"])
+    const [rendererParams, rendererRest] = splitObject(params, ["fps"])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 
     const [physicsParams, physicsRest] = splitObject(rendererRest, ["gravity"])

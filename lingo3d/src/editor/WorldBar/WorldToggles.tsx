@@ -1,4 +1,6 @@
+import { getGrid, setGrid } from "../../states/useGrid"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
+import { getStats, setStats } from "../../states/useStats"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
 import {
     getWorldExpanded,
@@ -11,6 +13,8 @@ import useSyncState from "../hooks/useSyncState"
 const WorldToggles = () => {
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
+    const grid = useSyncState(getGrid)
+    const stats = useSyncState(getStats)
     const worldExpanded = useSyncState(getWorldExpanded)
 
     return (
@@ -27,6 +31,12 @@ const WorldToggles = () => {
                 label="ui"
                 on={uiLayer}
                 onChange={(val) => setUILayer(val)}
+            />
+            <Switch label="grid" on={grid} onChange={(val) => setGrid(val)} />
+            <Switch
+                label="stats"
+                on={stats}
+                onChange={(val) => setStats(val)}
             />
             <Switch
                 label="expand"
