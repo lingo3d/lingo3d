@@ -17,8 +17,11 @@ const WorldToggles = ({ topLevel }: Props) => {
     const uiLayer = useSyncState(getUILayer)
     const worldExpanded = useSyncState(getWorldExpanded)
 
-    const switches = (
-        <>
+    return (
+        <AppBar
+            className="lingo3d-ui lingo3d-bg-dark lingo3d-worldtoggles"
+            style={{ gap: 4, width: topLevel ? "100%" : "auto" }}
+        >
             <Switch
                 label="split"
                 on={splitView}
@@ -34,20 +37,8 @@ const WorldToggles = ({ topLevel }: Props) => {
                 on={worldExpanded}
                 onChange={(val) => setWorldExpanded(val)}
             />
-        </>
+        </AppBar>
     )
-
-    if (topLevel)
-        return (
-            <AppBar
-                className="lingo3d-ui lingo3d-bg-dark lingo3d-worldtoggles"
-                style={{ display: "flex", gap: 4 }}
-            >
-                {switches}
-            </AppBar>
-        )
-
-    return <div style={{ display: "flex", gap: 4 }}>{switches}</div>
 }
 
 export default WorldToggles
