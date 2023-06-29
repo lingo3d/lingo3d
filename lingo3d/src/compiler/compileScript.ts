@@ -5,6 +5,10 @@ import { userlandNameSystemMap } from "../collections/userlandNameSystemMap"
 import { forceGetInstance } from "@lincode/utils"
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
 import { worldModePtr } from "../pointers/worldModePtr"
+import {
+    addScriptCompiling,
+    deleteScriptCompiling
+} from "../states/useScriptCompiling"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -77,6 +81,7 @@ const createSystems = (
 }
 
 export default async (script: Script) => {
+    addScriptCompiling(script)
     // const testScript = worldPlayPtr[0] === "testScript"
     // testScript && setScriptTest({ raw: script.code })
 
@@ -157,4 +162,5 @@ export default async (script: Script) => {
         : scriptUUIDSystemNamesMap.delete(script.uuid)
 
     // testScript && setScriptTest({ compiled: "" })
+    deleteScriptCompiling(script)
 }

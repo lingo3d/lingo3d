@@ -20,6 +20,8 @@ import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 
 type EventName = "name" | "runtimeSchema" | "loaded"
 
+const isUserlandSystem = (name: string) => userlandNameSystemMap.has(name)
+
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()
@@ -78,12 +80,15 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public get systems() {
-        return this._systems ? [...this._systems.keys()] : []
+        return this._systems
+            ? [...this._systems.keys()].filter(isUserlandSystem)
+            : []
     }
-    public set systems(val) {
+    public set systems(names) {
         if (this._systems)
-            for (const system of this._systems.values()) system.delete(this)
-        for (const key of val) userlandNameSystemMap.get(key)?.add(this)
+            for (const system of this._systems.values())
+                isUserlandSystem(system.name) && system.delete(this)
+        for (const name of names) userlandNameSystemMap.get(name)?.add(this)
     }
 
     protected disposeNode() {
