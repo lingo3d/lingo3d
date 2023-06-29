@@ -4,10 +4,9 @@ import {
     releaseSpotLight,
     requestSpotLight
 } from "../pools/objectPools/spotLightPool"
-import scene from "../engine/scene"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
-import { configParentSystem } from "./configSystems/configParentSystem"
+import getWorldPosition from "../memo/getWorldPosition"
 
 let count = 0
 
@@ -23,9 +22,6 @@ export const pooledSpotLightSystem = createInternalSystem(
             const visible = !!intensityFactor && ++count <= spotLightPoolPtr[0]
             if (visible && !data.visible) {
                 const light = (self.$light = requestSpotLight([], ""))
-                configParentSystem.add(light.outerObject3d, {
-                    parent: self.object3d
-                })
                 light.distance = self.distance
                 light.intensity = self.intensity
                 light.color = self.color
@@ -38,14 +34,13 @@ export const pooledSpotLightSystem = createInternalSystem(
             } else if (!visible && data.visible) {
                 const light = self.$light!
                 releaseSpotLight(light)
-                configParentSystem.add(light.outerObject3d, {
-                    parent: scene
-                })
                 light.fade = false
                 light.intensity = 0
                 self.$light = undefined
             }
             data.visible = visible
+            visible &&
+                self.$light!.position.copy(getWorldPosition(self.object3d))
         },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }

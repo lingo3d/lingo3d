@@ -15,7 +15,7 @@ import { container } from "../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { gyrateSystem } from "../../systems/gyrateSystem"
 import { flySystem } from "../../systems/flySystem"
-import { positionCopySystem } from "../../systems/positionCopySystem"
+import { copyPositionSystem } from "../../systems/copyPositionSystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -35,9 +35,9 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            positionCopySystem.add(this, { target: found })
+            copyPositionSystem.add(this, { target: found })
             return () => {
-                positionCopySystem.delete(this)
+                copyPositionSystem.delete(this)
             }
         }, [this.firstChildState.get])
 
