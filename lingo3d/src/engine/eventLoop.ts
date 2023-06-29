@@ -22,7 +22,7 @@ createEffect(() => {
 
     const [renderer] = rendererPtr
     const targetDelta = 1 / fpsPtr[0]
-    const targetDeltaAdjusted = targetDelta * 0.9
+    const targetDeltaAdjusted = targetDelta * 0.7
 
     renderer.setAnimationLoop(() => {
         delta += clock.getDelta()
