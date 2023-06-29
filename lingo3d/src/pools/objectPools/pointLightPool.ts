@@ -8,9 +8,6 @@ export const pointLightPool =
             const light = new PointLight()
             light.intensity = 0
             light.$ghost()
-
-            console.log(light.uuid)
-
             return light
         },
         (light) => {
