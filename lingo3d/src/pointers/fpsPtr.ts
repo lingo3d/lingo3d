@@ -1,3 +1,3 @@
 import { STANDARD_FRAME } from "../globals"
 
-export const fpsPtr = [STANDARD_FRAME]
+export const fpsPtr: [30 | 60] = [STANDARD_FRAME]
