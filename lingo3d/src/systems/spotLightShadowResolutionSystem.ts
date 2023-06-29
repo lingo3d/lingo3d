@@ -1,10 +1,7 @@
 import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import SpotLight from "../display/lights/SpotLight"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
-import {
-    releaseShadowRenderTarget,
-    requestShadowRenderTarget
-} from "../pools/objectPools/shadowRenderTargetPool"
+import { shadowRenderTargetPool } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import createInternalSystem from "./utils/createInternalSystem"
 
@@ -31,8 +28,8 @@ export const spotLightShadowResolutionSystem = createInternalSystem(
             const res = resolutions[step]
             shadow.mapSize.setScalar(res)
             shadow.bias = biases[step]
-            releaseShadowRenderTarget(shadow.map)
-            shadow.map = requestShadowRenderTarget([res, res])
+            shadowRenderTargetPool.release(shadow.map)
+            shadow.map = shadowRenderTargetPool.request([res, res])
             updateShadow(shadow)
         }
     }

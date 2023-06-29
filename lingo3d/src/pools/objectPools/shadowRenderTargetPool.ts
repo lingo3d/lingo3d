@@ -6,7 +6,7 @@ const pars = {
     magFilter: NearestFilter
 }
 
-export const [requestShadowRenderTarget, releaseShadowRenderTarget] =
-    createObjectPool<WebGLRenderTarget, [number, number]>(
-        (params) => new WebGLRenderTarget(params[0], params[1], pars)
-    )
+export const shadowRenderTargetPool = createObjectPool<
+    WebGLRenderTarget,
+    [number, number]
+>((params) => new WebGLRenderTarget(params[0], params[1], pars))

@@ -2,12 +2,15 @@ import PointLight from "../../display/lights/PointLight"
 import PooledPointLight from "../../display/lights/PooledPointLight"
 import createObjectPool from "../utils/createObjectPool"
 
-export const [requestPointLight, releasePointLight, disposePointLights] =
+export const pointLightPool =
     createObjectPool<PointLight, [], PooledPointLight>(
         () => {
             const light = new PointLight()
             light.intensity = 0
             light.$ghost()
+
+            console.log(light.uuid)
+
             return light
         },
         (light) => {

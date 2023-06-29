@@ -1,10 +1,7 @@
 import PointLight from "../display/lights/PointLight"
 import { getDistanceFromCamera } from "../memo/getDistanceFromCamera"
 import { lightIncrementPtr } from "../pointers/lightIncrementPtr"
-import {
-    releaseShadowRenderTarget,
-    requestShadowRenderTarget
-} from "../pools/objectPools/shadowRenderTargetPool"
+import { shadowRenderTargetPool } from "../pools/objectPools/shadowRenderTargetPool"
 import updateShadow from "../display/utils/updateShadow"
 import createInternalSystem from "./utils/createInternalSystem"
 
@@ -35,8 +32,8 @@ export const pointLightShadowResolutionSystem = createInternalSystem(
             const res = resolutions[step]
             shadow.mapSize.setScalar(res)
             shadow.bias = biases[step]
-            releaseShadowRenderTarget(shadow.map)
-            shadow.map = requestShadowRenderTarget([
+            shadowRenderTargetPool.release(shadow.map)
+            shadow.map = shadowRenderTargetPool.request([
                 res * extents.x,
                 res * extents.y
             ])

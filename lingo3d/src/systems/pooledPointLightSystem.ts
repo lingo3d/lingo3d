@@ -1,9 +1,6 @@
 import PooledPointLight from "../display/lights/PooledPointLight"
 import getIntensityFactor from "../memo/getIntensityFactor"
-import {
-    releasePointLight,
-    requestPointLight
-} from "../pools/objectPools/pointLightPool"
+import { pointLightPool } from "../pools/objectPools/pointLightPool"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 import getWorldPosition from "../memo/getWorldPosition"
@@ -21,9 +18,9 @@ export const pooledPointLightSystem = createInternalSystem(
             const intensityFactor = getIntensityFactor(self)
             const visible = !!intensityFactor && ++count <= pointLightPoolPtr[0]
             if (visible && !data.visible)
-                self.$light = requestPointLight([], "", self)
+                self.$light = pointLightPool.request([], "", self)
             else if (!visible && data.visible) {
-                releasePointLight(self.$light)
+                pointLightPool.release(self.$light)
                 self.$light = undefined
             }
             data.visible = visible

@@ -56,5 +56,5 @@ export default <
         allObjects = []
     }
 
-    return <const>[request, release, clear]
+    return { request, release, clear }
 }

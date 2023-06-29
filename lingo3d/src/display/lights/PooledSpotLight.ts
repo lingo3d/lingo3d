@@ -1,8 +1,4 @@
-import {
-    disposeSpotLights,
-    releaseSpotLight,
-    requestSpotLight
-} from "../../pools/objectPools/spotLightPool"
+import { spotLightPool } from "../../pools/objectPools/spotLightPool"
 import IPooledSpotLight, {
     pooledSpotLightDefaults,
     pooledSpotLightSchema
@@ -21,14 +17,14 @@ const requestSpotLights = (self: PooledSpotLight) => {
     requested = self
     const lights: Array<SpotLight> = []
     for (let i = 0; i < spotLightPoolPtr[0]; ++i)
-        lights.push(requestSpotLight([], "", self))
-    for (const light of lights) releaseSpotLight(light)
+        lights.push(spotLightPool.request([], "", self))
+    for (const light of lights) spotLightPool.release(light)
 }
 onSpotLightPool(() => {
     if (!requested) return
     const self = requested
     requested = undefined
-    disposeSpotLights()
+    spotLightPool.clear()
     requestSpotLights(self)
     for (const light of lightSet) pooledSpotLightSystem.add(light)
 })

@@ -1,9 +1,6 @@
 import PooledSpotLight from "../display/lights/PooledSpotLight"
 import getIntensityFactor from "../memo/getIntensityFactor"
-import {
-    releaseSpotLight,
-    requestSpotLight
-} from "../pools/objectPools/spotLightPool"
+import { spotLightPool } from "../pools/objectPools/spotLightPool"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 import getWorldPosition from "../memo/getWorldPosition"
@@ -21,9 +18,9 @@ export const pooledSpotLightSystem = createInternalSystem(
             const intensityFactor = getIntensityFactor(self)
             const visible = !!intensityFactor && ++count <= spotLightPoolPtr[0]
             if (visible && !data.visible)
-                self.$light = requestSpotLight([], "", self)
+                self.$light = spotLightPool.request([], "", self)
             else if (!visible && data.visible) {
-                releaseSpotLight(self.$light)
+                spotLightPool.release(self.$light)
                 self.$light = undefined
             }
             data.visible = visible

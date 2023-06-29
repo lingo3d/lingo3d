@@ -12,7 +12,7 @@ import {
 } from "../../globals"
 import IPointLightBase from "../../interface/IPointLightBase"
 import LightBase from "./LightBase"
-import { releaseShadowRenderTarget } from "../../pools/objectPools/shadowRenderTargetPool"
+import { shadowRenderTargetPool } from "../../pools/objectPools/shadowRenderTargetPool"
 import Cube from "../primitives/Cube"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { lightIntensitySystem } from "../../systems/lightIntensitySystem"
@@ -33,7 +33,7 @@ export default abstract class PointLightBase<
     }
 
     protected override disposeNode() {
-        releaseShadowRenderTarget(this.object3d.shadow.map)
+        shadowRenderTargetPool.release(this.object3d.shadow.map)
         unsafeSetValue(this.object3d.shadow, "map", null)
         super.disposeNode()
     }

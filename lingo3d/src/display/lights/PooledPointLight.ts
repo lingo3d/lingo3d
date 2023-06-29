@@ -1,8 +1,4 @@
-import {
-    disposePointLights,
-    releasePointLight,
-    requestPointLight
-} from "../../pools/objectPools/pointLightPool"
+import { pointLightPool } from "../../pools/objectPools/pointLightPool"
 import IPooledPointLight, {
     pooledPointLightDefaults,
     pooledPointLightSchema
@@ -21,14 +17,14 @@ const requestPointLights = (self: PooledPointLight) => {
     requested = self
     const lights: Array<PointLight> = []
     for (let i = 0; i < pointLightPoolPtr[0]; ++i)
-        lights.push(requestPointLight([], "", self))
-    for (const light of lights) releasePointLight(light)
+        lights.push(pointLightPool.request([], "", self))
+    for (const light of lights) pointLightPool.release(light)
 }
 onPointLightPool(() => {
     if (!requested) return
     const self = requested
     requested = undefined
-    disposePointLights()
+    pointLightPool.clear()
     requestPointLights(self)
     for (const light of lightSet) pooledPointLightSystem.add(light)
 })
