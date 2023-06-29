@@ -20,22 +20,10 @@ export const pooledSpotLightSystem = createInternalSystem(
         update: (self: PooledSpotLight, data) => {
             const intensityFactor = getIntensityFactor(self)
             const visible = !!intensityFactor && ++count <= spotLightPoolPtr[0]
-            if (visible && !data.visible) {
-                const light = (self.$light = requestSpotLight([], ""))
-                light.distance = self.distance
-                light.intensity = self.intensity
-                light.color = self.color
-                light.shadows = self.shadows
-                light.fade = self.fade
-                light.angle = self.angle
-                light.penumbra = self.penumbra
-                light.volumetric = self.volumetric
-                light.volumetricDistance = self.volumetricDistance
-            } else if (!visible && data.visible) {
-                const light = self.$light!
-                releaseSpotLight(light)
-                light.fade = false
-                light.intensity = 0
+            if (visible && !data.visible)
+                self.$light = requestSpotLight([], "", self)
+            else if (!visible && data.visible) {
+                releaseSpotLight(self.$light)
                 self.$light = undefined
             }
             data.visible = visible

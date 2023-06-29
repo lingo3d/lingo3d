@@ -15,20 +15,21 @@ import { pooledPointLightSystem } from "../../systems/pooledPointLightSystem"
 
 const lightSet = new Set<PooledPointLight>()
 
-let requested = false
-const requestPointLights = () => {
+let requested: PooledPointLight | undefined
+const requestPointLights = (self: PooledPointLight) => {
     if (requested) return
-    requested = true
+    requested = self
     const lights: Array<PointLight> = []
     for (let i = 0; i < pointLightPoolPtr[0]; ++i)
-        lights.push(requestPointLight([], ""))
+        lights.push(requestPointLight([], "", self))
     for (const light of lights) releasePointLight(light)
 }
 onPointLightPool(() => {
     if (!requested) return
-    requested = false
+    const self = requested
+    requested = undefined
     disposePointLights()
-    requestPointLights()
+    requestPointLights(self)
     for (const light of lightSet) pooledPointLightSystem.add(light)
 })
 
@@ -42,7 +43,7 @@ export default class PooledPointLight
 
     public constructor() {
         super()
-        requestPointLights()
+        requestPointLights(this)
         pooledPointLightSystem.add(this)
         lightSet.add(this)
     }

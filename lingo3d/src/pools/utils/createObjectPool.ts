@@ -7,7 +7,9 @@ export default <
     Context extends object | void = void
 >(
     factory: (params: Params, context: Context) => Type,
-    dispose?: (object: Type) => void
+    dispose?: (object: Type) => void,
+    onRequest?: (object: Type, context: Context) => void,
+    onRelease?: (object: Type) => void
 ) => {
     const paramStringObjectArrayMap = new Map<string, Array<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
@@ -27,11 +29,13 @@ export default <
         if (objectArray.length) {
             const object = objectArray.pop()!
             releasedObjects.delete(object)
+            onRequest?.(object, context)
             return object
         }
         const result = factory(params, context)
         objectParamStringMap.set(result, paramString)
         allObjects.push(result)
+        onRequest?.(result, context)
         return result
     }
 
@@ -42,6 +46,8 @@ export default <
         paramStringObjectArrayMap
             .get(objectParamStringMap.get(object)!)!
             .push(object)
+
+        onRelease?.(object)
     }
 
     const clear = () => {
