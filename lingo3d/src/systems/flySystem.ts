@@ -1,5 +1,6 @@
 import { keyPressSet } from "../collections/keyPressSet"
 import CameraBase from "../display/core/CameraBase"
+import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const flySystem = createInternalSystem("flySystem", {
@@ -32,9 +33,9 @@ export const flySystem = createInternalSystem("flySystem", {
             pressed = true
         }
         if (pressed && !data.pressed) {
-            const worldPos = self.getWorldPosition()
+            const worldPos = getWorldPosition(self.object3d)
             self.innerZ = 0
-            self.placeAt(worldPos)
+            self.position.copy(worldPos)
         }
         data.pressed = pressed
     }
