@@ -17,6 +17,7 @@ import { loopSystem } from "../../systems/loopSystem"
 import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import type { System } from "../../systems/utils/createInternalSystem"
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
+import { updateSystemsSystem } from "../../systems/updateSystemsSystem"
 
 type EventName = "name" | "runtimeSchema" | "loaded"
 
@@ -88,7 +89,7 @@ export default class Appendable extends Disposable implements IAppendable {
         if (this._systems)
             for (const system of this._systems.values())
                 isUserlandSystem(system.name) && system.delete(this)
-        for (const name of names) userlandNameSystemMap.get(name)?.add(this)
+        updateSystemsSystem.add(this, { names })
     }
 
     protected disposeNode() {

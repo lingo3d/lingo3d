@@ -5,10 +5,7 @@ import { userlandNameSystemMap } from "../collections/userlandNameSystemMap"
 import { forceGetInstance } from "@lincode/utils"
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
 import { worldModePtr } from "../pointers/worldModePtr"
-import {
-    addScriptCompiling,
-    deleteScriptCompiling
-} from "../states/useScriptCompiling"
+import { scriptCompilingPtr } from "../pointers/scriptCompilingPtr"
 
 const eraseFunctionTypes = (path: any) => {
     if (path.node.typeParameters) path.node.typeParameters = undefined
@@ -80,11 +77,7 @@ const createSystems = (
     }
 }
 
-export default async (script: Script) => {
-    addScriptCompiling(script)
-    // const testScript = worldPlayPtr[0] === "testScript"
-    // testScript && setScriptTest({ raw: script.code })
-
+const compileScript = async (script: Script) => {
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
@@ -160,7 +153,9 @@ export default async (script: Script) => {
     systemNames.length
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
+}
 
-    // testScript && setScriptTest({ compiled: "" })
-    deleteScriptCompiling(script)
+export default (script: Script) => {
+    ++scriptCompilingPtr[0]
+    compileScript(script).then(() => --scriptCompilingPtr[0])
 }
