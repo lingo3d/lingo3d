@@ -3,7 +3,6 @@ import getIntensityFactor from "../memo/getIntensityFactor"
 import { pointLightPool } from "../pools/objectPools/pointLightPool"
 import { pointLightPoolPtr } from "../pointers/pointLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
-import getWorldPosition from "../memo/getWorldPosition"
 
 let count = 0
 
@@ -25,8 +24,8 @@ export const pooledPointLightSystem = createInternalSystem(
                 self.$light = undefined
             }
             data.visible = visible
-            visible &&
-                self.$light!.position.copy(getWorldPosition(self.object3d))
+            // visible &&
+            //     self.$light!.position.copy(getWorldPosition(self.object3d))
         },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }

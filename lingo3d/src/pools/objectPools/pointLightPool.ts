@@ -1,5 +1,6 @@
 import PointLight from "../../display/lights/PointLight"
 import PooledPointLight from "../../display/lights/PooledPointLight"
+import scene from "../../engine/scene"
 import createObjectPool from "../utils/createObjectPool"
 
 export const pointLightPool = createObjectPool<
@@ -22,9 +23,11 @@ export const pointLightPool = createObjectPool<
         light.color = self.color
         light.shadows = self.shadows
         light.fade = self.fade
+        self.object3d.add(light.outerObject3d)
     },
     (light) => {
         light.fade = false
         light.intensity = 0
+        scene.add(light.outerObject3d)
     }
 )

@@ -1,5 +1,6 @@
 import PooledSpotLight from "../../display/lights/PooledSpotLight"
 import SpotLight from "../../display/lights/SpotLight"
+import scene from "../../engine/scene"
 import createObjectPool from "../utils/createObjectPool"
 
 export const spotLightPool = createObjectPool<SpotLight, [], PooledSpotLight>(
@@ -22,9 +23,11 @@ export const spotLightPool = createObjectPool<SpotLight, [], PooledSpotLight>(
         light.penumbra = self.penumbra
         light.volumetric = self.volumetric
         light.volumetricDistance = self.volumetricDistance
+        self.object3d.add(light.outerObject3d)
     },
     (light) => {
         light.fade = false
         light.intensity = 0
+        scene.add(light.outerObject3d)
     }
 )

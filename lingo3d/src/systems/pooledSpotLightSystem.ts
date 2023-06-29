@@ -3,7 +3,6 @@ import getIntensityFactor from "../memo/getIntensityFactor"
 import { spotLightPool } from "../pools/objectPools/spotLightPool"
 import { spotLightPoolPtr } from "../pointers/spotLightPoolPtr"
 import createInternalSystem from "./utils/createInternalSystem"
-import getWorldPosition from "../memo/getWorldPosition"
 
 let count = 0
 
@@ -25,8 +24,8 @@ export const pooledSpotLightSystem = createInternalSystem(
                 self.$light = undefined
             }
             data.visible = visible
-            visible &&
-                self.$light!.position.copy(getWorldPosition(self.object3d))
+            // visible &&
+            //     self.$light!.position.copy(getWorldPosition(self.object3d))
         },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }
