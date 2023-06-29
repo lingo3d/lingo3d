@@ -1,14 +1,11 @@
 import getActualScale from "../../memo/getActualScale"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import {
-    releasePhysxConvexGeometry,
-    requestPhysxConvexGeometry
-} from "../../pools/physxConvexGeometryPool"
+import { physxConvexGeometryPool } from "../../pools/physxConvexGeometryPool"
 
 export default (typeSrc: string, manager: PhysicsObjectManager) => {
     const { x, y, z } = getActualScale(manager)
     decreaseConvexGeometryCount(manager)
-    const result = requestPhysxConvexGeometry(
+    const result = physxConvexGeometryPool.request(
         [typeSrc, x, y, z],
         undefined,
         manager
@@ -19,4 +16,4 @@ export default (typeSrc: string, manager: PhysicsObjectManager) => {
 
 export const decreaseConvexGeometryCount = (manager: PhysicsObjectManager) =>
     manager.$convexGeometry &&
-    releasePhysxConvexGeometry(manager.$convexGeometry)
+    physxConvexGeometryPool.release(manager.$convexGeometry)

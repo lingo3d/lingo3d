@@ -2,15 +2,14 @@ import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { PI2 } from "../../globals"
 import {
     CircleParams,
-    releaseCircleGeometry,
-    requestCircleGeometry
+    circleGeometryPool
 } from "../../pools/circleGeometryPool"
 import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
 import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 
-const geometry = requestCircleGeometry([0.5, 32, 0, PI2])
+const geometry = circleGeometryPool.request([0.5, 32, 0, PI2])
 
 export default class Circle extends PooledPrimitve implements ICircle {
     public static componentName = "circle"
@@ -18,7 +17,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
     public static override schema = circleSchema
 
     public constructor() {
-        super(geometry, releaseCircleGeometry, requestCircleGeometry)
+        super(geometry, circleGeometryPool)
         this.object3d.scale.z = Number.EPSILON
     }
 

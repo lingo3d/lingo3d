@@ -6,13 +6,12 @@ import ICylinder, {
 } from "../../interface/ICylinder"
 import {
     CylinderParams,
-    releaseCylinderGeometry,
-    requestCylinderGeometry
+    cylinderGeometryPool
 } from "../../pools/cylinderGeometryPool"
 import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
-export const cylinderGeometry = requestCylinderGeometry([
+export const cylinderGeometry = cylinderGeometryPool.request([
     0.5,
     0.5,
     1,
@@ -29,11 +28,7 @@ export default class Cylinder extends PooledPrimitve implements ICylinder {
     public static override schema = cylinderSchema
 
     public constructor() {
-        super(
-            cylinderGeometry,
-            releaseCylinderGeometry,
-            requestCylinderGeometry
-        )
+        super(cylinderGeometry, cylinderGeometryPool)
     }
 
     public $getParams(): CylinderParams {

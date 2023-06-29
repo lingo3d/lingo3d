@@ -30,7 +30,7 @@ const scanSerial = (_textureStart: string) => {
 
 type SpriteSheetParams = [textureStart: string, textureEnd: string]
 
-export const [requestSpriteSheet, releaseSpriteSheet] = createSharedPool<
+export const spriteSheetPool = createSharedPool<
     Promise<[string, number, number, Blob | undefined]>,
     SpriteSheetParams
 >(

@@ -3,10 +3,7 @@ import createSharedPool from "./utils/createSharedPool"
 
 export type TorusParams = ConstructorParameters<typeof TorusGeometry>
 
-export const [requestTorusGeometry, releaseTorusGeometry] = createSharedPool<
-    TorusGeometry,
-    TorusParams
->(
+export const torusGeometryPool = createSharedPool<TorusGeometry, TorusParams>(
     (params) => new TorusGeometry(...params),
     (geometry) => geometry.dispose()
 )

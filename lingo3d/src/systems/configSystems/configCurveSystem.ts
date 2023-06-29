@@ -37,17 +37,17 @@ export const configCurveSystem = createInternalSystem("configCurveSystem", {
             }
         }
         if (!self.helper) return
-        const [requestHelperSphere] = getCurveHelperSpherePool(self)
-        for (const pt of self.points) requestHelperSphere([], getUUID(pt), pt)
+        const pool = getCurveHelperSpherePool(self)
+        for (const pt of self.points) pool.request([], getUUID(pt), pt)
     },
     cleanup: (self) => {
         self.$geometry!.dispose()
         self.$material!.dispose()
         self.outerObject3d.remove(self.$mesh!)
         if (!self.children) return
-        const [, releaseHelperSphere] = getCurveHelperSpherePool(self)
+        const pool = getCurveHelperSpherePool(self)
         for (const child of self.children)
-            child instanceof HelperSphere && releaseHelperSphere(child)
+            child instanceof HelperSphere && pool.release(child)
     }
 })
 

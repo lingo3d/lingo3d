@@ -2,38 +2,23 @@ import { BufferGeometry } from "three"
 import Primitive from "./Primitive"
 import {
     CircleParams,
-    releaseCircleGeometry,
-    requestCircleGeometry
+    circleGeometryPool
 } from "../../pools/circleGeometryPool"
-import {
-    ConeParams,
-    releaseConeGeometry,
-    requestConeGeometry
-} from "../../pools/coneGeometryPool"
+import { ConeParams, coneGeometryPool } from "../../pools/coneGeometryPool"
 import {
     CylinderParams,
-    releaseCylinderGeometry,
-    requestCylinderGeometry
+    cylinderGeometryPool
 } from "../../pools/cylinderGeometryPool"
-import {
-    TorusParams,
-    releaseTorusGeometry,
-    requestTorusGeometry
-} from "../../pools/torusGeometryPool"
+import { TorusParams, torusGeometryPool } from "../../pools/torusGeometryPool"
 
 export default abstract class PooledPrimitve extends Primitive {
     public constructor(
         geometry: BufferGeometry,
-        public $releaseGeometry:
-            | typeof releaseCircleGeometry
-            | typeof releaseConeGeometry
-            | typeof releaseCylinderGeometry
-            | typeof releaseTorusGeometry,
-        public $requestGeometry:
-            | typeof requestCircleGeometry
-            | typeof requestConeGeometry
-            | typeof requestCylinderGeometry
-            | typeof requestTorusGeometry
+        public $geometryPool:
+            | typeof circleGeometryPool
+            | typeof coneGeometryPool
+            | typeof cylinderGeometryPool
+            | typeof torusGeometryPool
     ) {
         super(geometry)
     }

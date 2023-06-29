@@ -3,7 +3,7 @@ import createSharedPool from "./utils/createSharedPool"
 
 export type CircleParams = ConstructorParameters<typeof CircleGeometry>
 
-export const [requestCircleGeometry, releaseCircleGeometry] = createSharedPool<
+export const circleGeometryPool = createSharedPool<
     CircleGeometry,
     CircleParams
 >(

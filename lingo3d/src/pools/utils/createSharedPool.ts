@@ -39,5 +39,5 @@ export default <
             paramsInstanceMap
         })
 
-    return <const>[request, release]
+    return { request, release }
 }

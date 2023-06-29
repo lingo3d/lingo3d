@@ -7,7 +7,7 @@ import { uuidMaterialMap } from "../collections/idCollections"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { castBlending } from "../display/utils/castBlending"
-import { releaseTexture, requestTexture } from "./texturePool"
+import { texturePool } from "./texturePool"
 
 export type MaterialParams = [
     color: ColorString,
@@ -72,7 +72,7 @@ const createMap = (
     textureRotation: number
 ) =>
     texture
-        ? requestTexture([
+        ? texturePool.request([
               texture,
               textureRepeat,
               textureFlipY,
@@ -80,7 +80,7 @@ const createMap = (
           ])
         : undefined
 
-export const [requestMaterial, releaseMaterial] = createSharedPool<
+export const materialPool = createSharedPool<
     MeshStandardMaterial,
     MaterialParams
 >(
@@ -265,16 +265,16 @@ export const [requestMaterial, releaseMaterial] = createSharedPool<
         )
     },
     (material) => {
-        releaseTexture(material.map)
-        releaseTexture(material.alphaMap)
-        releaseTexture(material.envMap)
-        releaseTexture(material.aoMap)
-        releaseTexture(material.bumpMap)
-        releaseTexture(material.displacementMap)
-        releaseTexture(material.lightMap)
-        releaseTexture(material.metalnessMap)
-        releaseTexture(material.roughnessMap)
-        releaseTexture(material.normalMap)
+        texturePool.release(material.map)
+        texturePool.release(material.alphaMap)
+        texturePool.release(material.envMap)
+        texturePool.release(material.aoMap)
+        texturePool.release(material.bumpMap)
+        texturePool.release(material.displacementMap)
+        texturePool.release(material.lightMap)
+        texturePool.release(material.metalnessMap)
+        texturePool.release(material.roughnessMap)
+        texturePool.release(material.normalMap)
         material.dispose()
     }
 )

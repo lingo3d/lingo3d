@@ -27,10 +27,7 @@ const initMap = (
     return map
 }
 
-export const [requestTexture, releaseTexture] = createSharedPool<
-    Texture,
-    TextureParams
->(
+export const texturePool = createSharedPool<Texture, TextureParams>(
     (params) => {
         const [texture, textureRepeat, textureFlipY, textureRotation] = params
         if (uuidTextureMap.has(texture)) return uuidTextureMap.get(texture)!
