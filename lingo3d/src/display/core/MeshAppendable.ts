@@ -9,7 +9,6 @@ import { setManager } from "./utils/getManager"
 import Appendable from "./Appendable"
 import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import SpawnPoint from "../SpawnPoint"
-import getCenter from "../../memo/getCenter"
 import worldToCanvas from "../../memo/worldToCanvas"
 import Nullable from "../../interface/utils/Nullable"
 import { physxPtr } from "../../pointers/physxPtr"
@@ -111,10 +110,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         return vec2Point(getWorldPosition(this.object3d))
     }
 
-    public getCenter() {
-        return vec2Point(getCenter(this.object3d))
-    }
-
     public getWorldDirection() {
         return getWorldDirection(this.object3d)
     }
@@ -175,7 +170,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         if ("outerObject3d" in target) {
             if ("isSpawnPoint" in target)
                 target.object3d.position.y = getActualScale(this).y * 0.5
-            this.position.copy(getCenter(target.object3d))
+            this.position.copy(getWorldPosition(target.object3d))
             "quaternion" in this &&
                 this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
         } else this.position.copy(point2Vec(target))

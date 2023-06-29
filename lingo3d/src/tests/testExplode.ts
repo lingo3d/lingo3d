@@ -48,7 +48,9 @@ model.onLoad = () => {
             if (gesture === "Closed_Fist") {
                 ;(async () => {
                     for (const part of getAppendablesById("exp") as any) {
-                        const direction = math.normalize(part.getCenter())
+                        const direction = math.normalize(
+                            part.getWorldPosition()
+                        )
                         direction.x = direction.x * math.randomRange(0.5, 1.5)
                         direction.y = direction.y * math.randomRange(1.5, 2)
                         direction.z = direction.z * math.randomRange(0.5, 1.5)
