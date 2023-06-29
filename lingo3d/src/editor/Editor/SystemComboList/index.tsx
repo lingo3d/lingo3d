@@ -1,7 +1,7 @@
 import { createPortal, useEffect, useMemo, useState } from "preact/compat"
 import ComboBox from "../../component/Combobox"
 import { selectionTargetPtr } from "../../../pointers/selectionTargetPtr"
-import { systemsMap } from "../../../collections/systemsMap"
+import { userlandNameSystemMap } from "../../../collections/userlandNameSystemMap"
 import ListItem from "./ListItem"
 import { onAfterRender } from "../../../events/onAfterRender"
 import { scriptUUIDSystemNamesMap } from "../../../collections/scriptUUIDSystemNamesMap"
@@ -39,7 +39,7 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                 placeholder="Search systems..."
                 options={systemNames}
                 onEnter={(val) =>
-                    systemsMap.get(val)!.add(selectionTargetPtr[0])
+                    userlandNameSystemMap.get(val)!.add(selectionTargetPtr[0])
                 }
             />
             <div style={{ opacity: 0.75 }}>
@@ -49,9 +49,11 @@ const SystemsComboList = ({ systemsFolderElement }: Props) => {
                             <ListItem
                                 key={system.name}
                                 system={system}
-                                disabled={!systemsMap.has(system.name)}
+                                disabled={
+                                    !userlandNameSystemMap.has(system.name)
+                                }
                                 onDelete={() =>
-                                    systemsMap
+                                    userlandNameSystemMap
                                         .get(system.name)!
                                         .delete(selectionTargetPtr[0])
                                 }

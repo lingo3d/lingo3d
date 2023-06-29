@@ -1,7 +1,7 @@
 import { ParseResult } from "@babel/parser"
 import Script from "../display/Script"
 import { Node } from "@babel/traverse"
-import { systemsMap } from "../collections/systemsMap"
+import { userlandNameSystemMap } from "../collections/userlandNameSystemMap"
 import { forceGetInstance } from "@lincode/utils"
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
 import { worldModePtr } from "../pointers/worldModePtr"
@@ -60,13 +60,13 @@ const createSystems = (
     // find existing systems created by current script
     if (scriptUUIDSystemNamesMap.has(script.uuid))
         for (const name of scriptUUIDSystemNamesMap.get(script.uuid)!) {
-            const system = systemsMap.get(name)!
+            const system = userlandNameSystemMap.get(name)!
             // backup queued items
             for (const item of system.queued)
                 forceGetInstance(systemQueuedMap, name, Array).push(item)
             // dispose system
             system.dispose()
-            systemsMap.delete(name)
+            userlandNameSystemMap.delete(name)
         }
     // create new systems
     for (const [name, code] of Object.entries(codeRecordFactory())) {

@@ -1,4 +1,4 @@
-import { systemsMap } from "../../collections/systemsMap"
+import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import Appendable from "../../display/core/Appendable"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
@@ -18,6 +18,6 @@ export default <
     options: SystemOptions<GameObject, Data, EventData>
 ) => {
     const system = createInternalSystem(name, options)
-    systemsMap.set(name, system)
+    userlandNameSystemMap.set(name, system)
     return system
 }

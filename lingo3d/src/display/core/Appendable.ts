@@ -16,7 +16,7 @@ import { GameObjectType } from "../../api/serializer/types"
 import { loopSystem } from "../../systems/loopSystem"
 import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import type { System } from "../../systems/utils/createInternalSystem"
-import { systemsMap } from "../../collections/systemsMap"
+import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 
 type EventName = "name" | "runtimeSchema" | "loaded"
 
@@ -83,7 +83,7 @@ export default class Appendable extends Disposable implements IAppendable {
     public set systems(val) {
         if (this._systems)
             for (const system of this._systems.values()) system.delete(this)
-        for (const key of val) systemsMap.get(key)?.add(this)
+        for (const key of val) userlandNameSystemMap.get(key)?.add(this)
     }
 
     protected disposeNode() {

@@ -1,5 +1,5 @@
 import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMap"
-import { systemsMap } from "../collections/systemsMap"
+import { userlandNameSystemMap } from "../collections/userlandNameSystemMap"
 import IScript, {
     ScriptLanguage,
     ScriptType,
@@ -21,8 +21,8 @@ export default class Script extends Appendable implements IScript {
         super.disposeNode()
         if (!scriptUUIDSystemNamesMap.has(this.uuid)) return
         for (const name of scriptUUIDSystemNamesMap.get(this.uuid)!) {
-            systemsMap.get(name)!.dispose()
-            systemsMap.delete(name)
+            userlandNameSystemMap.get(name)!.dispose()
+            userlandNameSystemMap.delete(name)
         }
         scriptUUIDSystemNamesMap.delete(this.uuid)
     }
