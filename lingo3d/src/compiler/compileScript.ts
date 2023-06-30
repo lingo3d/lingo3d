@@ -77,7 +77,9 @@ const createSystems = (
     }
 }
 
-const compileScript = async (script: Script) => {
+export default async (script: Script) => {
+    ++scriptCompilingPtr[0]
+
     const { parse } = await import("@babel/parser")
     const { default: generate } = await import("@babel/generator")
     const { default: traverse } = await import("@babel/traverse")
@@ -92,6 +94,7 @@ const compileScript = async (script: Script) => {
             plugins: ["typescript"]
         })
     } catch (error) {
+        --scriptCompilingPtr[0]
         console.log(error)
         return
     }
@@ -153,9 +156,6 @@ const compileScript = async (script: Script) => {
     systemNames.length
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
-}
 
-export default (script: Script) => {
-    ++scriptCompilingPtr[0]
-    compileScript(script).then(() => --scriptCompilingPtr[0])
+    --scriptCompilingPtr[0]
 }

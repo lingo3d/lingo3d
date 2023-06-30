@@ -20,7 +20,6 @@ import {
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
 import { uuidMap } from "../../collections/idCollections"
 import Script from "../../display/Script"
-import compileScript from "../../compiler/compileScript"
 import {
     editorWidthSignal,
     sceneGraphWidthSignal
@@ -105,7 +104,6 @@ const ScriptEditor = () => {
                 onSave={(code) => {
                     script!.code = code
                     deleteScriptsUnsaved(script!)
-                    compileScript(script!)
                 }}
                 onSaveAll={(entries) => {
                     for (const [uri, code] of entries) {
@@ -113,7 +111,6 @@ const ScriptEditor = () => {
                         script.code = code
                         deleteScriptsUnsaved(script)
                     }
-                    compileScript(script!)
                 }}
             />
         </div>
