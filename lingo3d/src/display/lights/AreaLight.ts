@@ -5,7 +5,6 @@ import IAreaLight, {
 } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import Plane from "../primitives/Plane"
-import { areaLightIntensitySystem } from "../../systems/areaLightIntensitySystem"
 import { configAreaLightSystem } from "../../systems/configSystems/configAreaLightSystem"
 import { areaLightTransformEditSystem } from "../../systems/eventSystems/areaLightTransformEditSystem"
 
@@ -35,7 +34,6 @@ export default class AreaLight extends Plane implements IAreaLight {
             configAreaLightSystem.add(this)
         })
         areaLightTransformEditSystem.add(this)
-        areaLightIntensitySystem.add(this)
     }
 
     public override get color() {
@@ -46,7 +44,14 @@ export default class AreaLight extends Plane implements IAreaLight {
         configAreaLightSystem.add(this)
     }
 
-    public intensity = 1
+    private _intensity = 1
+    public get intensity() {
+        return this._intensity
+    }
+    public set intensity(val) {
+        this._intensity = val
+        configAreaLightSystem.add(this)
+    }
 
     public override get width() {
         return super.width
