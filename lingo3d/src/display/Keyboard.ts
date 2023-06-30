@@ -1,3 +1,4 @@
+import { keyPressSet } from "../collections/keyPressSet"
 import IKeyboard, {
     keyboardDefaults,
     keyboardSchema,
@@ -12,6 +13,10 @@ export default class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
+
+    public has(key: string) {
+        return keyPressSet.has(key)
+    }
 
     private _onKeyPress?: (e: LingoKeyboardEvent) => void
     public get onKeyPress() {
