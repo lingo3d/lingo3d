@@ -31,12 +31,13 @@ const OutputConsole = ({ style }: Props) => {
             handle.then(() => $unhook(hookedConsole, window))
         }, 100)
 
-        window.onerror = (error) => console.error(error)
+        const handleError = (error: ErrorEvent) => console.error(error)
+        window.addEventListener("error", handleError)
 
         return () => {
             clearInterval(interval)
             handle.cancel()
-            window.onerror = null
+            window.removeEventListener("error", handleError)
         }
     }, [])
 

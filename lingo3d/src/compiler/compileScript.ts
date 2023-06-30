@@ -157,5 +157,6 @@ export default async (script: Script) => {
         ? scriptUUIDSystemNamesMap.set(script.uuid, systemNames)
         : scriptUUIDSystemNamesMap.delete(script.uuid)
 
+    if (worldModePtr[0] === "default") new Function(generate(ast).code)()
     --scriptCompilingPtr[0]
 }
