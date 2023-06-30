@@ -16,7 +16,7 @@ const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
 }
 
 const sortPixelRatio = (a: number, b: number) => a - b
-const SAMPLES = 30
+const SAMPLES = 20
 
 export const dynamicResolutionSystem = createInternalSystem(
     "dynamicResolutionSystem",

@@ -31,7 +31,8 @@ export default (
         clone.dispose()
         geometries.push(clone)
     })
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
+    //@ts-ignore
+    const geometry = BufferGeometryUtils.mergeGeometries(geometries)
     geometry.dispose()
 
     const buffer = geometry.attributes.position as BufferAttribute
