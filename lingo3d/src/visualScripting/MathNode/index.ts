@@ -48,7 +48,7 @@ export default class MathNode extends GameGraphChild implements IMathNode {
                 },
                 set: (value) => {
                     runtimeValues[key] = value
-                    runtimeData.out = eval(this.compiled!)
+                    runtimeData.out = new Function(this.compiled!)()
                 },
                 enumerable: true
             })
@@ -56,7 +56,7 @@ export default class MathNode extends GameGraphChild implements IMathNode {
         }
         ownKeysRecord.out = true
         defaultsOwnKeysRecordMap.set(mathNodeDefaults, ownKeysRecord)
-        runtimeData.out = eval(this.compiled!)
+        runtimeData.out = new Function(this.compiled!)()
         runtimeSchema.out = Number
         runtimeDefaults!.out = 0
         runtimeIncludeKeys!.add("out")

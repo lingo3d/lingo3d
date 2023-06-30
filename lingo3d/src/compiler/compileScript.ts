@@ -71,7 +71,7 @@ const createSystems = (
         }
     // create new systems
     for (const [name, code] of Object.entries(codeRecordFactory())) {
-        const system = eval(code)
+        const system = new Function(code)()
         if (!systemQueuedMap.has(name)) continue
         for (const item of systemQueuedMap.get(name)!) system.add(item)
     }
