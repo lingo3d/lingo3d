@@ -23,11 +23,11 @@ const MenuBarFileContextMenu = () => {
             <MenuButton
                 onClick={() => {
                     newScriptDialogSignal.value = {
-                        onConfirm: (name, language, type) => {
+                        onConfirm: (name, language, mode) => {
                             const script = new Script()
                             script.name = name
                             script.language = language
-                            script.type = type
+                            script.mode = mode
                             script.code = `import { createSystem } from "lingo3d"\n\n`
                             setScript(script)
                         }

@@ -2,7 +2,7 @@ import { scriptUUIDSystemNamesMap } from "../collections/scriptUUIDSystemNamesMa
 import { userlandNameSystemMap } from "../collections/userlandNameSystemMap"
 import IScript, {
     ScriptLanguage,
-    ScriptType,
+    ScriptMode,
     scriptDefaults,
     scriptSchema
 } from "../interface/IScript"
@@ -15,7 +15,7 @@ export default class Script extends Appendable implements IScript {
 
     public code = ""
     public language: ScriptLanguage = "TypeScript"
-    public type: ScriptType = "script"
+    public mode: ScriptMode = "script"
 
     protected override disposeNode() {
         super.disposeNode()

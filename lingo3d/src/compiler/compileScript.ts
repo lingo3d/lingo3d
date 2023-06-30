@@ -144,7 +144,7 @@ const compileScript = async (script: Script) => {
         const codeRecord: Record<string, string> = {}
         for (const [name, ast] of Object.entries(systemASTs))
             codeRecord[name] = `lingo3d.createSystem("${name}", ${
-                script.type === "editorScript" || worldModePtr[0] === "default"
+                script.mode === "editorScript" || worldModePtr[0] === "default"
                     ? generate(ast).code
                     : "{}"
             })`
