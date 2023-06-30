@@ -2,7 +2,6 @@ import {
     WebGLRenderTarget,
     NearestFilter,
     RGBAFormat,
-    LinearEncoding,
     Object3D,
     Mesh,
     SpriteMaterial,
@@ -28,8 +27,7 @@ const SIZE = 100
 const renderTarget = new WebGLRenderTarget(SIZE, SIZE, {
     minFilter: NearestFilter,
     magFilter: NearestFilter,
-    format: RGBAFormat,
-    encoding: LinearEncoding
+    format: RGBAFormat
 })
 
 const processItem = (object: Object3D) => {

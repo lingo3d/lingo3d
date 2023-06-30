@@ -49,4 +49,4 @@ if (!("group" in Array.prototype))
     })
 
 const warn = console.warn
-console.warn = (...data) => !data[0].startsWith("THREE.") && warn(...data)
+// console.warn = (...data) => !data[0].startsWith("THREE.") && warn(...data)

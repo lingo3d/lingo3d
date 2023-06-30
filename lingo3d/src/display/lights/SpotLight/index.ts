@@ -9,7 +9,6 @@ import ISpotLight, {
     spotLightSchema
 } from "../../../interface/ISpotLight"
 import { deg2Rad, rad2Deg } from "@lincode/math"
-import { SpotLightMaterial } from "./SpotLightMaterial"
 import { Cancellable } from "@lincode/promiselikes"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import PointLightBase from "../../core/PointLightBase"
@@ -70,31 +69,31 @@ export default class SpotLight
     public set volumetric(val) {
         this._volumetric = val
 
-        this.cancelHandle(
-            "volumetric",
-            val &&
-                (() => {
-                    const material = new SpotLightMaterial()
-                    unsafeSetValue(material, "lightColor", this.object3d.color)
-                    unsafeSetValue(material, "anglePower", 2)
+        // this.cancelHandle(
+        //     "volumetric",
+        //     val &&
+        //         (() => {
+        //             const material = new SpotLightMaterial()
+        //             unsafeSetValue(material, "lightColor", this.object3d.color)
+        //             unsafeSetValue(material, "anglePower", 2)
 
-                    const cone = new Mesh(coneGeometry, material)
-                    this.outerObject3d.add(cone)
-                    ssrExcludeSet.add(cone)
-                    renderCheckExcludeSet.add(cone)
-                    volumetricSpotLightSystem.add(cone, {
-                        light: this,
-                        material
-                    })
-                    return new Cancellable(() => {
-                        material.dispose()
-                        this.outerObject3d.remove(cone)
-                        ssrExcludeSet.delete(cone)
-                        renderCheckExcludeSet.delete(cone)
-                        volumetricSpotLightSystem.delete(cone)
-                    })
-                })
-        )
+        //             const cone = new Mesh(coneGeometry, material)
+        //             this.outerObject3d.add(cone)
+        //             ssrExcludeSet.add(cone)
+        //             renderCheckExcludeSet.add(cone)
+        //             volumetricSpotLightSystem.add(cone, {
+        //                 light: this,
+        //                 material
+        //             })
+        //             return new Cancellable(() => {
+        //                 material.dispose()
+        //                 this.outerObject3d.remove(cone)
+        //                 ssrExcludeSet.delete(cone)
+        //                 renderCheckExcludeSet.delete(cone)
+        //                 volumetricSpotLightSystem.delete(cone)
+        //             })
+        //         })
+        // )
     }
 
     public volumetricDistance = 1
