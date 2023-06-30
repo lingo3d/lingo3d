@@ -1,5 +1,8 @@
 import "./engine"
 
+import Primitive from "./display/core/Primitive"
+import GimbalObjectManager from "./display/core/GimbalObjectManager"
+
 import Cube from "./display/primitives/Cube"
 import Sphere from "./display/primitives/Sphere"
 import Cone from "./display/primitives/Cone"
@@ -104,6 +107,8 @@ mouse.$ghost()
 mouse.$disableUnload = true
 
 export {
+    GimbalObjectManager as GameObject,
+    Primitive,
     Cube,
     Sphere,
     Cone,
