@@ -17,10 +17,8 @@
         "build": "tsc && vite build",
         "preview": "vite preview"
     },
-    "dependencies": {
-    },
     "devDependencies": {
-        "typescript": "^5.0.4",
+        "typescript": "^5.1.6",
         "vite": "^4.3.9"
     },
     "private": true,

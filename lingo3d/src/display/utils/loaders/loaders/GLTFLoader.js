@@ -63,21 +63,6 @@ import {
     SRGBColorSpace
 } from "three"
 import { toTrianglesDrawMode } from "three/examples/jsm/utils/BufferGeometryUtils.js"
-import { busyCountPtr } from "../../../../pointers/busyCountPtr"
-
-let increased = false
-const increaseOnce = () => {
-    if (increased) return
-    increased = true
-    busyCountPtr[0]++
-}
-
-let decreased = false
-const decreaseOnce = () => {
-    if (decreased) return
-    decreased = true
-    busyCountPtr[0]--
-}
 
 class GLTFLoader extends Loader {
     constructor(manager) {
@@ -1625,7 +1610,6 @@ class GLTFDracoMeshCompressionExtension {
         this.json = json
         this.dracoLoader = dracoLoader
         this.dracoLoader.preload()
-        increaseOnce()
     }
 
     decodePrimitive(primitive, parser) {
@@ -1678,7 +1662,6 @@ class GLTFDracoMeshCompressionExtension {
                                     attribute.normalized = normalized
                             }
 
-                            decreaseOnce()
                             resolve(geometry)
                         },
                         threeAttributeMap,

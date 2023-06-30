@@ -9,7 +9,7 @@ export const lightIntensitySystem = createInternalSystem(
     "lightIntensitySystem",
     {
         data: { count: 0 },
-        update: (self: PointLightBase, data) => {
+        update: (self: PointLightBase<any>, data) => {
             const targetIntensity = self.intensity * getIntensityFactor(self)
             if (data.count < fpsPtr[0]) {
                 self.object3d.intensity = mapRange(
