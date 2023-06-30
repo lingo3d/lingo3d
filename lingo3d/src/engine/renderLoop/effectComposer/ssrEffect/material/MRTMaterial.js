@@ -45,6 +45,9 @@ export class MRTMaterial extends ShaderMaterial {
                 #include <skinning_pars_vertex>
                 #include <logdepthbuf_pars_vertex>
                 #include <clipping_planes_pars_vertex>
+                #ifdef USE_UV
+                    uniform mat3 uvTransform;
+                #endif
                 void main() {
                     #include <uv_vertex>
                     #include <beginnormal_vertex>
