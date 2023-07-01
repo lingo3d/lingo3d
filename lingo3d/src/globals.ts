@@ -27,7 +27,6 @@ export const POINTLIGHT_INTENSITY = 6
 
 export const DEBUG = false
 export const VERSION = "2.1.1-alpha.5"
-export const USE_RUNTIME = true
 
 export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2
