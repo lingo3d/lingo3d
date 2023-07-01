@@ -23,7 +23,7 @@ export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 
 export const POINTLIGHT_DISTANCE = 800
-export const POINTLIGHT_INTENSITY = 4
+export const POINTLIGHT_INTENSITY = 6
 
 export const DEBUG = false
 export const VERSION = "2.1.1-alpha.5"
