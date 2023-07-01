@@ -134,7 +134,7 @@ const Editor = () => {
                     border:
                         selectionTarget &&
                         selectedSignal.value.at(-1) !== "Settings"
-                            ? "1px dashed rgba(255, 255, 255, 0.3)"
+                            ? "1px solid rgba(255, 255, 255, 0.2)"
                             : undefined
                 }}
                 ref={mergeRefs(stopPropagation, setContainer)}
