@@ -16,8 +16,16 @@ import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
+import { worldModePtr } from "../../pointers/worldModePtr"
 
 export const importPhysX = lazy(async () => {
+    await new Promise<void>((resolve) => {
+        const interval = setInterval(() => {
+            if (worldModePtr[0] !== "default") return
+            clearInterval(interval)
+            resolve()
+        }, 100)
+    })
     busyCountPtr[0]++
     await import("../../engine/physx")
     await new Promise<void>((resolve) =>
