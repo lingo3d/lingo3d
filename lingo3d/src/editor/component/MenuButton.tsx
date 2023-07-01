@@ -26,6 +26,8 @@ const MenuButton = ({
 }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
+    if (!onClick) disabled = true
+
     return (
         <div
             style={{
