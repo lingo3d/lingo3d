@@ -34,7 +34,7 @@ export class MRTMaterial extends ShaderMaterial {
                     varying vec2 vHighPrecisionZW;
                 #endif
                 #define NORMAL
-                #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
+                #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
                     varying vec3 vViewPosition;
                 #endif
                 #include <common>
@@ -63,7 +63,7 @@ export class MRTMaterial extends ShaderMaterial {
                     #include <project_vertex>
                     #include <logdepthbuf_vertex>
                     #include <clipping_planes_vertex>
-                    #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
+                    #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
                         vViewPosition = - mvPosition.xyz;
                     #endif
                     #ifdef USE_MRT
@@ -77,7 +77,7 @@ export class MRTMaterial extends ShaderMaterial {
 
             fragmentShader: /* glsl */ `
                 #define NORMAL
-                #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( TANGENTSPACE_NORMALMAP )
+                #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
                     varying vec3 vViewPosition;
                 #endif
                 #include <packing>
