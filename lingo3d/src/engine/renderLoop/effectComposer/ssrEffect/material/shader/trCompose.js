@@ -2,10 +2,7 @@
 
 alpha = 0.0;
 
-// alpha = velocityDisocclusion < FLOAT_EPSILON ? (alpha + 0.0075) : 0.0;
-// alpha = clamp(alpha, 0.0, 1.0);
-
-bool needsBlur = !didReproject || velocityDisocclusion > 0.5;
+bool needsBlur = !didReproject;
 
 #ifdef boxBlur
 if (needsBlur) inputColor = boxBlurredColor;

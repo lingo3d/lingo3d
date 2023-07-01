@@ -55,7 +55,6 @@ export class TemporalResolvePass extends Pass {
             this.velocityPass.renderTarget.texture
         ) {
             delete this._scene.userData.velocityTexture
-            delete this._scene.userData.lastVelocityTexture
         }
 
         this.renderTarget.dispose()
@@ -86,7 +85,6 @@ export class TemporalResolvePass extends Pass {
 
     setupFramebuffers(width, height) {
         if (this.accumulatedTexture) this.accumulatedTexture.dispose()
-        if (this.lastVelocityTexture) this.lastVelocityTexture.dispose()
 
         this.accumulatedTexture = new FramebufferTexture(
             width,
@@ -97,21 +95,8 @@ export class TemporalResolvePass extends Pass {
         this.accumulatedTexture.magFilter = LinearFilter
         this.accumulatedTexture.type = HalfFloatType
 
-        this.lastVelocityTexture = new FramebufferTexture(
-            width * this.velocityResolutionScale,
-            height * this.velocityResolutionScale,
-            RGBAFormat
-        )
-        this.lastVelocityTexture.minFilter =
-            this.velocityResolutionScale === 1 ? NearestFilter : LinearFilter
-        this.lastVelocityTexture.magFilter =
-            this.velocityResolutionScale === 1 ? NearestFilter : LinearFilter
-        this.lastVelocityTexture.type = HalfFloatType
-
         this.fullscreenMaterial.uniforms.accumulatedTexture.value =
             this.accumulatedTexture
-        this.fullscreenMaterial.uniforms.lastVelocityTexture.value =
-            this.lastVelocityTexture
 
         this.fullscreenMaterial.needsUpdate = true
     }
@@ -128,8 +113,6 @@ export class TemporalResolvePass extends Pass {
                 this.velocityPass.renderTarget.texture ===
                 this.fullscreenMaterial.uniforms.velocityTexture.value
             ) {
-                this.fullscreenMaterial.uniforms.lastVelocityTexture.value =
-                    this._scene.userData.lastVelocityTexture
                 this.fullscreenMaterial.uniforms.velocityTexture.value =
                     this._scene.userData.velocityTexture
                 this.fullscreenMaterial.needsUpdate = true
@@ -142,15 +125,11 @@ export class TemporalResolvePass extends Pass {
             ) {
                 this.fullscreenMaterial.uniforms.velocityTexture.value =
                     this.velocityPass.renderTarget.texture
-                this.fullscreenMaterial.uniforms.lastVelocityTexture.value =
-                    this.lastVelocityTexture
                 this.fullscreenMaterial.needsUpdate = true
 
                 if (!this._scene.userData.velocityTexture) {
                     this._scene.userData.velocityTexture =
                         this.velocityPass.renderTarget.texture
-                    this._scene.userData.lastVelocityTexture =
-                        this.lastVelocityTexture
                 }
             }
         }
@@ -170,8 +149,5 @@ export class TemporalResolvePass extends Pass {
 
         // save the render target's texture for use in next frame
         renderer.copyFramebufferToTexture(zeroVec2, this.accumulatedTexture)
-
-        renderer.setRenderTarget(this.velocityPass.renderTarget)
-        renderer.copyFramebufferToTexture(zeroVec2, this.lastVelocityTexture)
     }
 }

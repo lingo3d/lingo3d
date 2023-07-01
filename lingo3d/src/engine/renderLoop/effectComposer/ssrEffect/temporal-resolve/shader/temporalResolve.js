@@ -3,7 +3,6 @@
 uniform sampler2D inputTexture;
 uniform sampler2D accumulatedTexture;
 uniform sampler2D velocityTexture;
-uniform sampler2D lastVelocityTexture;
 
 uniform float blend;
 uniform float correction;
@@ -53,7 +52,6 @@ void main() {
 
     // REPROJECT_START
 
-    float velocityDisocclusion;
     bool didReproject = false;
 
 #ifdef boxBlur
@@ -71,11 +69,9 @@ void main() {
         vec2 neighborUv;
 
         vec2 reprojectedUv = vUv - velocity.xy;
-        vec4 lastVelocity = textureLod(lastVelocityTexture, reprojectedUv, 0.0);
 
         float depth = velocity.b;
         float closestDepth = depth;
-        float lastClosestDepth = lastVelocity.b;
         float neighborDepth;
         float lastNeighborDepth;
 
@@ -100,11 +96,6 @@ void main() {
 
                         vec4 lastNeighborVelocity = textureLod(velocityTexture, vUv + vec2(x, y) * invTexSize, 0.0);
                         lastNeighborDepth = lastNeighborVelocity.b;
-
-                        if (neighborDepth > closestDepth) {
-                            lastVelocity = lastNeighborVelocity;
-                            lastClosestDepth = lastNeighborDepth;
-                        }
                     }
 #endif
 
@@ -124,12 +115,6 @@ void main() {
         }
 
         // velocity
-        float velocityLength = length(lastVelocity.xy - velocity.xy);
-
-        // using the velocity to find disocclusions
-        velocityDisocclusion = (velocityLength - 0.000005) * 10.0;
-        velocityDisocclusion *= velocityDisocclusion;
-
         reprojectedUv = vUv - velocity.xy;
 
         // box blur
@@ -163,7 +148,6 @@ void main() {
         // this texel is marked as constantly moving (e.g. from a VideoTexture), so treat it accordingly
         if (velocity.r > FLOAT_ONE_MINUS_EPSILON && velocity.g > FLOAT_ONE_MINUS_EPSILON) {
             alpha = 0.0;
-            velocityDisocclusion = 1.0;
         }
     } else {
         // there was no need to do neighborhood clamping, let's re-use the accumulated texel from the same UV coordinate

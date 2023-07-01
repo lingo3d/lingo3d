@@ -14,7 +14,6 @@ export class TemporalResolveMaterial extends ShaderMaterial {
 				inputTexture: new Uniform(null),
 				accumulatedTexture: new Uniform(null),
 				velocityTexture: new Uniform(null),
-				lastVelocityTexture: new Uniform(null),
 				blend: new Uniform(0.5),
 				correction: new Uniform(1),
 				exponent: new Uniform(1),
