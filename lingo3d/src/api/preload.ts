@@ -48,7 +48,7 @@ export default async (
             if (isBusy()) return
             clearInterval(interval)
             resolve()
-        }, 500)
+        }, 100)
     })
     onProgress?.(100)
 }
