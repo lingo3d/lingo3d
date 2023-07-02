@@ -23,7 +23,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     protected _materialParams?: MaterialParams
     protected _defaults?: Record<string, any>
 
-    public constructor(mesh: Object3D | StandardMesh, owner?: Model) {
+    public constructor(mesh: Object3D | StandardMesh, public owner?: Model) {
         super(mesh)
         owner?.$appendNode(this)
         this.$ghost(false)

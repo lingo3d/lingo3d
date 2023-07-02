@@ -5,10 +5,13 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
 import { skinnedMeshSet } from "../collections/skinnedMeshSet"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
+import FoundManager from "../display/core/FoundManager"
 
 createEffect(() => {
-    const [target] = selectionTargetPtr
+    let [target] = selectionTargetPtr
+    if (target instanceof FoundManager) target = target.owner
     if (
+        !target ||
         !(target instanceof Loaded) ||
         !("outerObject3d" in target) ||
         !target.outerObject3d.parent
