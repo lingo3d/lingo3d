@@ -160,12 +160,12 @@ export default class DummyIK extends Appendable implements IDummyIK {
         configDummyIKSystem.add(this)
     }
 
-    private _leftToeBase?: string
-    public get leftToeBase() {
-        return this._leftToeBase
+    private _leftForeFoot?: string
+    public get leftForeFoot() {
+        return this._leftForeFoot
     }
-    public set leftToeBase(val) {
-        this._leftToeBase = val
+    public set leftForeFoot(val) {
+        this._leftForeFoot = val
         configDummyIKSystem.add(this)
     }
 
@@ -196,12 +196,12 @@ export default class DummyIK extends Appendable implements IDummyIK {
         configDummyIKSystem.add(this)
     }
 
-    private _rightToeBase?: string
-    public get rightToeBase() {
-        return this._rightToeBase
+    private _rightForeFoot?: string
+    public get rightForeFoot() {
+        return this._rightForeFoot
     }
-    public set rightToeBase(val) {
-        this._rightToeBase = val
+    public set rightForeFoot(val) {
+        this._rightForeFoot = val
         configDummyIKSystem.add(this)
     }
 }

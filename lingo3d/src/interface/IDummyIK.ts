@@ -28,12 +28,12 @@ export default interface IDummyIK extends IAppendable {
     leftThigh: Nullable<string>
     leftLeg: Nullable<string>
     leftFoot: Nullable<string>
-    leftToeBase: Nullable<string>
+    leftForeFoot: Nullable<string>
 
     rightThigh: Nullable<string>
     rightLeg: Nullable<string>
     rightFoot: Nullable<string>
-    rightToeBase: Nullable<string>
+    rightForeFoot: Nullable<string>
 }
 
 export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
@@ -60,12 +60,12 @@ export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
     leftThigh: String,
     leftLeg: String,
     leftFoot: String,
-    leftToeBase: String,
+    leftForeFoot: String,
 
     rightThigh: String,
     rightLeg: String,
     rightFoot: String,
-    rightToeBase: String
+    rightForeFoot: String
 }
 
 export const dummyIKDefaults = extendDefaults<IDummyIK>([appendableDefaults], {
@@ -90,10 +90,10 @@ export const dummyIKDefaults = extendDefaults<IDummyIK>([appendableDefaults], {
     leftThigh: undefined,
     leftLeg: undefined,
     leftFoot: undefined,
-    leftToeBase: undefined,
+    leftForeFoot: undefined,
 
     rightThigh: undefined,
     rightLeg: undefined,
     rightFoot: undefined,
-    rightToeBase: undefined
+    rightForeFoot: undefined
 })

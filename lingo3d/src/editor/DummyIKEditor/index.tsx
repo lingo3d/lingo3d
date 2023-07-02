@@ -71,8 +71,8 @@ const DummyIKEditor = () => {
                     <Joint x={-5} y={68} name="leftFoot" />
                     <Joint x={5} y={68} name="rightFoot" />
 
-                    <Joint x={-6} y={72} name="leftToeBase" />
-                    <Joint x={6} y={72} name="rightToeBase" />
+                    <Joint x={-6} y={72} name="leftForeFoot" />
+                    <Joint x={6} y={72} name="rightForeFoot" />
                 </div>
             </div>
             <Tooltip position={position} />

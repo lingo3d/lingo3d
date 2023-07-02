@@ -7,14 +7,43 @@ import { Object3D } from "three"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import FoundManager from "../../display/core/FoundManager"
+import { forceGetInstance } from "@lincode/utils"
+
+type JointName = keyof IDummyIK
 
 type JointProps = {
     x: number
     y: number
-    name: keyof IDummyIK
+    name: JointName
     onMouseMove?: (e: MouseEvent) => void
     onMouseLeave?: (e: MouseEvent) => void
 }
+
+const parentChildrenMap = new Map<JointName, Array<JointName>>()
+const childParentMap = new Map<JointName, JointName>()
+const setParenting = (names: Array<JointName>) => {
+    let parentName: JointName | undefined
+    for (const childName of names) {
+        if (parentName) {
+            forceGetInstance(parentChildrenMap, parentName, Array).push(
+                childName
+            )
+            childParentMap.set(childName, parentName)
+        }
+        parentName = childName
+    }
+}
+setParenting(["hips", "spine0", "spine1", "spine2", "neck"])
+setParenting(["spine2", "leftShoulder", "leftArm", "leftForeArm", "leftHand"])
+setParenting([
+    "spine2",
+    "rightShoulder",
+    "rightArm",
+    "rightForeArm",
+    "rightHand"
+])
+setParenting(["hips", "leftThigh", "leftLeg", "leftFoot", "leftForeFoot"])
+setParenting(["hips", "rightThigh", "rightLeg", "rightFoot", "rightForeFoot"])
 
 const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
     const [dragOver, setDragOver] = useState(false)
