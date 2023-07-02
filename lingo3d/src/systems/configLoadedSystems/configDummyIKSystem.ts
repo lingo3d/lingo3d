@@ -56,6 +56,7 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
     if (!uuid) return
     return forceGet(nameJointMap, name, () => {
         const found = uuidMap.get(uuid) as FoundManager
+        found.$unghost()
 
         const joint = new Sphere()
         joint.name = name
@@ -100,6 +101,9 @@ export const configDummyIKSystem = createLoadedEffectSystem(
             const leftArmJoint = getJoint("leftArm", leftArm)
 
             if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
+                leftForeArmJoint.quaternion.set(0, 0, 0, 1)
+                leftArmJoint.quaternion.set(0, 0, 0, 1)
+                leftArmJoint.rotationZ = 90
             }
         },
         loading: (self) => {
