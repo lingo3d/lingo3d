@@ -1,7 +1,7 @@
-import { Object3D } from "three"
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
+import FoundManager from "../display/core/FoundManager"
 
 export const draggingItemPtr: [
-    Appendable | MeshAppendable | Object3D | undefined
+    Appendable | MeshAppendable | FoundManager | undefined
 ] = [undefined]

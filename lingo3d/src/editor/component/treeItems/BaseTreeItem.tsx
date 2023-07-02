@@ -5,11 +5,11 @@ import ExpandIcon from "../icons/ExpandIcon"
 import Appendable from "../../../display/core/Appendable"
 import { setDragImage } from "../../utils/dragToCreate"
 import MeshAppendable from "../../../display/core/MeshAppendable"
-import { Object3D } from "three"
 import { draggingItemPtr } from "../../../pointers/draggingItemPtr"
 import useMouseDown from "../../hooks/useMouseDown"
 import { TREE_ITEM_HEIGHT } from "../../../globals"
 import { Signal } from "@preact/signals"
+import FoundManager from "../../../display/core/FoundManager"
 
 export type Props = {
     label?: string
@@ -23,7 +23,7 @@ export type Props = {
     onDrop?: (draggingItem: Appendable | MeshAppendable) => void
     onDragStart?: () => void
     onDragEnd?: () => void
-    myDraggingItem?: Appendable | MeshAppendable | Object3D
+    myDraggingItem?: Appendable | MeshAppendable | FoundManager
     draggable?: boolean
     expandedSignal?: Signal<boolean>
     expandable?: boolean

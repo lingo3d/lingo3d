@@ -3,9 +3,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getDummyIK } from "../../states/useDummyIK"
 import IDummyIK from "../../interface/IDummyIK"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
-import { Object3D } from "three"
 import unsafeSetValue from "../../utils/unsafeSetValue"
-import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
 import FoundManager from "../../display/core/FoundManager"
 import { forceGetInstance } from "@lincode/utils"
 
@@ -85,19 +83,12 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-                const owner =
-                    selectionTargetPtr[0] instanceof FoundManager
-                        ? selectionTargetPtr[0].owner
-                        : selectionTargetPtr[0]
-                if (
-                    !(draggingItemPtr[0] instanceof Object3D) ||
-                    !owner ||
-                    (dummyIK.target && dummyIK.target !== owner.uuid)
-                )
+                if (!(draggingItemPtr[0] instanceof FoundManager)) return
+                const { owner } = draggingItemPtr[0]
+                if (!owner || (dummyIK.target && dummyIK.target !== owner.uuid))
                     return
-
                 dummyIK.target = owner.uuid
-                unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
+                unsafeSetValue(dummyIK, name, draggingItemPtr[0].uuid)
                 setRefresh({})
             }}
         />
