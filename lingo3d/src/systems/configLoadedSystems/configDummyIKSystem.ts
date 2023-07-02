@@ -6,19 +6,24 @@ import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import Sphere from "../../display/primitives/Sphere"
 import { getDummyIK } from "../../states/useDummyIK"
 import FoundManager from "../../display/core/FoundManager"
+import { Vector3, Object3D } from "three"
+import Cube from "../../display/primitives/Cube"
+import { vector3, vector3_ } from "../../display/utils/reusables"
+import MeshAppendable from "../../display/core/MeshAppendable"
+import { Point3dType } from "../../utils/isPoint"
 
 type JointName = keyof IDummyIK
 
-const parentChildrenMap = new Map<JointName, Array<JointName>>()
-const childParentMap = new Map<JointName, JointName>()
+const parentChildrenNameMap = new Map<JointName, Array<JointName>>()
+const childParentNameMap = new Map<JointName, JointName>()
 const setParenting = (names: Array<JointName>) => {
     let parentName: JointName | undefined
     for (const childName of names) {
         if (parentName) {
-            forceGetInstance(parentChildrenMap, parentName, Array).push(
+            forceGetInstance(parentChildrenNameMap, parentName, Array).push(
                 childName
             )
-            childParentMap.set(childName, parentName)
+            childParentNameMap.set(childName, parentName)
         }
         parentName = childName
     }
@@ -38,26 +43,52 @@ setParenting(["hips", "rightThigh", "rightLeg", "rightFoot", "rightForeFoot"])
 const nameJointMap = new Map<JointName, Sphere>()
 getDummyIK(() => nameJointMap.clear())
 
+const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
+    vector3
+        .copy(toPoint as any)
+        .sub(fromPoint as any)
+        .normalize()
+
+function rotateJoint(target: MeshAppendable, joint: MeshAppendable) {
+    joint.setRotationFromDirection(getDirection(target, joint))
+}
+
 const getJoint = (name: JointName, uuid: string | undefined) => {
-    uuid &&
-        forceGet(nameJointMap, name, () => {
-            const found = uuidMap.get(uuid) as FoundManager
+    if (!uuid) return
+    return forceGet(nameJointMap, name, () => {
+        const found = uuidMap.get(uuid) as FoundManager
 
-            const joint = new Sphere()
-            joint.name = name
-            joint.scale = 0.1
-            joint.placeAt(found)
-            joint.attach(found)
+        const joint = new Sphere()
+        joint.name = name
+        joint.scale = 0.05
+        joint.depthTest = false
+        joint.placeAt(found.getWorldPosition())
+        joint.opacity = 0.5
 
-            for (const childName of parentChildrenMap.get(name) ?? []) {
-                const child = nameJointMap.get(childName)
-                child && joint.attach(child)
-            }
-            const parentName = childParentMap.get(name)
-            const parent = parentName && nameJointMap.get(parentName)
-            parent?.attach(joint)
-            return joint
-        })
+        const jointDest = new Cube()
+        joint.append(jointDest)
+        jointDest.y = -100
+        jointDest.scale = 0.1
+        jointDest.depthTest = false
+        jointDest.opacity = 0.5
+
+        const childNames = parentChildrenNameMap.get(name) ?? []
+        for (const childName of childNames) {
+            const child = nameJointMap.get(childName)
+            if (!child) continue
+            if (childNames.length === 1) rotateJoint(child, joint)
+            joint.attach(child)
+        }
+        const parentName = childParentNameMap.get(name)
+        const parent = parentName && nameJointMap.get(parentName)
+        if (parent) {
+            parentChildrenNameMap.get(parentName)?.length === 1 &&
+                rotateJoint(joint, parent)
+            parent.attach(joint)
+        }
+        joint.attach(found)
+        return joint
+    })
 }
 
 export const configDummyIKSystem = createLoadedEffectSystem(
@@ -65,9 +96,14 @@ export const configDummyIKSystem = createLoadedEffectSystem(
     {
         effect: (self: DummyIK) => {
             const { leftHand, leftForeArm, leftArm } = self
-            getJoint("leftHand", leftHand)
-            getJoint("leftForeArm", leftForeArm)
-            getJoint("leftArm", leftArm)
+            const leftHandJoint = getJoint("leftHand", leftHand)
+            const leftForeArmJoint = getJoint("leftForeArm", leftForeArm)
+            const leftArmJoint = getJoint("leftArm", leftArm)
+
+            if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
+                leftForeArmJoint.quaternion.set(0, 0, 0, 1)
+                leftArmJoint.quaternion.set(0, 0, 0, 1)
+            }
         },
         loading: (self) => {
             if (!self.target) return false
