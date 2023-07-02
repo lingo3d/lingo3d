@@ -6,6 +6,7 @@ import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import { Object3D } from "three"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { selectionTargetPtr } from "../../pointers/selectionTargetPtr"
+import FoundManager from "../../display/core/FoundManager"
 
 type JointProps = {
     x: number
@@ -55,15 +56,18 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
+                const owner =
+                    selectionTargetPtr[0] instanceof FoundManager
+                        ? selectionTargetPtr[0].owner
+                        : selectionTargetPtr[0]
                 if (
                     !(draggingItemPtr[0] instanceof Object3D) ||
-                    !selectionTargetPtr[0] ||
-                    (dummyIK.target &&
-                        dummyIK.target !== selectionTargetPtr[0].uuid)
+                    !owner ||
+                    (dummyIK.target && dummyIK.target !== owner.uuid)
                 )
                     return
 
-                dummyIK.target = selectionTargetPtr[0].uuid
+                dummyIK.target = owner.uuid
                 unsafeSetValue(dummyIK, name, draggingItemPtr[0].name)
                 setRefresh({})
             }}
