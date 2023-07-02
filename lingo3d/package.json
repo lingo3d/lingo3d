@@ -46,7 +46,7 @@
         "nanoid": "^4.0.2",
         "nipplejs": "0.10.1",
         "parse-ts-to-ast": "^0.1.4",
-        "postprocessing": "^6.32.1",
+        "postprocessing": "^6.32.2",
         "preact": "^10.15.1",
         "preact-compat": "^3.19.0",
         "prettier": "^2.8.8",

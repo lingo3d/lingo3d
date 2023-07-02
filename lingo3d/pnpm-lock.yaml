@@ -73,7 +73,7 @@ dependencies:
     version: 0.4.4
   n8ao:
     specifier: ^1.6.7
-    version: 1.6.7(postprocessing@6.32.1)(three@0.154.0)
+    version: 1.6.7(postprocessing@6.32.2)(three@0.154.0)
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -84,8 +84,8 @@ dependencies:
     specifier: ^0.1.4
     version: 0.1.4
   postprocessing:
-    specifier: ^6.32.1
-    version: 6.32.1(three@0.154.0)
+    specifier: ^6.32.2
+    version: 6.32.2(three@0.154.0)
   preact:
     specifier: ^10.15.1
     version: 10.15.1
@@ -1173,13 +1173,13 @@ packages:
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
-  /n8ao@1.6.7(postprocessing@6.32.1)(three@0.154.0):
+  /n8ao@1.6.7(postprocessing@6.32.2)(three@0.154.0):
     resolution: {integrity: sha512-D2Hu+cRSLEjz93bWDhQ5lvRxA/S3QciE+eLGEgiEwyYrxV2gTgT8XsSya9FOO2BdpgiqeduJpfZnUS9X/QVtCQ==}
     peerDependencies:
       postprocessing: '>=6.30.0'
       three: '>=0.137'
     dependencies:
-      postprocessing: 6.32.1(three@0.154.0)
+      postprocessing: 6.32.2(three@0.154.0)
       three: 0.154.0
     dev: false
 
@@ -1254,11 +1254,11 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing@6.32.1(three@0.154.0):
-    resolution: {integrity: sha512-GiUv5vN/QCWnPJ3DdYPYn/4V1amps94T/0jFPSUL40KfaLCkfE9yPudzTtJJQjs168QNpwkmnvYF9RcP3HiAWA==}
+  /postprocessing@6.32.2(three@0.154.0):
+    resolution: {integrity: sha512-BpjIHeElXRmkcqO6p8Pi6W1uDcivQa2FVQ/Swnoo32Cg5bq/bb0mh9hXSHeCkIBD0W4D2KU8Fg7jBICztcN9iQ==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.138.0 < 0.154.0'
+      three: '>= 0.138.0 < 0.155.0'
     dependencies:
       three: 0.154.0
     dev: false
