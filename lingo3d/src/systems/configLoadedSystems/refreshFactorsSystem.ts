@@ -32,6 +32,7 @@ export const refreshFactorsSystem = createLoadedEffectSystem(
             const {
                 metalnessFactor,
                 roughnessFactor,
+                normalFactor,
                 opacityFactor,
                 envFactor,
                 reflection
@@ -75,6 +76,7 @@ export const refreshFactorsSystem = createLoadedEffectSystem(
             for (const textureManager of self.findAllMeshes()) {
                 setFactor(metalnessFactor, textureManager, "metalness")
                 setFactor(roughnessFactor, textureManager, "roughness")
+                setFactor(normalFactor, textureManager, "normalScale")
                 setFactor(opacityFactor, textureManager, "opacity")
                 setFactor(envFactor, textureManager, "envMapIntensity")
                 textureManager.envMap = reflectionTexture?.uuid

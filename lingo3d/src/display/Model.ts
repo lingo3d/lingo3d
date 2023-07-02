@@ -128,6 +128,15 @@ export default class Model extends Loaded<Group> implements IModel {
         refreshFactorsSystem.add(this)
     }
 
+    private _normalFactor?: number
+    public get normalFactor() {
+        return this._normalFactor
+    }
+    public set normalFactor(val) {
+        this._normalFactor = val
+        refreshFactorsSystem.add(this)
+    }
+
     private _opacityFactor?: number
     public get opacityFactor() {
         return this._opacityFactor

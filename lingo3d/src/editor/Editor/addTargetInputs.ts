@@ -190,6 +190,7 @@ export default (
         [
             "metalnessFactor",
             "roughnessFactor",
+            "normalFactor",
             "opacityFactor",
             "envFactor",
             "reflection"
