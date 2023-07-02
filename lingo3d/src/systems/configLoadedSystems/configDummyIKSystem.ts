@@ -41,10 +41,21 @@ getDummyIK(() => nameJointMap.clear())
 const getJoint = (name: JointName, uuid: string | undefined) => {
     uuid &&
         forceGet(nameJointMap, name, () => {
-            const manager = uuidMap.get(uuid) as FoundManager
+            const found = uuidMap.get(uuid) as FoundManager
+
             const joint = new Sphere()
+            joint.name = name
             joint.scale = 0.1
-            joint.placeAt(manager)
+            joint.placeAt(found)
+            joint.attach(found)
+
+            for (const childName of parentChildrenMap.get(name) ?? []) {
+                const child = nameJointMap.get(childName)
+                child && joint.attach(child)
+            }
+            const parentName = childParentMap.get(name)
+            const parent = parentName && nameJointMap.get(parentName)
+            parent?.attach(joint)
             return joint
         })
 }
