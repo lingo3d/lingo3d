@@ -6,9 +6,8 @@ import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import Sphere from "../../display/primitives/Sphere"
 import { getDummyIK } from "../../states/useDummyIK"
 import FoundManager from "../../display/core/FoundManager"
-import { Vector3, Object3D } from "three"
 import Cube from "../../display/primitives/Cube"
-import { vector3, vector3_ } from "../../display/utils/reusables"
+import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../utils/isPoint"
 
@@ -67,8 +66,8 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
 
         const jointDest = new Cube()
         joint.append(jointDest)
-        jointDest.y = -100
-        jointDest.scale = 0.1
+        jointDest.y = -150
+        jointDest.scale = 0.2
         jointDest.depthTest = false
         jointDest.opacity = 0.5
 
@@ -101,8 +100,6 @@ export const configDummyIKSystem = createLoadedEffectSystem(
             const leftArmJoint = getJoint("leftArm", leftArm)
 
             if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
-                leftForeArmJoint.quaternion.set(0, 0, 0, 1)
-                leftArmJoint.quaternion.set(0, 0, 0, 1)
             }
         },
         loading: (self) => {
