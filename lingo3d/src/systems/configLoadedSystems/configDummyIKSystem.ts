@@ -43,6 +43,7 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
         forceGet(nameJointMap, name, () => {
             const manager = uuidMap.get(uuid) as FoundManager
             const joint = new Sphere()
+            joint.scale = 0.1
             joint.placeAt(manager)
             return joint
         })
