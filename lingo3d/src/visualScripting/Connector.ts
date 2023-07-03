@@ -9,7 +9,7 @@ import IConnector, {
 import NullableCallback from "../interface/utils/NullableCallback"
 import getReactive from "../utils/getReactive"
 import { setRuntimeValue } from "../utils/getRuntimeValue"
-import { PointType } from "../utils/isPoint"
+import { PointType } from "../typeGuards/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import GameGraphChild from "./GameGraphChild"

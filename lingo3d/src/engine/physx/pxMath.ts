@@ -2,7 +2,7 @@ import { Quaternion } from "three"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physxPtr } from "../../pointers/physxPtr"
-import { Point3dType } from "../../utils/isPoint"
+import { Point3dType } from "../../typeGuards/isPoint"
 
 let pxVec: any
 let pxVec_: any

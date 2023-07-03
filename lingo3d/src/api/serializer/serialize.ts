@@ -3,13 +3,14 @@ import Appendable from "../../display/core/Appendable"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { AppendableNode, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
-import { isPoint } from "../../utils/isPoint"
+import { isPoint } from "../../typeGuards/isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { isTemplate, isTemplateNode } from "../../collections/typeGuards"
+import { isTemplate } from "../../typeGuards/isTemplate"
+import { isTemplateNode } from "../../typeGuards/isTemplateNode"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,

@@ -6,7 +6,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 import { disableSchema } from "../collections/disableSchema"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 
 export default interface ICurve extends IMeshAppendable {
     points: Array<Point3dType>

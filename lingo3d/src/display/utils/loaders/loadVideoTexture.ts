@@ -1,5 +1,5 @@
 import { RepeatWrapping, Texture, VideoTexture } from "three"
-import { isSelector } from "../../../utils/isSelector"
+import { isSelector } from "../../../typeGuards/isSelector"
 
 export default (url: string) => {
     if (isSelector(url)) {

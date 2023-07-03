@@ -4,7 +4,7 @@ import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
 import { stopPropagation } from "../utils/stopPropagation"
 import TextOptionsInput from "./TextOptionsInput"
 import prevent from "../utils/prevent"
-import { PointType } from "../../utils/isPoint"
+import { PointType } from "../../typeGuards/isPoint"
 
 interface ContextMenuProps {
     positionSignal?: Signal<PointType | undefined>

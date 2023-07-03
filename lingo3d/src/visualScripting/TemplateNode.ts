@@ -1,8 +1,8 @@
 import Appendable from "../display/core/Appendable"
 import { GameObjectType } from "../api/serializer/types"
 import GameGraphChild from "./GameGraphChild"
-import { templateNodeSet } from "../collections/typeGuards"
 import { createObjectPtr } from "../pointers/createObjectPtr"
+import { templateNodeSet } from "../typeGuards/isTemplateNode"
 
 export default class TemplateNode extends GameGraphChild {
     public spawnNode!: string

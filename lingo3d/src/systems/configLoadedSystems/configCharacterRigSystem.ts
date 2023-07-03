@@ -7,7 +7,7 @@ import { getCharacterRig } from "../../states/useCharacterRig"
 import FoundManager from "../../display/core/FoundManager"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
-import { Point3dType } from "../../utils/isPoint"
+import { Point3dType } from "../../typeGuards/isPoint"
 import CharacterRigJoint from "../../display/CharacterRigJoint"
 
 type JointName = keyof ICharacterRig

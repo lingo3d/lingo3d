@@ -6,7 +6,7 @@ import getWorldPosition from "../memo/getWorldPosition"
 import { raycast } from "../memo/raycast"
 import { editorPlanePtr } from "../pointers/editorPlanePtr"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
 import { Object3D, Vector3 } from "three"
 

@@ -1,6 +1,6 @@
 import toFixed, { toFixedPoint } from "../api/serializer/toFixed"
 import DefaultMethod from "../interface/utils/DefaultMethod"
-import { isPoint } from "./isPoint"
+import { isPoint } from "../typeGuards/isPoint"
 
 const getRuntimeValue = (target: any, key: string) => {
     if (target.runtimeData && key in target.runtimeData)

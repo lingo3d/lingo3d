@@ -1,4 +1,4 @@
-import { isPoint } from "../../utils/isPoint"
+import { isPoint } from "../../typeGuards/isPoint"
 import getDefaultValue, {
     FunctionPtr
 } from "../../interface/utils/getDefaultValue"
@@ -6,21 +6,23 @@ import Appendable from "../../display/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { extendFunction, omitFunction } from "@lincode/utils"
-import NullableCallback, {
-    NullableCallbackParamType
-} from "../../interface/utils/NullableCallback"
-import { DefaultMethodArgType } from "../../interface/utils/DefaultMethod"
 import { Cancellable } from "@lincode/promiselikes"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import {
-    isDefaultMethodArg,
-    defaultMethodArgs,
-    isNullableCallbackParam,
-    nullableCallbackParams
-} from "../../collections/typeGuards"
 import { disableSchema } from "../../collections/disableSchema"
 import { runtimeSchemaMap } from "../../collections/runtimeCollections"
 import { getFixedRuntimeValue } from "../../utils/getRuntimeValue"
+import {
+    isDefaultMethodArg,
+    defaultMethodArgs,
+    DefaultMethodArgType
+} from "../../typeGuards/isDefaultMethodArg"
+import {
+    NullableCallbackParamType,
+    isNullableCallbackParam,
+    nullableCallbackParams
+} from "../../typeGuards/isNullableCallbackParam"
+import { isObject } from "../../typeGuards/isObject"
+import NullableCallback from "../../interface/utils/NullableCallback"
 
 export class PassthroughCallback {
     public constructor(
@@ -48,9 +50,6 @@ const filterSchema = (
         result[key] = schema[key] ?? runtimeSchema?.[key]
     return result
 }
-
-const isObject = (val: any): val is object =>
-    val && typeof val === "object" && !Array.isArray(val)
 
 const structuredCloneDefaultValue = <T>(val: T) => {
     if (isNullableCallbackParam(val)) {

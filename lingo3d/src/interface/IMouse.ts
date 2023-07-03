@@ -1,6 +1,6 @@
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { pt3d0 } from "../display/utils/reusables"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import IAppendable, {
     appendableDefaults,
     appendableSchema

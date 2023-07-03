@@ -1,4 +1,4 @@
-import { PointType } from "../../utils/isPoint"
+import { PointType } from "../../typeGuards/isPoint"
 
 const toFixed = (v: number, places = 2) => Number(v.toFixed(places))
 export default toFixed

@@ -1,5 +1,5 @@
 import { deg2Rad, mapRange, rad2Deg } from "@lincode/math"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import Point3d from "./Point3d"
 import { random } from "@lincode/utils"
 

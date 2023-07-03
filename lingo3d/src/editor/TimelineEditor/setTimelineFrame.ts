@@ -1,6 +1,6 @@
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 import { timelinePtr } from "../../pointers/timelinePtr"
-import { PointType } from "../../utils/isPoint"
+import { PointType } from "../../typeGuards/isPoint"
 import { frameIndicatorSignal } from "./frameIndicatorSignal"
 import { timelineScrollerSeek } from "./timelineScrollerSeek"
 

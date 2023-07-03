@@ -5,7 +5,7 @@ import { getExtensionType } from "@lincode/filetypes"
 import { uuidTextureMap } from "../collections/idCollections"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import loadVideoTexture from "../display/utils/loaders/loadVideoTexture"
-import { isSelector } from "../utils/isSelector"
+import { isSelector } from "../typeGuards/isSelector"
 import { loadTextureSet } from "../collections/loadTextureSet"
 
 export type TextureParams = [

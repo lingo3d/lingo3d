@@ -1,5 +1,5 @@
 import { sharedPoolReleaseSystem } from "../../systems/configSystems/sharedPoolReleaseSystem"
-import { PointType } from "../../utils/isPoint"
+import { PointType } from "../../typeGuards/isPoint"
 
 export default <
     Type extends object,

@@ -2,7 +2,7 @@ import Appendable from "./core/Appendable"
 import createObjectWithoutTemplate, {
     GameObjectTypeWithoutTemplate
 } from "../api/serializer/createObjectWithoutTemplate"
-import { templateSet } from "../collections/typeGuards"
+import { templateSet } from "../typeGuards/isTemplate"
 
 export default class Template extends Appendable {
     public constructor() {

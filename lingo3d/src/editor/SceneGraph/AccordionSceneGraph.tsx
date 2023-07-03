@@ -14,11 +14,11 @@ import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { isTemplate } from "../../collections/typeGuards"
 import FoundManager from "../../display/core/FoundManager"
 import groupSelected from "../../engine/hotkeys/groupSelected"
 import root from "../../api/root"
 import moveSelected from "../../engine/hotkeys/moveSelected"
+import { isTemplate } from "../../typeGuards/isTemplate"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()

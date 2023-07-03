@@ -1,6 +1,6 @@
 import { deg2Rad, endPoint } from "@lincode/math"
 import { euler } from "../display/utils/reusables"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
 import { StrideMode } from "../interface/IDummy"
 import FoundManager from "../display/core/FoundManager"

@@ -8,7 +8,7 @@ import { event } from "@lincode/events"
 import type { GestureRecognizerResult } from "@mediapipe/tasks-vision"
 import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../math/Point3d"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3

@@ -14,9 +14,7 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import { isNullableCallbackParamInstance } from "../../interface/utils/NullableCallback"
-import { isDefaultMethodArgInstance } from "../../interface/utils/DefaultMethod"
-import { isPoint } from "../../utils/isPoint"
+import { isPoint } from "../../typeGuards/isPoint"
 import executeIcon from "./icons/executeIcon"
 import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
@@ -24,17 +22,17 @@ import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import { uuidMap } from "../../collections/idCollections"
-import {
-    isDefaultMethodArg,
-    isNullableCallbackParam,
-    isTemplateNode
-} from "../../collections/typeGuards"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
 import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
 import { clearBooleanPtrEffectSystem } from "../../systems/configSystems/clearBooleanPtrEffectSystem"
 import { onTransformControls } from "../../events/onTransformControls"
 import { refreshInputSystem } from "../../systems/refreshInputSystem"
+import { isDefaultMethodArg } from "../../typeGuards/isDefaultMethodArg"
+import { isNullableCallbackParam } from "../../typeGuards/isNullableCallbackParam"
+import { isTemplateNode } from "../../typeGuards/isTemplateNode"
+import { isNullableCallbackParamInstance } from "../../typeGuards/isNullableCallbackParamInstance"
+import { isDefaultMethodArgInstance } from "../../typeGuards/isDefaultMethodArgInstance"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {

@@ -1,7 +1,7 @@
 import { PI2 } from "../globals"
 import { PI } from "../globals"
 import Point3d from "../math/Point3d"
-import { Point3dType } from "./isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 
 export const findClosestEulerAngle = (
     euler1: Point3dType,

@@ -4,7 +4,7 @@ import HelperSphere from "../display/core/utils/HelperSphere"
 import createSharedPool from "../pools/utils/createSharedPool"
 import { curveHelperSphereTransformEditSystem } from "../systems/eventSystems/curveHelperSphereTransformEditSystem"
 import { getSelectionCandidates } from "../throttle/getSelectionCandidates"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import computeOnce from "./utils/computeOnce"
 
 export default computeOnce((self: Curve) =>

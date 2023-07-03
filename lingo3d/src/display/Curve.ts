@@ -1,6 +1,6 @@
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import MeshAppendable from "./core/MeshAppendable"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import { BufferGeometry, Line, LineBasicMaterial } from "three"
 import { configCurveSystem } from "../systems/configSystems/configCurveSystem"
 

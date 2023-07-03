@@ -1,5 +1,5 @@
 import Appendable from "./core/Appendable"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import { configLineSystem } from "../systems/configSystems/configLineSystem"
 
 export default class Line extends Appendable {

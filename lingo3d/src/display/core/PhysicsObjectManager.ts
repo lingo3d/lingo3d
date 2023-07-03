@@ -27,7 +27,7 @@ import {
 import JointBase from "./JointBase"
 import { configJointSystemPtr } from "../../pointers/configJointSystemPtr"
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
-import { Point3dType } from "../../utils/isPoint"
+import { Point3dType } from "../../typeGuards/isPoint"
 import SpawnPoint from "../SpawnPoint"
 import { configPhysicsShapeSystem } from "../../systems/configLoadedSystems/configPhysicsShapeSystem"
 import { physxLoopPtr } from "../../pointers/physxLoopPtr"

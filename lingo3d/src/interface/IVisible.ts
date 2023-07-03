@@ -1,5 +1,5 @@
 import MeshAppendable from "../display/core/MeshAppendable"
-import { Point3dType } from "../utils/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"

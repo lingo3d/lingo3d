@@ -1,5 +1,5 @@
 import { forceGetInstance } from "@lincode/utils"
-import { PointType } from "../../utils/isPoint"
+import { PointType } from "../../typeGuards/isPoint"
 
 export default <
     Type extends object,

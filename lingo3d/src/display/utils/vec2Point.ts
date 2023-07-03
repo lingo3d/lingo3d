@@ -1,7 +1,7 @@
 import { Vector3 } from "three"
 import { CM2M, M2CM } from "../../globals"
 import Point3d from "../../math/Point3d"
-import { Point3dType } from "../../utils/isPoint"
+import { Point3dType } from "../../typeGuards/isPoint"
 
 export const vec2Point = (vec: Vector3) =>
     new Point3d(vec.x * M2CM, vec.y * M2CM, vec.z * M2CM)
