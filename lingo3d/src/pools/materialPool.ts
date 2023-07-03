@@ -65,7 +65,7 @@ const setMaterial = (
     material[key] = value
 }
 
-const createMap = (
+const createTextureMap = (
     texture: string,
     textureRepeat: number,
     textureFlipY: boolean,
@@ -104,41 +104,41 @@ export const materialPool = createSharedPool<
             setMaterial(
                 material,
                 "map",
-                createMap(params[2], params[4], params[5], params[6]),
+                createTextureMap(params[2], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(
                 material,
                 "alphaMap",
-                createMap(params[3], params[4], params[5], params[6]),
+                createTextureMap(params[3], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "wireframe", params[7], defaults)
             setMaterial(
                 material,
                 "envMap",
-                createMap(params[8], params[4], params[5], params[6]),
+                createTextureMap(params[8], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "envMapIntensity", params[9], defaults)
             setMaterial(
                 material,
                 "aoMap",
-                createMap(params[10], params[4], params[5], params[6]),
+                createTextureMap(params[10], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "aoMapIntensity", params[11], defaults)
             setMaterial(
                 material,
                 "bumpMap",
-                createMap(params[12], params[4], params[5], params[6]),
+                createTextureMap(params[12], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "bumpScale", params[13], defaults)
             setMaterial(
                 material,
                 "displacementMap",
-                createMap(params[14], params[4], params[5], params[6]),
+                createTextureMap(params[14], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "displacementScale", params[15], defaults)
@@ -153,28 +153,28 @@ export const materialPool = createSharedPool<
             setMaterial(
                 material,
                 "lightMap",
-                createMap(params[19], params[4], params[5], params[6]),
+                createTextureMap(params[19], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "lightMapIntensity", params[20], defaults)
             setMaterial(
                 material,
                 "metalnessMap",
-                createMap(params[21], params[4], params[5], params[6]),
+                createTextureMap(params[21], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "metalness", params[22], defaults)
             setMaterial(
                 material,
                 "roughnessMap",
-                createMap(params[23], params[4], params[5], params[6]),
+                createTextureMap(params[23], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "roughness", params[24], defaults)
             setMaterial(
                 material,
                 "normalMap",
-                createMap(params[25], params[4], params[5], params[6]),
+                createTextureMap(params[25], params[4], params[5], params[6]),
                 defaults
             )
             setMaterial(material, "normalScale", params[26], defaults)
@@ -190,36 +190,41 @@ export const materialPool = createSharedPool<
                     color: params[0],
                     opacity: params[1],
                     transparent: params[1] < 1 || params[3].length > 0,
-                    map: createMap(params[2], params[4], params[5], params[6]),
-                    alphaMap: createMap(
+                    map: createTextureMap(
+                        params[2],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    alphaMap: createTextureMap(
                         params[3],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     wireframe: params[7],
-                    envMap: createMap(
+                    envMap: createTextureMap(
                         params[8],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     envMapIntensity: params[9],
-                    aoMap: createMap(
+                    aoMap: createTextureMap(
                         params[10],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     aoMapIntensity: params[11],
-                    bumpMap: createMap(
+                    bumpMap: createTextureMap(
                         params[12],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     bumpScale: params[13],
-                    displacementMap: createMap(
+                    displacementMap: createTextureMap(
                         params[14],
                         params[4],
                         params[5],
@@ -229,28 +234,28 @@ export const materialPool = createSharedPool<
                     displacementBias: params[16],
                     emissive: params[17] ? params[0] : undefined,
                     emissiveIntensity: params[18],
-                    lightMap: createMap(
+                    lightMap: createTextureMap(
                         params[19],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     lightMapIntensity: params[20],
-                    metalnessMap: createMap(
+                    metalnessMap: createTextureMap(
                         params[21],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     metalness: params[22],
-                    roughnessMap: createMap(
+                    roughnessMap: createTextureMap(
                         params[23],
                         params[4],
                         params[5],
                         params[6]
                     ),
                     roughness: params[24],
-                    normalMap: createMap(
+                    normalMap: createTextureMap(
                         params[25],
                         params[4],
                         params[5],
