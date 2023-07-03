@@ -11,6 +11,19 @@ import getStaticProperties from "../../display/utils/getStaticProperties"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { isTemplate } from "../../typeGuards/isTemplate"
 import { isTemplateNode } from "../../typeGuards/isTemplateNode"
+import FoundManager from "../../display/core/FoundManager"
+
+const transformProperties = new Set([
+    "rotationX",
+    "rotationY",
+    "rotationZ",
+    "scaleX",
+    "scaleY",
+    "scaleZ",
+    "x",
+    "y",
+    "z"
+])
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,
@@ -35,7 +48,13 @@ const serialize = (
             ? { type: "template", source: componentName }
             : { type: componentName }
 
-        for (const [key, type] of Object.entries(schema)) {
+        const entries =
+            componentName === "find" && (child as FoundManager).$characterRig
+                ? Object.entries(schema).filter(
+                      ([key]) => !transformProperties.has(key)
+                  )
+                : Object.entries(schema)
+        for (const [key, type] of entries) {
             if (
                 type === Function ||
                 (Array.isArray(type) && type.includes(Function)) ||
