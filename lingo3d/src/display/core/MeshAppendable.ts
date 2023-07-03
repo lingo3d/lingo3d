@@ -27,6 +27,7 @@ import { getAppendablesById } from "../../collections/idCollections"
 import getActualScale from "../../memo/getActualScale"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
 import frameSync from "../../api/frameSync"
+import getParent from "./utils/getParent"
 
 const up = new Vector3(0, 1, 0)
 
@@ -152,7 +153,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public setRotationFromDirection(direction: Point3dType) {
-        const ogParent = this.outerObject3d.parent ?? scene
+        const ogParent = getParent(this.outerObject3d)
         ogParent !== scene && scene.attach(this.outerObject3d)
 
         this.outerObject3d.setRotationFromQuaternion(

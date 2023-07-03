@@ -17,6 +17,7 @@ import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTran
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
 import { worldModePtr } from "../../pointers/worldModePtr"
+import getParent from "../../display/core/utils/getParent"
 
 export const importPhysX = lazy(async () => {
     await new Promise<void>((resolve) => {
@@ -60,7 +61,7 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
                 destroy
             } = physxPtr[0]
 
-            const ogParent = self.outerObject3d.parent
+            const ogParent = getParent(self.outerObject3d)
             ogParent !== scene && scene.attach(self.outerObject3d)
 
             if (mode === "character") {

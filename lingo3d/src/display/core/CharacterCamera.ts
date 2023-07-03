@@ -10,6 +10,7 @@ import CameraBase from "./CameraBase"
 import MeshAppendable from "./MeshAppendable"
 import { characterCameraFollowSystem } from "../../systems/characterCameraFollowSystem"
 import { characterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
+import getParent from "./utils/getParent"
 
 export default class CharacterCamera
     extends CameraBase
@@ -49,7 +50,7 @@ export default class CharacterCamera
 
     public override append(object: MeshAppendable) {
         this.$appendNode(object)
-        object.outerObject3d.parent !== scene &&
+        getParent(object.outerObject3d) !== scene &&
             scene.attach(object.outerObject3d)
     }
 

@@ -3,13 +3,12 @@ import { uuidMap } from "../../collections/idCollections"
 import CharacterRig from "../../display/CharacterRig"
 import ICharacterRig from "../../interface/ICharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
-import Sphere from "../../display/primitives/Sphere"
 import { getCharacterRig } from "../../states/useCharacterRig"
 import FoundManager from "../../display/core/FoundManager"
-import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../utils/isPoint"
+import CharacterRigJoint from "../../display/CharacterRigJoint"
 
 type JointName = keyof ICharacterRig
 
@@ -39,7 +38,7 @@ setParenting([
 setParenting(["hips", "leftThigh", "leftLeg", "leftFoot", "leftForeFoot"])
 setParenting(["hips", "rightThigh", "rightLeg", "rightFoot", "rightForeFoot"])
 
-const nameJointMap = new Map<JointName, Sphere>()
+const nameJointMap = new Map<JointName, CharacterRigJoint>()
 getCharacterRig(() => nameJointMap.clear())
 
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
@@ -58,19 +57,9 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
         const found = uuidMap.get(uuid) as FoundManager
         found.$unghost()
 
-        const joint = new Sphere()
+        const joint = new CharacterRigJoint()
         joint.name = name
-        joint.scale = 0.05
-        joint.depthTest = false
         joint.placeAt(found.getWorldPosition())
-        joint.opacity = 0.5
-
-        const jointDest = new Cube()
-        joint.append(jointDest)
-        jointDest.y = -150
-        jointDest.scale = 0.2
-        jointDest.depthTest = false
-        jointDest.opacity = 0.5
 
         const childNames = parentChildrenNameMap.get(name) ?? []
         for (const childName of childNames) {
