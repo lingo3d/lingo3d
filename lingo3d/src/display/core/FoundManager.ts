@@ -14,6 +14,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
+import CharacterRig from "../CharacterRig"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -37,15 +38,15 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this._materialParams = Object.values(this._defaults) as MaterialParams
     }
 
-    private animationsInherited?: boolean
+    private inherited?: boolean
     private inheritAnimations() {
-        if (this.animationsInherited) return
+        if (this.inherited) return
         const states = (this.parent as Model).$animationStates
         for (const animationManager of Object.values(states.managerRecord))
             this.animations[animationManager.name!] = this.watch(
                 animationManager.inherit(this, states)
             )
-        this.animationsInherited = true
+        this.inherited = true
     }
 
     public override get animation() {
@@ -60,6 +61,8 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))
     }
+
+    public $characterRig: CharacterRig | undefined
 }
 interface FoundManager
     extends SimpleObjectManager,

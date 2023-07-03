@@ -51,16 +51,18 @@ function rotateJoint(target: MeshAppendable, joint: MeshAppendable) {
     joint.setRotationFromDirection(getDirection(target, joint))
 }
 
-const getJoint = (name: JointName, uuid: string | undefined) => {
+const getJoint = (self: CharacterRig, name: JointName) => {
+    const uuid = self[name] as string
     if (!uuid) return
     return forceGet(nameJointMap, name, () => {
-        const found = uuidMap.get(uuid) as FoundManager
-        found.$unghost()
+        const foundManager = uuidMap.get(uuid) as FoundManager
+        foundManager.$unghost()
+        foundManager.$characterRig = self
 
         const joint = new CharacterRigJoint()
         joint.$ghost()
         joint.name = name
-        joint.placeAt(found.getWorldPosition())
+        joint.placeAt(foundManager.getWorldPosition())
 
         const childNames = parentChildrenNameMap.get(name) ?? []
         for (const childName of childNames) {
@@ -76,7 +78,7 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
                 rotateJoint(joint, parent)
             parent.attach(joint)
         }
-        joint.outerObject3d.attach(found.outerObject3d)
+        joint.outerObject3d.attach(foundManager.outerObject3d)
         return joint
     })
 }
@@ -85,10 +87,9 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
         effect: (self: CharacterRig) => {
-            const { leftHand, leftForeArm, leftArm } = self
-            const leftHandJoint = getJoint("leftHand", leftHand)
-            const leftForeArmJoint = getJoint("leftForeArm", leftForeArm)
-            const leftArmJoint = getJoint("leftArm", leftArm)
+            const leftHandJoint = getJoint(self, "leftHand")
+            const leftForeArmJoint = getJoint(self, "leftForeArm")
+            const leftArmJoint = getJoint(self, "leftArm")
 
             if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
                 leftForeArmJoint.quaternion.set(0, 0, 0, 1)

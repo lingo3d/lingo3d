@@ -44,11 +44,11 @@ const serialize = (
                 continue
 
             let value: any
-            if (key === "animations" && "serializeAnimations" in child) {
-                value = child.serializeAnimations
+            if (key === "animations" && "$animationUrls" in child) {
+                value = child.$animationUrls
                 if (!value) continue
-            } else if (key === "animation" && "serializeAnimation" in child) {
-                value = child.serializeAnimation
+            } else if (key === "animation" && "$animation" in child) {
+                value = child.$animation
                 if (!value) continue
             } else value = unsafeGetValue(child, key)
 

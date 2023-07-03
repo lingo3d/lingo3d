@@ -31,9 +31,9 @@ export default class Model extends Loaded<Group> implements IModel {
     public static defaults = modelDefaults
     public static schema = modelSchema
 
-    public serializeAnimations?: Record<string, string>
+    public $animationUrls?: Record<string, string>
     public async loadAnimation(url: string, name = url) {
-        ;(this.serializeAnimations ??= {})[name] = url
+        ;(this.$animationUrls ??= {})[name] = url
 
         const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return

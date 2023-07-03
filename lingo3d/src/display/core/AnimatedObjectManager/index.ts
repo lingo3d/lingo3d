@@ -94,7 +94,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.$animationStates.loop = value
     }
 
-    public get serializeAnimation() {
+    public get $animation() {
         return typeof this.animation !== "object" ? this.animation : undefined
     }
 
