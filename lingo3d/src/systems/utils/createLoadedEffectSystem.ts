@@ -2,6 +2,9 @@ import Appendable from "../../display/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
+const _loading = (self: any) =>
+    "$loadedObject3d" in self && !self.$loadedObject3d
+
 export const createLoadedEffectSystem = <
     GameObject extends Appendable | Loaded,
     Data extends Record<string, any> | void
@@ -12,8 +15,7 @@ export const createLoadedEffectSystem = <
         effect,
         cleanup,
         effectTicker,
-        loading = (self: GameObject) =>
-            "$loadedObject3d" in self && !self.$loadedObject3d
+        loading = _loading
     }: Pick<
         SystemOptions<GameObject, Data, void>,
         "data" | "effect" | "cleanup" | "effectTicker"

@@ -58,6 +58,7 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
         found.$unghost()
 
         const joint = new CharacterRigJoint()
+        joint.$ghost()
         joint.name = name
         joint.placeAt(found.getWorldPosition())
 
@@ -97,9 +98,9 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         },
         loading: (self) => {
             if (!self.target) return false
-            const dummy = uuidMap.get(self.target)
+            const model = uuidMap.get(self.target)
             return (
-                !!dummy && "$loadedObject3d" in dummy && !dummy.$loadedObject3d
+                !!model && "$loadedObject3d" in model && !model.$loadedObject3d
             )
         }
     }
