@@ -3,7 +3,7 @@ import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
 import Model from "../display/Model"
 import Loaded from "../display/core/Loaded"
-import createMap from "../utils/createMap"
+import { createMap } from "../utils/createCollection"
 
 export const uuidMap = createMap<string, Appendable | MeshAppendable | Loaded>()
 export const uuidTextureMap = createMap<string, Texture>()

@@ -1,6 +1,6 @@
 import { Object3D, Vector3 } from "three"
 import { measure } from "../../memo/measure"
-import createMap from "../../utils/createMap"
+import { createMap } from "../../utils/createCollection"
 
 const cache = createMap<string, [number, Vector3, Vector3]>()
 

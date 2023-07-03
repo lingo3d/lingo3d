@@ -1,4 +1,4 @@
-import createMap from "../../utils/createMap"
+import { createMap } from "../../utils/createCollection"
 
 export default <Item, Return, Data>(cb: (item: Item, data: Data) => Return) => {
     const cache = createMap<Item, Return>()

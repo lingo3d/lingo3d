@@ -1,4 +1,4 @@
-import createMap from "../../../../utils/createMap"
+import { createMap } from "../../../../utils/createCollection"
 
 const bytesLoaded = [0]
 

@@ -2,7 +2,7 @@ import { assert, forceGet } from "@lincode/utils"
 import { FileLoader } from "three"
 import { handleProgress } from "./utils/bytesLoaded"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
-import createMap from "../../../utils/createMap"
+import { createMap } from "../../../utils/createCollection"
 
 const cache = createMap<string, Promise<Record<string, any> | Array<any>>>()
 const loader = new FileLoader()

@@ -1,5 +1,5 @@
 import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCollectionEffectSystem"
-import createMap from "../../utils/createMap"
+import { createMap } from "../../utils/createCollection"
 
 export default <Item, Return>(cb: (item: Item) => Return) => {
     const cache = createMap<Item, Return>()

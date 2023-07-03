@@ -1,5 +1,5 @@
 import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCollectionEffectSystem"
-import createMap from "../../utils/createMap"
+import { createMap } from "../../utils/createCollection"
 
 export default <Item extends object, Return, Data extends Record<string, any>>(
     cb: (item: Item, data: Data) => Return

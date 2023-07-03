@@ -78,7 +78,7 @@ const getJoint = (self: CharacterRig, name: JointName) => {
                 rotateJoint(joint, parent)
             parent.attach(joint)
         }
-        joint.outerObject3d.attach(foundManager.outerObject3d)
+        joint.object3d.attach(foundManager.outerObject3d)
         return joint
     })
 }
@@ -94,7 +94,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
                 leftForeArmJoint.quaternion.set(0, 0, 0, 1)
                 leftArmJoint.quaternion.set(0, 0, 0, 1)
-                leftArmJoint.rotationZ = 90
+                leftArmJoint.innerRotationZ = 90
             }
         },
         loading: (self) => {

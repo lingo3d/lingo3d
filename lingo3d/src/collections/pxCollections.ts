@@ -1,6 +1,6 @@
 import MeshAppendable from "../display/core/MeshAppendable"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import createMap from "../utils/createMap"
+import { createMap } from "../utils/createCollection"
 
 export const controllerVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
 export const controllerVYUpdateMap = new WeakMap<PhysicsObjectManager, number>()

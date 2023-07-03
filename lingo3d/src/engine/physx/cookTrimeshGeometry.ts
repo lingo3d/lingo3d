@@ -5,7 +5,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { M2CM } from "../../globals"
 import getActualScale from "../../memo/getActualScale"
 import { busyCookingPtr } from "../../pointers/busyCookingPtr"
-import createMap from "../../utils/createMap"
+import { createMap } from "../../utils/createCollection"
 
 const pxGeometryCache = createMap<string, any>()
 

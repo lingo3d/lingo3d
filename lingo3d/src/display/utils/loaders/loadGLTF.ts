@@ -7,7 +7,7 @@ import { handleProgress } from "./utils/bytesLoaded"
 import processChildren from "./utils/processChildren"
 import { wasmUrlPtr } from "../../../pointers/assetsPathPointers"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
-import createMap from "../../../utils/createMap"
+import { createMap } from "../../../utils/createCollection"
 
 const cache = createMap<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
