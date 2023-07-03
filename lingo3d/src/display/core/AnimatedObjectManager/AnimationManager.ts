@@ -79,7 +79,7 @@ export default class AnimationManager
         )
     }
 
-    public retarget(target: FoundManager, animationStates: AnimationStates) {
+    public inherit(target: FoundManager, animationStates: AnimationStates) {
         const newClip = this.$clip?.clone()
         if (!newClip) return this
 

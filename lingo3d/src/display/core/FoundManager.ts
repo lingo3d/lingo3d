@@ -37,22 +37,22 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this._materialParams = Object.values(this._defaults) as MaterialParams
     }
 
-    private retargeted?: boolean
-    private retargetAnimations() {
-        if (this.retargeted) return
+    private animationsInherited?: boolean
+    private inheritAnimations() {
+        if (this.animationsInherited) return
         const states = (this.parent as Model).$animationStates
         for (const animationManager of Object.values(states.managerRecord))
             this.animations[animationManager.name!] = this.watch(
-                animationManager.retarget(this, states)
+                animationManager.inherit(this, states)
             )
-        this.retargeted = true
+        this.animationsInherited = true
     }
 
     public override get animation() {
         return super.animation
     }
     public override set animation(val) {
-        this.retargetAnimations()
+        this.inheritAnimations()
         super.animation = val
     }
 
