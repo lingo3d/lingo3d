@@ -3,7 +3,6 @@ export default [
     "children",
     "scale",
     "velocity",
-    "target",
     "proxy",
     "grid",
     "stats"
