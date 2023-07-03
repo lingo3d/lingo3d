@@ -86,7 +86,7 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
                 rotateJoint(joint, parent)
             parent.attach(joint)
         }
-        joint.attach(found)
+        joint.outerObject3d.attach(found.outerObject3d)
         return joint
     })
 }
