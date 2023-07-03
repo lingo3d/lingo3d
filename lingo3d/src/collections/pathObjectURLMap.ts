@@ -1,1 +1,3 @@
-export const pathObjectURLMap = new Map<string, string>()
+import createMap from "../utils/createMap"
+
+export const pathObjectURLMap = createMap<string, string>()
