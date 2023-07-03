@@ -1,6 +1,8 @@
+import createMap from "../../../../utils/createMap"
+
 const bytesLoaded = [0]
 
-const loadedBytesMap = new Map<string, number>()
+const loadedBytesMap = createMap<string, number>()
 
 const progressChangedEventListeners = new Set<(bytes: number) => void>()
 

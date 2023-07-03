@@ -5,8 +5,9 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { M2CM } from "../../globals"
 import getActualScale from "../../memo/getActualScale"
 import { busyCookingPtr } from "../../pointers/busyCookingPtr"
+import createMap from "../../utils/createMap"
 
-const pxGeometryCache = new Map<string, any>()
+const pxGeometryCache = createMap<string, any>()
 
 export default (src: string, manager: PhysicsObjectManager) => {
     if (pxGeometryCache.has(src)) {

@@ -29,7 +29,7 @@ export default class DefaultMethod {
     }
 }
 
-const defaultMethodMap = new Map<DefaultMethodArgType, DefaultMethod>()
+const defaultMethodMap = new WeakMap<DefaultMethodArgType, DefaultMethod>()
 export const defaultMethod = (
     value: DefaultMethodArgType = defaultMethodVoidArg
 ) => forceGetInstance(defaultMethodMap, value, DefaultMethod, [value])

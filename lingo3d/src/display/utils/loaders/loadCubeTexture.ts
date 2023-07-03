@@ -1,8 +1,9 @@
 import { CubeTextureLoader, Texture } from "three"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./utils/bytesLoaded"
+import createMap from "../../../utils/createMap"
 
-const cache = new Map<string, Texture>()
+const cache = createMap<string, Texture>()
 const loader = new CubeTextureLoader()
 
 export default (urls: Array<string>) =>

@@ -5,8 +5,9 @@ import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
 import processChildren from "./utils/processChildren"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
+import createMap from "../../../utils/createMap"
 
-const cache = new Map<string, Promise<[Group, boolean]>>()
+const cache = createMap<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()
 
 export default async (url: string, clone: boolean) => {

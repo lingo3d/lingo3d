@@ -4,8 +4,9 @@ import IPrimitive from "../../interface/IPrimitive"
 import { Point3dType } from "../../typeGuards/isPoint"
 import { Vector3 } from "three"
 import { vec2Point } from "./vec2Point"
+import createMap from "../../utils/createMap"
 
-const sphereMap = new Map<string, Sphere>()
+const sphereMap = createMap<string, Sphere>()
 
 export default (
     name: string,

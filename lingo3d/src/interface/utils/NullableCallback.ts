@@ -29,7 +29,7 @@ export default class NullableCallback {
     }
 }
 
-const nullableCallbackMap = new Map<
+const nullableCallbackMap = new WeakMap<
     NullableCallbackParamType,
     NullableCallback
 >()

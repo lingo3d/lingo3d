@@ -1,8 +1,9 @@
 import { Texture } from "three"
 import { forceGet } from "@lincode/utils"
 import loadTexture from "./loadTexture"
+import createMap from "../../../utils/createMap"
 
-const cache = new Map<string, Promise<Texture>>()
+const cache = createMap<string, Promise<Texture>>()
 
 export default (url: string) =>
     forceGet(

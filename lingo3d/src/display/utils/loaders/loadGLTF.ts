@@ -7,8 +7,9 @@ import { handleProgress } from "./utils/bytesLoaded"
 import processChildren from "./utils/processChildren"
 import { wasmUrlPtr } from "../../../pointers/assetsPathPointers"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
+import createMap from "../../../utils/createMap"
 
-const cache = new Map<string, Promise<[GLTF, boolean]>>()
+const cache = createMap<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
 
 const createDracoLoader = lazy(() => {
