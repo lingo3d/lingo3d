@@ -1,7 +1,18 @@
+import ICharacterRigJoint, {
+    characterRigJointDefaults,
+    characterRigJointSchema
+} from "../interface/ICharacterRigJoint"
 import Cube from "./primitives/Cube"
 import Sphere from "./primitives/Sphere"
 
-export default class CharacterRigJoint extends Sphere {
+export default class CharacterRigJoint
+    extends Sphere
+    implements ICharacterRigJoint
+{
+    public static override componentName = "characterRigJoint"
+    public static override defaults = characterRigJointDefaults
+    public static override schema = characterRigJointSchema
+
     public constructor() {
         super()
         this.scale = 0.05
