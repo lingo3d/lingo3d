@@ -7,7 +7,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
 import { editorWidthSignal } from "../signals/sizeSignals"
 
-const DummyIKEditor = () => {
+const CharacterRigEditor = () => {
     useInitCSS()
     useInitEditor()
 
@@ -79,4 +79,4 @@ const DummyIKEditor = () => {
         </>
     )
 }
-export default DummyIKEditor
+export default CharacterRigEditor

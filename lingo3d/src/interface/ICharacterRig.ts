@@ -6,7 +6,7 @@ import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IDummyIK extends IAppendable {
+export default interface ICharacterRig extends IAppendable {
     target: Nullable<string>
 
     hips: Nullable<string>
@@ -36,7 +36,7 @@ export default interface IDummyIK extends IAppendable {
     rightForeFoot: Nullable<string>
 }
 
-export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
+export const characterRigSchema: Required<ExtractProps<ICharacterRig>> = {
     ...appendableSchema,
 
     target: String,
@@ -68,32 +68,35 @@ export const dummyIKSchema: Required<ExtractProps<IDummyIK>> = {
     rightForeFoot: String
 }
 
-export const dummyIKDefaults = extendDefaults<IDummyIK>([appendableDefaults], {
-    target: undefined,
+export const characterRigDefaults = extendDefaults<ICharacterRig>(
+    [appendableDefaults],
+    {
+        target: undefined,
 
-    hips: undefined,
-    spine0: undefined,
-    spine1: undefined,
-    spine2: undefined,
-    neck: undefined,
+        hips: undefined,
+        spine0: undefined,
+        spine1: undefined,
+        spine2: undefined,
+        neck: undefined,
 
-    leftShoulder: undefined,
-    leftArm: undefined,
-    leftForeArm: undefined,
-    leftHand: undefined,
+        leftShoulder: undefined,
+        leftArm: undefined,
+        leftForeArm: undefined,
+        leftHand: undefined,
 
-    rightShoulder: undefined,
-    rightArm: undefined,
-    rightForeArm: undefined,
-    rightHand: undefined,
+        rightShoulder: undefined,
+        rightArm: undefined,
+        rightForeArm: undefined,
+        rightHand: undefined,
 
-    leftThigh: undefined,
-    leftLeg: undefined,
-    leftFoot: undefined,
-    leftForeFoot: undefined,
+        leftThigh: undefined,
+        leftLeg: undefined,
+        leftFoot: undefined,
+        leftForeFoot: undefined,
 
-    rightThigh: undefined,
-    rightLeg: undefined,
-    rightFoot: undefined,
-    rightForeFoot: undefined
-})
+        rightThigh: undefined,
+        rightLeg: undefined,
+        rightFoot: undefined,
+        rightForeFoot: undefined
+    }
+)

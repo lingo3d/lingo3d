@@ -15,7 +15,7 @@ import Circle from "./display/primitives/Circle"
 
 import Model from "./display/Model"
 import Dummy from "./display/Dummy"
-import DummyIK from "./display/DummyIK"
+import CharacterRig from "./display/CharacterRig"
 import SvgMesh from "./display/SvgMesh"
 import HTMLMesh from "./display/HTMLMesh"
 import Reflector from "./display/Reflector"
@@ -120,7 +120,7 @@ export {
     Circle,
     Model,
     Dummy,
-    DummyIK,
+    CharacterRig,
     SvgMesh,
     HTMLMesh,
     Reflector,

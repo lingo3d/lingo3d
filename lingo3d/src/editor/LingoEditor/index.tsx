@@ -9,10 +9,10 @@ import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
-import DummyIKEditor from "../DummyIKEditor"
+import CharacterRigEditor from "../CharacterRigEditor"
 import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
-import { getDummyIK } from "../../states/useDummyIK"
+import { getCharacterRig } from "../../states/useCharacterRig"
 import prevent from "../utils/prevent"
 import { getWorldExpanded } from "../../states/useWorldExpanded"
 import World from "../World"
@@ -28,7 +28,7 @@ const LingoEditor = () => {
     const stats = useSyncState(getStats)
     const gameGraph = useSyncState(getGameGraph)
     const script = useSyncState(getScript)
-    const dummyIK = useSyncState(getDummyIK)
+    const characterRig = useSyncState(getCharacterRig)
     const worldExpanded = useSyncState(getWorldExpanded)
 
     useEffect(() => {
@@ -48,8 +48,8 @@ const LingoEditor = () => {
                     <MenuBar />
                     <Toolbar />
                     {!script && <SceneGraph />}
-                    {dummyIK ? (
-                        <DummyIKEditor />
+                    {characterRig ? (
+                        <CharacterRigEditor />
                     ) : gameGraph ? (
                         <GameGraphEditor />
                     ) : script ? (
@@ -57,8 +57,8 @@ const LingoEditor = () => {
                     ) : (
                         <Editor />
                     )}
-                    {!gameGraph && !script && !dummyIK && <Library />}
-                    {!gameGraph && !script && !dummyIK && <Panels />}
+                    {!gameGraph && !script && !characterRig && <Library />}
+                    {!gameGraph && !script && !characterRig && <Panels />}
                 </>
             )}
             <WorldBar />

@@ -1,17 +1,17 @@
 import { forceGet, forceGetInstance } from "@lincode/utils"
 import { uuidMap } from "../../collections/idCollections"
-import DummyIK from "../../display/DummyIK"
-import IDummyIK from "../../interface/IDummyIK"
+import CharacterRig from "../../display/CharacterRig"
+import ICharacterRig from "../../interface/ICharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import Sphere from "../../display/primitives/Sphere"
-import { getDummyIK } from "../../states/useDummyIK"
+import { getCharacterRig } from "../../states/useCharacterRig"
 import FoundManager from "../../display/core/FoundManager"
 import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../utils/isPoint"
 
-type JointName = keyof IDummyIK
+type JointName = keyof ICharacterRig
 
 const parentChildrenNameMap = new Map<JointName, Array<JointName>>()
 const childParentNameMap = new Map<JointName, JointName>()
@@ -40,7 +40,7 @@ setParenting(["hips", "leftThigh", "leftLeg", "leftFoot", "leftForeFoot"])
 setParenting(["hips", "rightThigh", "rightLeg", "rightFoot", "rightForeFoot"])
 
 const nameJointMap = new Map<JointName, Sphere>()
-getDummyIK(() => nameJointMap.clear())
+getCharacterRig(() => nameJointMap.clear())
 
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3
@@ -91,10 +91,10 @@ const getJoint = (name: JointName, uuid: string | undefined) => {
     })
 }
 
-export const configDummyIKSystem = createLoadedEffectSystem(
-    "configDummyIKSystem",
+export const configCharacterRigSystem = createLoadedEffectSystem(
+    "configCharacterRigSystem",
     {
-        effect: (self: DummyIK) => {
+        effect: (self: CharacterRig) => {
             const { leftHand, leftForeArm, leftArm } = self
             const leftHandJoint = getJoint("leftHand", leftHand)
             const leftForeArmJoint = getJoint("leftForeArm", leftForeArm)

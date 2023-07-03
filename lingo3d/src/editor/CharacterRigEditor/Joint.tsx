@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks"
 import useSyncState from "../hooks/useSyncState"
-import { getDummyIK } from "../../states/useDummyIK"
-import IDummyIK from "../../interface/IDummyIK"
+import { getCharacterRig } from "../../states/useCharacterRig"
+import ICharacterRig from "../../interface/ICharacterRig"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import FoundManager from "../../display/core/FoundManager"
@@ -9,16 +9,16 @@ import FoundManager from "../../display/core/FoundManager"
 type JointProps = {
     x: number
     y: number
-    name: keyof IDummyIK
+    name: keyof ICharacterRig
     onMouseMove?: (e: MouseEvent) => void
     onMouseLeave?: (e: MouseEvent) => void
 }
 
 const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
     const [dragOver, setDragOver] = useState(false)
-    const dummyIK = useSyncState(getDummyIK)
+    const characterRig = useSyncState(getCharacterRig)
     const [, setRefresh] = useState({})
-    if (!dummyIK) return null
+    if (!characterRig) return null
 
     return (
         <div
@@ -31,7 +31,7 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
                 transform: "translateX(-50%)",
                 borderRadius: 20,
                 border: "1px solid rgba(255, 255, 255, 0.5)",
-                background: dummyIK[name]
+                background: characterRig[name]
                     ? "rgb(127, 127, 255)"
                     : `rgba(255, 255, 255, ${dragOver ? 0.5 : 0.2})`
             }}
@@ -56,10 +56,13 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
                 setDragOver(false)
                 if (!(draggingItemPtr[0] instanceof FoundManager)) return
                 const { owner } = draggingItemPtr[0]
-                if (!owner || (dummyIK.target && dummyIK.target !== owner.uuid))
+                if (
+                    !owner ||
+                    (characterRig.target && characterRig.target !== owner.uuid)
+                )
                     return
-                dummyIK.target = owner.uuid
-                unsafeSetValue(dummyIK, name, draggingItemPtr[0].uuid)
+                characterRig.target = owner.uuid
+                unsafeSetValue(characterRig, name, draggingItemPtr[0].uuid)
                 setRefresh({})
             }}
         />

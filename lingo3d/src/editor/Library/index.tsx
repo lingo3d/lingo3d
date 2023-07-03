@@ -28,7 +28,7 @@ const objectNames = [
     "group",
     "model",
     "dummy",
-    { dummyIK: "dummy" },
+    { characterRig: "dummy" },
     "svgMesh",
     "htmlMesh",
     // { reticle: "htmlMesh" },

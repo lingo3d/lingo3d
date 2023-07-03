@@ -5,13 +5,13 @@ import GameGraph from "../../visualScripting/GameGraph"
 import { setGameGraph } from "../../states/useGameGraph"
 import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
-import DummyIK from "../../display/DummyIK"
-import { setDummyIK } from "../../states/useDummyIK"
+import CharacterRig from "../../display/CharacterRig"
+import { setCharacterRig } from "../../states/useCharacterRig"
 
 const setDraggingItem = dragToCreate<GameObjectType>((val) => {
     const result = createObject(val)
     if (result instanceof GameGraph) setGameGraph(result)
-    else if (result instanceof DummyIK) setDummyIK(result)
+    else if (result instanceof CharacterRig) setCharacterRig(result)
     return result
 })
 
