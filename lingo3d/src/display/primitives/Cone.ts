@@ -2,7 +2,7 @@ import toFixed from "../../api/serializer/toFixed"
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import { ConeParams, coneGeometryPool } from "../../pools/coneGeometryPool"
-import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import { configPooledPrimitiveSystem } from "../../systems/configSystems/configPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
 const geometry = coneGeometryPool.request([0.5, 1, 32, 1, false, 0, PI2])
@@ -26,6 +26,6 @@ export default class Cone extends PooledPrimitve implements ICone {
     }
     public set segments(val) {
         this._segments = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 }

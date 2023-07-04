@@ -1,8 +1,8 @@
 import PooledPrimitve from "../../display/core/PooledPrimitive"
 import createInternalSystem from "../utils/createInternalSystem"
 
-export const refreshPooledPrimitiveSystem = createInternalSystem(
-    "refreshPooledPrimitiveSystem",
+export const configPooledPrimitiveSystem = createInternalSystem(
+    "configPooledPrimitiveSystem",
     {
         effect: (self: PooledPrimitve) => {
             self.object3d.geometry = self.$geometryPool.request(

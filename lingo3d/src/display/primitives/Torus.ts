@@ -4,7 +4,7 @@ import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import { TorusParams, torusGeometryPool } from "../../pools/torusGeometryPool"
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
-import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import { configPooledPrimitiveSystem } from "../../systems/configSystems/configPooledPrimitiveSystem"
 
 const geometry = torusGeometryPool.request([0.5, 0.1, 16, 32, PI2])
 
@@ -27,7 +27,7 @@ export default class Torus extends PooledPrimitve implements ITorus {
     }
     public set segments(val) {
         this._segments = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 
     private _thickness?: number
@@ -36,7 +36,7 @@ export default class Torus extends PooledPrimitve implements ITorus {
     }
     public set thickness(val) {
         this._thickness = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 
     private _theta?: number
@@ -45,6 +45,6 @@ export default class Torus extends PooledPrimitve implements ITorus {
     }
     public set theta(val) {
         this._theta = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 }

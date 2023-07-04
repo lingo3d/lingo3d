@@ -7,7 +7,7 @@ import {
 import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
-import { refreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
+import { configPooledPrimitiveSystem } from "../../systems/configSystems/configPooledPrimitiveSystem"
 
 const geometry = circleGeometryPool.request([0.5, 32, 0, PI2])
 
@@ -31,7 +31,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
     }
     public set theta(val) {
         this._theta = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 
     private _segments?: number
@@ -40,7 +40,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
     }
     public set segments(val) {
         this._segments = toFixed(val)
-        refreshPooledPrimitiveSystem.add(this)
+        configPooledPrimitiveSystem.add(this)
     }
 
     public override get depth() {
