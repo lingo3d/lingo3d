@@ -9,7 +9,8 @@ export const configPooledPrimitiveSystem = createInternalSystem(
                 self.$getParams() as any
             )
         },
-        cleanup: (self) =>
+        cleanup: (self) => {
             self.$geometryPool.release(self.object3d.geometry as any)
+        }
     }
 )
