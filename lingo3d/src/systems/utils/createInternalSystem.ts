@@ -43,7 +43,7 @@ export type SystemOptions<
         | void
 > = {
     data?: Data | ((gameObject: GameObject) => Data)
-    effect?: (gameObject: GameObject, data: Data) => void | false | (() => void)
+    effect?: (gameObject: GameObject, data: Data) => void | false
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
     updateTicker?: Ticker | On<EventData>

@@ -230,6 +230,12 @@ export default class Model extends Loaded<Group> implements IModel {
                 idRenderCheckMap.set(child.object3d.id, child)
                 idRenderCheckModelMap.set(child.object3d.id, this)
             }
+            this.then(() => {
+                for (const child of this.findAllMeshes()) {
+                    idRenderCheckMap.delete(child.object3d.id)
+                    idRenderCheckModelMap.delete(child.object3d.id)
+                }
+            })
         }
         return getRendered().has(this)
     }

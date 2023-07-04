@@ -14,27 +14,20 @@ const ground = new Cube()
 ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
-ground.physics = "map"
 
-// const aura = new Sprite()
-// aura.scale = 10
-// aura.texture = "particle.jpg"
-// aura.blending = "additive"
-// aura.depthTest = false
-// aura.$disableSelection = true
+const light = new PooledPointLight()
 
-// onBeforeRender(() => {
-//     aura.visible = light.isRendered
-// })
+const aura = new Sprite()
+aura.scale = 10
+aura.texture = "particle.jpg"
+aura.blending = "additive"
+aura.depthTest = false
+aura.$disableSelection = true
 
-for (let i = 0; i < 10; ++i) {
-    const light = new PooledPointLight()
+const dummy = new Dummy()
+dummy.physics = "character"
+dummy.y = -150
 
-    const dummy = new Dummy()
-    dummy.physics = "character"
-    dummy.y = -150
-    light.z = dummy.z = -i * 500
-    setTimeout(() => {
-        dummy.animation = "running"
-    }, 1000)
-}
+onBeforeRender(() => {
+    aura.visible = light.isRendered
+})

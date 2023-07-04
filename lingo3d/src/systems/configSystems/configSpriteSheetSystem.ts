@@ -41,7 +41,8 @@ const playSpriteSheet = (
 export const configSpriteSheetSystem = createInternalSystem(
     "configSpriteSheetSystem",
     {
-        effect: (self: SpriteSheet) => {
+        data: {} as { cleanup: () => void },
+        effect: (self: SpriteSheet, data) => {
             const {
                 textureStart,
                 textureEnd,
@@ -64,13 +65,14 @@ export const configSpriteSheetSystem = createInternalSystem(
                     loadSpriteSheet(material, url, columns, length)
                     playSpriteSheet(material, columns, length, loop)
                 })
-                return () => {
+                data.cleanup = () => {
                     spriteSheetPool.release(promise)
                     spriteSheetPlaybackSystem.delete(material)
                     handle.cancel()
                 }
+                return
             }
-            if (!texture || !columns || !length) return
+            if (!texture || !columns || !length) return false
 
             const handle = new Cancellable()
             loadSpriteSheet(material, texture, columns, length)
@@ -78,11 +80,14 @@ export const configSpriteSheetSystem = createInternalSystem(
                 () => playSpriteSheet(material, columns, length, loop),
                 300
             )
-            return () => {
+            data.cleanup = () => {
                 clearTimeout(timeout)
                 spriteSheetPlaybackSystem.delete(material)
                 handle.cancel()
             }
+        },
+        cleanup: (_, data) => {
+            data.cleanup()
         }
     }
 )

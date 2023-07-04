@@ -5,26 +5,13 @@ export const createEffectSystem = <
     GameObject extends object | Appendable,
     Data extends Record<string, any> | void
 >(
-    effect: (target: GameObject, data: Data) => void | false | (() => void),
+    effect: (target: GameObject, data: Data) => void | false,
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
     ticker: typeof onBeforeRender | typeof queueMicrotask,
     dataMap?: Map<GameObject, Data>
 ) => {
     const queued = new Set<GameObject>()
     const needsCleanUp = cleanup && new WeakSet<GameObject>()
-    const cleanupCbs = new WeakMap<GameObject, () => void>()
-
-    const tryRunCleanupCb = (target: GameObject) => {
-        if (!cleanupCbs.has(target)) return
-        cleanupCbs.get(target)!()
-        cleanupCbs.delete(target)
-    }
-
-    const runEffect = (target: GameObject, data: Data) => {
-        const result = effect(target, data)
-        typeof result === "function" && cleanupCbs.set(target, result)
-        return result
-    }
 
     const execute = cleanup
         ? dataMap
@@ -35,8 +22,7 @@ export const createEffectSystem = <
                           cleanup(target, data)
                           needsCleanUp!.delete(target)
                       }
-                      tryRunCleanupCb(target)
-                      runEffect(target, data) !== false &&
+                      effect(target, data) !== false &&
                           needsCleanUp!.add(target)
                   }
                   queued.clear()
@@ -48,8 +34,7 @@ export const createEffectSystem = <
                           cleanup(target, undefined as any)
                           needsCleanUp!.delete(target)
                       }
-                      tryRunCleanupCb(target)
-                      runEffect(target, undefined as any) !== false &&
+                      effect(target, undefined as any) !== false &&
                           needsCleanUp!.add(target)
                   }
                   queued.clear()
@@ -57,18 +42,12 @@ export const createEffectSystem = <
               }
         : dataMap
         ? () => {
-              for (const target of queued) {
-                  tryRunCleanupCb(target)
-                  runEffect(target, dataMap.get(target)!)
-              }
+              for (const target of queued) effect(target, dataMap.get(target)!)
               queued.clear()
               started = false
           }
         : () => {
-              for (const target of queued) {
-                  tryRunCleanupCb(target)
-                  runEffect(target, undefined as any)
-              }
+              for (const target of queued) effect(target, undefined as any)
               queued.clear()
               started = false
           }
@@ -87,7 +66,6 @@ export const createEffectSystem = <
                       cleanup(item, dataMap.get(item)!)
                       needsCleanUp!.delete(item)
                   }
-                  tryRunCleanupCb(item)
                   queued.delete(item)
               }
             : (item: GameObject) => {
@@ -95,13 +73,9 @@ export const createEffectSystem = <
                       cleanup(item, undefined as any)
                       needsCleanUp!.delete(item)
                   }
-                  tryRunCleanupCb(item)
                   queued.delete(item)
               }
-        : (item: GameObject) => {
-              tryRunCleanupCb(item)
-              queued.delete(item)
-          }
+        : (item: GameObject) => void queued.delete(item)
 
     const addSystem = (item: GameObject) => {
         if (queued.has(item)) return
