@@ -3,8 +3,8 @@ import getDefaultValue from "../../interface/utils/getDefaultValue"
 import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { disableSchema } from "../../collections/disableSchema"
-import { getFixedRuntimeValue } from "../../utils/getRuntimeValue"
 import { isObject } from "../../typeGuards/isObject"
+import { getFixedValue } from "../../api/serializer/toFixed"
 
 const filterSchema = (
     schema: Record<string, unknown>,
@@ -33,7 +33,7 @@ export default (
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
 
         rawParams[schemaKey] =
-            getFixedRuntimeValue(manager, schemaKey) ??
+            getFixedValue(manager, schemaKey) ??
             structuredClone(defaultValue)
     }
     return rawParams

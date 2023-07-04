@@ -1,6 +1,6 @@
+import { getFixedValue } from "../api/serializer/toFixed"
 import Appendable from "../display/core/Appendable"
 import { InputBindingApi } from "../editor/Editor/tweakpane"
-import { getFixedRuntimeValue } from "../utils/getRuntimeValue"
 import createInternalSystem from "./utils/createInternalSystem"
 
 export const refreshInputSystem = createInternalSystem("refreshInputSystem", {
@@ -10,7 +10,7 @@ export const refreshInputSystem = createInternalSystem("refreshInputSystem", {
         target: Appendable
     },
     update: (input: InputBindingApi, { key, params, target }) => {
-        const val = getFixedRuntimeValue(target, key)
+        const val = getFixedValue(target, key)
         if (params[key] === val) return
         params[key] = val
         input.refresh()

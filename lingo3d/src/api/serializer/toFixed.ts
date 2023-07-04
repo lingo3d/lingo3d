@@ -1,4 +1,4 @@
-import { PointType } from "../../typeGuards/isPoint"
+import { PointType, isPoint } from "../../typeGuards/isPoint"
 
 const toFixed = (v: number, places = 2) => Number(v.toFixed(places))
 export default toFixed
@@ -17,4 +17,11 @@ export const toFixedPoint = (value: PointType) => {
         x: toFixed(value.x),
         y: toFixed(value.y)
     }
+}
+
+export const getFixedValue = (target: any, key: string) => {
+    const result = target[key]
+    if (typeof result === "number") return toFixed(result)
+    if (isPoint(result)) return toFixedPoint(result)
+    return result
 }
