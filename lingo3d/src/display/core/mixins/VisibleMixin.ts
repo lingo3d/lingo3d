@@ -4,7 +4,7 @@ import MeshAppendable from "../MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
-import { obb, obb_, vector3_1 } from "../../utils/reusables"
+import { obb, obb_ } from "../../utils/reusables"
 import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
 import {
     clickSet,
