@@ -1,5 +1,5 @@
 import { Events } from "@lincode/events"
-import { Cancellable, Disposable } from "@lincode/promiselikes"
+import { Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
@@ -95,8 +95,6 @@ export default class Appendable extends Disposable implements IAppendable {
     protected disposeNode() {
         this._uuid && uuidMap.delete(this._uuid)
         this._id && userIdMap.get(this._id)!.delete(this)
-        if (this.handles)
-            for (const handle of this.handles.values()) handle.cancel()
         if (this._systems)
             for (const system of this._systems.values()) system.delete(this)
         emitDispose(this)
@@ -198,21 +196,6 @@ export default class Appendable extends Disposable implements IAppendable {
         getStates: Array<GetGlobalState<any> | any>
     ) {
         return this.watch(createEffect(cb, getStates))
-    }
-
-    private handles?: Map<string, Cancellable>
-    public cancelHandle(
-        name: string,
-        lazyHandle: undefined | false | "" | (() => Cancellable)
-    ) {
-        const handles = (this.handles ??= new Map<string, Cancellable>())
-        handles.get(name)?.cancel()
-
-        if (!lazyHandle) return
-
-        const handle = lazyHandle()
-        handles.set(name, handle)
-        return handle
     }
 
     private _onLoop?: () => void

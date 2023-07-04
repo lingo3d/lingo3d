@@ -9,6 +9,7 @@ import type { GestureRecognizerResult } from "@mediapipe/tasks-vision"
 import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../math/Point3d"
 import { Point3dType } from "../typeGuards/isPoint"
+import { Reactive } from "@lincode/reactivity"
 
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3
@@ -122,75 +123,74 @@ export default class HandTracker extends Model {
             this.pinky2 = this.find("Pinky2_6")
             this.pinky3 = this.find("Pinky3_5")
         })
+
+        this.createEffect(() => {
+            if (!this.trackState.get()) return
+
+            const handle = new Cancellable()
+            loadHandLandmarker().then((onDetect) => {
+                handle.watch(
+                    onDetect((results) => {
+                        this.gesture = results.gestures[0][0].categoryName
+
+                        let i = 0
+                        for (const landmark of results.worldLandmarks[0]) {
+                            const [lowpassX, lowpassY, lowpassZ] =
+                                this.lowPassFilters[i]
+                            landmark.x = lowpassX.next(landmark.x)
+                            landmark.y = lowpassY.next(landmark.y)
+                            landmark.z = lowpassZ.next(landmark.z)
+
+                            const cube = this.points[i++]
+                            cube.x = landmark.x * -1000
+                            cube.y = landmark.y * -1000
+                            cube.z = landmark.z * -1000
+                        }
+
+                        this.setRotationFromDirection(
+                            getDirection(this.points[0], this.points[9])
+                        )
+
+                        const yaw = getDirection(
+                            this.points[3],
+                            this.points[17]
+                        )
+                        this.rotationY = mapRange(yaw.x, 1, -1, 0, -180) - 30
+
+                        this.setFinger(this.thumb1!, 2, 3)
+                        this.setFinger(this.thumb2!, 3, 4)
+
+                        this.setFinger(this.index1!, 5, 6)
+                        this.setFinger(this.index2!, 6, 7)
+                        this.setFinger(this.index3!, 7, 8)
+
+                        this.setFinger(this.middle1!, 9, 10)
+                        this.setFinger(this.middle2!, 10, 11)
+                        this.setFinger(this.middle3!, 11, 12)
+
+                        this.setFinger(this.ring1!, 13, 14)
+                        this.setFinger(this.ring2!, 14, 15)
+                        this.setFinger(this.ring3!, 15, 16)
+
+                        this.setFinger(this.pinky1!, 17, 18)
+                        this.setFinger(this.pinky2!, 18, 19)
+                        this.setFinger(this.pinky3!, 19, 20)
+                    })
+                )
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [this.trackState.get])
     }
 
     public gesture = ""
 
-    private _track = false
+    private trackState = new Reactive(false)
     public get track() {
-        return this._track
+        return this.trackState.get()
     }
     public set track(value) {
-        this.cancelHandle(
-            "track",
-            value &&
-                (() => {
-                    const handle = new Cancellable()
-                    loadHandLandmarker().then((onDetect) => {
-                        handle.watch(
-                            onDetect((results) => {
-                                this.gesture =
-                                    results.gestures[0][0].categoryName
-
-                                let i = 0
-                                for (const landmark of results
-                                    .worldLandmarks[0]) {
-                                    const [lowpassX, lowpassY, lowpassZ] =
-                                        this.lowPassFilters[i]
-                                    landmark.x = lowpassX.next(landmark.x)
-                                    landmark.y = lowpassY.next(landmark.y)
-                                    landmark.z = lowpassZ.next(landmark.z)
-
-                                    const cube = this.points[i++]
-                                    cube.x = landmark.x * -1000
-                                    cube.y = landmark.y * -1000
-                                    cube.z = landmark.z * -1000
-                                }
-
-                                this.setRotationFromDirection(
-                                    getDirection(this.points[0], this.points[9])
-                                )
-
-                                const yaw = getDirection(
-                                    this.points[3],
-                                    this.points[17]
-                                )
-                                this.rotationY =
-                                    mapRange(yaw.x, 1, -1, 0, -180) - 30
-
-                                this.setFinger(this.thumb1!, 2, 3)
-                                this.setFinger(this.thumb2!, 3, 4)
-
-                                this.setFinger(this.index1!, 5, 6)
-                                this.setFinger(this.index2!, 6, 7)
-                                this.setFinger(this.index3!, 7, 8)
-
-                                this.setFinger(this.middle1!, 9, 10)
-                                this.setFinger(this.middle2!, 10, 11)
-                                this.setFinger(this.middle3!, 11, 12)
-
-                                this.setFinger(this.ring1!, 13, 14)
-                                this.setFinger(this.ring2!, 14, 15)
-                                this.setFinger(this.ring3!, 15, 16)
-
-                                this.setFinger(this.pinky1!, 17, 18)
-                                this.setFinger(this.pinky2!, 18, 19)
-                                this.setFinger(this.pinky3!, 19, 20)
-                            })
-                        )
-                    })
-                    return handle
-                })
-        )
+        this.trackState.set(value)
     }
 }

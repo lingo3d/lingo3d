@@ -10,7 +10,6 @@ import TexturedStandardMixin, {
     StandardMesh
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
-import { Cancellable } from "@lincode/promiselikes"
 import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
@@ -55,11 +54,6 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public override set animation(val) {
         this.inheritAnimations()
         super.animation = val
-    }
-
-    public $addToRaycastSet(set: Set<Object3D>) {
-        set.add(this.object3d)
-        return new Cancellable(() => set.delete(this.object3d))
     }
 
     public $characterRig: CharacterRig | undefined

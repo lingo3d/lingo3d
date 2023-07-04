@@ -18,8 +18,7 @@ const traverse = (
     for (const manager of targets) {
         if (selectionFrozenSet.has(manager) || manager.$disableSelection)
             continue
-        "$addToRaycastSet" in manager &&
-            manager.$addToRaycastSet(selectionCandidates)
+        "onClick" in manager && selectionCandidates.add(manager.object3d)
         manager.children && traverse(manager.children)
     }
 }
@@ -34,7 +33,7 @@ const traverseFocusChildren = (selectionFocus: MeshAppendable) => {
             return
         const manager = getFoundManager(child, selectionFocus as any)
         if (selectionFrozenSet.has(manager) || manager.$disableSelection) return
-        manager.$addToRaycastSet(selectionCandidates)
+        selectionCandidates.add(manager.object3d)
     })
 }
 

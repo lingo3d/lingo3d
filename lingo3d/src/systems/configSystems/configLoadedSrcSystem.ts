@@ -19,6 +19,7 @@ export const configLoadedSrcSystem = createInternalSystem(
                     (self.$loadedObject3d = self.$resolveLoaded(loaded, src))
                 )
                 self.$events.setState("loaded", self.$loadedObject3d)
+                self.onLoad?.()
                 busyCountPtr[0]--
             })
         },

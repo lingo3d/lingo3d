@@ -5,8 +5,8 @@ import Model from "../display/Model"
 import Loaded from "../display/core/Loaded"
 import { createMap } from "../utils/createCollection"
 
-export const uuidMap = createMap<string, Appendable | MeshAppendable | Loaded>()
-export const uuidTextureMap = createMap<string, Texture>()
+export const uuidMap = new Map<string, Appendable | MeshAppendable | Loaded>()
+export const uuidTextureMap = new Map<string, Texture>()
 export const uuidMaterialMap = createMap<string, MeshStandardMaterial>()
 export const userIdMap = createMap<
     string,

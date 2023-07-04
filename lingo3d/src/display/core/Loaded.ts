@@ -9,6 +9,7 @@ import { boxGeometry } from "../primitives/Cube"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { configLoadedSrcSystem } from "../../systems/configSystems/configLoadedSrcSystem"
 import { managerGeometryMap } from "../../collections/pxCollections"
+import Nullable from "../../interface/utils/Nullable"
 
 const material = new MeshStandardMaterial({ visible: false })
 
@@ -45,14 +46,7 @@ export default abstract class Loaded<T = Object3D>
             : configLoadedSrcSystem.delete(this)
     }
 
-    private _onLoad?: () => void
-    public get onLoad() {
-        return this._onLoad
-    }
-    public set onLoad(cb) {
-        this._onLoad = cb
-        this.cancelHandle("onLoad", cb && (() => this.$events.on("loaded", cb)))
-    }
+    public onLoad: Nullable<() => void>
 
     protected widthSet?: boolean
     public override get width() {

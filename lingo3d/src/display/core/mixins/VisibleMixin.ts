@@ -1,19 +1,9 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { Object3D } from "three"
 import MeshAppendable from "../MeshAppendable"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import { obb, obb_ } from "../../utils/reusables"
-import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
-import {
-    clickSet,
-    mouseDownSet,
-    mouseMoveSet,
-    mouseOutSet,
-    mouseOverSet,
-    mouseUpSet
-} from "../../../collections/mouseSets"
 import { idRenderCheckMap } from "../../../collections/idCollections"
 import getRendered from "../../../throttle/getRendered"
 import { hitTestSystem } from "../../../systems/hitTestSystem"
@@ -21,6 +11,8 @@ import { configCastShadowSystem } from "../../../systems/configLoadedSystems/con
 import { configOutlineSystem } from "../../../systems/configLoadedSystems/configOutlineSystem"
 import { configSelectiveBloomSystem } from "../../../systems/configLoadedSystems/configSelectiveBloomSystem"
 import setOBB from "../../utils/setOBB"
+import { configReflectionVisibleSystem } from "../../../systems/configSystems/configReflectionVisibleSystem"
+import { configRaycastSetSystem } from "../../../systems/configSystems/configRaycastSetSystem"
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -59,17 +51,9 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set reflectionVisible(val) {
         this._reflectionVisible = val
-        this.cancelHandle(
-            "reflectionVisible",
-            val &&
-                (() => {
-                    reflectionVisibleSet.add(this)
-                    return new Cancellable(() => {
-                        reflectionVisibleSet.delete(this)
-                        this.outerObject3d.visible = !!this._visible
-                    })
-                })
-        )
+        val
+            ? configReflectionVisibleSystem.add(this)
+            : configReflectionVisibleSystem.delete(this)
     }
 
     private initRenderCheck?: boolean
@@ -90,21 +74,13 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         configCastShadowSystem.add(this)
     }
 
-    public $addToRaycastSet(set: Set<Object3D>) {
-        set.add(this.object3d)
-        return new Cancellable(() => set.delete(this.object3d))
-    }
-
     private _onClick?: (e: LingoMouseEvent) => void
     public get onClick() {
         return this._onClick
     }
     public set onClick(cb) {
         this._onClick = cb
-        this.cancelHandle(
-            "onClick",
-            cb && (() => this.$addToRaycastSet(clickSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     private _onMouseDown?: (e: LingoMouseEvent) => void
@@ -113,10 +89,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set onMouseDown(cb) {
         this._onMouseDown = cb
-        this.cancelHandle(
-            "onMouseDown",
-            cb && (() => this.$addToRaycastSet(mouseDownSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     private _onMouseUp?: (e: LingoMouseEvent) => void
@@ -125,10 +98,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set onMouseUp(cb) {
         this._onMouseUp = cb
-        this.cancelHandle(
-            "onMouseUp",
-            cb && (() => this.$addToRaycastSet(mouseUpSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     private _onMouseOver?: (e: LingoMouseEvent) => void
@@ -137,10 +107,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set onMouseOver(cb) {
         this._onMouseOver = cb
-        this.cancelHandle(
-            "onMouseOver",
-            cb && (() => this.$addToRaycastSet(mouseOverSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     private _onMouseOut?: (e: LingoMouseEvent) => void
@@ -149,10 +116,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set onMouseOut(cb) {
         this._onMouseOut = cb
-        this.cancelHandle(
-            "onMouseOut",
-            cb && (() => this.$addToRaycastSet(mouseOutSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     private _onMouseMove?: (e: LingoMouseEvent) => void
@@ -161,10 +125,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set onMouseMove(cb) {
         this._onMouseMove = cb
-        this.cancelHandle(
-            "onMouseMove",
-            cb && (() => this.$addToRaycastSet(mouseMoveSet))
-        )
+        configRaycastSetSystem.add(this)
     }
 
     public hitTest(target: MeshAppendable) {
