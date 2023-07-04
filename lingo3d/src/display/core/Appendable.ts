@@ -19,7 +19,7 @@ import type { System } from "../../systems/utils/createInternalSystem"
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import { updateSystemsSystem } from "../../systems/updateSystemsSystem"
 
-type EventName = "name" | "runtimeSchema" | "loaded"
+type EventName = "name" | "loaded"
 
 const isUserlandSystem = (name: string) => userlandNameSystemMap.has(name)
 

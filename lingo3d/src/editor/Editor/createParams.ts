@@ -3,19 +3,16 @@ import getDefaultValue from "../../interface/utils/getDefaultValue"
 import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { disableSchema } from "../../collections/disableSchema"
-import { runtimeSchemaMap } from "../../collections/runtimeCollections"
 import { getFixedRuntimeValue } from "../../utils/getRuntimeValue"
 import { isObject } from "../../typeGuards/isObject"
 
 const filterSchema = (
     schema: Record<string, unknown>,
-    runtimeSchema: Record<string, unknown> | undefined,
     includeKeys: Array<string> | undefined
 ) => {
-    if (!includeKeys) return { ...schema, ...runtimeSchema }
+    if (!includeKeys) return schema
     const result: Record<string, any> = {}
-    for (const key of includeKeys)
-        result[key] = schema[key] ?? runtimeSchema?.[key]
+    for (const key of includeKeys) result[key] = schema[key]
     return result
 }
 
@@ -28,7 +25,7 @@ export default (
 
     const rawParams: Record<string, any> = {}
     for (const [schemaKey, schemaValue] of Object.entries(
-        filterSchema(schema, runtimeSchemaMap.get(manager), includeKeys)
+        filterSchema(schema, includeKeys)
     )) {
         if (schemaValue === Function || disableSchema.has(schemaKey)) continue
 

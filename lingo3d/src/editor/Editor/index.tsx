@@ -73,14 +73,10 @@ const Editor = () => {
                 container.querySelector(".tp-fldv .tp-brkv") as HTMLDivElement
             )
         }
-        const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
-        const handle1 = selectionTarget.$events.on("runtimeSchema", () =>
-            setRefresh({})
-        )
+        const handle = addTargetInputs(pane, selectionTarget, includeKeys)
         return () => {
             systemsFolder?.dispose()
-            handle0.cancel()
-            handle1.cancel()
+            handle.cancel()
         }
     }, [selectionTarget, selectedSignal.value, includeKeys, pane, refresh])
 
