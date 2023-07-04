@@ -13,8 +13,6 @@ import { librarySignal } from "./librarySignal"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const objectNames = [
-    { gameGraph: "joystick" },
-
     "cube",
     "sphere",
     "cone",

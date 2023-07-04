@@ -35,16 +35,6 @@ import RevoluteJoint from "./display/joints/RevoluteJoint"
 import PrismaticJoint from "./display/joints/PrismaticJoint"
 import D6Joint from "./display/joints/D6Joint"
 
-import GameGraph from "./visualScripting/GameGraph"
-import Connector from "./visualScripting/Connector"
-import MathNode from "./visualScripting/MathNode"
-import NumberNode from "./visualScripting/NumberNode"
-import AddNode from "./visualScripting/AddNode"
-import ProjectionNode from "./visualScripting/ProjectionNode"
-import SpawnNode from "./visualScripting/SpawnNode"
-import LoopNode from "./visualScripting/LoopNode"
-import TemplateNode from "./visualScripting/TemplateNode"
-
 import Audio from "./display/Audio"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
@@ -138,15 +128,6 @@ export {
     RevoluteJoint,
     PrismaticJoint,
     D6Joint,
-    GameGraph,
-    Connector,
-    MathNode,
-    NumberNode,
-    AddNode,
-    ProjectionNode,
-    SpawnNode,
-    LoopNode,
-    TemplateNode,
     Audio,
     Skybox,
     Environment,

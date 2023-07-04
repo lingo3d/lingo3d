@@ -10,7 +10,8 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
     if (!targetSetup) return
 
     const handle = new Cancellable()
-    const [params, manager] = createParams(targetSetup, includeKeys, true)
+    const manager = targetSetup
+    const params = createParams(targetSetup, includeKeys)
 
     const [rendererParams, rendererRest] = splitObject(params, ["fps"])
     addInputs(handle, pane, "renderer", manager, rendererParams)

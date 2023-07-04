@@ -11,7 +11,7 @@ import { flushMultipleSelectionTargets } from "../../states/useMultipleSelection
 const copy = <T extends Appendable | MeshAppendable>(target: T) => {
     const item = spawn(target)
     target.parent?.append(item)
-    return item as T
+    return item as any as T
 }
 
 export default () => {

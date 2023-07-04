@@ -1,10 +1,10 @@
+import { disableSchema } from "../collections/disableSchema"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { Point3dType } from "../typeGuards/isPoint"
-import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
+import { LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import { nullableCallback } from "./utils/NullableCallback"
 import { nullableDefault } from "./utils/NullableDefault"
 
 export class HitEvent {
@@ -14,7 +14,6 @@ export class HitEvent {
         public normal?: Point3dType
     ) {}
 }
-export const hitEvent = new HitEvent(undefined as any)
 
 export default interface IVisible {
     bloom: Nullable<boolean>
@@ -57,6 +56,7 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     onHitStart: Function,
     onHitEnd: Function
 }
+disableSchema.add("hitTarget")
 
 export const visibleDefaults = extendDefaults<IVisible>([], {
     bloom: nullableDefault(false),
@@ -68,13 +68,13 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
 
     hitTarget: undefined,
 
-    onClick: nullableCallback(lingoMouseEvent),
-    onMouseDown: nullableCallback(lingoMouseEvent),
-    onMouseUp: nullableCallback(lingoMouseEvent),
-    onMouseOver: nullableCallback(lingoMouseEvent),
-    onMouseOut: nullableCallback(lingoMouseEvent),
-    onMouseMove: nullableCallback(lingoMouseEvent),
-    onHit: nullableCallback(hitEvent),
-    onHitStart: nullableCallback(hitEvent),
-    onHitEnd: nullableCallback(hitEvent)
+    onClick: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMouseOver: undefined,
+    onMouseOut: undefined,
+    onMouseMove: undefined,
+    onHit: undefined,
+    onHitStart: undefined,
+    onHitEnd: undefined
 })

@@ -130,13 +130,6 @@ export default abstract class Loaded<T = Object3D>
         this.$loadedGroup.visible = val
     }
 
-    public get boxVisible() {
-        return false
-    }
-    public set boxVisible(val) {
-        //todo: implement appending box to object3d
-    }
-
     public override $getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =

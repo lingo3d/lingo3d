@@ -1,6 +1,4 @@
-import { forceGet, forceGetInstance } from "@lincode/utils"
-import DefaultMethod from "./DefaultMethod"
-import NullableCallback from "./NullableCallback"
+import { forceGetInstance } from "@lincode/utils"
 import NullableDefault from "./NullableDefault"
 import Options from "./Options"
 import {
@@ -9,12 +7,7 @@ import {
 } from "../../collections/defaultsCollections"
 
 type Defaults<T> = {
-    [key in keyof T]:
-        | T[key]
-        | NullableDefault<T[key]>
-        | NullableCallback
-        | DefaultMethod
-        | (() => T[key])
+    [key in keyof T]: T[key] | NullableDefault<T[key]>
 }
 export default Defaults
 

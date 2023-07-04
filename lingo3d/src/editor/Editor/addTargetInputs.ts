@@ -2,7 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../display/core/Appendable"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import addInputs, { Connection } from "./addInputs"
+import addInputs from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
@@ -11,17 +11,12 @@ import { defaultsOwnKeysRecordMap } from "../../collections/defaultsCollections"
 export default (
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
-    includeKeys: Array<string> | undefined,
-    connection?: Connection,
-    toggle?: boolean
+    includeKeys: Array<string> | undefined
 ) => {
     const handle = new Cancellable()
     const { defaults, componentName } = getStaticProperties(selectionTarget)
-    const [params, manager] = createParams(
-        selectionTarget,
-        includeKeys,
-        !connection && !toggle
-    )
+    const manager = selectionTarget
+    const params = createParams(selectionTarget, includeKeys)
     const [ownParams, ownRest] = splitObject(
         params,
         Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
@@ -33,16 +28,7 @@ export default (
         "uuid"
     ])
     if (generalParams)
-        addInputs(
-            handle,
-            pane,
-            "general",
-            manager,
-            generalParams,
-            true,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "general", manager, generalParams, true)
 
     const [physicsParams, physicsRest] = splitObject(generalRest, [
         "physics",
@@ -50,16 +36,7 @@ export default (
         "gravity"
     ])
     physicsParams &&
-        addInputs(
-            handle,
-            pane,
-            "physics",
-            manager,
-            physicsParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "physics", manager, physicsParams, false)
 
     const [transformParams0, transformRest] = splitObject(physicsRest, [
         "x",
@@ -97,16 +74,7 @@ export default (
                 "depth"
             ]
         )
-        addInputs(
-            handle,
-            pane,
-            "transform",
-            manager,
-            transformParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "transform", manager, transformParams, false)
         innerTransformParams &&
             addInputs(
                 handle,
@@ -114,42 +82,16 @@ export default (
                 "inner transform",
                 manager,
                 innerTransformParams,
-                false,
-                connection,
-                toggle
+                false
             )
     }
 
-    const [interactionParams, interactionRest] = splitObject(transformRest, [
-        "hitTarget"
-    ])
-    interactionParams &&
-        addInputs(
-            handle,
-            pane,
-            "interaction",
-            manager,
-            interactionParams,
-            false,
-            connection,
-            toggle
-        )
-
-    const [animationParams, animationRest] = splitObject(interactionRest, [
+    const [animationParams, animationRest] = splitObject(transformRest, [
         "animation",
         "animationPaused"
     ])
     animationParams &&
-        addInputs(
-            handle,
-            pane,
-            "animation",
-            manager,
-            animationParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "animation", manager, animationParams, false)
 
     const [displayParams, displayRest] = splitObject(animationRest, [
         "visible",
@@ -158,32 +100,14 @@ export default (
         "castShadow"
     ])
     displayParams &&
-        addInputs(
-            handle,
-            pane,
-            "display",
-            manager,
-            displayParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "display", manager, displayParams, false)
 
     const [effectsParams, effectsRest] = splitObject(displayRest, [
         "bloom",
         "outline"
     ])
     effectsParams &&
-        addInputs(
-            handle,
-            pane,
-            "effects",
-            manager,
-            effectsParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "effects", manager, effectsParams, false)
 
     const [adjustMaterialParams, adjustMaterialRest] = splitObject(
         effectsRest,
@@ -203,9 +127,7 @@ export default (
             "adjust material",
             manager,
             adjustMaterialParams,
-            false,
-            connection,
-            toggle
+            false
         )
 
     const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
@@ -222,16 +144,7 @@ export default (
         "emissiveIntensity"
     ])
     materialParams &&
-        addInputs(
-            handle,
-            pane,
-            "material",
-            manager,
-            materialParams,
-            false,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, "material", manager, materialParams, false)
 
     const [pbrMaterialParams, pbrMaterialRest] = splitObject(materialRest, [
         "metalnessMap",
@@ -260,24 +173,13 @@ export default (
             "pbr material",
             manager,
             pbrMaterialParams,
-            false,
-            connection,
-            toggle
+            false
         )
 
     Object.assign(pbrMaterialRest, ownParams)
 
     if (Object.keys(pbrMaterialRest).length)
-        addInputs(
-            handle,
-            pane,
-            componentName,
-            manager,
-            pbrMaterialRest,
-            true,
-            connection,
-            toggle
-        )
+        addInputs(handle, pane, componentName, manager, pbrMaterialRest, true)
 
     return handle
 }

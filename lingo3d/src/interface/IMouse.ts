@@ -1,5 +1,4 @@
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
-import { pt3d0 } from "../display/utils/reusables"
 import { Point3dType } from "../typeGuards/isPoint"
 import IAppendable, {
     appendableDefaults,
@@ -8,7 +7,6 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import { nullableCallback } from "./utils/NullableCallback"
 
 export class LingoMouseEvent {
     public constructor(
@@ -24,18 +22,6 @@ export class LingoMouseEvent {
         public target: VisibleMixin | undefined
     ) {}
 }
-export const lingoMouseEvent = new LingoMouseEvent(
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    pt3d0,
-    pt3d0,
-    0,
-    undefined
-)
 
 export class SimpleMouseEvent {
     public constructor(
@@ -45,7 +31,6 @@ export class SimpleMouseEvent {
         public clientY: number
     ) {}
 }
-const simpleMouseEvent = new SimpleMouseEvent(0, 0, 0, 0)
 
 export default interface IMouse extends IAppendable {
     onClick: Nullable<(e: SimpleMouseEvent) => void>
@@ -67,10 +52,10 @@ export const mouseSchema: Required<ExtractProps<IMouse>> = {
 }
 
 export const mouseDefaults = extendDefaults<IMouse>([appendableDefaults], {
-    onClick: nullableCallback(simpleMouseEvent),
-    onRightClick: nullableCallback(simpleMouseEvent),
-    onMouseMove: nullableCallback(simpleMouseEvent),
-    onMouseDown: nullableCallback(simpleMouseEvent),
-    onMouseUp: nullableCallback(simpleMouseEvent),
-    onMousePress: nullableCallback(simpleMouseEvent)
+    onClick: undefined,
+    onRightClick: undefined,
+    onMouseMove: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMousePress: undefined
 })

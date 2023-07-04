@@ -8,7 +8,6 @@ import SpriteSheet from "../../../display/SpriteSheet"
 import Timeline from "../../../display/Timeline"
 import deleteSelected from "../../../engine/hotkeys/deleteSelected"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
-import { getGameGraph, setGameGraph } from "../../../states/useGameGraph"
 import { getMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import {
     getSelectionFocus,
@@ -22,8 +21,6 @@ import {
 } from "../../../states/useSelectionFrozen"
 import { getTimeline, setTimeline } from "../../../states/useTimeline"
 import { getTimelineData } from "../../../states/useTimelineData"
-import Connector from "../../../visualScripting/Connector"
-import GameGraph from "../../../visualScripting/GameGraph"
 import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
 import selectAllJointed from "./selectAllJointed"
@@ -50,7 +47,6 @@ const MenuItems = ({ selectionTarget }: Props) => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
-    const gameGraph = useSyncState(getGameGraph)
     const script = useSyncState(getScript)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
@@ -108,23 +104,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
                     : "Edit Timeline"}
             </MenuButton>
         )
-    else if (selectionTarget instanceof GameGraph)
-        children.push(
-            <MenuButton
-                disabled={selectionTarget === gameGraph}
-                onClick={() => {
-                    setGameGraph(selectionTarget)
-                    sceneGraphContextMenuSignal.value = undefined
-                }}
-            >
-                {selectionTarget === gameGraph
-                    ? "Already editing"
-                    : "Edit GameGraph"}
-            </MenuButton>
-        )
-    else if (selectionTarget instanceof Connector) {
-        //todo: connector context menu
-    } else if (selectionTarget) {
+    else if (selectionTarget) {
         if (selectionTarget instanceof SpriteSheet)
             children.push(
                 <MenuButton

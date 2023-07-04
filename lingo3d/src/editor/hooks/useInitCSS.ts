@@ -120,23 +120,6 @@ export default lazy(() => {
                 overscroll-behavior: none;
             }
 
-            .lingo3d-connector {
-                width: 14px;
-                height: 14px;
-                margin-left: 2px;
-                margin-right: 2px;
-                flex-shrink: 0;
-                z-index: 1;
-                cursor: pointer;
-                z-index: 1;
-            }
-
-            .lingo3d-connector-child {
-                width: 4px;
-                height: 4px;
-                pointer-events: none;
-            }
-
             .lingo3d-sk-cube-grid {
                 width: 20px;
                 height: 20px;

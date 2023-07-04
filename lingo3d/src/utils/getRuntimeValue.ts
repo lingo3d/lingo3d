@@ -1,5 +1,4 @@
 import toFixed, { toFixedPoint } from "../api/serializer/toFixed"
-import DefaultMethod from "../interface/utils/DefaultMethod"
 import { isPoint } from "../typeGuards/isPoint"
 
 const getRuntimeValue = (target: any, key: string) => {
@@ -17,16 +16,11 @@ export const getFixedRuntimeValue = (target: any, key: string) => {
 
 export const setRuntimeValue = (
     target: any,
-    defaults: any,
     key: string,
     value: any
 ) => {
     if (target.runtimeData && key in target.runtimeData) {
         target.runtimeData[key] = value
-        return
-    }
-    if (defaults[key] instanceof DefaultMethod) {
-        target[key](value)
         return
     }
     target[key] = value

@@ -3,10 +3,6 @@ import { disableSchema } from "../collections/disableSchema"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import {
-    nullableCallback,
-    nullableCallbackDtParam
-} from "./utils/NullableCallback"
 
 export default interface IAppendable {
     onLoop: Nullable<() => void>
@@ -31,7 +27,7 @@ for (const key of ["proxy", "runtimeData", "uuid", "systems"])
     disableSchema.add(key)
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
-    onLoop: nullableCallback(nullableCallbackDtParam),
+    onLoop: undefined,
     proxy: undefined,
     uuid: "",
     id: undefined,

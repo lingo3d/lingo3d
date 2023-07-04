@@ -57,15 +57,6 @@ export type GameObjectType =
     | "script"
     | "timeline"
     | "timelineAudio"
-    | "gameGraph"
-    | "connector"
-    | "mathNode"
-    | "numberNode"
-    | "addNode"
-    | "projectionNode"
-    | "spawnNode"
-    | "loopNode"
-    | "templateNode"
 
 type VersionNode = { type: "lingo3d"; version: string }
 type FindNode = {

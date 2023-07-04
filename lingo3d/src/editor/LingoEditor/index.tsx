@@ -10,8 +10,6 @@ import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
 import CharacterRigEditor from "../CharacterRigEditor"
-import GameGraphEditor from "../GameGraphEditor"
-import { getGameGraph } from "../../states/useGameGraph"
 import { getCharacterRig } from "../../states/useCharacterRig"
 import prevent from "../utils/prevent"
 import { getWorldExpanded } from "../../states/useWorldExpanded"
@@ -26,7 +24,6 @@ import WorldToggles from "../WorldBar/WorldToggles"
 
 const LingoEditor = () => {
     const stats = useSyncState(getStats)
-    const gameGraph = useSyncState(getGameGraph)
     const script = useSyncState(getScript)
     const characterRig = useSyncState(getCharacterRig)
     const worldExpanded = useSyncState(getWorldExpanded)
@@ -50,15 +47,13 @@ const LingoEditor = () => {
                     {!script && <SceneGraph />}
                     {characterRig ? (
                         <CharacterRigEditor />
-                    ) : gameGraph ? (
-                        <GameGraphEditor />
                     ) : script ? (
                         <ScriptEditor />
                     ) : (
                         <Editor />
                     )}
-                    {!gameGraph && !script && !characterRig && <Library />}
-                    {!gameGraph && !script && !characterRig && <Panels />}
+                    {!script && !characterRig && <Library />}
+                    {!script && !characterRig && <Panels />}
                 </>
             )}
             <WorldBar />

@@ -44,15 +44,6 @@ import Setup from "../../display/Setup"
 import Script from "../../display/Script"
 import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
-import GameGraph from "../../visualScripting/GameGraph"
-import Connector from "../../visualScripting/Connector"
-import MathNode from "../../visualScripting/MathNode"
-import NumberNode from "../../visualScripting/NumberNode"
-import AddNode from "../../visualScripting/AddNode"
-import ProjectionNode from "../../visualScripting/ProjectionNode"
-import SpawnNode from "../../visualScripting/SpawnNode"
-import LoopNode from "../../visualScripting/LoopNode"
-import TemplateNode from "../../visualScripting/TemplateNode"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
@@ -122,15 +113,6 @@ export const createObjectRecord = {
     script: () => new Script(),
     timeline: () => new Timeline(),
     timelineAudio: () => new TimelineAudio(),
-    gameGraph: () => new GameGraph(),
-    connector: () => new Connector(),
-    mathNode: () => new MathNode(),
-    numberNode: () => new NumberNode(),
-    addNode: () => new AddNode(),
-    projectionNode: () => new ProjectionNode(),
-    spawnNode: () => new SpawnNode(),
-    loopNode: () => new LoopNode(),
-    templateNode: () => new TemplateNode()
 } satisfies Record<GameObjectTypeWithoutTemplate, () => Appendable>
 
 const createObjectWithoutTemplate = <T extends GameObjectTypeWithoutTemplate>(

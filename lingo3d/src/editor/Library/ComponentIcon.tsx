@@ -1,8 +1,6 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
-import GameGraph from "../../visualScripting/GameGraph"
-import { setGameGraph } from "../../states/useGameGraph"
 import dragToCreate, { setDragImage } from "../utils/dragToCreate"
 import ComponentIconImage from "./ComponentIconImage"
 import CharacterRig from "../../display/CharacterRig"
@@ -10,8 +8,7 @@ import { setCharacterRig } from "../../states/useCharacterRig"
 
 const setDraggingItem = dragToCreate<GameObjectType>((val) => {
     const result = createObject(val)
-    if (result instanceof GameGraph) setGameGraph(result)
-    else if (result instanceof CharacterRig) setCharacterRig(result)
+    if (result instanceof CharacterRig) setCharacterRig(result)
     return result
 })
 

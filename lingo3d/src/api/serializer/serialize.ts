@@ -10,7 +10,6 @@ import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { isTemplate } from "../../typeGuards/isTemplate"
-import { isTemplateNode } from "../../typeGuards/isTemplateNode"
 import FoundManager from "../../display/core/FoundManager"
 
 const transformProperties = new Set([
@@ -38,12 +37,6 @@ const serialize = (
 
         const data: Record<string, any> = skipTemplateCheck
             ? { type: componentName }
-            : isTemplateNode(child)
-            ? {
-                  type: "templateNode",
-                  source: componentName,
-                  spawnNode: child.spawnNode
-              }
             : isTemplate(child)
             ? { type: "template", source: componentName }
             : { type: componentName }

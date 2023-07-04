@@ -4,13 +4,7 @@ import IAppendable, {
     appendableDefaults,
     appendableSchema
 } from "./IAppendable"
-import {
-    defaultMethod,
-    defaultMethodPt3dArg,
-    defaultMethodNumberArg
-} from "./utils/DefaultMethod"
 import Nullable from "./utils/Nullable"
-import { nullableCallback } from "./utils/NullableCallback"
 import Range from "./utils/Range"
 
 export default interface IMeshAppendable extends IAppendable {
@@ -25,23 +19,6 @@ export default interface IMeshAppendable extends IAppendable {
     onMove: Nullable<() => void>
     onMoveToEnd: Nullable<() => void>
     onLookToEnd: Nullable<() => void>
-
-    moveTo: Function | Array<any>
-    lerpTo: Function | Array<any>
-    placeAt: Function | Array<any>
-
-    translateX: Function | Array<any>
-    translateY: Function | Array<any>
-    translateZ: Function | Array<any>
-
-    rotateX: Function | Array<any>
-    rotateY: Function | Array<any>
-    rotateZ: Function | Array<any>
-
-    setRotationFromDirection: Function | Array<any>
-
-    lookAt: Function | Array<any>
-    lookTo: Function | Array<any>
 }
 
 export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
@@ -56,24 +33,7 @@ export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
 
     onMove: Function,
     onMoveToEnd: Function,
-    onLookToEnd: Function,
-
-    moveTo: [Function, Array],
-    lerpTo: [Function, Array],
-    placeAt: [Function, Array],
-
-    translateX: [Function, Array],
-    translateY: [Function, Array],
-    translateZ: [Function, Array],
-
-    rotateX: [Function, Array],
-    rotateY: [Function, Array],
-    rotateZ: [Function, Array],
-
-    setRotationFromDirection: [Function, Array],
-
-    lookAt: [Function, Array],
-    lookTo: [Function, Array]
+    onLookToEnd: Function
 }
 
 export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
@@ -87,26 +47,9 @@ export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
         rotationY: 0,
         rotationZ: 0,
 
-        onMove: nullableCallback(),
-        onMoveToEnd: nullableCallback(),
-        onLookToEnd: nullableCallback(),
-
-        moveTo: defaultMethod(defaultMethodPt3dArg),
-        lerpTo: defaultMethod(defaultMethodPt3dArg),
-        placeAt: defaultMethod(defaultMethodPt3dArg),
-
-        translateX: defaultMethod(defaultMethodNumberArg),
-        translateY: defaultMethod(defaultMethodNumberArg),
-        translateZ: defaultMethod(defaultMethodNumberArg),
-
-        rotateX: defaultMethod(defaultMethodNumberArg),
-        rotateY: defaultMethod(defaultMethodNumberArg),
-        rotateZ: defaultMethod(defaultMethodNumberArg),
-
-        setRotationFromDirection: defaultMethod(defaultMethodPt3dArg),
-
-        lookAt: defaultMethod(defaultMethodPt3dArg),
-        lookTo: defaultMethod(defaultMethodPt3dArg)
+        onMove: undefined,
+        onMoveToEnd: undefined,
+        onLookToEnd: undefined
     },
     {
         rotationX: new Range(0, 360),

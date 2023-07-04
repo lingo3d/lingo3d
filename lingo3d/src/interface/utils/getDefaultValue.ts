@@ -1,17 +1,11 @@
 import Appendable from "../../display/core/Appendable"
-import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
-import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
-
-export type FunctionPtr = [NullableCallback | DefaultMethod | undefined]
 
 const getDefaultValue = (
     manager: Appendable | Defaults<any>,
     key: string,
-    fillNullableDefault?: boolean,
-    fillFunctionArgs?: boolean,
-    functionPtr?: FunctionPtr
+    fillNullableDefault?: boolean
 ) => {
     const constructorDefaults = (manager.constructor as any).defaults
     const runtimeManager = constructorDefaults ? manager : undefined
@@ -23,14 +17,6 @@ const getDefaultValue = (
     const result = (constructorDefaults ?? manager)[key]
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
-    if (result instanceof NullableCallback) {
-        if (functionPtr) functionPtr[0] = result
-        return fillFunctionArgs ? result.param : undefined
-    }
-    if (result instanceof DefaultMethod) {
-        if (functionPtr) functionPtr[0] = result
-        return fillFunctionArgs ? result.arg : undefined
-    }
     if (fillNullableDefault) return result ?? ""
     return result
 }
@@ -46,6 +32,6 @@ export const equalsDefaultValue = (
     manager: Appendable | Defaults<any>,
     key: string
 ) => {
-    const defaultValue = getDefaultValue(manager, key, true, false)
+    const defaultValue = getDefaultValue(manager, key, true)
     return isEqual(val ?? defaultValue, defaultValue)
 }
