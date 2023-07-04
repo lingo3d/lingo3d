@@ -10,7 +10,6 @@ export default interface IAppendable {
     uuid: string
     id: Nullable<string>
     name: Nullable<string>
-    runtimeData: Nullable<Record<string, any>>
     systems: Array<string>
 }
 
@@ -20,11 +19,9 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     uuid: String,
     id: String,
     name: String,
-    runtimeData: Object,
     systems: Array
 }
-for (const key of ["proxy", "runtimeData", "uuid", "systems"])
-    disableSchema.add(key)
+for (const key of ["proxy", "uuid", "systems"]) disableSchema.add(key)
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: undefined,
@@ -32,6 +29,5 @@ export const appendableDefaults = extendDefaults<IAppendable>([], {
     uuid: "",
     id: undefined,
     name: undefined,
-    runtimeData: undefined,
     systems: []
 })

@@ -34,7 +34,6 @@ export default class Appendable extends Disposable implements IAppendable {
         return getStaticProperties(this).componentName
     }
 
-    public runtimeData: Nullable<Record<string, any>>
     public runtimeDefaults: Nullable<Record<string, any>>
     public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>

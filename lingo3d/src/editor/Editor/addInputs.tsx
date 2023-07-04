@@ -7,7 +7,6 @@ import getDefaultValue, {
 import { Cancellable } from "@lincode/promiselikes"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import Appendable from "../../display/core/Appendable"
-import { setRuntimeValue } from "../../utils/getRuntimeValue"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
@@ -15,6 +14,7 @@ import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 import { tweakpaneChangePtr } from "../../pointers/tweakpaneChangePtr"
 import { onTransformControls } from "../../events/onTransformControls"
 import { refreshInputSystem } from "../../systems/refreshInputSystem"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -119,7 +119,7 @@ export default async (
                         value: processed
                     })
                 tweakpaneChangePtr[0] = [key, processed]
-                setRuntimeValue(target, key, processed)
+                unsafeSetValue(target, key, processed)
                 !tweakpaneDownPtr[0] &&
                     emitEditorEdit({
                         phase: "end",
