@@ -5,7 +5,7 @@ import IMeshAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import { Point3dType } from "../typeGuards/isPoint"
 
 export default interface ICurve extends IMeshAppendable {
@@ -20,7 +20,7 @@ export const curveSchema: Required<ExtractProps<ICurve>> = {
     helper: Boolean,
     subdivide: Number
 }
-disableSchema.add("points")
+editorHideSet.add("points")
 
 export const curveDefaults = extendDefaults<ICurve>(
     [meshAppendableDefaults],

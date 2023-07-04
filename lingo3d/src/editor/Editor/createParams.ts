@@ -2,7 +2,7 @@ import { isPoint } from "../../typeGuards/isPoint"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import Appendable from "../../display/core/Appendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { disableSchema } from "../../collections/disableSchema"
+import { editorHideSet } from "../../collections/editorHideSet"
 import { isObject } from "../../typeGuards/isObject"
 import { getFixedValue } from "../../api/serializer/toFixed"
 
@@ -27,7 +27,7 @@ export default (
     for (const [schemaKey, schemaValue] of Object.entries(
         filterSchema(schema, includeKeys)
     )) {
-        if (schemaValue === Function || disableSchema.has(schemaKey)) continue
+        if (schemaValue === Function || editorHideSet.has(schemaKey)) continue
 
         const defaultValue = getDefaultValue(manager, schemaKey, true)
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue

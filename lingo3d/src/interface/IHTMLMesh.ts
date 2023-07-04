@@ -1,4 +1,4 @@
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import { ColorString } from "./ITexturedStandard"
 import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
@@ -22,7 +22,7 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
     cssColor: String,
     sprite: Boolean
 }
-disableSchema.add("element")
+editorHideSet.add("element")
 
 export const htmlMeshDefaults = extendDefaults<IHTMLMesh>(
     [visibleObjectManagerDefaults],

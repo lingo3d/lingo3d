@@ -1,5 +1,5 @@
 import Appendable from "../display/core/Appendable"
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -21,7 +21,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     name: String,
     systems: Array
 }
-for (const key of ["proxy", "uuid", "systems"]) disableSchema.add(key)
+for (const key of ["proxy", "uuid", "systems"]) editorHideSet.add(key)
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: undefined,

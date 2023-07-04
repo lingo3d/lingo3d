@@ -1,4 +1,4 @@
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -22,7 +22,7 @@ export const scriptSchema: Required<ExtractProps<IScript>> = {
     language: String,
     mode: String
 }
-disableSchema.add("code")
+editorHideSet.add("code")
 
 export const scriptDefaults = extendDefaults<IScript>(
     [appendableDefaults],

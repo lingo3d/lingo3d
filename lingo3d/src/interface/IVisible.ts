@@ -1,4 +1,4 @@
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { Point3dType } from "../typeGuards/isPoint"
 import { LingoMouseEvent } from "./IMouse"
@@ -56,7 +56,7 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     onHitStart: Function,
     onHitEnd: Function
 }
-disableSchema.add("hitTarget")
+editorHideSet.add("hitTarget")
 
 export const visibleDefaults = extendDefaults<IVisible>([], {
     bloom: nullableDefault(false),

@@ -1,5 +1,5 @@
 import setupStruct from "../api/settings/setupStruct"
-import { disableSchema } from "../collections/disableSchema"
+import { editorHideSet } from "../collections/editorHideSet"
 import { environmentChoices } from "./IEnvironment"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -45,8 +45,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-disableSchema.add("grid")
-disableSchema.add("stats")
+editorHideSet.add("grid")
+editorHideSet.add("stats")
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
