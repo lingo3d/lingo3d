@@ -13,6 +13,7 @@ import { configSelectiveBloomSystem } from "../../../systems/configLoadedSystems
 import setOBB from "../../utils/setOBB"
 import { configReflectionVisibleSystem } from "../../../systems/configSystems/configReflectionVisibleSystem"
 import { configRaycastSetSystem } from "../../../systems/configSystems/configRaycastSetSystem"
+import { configRenderCheckSystem } from "../../../systems/configSystems/configRenderCheckSystem"
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -56,12 +57,8 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
             : configReflectionVisibleSystem.delete(this)
     }
 
-    private initRenderCheck?: boolean
     public get isRendered() {
-        if (!this.initRenderCheck) {
-            this.initRenderCheck = true
-            idRenderCheckMap.set(this.object3d.id, this)
-        }
+        configRenderCheckSystem.add(this)
         return getRendered().has(this)
     }
 

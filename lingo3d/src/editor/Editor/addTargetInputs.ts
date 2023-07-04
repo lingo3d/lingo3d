@@ -88,7 +88,8 @@ export default (
 
     const [animationParams, animationRest] = splitObject(transformRest, [
         "animation",
-        "animationPaused"
+        "animationPaused",
+        "animationLoop"
     ])
     animationParams &&
         addInputs(handle, pane, "animation", manager, animationParams, false)

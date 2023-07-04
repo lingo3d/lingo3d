@@ -51,6 +51,7 @@ export type SystemOptions<
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     sort?: (a: GameObject, b: GameObject) => number
+    disableRepeatAdd?: boolean
 }
 
 export type System<
@@ -88,7 +89,8 @@ export default <
         effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
-        sort
+        sort,
+        disableRepeatAdd
     }: SystemOptions<GameObject, Data, EventData>
 ) => {
     const queued = new Map<GameObject, Data>()
@@ -179,25 +181,44 @@ export default <
               executeDelete(item) && queued.size === 0 && handle?.cancel()
         : executeDelete
 
-    const executeAdd = (item: GameObject, initData?: Data) => {
-        const added = !queued.has(item)
-        addEffectSystem(item)
-        queued.set(
-            item,
-            initData ??
-                queued.get(item) ??
-                (typeof data === "function"
-                    ? data(item)
-                    : data
-                    ? { ...data }
-                    : undefined)
-        )
-        added &&
-            autoDelete &&
-            "$systems" in item &&
-            item.$systems.set(name, system)
-        return added
-    }
+    const executeAdd = disableRepeatAdd
+        ? (item: GameObject, initData?: Data) => {
+              if (queued.has(item)) return false
+              addEffectSystem(item)
+              queued.set(
+                  item,
+                  initData ??
+                      queued.get(item) ??
+                      (typeof data === "function"
+                          ? data(item)
+                          : data
+                          ? { ...data }
+                          : undefined)
+              )
+              autoDelete &&
+                  "$systems" in item &&
+                  item.$systems.set(name, system)
+              return true
+          }
+        : (item: GameObject, initData?: Data) => {
+              const added = !queued.has(item)
+              addEffectSystem(item)
+              queued.set(
+                  item,
+                  initData ??
+                      queued.get(item) ??
+                      (typeof data === "function"
+                          ? data(item)
+                          : data
+                          ? { ...data }
+                          : undefined)
+              )
+              added &&
+                  autoDelete &&
+                  "$systems" in item &&
+                  item.$systems.set(name, system)
+              return added
+          }
 
     const addSystem = update
         ? (item: GameObject, initData?: Data) =>

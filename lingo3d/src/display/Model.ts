@@ -18,13 +18,10 @@ import findFirstMesh from "../memo/findFirstMesh"
 import findAll from "../memo/findAll"
 import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
-import {
-    idRenderCheckMap,
-    idRenderCheckModelMap
-} from "../collections/idCollections"
 import getRendered from "../throttle/getRendered"
 import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
+import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -221,22 +218,9 @@ export default class Model extends Loaded<Group> implements IModel {
         return this._findAll(name, indexMeshChildrenNames(this.$loadedObject3d))
     }
 
-    private initRenderCheck?: boolean
     public override get isRendered() {
         if (!this.$loadedObject3d) return false
-        if (!this.initRenderCheck) {
-            this.initRenderCheck = true
-            for (const child of this.findAllMeshes()) {
-                idRenderCheckMap.set(child.object3d.id, child)
-                idRenderCheckModelMap.set(child.object3d.id, this)
-            }
-            this.then(() => {
-                for (const child of this.findAllMeshes()) {
-                    idRenderCheckMap.delete(child.object3d.id)
-                    idRenderCheckModelMap.delete(child.object3d.id)
-                }
-            })
-        }
+        configRenderCheckModelSystem.add(this)
         return getRendered().has(this)
     }
 }
