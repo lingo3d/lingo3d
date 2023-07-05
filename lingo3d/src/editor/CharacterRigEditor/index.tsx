@@ -10,6 +10,7 @@ import { setCharacterRig } from "../../states/useCharacterRig"
 import { useSignal } from "@preact/signals"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
+import CharacterRigControls from "./CharacterRigControls"
 
 const CharacterRigEditor = () => {
     useInitCSS()
@@ -89,6 +90,7 @@ const CharacterRigEditor = () => {
                             <Joint x={-6} y={72} name="rightForeFoot" />
                             <Joint x={6} y={72} name="leftForeFoot" />
                         </div>
+                        <CharacterRigControls />
                     </div>
                 </div>
             </div>
