@@ -4,7 +4,6 @@ import CharacterRig from "../../display/CharacterRig"
 import ICharacterRig from "../../interface/ICharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { getCharacterRig } from "../../states/useCharacterRig"
-import FoundManager from "../../display/core/FoundManager"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../typeGuards/isPoint"
@@ -55,14 +54,7 @@ const getJoint = (self: CharacterRig, name: JointName) => {
     const uuid = self[name] as string
     if (!uuid) return
     return forceGet(nameJointMap, name, () => {
-        const foundManager = uuidMap.get(uuid) as FoundManager
-        foundManager.$unghost()
-        foundManager.$characterRig = self
-
-        const joint = new CharacterRigJoint()
-        joint.$ghost()
-        joint.name = name
-        joint.placeAt(foundManager.getWorldPosition())
+        const joint = new CharacterRigJoint(uuid, self, name)
 
         const childNames = parentChildrenNameMap.get(name) ?? []
         for (const childName of childNames) {
@@ -78,7 +70,7 @@ const getJoint = (self: CharacterRig, name: JointName) => {
                 rotateJoint(joint, parent)
             parent.attach(joint)
         }
-        joint.object3d.attach(foundManager.outerObject3d)
+        joint.finalize()
         return joint
     })
 }

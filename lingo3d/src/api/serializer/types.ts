@@ -6,7 +6,6 @@ export type GameObjectType =
     | "model"
     | "dummy"
     | "characterRig"
-    | "characterRigJoint"
     | "tree"
     | "svgMesh"
     | "htmlMesh"
