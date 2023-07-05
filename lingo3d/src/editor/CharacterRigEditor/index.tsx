@@ -11,6 +11,7 @@ import { useSignal } from "@preact/signals"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import Switch from "../component/Switch"
+import Segments from "../component/Segments"
 
 const CharacterRigEditor = () => {
     useInitCSS()
@@ -32,7 +33,9 @@ const CharacterRigEditor = () => {
                     >
                         CharacterRig
                     </CloseableTab>
-                    <div style={{ flexGrow: 1 }} />
+                </AppBar>
+                <AppBar style={{ gap: 4, paddingLeft: 10 }}>
+                    <Segments />
                     <Switch label="enabled" />
                 </AppBar>
                 <div style={{ flexGrow: 1, overflow: "hidden" }}>
