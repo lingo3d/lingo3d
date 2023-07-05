@@ -12,8 +12,8 @@ export const userIdMap = createMap<
     string,
     Set<Appendable | MeshAppendable | Loaded>
 >()
-export const idRenderCheckMap = createMap<number, MeshAppendable>()
-export const idRenderCheckModelMap = createMap<number, Model>()
+export const idRenderCheckMap = new Map<number, MeshAppendable>()
+export const idRenderCheckModelMap = new Map<number, Model>()
 
 export const getAppendablesById = (id: string) => {
     const uuidInstance = uuidMap.get(id)
