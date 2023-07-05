@@ -37,7 +37,8 @@ const IconButton = ({
                     : undefined,
                 border: !borderless
                     ? "1px solid rgba(255, 255, 255, 0.25)"
-                    : undefined
+                    : undefined,
+                transition: "all 100ms"
             }}
         >
             {label && children && <div style={{ width: 10 }} />}
