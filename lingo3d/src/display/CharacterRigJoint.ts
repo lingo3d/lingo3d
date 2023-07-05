@@ -7,7 +7,11 @@ import Sphere from "./primitives/Sphere"
 export default class CharacterRigJoint extends Sphere {
     private foundManager: FoundManager
 
-    public constructor(uuid: string, characterRig: CharacterRig, name: string) {
+    public constructor(
+        uuid: string,
+        private characterRig: CharacterRig,
+        name: string
+    ) {
         super()
         this.scale = 0.05
         this.depthTest = false
@@ -23,15 +27,13 @@ export default class CharacterRigJoint extends Sphere {
         jointDest.depthTest = false
         jointDest.opacity = 0.5
 
-        const foundManager = (this.foundManager = uuidMap.get(
-            uuid
-        ) as FoundManager)
-        foundManager.$unghost()
-        foundManager.$characterRig = characterRig
-        this.placeAt(foundManager.getWorldPosition())
+        this.foundManager = uuidMap.get(uuid) as FoundManager
+        this.placeAt(this.foundManager.getWorldPosition())
     }
 
     public finalize() {
+        this.foundManager.$unghost()
+        this.foundManager.$characterRig = this.characterRig
         this.object3d.attach(this.foundManager.outerObject3d)
     }
 }
