@@ -32,7 +32,7 @@ const CharacterRigEditor = () => {
                         CharacterRig
                     </CloseableTab>
                 </AppBar>
-                <div style={{ flexGrow: 1 }}>
+                <div style={{ flexGrow: 1, overflow: "hidden" }}>
                     <div className="lingo3d-absfull lingo3d-flexcenter">
                         <div
                             style={{
