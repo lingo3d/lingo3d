@@ -23,12 +23,12 @@ const OutputConsole = ({ style }: Props) => {
             const $unhook = unsafeGetValue(iframe, "$unhook")
             if (!$hook || !$unhook) return
 
-            // const hookedConsole = $hook(console, window)
-            // logStatus(`lingo3d version ${VERSION}`)
-            // logStatus("console initialized")
+            const hookedConsole = $hook(console, window)
+            logStatus(`lingo3d version ${VERSION}`)
+            logStatus("console initialized")
 
-            // clearInterval(interval)
-            // handle.then(() => $unhook(hookedConsole, window))
+            clearInterval(interval)
+            handle.then(() => $unhook(hookedConsole, window))
         }, 100)
 
         const handleError = (error: ErrorEvent) => console.error(error)

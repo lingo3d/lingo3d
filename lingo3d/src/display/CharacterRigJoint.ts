@@ -1,4 +1,5 @@
 import { uuidMap } from "../collections/idCollections"
+import { CharacterRigJointName } from "../interface/ICharacterRig"
 import CharacterRig from "./CharacterRig"
 import FoundManager from "./core/FoundManager"
 import Cube from "./primitives/Cube"
@@ -8,9 +9,8 @@ export default class CharacterRigJoint extends Sphere {
     private foundManager: FoundManager
 
     public constructor(
-        uuid: string,
         private characterRig: CharacterRig,
-        name: string
+        name: CharacterRigJointName
     ) {
         super()
         this.scale = 0.05
@@ -27,7 +27,9 @@ export default class CharacterRigJoint extends Sphere {
         jointDest.depthTest = false
         jointDest.opacity = 0.5
 
-        this.foundManager = uuidMap.get(uuid) as FoundManager
+        this.foundManager = uuidMap.get(
+            characterRig[name] as string
+        ) as FoundManager
         this.placeAt(this.foundManager.getWorldPosition())
     }
 

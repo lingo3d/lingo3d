@@ -1,9 +1,8 @@
-import { forceGet, forceGetInstance } from "@lincode/utils"
+import { forceGetInstance } from "@lincode/utils"
 import { uuidMap } from "../../collections/idCollections"
 import CharacterRig from "../../display/CharacterRig"
 import ICharacterRig from "../../interface/ICharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
-import { getCharacterRig } from "../../states/useCharacterRig"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../typeGuards/isPoint"
@@ -37,9 +36,6 @@ setParenting([
 setParenting(["hips", "leftThigh", "leftLeg", "leftFoot", "leftForeFoot"])
 setParenting(["hips", "rightThigh", "rightLeg", "rightFoot", "rightForeFoot"])
 
-const nameJointMap = new Map<JointName, CharacterRigJoint>()
-getCharacterRig(() => nameJointMap.clear())
-
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3
         .copy(toPoint as any)
@@ -48,15 +44,6 @@ const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
 
 const rotateJoint = (target: MeshAppendable, joint: MeshAppendable) =>
     joint.setRotationFromDirection(getDirection(target, joint))
-
-const getJoint = (self: CharacterRig, name: JointName) => {
-    const uuid = self[name] as string
-    if (!uuid) return
-    return forceGet(nameJointMap, name, () => {
-        const joint = new CharacterRigJoint(uuid, self, name)
-        return joint
-    })
-}
 
 const setupJoint = (child: CharacterRigJoint, parent: CharacterRigJoint) => {
     rotateJoint(child, parent)
@@ -67,11 +54,14 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
         effect: (self: CharacterRig) => {
-            const leftHandJoint = getJoint(self, "leftHand")
-            const leftForeArmJoint = getJoint(self, "leftForeArm")
-            const leftArmJoint = getJoint(self, "leftArm")
+            if (self.leftHand && self.leftForeArm && self.leftArm) {
+                const leftHandJoint = new CharacterRigJoint(self, "leftHand")
+                const leftForeArmJoint = new CharacterRigJoint(
+                    self,
+                    "leftForeArm"
+                )
+                const leftArmJoint = new CharacterRigJoint(self, "leftArm")
 
-            if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
                 setupJoint(leftHandJoint, leftForeArmJoint)
                 setupJoint(leftForeArmJoint, leftArmJoint)
 

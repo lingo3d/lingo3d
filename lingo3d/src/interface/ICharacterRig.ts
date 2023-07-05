@@ -6,6 +6,8 @@ import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { ExtractProps } from "./utils/extractProps"
 
+export type CharacterRigJointName = keyof ICharacterRig
+
 export default interface ICharacterRig extends IAppendable {
     target: Nullable<string>
 

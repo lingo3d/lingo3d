@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks"
 import useSyncState from "../hooks/useSyncState"
 import { getCharacterRig } from "../../states/useCharacterRig"
-import ICharacterRig from "../../interface/ICharacterRig"
+import { CharacterRigJointName } from "../../interface/ICharacterRig"
 import { draggingItemPtr } from "../../pointers/draggingItemPtr"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import FoundManager from "../../display/core/FoundManager"
@@ -9,7 +9,7 @@ import FoundManager from "../../display/core/FoundManager"
 type JointProps = {
     x: number
     y: number
-    name: keyof ICharacterRig
+    name: CharacterRigJointName
     onMouseMove?: (e: MouseEvent) => void
     onMouseLeave?: (e: MouseEvent) => void
 }
