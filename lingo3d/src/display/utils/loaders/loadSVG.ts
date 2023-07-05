@@ -2,9 +2,9 @@ import { SVGLoader, SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./utils/bytesLoaded"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
-import { createMap } from "../../../utils/createCollection"
+import { createUnloadMap } from "../../../utils/createUnloadMap"
 
-const cache = createMap<string, Promise<SVGResult>>()
+const cache = createUnloadMap<string, Promise<SVGResult>>()
 export const loader = new SVGLoader()
 
 export default (url: string) =>

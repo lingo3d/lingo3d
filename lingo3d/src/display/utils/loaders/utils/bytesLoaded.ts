@@ -1,8 +1,8 @@
-import { createMap } from "../../../../utils/createCollection"
+import { createUnloadMap } from "../../../../utils/createUnloadMap"
 
 const bytesLoaded = [0]
 
-const loadedBytesMap = createMap<string, number>()
+const loadedBytesMap = createUnloadMap<string, number>()
 
 const progressChangedEventListeners = new Set<(bytes: number) => void>()
 

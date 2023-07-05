@@ -1,6 +1,6 @@
-import { createMap } from "../utils/createCollection"
+import { createUnloadMap } from "../utils/createUnloadMap"
 
-export const pathDirectoryHandleMap = createMap<
+export const pathDirectoryHandleMap = createUnloadMap<
     string,
     FileSystemDirectoryHandle
 >()

@@ -2,9 +2,9 @@ import { forceGet } from "@lincode/utils"
 import { AudioLoader } from "three"
 import { handleProgress } from "./utils/bytesLoaded"
 import { busyCountPtr } from "../../../pointers/busyCountPtr"
-import { createMap } from "../../../utils/createCollection"
+import { createUnloadMap } from "../../../utils/createUnloadMap"
 
-const cache = createMap<string, Promise<AudioBuffer>>()
+const cache = createUnloadMap<string, Promise<AudioBuffer>>()
 const loader = new AudioLoader()
 
 export default (url: string) =>

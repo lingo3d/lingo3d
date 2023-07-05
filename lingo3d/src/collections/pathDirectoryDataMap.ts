@@ -1,8 +1,8 @@
-import { createMap } from "../utils/createCollection"
+import { createUnloadMap } from "../utils/createUnloadMap"
 
 export type PathDirectoryData = {
     fileNameOverlap?: string
     isMaterialFolder?: boolean
 }
 
-export const pathDirectoryDataMap = createMap<string, PathDirectoryData>()
+export const pathDirectoryDataMap = createUnloadMap<string, PathDirectoryData>()

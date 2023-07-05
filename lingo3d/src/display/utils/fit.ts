@@ -1,8 +1,8 @@
 import { Object3D, Vector3 } from "three"
 import { measure } from "../../memo/measure"
-import { createMap } from "../../utils/createCollection"
+import { createUnloadMap } from "../../utils/createUnloadMap"
 
-const cache = createMap<string, [number, Vector3, Vector3]>()
+const cache = createUnloadMap<string, [number, Vector3, Vector3]>()
 
 export default (gltf: Object3D, src: string) => {
     if (cache.has(src)) {

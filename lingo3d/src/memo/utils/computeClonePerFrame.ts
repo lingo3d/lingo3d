@@ -1,10 +1,10 @@
 import { clearCollectionEffectSystem } from "../../systems/configSystems/clearCollectionEffectSystem"
-import { createMap } from "../../utils/createCollection"
+import { createUnloadMap } from "../../utils/createUnloadMap"
 
 export default <Item extends object, Return extends { clone: () => Return }>(
     cb: (item: Item) => Return
 ) => {
-    const cache = createMap<Item, Return>()
+    const cache = createUnloadMap<Item, Return>()
     return (item: Item): Return => {
         const cached = cache.get(item)
         if (cached) return cached.clone()

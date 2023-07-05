@@ -1,3 +1,3 @@
-import { createMap } from "../utils/createCollection"
+import { createUnloadMap } from "../utils/createUnloadMap"
 
-export const pathObjectURLMap = createMap<string, string>()
+export const pathObjectURLMap = createUnloadMap<string, string>()
