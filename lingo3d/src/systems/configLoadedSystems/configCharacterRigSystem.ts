@@ -46,33 +46,21 @@ const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
         .sub(fromPoint as any)
         .normalize()
 
-function rotateJoint(target: MeshAppendable, joint: MeshAppendable) {
+const rotateJoint = (target: MeshAppendable, joint: MeshAppendable) =>
     joint.setRotationFromDirection(getDirection(target, joint))
-}
 
 const getJoint = (self: CharacterRig, name: JointName) => {
     const uuid = self[name] as string
     if (!uuid) return
     return forceGet(nameJointMap, name, () => {
         const joint = new CharacterRigJoint(uuid, self, name)
-
-        const childNames = parentChildrenNameMap.get(name) ?? []
-        for (const childName of childNames) {
-            const child = nameJointMap.get(childName)
-            if (!child) continue
-            if (childNames.length === 1) rotateJoint(child, joint)
-            joint.attach(child)
-        }
-        const parentName = childParentNameMap.get(name)
-        const parent = parentName && nameJointMap.get(parentName)
-        if (parent) {
-            parentChildrenNameMap.get(parentName)?.length === 1 &&
-                rotateJoint(joint, parent)
-            parent.attach(joint)
-        }
-        joint.finalize()
         return joint
     })
+}
+
+const setupJoint = (child: CharacterRigJoint, parent: CharacterRigJoint) => {
+    rotateJoint(child, parent)
+    parent.attach(child)
 }
 
 export const configCharacterRigSystem = createLoadedEffectSystem(
@@ -84,6 +72,13 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             const leftArmJoint = getJoint(self, "leftArm")
 
             if (leftHandJoint && leftForeArmJoint && leftArmJoint) {
+                setupJoint(leftHandJoint, leftForeArmJoint)
+                setupJoint(leftForeArmJoint, leftArmJoint)
+
+                leftHandJoint.finalize()
+                leftForeArmJoint.finalize()
+                leftArmJoint.finalize()
+
                 leftForeArmJoint.quaternion.set(0, 0, 0, 1)
                 leftArmJoint.quaternion.set(0, 0, 0, 1)
                 leftArmJoint.innerRotationZ = 90

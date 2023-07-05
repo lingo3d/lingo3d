@@ -9,11 +9,11 @@ export default class CharacterRigJoint extends Sphere {
 
     public constructor(uuid: string, characterRig: CharacterRig, name: string) {
         super()
-        this.$ghost()
         this.scale = 0.05
         this.depthTest = false
         this.opacity = 0.5
         this.name = name
+        characterRig.append(this)
 
         const jointDest = new Cube()
         jointDest.$ghost()
