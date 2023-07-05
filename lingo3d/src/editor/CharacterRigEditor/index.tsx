@@ -34,8 +34,8 @@ const CharacterRigEditor = () => {
                         CharacterRig
                     </CloseableTab>
                 </AppBar>
-                <AppBar style={{ gap: 4, paddingLeft: 10 }}>
-                    <Segments choices={["body", "hands"]} />
+                <AppBar style={{ gap: 4, paddingLeft: 8 }}>
+                    <Segments choices={["view body", "view hands"]} />
                     <Switch label="enabled" />
                 </AppBar>
                 <div style={{ flexGrow: 1, overflow: "hidden" }}>
