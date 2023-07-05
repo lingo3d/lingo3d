@@ -44,7 +44,10 @@ const WorldToggles = () => {
                 compact
                 label="stats"
                 on={stats}
-                onChange={(val) => setStats(val)}
+                onChange={(val) => {
+                    setStats(val)
+                    val && setUILayer(true)
+                }}
             />
             <Switch
                 compact

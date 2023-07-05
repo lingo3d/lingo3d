@@ -43,7 +43,7 @@ const CharacterRigEditor = () => {
                         <div
                             style={{
                                 aspectRatio: "1 / 2",
-                                width: "100%"
+                                width: "90%"
                             }}
                         >
                             <div
