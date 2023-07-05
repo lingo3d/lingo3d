@@ -10,7 +10,7 @@ import { setCharacterRig } from "../../states/useCharacterRig"
 import { useSignal } from "@preact/signals"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
-import CharacterRigControls from "./CharacterRigControls"
+import Switch from "../component/Switch"
 
 const CharacterRigEditor = () => {
     useInitCSS()
@@ -32,6 +32,8 @@ const CharacterRigEditor = () => {
                     >
                         CharacterRig
                     </CloseableTab>
+                    <div style={{ flexGrow: 1 }} />
+                    <Switch label="enabled" />
                 </AppBar>
                 <div style={{ flexGrow: 1, overflow: "hidden" }}>
                     <div className="lingo3d-absfull lingo3d-flexcenter">
@@ -90,7 +92,6 @@ const CharacterRigEditor = () => {
                             <Joint x={-6} y={72} name="rightForeFoot" />
                             <Joint x={6} y={72} name="leftForeFoot" />
                         </div>
-                        <CharacterRigControls />
                     </div>
                 </div>
             </div>
