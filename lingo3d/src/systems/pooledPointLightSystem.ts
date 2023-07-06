@@ -19,9 +19,10 @@ export const pooledPointLightSystem = createInternalSystem(
                     ? !!getIntensityFactor(self) &&
                       ++count <= pointLightPoolPtr[0]
                     : false
-            if (visible && !data.visible)
+            if (visible && !data.visible) {
+                if (!pointLightPool.releasedObjects.size) return
                 self.$light = pointLightPool.request([], "", self)
-            else if (!visible && data.visible) {
+            } else if (!visible && data.visible) {
                 pointLightPool.release(self.$light)
                 self.$light = undefined
             }

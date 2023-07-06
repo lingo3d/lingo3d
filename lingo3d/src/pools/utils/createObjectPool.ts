@@ -13,7 +13,7 @@ export default <
 ) => {
     const paramStringObjectArrayMap = new Map<string, Array<Type>>()
     const objectParamStringMap = new WeakMap<Type, string>()
-    const releasedObjects = new WeakSet<Type>()
+    const releasedObjects = new Set<Type>()
     let allObjects: Array<Type> = []
 
     const request = (
@@ -52,9 +52,10 @@ export default <
 
     const clear = () => {
         if (dispose) for (const object of allObjects) dispose(object)
+        releasedObjects.clear()
         paramStringObjectArrayMap.clear()
         allObjects = []
     }
 
-    return { request, release, clear }
+    return { request, release, clear, releasedObjects }
 }
