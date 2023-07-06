@@ -17,7 +17,8 @@ export const updateShadowSystem = createInternalSystem("updateShadowSystem", {
         if (!intensityFactor || !self.shadows) return
         if (
             shadowResolutionPtr[0] >= SHADOW_RESOLUTION_TARGET &&
-            ++data.skipped < frameSync(mapRange(intensityFactor, 0, 1, 10, 0))
+            (data.skipped += frameSync(1)) <
+                mapRange(intensityFactor, 0, 1, 10, 0)
         )
             return
 
