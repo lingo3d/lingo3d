@@ -48,8 +48,6 @@ import { getSSRJitter, setSSRJitter } from "../../states/useSSRJitter"
 import { lightDistancePtr } from "../../pointers/lightDistancePtr"
 import { CM2M, M2CM } from "../../globals"
 import { computeLightIncrement } from "../../pointers/lightIncrementPtr"
-import { pointLightPoolPtr } from "../../pointers/pointLightPoolPtr"
-import { emitPointLightPool } from "../../events/onPointLightPool"
 import { emitSpotLightPool } from "../../events/onSpotLightPool"
 import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
 import {
@@ -57,6 +55,10 @@ import {
     setSSAOIntensity
 } from "../../states/useSSAOIntensity"
 import { getSSAORadius, setSSAORadius } from "../../states/useSSAORadius"
+import {
+    getPointLightPool,
+    setPointLightPool
+} from "../../states/usePointLightPool"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.$ghost()
@@ -79,11 +81,10 @@ export default {
     },
 
     get pointLightPool() {
-        return pointLightPoolPtr[0]
+        return getPointLightPool()
     },
     set pointLightPool(value) {
-        pointLightPoolPtr[0] = value
-        emitPointLightPool()
+        setPointLightPool(value)
     },
 
     get spotLightPool() {

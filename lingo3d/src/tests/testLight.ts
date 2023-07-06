@@ -15,7 +15,18 @@ ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
 
-const light = new PooledPointLight()
+
+for (let i = 0; i < 10; ++i) {
+    const light = new PooledPointLight()
+    light.z = -i * 1000
+
+    const dummy = new Dummy()
+    dummy.physics = "character"
+    dummy.y = -150
+    dummy.z = -i * 1000 + 100
+    dummy.x = 100
+    dummy.strideForward = -10
+}
 
 // const aura = new Sprite()
 // aura.scale = 10
@@ -23,10 +34,6 @@ const light = new PooledPointLight()
 // aura.blending = "additive"
 // aura.depthTest = false
 // aura.$disableSelection = true
-
-const dummy = new Dummy()
-dummy.physics = "character"
-dummy.y = -150
 
 // onBeforeRender(() => {
 //     aura.visible = light.isRendered

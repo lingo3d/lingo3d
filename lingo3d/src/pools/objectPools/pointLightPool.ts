@@ -6,7 +6,7 @@ import createObjectPool from "../utils/createObjectPool"
 export const pointLightPool = createObjectPool<
     PointLight,
     [],
-    PooledPointLight
+    PooledPointLight | undefined
 >(
     () => {
         const light = new PointLight()
@@ -18,6 +18,7 @@ export const pointLightPool = createObjectPool<
         light.dispose()
     },
     (light, self) => {
+        if (!self) return
         light.distance = self.distance
         light.intensity = self.intensity
         light.color = self.color

@@ -5,8 +5,7 @@ import createInternalSystem from "./utils/createInternalSystem"
 import getIntensityFactor from "../memo/getIntensityFactor"
 import { mapRange } from "@lincode/math"
 import frameSync from "../api/frameSync"
-
-const maxResolution = 2048
+import { SHADOW_RESOLUTION_TARGET } from "../globals"
 
 export const updateShadowSystem = createInternalSystem("updateShadowSystem", {
     data: { skipped: 0 },
@@ -17,7 +16,7 @@ export const updateShadowSystem = createInternalSystem("updateShadowSystem", {
         const intensityFactor = getIntensityFactor(self)
         if (!intensityFactor || !self.shadows) return
         if (
-            shadowResolutionPtr[0] >= maxResolution &&
+            shadowResolutionPtr[0] >= SHADOW_RESOLUTION_TARGET &&
             ++data.skipped < frameSync(mapRange(intensityFactor, 0, 1, 10, 0))
         )
             return

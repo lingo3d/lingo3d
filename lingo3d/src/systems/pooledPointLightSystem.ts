@@ -9,13 +9,19 @@ let count = 0
 export const pooledPointLightSystem = createInternalSystem(
     "pooledPointLightSystem",
     {
-        data: { visible: false },
+        data: { visible: false, poolSize: pointLightPoolPtr[0] },
         afterTick: () => {
             count = 0
         },
         update: (self: PooledPointLight, data) => {
-            const intensityFactor = getIntensityFactor(self)
-            const visible = !!intensityFactor && ++count <= pointLightPoolPtr[0]
+            if (data.poolSize !== pointLightPoolPtr[0]) {
+                console.log("pool size changed")
+            }
+            const visible =
+                data.poolSize === pointLightPoolPtr[0]
+                    ? !!getIntensityFactor(self) &&
+                      ++count <= pointLightPoolPtr[0]
+                    : false
             if (visible && !data.visible)
                 self.$light = pointLightPool.request([], "", self)
             else if (!visible && data.visible) {
@@ -23,6 +29,7 @@ export const pooledPointLightSystem = createInternalSystem(
                 self.$light = undefined
             }
             data.visible = visible
+            data.poolSize = pointLightPoolPtr[0]
         },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }
