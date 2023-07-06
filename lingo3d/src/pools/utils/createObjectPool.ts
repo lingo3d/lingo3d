@@ -21,7 +21,6 @@ export default <
         paramString = JSON.stringify(params),
         context = undefined as Context
     ): Type => {
-        ++pool.count
         const objectArray = forceGetInstance(
             paramStringObjectArrayMap,
             paramString,
@@ -48,7 +47,6 @@ export default <
             .get(objectParamStringMap.get(object)!)!
             .push(object)
 
-        --pool.count
         onRelease?.(object)
     }
 
@@ -56,9 +54,7 @@ export default <
         if (dispose) for (const object of allObjects) dispose(object)
         paramStringObjectArrayMap.clear()
         allObjects = []
-        pool.count = 0
     }
 
-    const pool = { request, release, clear, count: 0 }
-    return pool
+    return { request, release, clear }
 }
