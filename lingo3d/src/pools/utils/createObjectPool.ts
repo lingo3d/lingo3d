@@ -41,12 +41,13 @@ export default <
 
     const release = (object: Type | undefined | null) => {
         if (!object || releasedObjects.has(object)) return
+        const array = paramStringObjectArrayMap.get(
+            objectParamStringMap.get(object)!
+        )
+        if (!array) return
+
+        array.push(object)
         releasedObjects.add(object)
-
-        paramStringObjectArrayMap
-            .get(objectParamStringMap.get(object)!)!
-            .push(object)
-
         onRelease?.(object)
     }
 

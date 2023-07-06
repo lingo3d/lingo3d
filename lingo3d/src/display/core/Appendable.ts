@@ -98,17 +98,13 @@ export default class Appendable extends Disposable implements IAppendable {
             for (const system of this._systems.values()) system.delete(this)
         emitDispose(this)
     }
-
-    private disposeChildren() {
+    public override dispose(notCaller?: boolean) {
         super.dispose()
         this.disposeNode()
         if (this.children)
-            for (const child of this.children) child.disposeChildren()
-    }
+            for (const child of this.children) child.dispose(true)
 
-    public override dispose() {
-        if (this.done) return this
-        this.disposeChildren()
+        if (notCaller) return this
 
         const { parent } = this
         if (parent) {

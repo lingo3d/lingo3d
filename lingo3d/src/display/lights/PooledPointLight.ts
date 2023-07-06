@@ -13,17 +13,21 @@ import {
     getPointLightPoolEnabled,
     setPointLightPoolEnabled
 } from "../../states/usePointLightPoolEnabled"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 createEffect(() => {
     if (!getPointLightPoolEnabled()) return
 
-    const lights: Array<PointLight> = []
-    for (let i = 0; i < pointLightPoolPtr[0]; ++i)
-        lights.push(pointLightPool.request([], ""))
-    for (const light of lights) pointLightPool.release(light)
+    const handle = onBeforeRender(() => {
+        const lights: Array<PointLight> = []
+        for (let i = 0; i < pointLightPoolPtr[0]; ++i)
+            lights.push(pointLightPool.request([], ""))
+        for (const light of lights) pointLightPool.release(light)
+    }, true)
 
     return () => {
         pointLightPool.clear()
+        handle.cancel()
     }
 }, [getPointLightPool, getPointLightPoolEnabled])
 

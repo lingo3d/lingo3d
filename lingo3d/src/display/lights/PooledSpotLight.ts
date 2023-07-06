@@ -13,17 +13,21 @@ import {
 } from "../../states/useSpotLightPoolEnabled"
 import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
 import { getSpotLightPool } from "../../states/useSpotLightPool"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 createEffect(() => {
     if (!getSpotLightPoolEnabled()) return
 
-    const lights: Array<SpotLight> = []
-    for (let i = 0; i < spotLightPoolPtr[0]; ++i)
-        lights.push(spotLightPool.request([], ""))
-    for (const light of lights) spotLightPool.release(light)
+    const handle = onBeforeRender(() => {
+        const lights: Array<SpotLight> = []
+        for (let i = 0; i < spotLightPoolPtr[0]; ++i)
+            lights.push(spotLightPool.request([], ""))
+        for (const light of lights) spotLightPool.release(light)
+    }, true)
 
     return () => {
         spotLightPool.clear()
+        handle.cancel()
     }
 }, [getSpotLightPool, getSpotLightPoolEnabled])
 
