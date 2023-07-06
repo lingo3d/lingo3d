@@ -6,12 +6,13 @@ import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
 import { editorWidthSignal } from "../signals/sizeSignals"
-import { setCharacterRig } from "../../states/useCharacterRig"
+import { getCharacterRig, setCharacterRig } from "../../states/useCharacterRig"
 import { useSignal } from "@preact/signals"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import Switch from "../component/Switch"
 import Segments from "../component/Segments"
+import useSyncState from "../hooks/useSyncState"
 
 const CharacterRigEditor = () => {
     useInitCSS()
@@ -19,6 +20,8 @@ const CharacterRigEditor = () => {
 
     const [position, setPosition] = useState<Point>()
     const selectedSignal = useSignal<Array<string>>([])
+    const characterRig = useSyncState(getCharacterRig)
+    const [enabled, setEnabled] = useState(characterRig?.enabled)
 
     return (
         <>
@@ -36,7 +39,14 @@ const CharacterRigEditor = () => {
                 </AppBar>
                 <AppBar style={{ gap: 4, paddingLeft: 10 }}>
                     <Segments choices={["Edit body", "Edit hands"]} />
-                    <Switch label="enabled" />
+                    <Switch
+                        label="enabled"
+                        on={enabled}
+                        onChange={
+                            characterRig &&
+                            ((val) => setEnabled((characterRig.enabled = val)))
+                        }
+                    />
                 </AppBar>
                 <div style={{ flexGrow: 1, overflow: "hidden" }}>
                     <div className="lingo3d-absfull lingo3d-flexcenter">
