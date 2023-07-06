@@ -3,8 +3,8 @@ import MeshAppendable from "../../display/core/MeshAppendable"
 import { characterCameraFollowSystem } from "../characterCameraFollowSystem"
 import createInternalSystem from "../utils/createInternalSystem"
 
-export const configCharacterCameraSystem = createInternalSystem(
-    "configCharacterCameraSystem",
+export const configAppendToCharacterCameraSystem = createInternalSystem(
+    "configAppendToCharacterCameraSystem",
     {
         effect: (self: CharacterCamera) => {
             const [found] = self.children ?? []

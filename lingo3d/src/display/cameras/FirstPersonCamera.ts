@@ -1,6 +1,6 @@
 import CharacterCamera from "../core/CharacterCamera"
 import { characterCameraSystem } from "../../systems/characterCameraSystem"
-import { configFirstPersonCameraSystem } from "../../systems/configSystems/configFirstPersonCameraSystem"
+import { configAppendToFirstPersonCameraSystem } from "../../systems/configSystems/configAppendToFirstPersonCameraSystem"
 import MeshAppendable from "../core/MeshAppendable"
 
 export default class FirstPersonCamera extends CharacterCamera {
@@ -21,11 +21,11 @@ export default class FirstPersonCamera extends CharacterCamera {
     public override set innerY(val) {
         super.innerY = val
         this.$innerYSet = true
-        configFirstPersonCameraSystem.delete(this)
+        configAppendToFirstPersonCameraSystem.delete(this)
     }
 
     public override append(object: MeshAppendable) {
         super.append(object)
-        configFirstPersonCameraSystem.add(this)
+        configAppendToFirstPersonCameraSystem.add(this)
     }
 }
