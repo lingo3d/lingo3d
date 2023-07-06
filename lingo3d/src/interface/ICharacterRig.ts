@@ -10,6 +10,7 @@ export type CharacterRigJointName = keyof ICharacterRig
 
 export default interface ICharacterRig extends IAppendable {
     target: Nullable<string>
+    enabled: boolean
 
     hips: Nullable<string>
     spine0: Nullable<string>
@@ -42,6 +43,7 @@ export const characterRigSchema: Required<ExtractProps<ICharacterRig>> = {
     ...appendableSchema,
 
     target: String,
+    enabled: Boolean,
 
     hips: String,
     spine0: String,
@@ -74,6 +76,7 @@ export const characterRigDefaults = extendDefaults<ICharacterRig>(
     [appendableDefaults],
     {
         target: undefined,
+        enabled: false,
 
         hips: undefined,
         spine0: undefined,

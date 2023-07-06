@@ -42,6 +42,10 @@ export const createLoadedEffectSystem = <
                 return
             }
             effectSystem.add(item, initData)
+        },
+        delete: (item: GameObject) => {
+            addSystem.delete(item)
+            effectSystem.delete(item)
         }
     }
 }
