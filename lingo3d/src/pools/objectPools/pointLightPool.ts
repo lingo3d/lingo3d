@@ -3,18 +3,24 @@ import PooledPointLight from "../../display/lights/PooledPointLight"
 import scene from "../../engine/scene"
 import createObjectPool from "../utils/createObjectPool"
 
+let count = 0
+
+setInterval(() => console.log(count), 1000)
+
 export const pointLightPool = createObjectPool<
     PointLight,
     [],
     PooledPointLight | undefined
 >(
     () => {
+        ++count
         const light = new PointLight()
         light.intensity = 0
         light.$ghost()
         return light
     },
     (light) => {
+        --count
         light.dispose()
     },
     (light, self) => {

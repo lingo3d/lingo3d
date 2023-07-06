@@ -28,6 +28,11 @@ export const pooledSpotLightSystem = createInternalSystem(
             data.visible = visible
             data.poolSize = spotLightPoolPtr[0]
         },
+        effect: () => {},
+        cleanup: (self) => {
+            spotLightPool.release(self.$light)
+            self.$light = undefined
+        },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }
 )

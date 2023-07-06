@@ -28,6 +28,12 @@ export const pooledPointLightSystem = createInternalSystem(
             data.visible = visible
             data.poolSize = pointLightPoolPtr[0]
         },
+        effect: () => {},
+        cleanup: (self) => {
+            console.log("cleanup")
+            pointLightPool.release(self.$light)
+            self.$light = undefined
+        },
         sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)
     }
 )
