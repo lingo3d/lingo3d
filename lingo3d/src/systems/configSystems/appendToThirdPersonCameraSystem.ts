@@ -4,8 +4,8 @@ import { characterCameraSystem } from "../characterCameraSystem"
 import { thirdPersonCameraSystem } from "../thirdPersonCameraSystem"
 import createInternalSystem, { System } from "../utils/createInternalSystem"
 
-export const configAppendToThirdPersonCameraSystem = createInternalSystem(
-    "configAppendToThirdPersonCameraSystem",
+export const appendToThirdPersonCameraSystem = createInternalSystem(
+    "appendToThirdPersonCameraSystem",
     {
         data: { system: undefined as any as System },
         effect: (self: CharacterCamera, data) => {

@@ -3,8 +3,8 @@ import MeshAppendable from "../../display/core/MeshAppendable"
 import getActualScale from "../../memo/getActualScale"
 import createInternalSystem from "../utils/createInternalSystem"
 
-export const configAppendToFirstPersonCameraSystem = createInternalSystem(
-    "configAppendToFirstPersonCameraSystem",
+export const appendToFirstPersonCameraSystem = createInternalSystem(
+    "appendToFirstPersonCameraSystem",
     {
         effect: (self: FirstPersonCamera) => {
             const [found] = self.children ?? []

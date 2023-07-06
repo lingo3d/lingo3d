@@ -2,7 +2,7 @@ import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import { configAppendToThirdPersonCameraSystem } from "../../systems/configSystems/configAppendToThirdPersonCameraSystem"
+import { appendToThirdPersonCameraSystem } from "../../systems/configSystems/appendToThirdPersonCameraSystem"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshAppendable from "../core/MeshAppendable"
 
@@ -22,6 +22,6 @@ export default class ThirdPersonCamera
 
     public override append(object: MeshAppendable) {
         super.append(object)
-        configAppendToThirdPersonCameraSystem.add(this)
+        appendToThirdPersonCameraSystem.add(this)
     }
 }
