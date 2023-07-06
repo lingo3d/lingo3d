@@ -1,6 +1,6 @@
 import { Events } from "@lincode/events"
 import { Disposable } from "@lincode/promiselikes"
-import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
+import { GetGlobalState, createEffect } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import getStaticProperties from "../utils/getStaticProperties"
@@ -43,27 +43,12 @@ export default class Appendable extends Disposable implements IAppendable {
         return firstChild
     }
 
-    private _firstChildState?: Reactive<Appendable | undefined>
-    protected get firstChildState() {
-        return (this._firstChildState ??= new Reactive(this.firstChild))
-    }
-
-    private refreshFirstChildState() {
-        this._firstChildState?.set(this.firstChild)
-    }
-
     public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
         emitSceneGraphChangeSystem.add(child)
-
-        const { parent } = child
-        if (parent) {
-            parent.children!.delete(child)
-            parent.refreshFirstChildState()
-        }
+        child.parent?.children!.delete(child)
         child.parent = this
         ;(this.children ??= new Set()).add(child)
-        this.refreshFirstChildState()
     }
 
     public append(child: Appendable) {
@@ -105,13 +90,7 @@ export default class Appendable extends Disposable implements IAppendable {
             for (const child of this.children) child.dispose(true)
 
         if (notCaller) return this
-
-        const { parent } = this
-        if (parent) {
-            parent.children!.delete(this)
-            parent.refreshFirstChildState()
-        } else appendableRoot.delete(this)
-
+        ;(this.parent?.children ?? appendableRoot).delete(this)
         emitSceneGraphChangeSystem.add(this)
         return this
     }
