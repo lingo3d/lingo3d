@@ -30,7 +30,6 @@ export const pooledPointLightSystem = createInternalSystem(
         },
         effect: () => {},
         cleanup: (self) => {
-            console.log("cleanup")
             pointLightPool.release(self.$light)
             self.$light = undefined
         },
