@@ -17,8 +17,10 @@ import {
 createEffect(() => {
     if (!getPointLightPoolEnabled()) return
 
+    const lights: Array<PointLight> = []
     for (let i = 0; i < pointLightPoolPtr[0]; ++i)
-        pointLightPool.release(pointLightPool.request([], ""))
+        lights.push(pointLightPool.request([], ""))
+    for (const light of lights) pointLightPool.release(light)
 
     return () => {
         pointLightPool.clear()

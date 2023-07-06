@@ -17,8 +17,10 @@ import { getSpotLightPool } from "../../states/useSpotLightPool"
 createEffect(() => {
     if (!getSpotLightPoolEnabled()) return
 
+    const lights: Array<SpotLight> = []
     for (let i = 0; i < spotLightPoolPtr[0]; ++i)
-        spotLightPool.release(spotLightPool.request([], ""))
+        lights.push(spotLightPool.request([], ""))
+    for (const light of lights) spotLightPool.release(light)
 
     return () => {
         spotLightPool.clear()
