@@ -1,3 +1,3 @@
 import type { System } from "../systems/utils/createInternalSystem"
 
-export const userlandNameSystemMap = new Map<string, System<any, any>>()
+export const userlandNameSystemMap = new Map<string, System>()

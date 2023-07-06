@@ -1,7 +1,9 @@
 import "./engine"
 
 import Primitive from "./display/core/Primitive"
-import GimbalObjectManager from "./display/core/GimbalObjectManager"
+import { System } from "./systems/utils/createInternalSystem"
+import { LingoMouseEvent } from "./interface/IMouse"
+import { LingoKeyboardEvent } from "./interface/IKeyboard"
 
 import Cube from "./display/primitives/Cube"
 import Sphere from "./display/primitives/Sphere"
@@ -96,9 +98,16 @@ const mouse = new Mouse()
 mouse.$ghost()
 mouse.$disableUnload = true
 
-export {
-    GimbalObjectManager as GameObject,
+type GameObject = Model & Primitive
+export type {
     Primitive,
+    System,
+    GameObject,
+    LingoMouseEvent,
+    LingoKeyboardEvent
+}
+
+export {
     Cube,
     Sphere,
     Cone,

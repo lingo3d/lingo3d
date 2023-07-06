@@ -3,7 +3,7 @@ import DeleteIcon from "../../FileBrowser/icons/DeleteIcon"
 import MenuButton from "../../component/MenuButton"
 
 type Props = {
-    system: System<any, any>
+    system: System
     onDelete?: () => void
     disabled?: boolean
 }

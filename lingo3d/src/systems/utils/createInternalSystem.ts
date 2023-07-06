@@ -55,8 +55,8 @@ export type SystemOptions<
 }
 
 export type System<
-    GameObject extends object | Appendable,
-    Data extends Record<string, any> | void
+    GameObject extends object | Appendable = any,
+    Data extends Record<string, any> | void = any
 > = {
     name: string
     add: (item: GameObject, initData?: Data) => void

@@ -38,11 +38,6 @@ export default class Appendable extends Disposable implements IAppendable {
     public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>
 
-    public get firstChild() {
-        const [firstChild] = this.children ?? [undefined]
-        return firstChild
-    }
-
     public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
         emitSceneGraphChangeSystem.add(child)
@@ -59,9 +54,9 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$appendNode(child)
     }
 
-    private _systems?: Map<string, System<any, any>>
+    private _systems?: Map<string, System>
     public get $systems() {
-        return (this._systems ??= new Map<string, System<any, any>>())
+        return (this._systems ??= new Map<string, System>())
     }
 
     public get systems() {
