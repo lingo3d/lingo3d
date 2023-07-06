@@ -1,34 +1,31 @@
 import CharacterCamera from "../core/CharacterCamera"
-import { Reactive } from "@lincode/reactivity"
-import GimbalObjectManager from "../core/GimbalObjectManager"
 import { characterCameraSystem } from "../../systems/characterCameraSystem"
+import { configFirstPersonCameraSystem } from "../../systems/configSystems/configFirstPersonCameraSystem"
+import MeshAppendable from "../core/MeshAppendable"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
 
     public constructor() {
         super()
-
         characterCameraSystem.add(this)
-
-        this.createEffect(() => {
-            const found = this.firstChildState.get()
-            const innerYSet = this.innerYSetState.get()
-            if (!(found instanceof GimbalObjectManager) || innerYSet) return
-            super.innerY = found.height * 0.4
-
-            return () => {
-                super.innerY = 0
-            }
-        }, [this.firstChildState.get, this.innerYSetState.get])
     }
 
-    private innerYSetState = new Reactive(false)
+    public $superInnerY(val: number) {
+        super.innerY = val
+    }
+    public $innerYSet?: boolean
     public override get innerY() {
         return super.innerY
     }
     public override set innerY(val) {
         super.innerY = val
-        this.innerYSetState.set(true)
+        this.$innerYSet = true
+        configFirstPersonCameraSystem.delete(this)
+    }
+
+    public override append(object: MeshAppendable) {
+        super.append(object)
+        configFirstPersonCameraSystem.add(this)
     }
 }
