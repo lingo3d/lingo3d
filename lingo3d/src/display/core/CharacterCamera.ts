@@ -8,9 +8,9 @@ import ICharacterCamera, {
 import { FAR, NEAR } from "../../globals"
 import CameraBase from "./CameraBase"
 import MeshAppendable from "./MeshAppendable"
-import { characterCameraFollowSystem } from "../../systems/characterCameraFollowSystem"
 import { characterCameraTransformEditSystem } from "../../systems/eventSystems/characterCameraTransformEditSystem"
 import getParent from "./utils/getParent"
+import { configCharacterCameraSystem } from "../../systems/configSystems/configCharacterCameraSystem"
 
 export default class CharacterCamera
     extends CameraBase
@@ -27,17 +27,6 @@ export default class CharacterCamera
         midObject3d.add(this.object3d)
 
         scene.attach(this.$camera)
-
-        this.createEffect(() => {
-            const found = this.firstChildState.get()
-            if (!(found instanceof MeshAppendable)) return
-
-            characterCameraFollowSystem.add(this, { found })
-            return () => {
-                characterCameraFollowSystem.delete(this)
-            }
-        }, [this.firstChildState.get])
-
         characterCameraTransformEditSystem.add(this)
     }
 
@@ -52,6 +41,7 @@ export default class CharacterCamera
         this.$appendNode(object)
         getParent(object.outerObject3d) !== scene &&
             scene.attach(object.outerObject3d)
+        configCharacterCameraSystem.add(this)
     }
 
     public override attach(object: MeshAppendable) {
