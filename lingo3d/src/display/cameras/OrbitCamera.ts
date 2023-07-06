@@ -8,14 +8,12 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"
 import { FAR, NEAR } from "../../globals"
-import MeshAppendable from "../core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
 import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
 import { container } from "../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { gyrateSystem } from "../../systems/gyrateSystem"
 import { flySystem } from "../../systems/flySystem"
-import { copyPositionSystem } from "../../systems/copyPositionSystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -28,18 +26,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
         this.innerZ = 500
         this.orbitMode = true
         this.mouseControl = "drag"
-
         this.$camera.rotation.y = 0
-
-        this.createEffect(() => {
-            const found = this.firstChildState.get()
-            if (!(found instanceof MeshAppendable)) return
-
-            copyPositionSystem.add(this, { target: found })
-            return () => {
-                copyPositionSystem.delete(this)
-            }
-        }, [this.firstChildState.get])
 
         this.createEffect(() => {
             if (
