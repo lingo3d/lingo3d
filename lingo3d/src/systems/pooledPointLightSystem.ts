@@ -14,9 +14,6 @@ export const pooledPointLightSystem = createInternalSystem(
             count = 0
         },
         update: (self: PooledPointLight, data) => {
-            if (data.poolSize !== pointLightPoolPtr[0]) {
-                console.log("pool size changed")
-            }
             const visible =
                 data.poolSize === pointLightPoolPtr[0]
                     ? !!getIntensityFactor(self) &&

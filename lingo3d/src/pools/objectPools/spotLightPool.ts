@@ -3,7 +3,11 @@ import SpotLight from "../../display/lights/SpotLight"
 import scene from "../../engine/scene"
 import createObjectPool from "../utils/createObjectPool"
 
-export const spotLightPool = createObjectPool<SpotLight, [], PooledSpotLight>(
+export const spotLightPool = createObjectPool<
+    SpotLight,
+    [],
+    PooledSpotLight | undefined
+>(
     () => {
         const light = new SpotLight()
         light.intensity = 0
@@ -14,6 +18,7 @@ export const spotLightPool = createObjectPool<SpotLight, [], PooledSpotLight>(
         light.dispose()
     },
     (light, self) => {
+        if (!self) return
         light.distance = self.distance
         light.intensity = self.intensity
         light.color = self.color

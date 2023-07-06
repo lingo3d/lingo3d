@@ -1,1 +1,1 @@
-export const spotLightPoolPtr = [1]
+export const spotLightPoolPtr = [0]

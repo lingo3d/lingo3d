@@ -4,30 +4,26 @@ import IPooledSpotLight, {
     pooledSpotLightSchema
 } from "../../interface/IPooledSpotLight"
 import SpotLight from "./SpotLight"
-import { onSpotLightPool } from "../../events/onSpotLightPool"
-import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
 import PooledPointLightBase from "../core/PooledPointLightBase"
 import { pooledSpotLightSystem } from "../../systems/pooledSpotLightSystem"
+import { createEffect } from "@lincode/reactivity"
+import {
+    getSpotLightPoolEnabled,
+    setSpotLightPoolEnabled
+} from "../../states/useSpotLightPoolEnabled"
+import { spotLightPoolPtr } from "../../pointers/spotLightPoolPtr"
+import { getSpotLightPool } from "../../states/useSpotLightPool"
 
-const lightSet = new Set<PooledSpotLight>()
+createEffect(() => {
+    if (!getSpotLightPoolEnabled()) return
 
-let requested: PooledSpotLight | undefined
-const requestSpotLights = (self: PooledSpotLight) => {
-    if (requested) return
-    requested = self
-    const lights: Array<SpotLight> = []
     for (let i = 0; i < spotLightPoolPtr[0]; ++i)
-        lights.push(spotLightPool.request([], "", self))
-    for (const light of lights) spotLightPool.release(light)
-}
-onSpotLightPool(() => {
-    if (!requested) return
-    const self = requested
-    requested = undefined
-    spotLightPool.clear()
-    requestSpotLights(self)
-    for (const light of lightSet) pooledSpotLightSystem.add(light)
-})
+        spotLightPool.release(spotLightPool.request([], ""))
+
+    return () => {
+        spotLightPool.clear()
+    }
+}, [getSpotLightPool, getSpotLightPoolEnabled])
 
 export default class PooledSpotLight
     extends PooledPointLightBase<SpotLight>
@@ -39,10 +35,8 @@ export default class PooledSpotLight
 
     public constructor() {
         super()
-        requestSpotLights(this)
         pooledSpotLightSystem.add(this)
-        lightSet.add(this)
-        this.then(() => lightSet.delete(this))
+        setSpotLightPoolEnabled(true)
     }
 
     private _angle = 45
