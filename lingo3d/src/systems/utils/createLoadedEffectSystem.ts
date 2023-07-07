@@ -6,7 +6,7 @@ const _loading = (self: any) =>
     "$loadedObject3d" in self && !self.$loadedObject3d
 
 export const createLoadedEffectSystem = <
-    GameObject extends Appendable | Loaded,
+    GameObject extends Appendable | Loaded | object,
     Data extends Record<string, any> | void
 >(
     name: string,
@@ -19,7 +19,7 @@ export const createLoadedEffectSystem = <
     }: Pick<
         SystemOptions<GameObject, Data, void>,
         "data" | "effect" | "cleanup" | "effectTicker"
-    > & { loading?: (self: GameObject) => boolean }
+    > & { loading?: (self: GameObject, data: Data) => boolean }
 ) => {
     const effectSystem = createInternalSystem(name, {
         data,
@@ -30,14 +30,14 @@ export const createLoadedEffectSystem = <
     const addSystem = createInternalSystem(name + "Add", {
         data,
         update: (self, data) => {
-            if (loading(self)) return
+            if (loading(self, data)) return
             addSystem.delete(self)
             effectSystem.add(self, data)
         }
     })
     return {
         add: (item: GameObject, initData?: Data) => {
-            if (loading(item)) {
+            if (loading(item, initData!)) {
                 addSystem.add(item, initData)
                 return
             }

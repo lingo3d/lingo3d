@@ -58,7 +58,7 @@ export type GameObjectType =
     | "timelineAudio"
 
 type VersionNode = { type: "lingo3d"; version: string }
-type FindNode = {
+export type FindNode = {
     type: "find"
     name: string
     id?: string
