@@ -61,6 +61,7 @@ type VersionNode = { type: "lingo3d"; version: string }
 export type FindNode = {
     type: "find"
     name: string
+    uuid: string
     id?: string
     children?: Array<AppendableNode>
 }
