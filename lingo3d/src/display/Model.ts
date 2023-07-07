@@ -22,7 +22,6 @@ import getRendered from "../throttle/getRendered"
 import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
-import { FindNode } from "../api/serializer/types"
 import { configFindNodeSystem } from "../systems/configLoadedSystems/configFindSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
@@ -115,14 +114,15 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject3d = undefined
         for (const child of this.children)
             if (child instanceof FoundManager) {
-                configFindNodeSystem.add(
-                    {
-                        type: "find",
-                        uuid: child.uuid,
-                        name: child.name!
-                    },
-                    { owner: this }
-                )
+                !child.$disableSceneGraph &&
+                    configFindNodeSystem.add(
+                        {
+                            type: "find",
+                            uuid: child.uuid,
+                            name: child.name!
+                        },
+                        { owner: this }
+                    )
                 child.dispose()
             }
         super.src = val
