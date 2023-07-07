@@ -102,6 +102,23 @@ export default class Model extends Loaded<Group> implements IModel {
         return loadedObject3d
     }
 
+    public override get src() {
+        return super.src
+    }
+    public override set src(val) {
+        if (!this.children) {
+            super.src = val
+            return
+        }
+        const findList: Array<[string, string]> = []
+        for (const child of this.children) {
+            if (!(child instanceof FoundManager)) continue
+            findList.push([child.name!, child.uuid])
+            child.dispose()
+        }
+        super.src = val
+    }
+
     protected override disposeNode() {
         super.disposeNode()
         reflectionDataMap.get(this)?.[1].cancel()
