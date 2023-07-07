@@ -7,6 +7,7 @@ import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../typeGuards/isPoint"
 import CharacterRigJoint from "../../display/CharacterRigJoint"
+import Model from "../../display/Model"
 
 type JointName = keyof ICharacterRig
 
@@ -75,9 +76,10 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             }
         },
         cleanup: (self) => {
-            // const model = uuidMap.get(self.target!) as Model
             for (const child of self.children ?? [])
                 child instanceof CharacterRigJoint && child.dispose()
+            const model = uuidMap.get(self.target!) as Model
+            model.src = model.src
         },
         loading: (self) => {
             if (!self.target) return true
