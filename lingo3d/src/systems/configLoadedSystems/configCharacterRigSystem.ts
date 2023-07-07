@@ -74,6 +74,9 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 leftArmJoint.innerRotationZ = 90
             }
         },
+        cleanup: (self) => {
+            const model = uuidMap.get(self.target!)
+        },
         loading: (self) => {
             if (!self.target) return true
             const model = uuidMap.get(self.target)

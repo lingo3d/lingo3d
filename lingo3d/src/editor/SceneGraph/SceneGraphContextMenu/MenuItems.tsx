@@ -1,11 +1,8 @@
 import { ComponentChild } from "preact"
 import Appendable from "../../../display/core/Appendable"
 import MeshAppendable from "../../../display/core/MeshAppendable"
-import downloadBlob from "../../../utils/downloadBlob"
 import JointBase from "../../../display/core/JointBase"
 import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
-import SpriteSheet from "../../../display/SpriteSheet"
-import Timeline from "../../../display/Timeline"
 import deleteSelected from "../../../engine/hotkeys/deleteSelected"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
@@ -19,7 +16,6 @@ import {
     clearSelectionFrozen,
     getSelectionFrozen
 } from "../../../states/useSelectionFrozen"
-import { getTimeline, setTimeline } from "../../../states/useTimeline"
 import { getTimelineData } from "../../../states/useTimelineData"
 import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
@@ -30,14 +26,14 @@ import VisibleObjectManager from "../../../display/core/VisibleObjectManager"
 import { librarySignal } from "../../Library/librarySignal"
 import { selectTab } from "../../component/tabs/Tab"
 import { sceneGraphContextMenuSignal } from "."
-import Model from "../../../display/Model"
 import {
     clearSelectionHideId,
     getSelectionHideId
 } from "../../../states/useSelectionHideId"
 import groupSelected from "../../../engine/hotkeys/groupSelected"
-import Script from "../../../display/Script"
-import { getScript, setScript } from "../../../states/useScript"
+import { timelinePtr } from "../../../pointers/timelinePtr"
+import { componentNameMenuButtonMap } from "../../../collections/componentNameMenuButtonMap"
+import "./menuButtons"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -46,8 +42,6 @@ type Props = {
 const MenuItems = ({ selectionTarget }: Props) => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
-    const timeline = useSyncState(getTimeline)
-    const script = useSyncState(getScript)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
     const [selectionHideId] = useSyncState(getSelectionHideId)
@@ -78,61 +72,12 @@ const MenuItems = ({ selectionTarget }: Props) => {
                 </MenuButton>
             </>
         )
-    else if (selectionTarget instanceof Script)
-        children.push(
-            <MenuButton
-                disabled={selectionTarget === script}
-                onClick={() => {
-                    setScript(selectionTarget)
-                    sceneGraphContextMenuSignal.value = undefined
-                }}
-            >
-                {selectionTarget === script ? "Already editing" : "Edit Script"}
-            </MenuButton>
-        )
-    else if (selectionTarget instanceof Timeline)
-        children.push(
-            <MenuButton
-                disabled={selectionTarget === timeline}
-                onClick={() => {
-                    setTimeline(selectionTarget)
-                    sceneGraphContextMenuSignal.value = undefined
-                }}
-            >
-                {selectionTarget === timeline
-                    ? "Already editing"
-                    : "Edit Timeline"}
-            </MenuButton>
-        )
     else if (selectionTarget) {
-        if (selectionTarget instanceof SpriteSheet)
-            children.push(
-                <MenuButton
-                    onClick={() => {
-                        downloadBlob(
-                            "spriteSheet.png",
-                            selectionTarget.toBlob()
-                        )
-                        sceneGraphContextMenuSignal.value = undefined
-                    }}
-                >
-                    Save image
-                </MenuButton>
-            )
+        const Component = componentNameMenuButtonMap.get(
+            selectionTarget.componentName
+        )
+        if (Component) children.push(<Component />)
         else if (selectionTarget instanceof MeshAppendable) {
-            if (selectionTarget instanceof Model)
-                children.push(
-                    <MenuButton
-                        onClick={() =>
-                            (sceneGraphContextMenuSignal.value = {
-                                ...sceneGraphContextMenuSignal.value!,
-                                search: true
-                            })
-                        }
-                    >
-                        Search children
-                    </MenuButton>
-                )
             if (selectionTarget instanceof VisibleObjectManager) {
                 children.push(
                     <MenuButton
@@ -201,9 +146,7 @@ const MenuItems = ({ selectionTarget }: Props) => {
             <MenuButton
                 disabled={!timelineData || selectionTarget.uuid in timelineData}
                 onClick={() => {
-                    timeline?.mergeData({
-                        [selectionTarget.uuid]: {}
-                    })
+                    timelinePtr[0]!.mergeData({ [selectionTarget.uuid]: {} })
                     sceneGraphContextMenuSignal.value = undefined
                 }}
             >
