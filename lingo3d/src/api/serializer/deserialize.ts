@@ -5,8 +5,9 @@ import nonSerializedProperties from "./nonSerializedProperties"
 import Appendable from "../../display/core/Appendable"
 import type Model from "../../display/Model"
 import { configFindNodeSystem } from "../../systems/configLoadedSystems/configFindSystem"
+import { nodeToObjectManagerPtr } from "../../pointers/nodeToObjectManagerPtr"
 
-export const nodeToObjectManager = (
+const nodeToObjectManager = (
     node: SceneGraphNode,
     parent: Appendable | undefined
 ) => {
@@ -22,6 +23,8 @@ export const nodeToObjectManager = (
         .forEach((c) => c && object.append(c as any))
     return object
 }
+export type NodeToObjectManager = typeof nodeToObjectManager
+nodeToObjectManagerPtr[0] = nodeToObjectManager
 
 export default (graph: Array<SceneGraphNode>) =>
     graph.map((n) => nodeToObjectManager(n, undefined))

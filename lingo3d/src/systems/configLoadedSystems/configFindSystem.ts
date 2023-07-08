@@ -2,8 +2,8 @@ import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import Model from "../../display/Model"
 import { FindNode } from "../../api/serializer/types"
 import { omit } from "@lincode/utils"
-import { nodeToObjectManager } from "../../api/serializer/deserialize"
 import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
+import { nodeToObjectManagerPtr } from "../../pointers/nodeToObjectManagerPtr"
 
 export const configFindNodeSystem = createLoadedEffectSystem(
     "configFindNodeSystem",
@@ -14,7 +14,7 @@ export const configFindNodeSystem = createLoadedEffectSystem(
             object.$unghost()
             Object.assign(object, omit(node, nonSerializedProperties))
             node.children
-                ?.map((n) => nodeToObjectManager(n, object))
+                ?.map((n) => nodeToObjectManagerPtr[0](n, object))
                 .forEach((c) => c && object.append(c))
         },
         loading: (_, data) => {
