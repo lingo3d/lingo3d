@@ -25,8 +25,8 @@ const setFactor = (
             : Math.max(textureManager.$defaults[key], 0.25) * factor
     )
 
-export const refreshFactorsSystem = createLoadedEffectSystem(
-    "refreshFactorsSystem",
+export const configFactorsSystem = createLoadedEffectSystem(
+    "configFactorsSystem",
     {
         effect: (self: Model) => {
             const {

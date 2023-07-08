@@ -19,7 +19,7 @@ import findAll from "../memo/findAll"
 import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
 import getRendered from "../throttle/getRendered"
-import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
+import { configFactorsSystem } from "../systems/configLoadedSystems/configFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
 import { configFindNodeSystem } from "../systems/configLoadedSystems/configFindNodeSystem"
@@ -139,7 +139,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set metalnessFactor(val) {
         this._metalnessFactor = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
     }
 
     private _roughnessFactor?: number
@@ -148,7 +148,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set roughnessFactor(val) {
         this._roughnessFactor = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
     }
 
     private _normalFactor?: number
@@ -157,7 +157,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set normalFactor(val) {
         this._normalFactor = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
     }
 
     private _opacityFactor?: number
@@ -166,7 +166,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
         configCastShadowSystem.add(this)
     }
 
@@ -176,7 +176,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set envFactor(val) {
         this._envFactor = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
     }
 
     private _reflection?: boolean
@@ -186,7 +186,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public set reflection(val: boolean) {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
-        refreshFactorsSystem.add(this)
+        configFactorsSystem.add(this)
     }
 
     public find(name: string) {
