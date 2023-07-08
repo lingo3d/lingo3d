@@ -11,7 +11,7 @@ export const configFindNodeSystem = createLoadedEffectSystem(
         data: {} as { owner: Model },
         effect: (node: FindNode, data) => {
             const object = data.owner.find(node.name)!
-            object.$unghost()
+            object.$disableSerialize = false
             Object.assign(object, omit(node, nonSerializedProperties))
             node.children
                 ?.map((n) => nodeToObjectManagerPtr[0](n, object))

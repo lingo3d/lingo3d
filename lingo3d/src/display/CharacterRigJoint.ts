@@ -34,7 +34,7 @@ export default class CharacterRigJoint extends Sphere {
     }
 
     public finalize() {
-        this.foundManager.$unghost()
+        this.foundManager.$disableSerialize = false
         this.foundManager.$characterRig = this.characterRig
         this.object3d.attach(this.foundManager.outerObject3d)
     }

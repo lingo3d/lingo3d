@@ -191,11 +191,4 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$disableSelection = disableSelection
         emitSceneGraphChangeSystem.delete(this)
     }
-
-    public $unghost() {
-        this.$disableSerialize = false
-        this.$disableSceneGraph = false
-        this.$disableSelection = false
-        emitSceneGraphChangeSystem.delete(this)
-    }
 }

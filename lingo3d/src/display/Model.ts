@@ -114,7 +114,7 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject3d = undefined
         for (const child of this.children)
             if (child instanceof FoundManager) {
-                !child.$disableSceneGraph &&
+                !child.$disableSerialize &&
                     configFindNodeSystem.add(
                         {
                             type: "find",
