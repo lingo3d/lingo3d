@@ -19,6 +19,7 @@ import groupSelected from "../../engine/hotkeys/groupSelected"
 import root from "../../api/root"
 import moveSelected from "../../engine/hotkeys/moveSelected"
 import { isTemplate } from "../../typeGuards/isTemplate"
+import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -35,7 +36,7 @@ const AccordionSceneGraph = () => {
     return (
         <div className="lingo3d-absfull lingo3d-flexcol">
             <TitleBar title="scenegraph">
-                {/* <IconButton
+                <IconButton
                     borderless
                     disabled={
                         !(
@@ -43,9 +44,16 @@ const AccordionSceneGraph = () => {
                             selectionTarget.$disableSceneGraph
                         )
                     }
+                    onClick={() => {
+                        if (!selectionTarget) return
+                        selectionTarget.$disableSerialize = false
+                        selectionTarget.$disableSceneGraph = false
+                        selectionTarget.$disableSelection = false
+                        emitSceneGraphChangeSystem.add(selectionTarget)
+                    }}
                 >
                     <FindIcon />
-                </IconButton> */}
+                </IconButton>
                 <IconButton
                     borderless
                     disabled={!multipleSelectionTargets.size}
