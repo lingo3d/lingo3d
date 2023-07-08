@@ -22,7 +22,7 @@ import getRendered from "../throttle/getRendered"
 import { refreshFactorsSystem } from "../systems/configLoadedSystems/refreshFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
-import { configFindNodeSystem } from "../systems/configLoadedSystems/configFindSystem"
+import { configFindNodeSystem } from "../systems/configLoadedSystems/configFindNodeSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

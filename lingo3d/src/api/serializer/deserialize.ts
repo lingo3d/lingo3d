@@ -4,7 +4,7 @@ import { SceneGraphNode } from "./types"
 import nonSerializedProperties from "./nonSerializedProperties"
 import Appendable from "../../display/core/Appendable"
 import type Model from "../../display/Model"
-import { configFindNodeSystem } from "../../systems/configLoadedSystems/configFindSystem"
+import { configFindNodeSystem } from "../../systems/configLoadedSystems/configFindNodeSystem"
 import { nodeToObjectManagerPtr } from "../../pointers/nodeToObjectManagerPtr"
 
 const nodeToObjectManager = (
