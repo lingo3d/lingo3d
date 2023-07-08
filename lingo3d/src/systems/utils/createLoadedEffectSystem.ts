@@ -2,7 +2,7 @@ import Appendable from "../../display/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
-const _loading = (self: any) =>
+const _loading = (self: Appendable | Loaded | object) =>
     "$loadedObject3d" in self && !self.$loadedObject3d
 
 export const createLoadedEffectSystem = <

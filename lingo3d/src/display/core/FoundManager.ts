@@ -39,8 +39,8 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     private inherited?: boolean
     private inheritAnimations() {
-        if (this.inherited) return
-        const states = (this.parent as Model).$animationStates
+        if (this.inherited || !this.owner) return
+        const states = this.owner.$animationStates
         for (const animationManager of Object.values(states.managerRecord))
             this.animations[animationManager.name!] = this.watch(
                 animationManager.inherit(this, states)

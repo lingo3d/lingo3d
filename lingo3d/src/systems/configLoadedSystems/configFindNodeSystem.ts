@@ -18,9 +18,7 @@ export const configFindNodeSystem = createLoadedEffectSystem(
                 .forEach((c) => c && object.append(c))
         },
         loading: (_, data) => {
-            return (
-                "$loadedObject3d" in data.owner && !data.owner.$loadedObject3d
-            )
+            return !data.owner.$loadedObject3d
         }
     }
 )

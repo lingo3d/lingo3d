@@ -22,7 +22,7 @@ import getRendered from "../throttle/getRendered"
 import { configFactorsSystem } from "../systems/configLoadedSystems/configFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
-import { configFindNodeSystem } from "../systems/configLoadedSystems/configFindNodeSystem"
+import { configFindRefreshSystem } from "../systems/configLoadedSystems/configFindRefreshSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -113,18 +113,7 @@ export default class Model extends Loaded<Group> implements IModel {
         }
         this.$loadedObject3d = undefined
         for (const child of this.children)
-            if (child instanceof FoundManager) {
-                !child.$disableSerialize &&
-                    configFindNodeSystem.add(
-                        {
-                            type: "find",
-                            uuid: child.uuid,
-                            name: child.name!
-                        },
-                        { owner: this }
-                    )
-                child.dispose()
-            }
+            child instanceof FoundManager && configFindRefreshSystem.add(child)
         super.src = val
     }
 
