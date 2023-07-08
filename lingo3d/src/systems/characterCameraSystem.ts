@@ -5,7 +5,7 @@ import createInternalSystem from "./utils/createInternalSystem"
 
 export const characterCameraSystem = createInternalSystem("characterCameraSystem", {
     update: (self: CharacterCamera) => {
-        self.$camera.position.copy(getWorldPosition(self.object3d))
-        self.$camera.quaternion.copy(getWorldQuaternion(self.object3d))
+        self.$camera.position.copy(getWorldPosition(self.$innerObject))
+        self.$camera.quaternion.copy(getWorldQuaternion(self.$innerObject))
     }
 })

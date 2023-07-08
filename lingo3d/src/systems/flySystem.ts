@@ -33,7 +33,7 @@ export const flySystem = createInternalSystem("flySystem", {
             pressed = true
         }
         if (pressed && !data.pressed) {
-            const worldPos = getWorldPosition(self.object3d)
+            const worldPos = getWorldPosition(self.$innerObject)
             self.innerZ = 0
             self.position.copy(worldPos)
         }

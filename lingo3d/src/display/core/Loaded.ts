@@ -22,13 +22,13 @@ export default abstract class Loaded<T = Object3D>
 
     public constructor() {
         super(new Mesh(boxGeometry, material))
-        ssrExcludeSet.add(this.object3d)
-        this.outerObject3d.add(this.$loadedGroup)
+        ssrExcludeSet.add(this.$innerObject)
+        this.$object.add(this.$loadedGroup)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.object3d)
+        ssrExcludeSet.delete(this.$innerObject)
     }
 
     public abstract $load(src: string): Promise<T>
@@ -80,7 +80,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerRotationX(val) {
         super.innerRotationX = val
-        this.$loadedGroup.rotation.x = this.object3d.rotation.x
+        this.$loadedGroup.rotation.x = this.$innerObject.rotation.x
     }
 
     public override get innerRotationY() {
@@ -88,7 +88,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerRotationY(val) {
         super.innerRotationY = val
-        this.$loadedGroup.rotation.y = this.object3d.rotation.y
+        this.$loadedGroup.rotation.y = this.$innerObject.rotation.y
     }
 
     public override get innerRotationZ() {
@@ -96,7 +96,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerRotationZ(val) {
         super.innerRotationZ = val
-        this.$loadedGroup.rotation.z = this.object3d.rotation.z
+        this.$loadedGroup.rotation.z = this.$innerObject.rotation.z
     }
 
     public override get innerX() {
@@ -104,7 +104,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerX(val) {
         super.innerX = val
-        this.$loadedGroup.position.x = this.object3d.position.x
+        this.$loadedGroup.position.x = this.$innerObject.position.x
     }
 
     public override get innerY() {
@@ -112,7 +112,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerY(val) {
         super.innerY = val
-        this.$loadedGroup.position.y = this.object3d.position.y
+        this.$loadedGroup.position.y = this.$innerObject.position.y
     }
 
     public override get innerZ() {
@@ -120,7 +120,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public override set innerZ(val) {
         super.innerZ = val
-        this.$loadedGroup.position.z = this.object3d.position.z
+        this.$loadedGroup.position.z = this.$innerObject.position.z
     }
 
     public override get innerVisible() {

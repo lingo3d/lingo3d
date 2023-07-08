@@ -25,7 +25,7 @@ export default class Reflector
     public constructor() {
         const mesh = new Mesh(planeGeometry)
         super(mesh)
-        ssrExcludeSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.$object)
         this.rotationX = 270
         mesh.scale.z = Number.EPSILON
 
@@ -67,7 +67,7 @@ export default class Reflector
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.$object)
     }
 
     public override get depth() {

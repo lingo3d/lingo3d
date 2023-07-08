@@ -33,11 +33,11 @@ export default abstract class CameraBase<
     extends GimbalObjectManager
     implements ICameraBase
 {
-    public midObject3d = this.outerObject3d
+    public $midObject3d = this.$object
 
     public constructor(public $camera: T) {
         super()
-        this.object3d.add($camera)
+        this.$innerObject.add($camera)
         setManager($camera, this)
         pushCameraList($camera)
 
@@ -55,7 +55,7 @@ export default abstract class CameraBase<
             scene.add(helper)
 
             const sprite = new HelperSprite("camera", this)
-            helper.add(sprite.outerObject3d)
+            helper.add(sprite.$object)
             return () => {
                 helper.dispose()
                 ssrExcludeSet.delete(helper)
@@ -79,7 +79,7 @@ export default abstract class CameraBase<
         const angle = euler.setFromQuaternion(this.quaternion)
         angle.x += PI
         angle.z += PI
-        this.outerObject3d.setRotationFromEuler(angle)
+        this.$object.setRotationFromEuler(angle)
     }
 
     private _fov = 75
@@ -129,7 +129,7 @@ export default abstract class CameraBase<
     protected orbitMode?: boolean
 
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {
-        const manager = inner ? this.object3d : this.midObject3d
+        const manager = inner ? this.$innerObject : this.$midObject3d
         euler.setFromQuaternion(manager.quaternion)
 
         euler.y -= movementX * 0.002

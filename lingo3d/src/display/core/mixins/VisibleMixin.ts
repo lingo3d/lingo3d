@@ -42,7 +42,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set visible(val) {
         this._visible = val
-        this.outerObject3d.visible = !!val
+        this.$object.visible = !!val
     }
 
     private _reflectionVisible?: boolean
@@ -129,8 +129,8 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         if (target.done) return false
         if (this === target) return false
 
-        setOBB(this.object3d, obb)
-        setOBB(target.object3d, obb_)
+        setOBB(this.$innerObject, obb)
+        setOBB(target.$innerObject, obb_)
         return obb.intersectsOBB(obb_)
     }
 

@@ -6,7 +6,7 @@ export const configMeshAppendableSystem = createInternalSystem(
     "configMeshAppendableSystem",
     {
         effect: (self: MeshAppendable) => {
-            !self.outerObject3d.parent && scene.add(self.outerObject3d)
+            !self.$object.parent && scene.add(self.$object)
         }
     }
 )

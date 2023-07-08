@@ -53,8 +53,8 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
                 destroy
             } = physxPtr[0]
 
-            const ogParent = getParent(self.outerObject3d)
-            ogParent !== scene && scene.attach(self.outerObject3d)
+            const ogParent = getParent(self.$object)
+            ogParent !== scene && scene.attach(self.$object)
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()

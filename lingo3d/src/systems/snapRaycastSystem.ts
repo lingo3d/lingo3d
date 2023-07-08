@@ -81,11 +81,11 @@ export const snapRaycastSystem = createInternalSystem("snapRaycastSystem", {
     },
     effect: () => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
-        for (const obj of snapObjects) selectionTarget.object3d.add(obj)
+        for (const obj of snapObjects) selectionTarget.$innerObject.add(obj)
     },
     cleanup: (_, { snapPosition }) => {
         const selectionTarget = selectionTargetPtr[0] as MeshAppendable
-        for (const obj of snapObjects) selectionTarget.object3d.remove(obj)
+        for (const obj of snapObjects) selectionTarget.$innerObject.remove(obj)
         snapPosition && selectionTarget.position.copy(snapPosition)
     }
 })

@@ -10,10 +10,10 @@ abstract class VisibleObjectManager<T extends Object3D = Object3D>
     implements IVisibleObjectManager
 {
     public get innerVisible() {
-        return this.object3d.visible
+        return this.$innerObject.visible
     }
     public set innerVisible(val) {
-        this.object3d.visible = val
+        this.$innerObject.visible = val
     }
 }
 

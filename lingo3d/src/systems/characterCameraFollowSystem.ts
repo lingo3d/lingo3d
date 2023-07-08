@@ -17,8 +17,8 @@ const followTargetRotation = (
 
     if (slerp) {
         quaternion.setFromEuler(euler)
-        self.midObject3d.quaternion.slerp(quaternion, frameSyncAlpha(0.1))
-    } else self.midObject3d.setRotationFromEuler(euler)
+        self.$midObject3d.quaternion.slerp(quaternion, frameSyncAlpha(0.1))
+    } else self.$midObject3d.setRotationFromEuler(euler)
 
     gyrateResetSystem.add(self)
 }
@@ -28,7 +28,7 @@ const rotateTarget = (
     target: MeshAppendable,
     slerp: boolean
 ) => {
-    euler.setFromQuaternion(self.midObject3d.quaternion)
+    euler.setFromQuaternion(self.$midObject3d.quaternion)
     euler.x = 0
     euler.z = 0
     euler.y += PI
@@ -38,7 +38,7 @@ const rotateTarget = (
         target.quaternion.slerp(quaternion, frameSyncAlpha(0.1))
         return
     }
-    target.outerObject3d.setRotationFromEuler(euler)
+    target.$object.setRotationFromEuler(euler)
 }
 
 export const characterCameraFollowSystem = createInternalSystem(
@@ -55,12 +55,12 @@ export const characterCameraFollowSystem = createInternalSystem(
                 return
             }
             if (self.lockTargetRotation === "dynamic-lock") {
-                positionChangedXZ(found.outerObject3d) &&
+                positionChangedXZ(found.$object) &&
                     rotateTarget(self, found, true)
                 return
             }
             if (self.lockTargetRotation === "dynamic-follow") {
-                positionChangedXZ(found.outerObject3d) &&
+                positionChangedXZ(found.$object) &&
                     followTargetRotation(self, found, true)
                 return
             }

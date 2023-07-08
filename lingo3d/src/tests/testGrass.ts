@@ -91,7 +91,7 @@ cube.width = 1000
 cube.depth = 1000
 cube.height = 10
 
-const sampler = new MeshSurfaceSampler(cube.object3d as Mesh).build()
+const sampler = new MeshSurfaceSampler(cube.$innerObject as Mesh).build()
 
 const instanceNumber = 100
 const dummy = new Object3D()

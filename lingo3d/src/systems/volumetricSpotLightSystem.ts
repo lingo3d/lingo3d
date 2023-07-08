@@ -15,7 +15,7 @@ export const volumetricSpotLightSystem = createInternalSystem(
             cone.scale.x = cone.scale.z =
                 2 * Math.tan(light.angle * deg2Rad) * cone.scale.y
             material.attenuation = cone.scale.y
-            material.spotPosition.copy(getWorldPosition(light.outerObject3d))
+            material.spotPosition.copy(getWorldPosition(light.$object))
         }
     }
 )

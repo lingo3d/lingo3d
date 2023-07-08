@@ -22,7 +22,7 @@ export const updateShadowSystem = createInternalSystem("updateShadowSystem", {
         )
             return
 
-        updateShadow(self.object3d.shadow)
+        updateShadow(self.$innerObject.shadow)
         data.skipped = 0
     },
     sort: (a, b) => getIntensityFactor(b) - getIntensityFactor(a)

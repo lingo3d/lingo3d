@@ -18,7 +18,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
 
     public constructor() {
         super(geometry, circleGeometryPool)
-        this.object3d.scale.z = Number.EPSILON
+        this.$innerObject.scale.z = Number.EPSILON
     }
 
     public $getParams(): CircleParams {

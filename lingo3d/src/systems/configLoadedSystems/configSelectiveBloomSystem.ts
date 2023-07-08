@@ -13,14 +13,14 @@ export const configSelectiveBloomSystem = createLoadedEffectSystem(
             if (!self.bloom) return false
             if ("findAllMeshes" in self) {
                 const children = self.findAllMeshes()
-                for (const child of children) addSelectiveBloom(child.object3d)
-            } else addSelectiveBloom(self.object3d)
+                for (const child of children) addSelectiveBloom(child.$innerObject)
+            } else addSelectiveBloom(self.$innerObject)
         },
         cleanup: (self) => {
             if ("findAllMeshes" in self) {
                 for (const child of self.findAllMeshes())
-                    deleteSelectiveBloom(child.object3d)
-            } else deleteSelectiveBloom(self.object3d)
+                    deleteSelectiveBloom(child.$innerObject)
+            } else deleteSelectiveBloom(self.$innerObject)
         }
     }
 )

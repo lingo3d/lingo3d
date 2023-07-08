@@ -35,19 +35,19 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
     implements IMeshAppendable
 {
-    public object3d: T
+    public $innerObject: T
     public position: Vector3
     public quaternion: Quaternion
     public userData: Record<string, any>
 
-    public constructor(public outerObject3d: T = new Object3D() as T) {
+    public constructor(public $object: T = new Object3D() as T) {
         super()
-        setManager(outerObject3d, this)
+        setManager($object, this)
         configMeshAppendableSystem.add(this)
-        this.object3d = outerObject3d
-        this.position = outerObject3d.position
-        this.quaternion = outerObject3d.quaternion
-        this.userData = outerObject3d.userData
+        this.$innerObject = $object
+        this.position = $object.position
+        this.quaternion = $object.quaternion
+        this.userData = $object.userData
     }
 
     public declare parent?: MeshAppendable
@@ -63,17 +63,17 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public override append(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "object3d" in child && this.object3d.add(child.outerObject3d)
+        "$innerObject" in child && this.$innerObject.add(child.$object)
     }
 
     public override attach(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "object3d" in child && this.object3d.attach(child.outerObject3d)
+        "$innerObject" in child && this.$innerObject.attach(child.$object)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        this.outerObject3d.parent?.remove(this.outerObject3d)
+        this.$object.parent?.remove(this.$object)
         this.querySphere && physxPtr[0].destroy(this.querySphere)
     }
 
@@ -81,7 +81,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         return super.name
     }
     public override set name(val) {
-        super.name = this.outerObject3d.name = PropertyBinding.sanitizeNodeName(
+        super.name = this.$object.name = PropertyBinding.sanitizeNodeName(
             val ?? ""
         )
     }
@@ -108,15 +108,15 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public getWorldPosition() {
-        return vec2Point(getWorldPosition(this.object3d))
+        return vec2Point(getWorldPosition(this.$innerObject))
     }
 
     public getWorldDirection() {
-        return getWorldDirection(this.object3d)
+        return getWorldDirection(this.$innerObject)
     }
 
     public getProjectedPosition() {
-        return worldToCanvas(this.object3d)
+        return worldToCanvas(this.$innerObject)
     }
 
     private _onMove?: () => void
@@ -129,62 +129,62 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public translateX(val: number) {
-        this.outerObject3d.translateX(frameSync(val * CM2M))
+        this.$object.translateX(frameSync(val * CM2M))
     }
 
     public translateY(val: number) {
-        this.outerObject3d.translateY(frameSync(val * CM2M))
+        this.$object.translateY(frameSync(val * CM2M))
     }
 
     public translateZ(val: number) {
-        this.outerObject3d.translateZ(frameSync(val * CM2M))
+        this.$object.translateZ(frameSync(val * CM2M))
     }
 
     public rotateX(val: number) {
-        this.outerObject3d.rotateX(frameSync(val * deg2Rad))
+        this.$object.rotateX(frameSync(val * deg2Rad))
     }
 
     public rotateY(val: number) {
-        this.outerObject3d.rotateY(frameSync(val * deg2Rad))
+        this.$object.rotateY(frameSync(val * deg2Rad))
     }
 
     public rotateZ(val: number) {
-        this.outerObject3d.rotateZ(frameSync(val * deg2Rad))
+        this.$object.rotateZ(frameSync(val * deg2Rad))
     }
 
     public setRotationFromDirection(direction: Point3dType) {
-        const ogParent = getParent(this.outerObject3d)
-        ogParent !== scene && scene.attach(this.outerObject3d)
+        const ogParent = getParent(this.$object)
+        ogParent !== scene && scene.attach(this.$object)
 
-        this.outerObject3d.setRotationFromQuaternion(
+        this.$object.setRotationFromQuaternion(
             quaternion.setFromUnitVectors(up, direction as Vector3)
         )
-        ogParent !== scene && ogParent.attach(this.outerObject3d)
+        ogParent !== scene && ogParent.attach(this.$object)
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
         if (typeof target === "string") {
             const [found] = getAppendablesById(target)
-            if (!("outerObject3d" in found)) return
+            if (!("$object" in found)) return
             target = found
         }
-        if ("outerObject3d" in target) {
+        if ("$object" in target) {
             if ("isSpawnPoint" in target)
-                target.object3d.position.y = getActualScale(this).y * 0.5
-            this.position.copy(getWorldPosition(target.object3d))
+                target.$innerObject.position.y = getActualScale(this).y * 0.5
+            this.position.copy(getWorldPosition(target.$innerObject))
             "quaternion" in this &&
-                this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
+                this.quaternion.copy(getWorldQuaternion(target.$object))
         } else this.position.copy(point2Vec(target))
     }
 
     public moveForward(distance: number) {
-        vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-        vector3.crossVectors(this.outerObject3d.up, vector3)
+        vector3.setFromMatrixColumn(this.$object.matrix, 0)
+        vector3.crossVectors(this.$object.up, vector3)
         this.position.addScaledVector(vector3, frameSync(distance * CM2M))
     }
 
     public moveRight(distance: number) {
-        vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
+        vector3.setFromMatrixColumn(this.$object.matrix, 0)
         this.position.addScaledVector(vector3, frameSync(distance * CM2M))
     }
 
@@ -223,8 +223,8 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     protected getRay() {
         return ray.set(
-            getWorldPosition(this.object3d),
-            getWorldDirection(this.object3d)
+            getWorldPosition(this.$innerObject),
+            getWorldDirection(this.$innerObject)
         )
     }
 
@@ -233,24 +233,24 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public get rotationX() {
-        return this.outerObject3d.rotation.x * rad2Deg
+        return this.$object.rotation.x * rad2Deg
     }
     public set rotationX(val) {
-        this.outerObject3d.rotation.x = val * deg2Rad
+        this.$object.rotation.x = val * deg2Rad
     }
 
     public get rotationY() {
-        return this.outerObject3d.rotation.y * rad2Deg
+        return this.$object.rotation.y * rad2Deg
     }
     public set rotationY(val) {
-        this.outerObject3d.rotation.y = val * deg2Rad
+        this.$object.rotation.y = val * deg2Rad
     }
 
     public get rotationZ() {
-        return this.outerObject3d.rotation.z * rad2Deg
+        return this.$object.rotation.z * rad2Deg
     }
     public set rotationZ(val) {
-        this.outerObject3d.rotation.z = val * deg2Rad
+        this.$object.rotation.z = val * deg2Rad
     }
 
     public lookAt(target: MeshAppendable | Point3dType): void
@@ -264,9 +264,9 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             this.lookAt(new Point3d(a0, a1 === undefined ? this.y : a1, a2!))
             return
         }
-        if ("outerObject3d" in a0)
-            this.outerObject3d.lookAt(getWorldPosition(a0.object3d))
-        else this.outerObject3d.lookAt(point2Vec(a0))
+        if ("$object" in a0)
+            this.$object.lookAt(getWorldPosition(a0.$innerObject))
+        else this.$object.lookAt(point2Vec(a0))
     }
 
     public onLookToEnd: (() => void) | undefined
@@ -291,7 +291,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             )
             return
         }
-        const { quaternion } = this.outerObject3d
+        const { quaternion } = this.$object
         const quaternionOld = quaternion.clone()
         this.lookAt(a0)
         const quaternionNew = quaternion.clone()

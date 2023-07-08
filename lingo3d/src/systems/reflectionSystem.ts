@@ -13,22 +13,22 @@ export const reflectionSystem = createInternalSystem("reflectionSystem", {
         cubeRenderTarget: WebGLCubeRenderTarget
     },
     update: (manager: MeshAppendable, data) => {
-        data.cubeCamera.position.copy(getWorldPosition(manager.outerObject3d))
+        data.cubeCamera.position.copy(getWorldPosition(manager.$object))
         data.cubeRenderTarget.clear(rendererPtr[0], false, true, false)
         data.cubeCamera.update(rendererPtr[0], scene)
     },
     beforeTick: (queued) => {
         for (const manager of reflectionVisibleSet)
-            manager.outerObject3d.visible = true
+            manager.$object.visible = true
         for (const manager of queued.keys())
-            manager.outerObject3d.visible = false
+            manager.$object.visible = false
         for (const object of ssrExcludeSet) object.visible = false
     },
     afterTick: (queued) => {
         for (const manager of reflectionVisibleSet)
-            manager.outerObject3d.visible = false
+            manager.$object.visible = false
         for (const manager of queued.keys())
-            manager.outerObject3d.visible = true
+            manager.$object.visible = true
         for (const object of ssrExcludeSet) object.visible = true
     }
 })

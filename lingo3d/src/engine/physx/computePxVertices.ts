@@ -12,10 +12,10 @@ export default (manager: MeshAppendable | Loaded): [any, number] => {
     const loaded =
         "$loadedObject3d" in manager
             ? manager.$loadedObject3d!
-            : manager.object3d
+            : manager.$innerObject
     loaded.updateMatrixWorld()
 
-    const { position, rotation } = manager.outerObject3d
+    const { position, rotation } = manager.$object
     loaded.traverse((c: Object3D | Mesh) => {
         if (!("geometry" in c)) return
         const clone = c.geometry.clone()

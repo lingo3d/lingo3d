@@ -11,7 +11,7 @@ export default class Plane extends Primitive implements IPlane {
 
     public constructor() {
         super(planeGeometry)
-        this.object3d.scale.z = Number.EPSILON
+        this.$innerObject.scale.z = Number.EPSILON
     }
 
     public override get depth() {

@@ -22,12 +22,12 @@ class Root extends Appendable {
 
     public override append(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "object3d" in child && scene.add(child.outerObject3d)
+        "$innerObject" in child && scene.add(child.$object)
     }
 
     public override attach(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "object3d" in child && scene.attach(child.outerObject3d)
+        "$innerObject" in child && scene.attach(child.$object)
     }
 
     protected override disposeNode() {

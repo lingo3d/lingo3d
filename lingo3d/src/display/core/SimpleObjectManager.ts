@@ -7,24 +7,24 @@ export default class SimpleObjectManager<T extends Object3D = Object3D>
     implements ISimpleObjectManager
 {
     public get scaleX() {
-        return this.outerObject3d.scale.x
+        return this.$object.scale.x
     }
     public set scaleX(val) {
-        this.outerObject3d.scale.x = val
+        this.$object.scale.x = val
     }
 
     public get scaleY() {
-        return this.outerObject3d.scale.y
+        return this.$object.scale.y
     }
     public set scaleY(val) {
-        this.outerObject3d.scale.y = val
+        this.$object.scale.y = val
     }
 
     public get scaleZ() {
-        return this.outerObject3d.scale.z
+        return this.$object.scale.z
     }
     public set scaleZ(val) {
-        this.outerObject3d.scale.z = val
+        this.$object.scale.z = val
     }
 
     public get scale() {

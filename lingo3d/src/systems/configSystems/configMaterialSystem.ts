@@ -9,11 +9,11 @@ export const configMaterialSystem = createInternalSystem(
         effect: (target: TexturedStandardMixin) => {
             target.$material = materialPool.request(target.$materialParams)
             target.$material.transparent &&
-                ssrExcludeSet.add(target.outerObject3d)
+                ssrExcludeSet.add(target.$object)
         },
         cleanup: (target) => {
             materialPool.release(target.$material)
-            ssrExcludeSet.delete(target.outerObject3d)
+            ssrExcludeSet.delete(target.$object)
         }
     }
 )

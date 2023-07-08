@@ -24,11 +24,11 @@ export const pointLightPool = createObjectPool<
         light.color = self.color
         light.shadows = self.shadows
         light.fade = self.fade
-        self.object3d.add(light.outerObject3d)
+        self.$innerObject.add(light.$object)
     },
     (light) => {
         light.fade = false
         light.intensity = 0
-        scene.add(light.outerObject3d)
+        scene.add(light.$object)
     }
 )

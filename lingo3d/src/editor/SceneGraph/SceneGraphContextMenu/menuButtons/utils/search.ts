@@ -11,5 +11,5 @@ export default (n: string, target: Appendable) => {
     )
     if (!found) return
     emitSelectionTarget(found)
-    sceneGraphExpand(found.outerObject3d)
+    sceneGraphExpand(found.$object)
 }

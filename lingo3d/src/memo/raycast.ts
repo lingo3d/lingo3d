@@ -61,7 +61,7 @@ export const raycast = computePerFrameWithData(
         if (pxHit) {
             const pxHitManager = actorPtrManagerMap.get(pxHit.actor.ptr)!
             if (
-                candidates.has(pxHitManager.object3d) &&
+                candidates.has(pxHitManager.$innerObject) &&
                 (!intersection ||
                     pxHit.distance < intersection.distance ||
                     manager === pxHitManager)

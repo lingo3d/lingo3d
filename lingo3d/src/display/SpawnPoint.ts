@@ -34,7 +34,7 @@ export default class SpawnPoint
 
     public override append(child: SimpleObjectManager) {
         this.$appendNode(child)
-        scene.add(child.outerObject3d)
+        scene.add(child.$object)
         child.placeAt(this)
     }
 }

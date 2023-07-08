@@ -12,7 +12,7 @@ import PooledPointLightBase from "../display/core/PooledPointLightBase"
 export default computePerFrame((self: PointLightBase<any> | PooledPointLightBase<any>) =>
     getFrustum(cameraRenderedPtr[0]).intersectsSphere(
         self.$boundingSphere.set(
-            getWorldPosition(self.object3d),
+            getWorldPosition(self.$innerObject),
             self.distance * CM2M
         )
     )

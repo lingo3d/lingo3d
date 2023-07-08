@@ -28,7 +28,7 @@ export default abstract class LightBase<T extends Light>
                 ssrExcludeSet.add(helper)
                 renderCheckExcludeSet.add(helper)
                 scene.add(helper)
-                helper.add(sprite.outerObject3d)
+                helper.add(sprite.$object)
                 "update" in helper && updateSystem.add(helper)
 
                 sprite.then(() => {
@@ -47,20 +47,20 @@ export default abstract class LightBase<T extends Light>
 
     protected override disposeNode() {
         super.disposeNode()
-        this.object3d.dispose()
+        this.$innerObject.dispose()
     }
 
     public get color() {
-        return ("#" + this.object3d.color.getHexString()) as ColorString
+        return ("#" + this.$innerObject.color.getHexString()) as ColorString
     }
     public set color(val: ColorString) {
-        this.object3d.color.set(val)
+        this.$innerObject.color.set(val)
     }
 
     public get intensity() {
-        return this.object3d.intensity
+        return this.$innerObject.intensity
     }
     public set intensity(val) {
-        this.object3d.intensity = val
+        this.$innerObject.intensity = val
     }
 }

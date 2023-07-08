@@ -32,8 +32,8 @@ export default class SpotLight
         this.angle = 45
         this.penumbra = 0.2
 
-        const light = this.object3d
-        this.outerObject3d.add(light.target)
+        const light = this.$innerObject
+        this.$object.add(light.target)
         light.position.y = 0
         light.target.position.y = -0.1
     }
@@ -49,17 +49,17 @@ export default class SpotLight
     }
 
     public get angle() {
-        return this.object3d.angle * rad2Deg
+        return this.$innerObject.angle * rad2Deg
     }
     public set angle(val) {
-        this.object3d.angle = val * deg2Rad
+        this.$innerObject.angle = val * deg2Rad
     }
 
     public get penumbra() {
-        return this.object3d.penumbra
+        return this.$innerObject.penumbra
     }
     public set penumbra(val) {
-        this.object3d.penumbra = val
+        this.$innerObject.penumbra = val
     }
 
     private _volumetric = false
@@ -74,11 +74,11 @@ export default class SpotLight
         //     val &&
         //         (() => {
         //             const material = new SpotLightMaterial()
-        //             unsafeSetValue(material, "lightColor", this.object3d.color)
+        //             unsafeSetValue(material, "lightColor", this.$innerObject.color)
         //             unsafeSetValue(material, "anglePower", 2)
 
         //             const cone = new Mesh(coneGeometry, material)
-        //             this.outerObject3d.add(cone)
+        //             this.$object.add(cone)
         //             ssrExcludeSet.add(cone)
         //             renderCheckExcludeSet.add(cone)
         //             volumetricSpotLightSystem.add(cone, {
@@ -87,7 +87,7 @@ export default class SpotLight
         //             })
         //             return new Cancellable(() => {
         //                 material.dispose()
-        //                 this.outerObject3d.remove(cone)
+        //                 this.$object.remove(cone)
         //                 ssrExcludeSet.delete(cone)
         //                 renderCheckExcludeSet.delete(cone)
         //                 volumetricSpotLightSystem.delete(cone)

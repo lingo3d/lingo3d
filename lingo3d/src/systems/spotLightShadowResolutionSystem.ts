@@ -13,7 +13,7 @@ export const spotLightShadowResolutionSystem = createInternalSystem(
     {
         data: { step: undefined as number | undefined },
         update: (self: SpotLight, data) => {
-            if (!self.object3d.intensity) return
+            if (!self.$innerObject.intensity) return
 
             const distance = getDistanceFromCamera(self)
             let step = 3
@@ -24,7 +24,7 @@ export const spotLightShadowResolutionSystem = createInternalSystem(
             if (step === data.step) return
             data.step = step
 
-            const { shadow } = self.object3d
+            const { shadow } = self.$innerObject
             const res = resolutions[step]
             shadow.mapSize.setScalar(res)
             shadow.bias = biases[step]

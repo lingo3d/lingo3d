@@ -30,7 +30,7 @@ createEffect(() => {
                 hidden.push(child)
                 child.visible = false
                 child.$disableSelection = true
-                selectionCandidates.delete(child.object3d)
+                selectionCandidates.delete(child.$innerObject)
             }
         })
     emitSelectionTarget(undefined)
@@ -40,7 +40,7 @@ createEffect(() => {
             hidden.push(child)
             child.visible = false
             child.$disableSelection = true
-            selectionCandidates.delete(child.object3d)
+            selectionCandidates.delete(child.$innerObject)
             emitSelectionTarget(undefined)
         }
     })

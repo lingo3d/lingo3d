@@ -50,7 +50,7 @@ export const configSpriteSheetSystem = createInternalSystem(
                 columns,
                 length,
                 loop,
-                object3d: { material }
+                $innerObject: { material }
             } = self
 
             if (textureStart && textureEnd) {

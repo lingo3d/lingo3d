@@ -14,7 +14,7 @@ createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
     const target =
         selectionTarget instanceof MeshAppendable
-            ? selectionTarget.object3d
+            ? selectionTarget.$innerObject
             : undefined
     if (!target) return
 
@@ -38,7 +38,7 @@ createEffect(() => {
 
     const boxHelpers: Array<BoxHelper> = []
     for (const target of multipleSelectionTargets) {
-        const boxHelper = new BoxHelper(target.object3d)
+        const boxHelper = new BoxHelper(target.$innerObject)
         scene.add(boxHelper)
         boxHelpers.push(boxHelper)
         updateSystem.add(boxHelper)

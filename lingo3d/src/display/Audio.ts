@@ -82,7 +82,7 @@ export default class Audio
 
     protected override disposeNode() {
         super.disposeNode()
-        this.outerObject3d.buffer && this.outerObject3d.disconnect()
+        this.$object.buffer && this.$object.disconnect()
     }
 
     public play() {
@@ -132,51 +132,51 @@ export default class Audio
     }
 
     public get loop() {
-        return this.outerObject3d.loop
+        return this.$object.loop
     }
     public set loop(val) {
-        this.outerObject3d.loop = val
+        this.$object.loop = val
     }
 
     public get volume() {
-        return this.outerObject3d.getVolume()
+        return this.$object.getVolume()
     }
     public set volume(val) {
-        this.outerObject3d.setVolume(val)
+        this.$object.setVolume(val)
     }
 
     public get playbackRate() {
-        return this.outerObject3d.playbackRate
+        return this.$object.playbackRate
     }
     public set playbackRate(val) {
-        this.outerObject3d.playbackRate = val
+        this.$object.playbackRate = val
     }
 
     public get distance() {
-        return this.outerObject3d.getRefDistance()
+        return this.$object.getRefDistance()
     }
     public set distance(val) {
-        this.outerObject3d.setRefDistance(val)
+        this.$object.setRefDistance(val)
     }
 
     public get distanceModel() {
-        return this.outerObject3d.getDistanceModel()
+        return this.$object.getDistanceModel()
     }
     public set distanceModel(val) {
-        this.outerObject3d.setDistanceModel(val)
+        this.$object.setDistanceModel(val)
     }
 
     public get maxDistance() {
-        return this.outerObject3d.getMaxDistance()
+        return this.$object.getMaxDistance()
     }
     public set maxDistance(val) {
-        this.outerObject3d.setMaxDistance(val)
+        this.$object.setMaxDistance(val)
     }
 
     public get rolloffFactor() {
-        return this.outerObject3d.getRolloffFactor()
+        return this.$object.getRolloffFactor()
     }
     public set rolloffFactor(val) {
-        this.outerObject3d.setRolloffFactor(val)
+        this.$object.setRolloffFactor(val)
     }
 }

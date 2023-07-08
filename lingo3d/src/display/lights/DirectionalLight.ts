@@ -16,11 +16,11 @@ export default class DirectionalLight
 
     public constructor() {
         super(new ThreeDirectionalLight())
-        scene.add(this.object3d.target)
+        scene.add(this.$innerObject.target)
     }
 
     public override disposeNode() {
         super.disposeNode()
-        scene.remove(this.object3d.target)
+        scene.remove(this.$innerObject.target)
     }
 }

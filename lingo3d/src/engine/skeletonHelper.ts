@@ -13,8 +13,8 @@ createEffect(() => {
     if (
         !target ||
         !(target instanceof Loaded) ||
-        !("outerObject3d" in target) ||
-        !target.outerObject3d.parent
+        !("$object" in target) ||
+        !target.$object.parent
     )
         return
 

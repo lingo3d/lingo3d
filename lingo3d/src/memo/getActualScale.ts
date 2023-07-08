@@ -3,5 +3,5 @@ import computeClonePerFrame from "./utils/computeClonePerFrame"
 import MeshAppendable from "../display/core/MeshAppendable"
 
 export default computeClonePerFrame((target: MeshAppendable) =>
-    vector3.copy(target.object3d.scale).multiply(target.outerObject3d.scale)
+    vector3.copy(target.$innerObject.scale).multiply(target.$object.scale)
 )

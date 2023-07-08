@@ -37,13 +37,13 @@ export const configJointCreateSystem = createInternalSystem(
 
             self.$pxJoint = self.$createJoint(
                 getRelativeTransform(
-                    self.outerObject3d,
-                    fromManager.outerObject3d,
+                    self.$object,
+                    fromManager.$object,
                     setPxTransform_
                 ),
                 getRelativeTransform(
-                    self.outerObject3d,
-                    toManager.outerObject3d,
+                    self.$object,
+                    toManager.$object,
                     setPxTransform__
                 ),
                 fromManager,

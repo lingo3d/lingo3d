@@ -93,8 +93,8 @@ dependencies:
     specifier: ^3.19.0
     version: 3.19.0(preact@10.15.1)
   prettier:
-    specifier: ^3.0.0
-    version: 3.0.0
+    specifier: ^2.0.0
+    version: 2.0.0
   redaxios:
     specifier: ^0.5.1
     version: 0.5.1
@@ -1310,9 +1310,9 @@ packages:
   /preact@10.15.1:
     resolution: {integrity: sha512-qs2ansoQEwzNiV5eAcRT1p1EC/dmEzaATVDJNiB3g2sRDWdA7b7MurXdJjB2+/WQktGWZwxvDrnuRFbWuIr64g==}
 
-  /prettier@3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
-    engines: {node: '>=14'}
+  /prettier@2.0.0:
+    resolution: {integrity: sha512-vI55PC+GFLOVtpwr2di1mYhJF36v+kztJov8sx3AmqbfdA+2Dhozxb+3e1hTgoV9lyhnVJFF3Z8GCVeMBOS1bA==}
+    engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false
 

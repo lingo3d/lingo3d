@@ -6,10 +6,10 @@ export const configRenderCheckSystem = createInternalSystem(
     "configRenderCheckSystem",
     {
         effect: (self: VisibleMixin) => {
-            idRenderCheckMap.set(self.object3d.id, self)
+            idRenderCheckMap.set(self.$innerObject.id, self)
         },
         cleanup: (self) => {
-            idRenderCheckMap.delete(self.object3d.id)
+            idRenderCheckMap.delete(self.$innerObject.id)
         },
         disableRepeatAdd: true
     }

@@ -22,9 +22,8 @@ export default class CharacterCamera
     public constructor() {
         super(new PerspectiveCamera(75, 1, NEAR, FAR))
 
-        const midObject3d = (this.midObject3d = new Object3D())
-        this.outerObject3d.add(midObject3d)
-        midObject3d.add(this.object3d)
+        this.$object.add(this.$midObject3d = new Object3D())
+        this.$midObject3d.add(this.$innerObject)
 
         scene.attach(this.$camera)
         characterCameraTransformEditSystem.add(this)
@@ -39,8 +38,8 @@ export default class CharacterCamera
 
     public override append(object: MeshAppendable) {
         this.$appendNode(object)
-        getParent(object.outerObject3d) !== scene &&
-            scene.attach(object.outerObject3d)
+        getParent(object.$object) !== scene &&
+            scene.attach(object.$object)
         appendToCharacterCameraSystem.add(this)
     }
 

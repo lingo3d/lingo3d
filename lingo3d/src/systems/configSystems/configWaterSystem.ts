@@ -24,7 +24,7 @@ export const configWaterSystem = createInternalSystem("configWaterSystem", {
         const waterGeometry = isPlane ? planeGeometry : sphereGeometry
         const res = self.resolution
 
-        self.object3d.add(
+        self.$innerObject.add(
             (self.$water = new WaterClass(waterGeometry, {
                 textureWidth: res,
                 textureHeight: res,
@@ -38,7 +38,7 @@ export const configWaterSystem = createInternalSystem("configWaterSystem", {
         waterSystem.add(self)
     },
     cleanup: (self) => {
-        self.object3d.remove(self.$water!)
+        self.$innerObject.remove(self.$water!)
         waterSystem.delete(self)
     },
     effectTicker: [importWater]

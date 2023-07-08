@@ -18,22 +18,22 @@ const traverse = (
     for (const manager of targets) {
         if (selectionFrozenSet.has(manager) || manager.$disableSelection)
             continue
-        "onClick" in manager && selectionCandidates.add(manager.object3d)
+        "onClick" in manager && selectionCandidates.add(manager.$innerObject)
         manager.children && traverse(manager.children)
     }
 }
 
 const traverseFocusChildren = (selectionFocus: MeshAppendable) => {
-    selectionFocus.outerObject3d.traverse((child: Object3D | StandardMesh) => {
+    selectionFocus.$object.traverse((child: Object3D | StandardMesh) => {
         if (
-            child === selectionFocus.outerObject3d ||
-            child === selectionFocus.object3d ||
+            child === selectionFocus.$object ||
+            child === selectionFocus.$innerObject ||
             child.type === "Line"
         )
             return
         const manager = getFoundManager(child, selectionFocus as any)
         if (selectionFrozenSet.has(manager) || manager.$disableSelection) return
-        selectionCandidates.add(manager.object3d)
+        selectionCandidates.add(manager.$innerObject)
     })
 }
 

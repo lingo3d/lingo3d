@@ -42,15 +42,15 @@ export default class Water extends PhysicsObjectManager implements IWater {
 
     public constructor() {
         super()
-        ssrExcludeSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.$object)
         this.rotationX = 270
-        this.object3d.scale.z = Number.EPSILON
+        this.$innerObject.scale.z = Number.EPSILON
         configWaterSystem.add(this)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.$object)
     }
 
     public override get depth() {

@@ -20,12 +20,12 @@ export default class Sprite
         const material = new SpriteMaterial({ transparent: true })
         super(new ThreeSprite(material))
         this.$material = material
-        ssrExcludeSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.$object)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.$object)
     }
 
     public override get depth() {

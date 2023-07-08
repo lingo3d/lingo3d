@@ -9,73 +9,73 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IObjectManager
 {
-    public constructor(object3d = new Object3D() as T) {
+    public constructor($innerObject = new Object3D() as T) {
         super(new Object3D() as T)
-        this.object3d = object3d
-        setManager(object3d, this)
-        this.outerObject3d.add(object3d)
+        this.$innerObject = $innerObject
+        setManager($innerObject, this)
+        this.$object.add($innerObject)
     }
 
     public get innerRotationX() {
-        return this.object3d.rotation.x * rad2Deg
+        return this.$innerObject.rotation.x * rad2Deg
     }
     public set innerRotationX(val) {
-        this.object3d.rotation.x = val * deg2Rad
+        this.$innerObject.rotation.x = val * deg2Rad
     }
 
     public get innerRotationY() {
-        return this.object3d.rotation.y * rad2Deg
+        return this.$innerObject.rotation.y * rad2Deg
     }
     public set innerRotationY(val) {
-        this.object3d.rotation.y = val * deg2Rad
+        this.$innerObject.rotation.y = val * deg2Rad
     }
 
     public get innerRotationZ() {
-        return this.object3d.rotation.z * rad2Deg
+        return this.$innerObject.rotation.z * rad2Deg
     }
     public set innerRotationZ(val) {
-        this.object3d.rotation.z = val * deg2Rad
+        this.$innerObject.rotation.z = val * deg2Rad
     }
 
     public get innerX() {
-        return this.object3d.position.x * M2CM
+        return this.$innerObject.position.x * M2CM
     }
     public set innerX(val) {
-        this.object3d.position.x = val * CM2M
+        this.$innerObject.position.x = val * CM2M
     }
 
     public get innerY() {
-        return this.object3d.position.y * M2CM
+        return this.$innerObject.position.y * M2CM
     }
     public set innerY(val) {
-        this.object3d.position.y = val * CM2M
+        this.$innerObject.position.y = val * CM2M
     }
 
     public get innerZ() {
-        return this.object3d.position.z * M2CM
+        return this.$innerObject.position.z * M2CM
     }
     public set innerZ(val) {
-        this.object3d.position.z = val * CM2M
+        this.$innerObject.position.z = val * CM2M
     }
 
     public get width() {
-        return this.object3d.scale.x * M2CM
+        return this.$innerObject.scale.x * M2CM
     }
     public set width(val) {
-        this.object3d.scale.x = val * CM2M
+        this.$innerObject.scale.x = val * CM2M
     }
 
     public get height() {
-        return this.object3d.scale.y * M2CM
+        return this.$innerObject.scale.y * M2CM
     }
     public set height(val) {
-        this.object3d.scale.y = val * CM2M
+        this.$innerObject.scale.y = val * CM2M
     }
 
     public get depth() {
-        return this.object3d.scale.z * M2CM
+        return this.$innerObject.scale.z * M2CM
     }
     public set depth(val) {
-        this.object3d.scale.z = val * CM2M
+        this.$innerObject.scale.z = val * CM2M
     }
 }

@@ -51,9 +51,9 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             height: y * M2CM,
             depth: z * M2CM
         }
-        !this.widthSet && (this.object3d.scale.x = x)
-        !this.heightSet && (this.object3d.scale.y = y)
-        !this.depthSet && (this.object3d.scale.z = z)
+        !this.widthSet && (this.$innerObject.scale.x = x)
+        !this.heightSet && (this.$innerObject.scale.y = y)
+        !this.depthSet && (this.$innerObject.scale.z = z)
 
         return loadedObject3d
     }

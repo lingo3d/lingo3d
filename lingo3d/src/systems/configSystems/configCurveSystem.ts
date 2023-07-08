@@ -17,7 +17,7 @@ export const configCurveSystem = createInternalSystem("configCurveSystem", {
         )
         const geometry = (self.$geometry = new BufferGeometry())
         geometry.setAttribute("position", bufferAttribute)
-        self.outerObject3d.add(
+        self.$object.add(
             (self.$mesh = new Line(
                 geometry,
                 (self.$material = new LineBasicMaterial({
@@ -43,7 +43,7 @@ export const configCurveSystem = createInternalSystem("configCurveSystem", {
     cleanup: (self) => {
         self.$geometry!.dispose()
         self.$material!.dispose()
-        self.outerObject3d.remove(self.$mesh!)
+        self.$object.remove(self.$mesh!)
         if (!self.children) return
         const pool = getCurveHelperSpherePool(self)
         for (const child of self.children)

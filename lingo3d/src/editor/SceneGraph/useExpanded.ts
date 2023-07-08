@@ -10,8 +10,8 @@ export default (manager: Appendable | MeshAppendable) => {
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
     useEffect(() => {
         if (
-            "outerObject3d" in manager &&
-            sceneGraphExpanded?.has(manager.outerObject3d)
+            "$object" in manager &&
+            sceneGraphExpanded?.has(manager.$object)
         )
             expandedSignal.value = true
     }, [sceneGraphExpanded, manager])

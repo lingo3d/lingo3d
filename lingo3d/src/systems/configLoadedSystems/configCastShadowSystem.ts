@@ -8,7 +8,7 @@ export const configCastShadowSystem = createLoadedEffectSystem(
     {
         effect: (self: VisibleMixin | Model) => {
             const bool = self.castShadow
-            self.outerObject3d.traverse(
+            self.$object.traverse(
                 (child) =>
                     (child.castShadow =
                         bool && child.receiveShadow && isOpaque(child))

@@ -29,7 +29,7 @@ export default class AreaLight extends Plane implements IAreaLight {
         lazyInit().then(() => {
             if (this.done) return
             const light = (this.$light = new RectAreaLight())
-            this.outerObject3d.add(light)
+            this.$object.add(light)
             this.then(() => light.dispose())
             configAreaLightSystem.add(this)
         })

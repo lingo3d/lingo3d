@@ -106,7 +106,7 @@ createEffect(() => {
             manager.quaternion.copy(q)
         }
         for (const manager of managerControllerMap.keys()) {
-            const { position } = manager.outerObject3d
+            const { position } = manager.$object
             const { p } = manager.$actor.getGlobalPose()
             position.x = p.x
             position.y = groundedControllerManagers.has(manager)

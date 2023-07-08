@@ -25,12 +25,12 @@ export default class SpriteSheet
                 })
             )
         )
-        ssrExcludeSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.$object)
     }
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.$object)
     }
 
     public $blob: Blob | undefined
@@ -103,9 +103,9 @@ export default class SpriteSheet
     public override set scaleZ(_) {}
 
     public get blending() {
-        return castBackBlending(this.object3d.material.blending)
+        return castBackBlending(this.$innerObject.material.blending)
     }
     public set blending(val) {
-        this.object3d.material.blending = castBlending(val)
+        this.$innerObject.material.blending = castBlending(val)
     }
 }

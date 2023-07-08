@@ -33,8 +33,8 @@ export default abstract class PointLightBase<
     }
 
     protected override disposeNode() {
-        shadowRenderTargetPool.release(this.object3d.shadow.map)
-        unsafeSetValue(this.object3d.shadow, "map", null)
+        shadowRenderTargetPool.release(this.$innerObject.shadow.map)
+        unsafeSetValue(this.$innerObject.shadow, "map", null)
         super.disposeNode()
     }
 
@@ -51,17 +51,17 @@ export default abstract class PointLightBase<
 
     public $boundingSphere = new Sphere()
     public get distance() {
-        return this.object3d.distance * M2CM
+        return this.$innerObject.distance * M2CM
     }
     public set distance(val) {
-        this.object3d.distance = val * CM2M
+        this.$innerObject.distance = val * CM2M
     }
 
     public get shadows() {
-        return this.object3d.castShadow
+        return this.$innerObject.castShadow
     }
     public set shadows(val) {
-        this.object3d.castShadow = val
+        this.$innerObject.castShadow = val
         val ? updateShadowSystem.add(this) : updateShadowSystem.delete(this)
     }
 
@@ -71,7 +71,7 @@ export default abstract class PointLightBase<
     }
     public override set intensity(val) {
         this._intensity = val
-        if (!this._fade) this.object3d.intensity = val
+        if (!this._fade) this.$innerObject.intensity = val
     }
 
     private _fade = false

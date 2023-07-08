@@ -27,10 +27,10 @@ export default abstract class TexturedStandardMixin
     implements ITexturedStandard
 {
     public get $material() {
-        return this.object3d.material
+        return this.$innerObject.material
     }
     public set $material(val: MeshStandardMaterial) {
-        this.object3d.material = val
+        this.$innerObject.material = val
     }
 
     private _defaults?: Record<string, any>

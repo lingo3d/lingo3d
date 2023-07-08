@@ -42,8 +42,8 @@ const lazyTransformControls = lazy(async () => {
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
     const target =
-        selectionTarget && "outerObject3d" in selectionTarget
-            ? selectionTarget.outerObject3d
+        selectionTarget && "$object" in selectionTarget
+            ? selectionTarget.$object
             : undefined
 
     if (!target) return

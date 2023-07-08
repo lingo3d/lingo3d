@@ -53,7 +53,7 @@ export default class HTMLMesh
                 const mesh = this.spriteState.get()
                     ? new HTMLSprite(element)
                     : new HTMLMesh(element)
-                this.object3d.add(mesh)
+                this.$innerObject.add(mesh)
                 setManager(mesh, this)
 
                 handle.watch(
@@ -63,7 +63,7 @@ export default class HTMLMesh
                     })
                 )
                 handle.then(() => {
-                    this.object3d.remove(mesh)
+                    this.$innerObject.remove(mesh)
                     mesh.dispose()
                 })
             })

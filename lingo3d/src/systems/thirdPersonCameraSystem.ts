@@ -24,14 +24,14 @@ export const thirdPersonCameraSystem = createInternalSystem(
 
             const { innerZ } = self
             self.innerZ = 0
-            const origin = self.object3d.getWorldPosition(vector3_)
+            const origin = self.$innerObject.getWorldPosition(vector3_)
             self.innerZ = innerZ
 
-            const position = getWorldPosition(self.object3d)
+            const position = getWorldPosition(self.$innerObject)
 
             const pxHit = physxPtr[0].pxRaycast?.(
                 assignPxVec(origin),
-                assignPxVec_(getWorldDirection(self.object3d)),
+                assignPxVec_(getWorldDirection(self.$innerObject)),
                 position.distanceTo(origin),
                 managerActorPtrMap.get(data.found)
             )
@@ -48,7 +48,7 @@ export const thirdPersonCameraSystem = createInternalSystem(
                 if (data.lerpCount) data.lerpCount--
             }
 
-            cam.quaternion.copy(getWorldQuaternion(self.object3d))
+            cam.quaternion.copy(getWorldQuaternion(self.$innerObject))
         }
     }
 )

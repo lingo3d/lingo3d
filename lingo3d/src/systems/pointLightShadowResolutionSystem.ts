@@ -13,7 +13,7 @@ export const pointLightShadowResolutionSystem = createInternalSystem(
     {
         data: { step: undefined as number | undefined },
         update: (self: PointLight, data) => {
-            if (!self.object3d.intensity) return
+            if (!self.$innerObject.intensity) return
 
             const distance = getDistanceFromCamera(self)
             let step = 4
@@ -27,7 +27,7 @@ export const pointLightShadowResolutionSystem = createInternalSystem(
             if (step === data.step) return
             data.step = step
 
-            const { shadow } = self.object3d
+            const { shadow } = self.$innerObject
             const extents = shadow.getFrameExtents()
             const res = resolutions[step]
             shadow.mapSize.setScalar(res)

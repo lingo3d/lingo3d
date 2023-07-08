@@ -1,2 +1,2 @@
-type MixinType<T> = Omit<T, "dispose" | "object3d" | "outerObject3d">
+type MixinType<T> = Omit<T, "dispose" | "$innerObject" | "$object">
 export default MixinType

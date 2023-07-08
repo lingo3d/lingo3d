@@ -16,7 +16,7 @@ export default class Bone extends Octahedron {
         const color = randomColor() as ColorString
 
         this.wireframe = true
-        const thisMaterial = this.object3d.material
+        const thisMaterial = this.$innerObject.material
         thisMaterial.depthTest = false
         this.color = color
         this.width = 2
@@ -27,7 +27,7 @@ export default class Bone extends Octahedron {
         this.append(joint)
         joint.scale = 0.05
         joint.wireframe = true
-        const jointMaterial = joint.object3d.material
+        const jointMaterial = joint.$innerObject.material
         jointMaterial.depthTest = false
         joint.color = color
 
@@ -35,7 +35,7 @@ export default class Bone extends Octahedron {
         this.append(end)
         end.scale = 0.05
         end.wireframe = true
-        const endMaterial = end.object3d.material
+        const endMaterial = end.$innerObject.material
         endMaterial.depthTest = false
         end.color = color
 

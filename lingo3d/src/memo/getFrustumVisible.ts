@@ -6,6 +6,6 @@ import computePerFrame from "./utils/computePerFrame"
 
 export default computePerFrame((target: MeshAppendable) =>
     getFrustum(cameraRenderedPtr[0]).containsPoint(
-        getWorldPosition(target.object3d)
+        getWorldPosition(target.$innerObject)
     )
 )

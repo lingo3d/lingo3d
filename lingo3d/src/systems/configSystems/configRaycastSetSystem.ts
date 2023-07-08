@@ -13,20 +13,20 @@ export const configRaycastSetSystem = createInternalSystem(
     "configRaycastSetSystem",
     {
         effect: (self: VisibleMixin) => {
-            self.onClick && clickSet.add(self.object3d)
-            self.onMouseDown && mouseDownSet.add(self.object3d)
-            self.onMouseUp && mouseUpSet.add(self.object3d)
-            self.onMouseMove && mouseMoveSet.add(self.object3d)
-            self.onMouseOut && mouseOutSet.add(self.object3d)
-            self.onMouseOver && mouseOverSet.add(self.object3d)
+            self.onClick && clickSet.add(self.$innerObject)
+            self.onMouseDown && mouseDownSet.add(self.$innerObject)
+            self.onMouseUp && mouseUpSet.add(self.$innerObject)
+            self.onMouseMove && mouseMoveSet.add(self.$innerObject)
+            self.onMouseOut && mouseOutSet.add(self.$innerObject)
+            self.onMouseOver && mouseOverSet.add(self.$innerObject)
         },
         cleanup: (self) => {
-            clickSet.delete(self.object3d)
-            mouseDownSet.delete(self.object3d)
-            mouseUpSet.delete(self.object3d)
-            mouseMoveSet.delete(self.object3d)
-            mouseOutSet.delete(self.object3d)
-            mouseOverSet.delete(self.object3d)
+            clickSet.delete(self.$innerObject)
+            mouseDownSet.delete(self.$innerObject)
+            mouseUpSet.delete(self.$innerObject)
+            mouseMoveSet.delete(self.$innerObject)
+            mouseOutSet.delete(self.$innerObject)
+            mouseOverSet.delete(self.$innerObject)
         }
     }
 )

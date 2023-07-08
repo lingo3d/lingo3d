@@ -4,5 +4,5 @@ import createInternalSystem from "./utils/createInternalSystem"
 
 export const onMoveSystem = createInternalSystem("onMoveSystem", {
     update: (self: MeshAppendable) =>
-        positionChanged(self.object3d) && self.onMove!()
+        positionChanged(self.$innerObject) && self.onMove!()
 })

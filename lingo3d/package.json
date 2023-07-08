@@ -49,7 +49,7 @@
         "postprocessing": "^6.32.2",
         "preact": "^10.15.1",
         "preact-compat": "^3.19.0",
-        "prettier": "^3.0.0",
+        "prettier": "^2.0.0",
         "redaxios": "^0.5.1",
         "stats.js": "^0.17.0",
         "three": "0.154.0",

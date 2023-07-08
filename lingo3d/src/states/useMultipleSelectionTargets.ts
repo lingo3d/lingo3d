@@ -68,13 +68,13 @@ createEffect(() => {
     setSelectionTarget(groupManager)
 
     parentEntries = []
-    group = groupManager.object3d
+    group = groupManager.$innerObject
     attached = true
 
-    for (const { outerObject3d } of multipleSelectionTargets) {
-        if (!outerObject3d.parent) continue
-        parentEntries.push([outerObject3d, outerObject3d.parent])
-        group.attach(outerObject3d)
+    for (const { $object } of multipleSelectionTargets) {
+        if (!$object.parent) continue
+        parentEntries.push([$object, $object.parent])
+        group.attach($object)
     }
 
     box3.setFromObject(group)

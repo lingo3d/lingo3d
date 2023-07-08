@@ -28,11 +28,11 @@ export const spotLightPool = createObjectPool<
         light.penumbra = self.penumbra
         light.volumetric = self.volumetric
         light.volumetricDistance = self.volumetricDistance
-        self.object3d.add(light.outerObject3d)
+        self.$innerObject.add(light.$object)
     },
     (light) => {
         light.fade = false
         light.intensity = 0
-        scene.add(light.outerObject3d)
+        scene.add(light.$object)
     }
 )

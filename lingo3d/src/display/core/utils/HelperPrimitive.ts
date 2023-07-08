@@ -10,7 +10,7 @@ export default abstract class HelperPrimitive extends Primitive {
         owner: MeshAppendable | undefined
     ) {
         super(geometry)
-        ssrExcludeSet.add(this.outerObject3d)
+        ssrExcludeSet.add(this.$object)
         this.$ghost(false)
         this.opacity = 0.5
 
@@ -21,6 +21,6 @@ export default abstract class HelperPrimitive extends Primitive {
 
     protected override disposeNode() {
         super.disposeNode()
-        ssrExcludeSet.delete(this.outerObject3d)
+        ssrExcludeSet.delete(this.$object)
     }
 }
