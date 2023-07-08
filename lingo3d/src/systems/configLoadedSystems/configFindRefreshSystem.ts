@@ -10,6 +10,9 @@ export const configFindRefreshSystem = createLoadedEffectSystem(
             self.object3d = indexChildrenNames(
                 self.owner!.$loadedObject3d!
             ).get(PropertyBinding.sanitizeNodeName(self.name!))!
+            for (const child of self.children ?? [])
+                "outerObject3d" in child &&
+                    self.object3d.add(child.outerObject3d)
         },
         loading: (self) => {
             return !self.owner!.$loadedObject3d
