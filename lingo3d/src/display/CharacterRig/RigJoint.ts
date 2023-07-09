@@ -1,11 +1,11 @@
-import { uuidMap } from "../collections/idCollections"
-import { CharacterRigJointName } from "../interface/ICharacterRig"
-import CharacterRig from "./CharacterRig"
-import FoundManager from "./core/FoundManager"
-import Cube from "./primitives/Cube"
-import Sphere from "./primitives/Sphere"
+import { uuidMap } from "../../collections/idCollections"
+import { CharacterRigJointName } from "../../interface/ICharacterRig"
+import CharacterRig from "."
+import FoundManager from "../core/FoundManager"
+import Cube from "../primitives/Cube"
+import Sphere from "../primitives/Sphere"
 
-export default class CharacterRigJoint extends Sphere {
+export default class RigJoint extends Sphere {
     private foundManager: FoundManager
 
     public constructor(

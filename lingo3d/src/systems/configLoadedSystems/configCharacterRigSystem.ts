@@ -6,7 +6,7 @@ import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { vector3 } from "../../display/utils/reusables"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { Point3dType } from "../../typeGuards/isPoint"
-import CharacterRigJoint from "../../display/CharacterRigJoint"
+import RigJoint from "../../display/CharacterRig/RigJoint"
 import Model from "../../display/Model"
 
 type JointName = keyof ICharacterRig
@@ -46,7 +46,7 @@ const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
 const rotateJoint = (target: MeshAppendable, joint: MeshAppendable) =>
     joint.setRotationFromDirection(getDirection(target, joint))
 
-const setupJoint = (child: CharacterRigJoint, parent: CharacterRigJoint) => {
+const setupJoint = (child: RigJoint, parent: RigJoint) => {
     rotateJoint(child, parent)
     parent.attach(child)
 }
@@ -56,12 +56,9 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     {
         effect: (self: CharacterRig) => {
             if (self.leftHand && self.leftForeArm && self.leftArm) {
-                const leftHandJoint = new CharacterRigJoint(self, "leftHand")
-                const leftForeArmJoint = new CharacterRigJoint(
-                    self,
-                    "leftForeArm"
-                )
-                const leftArmJoint = new CharacterRigJoint(self, "leftArm")
+                const leftHandJoint = new RigJoint(self, "leftHand")
+                const leftForeArmJoint = new RigJoint(self, "leftForeArm")
+                const leftArmJoint = new RigJoint(self, "leftArm")
 
                 setupJoint(leftHandJoint, leftForeArmJoint)
                 setupJoint(leftForeArmJoint, leftArmJoint)
@@ -77,7 +74,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
-                child instanceof CharacterRigJoint && child.dispose()
+                child instanceof RigJoint && child.dispose()
             const model = uuidMap.get(self.target!) as Model
             model.src = model.src
         },
