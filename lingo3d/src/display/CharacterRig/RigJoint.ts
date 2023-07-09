@@ -13,6 +13,7 @@ export default class RigJoint extends Sphere {
         name: CharacterRigJointName
     ) {
         super()
+        this.$disableSerialize = true
         this.scale = 0.05
         this.depthTest = false
         this.opacity = 0.5
