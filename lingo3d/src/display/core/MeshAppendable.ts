@@ -63,12 +63,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public override append(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "$innerObject" in child && this.$innerObject.add(child.$object)
+        "$object" in child && this.$innerObject.add(child.$object)
     }
 
     public override attach(child: Appendable | MeshAppendable) {
         this.$appendNode(child)
-        "$innerObject" in child && this.$innerObject.attach(child.$object)
+        "$object" in child && this.$innerObject.attach(child.$object)
     }
 
     protected override disposeNode() {

@@ -20,7 +20,7 @@ const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 export const hitTestSystem = createInternalSystem("hitTestSystem", {
     update: (self: VisibleMixin) => {
         for (const target of getAppendables(self.hitTarget)) {
-            if (!("$innerObject" in target)) return
+            if (!("$object" in target)) return
             const cache = forceGetInstance(hitCache, self, WeakSet)
             if (self.hitTest(target)) {
                 if (!cache.has(target)) {
