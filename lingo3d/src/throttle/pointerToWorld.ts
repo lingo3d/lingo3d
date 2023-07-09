@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
 import { pt3d0, vector3 } from "../display/utils/reusables"
 import { vec2Point } from "../display/utils/vec2Point"
@@ -8,6 +7,7 @@ import getWorldPosition from "../memo/getWorldPosition"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import throttleFrame from "./utils/throttleFrame"
 import { cameraPointerLockPtr } from "../pointers/cameraPointerLockPtr"
+import Point3d from "../math/Point3d"
 
 export default throttleFrame((ev: { clientX: number; clientY: number }) => {
     const distance = 500

@@ -2,7 +2,6 @@ import createElement from "../utils/createElement"
 import { lazy, range } from "@lincode/utils"
 import Model from "./Model"
 import FoundManager from "./core/FoundManager"
-import { LowPassFilter, mapRange } from "@lincode/math"
 import { vector3 } from "./utils/reusables"
 import { event } from "@lincode/events"
 import type { GestureRecognizerResult } from "@mediapipe/tasks-vision"
@@ -10,6 +9,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../math/Point3d"
 import { Point3dType } from "../typeGuards/isPoint"
 import { Reactive } from "@lincode/reactivity"
+import { mapLinear } from "three/src/math/MathUtils"
 
 const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
     vector3
@@ -79,8 +79,11 @@ export default class HandTracker extends Model {
 
     private points = range(21).map(() => new Point3d(0, 0, 0))
     private lowPassFilters = range(21).map(() => [
+        //@ts-ignore
         new LowPassFilter(0.5),
+        //@ts-ignore
         new LowPassFilter(0.5),
+        //@ts-ignore
         new LowPassFilter(0.5)
     ])
 
@@ -155,7 +158,7 @@ export default class HandTracker extends Model {
                             this.points[3],
                             this.points[17]
                         )
-                        this.rotationY = mapRange(yaw.x, 1, -1, 0, -180) - 30
+                        this.rotationY = mapLinear(yaw.x, 1, -1, 0, -180) - 30
 
                         this.setFinger(this.thumb1!, 2, 3)
                         this.setFinger(this.thumb2!, 3, 4)

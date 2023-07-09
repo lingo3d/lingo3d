@@ -25,7 +25,6 @@
         "@babel/traverse": "^7.22.8",
         "@lincode/events": "^1.0.33",
         "@lincode/filetypes": "^1.0.3",
-        "@lincode/math": "^1.0.8",
         "@lincode/promiselikes": "^1.0.25",
         "@lincode/reactivity": "^1.0.89",
         "@lincode/utils": "^1.3.19",

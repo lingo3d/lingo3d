@@ -8,10 +8,10 @@ import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { editorBehaviorPtr } from "../../pointers/editorBehaviorPtr"
 import { getWorldMode } from "../../states/useWorldMode"
 import { worldModePtr } from "../../pointers/worldModePtr"
-import { deg2Rad } from "@lincode/math"
 import { Mesh, PlaneGeometry } from "three"
 import { standardMaterial } from "../../display/utils/reusables"
 import { editorPlanePtr } from "../../pointers/editorPlanePtr"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 createEffect(() => {
     if (!getGrid() || !editorBehaviorPtr[0] || worldModePtr[0] !== "editor")
@@ -26,7 +26,7 @@ createEffect(() => {
         new PlaneGeometry(1000, 1000),
         standardMaterial
     ))
-    editorPlane.rotateX(90 * deg2Rad)
+    editorPlane.rotateX(90 * DEG2RAD)
     editorPlane.visible = false
     scene.add(editorPlane)
 

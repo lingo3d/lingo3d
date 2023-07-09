@@ -8,9 +8,9 @@ import {
 import { onMouseUp, emitMouseUp } from "../events/onMouseUp"
 import { container } from "./renderLoop/containers"
 import { rightClickPtr } from "../pointers/rightClickPtr"
-import { Point } from "@lincode/math"
 import pointerToWorld from "../throttle/pointerToWorld"
 import { CLICK_TIME } from "../globals"
+import Point from "../math/Point"
 
 let downTime = 0
 let downX = 0
@@ -61,6 +61,6 @@ container.addEventListener("pointerleave", handleUp)
 
 export const toggleRightClick = (x: number, y: number) => {
     rightClickPtr[0] = new Point(x, y)
-    setTimeout(() => rightClickPtr[0] = undefined, CLICK_TIME)
+    setTimeout(() => (rightClickPtr[0] = undefined), CLICK_TIME)
 }
 onMouseRightClick((e) => toggleRightClick(e.clientX, e.clientY))

@@ -1,3 +1,4 @@
+import { RAD2DEG } from "three/src/math/MathUtils"
 import { Point3dType } from "../typeGuards/isPoint"
 
 export default (a: Point3dType, b: Point3dType) => {
@@ -5,5 +6,5 @@ export default (a: Point3dType, b: Point3dType) => {
     const length =
         Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z) *
         Math.sqrt(b.x * b.x + b.y * b.y + b.z * b.z)
-    return Math.acos(dot / length)
+    return Math.acos(dot / length) * RAD2DEG
 }

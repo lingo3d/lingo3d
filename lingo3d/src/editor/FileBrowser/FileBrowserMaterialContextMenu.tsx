@@ -1,11 +1,11 @@
-import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import { TextureType } from "./FileButton"
+import { PointType } from "../../typeGuards/isPoint"
 
 export const fileBrowserMaterialContextMenuSignal: Signal<
-    (Point & { onSelect: (channel: TextureType) => void }) | undefined
+    (PointType & { onSelect: (channel: TextureType) => void }) | undefined
 > = signal(undefined)
 
 const FileBrowserMaterialContextMenu = () => {

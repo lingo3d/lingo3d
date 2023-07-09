@@ -1,4 +1,3 @@
-import { Point } from "@lincode/math"
 import { useState } from "preact/hooks"
 import { LIBRARY_WIDTH } from "../../globals"
 import Tooltip from "../component/Tooltip"
@@ -13,12 +12,13 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import Switch from "../component/Switch"
 import Segments from "../component/Segments"
 import useSyncState from "../hooks/useSyncState"
+import { PointType } from "../../typeGuards/isPoint"
 
 const CharacterRigEditor = () => {
     useInitCSS()
     useInitEditor()
 
-    const [position, setPosition] = useState<Point>()
+    const [position, setPosition] = useState<PointType>()
     const selectedSignal = useSignal<Array<string>>([])
     const characterRig = useSyncState(getCharacterRig)
     const [enabled, setEnabled] = useState(characterRig?.enabled)

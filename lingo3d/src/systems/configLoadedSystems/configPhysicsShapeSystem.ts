@@ -1,4 +1,3 @@
-import { deg2Rad } from "@lincode/math"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import { physxPtr } from "../../pointers/physxPtr"
 import { assignPxTransform } from "../../engine/physx/pxMath"
@@ -17,6 +16,7 @@ import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTran
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { busyCountPtr } from "../../pointers/busyCountPtr"
 import getParent from "../../display/core/utils/getParent"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 export const importPhysX = lazy(async () => {
     busyCountPtr[0]++
@@ -66,7 +66,7 @@ export const configPhysicsShapeSystem = createLoadedEffectSystem(
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
                 desc.nonWalkableMode =
                     PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
-                desc.slopeLimit = Math.cos(45 * deg2Rad)
+                desc.slopeLimit = Math.cos(45 * DEG2RAD)
                 desc.material = material
                 desc.contactOffset = 0.1
                 // desc.stepOffset = y * 0.4

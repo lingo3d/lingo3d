@@ -1,4 +1,3 @@
-import { mapRange } from "@lincode/math"
 import average from "./average"
 import mToCm from "./mToCm"
 import {
@@ -7,9 +6,11 @@ import {
     lerp,
     radToDeg,
     randInt,
+    randFloat,
     smootherstep,
     smoothstep,
-    clamp
+    clamp,
+    mapLinear
 } from "three/src/math/MathUtils"
 import cmToM from "./cmToM"
 import fraction from "./fraction"
@@ -17,12 +18,12 @@ import trunc from "./trunc"
 import cross from "./cross"
 import dot from "./dot"
 import length from "./length"
-import distance from "./distance"
+import distance3d from "./distance3d"
 import normalize from "./normalize"
 import reflect from "./reflect"
 import project from "./project"
 import angle from "./angle"
-import rotate from "./rotate"
+import rotate3d from "./rotate3d"
 import rotateX from "./rotateX"
 import rotateY from "./rotateY"
 import rotateZ from "./rotateZ"
@@ -31,6 +32,12 @@ import rotateXZ from "./rotateXZ"
 import rotateYZ from "./rotateYZ"
 import multiply from "./multiply"
 import multiplyScalar from "./multiplyScalar"
+import quadrant from "./quadrant"
+import average3d from "./average3d"
+import polarTranslate from "./polarTranslate"
+import distance from "./distance"
+import vertexAngle from "./vertexAngle"
+import rotate from "./rotate"
 
 const math = {
     abs: Math.abs,
@@ -38,8 +45,6 @@ const math = {
     sqrt: Math.sqrt,
     min: Math.min,
     max: Math.max,
-    randInt,
-    mapRange,
     ceil: Math.ceil,
     floor: Math.floor,
     round: Math.round,
@@ -51,27 +56,35 @@ const math = {
     acos: Math.acos,
     atan: Math.atan,
     atan2: Math.atan2,
-    average,
     radToDeg,
     degToRad,
-    mToCm,
-    cmToM,
     lerp,
     inverseLerp,
     smoothstep,
     smootherstep,
+    randInt,
+    randFloat,
+    mapLinear,
     clamp,
+    average,
+    average3d,
+    mToCm,
+    cmToM,
     fraction,
     trunc,
     cross,
     dot,
     length,
+    distance3d,
     distance,
     normalize,
     reflect,
     project,
+    polarTranslate,
     angle,
+    vertexAngle,
     rotate,
+    rotate3d,
     rotateX,
     rotateY,
     rotateZ,
@@ -79,7 +92,8 @@ const math = {
     rotateXZ,
     rotateYZ,
     multiply,
-    multiplyScalar
+    multiplyScalar,
+    quadrant
 }
 
 export default math

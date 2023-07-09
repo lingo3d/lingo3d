@@ -1,4 +1,4 @@
-import { Point } from "@lincode/math"
+import { PointType } from "../typeGuards/isPoint"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -8,10 +8,10 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
 export default interface IJoystick extends IAppendable {
-    onMove: Nullable<(e: Point) => void>
-    onMoveStart: Nullable<(e: Point) => void>
-    onMoveEnd: Nullable<(e: Point) => void>
-    onPress: Nullable<(e: Point) => void>
+    onMove: Nullable<(e: PointType) => void>
+    onMoveStart: Nullable<(e: PointType) => void>
+    onMoveEnd: Nullable<(e: PointType) => void>
+    onPress: Nullable<(e: PointType) => void>
 }
 
 export const joystickSchema: Required<ExtractProps<IJoystick>> = {

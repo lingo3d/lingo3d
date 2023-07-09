@@ -1,10 +1,10 @@
-import { deg2Rad } from "@lincode/math"
 import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import { TorusParams, torusGeometryPool } from "../../pools/torusGeometryPool"
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
 import { configPooledPrimitiveSystem } from "../../systems/configSystems/configPooledPrimitiveSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 const geometry = torusGeometryPool.request([0.5, 0.1, 16, 32, PI2])
 
@@ -18,7 +18,7 @@ export default class Torus extends PooledPrimitve implements ITorus {
     }
 
     public $getParams(): TorusParams {
-        return [0.5, this.thickness, 16, this.segments, this.theta * deg2Rad]
+        return [0.5, this.thickness, 16, this.segments, this.theta * DEG2RAD]
     }
 
     private _segments?: number

@@ -1,5 +1,4 @@
 import { WebGLRenderer } from "three"
-import math from "../math"
 import toFixed from "../api/serializer/toFixed"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 import { rendererPtr } from "../pointers/rendererPtr"
@@ -9,10 +8,15 @@ import { fpsPtr } from "../pointers/fpsPtr"
 import { STANDARD_FRAME } from "../globals"
 import isBusy from "../api/isBusy"
 import createInternalSystem from "./utils/createInternalSystem"
+import { clamp, mapLinear } from "three/src/math/MathUtils"
 
 const clampPixelRatio = (pixelCount: number, pixelRatio: number) => {
-    const clampMin = math.mapRange(pixelCount, 200000, 2000000, 0.7, 0.5, true)
-    return toFixed(math.clamp(pixelRatio, clampMin, 1), 1)
+    const clampMin = clamp(
+        mapLinear(pixelCount, 200000, 2000000, 0.7, 0.5),
+        0.5,
+        0.7
+    )
+    return toFixed(clamp(pixelRatio, clampMin, 1), 1)
 }
 
 const sortPixelRatio = (a: number, b: number) => a - b
@@ -24,7 +28,7 @@ export const dynamicResolutionSystem = createInternalSystem(
         data: () => ({
             pixelCount: resolutionPtr[0][0] * resolutionPtr[0][1],
             pixelRatio: Infinity,
-            ratio: math.mapRange(fpsPtr[0], 0, STANDARD_FRAME, 0, 1),
+            ratio: mapLinear(fpsPtr[0], 0, STANDARD_FRAME, 0, 1),
             pixelRatioArray: [] as Array<number>
         }),
         update: (_: WebGLRenderer, data) => {

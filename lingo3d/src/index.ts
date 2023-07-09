@@ -82,7 +82,7 @@ import deserialize from "./api/serializer/deserialize"
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
 
-import { Point } from "@lincode/math"
+import Point from "./math/Point"
 import Point3d from "./math/Point3d"
 import clientToWorld from "./display/utils/clientToWorld"
 import math from "./math"

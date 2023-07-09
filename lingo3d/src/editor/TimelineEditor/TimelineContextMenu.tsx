@@ -13,14 +13,14 @@ import useSyncState from "../hooks/useSyncState"
 import { setTimeline } from "../../states/useTimeline"
 import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
-import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { uuidMap } from "../../collections/idCollections"
 import { timelinePtr } from "../../pointers/timelinePtr"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
+import { PointType } from "../../typeGuards/isPoint"
 
 export const timelineContextMenuSignal: Signal<
-    | (Point & {
+    | (PointType & {
           keyframe?: boolean
           create?: "audio" | "timeline"
       })

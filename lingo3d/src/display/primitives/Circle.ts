@@ -4,10 +4,10 @@ import {
     CircleParams,
     circleGeometryPool
 } from "../../pools/circleGeometryPool"
-import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
 import toFixed from "../../api/serializer/toFixed"
 import { configPooledPrimitiveSystem } from "../../systems/configSystems/configPooledPrimitiveSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 const geometry = circleGeometryPool.request([0.5, 32, 0, PI2])
 
@@ -22,7 +22,7 @@ export default class Circle extends PooledPrimitve implements ICircle {
     }
 
     public $getParams(): CircleParams {
-        return [0.5, this.segments, 0, this.theta * deg2Rad]
+        return [0.5, this.segments, 0, this.theta * DEG2RAD]
     }
 
     private _theta?: number

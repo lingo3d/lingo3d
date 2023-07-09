@@ -13,7 +13,6 @@ import { getTransformControlsSpaceComputed } from "../../states/useTransformCont
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
-import { deg2Rad } from "@lincode/math"
 import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
@@ -22,6 +21,7 @@ import { renderCheckExcludeSet } from "../../collections/renderCheckExcludeSet"
 import { transformControlsModePtr } from "../../pointers/transformControlsModePtr"
 import { vector3 } from "../../display/utils/reusables"
 import { snapRaycastSystem } from "../../systems/snapRaycastSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -64,7 +64,7 @@ createEffect(() => {
         transformControls.setMode(mode)
         transformControls.setSpace(space)
         transformControls.setScaleSnap(snap ? 10 * CM2M : null)
-        transformControls.setRotationSnap(snap ? 15 * deg2Rad : null)
+        transformControls.setRotationSnap(snap ? 15 * DEG2RAD : null)
         // transformControls.setTranslationSnap(snap ? 10 * CM2M : null)
 
         scene.add(transformControls)

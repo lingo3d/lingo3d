@@ -1,7 +1,7 @@
-import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import createInternalSystem from "../utils/createInternalSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 export const configSphericalJointSystem = createInternalSystem(
     "configSphericalJointSystem",
@@ -14,8 +14,8 @@ export const configSphericalJointSystem = createInternalSystem(
                 physxPtr[0]
             if (limited) {
                 const cone = new PxJointLimitCone(
-                    limitY * deg2Rad,
-                    limitZ * deg2Rad,
+                    limitY * DEG2RAD,
+                    limitZ * DEG2RAD,
                     0.05
                 )
                 $pxJoint.setLimitCone(cone)

@@ -8,10 +8,10 @@ import {
 } from "three"
 import { uuidMaterialMap } from "../../../../collections/idCollections"
 import { materialDefaultsMap } from "../../../../collections/materialDefaultsMap"
-import { rad2Deg } from "@lincode/math"
 import { blackColor } from "../../reusables"
 import { castBackBlending } from "../../castBlending"
 import isOpaque from "../../../../memo/isOpaque"
+import { RAD2DEG } from "three/src/math/MathUtils"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
     const lights: Array<Light> = []
@@ -32,7 +32,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             alphaMap: "",
             textureRepeat: material.map?.repeat.x ?? 1,
             textureFlipY: material.map?.flipY ?? false,
-            textureRotation: (material.map?.rotation ?? 0) * rad2Deg,
+            textureRotation: (material.map?.rotation ?? 0) * RAD2DEG,
             wireframe: material.wireframe,
             envMap: "",
             envMapIntensity: material.envMapIntensity,

@@ -1,23 +1,13 @@
-import {
-    ConeGeometry,
-    Mesh,
-    SpotLight as ThreeSpotLight,
-    SpotLightHelper
-} from "three"
+import { SpotLight as ThreeSpotLight, SpotLightHelper } from "three"
 import ISpotLight, {
     spotLightDefaults,
     spotLightSchema
 } from "../../../interface/ISpotLight"
-import { deg2Rad, rad2Deg } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
-import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import PointLightBase from "../../core/PointLightBase"
-import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
-import unsafeSetValue from "../../../utils/unsafeSetValue"
 import { spotLightShadowResolutionSystem } from "../../../systems/spotLightShadowResolutionSystem"
-import { volumetricSpotLightSystem } from "../../../systems/volumetricSpotLightSystem"
+import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
 
-const coneGeometry = new ConeGeometry(0.5, 1, 256)
+// const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
 export default class SpotLight
     extends PointLightBase<ThreeSpotLight>
@@ -49,10 +39,10 @@ export default class SpotLight
     }
 
     public get angle() {
-        return this.$innerObject.angle * rad2Deg
+        return this.$innerObject.angle * RAD2DEG
     }
     public set angle(val) {
-        this.$innerObject.angle = val * deg2Rad
+        this.$innerObject.angle = val * DEG2RAD
     }
 
     public get penumbra() {

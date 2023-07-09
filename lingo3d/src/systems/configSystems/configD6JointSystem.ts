@@ -1,10 +1,10 @@
-import { deg2Rad } from "@lincode/math"
 import { assertExhaustive } from "@lincode/utils"
 import { physxPtr } from "../../pointers/physxPtr"
 import D6Joint from "../../display/joints/D6Joint"
 import { CM2M } from "../../globals"
 import { D6MotionOptions } from "../../interface/ID6Joint"
 import createInternalSystem from "../utils/createInternalSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 const getMotion = (val: D6MotionOptions) => {
     const { PxD6MotionEnum } = physxPtr[0]
@@ -102,8 +102,8 @@ export const configD6JointSystem = createInternalSystem("configD6JointSystem", {
 
         if (swingY === "limited" || swingZ === "limited") {
             const limitCone = new PxJointLimitCone(
-                swingLimitY * deg2Rad,
-                swingLimitZ * deg2Rad
+                swingLimitY * DEG2RAD,
+                swingLimitZ * DEG2RAD
             )
             limitCone.stiffness = swingStiffness
             limitCone.damping = swingDamping
@@ -112,8 +112,8 @@ export const configD6JointSystem = createInternalSystem("configD6JointSystem", {
         }
         if (twistX === "limited") {
             const limitPair = new PxJointAngularLimitPair(
-                twistLimitLow * deg2Rad,
-                twistLimitHigh * deg2Rad
+                twistLimitLow * DEG2RAD,
+                twistLimitHigh * DEG2RAD
             )
             limitPair.stiffness = twistStiffness
             limitPair.damping = twistDamping

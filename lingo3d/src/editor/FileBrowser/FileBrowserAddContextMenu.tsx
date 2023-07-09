@@ -1,12 +1,12 @@
-import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import createFolder from "../../api/files/createFolder"
 import uploadFolder from "../../api/files/uploadFolder"
+import { PointType } from "../../typeGuards/isPoint"
 
 export const fileBrowserAddContextMenuSignal: Signal<
-    (Point & { createFolder?: boolean }) | undefined
+    (PointType & { createFolder?: boolean }) | undefined
 > = signal(undefined)
 
 const FileBrowserAddContextMenu = () => {

@@ -1,9 +1,9 @@
 import { Object3D } from "three"
-import { deg2Rad, rad2Deg } from "@lincode/math"
 import IObjectManager from "../../interface/IObjectManager"
 import { setManager } from "./utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
+import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
 
 export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -17,24 +17,24 @@ export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     }
 
     public get innerRotationX() {
-        return this.$innerObject.rotation.x * rad2Deg
+        return this.$innerObject.rotation.x * RAD2DEG
     }
     public set innerRotationX(val) {
-        this.$innerObject.rotation.x = val * deg2Rad
+        this.$innerObject.rotation.x = val * DEG2RAD
     }
 
     public get innerRotationY() {
-        return this.$innerObject.rotation.y * rad2Deg
+        return this.$innerObject.rotation.y * RAD2DEG
     }
     public set innerRotationY(val) {
-        this.$innerObject.rotation.y = val * deg2Rad
+        this.$innerObject.rotation.y = val * DEG2RAD
     }
 
     public get innerRotationZ() {
-        return this.$innerObject.rotation.z * rad2Deg
+        return this.$innerObject.rotation.z * RAD2DEG
     }
     public set innerRotationZ(val) {
-        this.$innerObject.rotation.z = val * deg2Rad
+        this.$innerObject.rotation.z = val * DEG2RAD
     }
 
     public get innerX() {

@@ -5,13 +5,13 @@ import useSyncState from "../../hooks/useSyncState"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import search from "./menuButtons/utils/search"
 import MenuItems from "./MenuItems"
-import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import { rightClickPtr } from "../../../pointers/rightClickPtr"
 import { addSelectionHideId } from "../../../states/useSelectionHideId"
+import { PointType } from "../../../typeGuards/isPoint"
 
 export const sceneGraphContextMenuSignal: Signal<
-    | (Point & {
+    | (PointType & {
           search?: boolean
           createJoint?: boolean
           hideId?: boolean

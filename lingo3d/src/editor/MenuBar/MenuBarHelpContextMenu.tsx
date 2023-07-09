@@ -1,10 +1,10 @@
-import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
 import { VERSION } from "../../globals"
+import { PointType } from "../../typeGuards/isPoint"
 
-export const menuBarHelpContextMenuSignal: Signal<Point | undefined> =
+export const menuBarHelpContextMenuSignal: Signal<PointType | undefined> =
     signal(undefined)
 
 const MenuBarHelpContextMenu = () => {

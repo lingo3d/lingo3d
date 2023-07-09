@@ -1,4 +1,3 @@
-import { mapRange } from "@lincode/math"
 import MeshAppendable from "../display/core/MeshAppendable"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { physxPtr } from "../pointers/physxPtr"
@@ -11,6 +10,7 @@ import { managerActorPtrMap } from "../collections/pxCollections"
 import { fpsPtr } from "../pointers/fpsPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 import { frameSyncAlpha } from "../api/frameSync"
+import { mapLinear } from "three/src/math/MathUtils"
 
 export const thirdPersonCameraSystem = createInternalSystem(
     "thirdPersonCameraSystem",
@@ -42,7 +42,7 @@ export const thirdPersonCameraSystem = createInternalSystem(
                 cam.position.lerp(
                     position,
                     frameSyncAlpha(
-                        mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1)
+                        mapLinear(data.lerpCount, fpsPtr[0], 0, 0.2, 1)
                     )
                 )
                 if (data.lerpCount) data.lerpCount--

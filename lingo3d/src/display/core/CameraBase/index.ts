@@ -2,7 +2,6 @@ import { CameraHelper, PerspectiveCamera } from "three"
 import GimbalObjectManager from "../GimbalObjectManager"
 import { ray, euler } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
-import { deg2Rad } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import scene from "../../../engine/scene"
@@ -26,6 +25,7 @@ import { configCameraSystem } from "../../../systems/configSystems/configCameraS
 import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 import { getWorldMode } from "../../../states/useWorldMode"
 import { worldModePtr } from "../../../pointers/worldModePtr"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -134,13 +134,13 @@ export default abstract class CameraBase<
 
         euler.y -= movementX * 0.002
         euler.y = Math.max(
-            PI_HALF - this._maxAzimuthAngle * deg2Rad,
-            Math.min(PI_HALF - this._minAzimuthAngle * deg2Rad, euler.y)
+            PI_HALF - this._maxAzimuthAngle * DEG2RAD,
+            Math.min(PI_HALF - this._minAzimuthAngle * DEG2RAD, euler.y)
         )
         euler.x -= movementY * 0.002
         euler.x = Math.max(
-            PI_HALF - this._maxPolarAngle * deg2Rad,
-            Math.min(PI_HALF - this._minPolarAngle * deg2Rad, euler.x)
+            PI_HALF - this._maxPolarAngle * DEG2RAD,
+            Math.min(PI_HALF - this._minPolarAngle * DEG2RAD, euler.x)
         )
         manager.setRotationFromEuler(euler)
     }

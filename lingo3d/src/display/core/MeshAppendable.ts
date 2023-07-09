@@ -7,7 +7,6 @@ import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "./utils/getManager"
 import Appendable from "./Appendable"
-import { deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import SpawnPoint from "../SpawnPoint"
 import worldToCanvas from "../../memo/worldToCanvas"
 import Nullable from "../../interface/utils/Nullable"
@@ -28,6 +27,8 @@ import getActualScale from "../../memo/getActualScale"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
 import frameSync from "../../api/frameSync"
 import getParent from "./utils/getParent"
+import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
+import quadrant from "../../math/quadrant"
 
 const up = new Vector3(0, 1, 0)
 
@@ -141,15 +142,15 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public rotateX(val: number) {
-        this.$object.rotateX(frameSync(val * deg2Rad))
+        this.$object.rotateX(frameSync(val * DEG2RAD))
     }
 
     public rotateY(val: number) {
-        this.$object.rotateY(frameSync(val * deg2Rad))
+        this.$object.rotateY(frameSync(val * DEG2RAD))
     }
 
     public rotateZ(val: number) {
-        this.$object.rotateZ(frameSync(val * deg2Rad))
+        this.$object.rotateZ(frameSync(val * DEG2RAD))
     }
 
     public setRotationFromDirection(direction: Point3dType) {
@@ -233,24 +234,24 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public get rotationX() {
-        return this.$object.rotation.x * rad2Deg
+        return this.$object.rotation.x * RAD2DEG
     }
     public set rotationX(val) {
-        this.$object.rotation.x = val * deg2Rad
+        this.$object.rotation.x = val * DEG2RAD
     }
 
     public get rotationY() {
-        return this.$object.rotation.y * rad2Deg
+        return this.$object.rotation.y * RAD2DEG
     }
     public set rotationY(val) {
-        this.$object.rotation.y = val * deg2Rad
+        this.$object.rotation.y = val * DEG2RAD
     }
 
     public get rotationZ() {
-        return this.$object.rotation.z * rad2Deg
+        return this.$object.rotation.z * RAD2DEG
     }
     public set rotationZ(val) {
-        this.$object.rotation.z = val * deg2Rad
+        this.$object.rotation.z = val * DEG2RAD
     }
 
     public lookAt(target: MeshAppendable | Point3dType): void

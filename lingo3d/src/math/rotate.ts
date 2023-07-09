@@ -1,19 +1,13 @@
-import { Point3dType } from "../typeGuards/isPoint"
-import Point3d from "./Point3d"
+import { DEG2RAD } from "three/src/math/MathUtils"
+import { PointType } from "../typeGuards/isPoint"
+import Point from "./Point"
 
-export default (a: Point3dType, axis: Point3dType, angle: number) => {
-    const cos = Math.cos(angle)
-    const sin = Math.sin(angle)
-    const dot = a.x * axis.x + a.y * axis.y + a.z * axis.z
-    return new Point3d(
-        (a.x - axis.x * dot) * cos +
-            dot * axis.x +
-            (-axis.z * a.y + axis.y * a.z) * sin,
-        (a.y - axis.y * dot) * cos +
-            dot * axis.y +
-            (axis.z * a.x - axis.x * a.z) * sin,
-        (a.z - axis.z * dot) * cos +
-            dot * axis.z +
-            (-axis.y * a.x + axis.x * a.y) * sin
-    )
+export default (pt: PointType, origin: PointType, theta: number) => {
+    const rad = theta * DEG2RAD
+    const deltaX = pt.x - origin.x
+    const deltaY = pt.y - origin.y
+    const rotatedX = deltaX * Math.cos(rad) - deltaY * Math.sin(rad)
+    const rotatedY = deltaX * Math.sin(rad) + deltaY * Math.cos(rad)
+
+    return new Point(rotatedX + origin.x, rotatedY + origin.y)
 }

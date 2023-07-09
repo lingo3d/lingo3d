@@ -1,4 +1,3 @@
-import { deg2Rad, endPoint } from "@lincode/math"
 import { euler } from "../display/utils/reusables"
 import { Point3dType } from "../typeGuards/isPoint"
 import createInternalSystem from "./utils/createInternalSystem"
@@ -7,6 +6,8 @@ import FoundManager from "../display/core/FoundManager"
 import { Quaternion } from "three"
 import Dummy from "../display/Dummy"
 import { frameSyncAlpha } from "../api/frameSync"
+import { DEG2RAD } from "three/src/math/MathUtils"
+import polarTranslate from "../math/polarTranslate"
 
 export const dummySystem = createInternalSystem("dummySystem", {
     data: {} as {
@@ -48,7 +49,7 @@ export const dummySystem = createInternalSystem("dummySystem", {
             spinePoint = spine.pointAt(1000)
         }
 
-        loadedObject3d.quaternion.setFromEuler(euler.set(0, angle * deg2Rad, 0))
+        loadedObject3d.quaternion.setFromEuler(euler.set(0, angle * DEG2RAD, 0))
         const quaternionNew = loadedObject3d.quaternion.clone()
         loadedObject3d.quaternion
             .copy(quaternionOld)
@@ -58,7 +59,7 @@ export const dummySystem = createInternalSystem("dummySystem", {
 
         if (!strideMove) return
 
-        const { x, y } = endPoint(
+        const { x, y } = polarTranslate(
             0,
             0,
             angle + 90,

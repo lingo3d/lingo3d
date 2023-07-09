@@ -1,12 +1,12 @@
 import { Texture } from "three"
 import createSharedPool from "./utils/createSharedPool"
-import { deg2Rad } from "@lincode/math"
 import { getExtensionType } from "@lincode/filetypes"
 import { uuidTextureMap } from "../collections/idCollections"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import loadVideoTexture from "../display/utils/loaders/loadVideoTexture"
 import { isSelector } from "../typeGuards/isSelector"
 import { loadTextureSet } from "../collections/loadTextureSet"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 export type TextureParams = [
     texture: string,
@@ -23,7 +23,7 @@ const initMap = (
 ) => {
     map.repeat.set(textureRepeat, textureRepeat)
     map.flipY = loadTextureSet.has(map) ? !textureFlipY : textureFlipY
-    map.rotation = textureRotation * deg2Rad
+    map.rotation = textureRotation * DEG2RAD
     return map
 }
 

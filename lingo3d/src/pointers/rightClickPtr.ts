@@ -1,3 +1,3 @@
-import { Point } from "@lincode/math"
+import { PointType } from "../typeGuards/isPoint"
 
-export const rightClickPtr: [Point | undefined] = [undefined]
+export const rightClickPtr: [PointType | undefined] = [undefined]

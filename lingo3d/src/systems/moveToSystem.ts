@@ -1,9 +1,11 @@
-import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import MeshAppendable from "../display/core/MeshAppendable"
 import createInternalSystem from "./utils/createInternalSystem"
 import { configPhysicsTransformSystem } from "./configSystems/configPhysicsTransformSystem"
 import frameSync from "../api/frameSync"
+import Point from "../math/Point"
+import vertexAngle from "../math/vertexAngle"
+import rotate from "../math/rotate"
 
 export const moveToSystem = createInternalSystem("moveToSystem", {
     data: {} as {
@@ -25,7 +27,7 @@ export const moveToSystem = createInternalSystem("moveToSystem", {
             new Point(data.x, data.z),
             new Point(self.x, data.z)
         )
-        const rotated = rotatePoint(
+        const rotated = rotate(
             new Point(data.x, data.z),
             new Point(self.x, self.z),
             data.quad === 1 || data.quad === 4 ? angle : -angle

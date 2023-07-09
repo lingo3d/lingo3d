@@ -1,7 +1,7 @@
-import { deg2Rad } from "@lincode/math"
 import { physxPtr } from "../../pointers/physxPtr"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import createInternalSystem from "../utils/createInternalSystem"
+import { DEG2RAD } from "three/src/math/MathUtils"
 
 export const configRevoluteJointSystem = createInternalSystem(
     "configRevoluteJointSystem",
@@ -26,8 +26,8 @@ export const configRevoluteJointSystem = createInternalSystem(
 
             if (limited) {
                 const limitPair = new PxJointAngularLimitPair(
-                    limitLow * deg2Rad,
-                    limitHigh * deg2Rad
+                    limitLow * DEG2RAD,
+                    limitHigh * DEG2RAD
                 )
                 limitPair.stiffness = stiffness
                 limitPair.damping = damping

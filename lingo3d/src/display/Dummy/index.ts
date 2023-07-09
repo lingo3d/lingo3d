@@ -1,4 +1,3 @@
-import { rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import IDummy, {
@@ -15,6 +14,7 @@ import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { dummyUrlPtr, ybotUrlPtr } from "../../pointers/assetsPathPointers"
 import { dummyGroundedSystem } from "../../systems/dummyGroundedSystem"
 import { dummySystem } from "../../systems/dummySystem"
+import { RAD2DEG } from "three/src/math/MathUtils"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -159,7 +159,7 @@ export default class Dummy extends Model implements IDummy {
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? strideRight : -strideRight
-            const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
+            const angle = 90 - Math.atan2(-sf, -sr) * RAD2DEG
 
             const spine = getSpine()
             const spineQuaternion = spine?.quaternion.clone()
