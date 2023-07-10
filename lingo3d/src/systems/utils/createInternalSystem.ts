@@ -229,7 +229,10 @@ export default <
 
     const system: System<GameObject, Data> = {
         name,
-        add: addSystem,
+        add: (item: GameObject, initData?: Data) => {
+            if ("done" in item && item.done) return
+            addSystem(item, initData)
+        },
         delete: deleteSystem,
         dispose: () => {
             for (const [item] of queued) deleteSystem(item)
