@@ -18,11 +18,13 @@ const attachJoints = (
     self: CharacterRig,
     jointMap: Map<CharacterRigJointName, RigJoint>
 ) => {
-    const joints = names.map((name) => {
-        const joint = new RigJoint(self, name)
-        jointMap.set(name, joint)
-        return joint
-    })
+    const joints = names
+        .filter((name) => self[name])
+        .map((name) => {
+            const joint = new RigJoint(self, name)
+            jointMap.set(name, joint)
+            return joint
+        })
     let childJoint: RigJoint | undefined
     for (const parentJoint of joints) {
         if (!childJoint) {
