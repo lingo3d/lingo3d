@@ -1,4 +1,4 @@
-export type PointType = { x: number; y: number; z?: number }
+export type PointType = { x: number; y: number }
 export type Point3dType = { x: number; y: number; z: number }
 
 export const isPoint = (v: any, type = typeof v): v is PointType =>

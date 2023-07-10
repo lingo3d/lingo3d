@@ -1,4 +1,7 @@
 import HelperSphere from "../display/core/utils/HelperSphere"
-import { PointType } from "../typeGuards/isPoint"
+import { Point3dType } from "../typeGuards/isPoint"
 
-export const curveHelperSpherePointMap = new WeakMap<HelperSphere, PointType>()
+export const curveHelperSpherePointMap = new WeakMap<
+    HelperSphere,
+    Point3dType
+>()

@@ -1,4 +1,4 @@
-import { PointType, isPoint } from "../../typeGuards/isPoint"
+import { Point3dType, PointType, isPoint } from "../../typeGuards/isPoint"
 
 const toFixed = (v: number, places = 2) => Number(v.toFixed(places))
 export default toFixed
@@ -6,8 +6,8 @@ export default toFixed
 export const toNullableFixed = (v: number | undefined) =>
     v === undefined ? undefined : toFixed(v)
 
-export const toFixedPoint = (value: PointType) => {
-    if (value.z !== undefined)
+export const toFixedPoint = (value: PointType | Point3dType) => {
+    if ("z" in value)
         return {
             x: toFixed(value.x),
             y: toFixed(value.y),
