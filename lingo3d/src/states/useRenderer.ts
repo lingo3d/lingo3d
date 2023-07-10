@@ -7,6 +7,7 @@ import { dynamicResolutionSystem } from "../systems/dynamicResolutionSystem"
 import { getFileCurrent } from "./useFileCurrent"
 import { getFps } from "./useFps"
 import { getResolution } from "./useResolution"
+import { getDynamicResolution } from "./useDynamicResolution"
 
 const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
@@ -32,10 +33,12 @@ createEffect(() => {
 }, [getBackgroundColor, getSplitView])
 
 createEffect(() => {
+    if (!getDynamicResolution()) return
+
     const [renderer] = rendererPtr
     dynamicResolutionSystem.add(renderer)
 
     return () => {
         dynamicResolutionSystem.delete(renderer)
     }
-}, [getFps, getRenderer, getResolution, getFileCurrent])
+}, [getFps, getRenderer, getResolution, getFileCurrent, getDynamicResolution])

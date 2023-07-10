@@ -51,6 +51,11 @@ export const dynamicResolutionSystem = createInternalSystem(
 
             rendererPtr[0].setPixelRatio(median)
             setPixelRatio(median)
+        },
+        effect: () => {},
+        cleanup: () => {
+            rendererPtr[0].setPixelRatio(1)
+            setPixelRatio(1)
         }
     }
 )

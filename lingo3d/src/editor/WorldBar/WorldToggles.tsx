@@ -1,3 +1,7 @@
+import {
+    getDynamicResolution,
+    setDynamicResolution
+} from "../../states/useDynamicResolution"
 import { getGrid, setGrid } from "../../states/useGrid"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { getStats, setStats } from "../../states/useStats"
@@ -15,6 +19,7 @@ const WorldToggles = () => {
     const uiLayer = useSyncState(getUILayer)
     const grid = useSyncState(getGrid)
     const stats = useSyncState(getStats)
+    const dynamicResolution = useSyncState(getDynamicResolution)
     const worldExpanded = useSyncState(getWorldExpanded)
 
     return (
@@ -48,6 +53,12 @@ const WorldToggles = () => {
                     setStats(val)
                     val && setUILayer(true)
                 }}
+            />
+            <Switch
+                compact
+                label="auto res"
+                on={dynamicResolution}
+                onChange={(val) => setDynamicResolution(val)}
             />
             <Switch
                 compact
