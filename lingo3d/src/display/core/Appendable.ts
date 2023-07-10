@@ -83,6 +83,7 @@ export default class Appendable extends Disposable implements IAppendable {
         emitDispose(this)
     }
     public override dispose(notCaller?: boolean) {
+        if (this.done) return this
         super.dispose()
         this.disposeNode()
         if (this.children)
