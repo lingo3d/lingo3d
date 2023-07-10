@@ -49,7 +49,7 @@ export const defaultSSROptions = {
     blurSharpness: 0,
     jitter: 0.2,
     jitterRoughness: 0,
-    steps: 256,
+    steps: 128,
     refineSteps: 1,
     missedRays: true,
     useNormalMap: true,
