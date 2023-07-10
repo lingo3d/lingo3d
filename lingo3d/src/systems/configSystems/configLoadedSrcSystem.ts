@@ -16,16 +16,16 @@ export const configLoadedSrcSystem = createInternalSystem(
                     return
                 }
                 self.$loadedGroup.add(
-                    (self.$loadedObject3d = self.$resolveLoaded(loaded, src))
+                    (self.$loadedObject = self.$resolveLoaded(loaded, src))
                 )
-                self.$events.setState("loaded", self.$loadedObject3d)
+                self.$events.setState("loaded", self.$loadedObject)
                 self.onLoad?.()
                 busyCountPtr[0]--
             })
         },
         cleanup: (self) => {
             self.$loadedGroup.clear()
-            self.$loadedObject3d = undefined
+            self.$loadedObject = undefined
             self.$events.deleteState("loaded")
         }
     }

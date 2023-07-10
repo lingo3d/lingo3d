@@ -63,7 +63,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             if (!self.target) return true
             const model = uuidMap.get(self.target)
             if (!model) return true
-            return "$loadedObject3d" in model && !model.$loadedObject3d
+            return "$loadedObject" in model && !model.$loadedObject
         }
     }
 )

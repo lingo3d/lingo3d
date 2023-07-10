@@ -70,26 +70,24 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set resize(val) {
         this._resize = val
-        this.$loadedObject3d && (this.src = this._src)
+        this.$loadedObject && (this.src = this._src)
     }
 
-    public $resolveLoaded(loadedObject3d: Group, src: string) {
-        if (loadedObject3d.animations.length) {
-            for (const clip of loadedObject3d.animations) {
-                const animation = (this.animations[clip.name] =
-                    new AnimationManager(
-                        clip.name,
-                        clip,
-                        loadedObject3d,
-                        this.$animationStates
-                    ))
-                this.append(animation)
-            }
+    public $resolveLoaded(loadedObject: Group, src: string) {
+        for (const clip of loadedObject.animations) {
+            const animation = (this.animations[clip.name] =
+                new AnimationManager(
+                    clip.name,
+                    clip,
+                    loadedObject,
+                    this.$animationStates
+                ))
+            this.append(animation)
         }
         const [{ x, y, z }] =
             this._resize === false
-                ? measure(src, { target: loadedObject3d })
-                : fit(loadedObject3d, src)
+                ? measure(src, { target: loadedObject })
+                : fit(loadedObject, src)
 
         this.runtimeDefaults = {
             width: x * M2CM,
@@ -100,7 +98,7 @@ export default class Model extends Loaded<Group> implements IModel {
         !this.heightSet && (this.$innerObject.scale.y = y)
         !this.depthSet && (this.$innerObject.scale.z = z)
 
-        return loadedObject3d
+        return loadedObject
     }
 
     public override get src() {
@@ -111,7 +109,7 @@ export default class Model extends Loaded<Group> implements IModel {
             super.src = val
             return
         }
-        this.$loadedObject3d = undefined
+        this.$loadedObject = undefined
         for (const child of this.children)
             child instanceof FoundManager && configFindRefreshSystem.add(child)
         super.src = val
@@ -179,8 +177,8 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public find(name: string) {
-        if (!this.$loadedObject3d) return
-        const child = indexChildrenNames(this.$loadedObject3d).get(
+        if (!this.$loadedObject) return
+        const child = indexChildrenNames(this.$loadedObject).get(
             PropertyBinding.sanitizeNodeName(name)
         )
         if (child) return getFoundManager(child, this)
@@ -194,17 +192,14 @@ export default class Model extends Loaded<Group> implements IModel {
             if (name(child.name)) return getFoundManager(child, this)
     }
     public findFirst(name: string | ((childName: string) => boolean)) {
-        if (!this.$loadedObject3d) return
+        if (!this.$loadedObject) return
         if (typeof name === "string") return findFirst(this, name)
-        return this._findFirst(name, indexChildrenNames(this.$loadedObject3d))
+        return this._findFirst(name, indexChildrenNames(this.$loadedObject))
     }
     public findFirstMesh(name: string | ((childName: string) => boolean)) {
-        if (!this.$loadedObject3d) return
+        if (!this.$loadedObject) return
         if (typeof name === "string") return findFirstMesh(this, name)
-        return this._findFirst(
-            name,
-            indexMeshChildrenNames(this.$loadedObject3d)
-        )
+        return this._findFirst(name, indexMeshChildrenNames(this.$loadedObject))
     }
 
     private _findAll(
@@ -218,23 +213,22 @@ export default class Model extends Loaded<Group> implements IModel {
         return result
     }
     public findAll(name?: string | ((childName: string) => boolean)) {
-        if (!this.$loadedObject3d) return []
-        if (!name) return findAll(this.$loadedObject3d, "", { owner: this })
+        if (!this.$loadedObject) return []
+        if (!name) return findAll(this.$loadedObject, "", { owner: this })
         if (typeof name === "string")
-            return findAll(this.$loadedObject3d, name, { owner: this })
-        return this._findAll(name, indexChildrenNames(this.$loadedObject3d))
+            return findAll(this.$loadedObject, name, { owner: this })
+        return this._findAll(name, indexChildrenNames(this.$loadedObject))
     }
     public findAllMeshes(name?: string | ((childName: string) => boolean)) {
-        if (!this.$loadedObject3d) return []
-        if (!name)
-            return findAllMeshes(this.$loadedObject3d, "", { owner: this })
+        if (!this.$loadedObject) return []
+        if (!name) return findAllMeshes(this.$loadedObject, "", { owner: this })
         if (typeof name === "string")
-            return findAllMeshes(this.$loadedObject3d, name, { owner: this })
-        return this._findAll(name, indexMeshChildrenNames(this.$loadedObject3d))
+            return findAllMeshes(this.$loadedObject, name, { owner: this })
+        return this._findAll(name, indexMeshChildrenNames(this.$loadedObject))
     }
 
     public override get isRendered() {
-        if (!this.$loadedObject3d) return false
+        if (!this.$loadedObject) return false
         configRenderCheckModelSystem.add(this)
         return getRendered().has(this)
     }

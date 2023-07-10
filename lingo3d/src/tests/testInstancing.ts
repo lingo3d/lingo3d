@@ -13,7 +13,7 @@ export default {}
 // model.src = "cyberpunk/electronics.glb"
 
 // model.onLoad = () => {
-//     const loaded = model.$loadedObject3d!
+//     const loaded = model.$loadedObject!
 //     loaded.traverse((child: Object3D | Mesh) => {
 //         if (!("geometry" in child)) return
 //         const instancedMesh = new InstancedMesh(

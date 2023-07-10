@@ -18,7 +18,7 @@ export default abstract class Loaded<T = Object3D>
     implements ILoaded
 {
     public $loadedGroup = new Group()
-    public $loadedObject3d?: Object3D
+    public $loadedObject?: Object3D
 
     public constructor() {
         super(new Mesh(boxGeometry, material))

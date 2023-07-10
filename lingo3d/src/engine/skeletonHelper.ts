@@ -18,10 +18,10 @@ createEffect(() => {
     )
         return
 
-    const { $loadedObject3d: loadedObject3d } = target
-    if (!loadedObject3d || !skinnedMeshSet.has(loadedObject3d)) return
+    const { $loadedObject } = target
+    if (!$loadedObject || !skinnedMeshSet.has($loadedObject)) return
 
-    const helper = new SkeletonHelper(loadedObject3d)
+    const helper = new SkeletonHelper($loadedObject)
     scene.add(helper)
 
     return () => {

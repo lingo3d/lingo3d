@@ -9,21 +9,21 @@ type ModelTreeItemProps = TreeItemProps & {
 }
 
 const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
-    const [loadedObject3d, setLoadedObject3d] = useState<Object3D>()
+    const [loadedObject, setLoadedObject] = useState<Object3D>()
 
     useEffect(() => {
-        setLoadedObject3d(undefined)
-        const handle = appendable.$events.on("loaded", setLoadedObject3d)
+        setLoadedObject(undefined)
+        const handle = appendable.$events.on("loaded", setLoadedObject)
         return () => {
             handle.cancel()
         }
     }, [appendable])
 
     return (
-        <TreeItem appendable={appendable} expandable={!!loadedObject3d}>
-            {loadedObject3d && (
+        <TreeItem appendable={appendable} expandable={!!loadedObject}>
+            {loadedObject && (
                 <NativeTreeItem
-                    object3d={loadedObject3d}
+                    object3d={loadedObject}
                     appendable={appendable}
                 />
             )}

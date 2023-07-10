@@ -34,18 +34,18 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
 
     public $resolveLoaded(svgData: SVGResult, src: string) {
-        const loadedObject3d = new Group()
-        loadedObject3d.scale.y *= -1
+        const loadedObject = new Group()
+        loadedObject.scale.y *= -1
 
         const geometries = getSVGExtrudeGeometries(svgData, { src })
         for (const geometry of geometries) {
             const mesh = new Mesh(geometry, this._material)
-            loadedObject3d.add(mesh)
+            loadedObject.add(mesh)
             mesh.castShadow = isOpaque(mesh)
             mesh.receiveShadow = true
         }
 
-        const [{ x, y, z }] = fit(loadedObject3d, src)
+        const [{ x, y, z }] = fit(loadedObject, src)
         this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,
@@ -55,7 +55,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         !this.heightSet && (this.$innerObject.scale.y = y)
         !this.depthSet && (this.$innerObject.scale.z = z)
 
-        return loadedObject3d
+        return loadedObject
     }
 
     private _material = standardMaterial
@@ -64,9 +64,8 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
     public set $material(val) {
         this._material = val
-        const children = (this.$loadedObject3d?.children ??
-            []) as Array<StandardMesh>
-        for (const mesh of children) mesh.material = val
+        for (const mesh of this.$loadedObject?.children ?? [])
+            (mesh as StandardMesh).material = val
     }
 }
 interface SvgMesh extends Loaded<SVGResult>, MixinType<TexturedStandardMixin> {}

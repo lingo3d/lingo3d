@@ -8,13 +8,13 @@ export const configFindRefreshSystem = createLoadedEffectSystem(
     {
         effect: (self: FoundManager) => {
             self.$object = self.$innerObject = indexChildrenNames(
-                self.owner!.$loadedObject3d!
+                self.owner!.$loadedObject!
             ).get(PropertyBinding.sanitizeNodeName(self.name!))!
             for (const child of self.children ?? [])
                 "$object" in child && self.$innerObject.add(child.$object)
         },
         loading: (self) => {
-            return !self.owner!.$loadedObject3d
+            return !self.owner!.$loadedObject
         }
     }
 )

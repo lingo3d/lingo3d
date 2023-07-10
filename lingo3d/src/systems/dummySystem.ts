@@ -39,19 +39,19 @@ export const dummySystem = createInternalSystem("dummySystem", {
     ) => {
         poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
 
-        const loadedObject3d = self.$loadedObject3d!
-        const quaternionOld = loadedObject3d.quaternion.clone()
+        const loadedObject = self.$loadedObject!
+        const quaternionOld = loadedObject.quaternion.clone()
 
         let spinePoint: Point3dType | undefined
         if (strideMode === "aim" && spine && spineQuaternion) {
-            loadedObject3d.quaternion.copy(loadedItemQuaternion)
+            loadedObject.quaternion.copy(loadedItemQuaternion)
             spine.quaternion.copy(spineQuaternion)
             spinePoint = spine.pointAt(1000)
         }
 
-        loadedObject3d.quaternion.setFromEuler(euler.set(0, angle * DEG2RAD, 0))
-        const quaternionNew = loadedObject3d.quaternion.clone()
-        loadedObject3d.quaternion
+        loadedObject.quaternion.setFromEuler(euler.set(0, angle * DEG2RAD, 0))
+        const quaternionNew = loadedObject.quaternion.clone()
+        loadedObject.quaternion
             .copy(quaternionOld)
             .slerp(quaternionNew, frameSyncAlpha(0.2))
 

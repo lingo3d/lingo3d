@@ -3,7 +3,7 @@ import Loaded from "../../display/core/Loaded"
 import createInternalSystem, { SystemOptions } from "./createInternalSystem"
 
 const _loading = (self: Appendable | Loaded | object) =>
-    "$loadedObject3d" in self && !self.$loadedObject3d
+    "$loadedObject" in self && !self.$loadedObject
 
 export const createLoadedEffectSystem = <
     GameObject extends Appendable | Loaded | object,

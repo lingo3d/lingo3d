@@ -139,8 +139,8 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         this.createEffect(() => {
-            const { $loadedObject3d: loadedObject3d } = this
-            if (!loadedObject3d) return
+            const { $loadedObject } = this
+            if (!$loadedObject) return
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
@@ -163,7 +163,7 @@ export default class Dummy extends Model implements IDummy {
 
             const spine = getSpine()
             const spineQuaternion = spine?.quaternion.clone()
-            const loadedItemQuaternion = loadedObject3d.quaternion.clone()
+            const loadedItemQuaternion = $loadedObject.quaternion.clone()
 
             dummySystem.add(this, {
                 poseService,
@@ -183,7 +183,7 @@ export default class Dummy extends Model implements IDummy {
                     !this.strideForward &&
                     !this.strideRight
                 )
-                    loadedObject3d.quaternion.set(0, 0, 0, 0)
+                    $loadedObject.quaternion.set(0, 0, 0, 0)
 
                 dummySystem.delete(this)
             }

@@ -6,11 +6,11 @@ import { indexMeshChildrenNames } from "./indexMeshChildrenNames"
 
 export default computeOnce2((self: Model, name: string) => {
     if (!name) {
-        const [first] = indexMeshChildrenNames(self.$loadedObject3d!).values()
+        const [first] = indexMeshChildrenNames(self.$loadedObject!).values()
         return getFoundManager(first, self)
     }
     const sanitized = PropertyBinding.sanitizeNodeName(name)
-    for (const child of indexMeshChildrenNames(self.$loadedObject3d!).values())
+    for (const child of indexMeshChildrenNames(self.$loadedObject!).values())
         if (child.name.startsWith(sanitized))
             return getFoundManager(child, self)
 })

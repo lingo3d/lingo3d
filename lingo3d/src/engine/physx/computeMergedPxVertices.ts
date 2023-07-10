@@ -12,8 +12,8 @@ export default (
     const geometries: Array<BufferGeometry> = []
 
     const loaded =
-        "$loadedObject3d" in manager
-            ? manager.$loadedObject3d!
+        "$loadedObject" in manager
+            ? manager.$loadedObject!
             : manager.$innerObject
     loaded.updateMatrixWorld()
 
