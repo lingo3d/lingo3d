@@ -23,6 +23,7 @@ export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 export const SHADOW_RESOLUTION_TARGET = 2048
 
+export const LIGHT_DISTANCE = 3000
 export const POINTLIGHT_DISTANCE = 800
 export const POINTLIGHT_INTENSITY = 6
 
