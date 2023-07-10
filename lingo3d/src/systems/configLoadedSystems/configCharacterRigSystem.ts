@@ -13,11 +13,6 @@ const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
         .sub(fromPoint as any)
         .normalize()
 
-const setupJoint = (childJoint: RigJoint, parentJoint: RigJoint) => {
-    parentJoint.setRotationFromDirection(getDirection(childJoint, parentJoint))
-    parentJoint.attach(childJoint)
-}
-
 const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
@@ -34,11 +29,16 @@ const attachJoints = (
             childJoint = parentJoint
             continue
         }
-        setupJoint(childJoint, parentJoint)
+        parentJoint.setRotationFromDirection(
+            getDirection(childJoint, parentJoint)
+        )
+        parentJoint.attach(childJoint)
         childJoint = parentJoint
     }
-    for (const joint of joints) joint.finalize()
-    for (const joint of joints) joint.quaternion.set(0, 0, 0, 1)
+    for (const joint of joints) {
+        joint.$attachBone()
+        joint.quaternion.set(0, 0, 0, 1)
+    }
 }
 
 export const configCharacterRigSystem = createLoadedEffectSystem(

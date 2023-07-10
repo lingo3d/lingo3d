@@ -6,7 +6,7 @@ import Cube from "../primitives/Cube"
 import Sphere from "../primitives/Sphere"
 
 export default class RigJoint extends Sphere {
-    private foundManager: FoundManager
+    private boneManager: FoundManager
 
     public constructor(
         private characterRig: CharacterRig,
@@ -28,15 +28,15 @@ export default class RigJoint extends Sphere {
         jointDest.depthTest = false
         jointDest.opacity = 0.5
 
-        this.foundManager = uuidMap.get(
+        this.boneManager = uuidMap.get(
             characterRig[name] as string
         ) as FoundManager
-        this.placeAt(this.foundManager.getWorldPosition())
+        this.placeAt(this.boneManager.getWorldPosition())
     }
 
-    public finalize() {
-        this.foundManager.$disableSerialize = false
-        this.foundManager.$characterRig = this.characterRig
-        this.$innerObject.attach(this.foundManager.$object)
+    public $attachBone() {
+        this.boneManager.$disableSerialize = false
+        this.boneManager.$characterRig = this.characterRig
+        this.$innerObject.attach(this.boneManager.$object)
     }
 }
