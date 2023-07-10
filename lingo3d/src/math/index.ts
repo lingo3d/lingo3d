@@ -22,7 +22,7 @@ import distance3d from "./distance3d"
 import normalize from "./normalize"
 import reflect from "./reflect"
 import project from "./project"
-import angle from "./angle"
+import angle3d from "./angle3d"
 import rotate3d from "./rotate3d"
 import rotateX from "./rotateX"
 import rotateY from "./rotateY"
@@ -83,7 +83,7 @@ const math = {
     reflect,
     project,
     polarTranslate,
-    angle,
+    angle3d,
     vertexAngle,
     rotate,
     rotate3d,
