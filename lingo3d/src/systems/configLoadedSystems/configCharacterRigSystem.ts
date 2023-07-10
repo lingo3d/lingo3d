@@ -1,17 +1,10 @@
 import { uuidMap } from "../../collections/idCollections"
 import CharacterRig from "../../display/CharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
-import { vector3 } from "../../display/utils/reusables"
-import { Point3dType } from "../../typeGuards/isPoint"
 import RigJoint from "../../display/CharacterRig/RigJoint"
 import Model from "../../display/Model"
 import { CharacterRigJointName } from "../../interface/ICharacterRig"
-
-const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
-    vector3
-        .copy(toPoint as any)
-        .sub(fromPoint as any)
-        .normalize()
+import direction3d from "../../math/direction3d"
 
 const attachJoints = (
     names: Array<CharacterRigJointName>,
@@ -32,7 +25,7 @@ const attachJoints = (
             continue
         }
         parentJoint.setRotationFromDirection(
-            getDirection(childJoint, parentJoint)
+            direction3d(childJoint, parentJoint)
         )
         parentJoint.attach(childJoint)
         childJoint = parentJoint

@@ -38,6 +38,7 @@ import polarTranslate from "./polarTranslate"
 import distance from "./distance"
 import vertexAngle from "./vertexAngle"
 import rotate from "./rotate"
+import direction3d from "./direction3d"
 
 const math = {
     abs: Math.abs,
@@ -77,6 +78,7 @@ const math = {
     length,
     distance3d,
     distance,
+    direction3d,
     normalize,
     reflect,
     project,

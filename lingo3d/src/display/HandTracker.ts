@@ -2,20 +2,13 @@ import createElement from "../utils/createElement"
 import { lazy, range } from "@lincode/utils"
 import Model from "./Model"
 import FoundManager from "./core/FoundManager"
-import { vector3 } from "./utils/reusables"
 import { event } from "@lincode/events"
 import type { GestureRecognizerResult } from "@mediapipe/tasks-vision"
 import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../math/Point3d"
-import { Point3dType } from "../typeGuards/isPoint"
 import { Reactive } from "@lincode/reactivity"
 import { mapLinear } from "three/src/math/MathUtils"
-
-const getDirection = (fromPoint: Point3dType, toPoint: Point3dType) =>
-    vector3
-        .copy(toPoint as any)
-        .sub(fromPoint as any)
-        .normalize()
+import direction3d from "../math/direction3d"
 
 const loadHandLandmarker = lazy(async () => {
     const { GestureRecognizer, FilesetResolver } = await import(
@@ -93,7 +86,7 @@ export default class HandTracker extends Model {
         toIndex: number
     ) {
         fingerManager.setRotationFromDirection(
-            getDirection(this.points[fromIndex], this.points[toIndex])
+            direction3d(this.points[fromIndex], this.points[toIndex])
         )
     }
 
@@ -151,13 +144,10 @@ export default class HandTracker extends Model {
                         }
 
                         this.setRotationFromDirection(
-                            getDirection(this.points[0], this.points[9])
+                            direction3d(this.points[0], this.points[9])
                         )
 
-                        const yaw = getDirection(
-                            this.points[3],
-                            this.points[17]
-                        )
+                        const yaw = direction3d(this.points[3], this.points[17])
                         this.rotationY = mapLinear(yaw.x, 1, -1, 0, -180) - 30
 
                         this.setFinger(this.thumb1!, 2, 3)
