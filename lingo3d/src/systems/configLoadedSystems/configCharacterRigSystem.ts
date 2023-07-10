@@ -49,8 +49,15 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         effect: (self: CharacterRig) => {
             const jointMap = new Map<CharacterRigJointName, RigJoint>()
             attachJoints(["leftHand", "leftForeArm", "leftArm"], self, jointMap)
+            attachJoints(
+                ["rightHand", "rightForeArm", "rightArm"],
+                self,
+                jointMap
+            )
             if (jointMap.has("leftArm"))
                 jointMap.get("leftArm")!.innerRotationZ = 90
+            if (jointMap.has("rightArm"))
+                jointMap.get("rightArm")!.innerRotationZ = -90
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
