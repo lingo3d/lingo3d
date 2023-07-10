@@ -9,10 +9,9 @@ import {
     SpriteMaterial
 } from "three"
 import computeOnce from "./utils/computeOnce"
-import { unloadClearCollectionSystem } from "../systems/eventSystems/unloadClearCollectionSystem"
+import { createUnloadArray } from "../utils/createUnloadMap"
 
-const materialCache: Array<ShaderMaterial> = []
-unloadClearCollectionSystem.add(materialCache)
+const materialCache = createUnloadArray<ShaderMaterial>()
 
 export default computeOnce((object: Mesh) => {
     const material = object.material as Material

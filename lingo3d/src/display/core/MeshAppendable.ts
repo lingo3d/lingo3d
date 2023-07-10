@@ -22,13 +22,13 @@ import { lerpToSystem } from "../../systems/lerpToSystem"
 import { lookToSystem } from "../../systems/lookToSystem"
 import { moveToSystem } from "../../systems/moveToSystem"
 import { configMeshAppendableSystem } from "../../systems/configSystems/configMeshAppendableSystem"
-import { getAppendablesById } from "../../collections/idCollections"
 import getActualScale from "../../memo/getActualScale"
 import getWorldQuaternion from "../../memo/getWorldQuaternion"
 import frameSync from "../../api/frameSync"
 import getParent from "./utils/getParent"
 import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
 import quadrant from "../../math/quadrant"
+import { userIdMap } from "../../collections/idCollections"
 
 const up = new Vector3(0, 1, 0)
 
@@ -165,8 +165,8 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
         if (typeof target === "string") {
-            const [found] = getAppendablesById(target)
-            if (!("$object" in found)) return
+            const [found] = userIdMap.get(target) ?? []
+            if (!found || !("$object" in found)) return
             target = found
         }
         if ("$object" in target) {

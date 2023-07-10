@@ -1,7 +1,7 @@
 import { uuidMap } from "../collections/idCollections"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
-import { unloadClearCollectionSystem } from "../systems/eventSystems/unloadClearCollectionSystem"
+import { createUnloadArray } from "../utils/createUnloadMap"
 import deserialize from "./serializer/deserialize"
 import { AppendableNode } from "./serializer/types"
 
@@ -28,10 +28,8 @@ export type CommandRecord = Record<
     CreateCommand | DeleteCommand | UpdateCommand | MoveCommand | GroupCommand
 >
 
-const undoStack: Array<CommandRecord> = []
-const redoStack: Array<CommandRecord> = []
-unloadClearCollectionSystem.add(undoStack)
-unloadClearCollectionSystem.add(redoStack)
+const undoStack = createUnloadArray<CommandRecord>()
+const redoStack = createUnloadArray<CommandRecord>()
 
 export const pushUndoStack = (commandRecord: CommandRecord) => {
     undoStack.push(commandRecord)

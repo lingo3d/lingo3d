@@ -3,15 +3,16 @@ import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { HitEvent } from "../interface/IVisible"
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
-import { getAppendablesById } from "../collections/idCollections"
 import createInternalSystem from "./utils/createInternalSystem"
+import { userIdMap } from "../collections/idCollections"
 
 const getAppendables = (val: string | Array<string> | undefined) => {
     if (!val) return []
-    if (typeof val === "string") return getAppendablesById(val)
+    if (typeof val === "string") return userIdMap.get(val) ?? []
     const result: Array<Appendable | MeshAppendable> = []
     for (const id of val)
-        for (const appendable of getAppendablesById(id)) result.push(appendable)
+        for (const appendable of userIdMap.get(id) ?? [])
+            result.push(appendable)
     return result
 }
 

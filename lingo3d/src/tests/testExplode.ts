@@ -2,7 +2,7 @@ import Model from "../display/Model"
 import math from "../math"
 import loadJSON from "../display/utils/loaders/loadJSON"
 import deserialize from "../api/serializer/deserialize"
-import { getAppendablesById } from "../collections/idCollections"
+import { userIdMap } from "../collections/idCollections"
 import { ThirdPersonCamera, onBeforeRender } from ".."
 import HandTracker from "../display/HandTracker"
 import { getWorldMode } from "../states/useWorldMode"
@@ -12,7 +12,7 @@ import multiplyScalar from "../math/multiplyScalar"
 const data: any = await loadJSON("car/bentley2.json")
 deserialize(data)
 
-const [found] = getAppendablesById("car")
+const [found] = userIdMap.get("car") ?? []
 const model = found as Model
 
 // const light = new PointLight()
@@ -48,7 +48,8 @@ model.onLoad = () => {
             gesture = handTracker.gesture
             if (gesture === "Closed_Fist") {
                 ;(async () => {
-                    for (const part of getAppendablesById("exp") as any) {
+                    for (const part of userIdMap.get("exp") ?? []) {
+                        if (!("$object" in part)) continue
                         const direction = math.normalize(
                             part.getWorldPosition()
                         )
@@ -69,7 +70,8 @@ model.onLoad = () => {
                 })()
             } else if (gesture === "Open_Palm") {
                 ;(async () => {
-                    for (const part of getAppendablesById("exp") as any) {
+                    for (const part of userIdMap.get("exp") ?? []) {
+                        if (!("$object" in part)) continue
                         part.lerpTo(0, 0, 0)
                         await new Promise<void>((resolve) =>
                             setTimeout(resolve, 10)
