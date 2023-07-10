@@ -14,7 +14,7 @@ import { setTimeline } from "../../states/useTimeline"
 import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 import { Signal, signal } from "@preact/signals"
-import { uuidMap } from "../../collections/idCollections"
+import { uuidMapAssertGet } from "../../collections/idCollections"
 import { timelinePtr } from "../../pointers/timelinePtr"
 import { timelineFramePtr } from "../../pointers/timelineFramePtr"
 import { PointType } from "../../typeGuards/isPoint"
@@ -80,7 +80,7 @@ const TimelineContextMenu = () => {
                         set(
                             timelineData,
                             [uuid, property, frame],
-                            unsafeGetValue(uuidMap.get(uuid)!, property)
+                            unsafeGetValue(uuidMapAssertGet(uuid), property)
                         )
                     )
                     timelineContextMenuSignal.value = undefined

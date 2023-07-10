@@ -1,4 +1,4 @@
-import { uuidMap } from "../../collections/idCollections"
+import { uuidMapAssertGet } from "../../collections/idCollections"
 import { CharacterRigJointName } from "../../interface/ICharacterRig"
 import CharacterRig from "."
 import FoundManager from "../core/FoundManager"
@@ -28,9 +28,7 @@ export default class RigJoint extends Sphere {
         jointDest.depthTest = false
         jointDest.opacity = 0.5
 
-        this.boneManager = uuidMap.get(
-            characterRig[name] as string
-        ) as FoundManager
+        this.boneManager = uuidMapAssertGet(characterRig[name] as string)
         this.placeAt(this.boneManager.getWorldPosition())
     }
 

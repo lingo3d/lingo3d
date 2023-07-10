@@ -14,3 +14,13 @@ export const userIdMap = createUnloadMap<
 >()
 export const idRenderCheckMap = new Map<number, MeshAppendable>()
 export const idRenderCheckModelMap = new Map<number, Model>()
+
+export const uuidMapAssertGet = <
+    T extends Appendable | MeshAppendable | Loaded
+>(
+    id: string
+) => {
+    const result = uuidMap.get(id)
+    !result && console.error(`uuidMapAssertGet: ${id} is not found`)
+    return result as T
+}

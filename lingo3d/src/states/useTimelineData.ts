@@ -5,7 +5,7 @@ import { getTimelineLayer } from "./useTimelineLayer"
 import { AnimationData, FrameValue } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { getTimelineRecord } from "./useTimelineRecord"
-import { uuidMap } from "../collections/idCollections"
+import { uuidMapAssertGet } from "../collections/idCollections"
 import getReactive from "../utils/getReactive"
 import { onTransformControls } from "../events/onTransformControls"
 import { onEditorEdit } from "../events/onEditorEdit"
@@ -58,7 +58,7 @@ createEffect(() => {
     if (!timelineData || !timeline || !getTimelineRecord()) return
 
     const timelineInstances = new WeakSet(
-        Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
+        Object.keys(timelineData).map(uuidMapAssertGet)
     )
 
     const prevMap = new WeakMap<Appendable, Record<string, any>>()

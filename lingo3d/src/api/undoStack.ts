@@ -1,5 +1,4 @@
-import { uuidMap } from "../collections/idCollections"
-import MeshAppendable from "../display/core/MeshAppendable"
+import { uuidMapAssertGet } from "../collections/idCollections"
 import { flushMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { createUnloadArray } from "../utils/createUnloadMap"
 import deserialize from "./serializer/deserialize"
@@ -41,7 +40,7 @@ export const undo = () =>
         const commandRecord = undoStack.pop()
         if (!commandRecord) return
         for (const [uuid, command] of Object.entries(commandRecord)) {
-            const manager = uuidMap.get(uuid) as MeshAppendable
+            const manager = uuidMapAssertGet(uuid)
             if (command.command === "update")
                 Object.assign(manager, command.commandPrev)
             else if (command.command === "delete") deserialize([command])
@@ -49,13 +48,13 @@ export const undo = () =>
             else if (command.command === "group") {
                 let i = 0
                 for (const uuid of command.commandChildren) {
-                    const child = uuidMap.get(uuid)!
-                    const parent = uuidMap.get(command.commandParents[i++])!
+                    const child = uuidMapAssertGet(uuid)
+                    const parent = uuidMapAssertGet(command.commandParents[i++])
                     parent.attach(child)
                 }
                 manager.dispose()
             } else if (command.command === "move")
-                uuidMap.get(command.commandFrom)!.attach(manager)
+                uuidMapAssertGet(command.commandFrom).attach(manager)
         }
         redoStack.push(commandRecord)
     }, true)
@@ -65,7 +64,7 @@ export const redo = () =>
         const commandRecord = redoStack.pop()
         if (!commandRecord) return
         for (const [uuid, command] of Object.entries(commandRecord)) {
-            const manager = uuidMap.get(uuid) as MeshAppendable
+            const manager = uuidMapAssertGet(uuid)
             if (command.command === "update")
                 Object.assign(manager, command.commandNext)
             else if (command.command === "delete") manager.dispose()
@@ -73,9 +72,9 @@ export const redo = () =>
             else if (command.command === "group") {
                 const group = deserialize([command as any])[0]!
                 for (const uuid of command.commandChildren)
-                    group.attach(uuidMap.get(uuid) as MeshAppendable)
+                    group.attach(uuidMapAssertGet(uuid))
             } else if (command.command === "move")
-                uuidMap.get(command.commandTo)!.attach(manager)
+                uuidMapAssertGet(command.commandTo).attach(manager)
         }
         undoStack.push(commandRecord)
     }, true)

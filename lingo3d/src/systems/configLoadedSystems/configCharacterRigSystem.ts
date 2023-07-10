@@ -53,7 +53,8 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         cleanup: (self) => {
             for (const child of self.children ?? [])
                 child instanceof RigJoint && child.dispose()
-            const model = uuidMap.get(self.target!) as Model
+            const model = uuidMap.get(self.target!)
+            if (!(model instanceof Model)) return
             model.src = model.src
         },
         loading: (self) => {

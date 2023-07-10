@@ -18,7 +18,7 @@ import {
     getScriptsUnsaved
 } from "../../states/useScriptsUnsaved"
 import { editorUrlPtr } from "../../pointers/assetsPathPointers"
-import { uuidMap } from "../../collections/idCollections"
+import { uuidMapAssertGet } from "../../collections/idCollections"
 import Script from "../../display/Script"
 import {
     editorWidthSignal,
@@ -107,7 +107,7 @@ const ScriptEditor = () => {
                 }}
                 onSaveAll={(entries) => {
                     for (const [uri, code] of entries) {
-                        const script = uuidMap.get(uri.slice(1)) as Script
+                        const script = uuidMapAssertGet<Script>(uri.slice(1))
                         script.code = code
                         deleteScriptsUnsaved(script)
                     }
