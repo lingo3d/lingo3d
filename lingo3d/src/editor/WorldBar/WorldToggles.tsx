@@ -56,7 +56,7 @@ const WorldToggles = () => {
             />
             <Switch
                 compact
-                label="auto res"
+                label="perf"
                 on={dynamicResolution}
                 onChange={(val) => setDynamicResolution(val)}
             />
