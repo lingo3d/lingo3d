@@ -185,11 +185,11 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     private _findFirst(
-        name: (childName: string) => boolean,
+        predicate: (childName: string) => boolean,
         children: Map<string, Object3D>
     ) {
         for (const child of children.values())
-            if (name(child.name)) return getFoundManager(child, this)
+            if (predicate(child.name)) return getFoundManager(child, this)
     }
     public findFirst(name: string | ((childName: string) => boolean)) {
         if (!this.$loadedObject) return
