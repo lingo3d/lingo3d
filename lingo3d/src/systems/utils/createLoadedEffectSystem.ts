@@ -19,7 +19,7 @@ export const createLoadedEffectSystem = <
     }: Pick<
         SystemOptions<GameObject, Data, void>,
         "data" | "effect" | "cleanup" | "effectTicker"
-    > & { loading?: (self: GameObject, data: Data) => boolean }
+    > & { loading?: (self: GameObject) => boolean }
 ) => {
     const effectSystem = createInternalSystem(name, {
         data,
@@ -28,20 +28,19 @@ export const createLoadedEffectSystem = <
         effectTicker
     })
     const addSystem = createInternalSystem(name + "Add", {
-        data,
-        update: (self, data) => {
-            if (loading(self, data)) return
+        update: (self: GameObject) => {
+            if (loading(self)) return
             addSystem.delete(self)
-            effectSystem.add(self, data)
+            effectSystem.add(self)
         }
     })
     return {
-        add: (item: GameObject, initData?: Data) => {
-            if (loading(item, initData!)) {
-                addSystem.add(item, initData)
+        add: (item: GameObject) => {
+            if (loading(item)) {
+                addSystem.add(item)
                 return
             }
-            effectSystem.add(item, initData)
+            effectSystem.add(item)
         },
         delete: (item: GameObject) => {
             addSystem.delete(item)
