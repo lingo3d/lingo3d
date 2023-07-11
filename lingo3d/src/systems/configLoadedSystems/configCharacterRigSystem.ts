@@ -21,11 +21,13 @@ const attachJoints = (
     let childJoint: RigJoint | undefined
     for (const parentJoint of joints) {
         if (!childJoint) {
+            const child = parentJoint.boneManager.$object.children[0]
+            console.log(child)
             childJoint = parentJoint
             continue
         }
         parentJoint.setRotationFromDirection(
-            direction3d(childJoint, parentJoint)
+            direction3d(childJoint.position, parentJoint.position)
         )
         parentJoint.attach(childJoint)
         childJoint = parentJoint

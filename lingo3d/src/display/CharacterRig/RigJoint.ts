@@ -6,7 +6,7 @@ import Cube from "../primitives/Cube"
 import Sphere from "../primitives/Sphere"
 
 export default class RigJoint extends Sphere {
-    private boneManager: FoundManager
+    public boneManager: FoundManager
 
     public constructor(
         private characterRig: CharacterRig,
