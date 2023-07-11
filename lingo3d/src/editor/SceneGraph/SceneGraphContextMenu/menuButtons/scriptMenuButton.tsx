@@ -4,28 +4,24 @@ import { componentNameMenuButtonMap } from "../../../../collections/componentNam
 import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 import { getScript, setScript } from "../../../../states/useScript"
 import MenuButton from "../../../component/MenuButton"
+import { returnTrue } from "../../../../display/utils/reusables"
 
 componentNameMenuButtonMap.set(
     "script",
-    memo(
-        () => {
-            const selectionTarget = selectionTargetPtr[0] as any
-            const script = getScript()
+    memo(() => {
+        const selectionTarget = selectionTargetPtr[0] as any
+        const script = getScript()
 
-            return (
-                <MenuButton
-                    disabled={selectionTarget === script}
-                    onClick={() => {
-                        setScript(selectionTarget)
-                        sceneGraphContextMenuSignal.value = undefined
-                    }}
-                >
-                    {selectionTarget === script
-                        ? "Already editing"
-                        : "Edit Script"}
-                </MenuButton>
-            )
-        },
-        () => true
-    )
+        return (
+            <MenuButton
+                disabled={selectionTarget === script}
+                onClick={() => {
+                    setScript(selectionTarget)
+                    sceneGraphContextMenuSignal.value = undefined
+                }}
+            >
+                {selectionTarget === script ? "Already editing" : "Edit Script"}
+            </MenuButton>
+        )
+    }, returnTrue)
 )

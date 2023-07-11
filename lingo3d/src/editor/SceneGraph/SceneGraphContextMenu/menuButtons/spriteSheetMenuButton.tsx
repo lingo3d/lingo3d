@@ -4,26 +4,21 @@ import { componentNameMenuButtonMap } from "../../../../collections/componentNam
 import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 import MenuButton from "../../../component/MenuButton"
 import downloadBlob from "../../../../utils/downloadBlob"
+import { returnTrue } from "../../../../display/utils/reusables"
 
 componentNameMenuButtonMap.set(
     "spriteSheet",
-    memo(
-        () => {
-            const selectionTarget = selectionTargetPtr[0] as any
-            return (
-                <MenuButton
-                    onClick={() => {
-                        downloadBlob(
-                            "spriteSheet.png",
-                            selectionTarget.toBlob()
-                        )
-                        sceneGraphContextMenuSignal.value = undefined
-                    }}
-                >
-                    Save image
-                </MenuButton>
-            )
-        },
-        () => true
-    )
+    memo(() => {
+        const selectionTarget = selectionTargetPtr[0] as any
+        return (
+            <MenuButton
+                onClick={() => {
+                    downloadBlob("spriteSheet.png", selectionTarget.toBlob())
+                    sceneGraphContextMenuSignal.value = undefined
+                }}
+            >
+                Save image
+            </MenuButton>
+        )
+    }, returnTrue)
 )

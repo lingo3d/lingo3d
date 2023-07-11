@@ -5,28 +5,26 @@ import { selectionTargetPtr } from "../../../../pointers/selectionTargetPtr"
 import MenuButton from "../../../component/MenuButton"
 import { timelinePtr } from "../../../../pointers/timelinePtr"
 import { setTimeline } from "../../../../states/useTimeline"
+import { returnTrue } from "../../../../display/utils/reusables"
 
 componentNameMenuButtonMap.set(
     "timeline",
-    memo(
-        () => {
-            const selectionTarget = selectionTargetPtr[0] as any
-            const [timeline] = timelinePtr
+    memo(() => {
+        const selectionTarget = selectionTargetPtr[0] as any
+        const [timeline] = timelinePtr
 
-            return (
-                <MenuButton
-                    disabled={selectionTarget === timeline}
-                    onClick={() => {
-                        setTimeline(selectionTarget)
-                        sceneGraphContextMenuSignal.value = undefined
-                    }}
-                >
-                    {selectionTarget === timeline
-                        ? "Already editing"
-                        : "Edit Timeline"}
-                </MenuButton>
-            )
-        },
-        () => true
-    )
+        return (
+            <MenuButton
+                disabled={selectionTarget === timeline}
+                onClick={() => {
+                    setTimeline(selectionTarget)
+                    sceneGraphContextMenuSignal.value = undefined
+                }}
+            >
+                {selectionTarget === timeline
+                    ? "Already editing"
+                    : "Edit Timeline"}
+            </MenuButton>
+        )
+    }, returnTrue)
 )

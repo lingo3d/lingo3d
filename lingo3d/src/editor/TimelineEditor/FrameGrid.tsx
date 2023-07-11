@@ -1,5 +1,6 @@
 import { memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
+import { returnTrue } from "../../display/utils/reusables"
 
 const FrameGrid = () => {
     return (
@@ -29,4 +30,4 @@ const FrameGrid = () => {
     )
 }
 
-export default memo(FrameGrid, () => true)
+export default memo(FrameGrid, returnTrue)

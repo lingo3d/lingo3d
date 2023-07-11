@@ -1,5 +1,6 @@
 import { CSSProperties, memo } from "preact/compat"
 import { INVERSE_STANDARD_FRAME, FRAME_WIDTH } from "../../globals"
+import { returnTrue } from "../../display/utils/reusables"
 
 const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
@@ -39,4 +40,4 @@ const Metric = ({ index, style }: MetricProps) => {
     )
 }
 
-export default memo(Metric, () => true)
+export default memo(Metric, returnTrue)

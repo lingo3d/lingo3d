@@ -1,6 +1,7 @@
 import { memo } from "preact/compat"
 import { FRAME_HEIGHT, FRAME_WIDTH } from "../../globals"
 import { frameIndicatorSignal } from "./frameIndicatorSignal"
+import { returnTrue } from "../../display/utils/reusables"
 
 const FrameIndicator = () => {
     const pt = frameIndicatorSignal.value
@@ -21,4 +22,4 @@ const FrameIndicator = () => {
     )
 }
 
-export default memo(FrameIndicator, () => true)
+export default memo(FrameIndicator, returnTrue)

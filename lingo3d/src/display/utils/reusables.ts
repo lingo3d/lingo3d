@@ -50,3 +50,5 @@ export const pt3d0 = Object.freeze(new Point3d(0, 0, 0))
 
 export const whiteColor = Object.freeze(new Color("white"))
 export const blackColor = Object.freeze(new Color("black"))
+
+export const returnTrue = () => true

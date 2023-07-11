@@ -13,16 +13,13 @@ import { measure } from "../memo/measure"
 import { indexChildrenNames } from "../memo/indexChildrenNames"
 import { getFoundManager } from "./core/utils/getFoundManager"
 import { indexMeshChildrenNames } from "../memo/indexMeshChildrenNames"
-import findFirst from "../memo/findFirst"
-import findFirstMesh from "../memo/findFirstMesh"
-import findAll from "../memo/findAll"
-import findAllMeshes from "../memo/findAllMeshes"
 import loadModel from "./utils/loaders/loadModel"
 import getRendered from "../throttle/getRendered"
 import { configFactorsSystem } from "../systems/configLoadedSystems/configFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
 import { configFindRefreshSystem } from "../systems/configLoadedSystems/configFindRefreshSystem"
+import { returnTrue } from "./utils/reusables"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -191,40 +188,41 @@ export default class Model extends Loaded<Group> implements IModel {
         for (const child of children.values())
             if (predicate(child.name)) return getFoundManager(child, this)
     }
-    public findFirst(name: string | ((childName: string) => boolean)) {
+    public findFirst(predicate: (childName: string) => boolean) {
         if (!this.$loadedObject) return
-        if (typeof name === "string") return findFirst(this, name)
-        return this._findFirst(name, indexChildrenNames(this.$loadedObject))
+        return this._findFirst(
+            predicate,
+            indexChildrenNames(this.$loadedObject)
+        )
     }
-    public findFirstMesh(name: string | ((childName: string) => boolean)) {
+    public findFirstMesh(predicate: (childName: string) => boolean) {
         if (!this.$loadedObject) return
-        if (typeof name === "string") return findFirstMesh(this, name)
-        return this._findFirst(name, indexMeshChildrenNames(this.$loadedObject))
+        return this._findFirst(
+            predicate,
+            indexMeshChildrenNames(this.$loadedObject)
+        )
     }
 
     private _findAll(
-        name: (childName: string) => boolean,
+        predicate: (childName: string) => boolean = returnTrue,
         children: Map<string, Object3D>
     ) {
         const result: Array<FoundManager> = []
         for (const child of children.values())
-            name(child.name) && result.push(getFoundManager(child, this))
+            predicate(child.name) && result.push(getFoundManager(child, this))
 
         return result
     }
-    public findAll(name?: string | ((childName: string) => boolean)) {
+    public findAll(predicate?: (childName: string) => boolean) {
         if (!this.$loadedObject) return []
-        if (!name) return findAll(this.$loadedObject, "", { owner: this })
-        if (typeof name === "string")
-            return findAll(this.$loadedObject, name, { owner: this })
-        return this._findAll(name, indexChildrenNames(this.$loadedObject))
+        return this._findAll(predicate, indexChildrenNames(this.$loadedObject))
     }
-    public findAllMeshes(name?: string | ((childName: string) => boolean)) {
+    public findAllMeshes(predicate?: (childName: string) => boolean) {
         if (!this.$loadedObject) return []
-        if (!name) return findAllMeshes(this.$loadedObject, "", { owner: this })
-        if (typeof name === "string")
-            return findAllMeshes(this.$loadedObject, name, { owner: this })
-        return this._findAll(name, indexMeshChildrenNames(this.$loadedObject))
+        return this._findAll(
+            predicate,
+            indexMeshChildrenNames(this.$loadedObject)
+        )
     }
 
     public override get isRendered() {
