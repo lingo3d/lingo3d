@@ -33,16 +33,15 @@ export default class Model extends Loaded<Group> implements IModel {
         const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return
 
-        this.append(
-            (this.animations[name] = new AnimationManager(
-                name,
-                clip,
-                await new Promise<Object3D>((resolve) =>
-                    this.$events.once("loaded", resolve)
-                ),
-                this.$animationStates
-            ))
-        )
+        const animation = (this.animations[name] = new AnimationManager(
+            name,
+            await new Promise<Object3D>((resolve) =>
+                this.$events.once("loaded", resolve)
+            ),
+            this.$animationStates
+        ))
+        animation.$clip = clip
+        this.append(animation)
         if (name === this.animation) this.animation = name
     }
 
@@ -71,15 +70,16 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public $resolveLoaded(loadedObject: Group, src: string) {
-        for (const clip of loadedObject.animations)
-            this.append(
-                (this.animations[clip.name] = new AnimationManager(
+        for (const clip of loadedObject.animations) {
+            const animation = (this.animations[clip.name] =
+                new AnimationManager(
                     clip.name,
-                    clip,
                     loadedObject,
                     this.$animationStates
                 ))
-            )
+            animation.$clip = clip
+            this.append(animation)
+        }
         const [{ x, y, z }] =
             this._resize === false
                 ? measure(src, { target: loadedObject })

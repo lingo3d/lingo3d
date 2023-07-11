@@ -39,10 +39,7 @@ export const configAnimationDataSystem = createInternalSystem(
     "configAnimationDataSystem",
     {
         effect: (self: AnimationManager) => {
-            if (!self.data) {
-                self.$clip = self.$loadedClip
-                return
-            }
+            if (!self.data) return
             self.$clip = new AnimationClip(
                 undefined,
                 undefined,

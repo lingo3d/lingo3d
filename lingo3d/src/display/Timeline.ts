@@ -20,7 +20,7 @@ export default class Timeline extends AnimationManager implements ITimeline {
 
     public constructor() {
         const animationStates = new AnimationStates()
-        super("", undefined, {}, animationStates)
+        super("", {}, animationStates)
         animationStates.manager = this
         this.$disableSerialize = false
         this.paused = true

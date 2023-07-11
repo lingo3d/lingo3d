@@ -35,7 +35,7 @@ const getAnimation = (
     if (animation && typeof animation !== "string") return animation
     self.append(
         (animation = self.animations[name] =
-            new AnimationManager(name, undefined, self, self.$animationStates))
+            new AnimationManager(name, self, self.$animationStates))
     )
     return animation
 }

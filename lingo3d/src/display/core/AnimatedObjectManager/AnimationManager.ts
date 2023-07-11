@@ -63,14 +63,12 @@ export default class AnimationManager
 
     public constructor(
         name: string | undefined,
-        public $loadedClip: AnimationClip | undefined,
         target: object | undefined,
         public $animationStates: AnimationStates
     ) {
         super()
         this.$disableSerialize = true
         this.name = name
-        configAnimationDataSystem.add(this)
         this.$mixer = forceGetInstance(
             targetMixerMap,
             target ?? this,
@@ -89,10 +87,10 @@ export default class AnimationManager
         )
         const animation = new AnimationManager(
             this.name,
-            newClip,
             target,
             animationStates
         )
+        animation.$clip = newClip
         target.append(animation)
         return animation
     }
