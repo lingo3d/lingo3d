@@ -18,8 +18,8 @@ import getRendered from "../throttle/getRendered"
 import { configFactorsSystem } from "../systems/configLoadedSystems/configFactorsSystem"
 import { configCastShadowSystem } from "../systems/configLoadedSystems/configCastShadowSystem"
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
-import { configFindRefreshSystem } from "../systems/configLoadedSystems/configFindRefreshSystem"
 import { returnTrue } from "./utils/reusables"
+import { configModelSrcSystem } from "../systems/configLoadedSystems/configModelSrcSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -102,14 +102,8 @@ export default class Model extends Loaded<Group> implements IModel {
         return super.src
     }
     public override set src(val) {
-        if (!this.children) {
-            super.src = val
-            return
-        }
-        this.$loadedObject = undefined
-        for (const child of this.children)
-            child instanceof FoundManager && configFindRefreshSystem.add(child)
         super.src = val
+        configModelSrcSystem.add(this)
     }
 
     protected override disposeNode() {

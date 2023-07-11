@@ -41,6 +41,7 @@ export default abstract class Loaded<T = Object3D>
     }
     public set src(val) {
         this._src = val
+        this.$loadedObject = undefined
         val
             ? configLoadedSrcSystem.add(this)
             : configLoadedSrcSystem.delete(this)
