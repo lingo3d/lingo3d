@@ -11,6 +11,7 @@ const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
 map.physics = "map"
+map.id = "map"
 
 //create player dummy
 const player = new Dummy()
@@ -32,7 +33,7 @@ player.physics = "character"
 
 //set player and map hit detection
 //useful for detecting when player has landed
-player.hitTarget = map.uuid
+player.hitTarget = "map"
 
 //instantiate state machine
 const service = interpret(stateMachine)
