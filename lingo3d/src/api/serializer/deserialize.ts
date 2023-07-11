@@ -11,7 +11,7 @@ const nodeToObjectManager = (
 ) => {
     if (node.type === "lingo3d") return
     if (node.type === "find") {
-        ;(parent as Model).$events.once("loaded", () => {
+        parent!.$events.once("loaded", () => {
             const object = (parent as Model).find(node.name)!
             object.$disableSerialize = false
             Object.assign(object, omit(node, nonSerializedProperties))
