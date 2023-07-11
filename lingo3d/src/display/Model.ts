@@ -28,14 +28,13 @@ export default class Model extends Loaded<Group> implements IModel {
     public static schema = modelSchema
 
     public $animationUrls?: Record<string, string>
-    public $animationClips?: Array<AnimationClip>
-    public $namedAnimationClips?: Record<string, AnimationClip>
+    public $animationClips?: Record<string, AnimationClip>
 
     private async loadAnimation(url: string, name: string) {
         ;(this.$animationUrls ??= {})[name] = url
         const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return
-        ;(this.$namedAnimationClips ??= {})[name] = clip
+        ;(this.$animationClips ??= {})[name] = clip
         configModelAnimationSystem.add(this)
     }
 
@@ -64,7 +63,8 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public $resolveLoaded(loadedObject: Group, src: string) {
-        this.$animationClips = loadedObject.animations
+        for (const clip of loadedObject.animations)
+            (this.$animationClips ??= {})[clip.name] = clip
         configModelAnimationSystem.add(this)
 
         const [{ x, y, z }] =

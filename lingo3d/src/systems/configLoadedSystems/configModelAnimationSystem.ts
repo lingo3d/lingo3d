@@ -8,20 +8,8 @@ export const configModelAnimationSystem = createLoadedEffectSystem(
         data: { animations: [] as Array<AnimationManager> },
         effect: (self: Model, data) => {
             if (self.$animationClips)
-                for (const clip of self.$animationClips) {
-                    const animation = (self.animations[clip.name] =
-                        new AnimationManager(
-                            clip.name,
-                            self.$loadedObject,
-                            self.$animationStates
-                        ))
-                    animation.$clip = clip
-                    self.append(animation)
-                    data.animations.push(animation)
-                }
-            if (self.$namedAnimationClips)
                 for (const [name, clip] of Object.entries(
-                    self.$namedAnimationClips
+                    self.$animationClips
                 )) {
                     const animation = (self.animations[name] =
                         new AnimationManager(
