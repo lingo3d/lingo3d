@@ -1,5 +1,4 @@
 import Model from "../../display/Model"
-import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import FoundManager from "../../display/core/FoundManager"
 import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
@@ -25,16 +24,8 @@ export const configModelSrcSystem = createLoadedEffectSystem(
                     "$object" in _child && child.$object.add(_child.$object)
             }
         },
-        cleanup: (self, data) => {
+        cleanup: (_, data) => {
             data.reload = true
-            let animCount = 0
-            for (const child of self.children ?? []) {
-                if (child instanceof AnimationManager) {
-                    child.dispose()
-                    animCount++
-                }
-            }
-            console.log(animCount)
         }
     }
 )
