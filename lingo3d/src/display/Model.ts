@@ -1,4 +1,4 @@
-import { Group, Object3D, PropertyBinding } from "three"
+import { AnimationClip, Group, Object3D, PropertyBinding } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -20,6 +20,7 @@ import { configCastShadowSystem } from "../systems/configLoadedSystems/configCas
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
 import { returnTrue } from "./utils/reusables"
 import { configModelSrcSystem } from "../systems/configLoadedSystems/configModelSrcSystem"
+import { configModelAnimationSystem } from "../systems/configLoadedSystems/configModelAnimationSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -69,17 +70,10 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject && (this.src = this._src)
     }
 
+    public $animationClips?: Array<AnimationClip>
     public $resolveLoaded(loadedObject: Group, src: string) {
-        for (const clip of loadedObject.animations) {
-            const animation = (this.animations[clip.name] =
-                new AnimationManager(
-                    clip.name,
-                    loadedObject,
-                    this.$animationStates
-                ))
-            animation.$clip = clip
-            this.append(animation)
-        }
+        this.$animationClips = loadedObject.animations
+        configModelAnimationSystem.add(this)
         const [{ x, y, z }] =
             this._resize === false
                 ? measure(src, { target: loadedObject })
