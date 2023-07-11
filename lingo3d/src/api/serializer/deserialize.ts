@@ -13,7 +13,7 @@ const nodeToObjectManager = (
 ) => {
     if (node.type === "lingo3d") return
     if (node.type === "find") {
-        configFindNodeSystem.add(node, { owner: parent as Model })
+        configFindNodeSystem.add(node, { model: parent as Model })
         return
     }
     const object = createObject(node.type)

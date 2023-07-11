@@ -8,9 +8,9 @@ import { nodeToObjectManagerPtr } from "../../pointers/nodeToObjectManagerPtr"
 export const configFindNodeSystem = createLoadedEffectSystem(
     "configFindNodeSystem",
     {
-        data: {} as { owner: Model },
+        data: {} as { model: Model },
         effect: (node: FindNode, data) => {
-            const object = data.owner.find(node.name)!
+            const object = data.model.find(node.name)!
             object.$disableSerialize = false
             Object.assign(object, omit(node, nonSerializedProperties))
             node.children
@@ -18,7 +18,7 @@ export const configFindNodeSystem = createLoadedEffectSystem(
                 .forEach((c) => c && object.append(c))
         },
         loading: (_, data) => {
-            return !data.owner.$loadedObject
+            return !data.model.$loadedObject
         }
     }
 )

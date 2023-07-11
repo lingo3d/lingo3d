@@ -71,16 +71,15 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public $resolveLoaded(loadedObject: Group, src: string) {
-        for (const clip of loadedObject.animations) {
-            const animation = (this.animations[clip.name] =
-                new AnimationManager(
+        for (const clip of loadedObject.animations)
+            this.append(
+                (this.animations[clip.name] = new AnimationManager(
                     clip.name,
                     clip,
                     loadedObject,
                     this.$animationStates
                 ))
-            this.append(animation)
-        }
+            )
         const [{ x, y, z }] =
             this._resize === false
                 ? measure(src, { target: loadedObject })
