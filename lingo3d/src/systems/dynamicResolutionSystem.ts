@@ -10,7 +10,7 @@ import { mapLinear } from "three/src/math/MathUtils"
 import toFixed from "../api/serializer/toFixed"
 
 const sortPixelRatio = (a: number, b: number) => a - b
-const SAMPLES = 20
+const SAMPLES = 10
 
 export const dynamicResolutionSystem = createInternalSystem(
     "dynamicResolutionSystem",
@@ -27,9 +27,9 @@ export const dynamicResolutionSystem = createInternalSystem(
             if (data.pixelRatioArray.length < SAMPLES) return
 
             data.pixelRatioArray.sort(sortPixelRatio)
-            const median = toFixed(
-                data.pixelRatioArray[Math.floor(SAMPLES * 0.4)],
-                1
+            const median = Math.max(
+                toFixed(data.pixelRatioArray[Math.floor(SAMPLES * 0.4)], 1),
+                0.6
             )
             data.pixelRatioArray.length = 0
 
