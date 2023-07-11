@@ -28,22 +28,15 @@ export default class Model extends Loaded<Group> implements IModel {
     public static schema = modelSchema
 
     public $animationUrls?: Record<string, string>
-    public async loadAnimation(url: string, name = url) {
-        ;(this.$animationUrls ??= {})[name] = url
+    public $animationClips?: Array<AnimationClip>
+    public $namedAnimationClips?: Record<string, AnimationClip>
 
+    private async loadAnimation(url: string, name: string) {
+        ;(this.$animationUrls ??= {})[name] = url
         const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return
-
-        const animation = (this.animations[name] = new AnimationManager(
-            name,
-            await new Promise<Object3D>((resolve) =>
-                this.$events.once("loaded", resolve)
-            ),
-            this.$animationStates
-        ))
-        animation.$clip = clip
-        this.append(animation)
-        if (name === this.animation) this.animation = name
+        ;(this.$namedAnimationClips ??= {})[name] = clip
+        configModelAnimationSystem.add(this)
     }
 
     public override get animations(): Record<string, AnimationManager> {
@@ -70,10 +63,10 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject && (this.src = this._src)
     }
 
-    public $animationClips?: Array<AnimationClip>
     public $resolveLoaded(loadedObject: Group, src: string) {
         this.$animationClips = loadedObject.animations
         configModelAnimationSystem.add(this)
+
         const [{ x, y, z }] =
             this._resize === false
                 ? measure(src, { target: loadedObject })
