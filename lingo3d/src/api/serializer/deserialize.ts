@@ -4,8 +4,6 @@ import { SceneGraphNode } from "./types"
 import nonSerializedProperties from "./nonSerializedProperties"
 import Appendable from "../../display/core/Appendable"
 import type Model from "../../display/Model"
-import { configFindNodeSystem } from "../../systems/configLoadedSystems/configFindNodeSystem"
-import { nodeToObjectManagerPtr } from "../../pointers/nodeToObjectManagerPtr"
 
 const nodeToObjectManager = (
     node: SceneGraphNode,
@@ -13,7 +11,14 @@ const nodeToObjectManager = (
 ) => {
     if (node.type === "lingo3d") return
     if (node.type === "find") {
-        configFindNodeSystem.add(node, { model: parent as Model })
+        ;(parent as Model).$events.once("loaded", () => {
+            const object = (parent as Model).find(node.name)!
+            object.$disableSerialize = false
+            Object.assign(object, omit(node, nonSerializedProperties))
+            node.children
+                ?.map((n) => nodeToObjectManager(n, object))
+                .forEach((c) => c && object.append(c))
+        })
         return
     }
     const object = createObject(node.type)
@@ -23,8 +28,6 @@ const nodeToObjectManager = (
         .forEach((c) => c && object.append(c as any))
     return object
 }
-export type NodeToObjectManager = typeof nodeToObjectManager
-nodeToObjectManagerPtr[0] = nodeToObjectManager
 
 export default (graph: Array<SceneGraphNode>) =>
     graph.map((n) => nodeToObjectManager(n, undefined))
