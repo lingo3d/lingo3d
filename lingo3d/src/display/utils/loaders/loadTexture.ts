@@ -2,7 +2,10 @@ import { TextureLoader, Texture, RepeatWrapping } from "three"
 import { handleProgress } from "./utils/bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { loadTextureSet } from "../../../collections/loadTextureSet"
-import { busyCountPtr } from "../../../pointers/busyCountPtr"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../../collections/busyProcesses"
 
 const textureLoader = new TextureLoader()
 const rgbeLoader = new RGBELoader()
@@ -10,7 +13,7 @@ const rgbeLoader = new RGBELoader()
 Texture.DEFAULT_ANISOTROPY = 8
 
 export default (url: string, onLoad?: (texture: Texture) => void) => {
-    busyCountPtr[0]++
+    addBusyProcess("loadTexture")
 
     const hdr = url.toLowerCase().endsWith(".hdr")
     const loader = hdr ? rgbeLoader : textureLoader
@@ -18,11 +21,13 @@ export default (url: string, onLoad?: (texture: Texture) => void) => {
     const texture = loader.load(
         url,
         () => {
-            busyCountPtr[0]--
+            deleteBusyProcess("loadTexture")
             onLoad?.(texture)
         },
         handleProgress(url),
-        () => busyCountPtr[0]--
+        () => {
+            deleteBusyProcess("loadTexture")
+        }
     )
     texture.wrapS = texture.wrapT = RepeatWrapping
     loadTextureSet.add(texture)

@@ -1,8 +1,11 @@
 import { assert, forceGet } from "@lincode/utils"
 import { FileLoader } from "three"
 import { handleProgress } from "./utils/bytesLoaded"
-import { busyCountPtr } from "../../../pointers/busyCountPtr"
 import { createUnloadMap } from "../../../utils/createUnloadMap"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../../collections/busyProcesses"
 
 const cache = createUnloadMap<
     string,
@@ -16,20 +19,20 @@ export default (url: string) =>
         url,
         () =>
             new Promise<Record<string, any> | Array<any>>((resolve, reject) => {
-                busyCountPtr[0]++
+                addBusyProcess("loadJSON")
                 loader.load(
                     url,
                     (data) => {
                         try {
                             assert(typeof data === "string")
                             const parsed = JSON.parse(data)
-                            busyCountPtr[0]--
+                            deleteBusyProcess("loadJSON")
                             resolve(parsed as any)
                         } catch {}
                     },
                     handleProgress(url),
                     () => {
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadJSON")
                         reject()
                     }
                 )

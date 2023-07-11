@@ -1,8 +1,11 @@
 import { forceGet } from "@lincode/utils"
 import { AudioLoader } from "three"
 import { handleProgress } from "./utils/bytesLoaded"
-import { busyCountPtr } from "../../../pointers/busyCountPtr"
 import { createUnloadMap } from "../../../utils/createUnloadMap"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../../collections/busyProcesses"
 
 const cache = createUnloadMap<string, Promise<AudioBuffer>>()
 const loader = new AudioLoader()
@@ -13,16 +16,16 @@ export default (url: string) =>
         url,
         () =>
             new Promise<AudioBuffer>((resolve, reject) => {
-                busyCountPtr[0]++
+                addBusyProcess("loadAudio")
                 loader.load(
                     url,
                     (buffer) => {
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadAudio")
                         resolve(buffer)
                     },
                     handleProgress(url),
                     () => {
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadAudio")
                         reject()
                     }
                 )

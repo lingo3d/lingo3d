@@ -14,12 +14,10 @@ import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { physicsSet } from "../../collections/physicsSet"
 import { configPhysicsTransformSystem } from "../configSystems/configPhysicsTransformSystem"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
-import { busyCountPtr } from "../../pointers/busyCountPtr"
 import getParent from "../../display/core/utils/getParent"
 import { DEG2RAD } from "three/src/math/MathUtils"
 
 export const importPhysX = lazy(async () => {
-    busyCountPtr[0]++
     await import("../../engine/physx")
     await new Promise<void>((resolve) =>
         getPhysXLoaded((loaded, handle) => {
@@ -28,7 +26,6 @@ export const importPhysX = lazy(async () => {
             resolve()
         })
     )
-    busyCountPtr[0]--
 })
 
 export const configPhysicsShapeSystem = createLoadedEffectSystem(

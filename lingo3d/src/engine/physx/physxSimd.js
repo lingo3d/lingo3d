@@ -1,5 +1,8 @@
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../collections/busyProcesses"
 import { wasmUrlPtr } from "../../pointers/assetsPathPointers"
-import { busyCountPtr } from "../../pointers/busyCountPtr"
 
 var PhysX = (() => {
     var _scriptDir =
@@ -5463,10 +5466,10 @@ var PhysX = (() => {
             // So use fetch if it is available and the url is not a file, otherwise fall back to XHR.
             if (!wasmBinary && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER)) {
                 if (typeof fetch == "function") {
-                    busyCountPtr[0]++
+                    addBusyProcess("physx")
                     return fetch(wasmBinaryFile, { credentials: "same-origin" })
                         .then(function (response) {
-                            busyCountPtr[0]--
+                            deleteBusyProcess("physx")
                             if (!response["ok"]) {
                                 throw (
                                     "failed to load wasm binary file at '" +
@@ -5477,7 +5480,7 @@ var PhysX = (() => {
                             return response["arrayBuffer"]()
                         })
                         .catch(function () {
-                            busyCountPtr[0]--
+                            deleteBusyProcess("physx")
                             return getBinary(wasmBinaryFile)
                         })
                 }
@@ -5572,12 +5575,12 @@ var PhysX = (() => {
                     !isDataURI(wasmBinaryFile) &&
                     typeof fetch == "function"
                 ) {
-                    busyCountPtr[0]++
+                    addBusyProcess("physxInstantiateAsync")
                     return fetch(wasmBinaryFile, {
                         credentials: "same-origin"
                     })
                         .then(function (response) {
-                            busyCountPtr[0]--
+                            deleteBusyProcess("physxInstantiateAsync")
                             // Suppress closure warning here since the upstream definition for
                             // instantiateStreaming only allows Promise<Repsponse> rather than
                             // an actual Response.
@@ -5607,7 +5610,7 @@ var PhysX = (() => {
                             )
                         })
                         .catch(() => {
-                            busyCountPtr[0]--
+                            deleteBusyProcess("physxInstantiateAsync")
                         })
                 } else {
                     return instantiateArrayBuffer(receiveInstantiationResult)

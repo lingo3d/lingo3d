@@ -1,5 +1,4 @@
 import Loaded from "../../display/core/Loaded"
-import { busyCountPtr } from "../../pointers/busyCountPtr"
 import createInternalSystem from "../utils/createInternalSystem"
 
 export const configLoadedSrcSystem = createInternalSystem(
@@ -9,18 +8,13 @@ export const configLoadedSrcSystem = createInternalSystem(
             const { src } = self
             if (!src) return false
 
-            busyCountPtr[0]++
             self.$load(src).then((loaded) => {
-                if (self.src !== src) {
-                    busyCountPtr[0]--
-                    return
-                }
+                if (self.src !== src) return
                 self.$loadedGroup.add(
                     (self.$loadedObject = self.$resolveLoaded(loaded, src))
                 )
                 self.$events.setState("loaded", self.$loadedObject)
                 self.onLoad?.()
-                busyCountPtr[0]--
             })
         },
         cleanup: (self) => {

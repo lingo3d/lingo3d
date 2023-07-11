@@ -11,7 +11,6 @@ import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
 import { M2CM } from "../globals"
 import getSVGExtrudeGeometries from "../memo/getSVGExtrudeGeometries"
-import { busyCountPtr } from "../pointers/busyCountPtr"
 import isOpaque from "../memo/isOpaque"
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
@@ -20,16 +19,13 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static schema = svgMeshSchema
 
     public async $load(url: string) {
-        busyCountPtr[0]++
         const module = await import("./utils/loaders/loadSVG")
         let result: SVGResult
         try {
             result = await module.default(url)
         } catch {
-            busyCountPtr[0]--
             throw new Error("Failed to load svg, check if src is correct")
         }
-        busyCountPtr[0]--
         return result
     }
 

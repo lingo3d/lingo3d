@@ -6,8 +6,11 @@ import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
 import processChildren from "./utils/processChildren"
 import { wasmUrlPtr } from "../../../pointers/assetsPathPointers"
-import { busyCountPtr } from "../../../pointers/busyCountPtr"
 import { createUnloadMap } from "../../../utils/createUnloadMap"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../../collections/busyProcesses"
 
 const cache = createUnloadMap<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -25,7 +28,7 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[GLTF, boolean]>((resolve, reject) => {
-                busyCountPtr[0]++
+                addBusyProcess("loadGLTF")
                 loader.load(
                     url,
                     (gltf: GLTF) => {
@@ -33,12 +36,12 @@ export default async (url: string, clone: boolean) => {
                         for (const scene of gltf.scenes)
                             processChildren(scene, noBonePtr)
 
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadGLTF")
                         resolve([gltf, noBonePtr[0]])
                     },
                     handleProgress(url),
                     () => {
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadGLTF")
                         reject()
                     }
                 )

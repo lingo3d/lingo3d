@@ -3,7 +3,10 @@ import serialize from "../../api/serializer/serialize"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import useSyncState from "../hooks/useSyncState"
 import { getScriptRuntime } from "../../states/useScriptRuntime"
-import { busyCountPtr } from "../../pointers/busyCountPtr"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../collections/busyProcesses"
 
 const Runtime = () => {
     const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -12,9 +15,9 @@ const Runtime = () => {
 
     useEffect(() => {
         if (!busy) return
-        busyCountPtr[0]++
+        addBusyProcess("runtime")
         return () => {
-            busyCountPtr[0]--
+            deleteBusyProcess("runtime")
         }
     }, [busy])
 

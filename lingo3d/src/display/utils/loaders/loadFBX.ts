@@ -4,8 +4,11 @@ import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
 import processChildren from "./utils/processChildren"
-import { busyCountPtr } from "../../../pointers/busyCountPtr"
 import { createUnloadMap } from "../../../utils/createUnloadMap"
+import {
+    addBusyProcess,
+    deleteBusyProcess
+} from "../../../collections/busyProcesses"
 
 const cache = createUnloadMap<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()
@@ -16,18 +19,18 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[Group, boolean]>((resolve, reject) => {
-                busyCountPtr[0]++
+                addBusyProcess("loadFBX")
                 loader.load(
                     url,
                     (group: Group) => {
                         const noBonePtr: [boolean] = [true]
                         processChildren(group, noBonePtr)
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadFBX")
                         resolve([group, noBonePtr[0]])
                     },
                     handleProgress(url),
                     () => {
-                        busyCountPtr[0]--
+                        deleteBusyProcess("loadFBX")
                         reject()
                     }
                 )
