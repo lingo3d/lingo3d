@@ -1,5 +1,6 @@
 import Model from "../../display/Model"
 import FoundManager from "../../display/core/FoundManager"
+import getParentWithSameName from "../../display/core/utils/getParentWithSameName"
 import { indexChildrenNames } from "../../memo/indexChildrenNames"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import { configFactorsSystem } from "./configFactorsSystem"
@@ -17,9 +18,9 @@ export const configModelSrcSystem = createLoadedEffectSystem(
             const childrenNames = indexChildrenNames(self.$loadedObject!)
             for (const child of self.children ?? []) {
                 if (!(child instanceof FoundManager)) continue
-                child.$object = child.$innerObject = childrenNames.get(
-                    child.name!
-                )!
+                child.$object = child.$innerObject = getParentWithSameName(
+                    childrenNames.get(child.name!)!
+                )
                 for (const _child of child.children ?? [])
                     "$object" in _child && child.$object.add(_child.$object)
             }

@@ -21,6 +21,7 @@ import { configRenderCheckModelSystem } from "../systems/configSystems/configRen
 import { returnTrue } from "./utils/reusables"
 import { configModelSrcSystem } from "../systems/configLoadedSystems/configModelSrcSystem"
 import { configModelAnimationSystem } from "../systems/configLoadedSystems/configModelAnimationSystem"
+import getParentWithSameName from "./core/utils/getParentWithSameName"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -158,7 +159,7 @@ export default class Model extends Loaded<Group> implements IModel {
         const child = indexChildrenNames(this.$loadedObject).get(
             PropertyBinding.sanitizeNodeName(name)
         )
-        if (child) return getFoundManager(child, this)
+        if (child) return getFoundManager(getParentWithSameName(child), this)
     }
 
     private _findFirst(
@@ -166,7 +167,8 @@ export default class Model extends Loaded<Group> implements IModel {
         children: Map<string, Object3D>
     ) {
         for (const child of children.values())
-            if (predicate(child.name)) return getFoundManager(child, this)
+            if (predicate(child.name))
+                return getFoundManager(getParentWithSameName(child), this)
     }
     public findFirst(predicate: (childName: string) => boolean) {
         if (!this.$loadedObject) return
