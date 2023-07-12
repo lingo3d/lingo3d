@@ -8,12 +8,13 @@ import direction3d from "../../math/direction3d"
 import distance3d from "../../math/distance3d"
 import getWorldPosition from "../../memo/getWorldPosition"
 import { Point3dType } from "../../typeGuards/isPoint"
+import { forceGet } from "@lincode/utils"
 
 const setRotation = (
     parentJoint: RigJoint,
     childPosition: Point3dType,
     parentPosition: Point3dType,
-    flipY: boolean
+    flipY?: boolean
 ) => {
     parentJoint.setRotationFromDirection(
         flipY
@@ -26,20 +27,16 @@ const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
     jointMap: Map<CharacterRigJointName, RigJoint>,
-    autoEndPoint = true,
-    flipY = false
+    isSpine?: boolean
 ) => {
     const joints = names
         .filter((name) => self[name])
-        .map((name) => {
-            const joint = new RigJoint(self, name)
-            jointMap.set(name, joint)
-            return joint
-        })
+        .map((name) => forceGet(jointMap, name, () => new RigJoint(self, name)))
     let childJoint: RigJoint | undefined
+    const lastJoint = joints.at(-1)
     for (const parentJoint of joints) {
         if (!childJoint) {
-            if (autoEndPoint) {
+            if (!isSpine) {
                 const { $object } = parentJoint.boneManager
                 const child = $object.children
                     .map(
@@ -58,18 +55,19 @@ const attachJoints = (
                         parentJoint,
                         getWorldPosition(child),
                         getWorldPosition(parentJoint.$object),
-                        flipY
+                        isSpine
                     )
             }
             childJoint = parentJoint
             continue
         }
-        setRotation(
-            parentJoint,
-            getWorldPosition(childJoint.$object),
-            getWorldPosition(parentJoint.$object),
-            flipY
-        )
+        if (isSpine || parentJoint !== lastJoint)
+            setRotation(
+                parentJoint,
+                getWorldPosition(childJoint.$object),
+                getWorldPosition(parentJoint.$object),
+                isSpine
+            )
         parentJoint.attach(childJoint)
         childJoint = parentJoint
     }
@@ -85,22 +83,40 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         effect: (self: CharacterRig) => {
             const jointMap = new Map<CharacterRigJointName, RigJoint>()
             attachJoints(
-                ["leftHand", "leftForeArm", "leftArm", "leftShoulder"],
+                [
+                    "leftHand",
+                    "leftForeArm",
+                    "leftArm",
+                    "leftShoulder",
+                    "spine2"
+                ],
                 self,
                 jointMap
             )
             attachJoints(
-                ["rightHand", "rightForeArm", "rightArm", "rightShoulder"],
+                [
+                    "rightHand",
+                    "rightForeArm",
+                    "rightArm",
+                    "rightShoulder",
+                    "spine2"
+                ],
                 self,
                 jointMap
             )
             attachJoints(
-                ["leftForeFoot", "leftFoot", "leftLeg", "leftThigh"],
+                ["leftForeFoot", "leftFoot", "leftLeg", "leftThigh", "hips"],
                 self,
                 jointMap
             )
             attachJoints(
-                ["rightForeFoot", "rightFoot", "rightLeg", "rightThigh"],
+                [
+                    "rightForeFoot",
+                    "rightFoot",
+                    "rightLeg",
+                    "rightThigh",
+                    "hips"
+                ],
                 self,
                 jointMap
             )
@@ -108,7 +124,6 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 ["neck", "spine2", "spine1", "spine0", "hips"],
                 self,
                 jointMap,
-                false,
                 true
             )
             if (jointMap.has("leftShoulder"))
