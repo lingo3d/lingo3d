@@ -7,12 +7,27 @@ import { CharacterRigJointName } from "../../interface/ICharacterRig"
 import direction3d from "../../math/direction3d"
 import distance3d from "../../math/distance3d"
 import getWorldPosition from "../../memo/getWorldPosition"
+import { Point3dType } from "../../typeGuards/isPoint"
+
+const setRotation = (
+    parentJoint: RigJoint,
+    childPosition: Point3dType,
+    parentPosition: Point3dType,
+    flipY: boolean
+) => {
+    parentJoint.setRotationFromDirection(
+        flipY
+            ? direction3d(parentPosition, childPosition)
+            : direction3d(childPosition, parentPosition)
+    )
+}
 
 const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
     jointMap: Map<CharacterRigJointName, RigJoint>,
-    autoEndPoint = true
+    autoEndPoint = true,
+    flipY = false
 ) => {
     const joints = names
         .filter((name) => self[name])
@@ -39,21 +54,21 @@ const attachJoints = (
                     )
                     .sort((a, b) => b[0] - a[0])[0]?.[1]
                 child &&
-                    parentJoint.setRotationFromDirection(
-                        direction3d(
-                            getWorldPosition(child),
-                            getWorldPosition(parentJoint.$object)
-                        )
+                    setRotation(
+                        parentJoint,
+                        getWorldPosition(child),
+                        getWorldPosition(parentJoint.$object),
+                        flipY
                     )
             }
             childJoint = parentJoint
             continue
         }
-        parentJoint.setRotationFromDirection(
-            direction3d(
-                getWorldPosition(childJoint.$object),
-                getWorldPosition(parentJoint.$object)
-            )
+        setRotation(
+            parentJoint,
+            getWorldPosition(childJoint.$object),
+            getWorldPosition(parentJoint.$object),
+            flipY
         )
         parentJoint.attach(childJoint)
         childJoint = parentJoint
@@ -90,10 +105,11 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 jointMap
             )
             attachJoints(
-                ["neck", "spine2"],
+                ["neck", "spine2", "spine1", "spine0", "hips"],
                 self,
                 jointMap,
-                false
+                false,
+                true
             )
             if (jointMap.has("leftShoulder"))
                 jointMap.get("leftShoulder")!.innerRotationZ = 90
@@ -109,9 +125,6 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 jointMap.get("leftForeFoot")!.innerRotationX = -35
             if (jointMap.has("rightForeFoot"))
                 jointMap.get("rightForeFoot")!.innerRotationX = -35
-
-            // if (jointMap.has("spine2"))
-            //     jointMap.get("spine2")!.innerRotationX = 180
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
