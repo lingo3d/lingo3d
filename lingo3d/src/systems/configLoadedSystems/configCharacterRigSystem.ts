@@ -5,6 +5,8 @@ import RigJoint from "../../display/CharacterRig/RigJoint"
 import Model from "../../display/Model"
 import { CharacterRigJointName } from "../../interface/ICharacterRig"
 import direction3d from "../../math/direction3d"
+import distance3d from "../../math/distance3d"
+import getWorldPosition from "../../memo/getWorldPosition"
 
 const attachJoints = (
     names: Array<CharacterRigJointName>,
@@ -21,13 +23,34 @@ const attachJoints = (
     let childJoint: RigJoint | undefined
     for (const parentJoint of joints) {
         if (!childJoint) {
-            const child = parentJoint.boneManager.$object.children[0]
-            console.log(child)
+            const { $object } = parentJoint.boneManager
+            const child = $object.children
+                .map(
+                    (c) =>
+                        <const>[
+                            distance3d(
+                                getWorldPosition($object),
+                                getWorldPosition(c)
+                            ),
+                            c
+                        ]
+                )
+                .sort((a, b) => b[0] - a[0])[0]?.[1]
+            child &&
+                parentJoint.setRotationFromDirection(
+                    direction3d(
+                        getWorldPosition(child),
+                        getWorldPosition(parentJoint.$object)
+                    )
+                )
             childJoint = parentJoint
             continue
         }
         parentJoint.setRotationFromDirection(
-            direction3d(childJoint.position, parentJoint.position)
+            direction3d(
+                getWorldPosition(childJoint.$object),
+                getWorldPosition(parentJoint.$object)
+            )
         )
         parentJoint.attach(childJoint)
         childJoint = parentJoint
