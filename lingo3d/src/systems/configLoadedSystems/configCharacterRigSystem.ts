@@ -11,7 +11,8 @@ import getWorldPosition from "../../memo/getWorldPosition"
 const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
-    jointMap: Map<CharacterRigJointName, RigJoint>
+    jointMap: Map<CharacterRigJointName, RigJoint>,
+    autoEndPoint = true
 ) => {
     const joints = names
         .filter((name) => self[name])
@@ -23,26 +24,28 @@ const attachJoints = (
     let childJoint: RigJoint | undefined
     for (const parentJoint of joints) {
         if (!childJoint) {
-            const { $object } = parentJoint.boneManager
-            const child = $object.children
-                .map(
-                    (c) =>
-                        <const>[
-                            distance3d(
-                                getWorldPosition($object),
-                                getWorldPosition(c)
-                            ),
-                            c
-                        ]
-                )
-                .sort((a, b) => b[0] - a[0])[0]?.[1]
-            child &&
-                parentJoint.setRotationFromDirection(
-                    direction3d(
-                        getWorldPosition(child),
-                        getWorldPosition(parentJoint.$object)
+            if (autoEndPoint) {
+                const { $object } = parentJoint.boneManager
+                const child = $object.children
+                    .map(
+                        (c) =>
+                            <const>[
+                                distance3d(
+                                    getWorldPosition($object),
+                                    getWorldPosition(c)
+                                ),
+                                c
+                            ]
                     )
-                )
+                    .sort((a, b) => b[0] - a[0])[0]?.[1]
+                child &&
+                    parentJoint.setRotationFromDirection(
+                        direction3d(
+                            getWorldPosition(child),
+                            getWorldPosition(parentJoint.$object)
+                        )
+                    )
+            }
             childJoint = parentJoint
             continue
         }
@@ -86,18 +89,29 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 jointMap
             )
+            attachJoints(
+                ["neck", "spine2"],
+                self,
+                jointMap,
+                false
+            )
             if (jointMap.has("leftShoulder"))
                 jointMap.get("leftShoulder")!.innerRotationZ = 90
             if (jointMap.has("rightShoulder"))
                 jointMap.get("rightShoulder")!.innerRotationZ = -90
+
             if (jointMap.has("leftFoot"))
                 jointMap.get("leftFoot")!.innerRotationX = -55
             if (jointMap.has("rightFoot"))
                 jointMap.get("rightFoot")!.innerRotationX = -55
+
             if (jointMap.has("leftForeFoot"))
                 jointMap.get("leftForeFoot")!.innerRotationX = -35
             if (jointMap.has("rightForeFoot"))
                 jointMap.get("rightForeFoot")!.innerRotationX = -35
+
+            // if (jointMap.has("spine2"))
+            //     jointMap.get("spine2")!.innerRotationX = 180
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
