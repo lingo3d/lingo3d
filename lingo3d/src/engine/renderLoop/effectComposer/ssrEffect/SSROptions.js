@@ -44,13 +44,13 @@ export const defaultSSROptions = {
     blend: 0.9,
     correction: 0.5,
     correctionRadius: 1,
-    blur: 0, //1
-    blurKernel: 0, //2
-    blurSharpness: 0, //20
+    blur: 1,
+    blurKernel: 1,
+    blurSharpness: 20,
     jitter: 0.2,
     jitterRoughness: 0,
-    steps: 256,
-    refineSteps: 1,
+    steps: 64,
+    refineSteps: 5,
     missedRays: true,
     useNormalMap: true,
     useRoughnessMap: true,
