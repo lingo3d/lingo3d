@@ -66,16 +66,38 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     {
         effect: (self: CharacterRig) => {
             const jointMap = new Map<CharacterRigJointName, RigJoint>()
-            attachJoints(["leftHand", "leftForeArm", "leftArm"], self, jointMap)
             attachJoints(
-                ["rightHand", "rightForeArm", "rightArm"],
+                ["leftHand", "leftForeArm", "leftArm", "leftShoulder"],
                 self,
                 jointMap
             )
-            if (jointMap.has("leftArm"))
-                jointMap.get("leftArm")!.innerRotationZ = 90
-            if (jointMap.has("rightArm"))
-                jointMap.get("rightArm")!.innerRotationZ = -90
+            attachJoints(
+                ["rightHand", "rightForeArm", "rightArm", "rightShoulder"],
+                self,
+                jointMap
+            )
+            attachJoints(
+                ["leftForeFoot", "leftFoot", "leftLeg", "leftThigh"],
+                self,
+                jointMap
+            )
+            attachJoints(
+                ["rightForeFoot", "rightFoot", "rightLeg", "rightThigh"],
+                self,
+                jointMap
+            )
+            if (jointMap.has("leftShoulder"))
+                jointMap.get("leftShoulder")!.innerRotationZ = 90
+            if (jointMap.has("rightShoulder"))
+                jointMap.get("rightShoulder")!.innerRotationZ = -90
+            if (jointMap.has("leftFoot"))
+                jointMap.get("leftFoot")!.innerRotationX = -55
+            if (jointMap.has("rightFoot"))
+                jointMap.get("rightFoot")!.innerRotationX = -55
+            if (jointMap.has("leftForeFoot"))
+                jointMap.get("leftForeFoot")!.innerRotationX = -35
+            if (jointMap.has("rightForeFoot"))
+                jointMap.get("rightForeFoot")!.innerRotationX = -35
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
