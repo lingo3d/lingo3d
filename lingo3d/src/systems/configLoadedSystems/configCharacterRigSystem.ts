@@ -31,7 +31,11 @@ const attachJoints = (
 ) => {
     const joints = names
         .filter((name) => self[name])
-        .map((name) => forceGet(jointMap, name, () => new CharacterRigJoint(self, name)))
+        .map((name) =>
+            forceGet(jointMap, name, () =>
+                new CharacterRigJoint().$init(self, name)
+            )
+        )
     let childJoint: CharacterRigJoint | undefined
     const lastJoint = joints.at(-1)
     for (const parentJoint of joints) {

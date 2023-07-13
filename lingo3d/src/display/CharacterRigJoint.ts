@@ -18,17 +18,13 @@ export default class CharacterRigJoint
     public static defaults = characterRigJointDefaults
     public static schema = characterRigJointSchema
 
-    public boneManager: FoundManager
+    public boneManager!: FoundManager
+    private characterRig!: CharacterRig
 
-    public constructor(
-        private characterRig: CharacterRig,
-        name: CharacterRigJointName
-    ) {
+    public constructor() {
         super()
         this.$disableSerialize = true
         this.scale = 0.05
-        this.name = name
-        characterRig.append(this)
 
         const jointSrc = new Sphere()
         jointSrc.$ghost()
@@ -43,9 +39,15 @@ export default class CharacterRigJoint
         jointDest.scale = 0.2
         jointDest.depthTest = false
         jointDest.opacity = 0.5
+    }
 
+    public $init(characterRig: CharacterRig, name: CharacterRigJointName) {
+        this.characterRig = characterRig
+        this.name = name
+        characterRig.append(this)
         this.boneManager = uuidMapAssertGet(characterRig[name] as string)
         this.placeAt(this.boneManager.getWorldPosition())
+        return this
     }
 
     public $attachBone() {
