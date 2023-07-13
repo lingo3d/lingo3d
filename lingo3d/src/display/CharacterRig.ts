@@ -7,6 +7,7 @@ import ICharacterRig, {
 import { configCharacterRigSystem } from "../systems/configLoadedSystems/configCharacterRigSystem"
 import Nullable from "../interface/utils/Nullable"
 import CharacterRigJoint from "./CharacterRigJoint"
+import { CharacterRigPtr } from "../pointers/CharacterRigPtr"
 
 export default class CharacterRig extends Appendable implements ICharacterRig {
     public static componentName = "characterRig"
@@ -54,3 +55,5 @@ export default class CharacterRig extends Appendable implements ICharacterRig {
             : configCharacterRigSystem.delete(this)
     }
 }
+
+CharacterRigPtr[0] = CharacterRig

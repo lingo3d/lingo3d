@@ -4,7 +4,7 @@ import ICharacterRigJoint, {
     characterRigJointDefaults,
     characterRigJointSchema
 } from "../interface/ICharacterRigJoint"
-import unsafeGetValue from "../utils/unsafeGetValue"
+import { CharacterRigPtr } from "../pointers/CharacterRigPtr"
 import FoundManager from "./core/FoundManager"
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import Cube from "./primitives/Cube"
@@ -45,9 +45,10 @@ export default class CharacterRigJoint
     }
     public set target(val: CharacterRigJointName | undefined) {
         this._target = val
-        if (!val || !this.parent) return
-        this.boneManager = uuidMapAssertGet(unsafeGetValue(this.parent, val))
+        if (!val || !(this.parent instanceof CharacterRigPtr[0])) return
+        this.boneManager = uuidMapAssertGet(this.parent[val] as string)
         this.placeAt(this.boneManager.getWorldPosition())
+        this.parent.$jointMap.set(val, this)
     }
 
     public $attachBone() {
