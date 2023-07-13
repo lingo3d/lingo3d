@@ -1,15 +1,19 @@
 import Appendable from "./core/Appendable"
 import ICharacterRig, {
+    CharacterRigJointName,
     characterRigDefaults,
     characterRigSchema
 } from "../interface/ICharacterRig"
 import { configCharacterRigSystem } from "../systems/configLoadedSystems/configCharacterRigSystem"
 import Nullable from "../interface/utils/Nullable"
+import CharacterRigJoint from "./CharacterRigJoint"
 
 export default class CharacterRig extends Appendable implements ICharacterRig {
     public static componentName = "characterRig"
     public static defaults = characterRigDefaults
     public static schema = characterRigSchema
+
+    public $jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
 
     public target: Nullable<string>
 

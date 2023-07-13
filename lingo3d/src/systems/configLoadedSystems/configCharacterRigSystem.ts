@@ -1,4 +1,4 @@
-import { uuidMap } from "../../collections/idCollections"
+import { uuidMap, uuidMapAssertGet } from "../../collections/idCollections"
 import CharacterRig from "../../display/CharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 import CharacterRigJoint from "../../display/CharacterRigJoint"
@@ -26,13 +26,12 @@ const setRotation = (
 const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
-    jointMap: Map<CharacterRigJointName, CharacterRigJoint>,
     isSpine?: boolean
 ) => {
     const joints = names
         .filter((name) => self[name])
         .map((name) =>
-            forceGet(jointMap, name, () => {
+            forceGet(self.$jointMap, name, () => {
                 const joint = new CharacterRigJoint()
                 self.append(joint)
                 joint.target = name
@@ -88,7 +87,6 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
         effect: (self: CharacterRig) => {
-            const jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
             attachJoints(
                 [
                     "leftHand",
@@ -97,8 +95,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                     "leftShoulder",
                     "spine2"
                 ],
-                self,
-                jointMap
+                self
             )
             attachJoints(
                 [
@@ -108,13 +105,11 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                     "rightShoulder",
                     "spine2"
                 ],
-                self,
-                jointMap
+                self
             )
             attachJoints(
                 ["leftForeFoot", "leftFoot", "leftLeg", "leftThigh", "hips"],
-                self,
-                jointMap
+                self
             )
             attachJoints(
                 [
@@ -124,35 +119,33 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                     "rightThigh",
                     "hips"
                 ],
-                self,
-                jointMap
+                self
             )
             attachJoints(
                 ["neck", "spine2", "spine1", "spine0", "hips"],
                 self,
-                jointMap,
                 true
             )
-            if (jointMap.has("leftShoulder"))
-                jointMap.get("leftShoulder")!.innerRotationZ = 90
-            if (jointMap.has("rightShoulder"))
-                jointMap.get("rightShoulder")!.innerRotationZ = -90
+            const { $jointMap } = self
+            if ($jointMap.has("leftShoulder"))
+                $jointMap.get("leftShoulder")!.innerRotationZ = 90
+            if ($jointMap.has("rightShoulder"))
+                $jointMap.get("rightShoulder")!.innerRotationZ = -90
 
-            if (jointMap.has("leftFoot"))
-                jointMap.get("leftFoot")!.innerRotationX = -55
-            if (jointMap.has("rightFoot"))
-                jointMap.get("rightFoot")!.innerRotationX = -55
+            if ($jointMap.has("leftFoot"))
+                $jointMap.get("leftFoot")!.innerRotationX = -55
+            if ($jointMap.has("rightFoot"))
+                $jointMap.get("rightFoot")!.innerRotationX = -55
 
-            if (jointMap.has("leftForeFoot"))
-                jointMap.get("leftForeFoot")!.innerRotationX = -35
-            if (jointMap.has("rightForeFoot"))
-                jointMap.get("rightForeFoot")!.innerRotationX = -35
+            if ($jointMap.has("leftForeFoot"))
+                $jointMap.get("leftForeFoot")!.innerRotationX = -35
+            if ($jointMap.has("rightForeFoot"))
+                $jointMap.get("rightForeFoot")!.innerRotationX = -35
         },
         cleanup: (self) => {
-            for (const child of self.children ?? [])
-                child instanceof CharacterRigJoint && child.dispose()
-            const model = uuidMap.get(self.target!)
-            if (!(model instanceof Model)) return
+            for (const joint of self.$jointMap.values()) joint.dispose()
+            self.$jointMap.clear()
+            const model = uuidMapAssertGet<Model>(self.target!)
             model.src = model.src
         },
         loading: (self) => {
