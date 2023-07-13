@@ -18,6 +18,7 @@ import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitScen
 import type { System } from "../../systems/utils/createInternalSystem"
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import { updateSystemsSystem } from "../../systems/updateSystemsSystem"
+import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 
 type EventName = "name" | "loaded"
 
@@ -91,7 +92,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
         if (notCaller) return this
         ;(this.parent?.children ?? appendableRoot).delete(this)
-        emitSceneGraphChangeSystem.add(this)
+        !this.$disableSceneGraph && emitSceneGraphChange()
         return this
     }
 
