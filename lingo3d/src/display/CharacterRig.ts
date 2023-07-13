@@ -7,6 +7,7 @@ import ICharacterRig, {
 import { configCharacterRigSystem } from "../systems/configLoadedSystems/configCharacterRigSystem"
 import Nullable from "../interface/utils/Nullable"
 import CharacterRigJoint from "./CharacterRigJoint"
+import { AppendableNode } from "../api/serializer/types"
 
 export default class CharacterRig extends Appendable implements ICharacterRig {
     public static componentName = "characterRig"
@@ -14,6 +15,7 @@ export default class CharacterRig extends Appendable implements ICharacterRig {
     public static schema = characterRigSchema
 
     public $jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
+    public $jointNodes?: Array<AppendableNode>
 
     public target: Nullable<string>
 

@@ -4,6 +4,7 @@ import { SceneGraphNode } from "./types"
 import nonSerializedProperties from "./nonSerializedProperties"
 import Appendable from "../../display/core/Appendable"
 import type Model from "../../display/Model"
+import CharacterRig from "../../display/CharacterRig"
 
 const nodeToObjectManager = (
     node: SceneGraphNode,
@@ -22,8 +23,7 @@ const nodeToObjectManager = (
         return
     }
     if (node.type === "characterRigJoint") {
-        //mark
-        console.log(parent)
+        ;((parent as CharacterRig).$jointNodes ??= []).push(node)
         return
     }
     const object = createObject(node.type)
