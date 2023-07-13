@@ -1,12 +1,23 @@
 import { uuidMapAssertGet } from "../collections/idCollections"
 import { CharacterRigJointName } from "../interface/ICharacterRig"
+import ICharacterRigJoint, {
+    characterRigJointDefaults,
+    characterRigJointSchema
+} from "../interface/ICharacterRigJoint"
 import CharacterRig from "./CharacterRig"
 import FoundManager from "./core/FoundManager"
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import Cube from "./primitives/Cube"
 import Sphere from "./primitives/Sphere"
 
-export default class CharacterRigJoint extends GimbalObjectManager {
+export default class CharacterRigJoint
+    extends GimbalObjectManager
+    implements ICharacterRigJoint
+{
+    public static componentName = "characterRigJoint"
+    public static defaults = characterRigJointDefaults
+    public static schema = characterRigJointSchema
+
     public boneManager: FoundManager
 
     public constructor(
@@ -39,7 +50,7 @@ export default class CharacterRigJoint extends GimbalObjectManager {
 
     public $attachBone() {
         this.boneManager.$disableSerialize = false
-        this.boneManager.$characterRig = this.characterRig
+        this.boneManager.characterRig = this.characterRig
         this.$innerObject.attach(this.boneManager.$object)
     }
 }

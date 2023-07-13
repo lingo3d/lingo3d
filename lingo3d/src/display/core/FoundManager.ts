@@ -56,7 +56,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         super.animation = val
     }
 
-    public $characterRig: CharacterRig | undefined
+    public characterRig: CharacterRig | undefined
 }
 interface FoundManager
     extends SimpleObjectManager,

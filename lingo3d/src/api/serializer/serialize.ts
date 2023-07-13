@@ -42,7 +42,7 @@ const serialize = (
             : { type: componentName }
 
         const entries =
-            componentName === "find" && (child as FoundManager).$characterRig
+            componentName === "find" && (child as FoundManager).characterRig
                 ? Object.entries(schema).filter(
                       ([key]) => !transformProperties.has(key)
                   )
