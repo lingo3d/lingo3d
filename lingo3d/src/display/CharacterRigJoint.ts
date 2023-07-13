@@ -23,7 +23,7 @@ export default class CharacterRigJoint
 
     public constructor() {
         super()
-        this.scale = 0.05
+        this.scale = 0.03
 
         const jointSrc = new Sphere()
         jointSrc.$ghost()
