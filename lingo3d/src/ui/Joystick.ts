@@ -17,7 +17,6 @@ export default class Joystick extends Appendable implements IJoystick {
     public static componentName = "joystick"
     public static defaults = joystickDefaults
     public static schema = joystickSchema
-    public static includeKeys = ["onMove"]
 
     public onMove: Nullable<(e: PointType) => void>
     public onMoveStart: Nullable<(e: PointType) => void>

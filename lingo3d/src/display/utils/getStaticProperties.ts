@@ -6,11 +6,9 @@ type Result = {
     schema: any
     defaults: Defaults<any>
     componentName: GameObjectType
-    includeKeys: any
 }
 
 export default (manager: Appendable): Result => {
-    const { schema, defaults, componentName, includeKeys } =
-        manager.constructor as any
-    return { schema, defaults, componentName, includeKeys }
+    const { schema, defaults, componentName } = manager.constructor as any
+    return { schema, defaults, componentName }
 }
