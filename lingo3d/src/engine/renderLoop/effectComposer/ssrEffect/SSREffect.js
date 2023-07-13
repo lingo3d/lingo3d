@@ -225,18 +225,6 @@ export class SSREffect extends Effect {
         }
     }
 
-    setIBLRadiance(iblRadiance, renderer) {
-        this._scene.traverse((c) => {
-            if (c.material) {
-                const uniforms = renderer.properties.get(c.material)?.uniforms
-
-                if (uniforms && "disableIBLRadiance" in uniforms) {
-                    uniforms.disableIBLRadiance.value = iblRadiance
-                }
-            }
-        })
-    }
-
     dispose() {
         super.dispose()
 
