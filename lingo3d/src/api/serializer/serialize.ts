@@ -24,6 +24,15 @@ const transformProperties = new Set([
     "z"
 ])
 
+const transformProperties2 = new Set([
+    "scaleX",
+    "scaleY",
+    "scaleZ",
+    "x",
+    "y",
+    "z"
+])
+
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,
     skipUUID: boolean,
@@ -42,9 +51,14 @@ const serialize = (
             : { type: componentName }
 
         const entries =
-            componentName === "find" && (child as FoundManager).characterRig
+            (componentName as string) === "find" &&
+            (child as FoundManager).characterRig
                 ? Object.entries(schema).filter(
                       ([key]) => !transformProperties.has(key)
+                  )
+                : componentName === "characterRigJoint"
+                ? Object.entries(schema).filter(
+                      ([key]) => !transformProperties2.has(key)
                   )
                 : Object.entries(schema)
         for (const [key, type] of entries) {

@@ -12,7 +12,6 @@ import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { userIdMap, uuidMap } from "../../collections/idCollections"
 import { emitId } from "../../events/onId"
-import { GameObjectType } from "../../api/serializer/types"
 import { loopSystem } from "../../systems/loopSystem"
 import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import type { System } from "../../systems/utils/createInternalSystem"
@@ -31,7 +30,7 @@ export default class Appendable extends Disposable implements IAppendable {
         emitSceneGraphChangeSystem.add(this)
     }
 
-    public get componentName(): GameObjectType {
+    public get componentName() {
         return getStaticProperties(this).componentName
     }
 

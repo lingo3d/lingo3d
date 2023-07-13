@@ -21,6 +21,9 @@ const nodeToObjectManager = (
         })
         return
     }
+    if (node.type === "characterRigJoint") {
+        return
+    }
     const object = createObject(node.type)
     Object.assign(object, omit(node, nonSerializedProperties))
     node.children
