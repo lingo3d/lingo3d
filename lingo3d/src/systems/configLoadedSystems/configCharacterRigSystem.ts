@@ -33,6 +33,7 @@ const attachJoints = (
         .map((name) =>
             forceGet(self.$jointMap, name, () => {
                 const joint = new CharacterRigJoint()
+                joint.uuid = self.uuid + "." + name
                 self.append(joint)
                 joint.characterRig = self
                 joint.target = joint.name = name
