@@ -31,7 +31,6 @@ const omitCharacterRigJointProps = new Set([
     "x",
     "y",
     "z",
-    "name",
     "target"
 ])
 

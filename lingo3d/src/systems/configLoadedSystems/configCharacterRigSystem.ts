@@ -90,8 +90,7 @@ const attachJoints = (
 const traverseJointNodes = (children: Array<AppendableNode>) => {
     for (const child of children) {
         const joint = uuidMapAssertGet(child.uuid!)
-        console.log(joint.uuid, omit(child, nonSerializedProperties))
-        // Object.assign(joint, omit(child, nonSerializedProperties))
+        Object.assign(joint, omit(child, nonSerializedProperties))
         child.children && traverseJointNodes(child.children)
     }
 }
