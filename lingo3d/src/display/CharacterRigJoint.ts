@@ -4,7 +4,7 @@ import ICharacterRigJoint, {
     characterRigJointDefaults,
     characterRigJointSchema
 } from "../interface/ICharacterRigJoint"
-import { CharacterRigPtr } from "../pointers/CharacterRigPtr"
+import CharacterRig from "./CharacterRig"
 import FoundManager from "./core/FoundManager"
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import Cube from "./primitives/Cube"
@@ -19,6 +19,7 @@ export default class CharacterRigJoint
     public static schema = characterRigJointSchema
 
     public boneManager!: FoundManager
+    public characterRig!: CharacterRig
 
     public constructor() {
         super()
@@ -45,15 +46,15 @@ export default class CharacterRigJoint
     }
     public set target(val: CharacterRigJointName | undefined) {
         this._target = val
-        if (!val || !(this.parent instanceof CharacterRigPtr[0])) return
-        this.boneManager = uuidMapAssertGet(this.parent[val] as string)
+        if (!val) return
+        this.boneManager = uuidMapAssertGet(this.characterRig[val] as string)
         this.placeAt(this.boneManager.getWorldPosition())
-        this.parent.$jointMap.set(val, this)
+        this.characterRig.$jointMap.set(val, this)
     }
 
     public $attachBone() {
         this.boneManager.$disableSerialize = false
-        this.boneManager.characterRig = this.parent as any
+        this.boneManager.characterRig = this.characterRig
         this.$innerObject.attach(this.boneManager.$object)
     }
 }

@@ -22,6 +22,8 @@ const nodeToObjectManager = (
         return
     }
     if (node.type === "characterRigJoint") {
+        //mark
+        console.log(parent)
         return
     }
     const object = createObject(node.type)

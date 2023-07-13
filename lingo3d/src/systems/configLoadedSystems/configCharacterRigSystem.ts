@@ -34,6 +34,7 @@ const attachJoints = (
             forceGet(self.$jointMap, name, () => {
                 const joint = new CharacterRigJoint()
                 self.append(joint)
+                joint.characterRig = self
                 joint.target = joint.name = name
                 return joint
             })
