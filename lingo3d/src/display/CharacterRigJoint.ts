@@ -1,11 +1,12 @@
-import { uuidMapAssertGet } from "../../collections/idCollections"
-import { CharacterRigJointName } from "../../interface/ICharacterRig"
-import CharacterRig from "."
-import FoundManager from "../core/FoundManager"
-import Cube from "../primitives/Cube"
-import Sphere from "../primitives/Sphere"
+import { uuidMapAssertGet } from "../collections/idCollections"
+import { CharacterRigJointName } from "../interface/ICharacterRig"
+import CharacterRig from "./CharacterRig"
+import FoundManager from "./core/FoundManager"
+import GimbalObjectManager from "./core/GimbalObjectManager"
+import Cube from "./primitives/Cube"
+import Sphere from "./primitives/Sphere"
 
-export default class RigJoint extends Sphere {
+export default class CharacterRigJoint extends GimbalObjectManager {
     public boneManager: FoundManager
 
     public constructor(
@@ -15,10 +16,14 @@ export default class RigJoint extends Sphere {
         super()
         this.$disableSerialize = true
         this.scale = 0.05
-        this.depthTest = false
-        this.opacity = 0.5
         this.name = name
         characterRig.append(this)
+
+        const jointSrc = new Sphere()
+        jointSrc.$ghost()
+        this.append(jointSrc)
+        jointSrc.depthTest = false
+        jointSrc.opacity = 0.5
 
         const jointDest = new Cube()
         jointDest.$ghost()

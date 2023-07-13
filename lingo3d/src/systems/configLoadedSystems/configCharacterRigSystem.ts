@@ -1,7 +1,7 @@
 import { uuidMap } from "../../collections/idCollections"
 import CharacterRig from "../../display/CharacterRig"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
-import RigJoint from "../../display/CharacterRig/RigJoint"
+import CharacterRigJoint from "../../display/CharacterRigJoint"
 import Model from "../../display/Model"
 import { CharacterRigJointName } from "../../interface/ICharacterRig"
 import direction3d from "../../math/direction3d"
@@ -11,7 +11,7 @@ import { Point3dType } from "../../typeGuards/isPoint"
 import { forceGet } from "@lincode/utils"
 
 const setRotation = (
-    parentJoint: RigJoint,
+    parentJoint: CharacterRigJoint,
     childPosition: Point3dType,
     parentPosition: Point3dType,
     flipY?: boolean
@@ -26,13 +26,13 @@ const setRotation = (
 const attachJoints = (
     names: Array<CharacterRigJointName>,
     self: CharacterRig,
-    jointMap: Map<CharacterRigJointName, RigJoint>,
+    jointMap: Map<CharacterRigJointName, CharacterRigJoint>,
     isSpine?: boolean
 ) => {
     const joints = names
         .filter((name) => self[name])
-        .map((name) => forceGet(jointMap, name, () => new RigJoint(self, name)))
-    let childJoint: RigJoint | undefined
+        .map((name) => forceGet(jointMap, name, () => new CharacterRigJoint(self, name)))
+    let childJoint: CharacterRigJoint | undefined
     const lastJoint = joints.at(-1)
     for (const parentJoint of joints) {
         if (!childJoint) {
@@ -81,7 +81,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
         effect: (self: CharacterRig) => {
-            const jointMap = new Map<CharacterRigJointName, RigJoint>()
+            const jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
             attachJoints(
                 [
                     "leftHand",
@@ -143,7 +143,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         },
         cleanup: (self) => {
             for (const child of self.children ?? [])
-                child instanceof RigJoint && child.dispose()
+                child instanceof CharacterRigJoint && child.dispose()
             const model = uuidMap.get(self.target!)
             if (!(model instanceof Model)) return
             model.src = model.src

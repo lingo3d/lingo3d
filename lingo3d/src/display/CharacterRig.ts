@@ -1,10 +1,10 @@
-import Appendable from "../core/Appendable"
+import Appendable from "./core/Appendable"
 import ICharacterRig, {
     characterRigDefaults,
     characterRigSchema
-} from "../../interface/ICharacterRig"
-import { configCharacterRigSystem } from "../../systems/configLoadedSystems/configCharacterRigSystem"
-import Nullable from "../../interface/utils/Nullable"
+} from "../interface/ICharacterRig"
+import { configCharacterRigSystem } from "../systems/configLoadedSystems/configCharacterRigSystem"
+import Nullable from "../interface/utils/Nullable"
 
 export default class CharacterRig extends Appendable implements ICharacterRig {
     public static componentName = "characterRig"
