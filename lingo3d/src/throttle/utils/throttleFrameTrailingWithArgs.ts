@@ -1,13 +1,17 @@
 import { onAfterRender } from "../../events/onAfterRender"
 
-export default <Result>(fn: () => Result) => {
+export default <Args extends Array<unknown>, Result>(
+    fn: (...args: Args) => Result
+) => {
     let scheduled = false
-    return () => {
+    let latestArgs: Args
+    return (...args: Args) => {
+        latestArgs = args
         if (scheduled) return
         scheduled = true
         onAfterRender(() => {
             scheduled = false
-            fn()
+            fn(...latestArgs)
         }, true)
     }
 }

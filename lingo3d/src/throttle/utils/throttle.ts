@@ -1,13 +1,10 @@
-export default <Args extends Array<unknown>, Result>(
-    fn: (...args: Args) => Result,
-    timeout: number
-) => {
+export default <Result>(fn: () => Result, timeout: number) => {
     let scheduled = false
     let result: Result
-    return (...args: Args) => {
+    return () => {
         if (scheduled) return result
         scheduled = true
         setTimeout(() => (scheduled = false), timeout)
-        return (result = fn(...args))
+        return (result = fn())
     }
 }

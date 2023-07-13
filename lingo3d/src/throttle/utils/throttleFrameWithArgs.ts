@@ -1,12 +1,14 @@
 import { clearBooleanPtrEffectSystem } from "../../systems/configSystems/clearBooleanPtrEffectSystem"
 
-export default <Result>(fn: () => Result) => {
+export default <Args extends Array<unknown>, Result>(
+    fn: (...args: Args) => Result
+) => {
     const scheduledPtr = [false]
     let result: Result
-    return () => {
+    return (...args: Args) => {
         if (scheduledPtr[0]) return result
         scheduledPtr[0] = true
         clearBooleanPtrEffectSystem.add(scheduledPtr)
-        return (result = fn())
+        return (result = fn(...args))
     }
 }
