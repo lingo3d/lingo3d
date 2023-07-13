@@ -12,7 +12,7 @@ import { appendableRoot } from "../../collections/appendableRoot"
 import { isTemplate } from "../../typeGuards/isTemplate"
 import FoundManager from "../../display/core/FoundManager"
 
-const transformProperties = new Set([
+const omitTransformProps = new Set([
     "rotationX",
     "rotationY",
     "rotationZ",
@@ -24,13 +24,15 @@ const transformProperties = new Set([
     "z"
 ])
 
-const transformProperties2 = new Set([
+const omitCharacterRigJointProps = new Set([
     "scaleX",
     "scaleY",
     "scaleZ",
     "x",
     "y",
-    "z"
+    "z",
+    "name",
+    "target"
 ])
 
 const serialize = (
@@ -54,11 +56,11 @@ const serialize = (
             (componentName as string) === "find" &&
             (child as FoundManager).characterRig
                 ? Object.entries(schema).filter(
-                      ([key]) => !transformProperties.has(key)
+                      ([key]) => !omitTransformProps.has(key)
                   )
                 : componentName === "characterRigJoint"
                 ? Object.entries(schema).filter(
-                      ([key]) => !transformProperties2.has(key)
+                      ([key]) => !omitCharacterRigJointProps.has(key)
                   )
                 : Object.entries(schema)
         for (const [key, type] of entries) {

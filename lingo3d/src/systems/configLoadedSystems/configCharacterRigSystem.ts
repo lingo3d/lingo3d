@@ -8,7 +8,9 @@ import direction3d from "../../math/direction3d"
 import distance3d from "../../math/distance3d"
 import getWorldPosition from "../../memo/getWorldPosition"
 import { Point3dType } from "../../typeGuards/isPoint"
-import { forceGet } from "@lincode/utils"
+import { forceGet, omit } from "@lincode/utils"
+import { AppendableNode } from "../../api/serializer/types"
+import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
 
 const setRotation = (
     parentJoint: CharacterRigJoint,
@@ -85,6 +87,15 @@ const attachJoints = (
     }
 }
 
+const traverseJointNodes = (children: Array<AppendableNode>) => {
+    for (const child of children) {
+        const joint = uuidMapAssertGet(child.uuid!)
+        console.log(joint.uuid, omit(child, nonSerializedProperties))
+        // Object.assign(joint, omit(child, nonSerializedProperties))
+        child.children && traverseJointNodes(child.children)
+    }
+}
+
 export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
@@ -143,6 +154,8 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 $jointMap.get("leftForeFoot")!.innerRotationX = -35
             if ($jointMap.has("rightForeFoot"))
                 $jointMap.get("rightForeFoot")!.innerRotationX = -35
+
+            self.$jointNodes && traverseJointNodes(self.$jointNodes)
         },
         cleanup: (self) => {
             for (const joint of self.$jointMap.values()) joint.dispose()
