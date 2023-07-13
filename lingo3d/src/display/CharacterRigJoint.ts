@@ -4,7 +4,7 @@ import ICharacterRigJoint, {
     characterRigJointDefaults,
     characterRigJointSchema
 } from "../interface/ICharacterRigJoint"
-import CharacterRig from "./CharacterRig"
+import unsafeGetValue from "../utils/unsafeGetValue"
 import FoundManager from "./core/FoundManager"
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import Cube from "./primitives/Cube"
@@ -19,11 +19,9 @@ export default class CharacterRigJoint
     public static schema = characterRigJointSchema
 
     public boneManager!: FoundManager
-    private characterRig!: CharacterRig
 
     public constructor() {
         super()
-        this.$disableSerialize = true
         this.scale = 0.05
 
         const jointSrc = new Sphere()
@@ -41,18 +39,20 @@ export default class CharacterRigJoint
         jointDest.opacity = 0.5
     }
 
-    public $init(characterRig: CharacterRig, name: CharacterRigJointName) {
-        this.characterRig = characterRig
-        this.name = name
-        characterRig.append(this)
-        this.boneManager = uuidMapAssertGet(characterRig[name] as string)
+    private _target: CharacterRigJointName | undefined
+    public get target() {
+        return this._target
+    }
+    public set target(val: CharacterRigJointName | undefined) {
+        this._target = val
+        if (!val || !this.parent) return
+        this.boneManager = uuidMapAssertGet(unsafeGetValue(this.parent, val))
         this.placeAt(this.boneManager.getWorldPosition())
-        return this
     }
 
     public $attachBone() {
         this.boneManager.$disableSerialize = false
-        this.boneManager.characterRig = this.characterRig
+        this.boneManager.characterRig = this.parent as any
         this.$innerObject.attach(this.boneManager.$object)
     }
 }
