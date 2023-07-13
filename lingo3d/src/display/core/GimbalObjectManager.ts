@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import IObjectManager from "../../interface/IObjectManager"
+import IGimbalObjectManager from "../../interface/IGimbalObjectManager"
 import { setManager } from "./utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import SimpleObjectManager from "./SimpleObjectManager"
@@ -7,7 +7,7 @@ import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
 
 export default abstract class GimbalObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
-    implements IObjectManager
+    implements IGimbalObjectManager
 {
     public constructor($innerObject = new Object3D() as T) {
         super(new Object3D() as T)

@@ -1,25 +1,25 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IGimbalObjectManager, {
+    gimbalObjectManagerDefaults,
+    gimbalObjectManagerSchema
+} from "./IGimbalObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import { ColorString } from "./ITexturedStandard"
 
-export default interface ILightBase extends IObjectManager {
+export default interface ILightBase extends IGimbalObjectManager {
     color: ColorString
     intensity: number
 }
 
 export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
-    ...objectManagerSchema,
+    ...gimbalObjectManagerSchema,
     color: String,
     intensity: Number
 }
 
 export const lightBaseDefaults = extendDefaults<ILightBase>(
-    [objectManagerDefaults],
+    [gimbalObjectManagerDefaults],
     {
         color: "#ffffff",
         intensity: 1

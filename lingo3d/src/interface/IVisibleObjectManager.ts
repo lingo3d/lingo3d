@@ -1,13 +1,13 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IGimbalObjectManager, {
+    gimbalObjectManagerDefaults,
+    gimbalObjectManagerSchema
+} from "./IGimbalObjectManager"
 import IVisible, { visibleDefaults, visibleSchema } from "./IVisible"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IVisibleObjectManager
-    extends IObjectManager,
+    extends IGimbalObjectManager,
         IVisible {
     innerVisible: boolean
 }
@@ -15,14 +15,14 @@ export default interface IVisibleObjectManager
 export const visibleObjectManagerSchema: Required<
     ExtractProps<IVisibleObjectManager>
 > = {
-    ...objectManagerSchema,
+    ...gimbalObjectManagerSchema,
     ...visibleSchema,
     innerVisible: Boolean
 }
 
 export const visibleObjectManagerDefaults =
     extendDefaults<IVisibleObjectManager>(
-        [objectManagerDefaults, visibleDefaults],
+        [gimbalObjectManagerDefaults, visibleDefaults],
         {
             innerVisible: true
         }

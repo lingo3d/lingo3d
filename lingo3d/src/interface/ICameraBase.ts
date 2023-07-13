@@ -1,8 +1,8 @@
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, NEAR, FAR } from "../globals"
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IGimbalObjectManager, {
+    gimbalObjectManagerDefaults,
+    gimbalObjectManagerSchema
+} from "./IGimbalObjectManager"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -12,7 +12,7 @@ import Range from "./utils/Range"
 
 export type MouseControl = boolean | "drag"
 
-export default interface ICameraBase extends IObjectManager {
+export default interface ICameraBase extends IGimbalObjectManager {
     mouseControl: MouseControl
 
     fov: number
@@ -33,7 +33,7 @@ export default interface ICameraBase extends IObjectManager {
 }
 
 export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
-    ...objectManagerSchema,
+    ...gimbalObjectManagerSchema,
 
     mouseControl: [Boolean, String],
 
@@ -55,7 +55,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 }
 
 export const cameraBaseDefaults = extendDefaults<ICameraBase>(
-    [objectManagerDefaults],
+    [gimbalObjectManagerDefaults],
     {
         mouseControl: false,
 

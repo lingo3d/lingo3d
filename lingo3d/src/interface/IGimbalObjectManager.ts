@@ -6,7 +6,7 @@ import ISimpleObjectManager, {
     simpleObjectManagerSchema
 } from "./ISimpleObjectManager"
 
-export default interface IObjectManager extends ISimpleObjectManager {
+export default interface IGimbalObjectManager extends ISimpleObjectManager {
     innerRotationX: number
     innerRotationY: number
     innerRotationZ: number
@@ -20,7 +20,9 @@ export default interface IObjectManager extends ISimpleObjectManager {
     depth: number
 }
 
-export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
+export const gimbalObjectManagerSchema: Required<
+    ExtractProps<IGimbalObjectManager>
+> = {
     ...simpleObjectManagerSchema,
 
     innerRotationX: Number,
@@ -36,7 +38,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
     depth: Number
 }
 
-export const objectManagerDefaults = extendDefaults<IObjectManager>(
+export const gimbalObjectManagerDefaults = extendDefaults<IGimbalObjectManager>(
     [simpleObjectManagerDefaults],
     {
         innerRotationX: 0,
