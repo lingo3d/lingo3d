@@ -7,7 +7,10 @@ import createInternalSystem from "./utils/createInternalSystem"
 
 export const ssrBlendSystem = createInternalSystem("ssrBlendSystem", {
     data: { moving: false },
-    update: (self: SSREffect, data) => {
+    effect: (self: SSREffect) => {
+        unsafeSetValue(self, "blend", 0.99)
+    },
+    update: (self, data) => {
         const { moving } = data
         data.moving =
             positionChanged(cameraRenderedPtr[0]) ||
