@@ -248,40 +248,40 @@ dummy.animations = {
 dummy.animation = "running"
 dummy.x = 150
 
-dummy.$events.on("loaded", () => {
-    model.$events.on("loaded", () => {
-        setTimeout(() => {
-            const characterMap = parseCharacter(dummy)
-            const leftHandSrc = characterMap.get("leftHand")!
-            const leftForeArmSrc = characterMap.get("leftForeArm")!
-            const leftArmSrc = characterMap.get("leftArm")!
-            const leftShoulderSrc = characterMap.get("leftShoulder")!
+// dummy.$events.on("loaded", () => {
+//     model.$events.on("loaded", () => {
+//         setTimeout(() => {
+//             const characterMap = parseCharacter(dummy)
+//             const leftHandSrc = characterMap.get("leftHand")!
+//             const leftForeArmSrc = characterMap.get("leftForeArm")!
+//             const leftArmSrc = characterMap.get("leftArm")!
+//             const leftShoulderSrc = characterMap.get("leftShoulder")!
 
-            const leftHandDst = characterRig.jointMap.get("leftHand")!
-            const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
-            const leftArmDst = characterRig.jointMap.get("leftArm")!
-            const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
+//             const leftHandDst = characterRig.jointMap.get("leftHand")!
+//             const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
+//             const leftArmDst = characterRig.jointMap.get("leftArm")!
+//             const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
 
-            onBeforeRender(() => {
-                leftShoulderDst.setRotationFromDirection(
-                    direction3d(
-                        getWorldPosition(leftArmSrc.$object),
-                        getWorldPosition(leftShoulderSrc.$object)
-                    )
-                )
-                leftArmDst.setRotationFromDirection(
-                    direction3d(
-                        getWorldPosition(leftForeArmSrc.$object),
-                        getWorldPosition(leftArmSrc.$object)
-                    )
-                )
-                leftForeArmDst.setRotationFromDirection(
-                  direction3d(
-                      getWorldPosition(leftHandSrc.$object),
-                      getWorldPosition(leftForeArmSrc.$object)
-                  )
-                )
-            })
-        }, 1000)
-    })
-})
+//             onBeforeRender(() => {
+//                 leftShoulderDst.setRotationFromDirection(
+//                     direction3d(
+//                         getWorldPosition(leftArmSrc.$object),
+//                         getWorldPosition(leftShoulderSrc.$object)
+//                     )
+//                 )
+//                 leftArmDst.setRotationFromDirection(
+//                     direction3d(
+//                         getWorldPosition(leftForeArmSrc.$object),
+//                         getWorldPosition(leftArmSrc.$object)
+//                     )
+//                 )
+//                 leftForeArmDst.setRotationFromDirection(
+//                   direction3d(
+//                       getWorldPosition(leftHandSrc.$object),
+//                       getWorldPosition(leftForeArmSrc.$object)
+//                   )
+//                 )
+//             })
+//         }, 1000)
+//     })
+// })

@@ -746,7 +746,9 @@ class TransformControlsGizmo extends Object3D {
             toneMapped: false,
             transparent: true,
             emissive: 0x000000,
-            emissiveIntensity: 0.5
+            emissiveIntensity: 0.1,
+            roughness: 0,
+            metalness: 0.5
         })
 
         const gizmoLineMaterial = new LineBasicMaterial({
@@ -793,7 +795,7 @@ class TransformControlsGizmo extends Object3D {
         matBlueTransparent.opacity = 1
 
         const matWhiteTransparent = gizmoMaterial.clone()
-        matWhiteTransparent.opacity = 0.25
+        // matWhiteTransparent.opacity = 0.25
 
         const matYellowTransparent = gizmoMaterial.clone()
         matYellowTransparent.color.setHex(hexYellow)
