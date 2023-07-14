@@ -33,7 +33,7 @@ const attachJoints = (
     const joints = names
         .filter((name) => self[name])
         .map((name) =>
-            forceGet(self.$jointMap, name, () => {
+            forceGet(self.jointMap, name, () => {
                 const joint = new CharacterRigJoint()
                 joint.uuid = self.uuid + "." + name
                 self.append(joint)
@@ -138,27 +138,27 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 true
             )
-            const { $jointMap } = self
-            if ($jointMap.has("leftShoulder"))
-                $jointMap.get("leftShoulder")!.innerRotationZ = 90
-            if ($jointMap.has("rightShoulder"))
-                $jointMap.get("rightShoulder")!.innerRotationZ = -90
+            const { jointMap } = self
+            if (jointMap.has("leftShoulder"))
+                jointMap.get("leftShoulder")!.innerRotationZ = 90
+            if (jointMap.has("rightShoulder"))
+                jointMap.get("rightShoulder")!.innerRotationZ = -90
 
-            if ($jointMap.has("leftFoot"))
-                $jointMap.get("leftFoot")!.innerRotationX = -55
-            if ($jointMap.has("rightFoot"))
-                $jointMap.get("rightFoot")!.innerRotationX = -55
+            if (jointMap.has("leftFoot"))
+                jointMap.get("leftFoot")!.innerRotationX = -55
+            if (jointMap.has("rightFoot"))
+                jointMap.get("rightFoot")!.innerRotationX = -55
 
-            if ($jointMap.has("leftForeFoot"))
-                $jointMap.get("leftForeFoot")!.innerRotationX = -35
-            if ($jointMap.has("rightForeFoot"))
-                $jointMap.get("rightForeFoot")!.innerRotationX = -35
+            if (jointMap.has("leftForeFoot"))
+                jointMap.get("leftForeFoot")!.innerRotationX = -35
+            if (jointMap.has("rightForeFoot"))
+                jointMap.get("rightForeFoot")!.innerRotationX = -35
 
             self.$jointNodes && traverseJointNodes(self.$jointNodes)
         },
         cleanup: (self) => {
-            for (const joint of self.$jointMap.values()) joint.dispose()
-            self.$jointMap.clear()
+            for (const joint of self.jointMap.values()) joint.dispose()
+            self.jointMap.clear()
             const model = uuidMap.get(self.target!)
             if (!(model instanceof Model)) return
             model.src = model.src

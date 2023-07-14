@@ -14,7 +14,7 @@ export default class CharacterRig extends Appendable implements ICharacterRig {
     public static defaults = characterRigDefaults
     public static schema = characterRigSchema
 
-    public $jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
+    public jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
     public $jointNodes?: Array<AppendableNode>
 
     public target: Nullable<string>

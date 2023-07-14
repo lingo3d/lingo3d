@@ -49,7 +49,7 @@ export default class CharacterRigJoint
         if (!val) return
         this.boneManager = uuidMapAssertGet(this.characterRig[val]!)
         this.placeAt(this.boneManager.getWorldPosition())
-        this.characterRig.$jointMap.set(val, this)
+        this.characterRig.jointMap.set(val, this)
     }
 
     public $attachBone() {

@@ -229,7 +229,8 @@ const json = `
   ]
   
 `
-deserialize(JSON.parse(json) as any)
+const children = deserialize(JSON.parse(json) as any)
+console.log(children)
 
 const dummy = new Model()
 dummy.src = ybotUrlPtr[0]
