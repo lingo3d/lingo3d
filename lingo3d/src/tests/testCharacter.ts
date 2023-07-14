@@ -247,7 +247,7 @@ dummy.animations = {
     running: "Running.fbx"
 }
 dummy.animation = "running"
-dummy.x = 150
+dummy.x = 50
 
 const setDirection = (
     parentDst: CharacterRigJoint,
@@ -266,6 +266,7 @@ dummy.$events.on("loaded", () => {
     model.$events.on("loaded", () => {
         setTimeout(() => {
             const characterMap = parseCharacter(dummy)
+
             const leftHandSrc = characterMap.get("leftHand")!
             const leftForeArmSrc = characterMap.get("leftForeArm")!
             const leftArmSrc = characterMap.get("leftArm")!
@@ -276,10 +277,24 @@ dummy.$events.on("loaded", () => {
             const leftArmDst = characterRig.jointMap.get("leftArm")!
             const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
 
+            const rightHandSrc = characterMap.get("rightHand")!
+            const rightForeArmSrc = characterMap.get("rightForeArm")!
+            const rightArmSrc = characterMap.get("rightArm")!
+            const rightShoulderSrc = characterMap.get("rightShoulder")!
+
+            const rightHandDst = characterRig.jointMap.get("rightHand")!
+            const rightForeArmDst = characterRig.jointMap.get("rightForeArm")!
+            const rightArmDst = characterRig.jointMap.get("rightArm")!
+            const rightShoulderDst = characterRig.jointMap.get("rightShoulder")!
+
             onBeforeRender(() => {
                 setDirection(leftShoulderDst, leftShoulderSrc, leftArmSrc)
                 setDirection(leftArmDst, leftArmSrc, leftForeArmSrc)
                 setDirection(leftForeArmDst, leftForeArmSrc, leftHandSrc)
+
+                setDirection(rightShoulderDst, rightShoulderSrc, rightArmSrc)
+                setDirection(rightArmDst, rightArmSrc, rightForeArmSrc)
+                setDirection(rightForeArmDst, rightForeArmSrc, rightHandSrc)
             })
         }, 1000)
     })

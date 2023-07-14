@@ -38,10 +38,16 @@ export const parseCharacter = computeOnce((model: Model) => {
     if (!model.$loadedObject) return map
 
     const pool = new Map(indexChildrenNames(model.$loadedObject))
+
     take(pool, map, model, "leftHand", testLeftHand)
     take(pool, map, model, "leftForeArm", testLeftForeArm)
     take(pool, map, model, "leftArm", testLeftArm)
     take(pool, map, model, "leftShoulder", testLeftShoulder)
+
+    take(pool, map, model, "rightHand", testRightHand)
+    take(pool, map, model, "rightForeArm", testRightForeArm)
+    take(pool, map, model, "rightArm", testRightArm)
+    take(pool, map, model, "rightShoulder", testRightShoulder)
 
     return map
 })
