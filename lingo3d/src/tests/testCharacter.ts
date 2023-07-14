@@ -1,12 +1,6 @@
 import deserialize from "../api/serializer/deserialize"
 import CharacterRig from "../display/CharacterRig"
-import CharacterRigJoint from "../display/CharacterRigJoint"
 import Model from "../display/Model"
-import FoundManager from "../display/core/FoundManager"
-import { onBeforeRender } from "../events/onBeforeRender"
-import direction3d from "../math/direction3d"
-import getWorldPosition from "../memo/getWorldPosition"
-import { parseCharacter } from "../memo/parseCharacter"
 import { ybotUrlPtr } from "../pointers/assetsPathPointers"
 import { configCharacterRigAnimationSystem } from "../systems/configLoadedSystems/configCharacterRigAnimationSystem"
 
@@ -236,11 +230,9 @@ const json = `
   ]
   
 `
-const children = deserialize(JSON.parse(json) as any)
-const characterRig = children.find(
+const characterRig = deserialize(JSON.parse(json) as any).find(
     (child) => child instanceof CharacterRig
 ) as CharacterRig
-const model = children.find((child) => child instanceof Model) as Model
 
 const dummy = new Model()
 dummy.src = ybotUrlPtr[0]
