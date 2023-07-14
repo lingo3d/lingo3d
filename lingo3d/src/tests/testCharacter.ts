@@ -8,6 +8,7 @@ import direction3d from "../math/direction3d"
 import getWorldPosition from "../memo/getWorldPosition"
 import { parseCharacter } from "../memo/parseCharacter"
 import { ybotUrlPtr } from "../pointers/assetsPathPointers"
+import { configCharacterRigAnimationSystem } from "../systems/configLoadedSystems/configCharacterRigAnimationSystem"
 
 const json = `
 [
@@ -249,53 +250,4 @@ dummy.animations = {
 dummy.animation = "running"
 dummy.x = 50
 
-const setDirection = (
-    parentDst: CharacterRigJoint,
-    parentSrc: FoundManager,
-    childSrc: FoundManager
-) => {
-    parentDst.setRotationFromDirection(
-        direction3d(
-            getWorldPosition(childSrc.$object),
-            getWorldPosition(parentSrc.$object)
-        )
-    )
-}
-
-dummy.$events.on("loaded", () => {
-    model.$events.on("loaded", () => {
-        setTimeout(() => {
-            const characterMap = parseCharacter(dummy)
-
-            const leftHandSrc = characterMap.get("leftHand")!
-            const leftForeArmSrc = characterMap.get("leftForeArm")!
-            const leftArmSrc = characterMap.get("leftArm")!
-            const leftShoulderSrc = characterMap.get("leftShoulder")!
-
-            const leftHandDst = characterRig.jointMap.get("leftHand")!
-            const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
-            const leftArmDst = characterRig.jointMap.get("leftArm")!
-            const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
-
-            const rightHandSrc = characterMap.get("rightHand")!
-            const rightForeArmSrc = characterMap.get("rightForeArm")!
-            const rightArmSrc = characterMap.get("rightArm")!
-            const rightShoulderSrc = characterMap.get("rightShoulder")!
-
-            const rightHandDst = characterRig.jointMap.get("rightHand")!
-            const rightForeArmDst = characterRig.jointMap.get("rightForeArm")!
-            const rightArmDst = characterRig.jointMap.get("rightArm")!
-            const rightShoulderDst = characterRig.jointMap.get("rightShoulder")!
-
-            onBeforeRender(() => {
-                setDirection(leftShoulderDst, leftShoulderSrc, leftArmSrc)
-                setDirection(leftArmDst, leftArmSrc, leftForeArmSrc)
-                setDirection(leftForeArmDst, leftForeArmSrc, leftHandSrc)
-
-                setDirection(rightShoulderDst, rightShoulderSrc, rightArmSrc)
-                setDirection(rightArmDst, rightArmSrc, rightForeArmSrc)
-                setDirection(rightForeArmDst, rightForeArmSrc, rightHandSrc)
-            })
-        }, 1000)
-    })
-})
+configCharacterRigAnimationSystem.add(characterRig, { target: dummy })

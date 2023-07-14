@@ -1,4 +1,5 @@
 import Loaded from "../../display/core/Loaded"
+import { setManager } from "../../display/core/utils/getManager"
 import createInternalSystem from "../utils/createInternalSystem"
 
 export const configLoadedSrcSystem = createInternalSystem(
@@ -11,7 +12,10 @@ export const configLoadedSrcSystem = createInternalSystem(
             self.$load(src).then((loaded) => {
                 if (self.src !== src) return
                 self.$loadedGroup.add(
-                    (self.$loadedObject = self.$resolveLoaded(loaded, src))
+                    (self.$loadedObject = setManager(
+                        self.$resolveLoaded(loaded, src),
+                        self
+                    ))
                 )
                 self.$events.setState("loaded", self.$loadedObject)
                 self.onLoad?.()

@@ -5,6 +5,7 @@ import FoundManager from "../display/core/FoundManager"
 import { indexChildrenNames } from "./indexChildrenNames"
 import { getFoundManager } from "../display/core/utils/getFoundManager"
 import { Object3D } from "three"
+import { getManager } from "../display/core/utils/getManager"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
 
@@ -33,11 +34,12 @@ const take = (
     }
 }
 
-export const parseCharacter = computeOnce((model: Model) => {
+export const parseCharacter = computeOnce((loadedObject: Object3D) => {
     const map = new Map<CharacterRigJointName, FoundManager>()
-    if (!model.$loadedObject) return map
+    const model = getManager(loadedObject)
+    if (!(model instanceof Model)) return map
 
-    const pool = new Map(indexChildrenNames(model.$loadedObject))
+    const pool = new Map(indexChildrenNames(loadedObject))
 
     take(pool, map, model, "leftHand", testLeftHand)
     take(pool, map, model, "leftForeArm", testLeftForeArm)
