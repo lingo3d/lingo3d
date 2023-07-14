@@ -1,5 +1,10 @@
 import deserialize from "../api/serializer/deserialize"
+import CharacterRig from "../display/CharacterRig"
 import Model from "../display/Model"
+import Sphere from "../display/primitives/Sphere"
+import { onBeforeRender } from "../events/onBeforeRender"
+import direction3d from "../math/direction3d"
+import getWorldPosition from "../memo/getWorldPosition"
 import { parseCharacter } from "../memo/parseCharacter"
 import { ybotUrlPtr } from "../pointers/assetsPathPointers"
 
@@ -230,7 +235,10 @@ const json = `
   
 `
 const children = deserialize(JSON.parse(json) as any)
-console.log(children)
+const characterRig = children.find(
+    (child) => child instanceof CharacterRig
+) as CharacterRig
+const model = children.find((child) => child instanceof Model) as Model
 
 const dummy = new Model()
 dummy.src = ybotUrlPtr[0]
@@ -240,7 +248,40 @@ dummy.animations = {
 dummy.animation = "running"
 dummy.x = 150
 
-dummy.onLoad = () => {
-    const characterMap = parseCharacter(dummy)
-    // characterMap.get("")
-}
+dummy.$events.on("loaded", () => {
+    model.$events.on("loaded", () => {
+        setTimeout(() => {
+            const characterMap = parseCharacter(dummy)
+            const leftHandSrc = characterMap.get("leftHand")!
+            const leftForeArmSrc = characterMap.get("leftForeArm")!
+            const leftArmSrc = characterMap.get("leftArm")!
+            const leftShoulderSrc = characterMap.get("leftShoulder")!
+
+            const leftHandDst = characterRig.jointMap.get("leftHand")!
+            const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
+            const leftArmDst = characterRig.jointMap.get("leftArm")!
+            const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
+
+            onBeforeRender(() => {
+                leftShoulderDst.setRotationFromDirection(
+                    direction3d(
+                        getWorldPosition(leftArmSrc.$object),
+                        getWorldPosition(leftShoulderSrc.$object)
+                    )
+                )
+                leftArmDst.setRotationFromDirection(
+                    direction3d(
+                        getWorldPosition(leftForeArmSrc.$object),
+                        getWorldPosition(leftArmSrc.$object)
+                    )
+                )
+                leftForeArmDst.setRotationFromDirection(
+                  direction3d(
+                      getWorldPosition(leftHandSrc.$object),
+                      getWorldPosition(leftForeArmSrc.$object)
+                  )
+                )
+            })
+        }, 1000)
+    })
+})

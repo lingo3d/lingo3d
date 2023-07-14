@@ -2,6 +2,10 @@ import computeOnce from "./utils/computeOnce"
 import Model from "../display/Model"
 import { CharacterRigJointName } from "../interface/ICharacterRig"
 import FoundManager from "../display/core/FoundManager"
+import { indexChildrenNames } from "./indexChildrenNames"
+import { getFoundManager } from "../display/core/utils/getFoundManager"
+import { Object3D } from "three"
+import getParentWithSameName from "../display/core/utils/getParentWithSameName"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
 
@@ -15,43 +19,30 @@ const testRightForeArm = makePredicate(/right.*(fore|up).*arm/i)
 const testRightArm = makePredicate(/right.*arm/i)
 const testRightShoulder = makePredicate(/right.*shoulder/i)
 
-const parseChain = (
+const take = (
+    pool: Map<string, Object3D>,
     map: Map<CharacterRigJointName, FoundManager>,
-    target: Model,
-    chain: Array<[CharacterRigJointName, typeof testLeftHand]>
+    model: Model,
+    name: CharacterRigJointName,
+    test: (name: string) => boolean
 ) => {
-    const tests = new Map(chain)
-    const [[name, test]] = tests
-    let found = target.findFirst(test)
-    if (!found) return
-    map.set(name, found)
-    tests.delete(name)
-    if (!tests.size) return
-    while (true) {
-        found = found?.parentNode
-        if (!found) break
-        for (const [name, test] of tests) {
-            if (!test(found.name!)) continue
-            map.set(name, found)
-            tests.delete(name)
-            if (!tests.size) break
-        }
+    for (const [n, obj] of pool) {
+        if (!test(n)) continue
+        map.set(name, getFoundManager(getParentWithSameName(obj), model))
+        pool.delete(n)
+        break
     }
 }
 
-export const parseCharacter = computeOnce((target: Model) => {
+export const parseCharacter = computeOnce((model: Model) => {
     const map = new Map<CharacterRigJointName, FoundManager>()
-    parseChain(map, target, [
-        ["leftHand", testLeftHand],
-        ["leftForeArm", testLeftForeArm],
-        ["leftArm", testLeftArm],
-        ["leftShoulder", testLeftShoulder]
-    ])
-    parseChain(map, target, [
-        ["rightHand", testRightHand],
-        ["rightForeArm", testRightForeArm],
-        ["rightArm", testRightArm],
-        ["rightShoulder", testRightShoulder]
-    ])
+    if (!model.$loadedObject) return map
+
+    const pool = new Map(indexChildrenNames(model.$loadedObject))
+    take(pool, map, model, "leftHand", testLeftHand)
+    take(pool, map, model, "leftForeArm", testLeftForeArm)
+    take(pool, map, model, "leftArm", testLeftArm)
+    take(pool, map, model, "leftShoulder", testLeftShoulder)
+
     return map
 })
