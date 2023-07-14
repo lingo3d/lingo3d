@@ -13,8 +13,35 @@ const testLeftShoulder = makePredicate(/left.*shoulder/i)
 export const parseCharacter = computeOnce((target: Model) => {
     const map = new Map<CharacterRigJointName, FoundManager>()
 
-    // const leftHandTests = new Map<CharacterRigJointName, typeof testLeftHand>([["leftHand"]])
-    // let found = target.findFirst(leftHandTests[0])
-    // while (found) {
-    // }
+    const leftHandTests = new Map<CharacterRigJointName, typeof testLeftHand>([
+        ["leftHand", testLeftHand],
+        ["leftForeArm", testLeftForeArm],
+        ["leftArm", testLeftArm],
+        ["leftShoulder", testLeftShoulder]
+    ])
+    let found: FoundManager | undefined
+    let first = true
+    while (true) {
+        if (first) {
+            first = false
+            const [[name, test]] = leftHandTests
+            found = target.findFirst(test)
+            if (!found) break
+            map.set(name, found)
+            leftHandTests.delete(name)
+            if (!leftHandTests.size) break
+            continue
+        }
+        found = found?.parentNode
+        if (!found) break
+        for (const [name, test] of leftHandTests) {
+            if (!test(found.name!)) continue
+            map.set(name, found)
+            leftHandTests.delete(name)
+            if (!leftHandTests.size) break
+            break
+        }
+    }
+
+    console.log(map)
 })
