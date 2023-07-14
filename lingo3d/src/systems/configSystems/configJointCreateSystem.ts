@@ -4,6 +4,7 @@ import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import { physxPtr } from "../../pointers/physxPtr"
 import createInternalSystem from "../utils/createInternalSystem"
 import { testObject } from "../../display/utils/reusables"
+import fastAttach from "../../display/utils/fastAttach"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -13,7 +14,7 @@ const getRelativeTransform = (
     const fromScale = fromObject.scale
     testObject.position.copy(thisObject.position)
     testObject.quaternion.copy(thisObject.quaternion)
-    fromObject.attach(testObject)
+    fastAttach(fromObject, testObject)
     const fromPxTransform = setPxTransform(
         testObject.position.x * fromScale.x,
         testObject.position.y * fromScale.y,

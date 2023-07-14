@@ -1,7 +1,7 @@
 import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
 import getWorldDirection from "../../memo/getWorldDirection"
 import getWorldPosition from "../../memo/getWorldPosition"
-import { quaternion, ray, vector3 } from "../utils/reusables"
+import { matrix4, quaternion, ray, vector3 } from "../utils/reusables"
 import { point2Vec, vec2Point } from "../utils/vec2Point"
 import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
@@ -29,6 +29,7 @@ import getParent from "./utils/getParent"
 import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils"
 import quadrant from "../../math/quadrant"
 import { userIdMap } from "../../collections/idCollections"
+import fastAttach from "../utils/fastAttach"
 
 const up = new Vector3(0, 1, 0)
 
@@ -155,12 +156,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public setRotationFromDirection(direction: Point3dType) {
         const ogParent = getParent(this.$object)
-        ogParent !== scene && scene.attach(this.$object)
+        ogParent !== scene && fastAttach(scene, this.$object)
 
         this.$object.setRotationFromQuaternion(
             quaternion.setFromUnitVectors(up, direction as Vector3)
         )
-        ogParent !== scene && ogParent.attach(this.$object)
+        ogParent !== scene && fastAttach(ogParent, this.$object)
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
