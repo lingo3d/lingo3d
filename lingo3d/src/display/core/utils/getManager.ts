@@ -4,12 +4,12 @@ import VisibleMixin from "../mixins/VisibleMixin"
 import Loaded from "../Loaded"
 import PhysicsObjectManager from "../PhysicsObjectManager"
 
-const objectManagerMap = new WeakMap<
-    Object3D,
-    MeshAppendable | VisibleMixin | Loaded | PhysicsObjectManager
->()
+type Type = MeshAppendable | VisibleMixin | Loaded | PhysicsObjectManager
 
-export const getManager = (target: Object3D) => objectManagerMap.get(target)
+const objectManagerMap = new WeakMap<Object3D, Type>()
+
+export const getManager = <T extends Type>(target: Object3D) =>
+    objectManagerMap.get(target) as T | undefined
 
 export const setManager = <T extends MeshAppendable>(
     target: Object3D,

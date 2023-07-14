@@ -56,10 +56,7 @@ const Joint = ({ x, y, onMouseMove, onMouseLeave, name }: JointProps) => {
                 setDragOver(false)
                 if (!(draggingItemPtr[0] instanceof FoundManager)) return
                 const { owner } = draggingItemPtr[0]
-                if (
-                    !owner ||
-                    (characterRig.target && characterRig.target !== owner.uuid)
-                )
+                if (characterRig.target && characterRig.target !== owner.uuid)
                     return
                 characterRig.target = owner.uuid
                 unsafeSetValue(characterRig, name, draggingItemPtr[0].uuid)

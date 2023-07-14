@@ -1,5 +1,6 @@
 import deserialize from "../api/serializer/deserialize"
 import Model from "../display/Model"
+import { parseCharacter } from "../memo/parseCharacter"
 import { ybotUrlPtr } from "../pointers/assetsPathPointers"
 
 const json = `
@@ -228,7 +229,8 @@ const json = `
   ]
   
 `
-console.log(deserialize(JSON.parse(json) as any))
+deserialize(JSON.parse(json) as any)
+
 const dummy = new Model()
 dummy.src = ybotUrlPtr[0]
 dummy.animations = {
@@ -236,3 +238,7 @@ dummy.animations = {
 }
 dummy.animation = "running"
 dummy.x = 150
+
+dummy.onLoad = () => {
+    parseCharacter(dummy)
+}

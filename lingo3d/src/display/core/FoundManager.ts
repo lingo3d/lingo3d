@@ -14,6 +14,7 @@ import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
 import CharacterRig from "../CharacterRig"
+import { getFoundManager } from "./utils/getFoundManager"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -23,9 +24,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     protected _materialParams?: MaterialParams
     protected _defaults?: Record<string, any>
 
-    public constructor(mesh: Object3D | StandardMesh, public owner?: Model) {
+    public constructor(mesh: Object3D | StandardMesh, public owner: Model) {
         super(mesh)
-        owner?.$appendNode(this)
+        owner.$appendNode(this)
         this.$ghost(false)
         this._name = mesh.name
 
@@ -39,7 +40,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     private inherited?: boolean
     private inheritAnimations() {
-        if (this.inherited || !this.owner) return
+        if (this.inherited) return
         const states = this.owner.$animationStates
         for (const animationManager of Object.values(states.managerRecord))
             this.animations[animationManager.name!] = this.watch(
@@ -57,6 +58,10 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     }
 
     public characterRig: CharacterRig | undefined
+
+    public get parentNode() {
+        return getFoundManager(this.$object.parent!, this.owner)
+    }
 }
 interface FoundManager
     extends SimpleObjectManager,
