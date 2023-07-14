@@ -1,7 +1,8 @@
 import deserialize from "../api/serializer/deserialize"
 import CharacterRig from "../display/CharacterRig"
+import CharacterRigJoint from "../display/CharacterRigJoint"
 import Model from "../display/Model"
-import Sphere from "../display/primitives/Sphere"
+import FoundManager from "../display/core/FoundManager"
 import { onBeforeRender } from "../events/onBeforeRender"
 import direction3d from "../math/direction3d"
 import getWorldPosition from "../memo/getWorldPosition"
@@ -248,40 +249,38 @@ dummy.animations = {
 dummy.animation = "running"
 dummy.x = 150
 
-// dummy.$events.on("loaded", () => {
-//     model.$events.on("loaded", () => {
-//         setTimeout(() => {
-//             const characterMap = parseCharacter(dummy)
-//             const leftHandSrc = characterMap.get("leftHand")!
-//             const leftForeArmSrc = characterMap.get("leftForeArm")!
-//             const leftArmSrc = characterMap.get("leftArm")!
-//             const leftShoulderSrc = characterMap.get("leftShoulder")!
+const setDirection = (
+    parentDst: CharacterRigJoint,
+    parentSrc: FoundManager,
+    childSrc: FoundManager
+) => {
+    parentDst.setRotationFromDirection(
+        direction3d(
+            getWorldPosition(childSrc.$object),
+            getWorldPosition(parentSrc.$object)
+        )
+    )
+}
 
-//             const leftHandDst = characterRig.jointMap.get("leftHand")!
-//             const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
-//             const leftArmDst = characterRig.jointMap.get("leftArm")!
-//             const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
+dummy.$events.on("loaded", () => {
+    model.$events.on("loaded", () => {
+        setTimeout(() => {
+            const characterMap = parseCharacter(dummy)
+            const leftHandSrc = characterMap.get("leftHand")!
+            const leftForeArmSrc = characterMap.get("leftForeArm")!
+            const leftArmSrc = characterMap.get("leftArm")!
+            const leftShoulderSrc = characterMap.get("leftShoulder")!
 
-//             onBeforeRender(() => {
-//                 leftShoulderDst.setRotationFromDirection(
-//                     direction3d(
-//                         getWorldPosition(leftArmSrc.$object),
-//                         getWorldPosition(leftShoulderSrc.$object)
-//                     )
-//                 )
-//                 leftArmDst.setRotationFromDirection(
-//                     direction3d(
-//                         getWorldPosition(leftForeArmSrc.$object),
-//                         getWorldPosition(leftArmSrc.$object)
-//                     )
-//                 )
-//                 leftForeArmDst.setRotationFromDirection(
-//                   direction3d(
-//                       getWorldPosition(leftHandSrc.$object),
-//                       getWorldPosition(leftForeArmSrc.$object)
-//                   )
-//                 )
-//             })
-//         }, 1000)
-//     })
-// })
+            const leftHandDst = characterRig.jointMap.get("leftHand")!
+            const leftForeArmDst = characterRig.jointMap.get("leftForeArm")!
+            const leftArmDst = characterRig.jointMap.get("leftArm")!
+            const leftShoulderDst = characterRig.jointMap.get("leftShoulder")!
+
+            onBeforeRender(() => {
+                setDirection(leftShoulderDst, leftShoulderSrc, leftArmSrc)
+                setDirection(leftArmDst, leftArmSrc, leftForeArmSrc)
+                setDirection(leftForeArmDst, leftForeArmSrc, leftHandSrc)
+            })
+        }, 1000)
+    })
+})
