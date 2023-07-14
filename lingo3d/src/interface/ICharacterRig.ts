@@ -6,10 +6,28 @@ import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { ExtractProps } from "./utils/extractProps"
 
-export type CharacterRigJointName = Exclude<
-    keyof ICharacterRig,
-    "target" | "enabled"
->
+export type CharacterRigJointName =
+    | "hips"
+    | "spine0"
+    | "spine1"
+    | "spine2"
+    | "neck"
+    | "leftShoulder"
+    | "leftArm"
+    | "leftForeArm"
+    | "leftHand"
+    | "rightShoulder"
+    | "rightArm"
+    | "rightForeArm"
+    | "rightHand"
+    | "leftThigh"
+    | "leftLeg"
+    | "leftFoot"
+    | "leftForeFoot"
+    | "rightThigh"
+    | "rightLeg"
+    | "rightFoot"
+    | "rightForeFoot"
 
 export default interface ICharacterRig extends IAppendable {
     target: Nullable<string>

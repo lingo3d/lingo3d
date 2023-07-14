@@ -4,11 +4,17 @@ import { CharacterRigJointName } from "../interface/ICharacterRig"
 import FoundManager from "../display/core/FoundManager"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
-const findLeftHand = makePredicate(/left.*hand/i)
-const findRightHand = makePredicate(/right.*hand/i)
+
+const testLeftHand = makePredicate(/left.*hand/i)
+const testLeftForeArm = makePredicate(/left.*(fore|up).*arm/i)
+const testLeftArm = makePredicate(/left.*arm/i)
+const testLeftShoulder = makePredicate(/left.*shoulder/i)
 
 export const parseCharacter = computeOnce((target: Model) => {
     const map = new Map<CharacterRigJointName, FoundManager>()
-    const found = target.findFirst(findLeftHand)
-    // if (found)
+
+    // const leftHandTests = new Map<CharacterRigJointName, typeof testLeftHand>([["leftHand"]])
+    // let found = target.findFirst(leftHandTests[0])
+    // while (found) {
+    // }
 })
