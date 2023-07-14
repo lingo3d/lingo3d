@@ -5,7 +5,6 @@ import FoundManager from "../display/core/FoundManager"
 import { indexChildrenNames } from "./indexChildrenNames"
 import { getFoundManager } from "../display/core/utils/getFoundManager"
 import { Object3D } from "three"
-import getParentWithSameName from "../display/core/utils/getParentWithSameName"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
 
@@ -28,7 +27,7 @@ const take = (
 ) => {
     for (const [n, obj] of pool) {
         if (!test(n)) continue
-        map.set(name, getFoundManager(getParentWithSameName(obj), model))
+        map.set(name, getFoundManager(obj, model))
         pool.delete(n)
         break
     }
