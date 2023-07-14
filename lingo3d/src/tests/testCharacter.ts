@@ -240,5 +240,6 @@ dummy.animation = "running"
 dummy.x = 150
 
 dummy.onLoad = () => {
-    parseCharacter(dummy)
+    const characterMap = parseCharacter(dummy)
+    // characterMap.get("")
 }
