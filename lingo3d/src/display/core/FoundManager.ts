@@ -59,8 +59,10 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     public characterRig: CharacterRig | undefined
 
-    public get parentNode() {
-        return getFoundManager(this.$object.parent!, this.owner)
+    public get parentNode(): FoundManager | undefined {
+        const { parent } = this.$object
+        if (parent === this.owner.$loadedObject) return undefined
+        return getFoundManager(parent!, this.owner)
     }
 }
 interface FoundManager
