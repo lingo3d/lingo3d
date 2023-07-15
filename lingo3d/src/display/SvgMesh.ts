@@ -5,7 +5,7 @@ import Loaded from "./core/Loaded"
 import TexturedStandardMixin, {
     StandardMesh
 } from "./core/mixins/TexturedStandardMixin"
-import fit from "./utils/fit"
+import { measureResize } from "../memo/measureResize"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
@@ -41,7 +41,11 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             mesh.receiveShadow = true
         }
 
-        const [{ x, y, z }] = fit(loadedObject, src)
+        const [{ x, y, z }, center, ratio] = measureResize(src, {
+            target: loadedObject
+        })
+        loadedObject.scale.multiplyScalar(ratio)
+        loadedObject.position.copy(center).multiplyScalar(-1)
         this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,

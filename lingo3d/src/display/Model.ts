@@ -1,5 +1,5 @@
 import { AnimationClip, Group, Object3D, PropertyBinding } from "three"
-import fit from "./utils/fit"
+import { measureResize } from "../memo/measureResize"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import FoundManager from "./core/FoundManager"
@@ -53,9 +53,9 @@ export default class Model extends Loaded<Group> implements IModel {
         return loadModel(url, true)
     }
 
-    private _resize?: boolean
+    private _resize = true
     public get resize() {
-        return this._resize ?? true
+        return this._resize
     }
     public set resize(val) {
         this._resize = val
@@ -68,11 +68,13 @@ export default class Model extends Loaded<Group> implements IModel {
             (this.$animationClips ??= {})[clip.name] = clip
         configModelAnimationSystem.add(this)
 
-        const [{ x, y, z }, , ratio] =
-            this._resize === false
-                ? measure(src, { target: loadedObject })
-                : fit(loadedObject, src)
-
+        const [{ x, y, z }, center, ratio] = this._resize
+            ? measureResize(src, { target: loadedObject })
+            : measure(src, { target: loadedObject })
+        if (this._resize) {
+            loadedObject.scale.multiplyScalar(ratio)
+            loadedObject.position.copy(center).multiplyScalar(-1)
+        }
         this.resizeScale = ratio
         this.runtimeDefaults = {
             width: x * M2CM,
