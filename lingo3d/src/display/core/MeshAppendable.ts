@@ -161,7 +161,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.$object.setRotationFromQuaternion(
             quaternion.setFromUnitVectors(up, direction as Vector3)
         )
-        ogParent !== scene && fastAttach(ogParent, this.$object)
+        ogParent !== scene && fastAttach(ogParent, this.$object, true)
     }
 
     public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
