@@ -9,9 +9,11 @@ import { renderCheckExcludeSet } from "../collections/renderCheckExcludeSet"
 import { multipleSelectionTargets } from "../collections/multipleSelectionTargets"
 import MeshAppendable from "../display/core/MeshAppendable"
 import { updateSystem } from "../systems/updateSystem"
+import { isTemplate } from "../typeGuards/isTemplate"
 
 createEffect(() => {
     const [selectionTarget] = selectionTargetPtr
+    if (isTemplate(selectionTarget)) return
     const target =
         selectionTarget instanceof MeshAppendable
             ? selectionTarget.$innerObject
@@ -38,6 +40,7 @@ createEffect(() => {
 
     const boxHelpers: Array<BoxHelper> = []
     for (const target of multipleSelectionTargets) {
+        if (isTemplate(target)) continue
         const boxHelper = new BoxHelper(target.$innerObject)
         scene.add(boxHelper)
         boxHelpers.push(boxHelper)

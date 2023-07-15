@@ -82,20 +82,20 @@ export default class Appendable extends Disposable implements IAppendable {
             for (const system of this._systems.values()) system.delete(this)
         emitDispose(this)
     }
-    public override dispose(notCaller?: boolean) {
+    public override dispose(cascade?: boolean, template?: boolean) {
         if (this.done) return this
         super.dispose()
         this.disposeNode()
         if (this.children)
             for (const child of this.children) child.dispose(true)
 
-        if (notCaller) {
-            disposeObject(this)
+        if (cascade) {
+            !template && disposeObject(this)
             return this
         }
         ;(this.parent?.children ?? appendableRoot).delete(this)
         !this.$disableSceneGraph && emitSceneGraphChange()
-        disposeObject(this)
+        !template && disposeObject(this)
         return this
     }
 
