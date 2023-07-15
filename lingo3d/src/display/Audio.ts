@@ -1,7 +1,7 @@
 import store, { Reactive, createEffect } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
-import HelperSprite from "./core/utils/HelperSprite"
+import HelperSprite from "./core/helperPrimitives/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import MeshAppendable from "./core/MeshAppendable"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"

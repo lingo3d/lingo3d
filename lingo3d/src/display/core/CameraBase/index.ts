@@ -12,7 +12,7 @@ import {
 } from "../../../states/useCameraStack"
 import getWorldPosition from "../../../memo/getWorldPosition"
 import getWorldDirection from "../../../memo/getWorldDirection"
-import HelperSprite from "../utils/HelperSprite"
+import HelperSprite from "../helperPrimitives/HelperSprite"
 import { setManager } from "../utils/getManager"
 import MeshAppendable from "../MeshAppendable"
 import { getCameraRendered } from "../../../states/useCameraRendered"

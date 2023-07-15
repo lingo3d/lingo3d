@@ -1,6 +1,6 @@
 import { curveHelperSpherePointMap } from "../../collections/curveHelperSpherePointMap"
 import Curve from "../../display/Curve"
-import HelperSphere from "../../display/core/utils/HelperSphere"
+import HelperSphere from "../../display/core/helperPrimitives/HelperSphere"
 import { onTransformEdit } from "../../events/onTransformEdit"
 import { configCurveSystemPtr } from "../../pointers/configCurveSystemPtr"
 import createInternalSystem from "../utils/createInternalSystem"

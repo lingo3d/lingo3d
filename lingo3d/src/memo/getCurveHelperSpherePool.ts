@@ -1,6 +1,6 @@
 import { curveHelperSpherePointMap } from "../collections/curveHelperSpherePointMap"
 import Curve from "../display/Curve"
-import HelperSphere from "../display/core/utils/HelperSphere"
+import HelperSphere from "../display/core/helperPrimitives/HelperSphere"
 import createSharedPool from "../pools/utils/createSharedPool"
 import { curveHelperSphereTransformEditSystem } from "../systems/eventSystems/curveHelperSphereTransformEditSystem"
 import { getSelectionCandidates } from "../throttle/getSelectionCandidates"

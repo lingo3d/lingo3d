@@ -1,7 +1,7 @@
 import { DirectionalLightHelper, Light, SpotLightHelper } from "three"
 import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
-import HelperSprite from "./utils/HelperSprite"
+import HelperSprite from "./helperPrimitives/HelperSprite"
 import GimbalObjectManager from "./GimbalObjectManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"

@@ -6,7 +6,7 @@ import IHTMLMesh, {
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
-import HelperCube from "../core/utils/HelperCube"
+import HelperCube from "../core/helperPrimitives/HelperCube"
 import { setManager } from "../core/utils/getManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 

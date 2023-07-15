@@ -20,7 +20,7 @@
         "clean": "node node_modules/rimraf/bin lib"
     },
     "dependencies": {
-        "@babel/generator": "^7.22.7",
+        "@babel/generator": "^7.22.9",
         "@babel/parser": "^7.22.7",
         "@babel/traverse": "^7.22.8",
         "@lincode/events": "^1.0.33",
@@ -33,7 +33,7 @@
         "@preact/signals": "^1.1.5",
         "@qiwi/dts-bundle": "^0.7.5",
         "@total-typescript/ts-reset": "^0.4.2",
-        "@types/three": "0.153.0",
+        "@types/three": "0.154.0",
         "@ungap/structured-clone": "^1.2.0",
         "@webcontainer/api": "^1.1.5",
         "browser-fs-access": "0.34.1",
@@ -53,8 +53,8 @@
         "stats.js": "^0.17.0",
         "three": "0.154.0",
         "wasm-feature-detect": "^1.5.1",
-        "wavesurfer.js": "^6.6.4",
-        "xstate": "^4.38.0",
+        "wavesurfer.js": "^6",
+        "xstate": "^4.38.1",
         "xterm": "^5.2.1",
         "xterm-addon-fit": "^0.7.0"
     },
@@ -74,7 +74,7 @@
         "rimraf": "^3.0.2",
         "tweakpane": "^3.1.10",
         "typescript": "^5.1.6",
-        "vite": "^4.4.2",
+        "vite": "^4.4.4",
         "vite-plugin-monaco-editor": "^1.1.0"
     },
     "private": false,

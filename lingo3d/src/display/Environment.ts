@@ -8,7 +8,7 @@ import IEnvironment, {
     EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
-import HelperSprite from "./core/utils/HelperSprite"
+import HelperSprite from "./core/helperPrimitives/HelperSprite"
 import MeshAppendable from "./core/MeshAppendable"
 import { getWorldMode } from "../states/useWorldMode"
 import { worldModePtr } from "../pointers/worldModePtr"

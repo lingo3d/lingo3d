@@ -5,7 +5,7 @@ import ISpawnPoint, {
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
-import HelperCylinder from "./core/utils/HelperCylinder"
+import HelperCylinder from "./core/helperPrimitives/HelperCylinder"
 import { getWorldMode } from "../states/useWorldMode"
 import { worldModePtr } from "../pointers/worldModePtr"
 
