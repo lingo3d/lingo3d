@@ -9,13 +9,15 @@ const setDirection = (
     parentDst: CharacterRigJoint | undefined,
     parentSrc: FoundManager,
     childSrc: FoundManager
-) =>
-    parentDst?.setRotationFromDirection(
+) => {
+    if (!parentDst || parentDst.done) return
+    parentDst.setRotationFromDirection(
         direction3d(
             getWorldPosition(childSrc.$object),
             getWorldPosition(parentSrc.$object)
         )
     )
+}
 
 export const characterRigAnimationSystem = createInternalSystem(
     "characterRigAnimationSystem",

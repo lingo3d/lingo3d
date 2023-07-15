@@ -44,6 +44,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
 
     const [name, setName] = useState("")
     useLayoutEffect(() => {
+        if (appendable.done) return
         setName(getDisplayName(appendable))
         const handle = appendable.$events.on("name", () =>
             setName(getDisplayName(appendable))

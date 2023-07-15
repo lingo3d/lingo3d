@@ -89,9 +89,13 @@ export default class Appendable extends Disposable implements IAppendable {
         if (this.children)
             for (const child of this.children) child.dispose(true)
 
-        if (notCaller) return this
+        if (notCaller) {
+            disposeObject(this)
+            return this
+        }
         ;(this.parent?.children ?? appendableRoot).delete(this)
         !this.$disableSceneGraph && emitSceneGraphChange()
+        disposeObject(this)
         return this
     }
 
@@ -191,5 +195,16 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$disableSceneGraph = true
         this.$disableSelection = disableSelection
         emitSceneGraphChangeSystem.delete(this)
+    }
+}
+
+const disposeObject = (instance: InstanceType<any>) => {
+    let currentPrototype = Object.getPrototypeOf(instance)
+    while (currentPrototype) {
+        for (const key of Object.getOwnPropertyNames(currentPrototype)) {
+            if (key === "done" || key === "dispose") continue
+            Object.defineProperty(instance, key, { value: undefined })
+        }
+        currentPrototype = Object.getPrototypeOf(currentPrototype)
     }
 }
