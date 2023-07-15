@@ -73,11 +73,17 @@ const MenuItems = ({ selectionTarget }: Props) => {
             </>
         )
     else if (selectionTarget) {
-        const Component = componentNameMenuButtonMap.get(
-            selectionTarget.componentName
-        )
-        if (Component) children.push(<Component />)
-        else if (selectionTarget instanceof MeshAppendable) {
+        let currentPrototype = Object.getPrototypeOf(selectionTarget)
+        while (currentPrototype) {
+            if (currentPrototype.componentName) {
+                const Component = componentNameMenuButtonMap.get(
+                    currentPrototype.componentName
+                )
+                if (Component) children.push(<Component />)
+            }
+            currentPrototype = Object.getPrototypeOf(currentPrototype)
+        }
+        if (selectionTarget instanceof MeshAppendable) {
             if (selectionTarget instanceof VisibleObjectManager) {
                 children.push(
                     <MenuButton
