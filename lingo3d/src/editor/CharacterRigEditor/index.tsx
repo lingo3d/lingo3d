@@ -66,14 +66,15 @@ const CharacterRigEditor = () => {
                                     opacity: 0.2
                                 }}
                             />
+                            <Joint x={0} y={20} name="head" />
                             <Joint
                                 x={0}
                                 y={30}
                                 name="neck"
-                                onMouseMove={(e) =>
-                                    setPosition({ x: e.clientX, y: e.clientY })
-                                }
-                                onMouseLeave={() => setPosition(undefined)}
+                                // onMouseMove={(e) =>
+                                //     setPosition({ x: e.clientX, y: e.clientY })
+                                // }
+                                // onMouseLeave={() => setPosition(undefined)}
                             />
 
                             <Joint x={-6} y={33} name="rightShoulder" />

@@ -134,7 +134,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self
             )
             attachJoints(
-                ["neck", "spine2", "spine1", "spine0", "hips"],
+                ["head", "neck", "spine2", "spine1", "spine0", "hips"],
                 self,
                 true
             )

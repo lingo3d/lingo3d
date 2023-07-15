@@ -59,11 +59,13 @@ export const characterRigAnimationSystem = createInternalSystem(
             rightLegDst?: CharacterRigJoint
             rightThighDst?: CharacterRigJoint
 
+            headSrc: FoundManager
             neckSrc: FoundManager
             spine2Src: FoundManager
             spine1Src: FoundManager
             spine0Src: FoundManager
             hipsSrc: FoundManager
+            headDst?: CharacterRigJoint
             neckDst?: CharacterRigJoint
             spine2Dst?: CharacterRigJoint
             spine1Dst?: CharacterRigJoint
@@ -109,11 +111,13 @@ export const characterRigAnimationSystem = createInternalSystem(
                 rightLegDst,
                 rightThighDst,
 
+                headSrc,
                 neckSrc,
                 spine2Src,
                 spine1Src,
                 spine0Src,
                 hipsSrc,
+                headDst,
                 neckDst,
                 spine2Dst,
                 spine1Dst,
@@ -137,6 +141,7 @@ export const characterRigAnimationSystem = createInternalSystem(
             setDirection(rightLegDst, rightLegSrc, rightFootSrc)
             setDirection(rightFootDst, rightFootSrc, rightForeFootSrc)
 
+            setDirection(headDst, headSrc, neckSrc)
             setDirection(neckDst, neckSrc, spine2Src)
             setDirection(spine2Dst, spine2Src, spine1Src)
             setDirection(spine1Dst, spine1Src, spine0Src)

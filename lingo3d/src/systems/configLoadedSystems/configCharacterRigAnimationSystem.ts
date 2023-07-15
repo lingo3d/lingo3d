@@ -58,11 +58,13 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
                 rightLegDst: jointMap.get("rightLeg"),
                 rightThighDst: jointMap.get("rightThigh"),
 
+                headSrc: characterMap.get("head")!,
                 neckSrc: characterMap.get("neck")!,
                 spine2Src: characterMap.get("spine2")!,
                 spine1Src: characterMap.get("spine1")!,
                 spine0Src: characterMap.get("spine0")!,
                 hipsSrc: characterMap.get("hips")!,
+                headDst: jointMap.get("head"),
                 neckDst: jointMap.get("neck"),
                 spine2Dst: jointMap.get("spine2"),
                 spine1Dst: jointMap.get("spine1"),

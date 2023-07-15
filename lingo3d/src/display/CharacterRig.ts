@@ -24,6 +24,7 @@ export default class CharacterRig extends Appendable implements ICharacterRig {
     public spine1: Nullable<string>
     public spine2: Nullable<string>
     public neck: Nullable<string>
+    public head: Nullable<string>
 
     public leftShoulder: Nullable<string>
     public leftArm: Nullable<string>

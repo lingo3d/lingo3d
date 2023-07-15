@@ -35,6 +35,7 @@ const testSpine2 = makePredicate(/spine.*2/i)
 const testSpine1 = makePredicate(/spine.*1/i)
 const testSpine0 = makePredicate(/(spine.*0)|spine/i)
 const testNeck = makePredicate(/neck/i)
+const testHead = makePredicate(/head/i)
 const testHips = makePredicate(/hip|pelvis|root/i)
 
 const take = (
@@ -83,6 +84,7 @@ export const parseCharacter = computeOnce((loadedObject: Object3D) => {
     take(pool, map, model, "spine1", testSpine1)
     take(pool, map, model, "spine0", testSpine0)
     take(pool, map, model, "neck", testNeck)
+    take(pool, map, model, "head", testHead)
     take(pool, map, model, "hips", testHips)
 
     return map

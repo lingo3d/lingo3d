@@ -12,6 +12,7 @@ export type CharacterRigJointName =
     | "spine1"
     | "spine2"
     | "neck"
+    | "head"
     | "leftShoulder"
     | "leftArm"
     | "leftForeArm"
@@ -38,6 +39,7 @@ export default interface ICharacterRig extends IAppendable {
     spine1: Nullable<string>
     spine2: Nullable<string>
     neck: Nullable<string>
+    head: Nullable<string>
 
     leftShoulder: Nullable<string>
     leftArm: Nullable<string>
@@ -71,6 +73,7 @@ export const characterRigSchema: Required<ExtractProps<ICharacterRig>> = {
     spine1: String,
     spine2: String,
     neck: String,
+    head: String,
 
     leftShoulder: String,
     leftArm: String,
@@ -104,6 +107,7 @@ export const characterRigDefaults = extendDefaults<ICharacterRig>(
         spine1: undefined,
         spine2: undefined,
         neck: undefined,
+        head: undefined,
 
         leftShoulder: undefined,
         leftArm: undefined,
