@@ -87,11 +87,11 @@ const attachJoints = (
     }
 }
 
-const traverseJointNodes = (children: Array<AppendableNode>) => {
+const assignSerializedProperties = (children: Array<AppendableNode>) => {
     for (const child of children) {
         const joint = uuidMapAssertGet(child.uuid!)
         Object.assign(joint, omit(child, nonSerializedProperties))
-        child.children && traverseJointNodes(child.children)
+        child.children && assignSerializedProperties(child.children)
     }
 }
 
@@ -138,23 +138,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 true
             )
-            // const { jointMap } = self
-            // if (jointMap.has("leftShoulder"))
-            //     jointMap.get("leftShoulder")!.innerRotationZ = 90
-            // if (jointMap.has("rightShoulder"))
-            //     jointMap.get("rightShoulder")!.innerRotationZ = -90
-
-            // if (jointMap.has("leftFoot"))
-            //     jointMap.get("leftFoot")!.innerRotationX = -55
-            // if (jointMap.has("rightFoot"))
-            //     jointMap.get("rightFoot")!.innerRotationX = -55
-
-            // if (jointMap.has("leftForeFoot"))
-            //     jointMap.get("leftForeFoot")!.innerRotationX = -35
-            // if (jointMap.has("rightForeFoot"))
-            //     jointMap.get("rightForeFoot")!.innerRotationX = -35
-
-            self.$jointNodes && traverseJointNodes(self.$jointNodes)
+            self.$jointNodes && assignSerializedProperties(self.$jointNodes)
         },
         cleanup: (self) => {
             for (const joint of self.jointMap.values()) joint.dispose()
