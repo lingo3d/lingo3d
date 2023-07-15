@@ -66,7 +66,7 @@ const CharacterRigEditor = () => {
                                     opacity: 0.2
                                 }}
                             />
-                            <Joint x={0} y={20} name="head" />
+                            <Joint x={0} y={27} name="head" />
                             <Joint
                                 x={0}
                                 y={30}
