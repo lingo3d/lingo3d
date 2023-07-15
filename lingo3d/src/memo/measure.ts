@@ -37,6 +37,6 @@ export const measure = computeOnceWithData(
         expandByObject(data.target)
         box3.getSize(size)
         box3.getCenter(center)
-        return [size, center]
+        return <const>[size, center, 1]
     }
 )

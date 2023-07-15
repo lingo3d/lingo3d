@@ -21,6 +21,9 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
             const characterMap = parseCharacter(data.target.$loadedObject!)
             const { jointMap } = self
 
+            const hipsSrc = characterMap.get("hips")!
+            const hipsDst = jointMap.get("hips")
+
             characterRigAnimationSystem.add(self, {
                 leftHandSrc: characterMap.get("leftHand")!,
                 leftForeArmSrc: characterMap.get("leftForeArm")!,
@@ -63,13 +66,16 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
                 spine2Src: characterMap.get("spine2")!,
                 spine1Src: characterMap.get("spine1")!,
                 spine0Src: characterMap.get("spine0")!,
-                hipsSrc: characterMap.get("hips")!,
+                hipsSrc,
                 headDst: jointMap.get("head"),
                 neckDst: jointMap.get("neck"),
                 spine2Dst: jointMap.get("spine2"),
                 spine1Dst: jointMap.get("spine1"),
                 spine0Dst: jointMap.get("spine0"),
-                hipsDst: jointMap.get("hips")
+                hipsDst,
+
+                hipsPositionSrc: hipsSrc.position.clone(),
+                hipsPositionDst: hipsDst?.position.clone()
             })
         }
     }

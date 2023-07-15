@@ -1,6 +1,8 @@
+import { Vector3 } from "three"
 import CharacterRig from "../display/CharacterRig"
 import CharacterRigJoint from "../display/CharacterRigJoint"
 import FoundManager from "../display/core/FoundManager"
+import { vector3 } from "../display/utils/reusables"
 import direction3d from "../math/direction3d"
 import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
@@ -71,6 +73,9 @@ export const characterRigAnimationSystem = createInternalSystem(
             spine1Dst?: CharacterRigJoint
             spine0Dst?: CharacterRigJoint
             hipsDst?: CharacterRigJoint
+
+            hipsPositionSrc: Vector3
+            hipsPositionDst?: Vector3
         },
         update: (
             _: CharacterRig,
@@ -122,7 +127,10 @@ export const characterRigAnimationSystem = createInternalSystem(
                 spine2Dst,
                 spine1Dst,
                 spine0Dst,
-                hipsDst
+                hipsDst,
+
+                hipsPositionSrc,
+                hipsPositionDst
             }
         ) => {
             setDirection(leftShoulderDst, leftShoulderSrc, leftArmSrc)
@@ -146,6 +154,15 @@ export const characterRigAnimationSystem = createInternalSystem(
             setDirection(spine2Dst, spine2Src, spine1Src)
             setDirection(spine1Dst, spine1Src, spine0Src)
             setDirection(spine0Dst, spine0Src, hipsSrc)
+
+            hipsDst?.position
+                .copy(hipsPositionDst!)
+                .add(
+                    vector3
+                        .copy(hipsSrc.position)
+                        .sub(hipsPositionSrc)
+                        .multiplyScalar(hipsSrc.owner.resizeScale)
+                )
         }
     }
 )

@@ -62,16 +62,18 @@ export default class Model extends Loaded<Group> implements IModel {
         this.$loadedObject && (this.src = this._src)
     }
 
+    public resizeScale = 1
     public $resolveLoaded(loadedObject: Group, src: string) {
         for (const clip of loadedObject.animations)
             (this.$animationClips ??= {})[clip.name] = clip
         configModelAnimationSystem.add(this)
 
-        const [{ x, y, z }] =
+        const [{ x, y, z }, , ratio] =
             this._resize === false
                 ? measure(src, { target: loadedObject })
                 : fit(loadedObject, src)
 
+        this.resizeScale = ratio
         this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,
