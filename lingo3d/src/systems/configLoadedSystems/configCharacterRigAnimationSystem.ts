@@ -26,7 +26,6 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
                 leftForeArmSrc: characterMap.get("leftForeArm")!,
                 leftArmSrc: characterMap.get("leftArm")!,
                 leftShoulderSrc: characterMap.get("leftShoulder")!,
-
                 leftHandDst: jointMap.get("leftHand"),
                 leftForeArmDst: jointMap.get("leftForeArm"),
                 leftArmDst: jointMap.get("leftArm"),
@@ -36,11 +35,28 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
                 rightForeArmSrc: characterMap.get("rightForeArm")!,
                 rightArmSrc: characterMap.get("rightArm")!,
                 rightShoulderSrc: characterMap.get("rightShoulder")!,
-
                 rightHandDst: jointMap.get("rightHand"),
                 rightForeArmDst: jointMap.get("rightForeArm"),
                 rightArmDst: jointMap.get("rightArm"),
-                rightShoulderDst: jointMap.get("rightShoulder")
+                rightShoulderDst: jointMap.get("rightShoulder"),
+
+                leftForeFootSrc: characterMap.get("leftForeFoot")!,
+                leftFootSrc: characterMap.get("leftFoot")!,
+                leftLegSrc: characterMap.get("leftLeg")!,
+                leftThighSrc: characterMap.get("leftThigh")!,
+                leftForeFootDst: jointMap.get("leftForeFoot"),
+                leftFootDst: jointMap.get("leftFoot"),
+                leftLegDst: jointMap.get("leftLeg"),
+                leftThighDst: jointMap.get("leftThigh"),
+
+                rightForeFootSrc: characterMap.get("rightForeFoot")!,
+                rightFootSrc: characterMap.get("rightFoot")!,
+                rightLegSrc: characterMap.get("rightLeg")!,
+                rightThighSrc: characterMap.get("rightThigh")!,
+                rightForeFootDst: jointMap.get("rightForeFoot"),
+                rightFootDst: jointMap.get("rightFoot"),
+                rightLegDst: jointMap.get("rightLeg"),
+                rightThighDst: jointMap.get("rightThigh")
             })
         }
     }

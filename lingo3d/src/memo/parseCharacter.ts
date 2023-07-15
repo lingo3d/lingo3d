@@ -19,6 +19,18 @@ const testRightForeArm = makePredicate(/right.*(fore|up).*arm/i)
 const testRightArm = makePredicate(/right.*arm/i)
 const testRightShoulder = makePredicate(/right.*shoulder/i)
 
+const testLeftForeFoot = makePredicate(/left.*((fore.*foot)|(toe.*base)|toe)/i)
+const testLeftFoot = makePredicate(/left.*foot/i)
+const testLeftThigh = makePredicate(/left.*((up*leg)|thigh)/i)
+const testLeftLeg = makePredicate(/left.*leg/i)
+
+const testRightForeFoot = makePredicate(
+    /right.*((fore.*foot)|(toe.*base)|toe)/i
+)
+const testRightFoot = makePredicate(/right.*foot/i)
+const testRightThigh = makePredicate(/right.*((up*leg)|thigh)/i)
+const testRightLeg = makePredicate(/right.*leg/i)
+
 const take = (
     pool: Map<string, Object3D>,
     map: Map<CharacterRigJointName, FoundManager>,
@@ -50,6 +62,16 @@ export const parseCharacter = computeOnce((loadedObject: Object3D) => {
     take(pool, map, model, "rightForeArm", testRightForeArm)
     take(pool, map, model, "rightArm", testRightArm)
     take(pool, map, model, "rightShoulder", testRightShoulder)
+
+    take(pool, map, model, "leftForeFoot", testLeftForeFoot)
+    take(pool, map, model, "leftFoot", testLeftFoot)
+    take(pool, map, model, "leftThigh", testLeftThigh)
+    take(pool, map, model, "leftLeg", testLeftLeg)
+
+    take(pool, map, model, "rightForeFoot", testRightForeFoot)
+    take(pool, map, model, "rightFoot", testRightFoot)
+    take(pool, map, model, "rightThigh", testRightThigh)
+    take(pool, map, model, "rightLeg", testRightLeg)
 
     return map
 })
