@@ -1,23 +1,23 @@
-import ISimpleObjectManager, {
-    simpleObjectManagerDefaults,
-    simpleObjectManagerSchema
-} from "./ISimpleObjectManager"
+import IGimbalObjectManager, {
+    gimbalObjectManagerDefaults,
+    gimbalObjectManagerSchema
+} from "./IGimbalObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import { CharacterRigJointName } from "./ICharacterRig"
 
-export default interface ICharacterRigJoint extends ISimpleObjectManager {
+export default interface ICharacterRigJoint extends IGimbalObjectManager {
     target: CharacterRigJointName | undefined
 }
 
 export const characterRigJointSchema: Required<
     ExtractProps<ICharacterRigJoint>
 > = {
-    ...simpleObjectManagerSchema,
+    ...gimbalObjectManagerSchema,
     target: String
 }
 
 export const characterRigJointDefaults = extendDefaults<ICharacterRigJoint>(
-    [simpleObjectManagerDefaults],
+    [gimbalObjectManagerDefaults],
     { target: undefined }
 )
