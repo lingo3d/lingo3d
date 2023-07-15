@@ -31,6 +31,12 @@ const testRightFoot = makePredicate(/right.*foot/i)
 const testRightThigh = makePredicate(/right.*((up*leg)|thigh)/i)
 const testRightLeg = makePredicate(/right.*leg/i)
 
+const testSpine2 = makePredicate(/spine.*2/i)
+const testSpine1 = makePredicate(/spine.*1/i)
+const testSpine0 = makePredicate(/(spine.*0)|spine/i)
+const testNeck = makePredicate(/neck/i)
+const testHips = makePredicate(/hip|pelvis|root/i)
+
 const take = (
     pool: Map<string, Object3D>,
     map: Map<CharacterRigJointName, FoundManager>,
@@ -72,6 +78,12 @@ export const parseCharacter = computeOnce((loadedObject: Object3D) => {
     take(pool, map, model, "rightFoot", testRightFoot)
     take(pool, map, model, "rightThigh", testRightThigh)
     take(pool, map, model, "rightLeg", testRightLeg)
+
+    take(pool, map, model, "spine2", testSpine2)
+    take(pool, map, model, "spine1", testSpine1)
+    take(pool, map, model, "spine0", testSpine0)
+    take(pool, map, model, "neck", testNeck)
+    take(pool, map, model, "hips", testHips)
 
     return map
 })
