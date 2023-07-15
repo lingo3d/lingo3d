@@ -27,20 +27,20 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
                 leftArmSrc: characterMap.get("leftArm")!,
                 leftShoulderSrc: characterMap.get("leftShoulder")!,
 
-                leftHandDst: jointMap.get("leftHand")!,
-                leftForeArmDst: jointMap.get("leftForeArm")!,
-                leftArmDst: jointMap.get("leftArm")!,
-                leftShoulderDst: jointMap.get("leftShoulder")!,
+                leftHandDst: jointMap.get("leftHand"),
+                leftForeArmDst: jointMap.get("leftForeArm"),
+                leftArmDst: jointMap.get("leftArm"),
+                leftShoulderDst: jointMap.get("leftShoulder"),
 
                 rightHandSrc: characterMap.get("rightHand")!,
                 rightForeArmSrc: characterMap.get("rightForeArm")!,
                 rightArmSrc: characterMap.get("rightArm")!,
                 rightShoulderSrc: characterMap.get("rightShoulder")!,
 
-                rightHandDst: jointMap.get("rightHand")!,
-                rightForeArmDst: jointMap.get("rightForeArm")!,
-                rightArmDst: jointMap.get("rightArm")!,
-                rightShoulderDst: jointMap.get("rightShoulder")!
+                rightHandDst: jointMap.get("rightHand"),
+                rightForeArmDst: jointMap.get("rightForeArm"),
+                rightArmDst: jointMap.get("rightArm"),
+                rightShoulderDst: jointMap.get("rightShoulder")
             })
         }
     }

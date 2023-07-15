@@ -6,11 +6,11 @@ import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
 
 const setDirection = (
-    parentDst: CharacterRigJoint,
+    parentDst: CharacterRigJoint | undefined,
     parentSrc: FoundManager,
     childSrc: FoundManager
 ) =>
-    parentDst.setRotationFromDirection(
+    parentDst?.setRotationFromDirection(
         direction3d(
             getWorldPosition(childSrc.$object),
             getWorldPosition(parentSrc.$object)
@@ -26,20 +26,20 @@ export const characterRigAnimationSystem = createInternalSystem(
             leftArmSrc: FoundManager
             leftShoulderSrc: FoundManager
 
-            leftHandDst: CharacterRigJoint
-            leftForeArmDst: CharacterRigJoint
-            leftArmDst: CharacterRigJoint
-            leftShoulderDst: CharacterRigJoint
+            leftHandDst?: CharacterRigJoint
+            leftForeArmDst?: CharacterRigJoint
+            leftArmDst?: CharacterRigJoint
+            leftShoulderDst?: CharacterRigJoint
 
             rightHandSrc: FoundManager
             rightForeArmSrc: FoundManager
             rightArmSrc: FoundManager
             rightShoulderSrc: FoundManager
 
-            rightHandDst: CharacterRigJoint
-            rightForeArmDst: CharacterRigJoint
-            rightArmDst: CharacterRigJoint
-            rightShoulderDst: CharacterRigJoint
+            rightHandDst?: CharacterRigJoint
+            rightForeArmDst?: CharacterRigJoint
+            rightArmDst?: CharacterRigJoint
+            rightShoulderDst?: CharacterRigJoint
         },
         update: (
             _: CharacterRig,
