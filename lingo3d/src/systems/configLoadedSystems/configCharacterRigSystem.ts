@@ -11,6 +11,7 @@ import { Point3dType } from "../../typeGuards/isPoint"
 import { forceGet, omit } from "@lincode/utils"
 import { AppendableNode } from "../../api/serializer/types"
 import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
+import { quaternion, vector3 } from "../../display/utils/reusables"
 
 const setRotation = (
     parentJoint: CharacterRigJoint,
@@ -95,10 +96,15 @@ const assignSerializedProperties = (children: Array<AppendableNode>) => {
 export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
-        effect: (self: CharacterRig) => {
+        data: {
+            position: vector3,
+            quaternion: quaternion
+        },
+        effect: (self: CharacterRig, data) => {
             const model = self.model!
-            const position = model.position.clone()
-            const quaternion = model.quaternion.clone()
+            data.position = model.position.clone()
+            data.quaternion = model.quaternion.clone()
+
             model.position.set(0, 0, 0)
             model.quaternion.set(0, 0, 0, 1)
             self.position.set(0, 0, 0)
@@ -143,14 +149,18 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 true
             )
-            self.position.copy(position)
-            self.quaternion.copy(quaternion)
+            self.position.copy(data.position)
+            self.quaternion.copy(data.quaternion)
             self.$jointNodes && assignSerializedProperties(self.$jointNodes)
         },
-        cleanup: (self) => {
+        cleanup: (self, data) => {
             for (const joint of self.jointMap.values()) joint.dispose()
             self.jointMap.clear()
-            self.model!.src = self.model!.src
+
+            const model = self.model!
+            model.src = model.src
+            model.position.copy(data.position)
+            model.quaternion.copy(data.quaternion)
         },
         loading: (self) => {
             if (!self.target) return true
