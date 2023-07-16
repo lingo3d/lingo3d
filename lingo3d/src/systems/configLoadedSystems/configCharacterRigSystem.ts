@@ -11,7 +11,6 @@ import { Point3dType } from "../../typeGuards/isPoint"
 import { forceGet, omit } from "@lincode/utils"
 import { AppendableNode } from "../../api/serializer/types"
 import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
-import { quaternion, testObject, vector3 } from "../../display/utils/reusables"
 
 const setRotation = (
     parentJoint: CharacterRigJoint,
@@ -96,15 +95,10 @@ const assignSerializedProperties = (children: Array<AppendableNode>) => {
 export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
-        data: {
-            position: vector3,
-            quaternion: quaternion,
-            parent: testObject
-        },
-        effect: (self: CharacterRig, data) => {
+        effect: (self: CharacterRig) => {
             const model = self.model!
-            data.position = model.position.clone()
-            data.quaternion = model.quaternion.clone()
+            const position = model.position.clone()
+            const quaternion = model.quaternion.clone()
 
             model.position.set(0, 0, 0)
             model.quaternion.set(0, 0, 0, 1)
@@ -150,22 +144,14 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 true
             )
-            self.position.copy(data.position)
-            self.quaternion.copy(data.quaternion)
-            data.parent = model.$object.parent!
-            self.$object.add(model.$object)
-
+            self.position.copy(position)
+            self.quaternion.copy(quaternion)
             self.$jointNodes && assignSerializedProperties(self.$jointNodes)
         },
-        cleanup: (self, data) => {
+        cleanup: (self) => {
             for (const joint of self.jointMap.values()) joint.dispose()
             self.jointMap.clear()
-
-            const model = self.model!
-            model.src = model.src
-            model.position.copy(data.position)
-            model.quaternion.copy(data.quaternion)
-            data.parent.add(model.$object)
+            self.model!.src = self.model!.src
         },
         loading: (self) => {
             if (!self.target) return true
