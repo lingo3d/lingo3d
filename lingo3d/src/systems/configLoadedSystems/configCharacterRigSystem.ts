@@ -143,19 +143,14 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         cleanup: (self) => {
             for (const joint of self.jointMap.values()) joint.dispose()
             self.jointMap.clear()
-            const model = uuidMap.get(self.target!)
-            if (!(model instanceof Model)) return
-            model.src = model.src
+            self.model!.src = self.model!.src
         },
         loading: (self) => {
             if (!self.target) return true
             const model = uuidMap.get(self.target)
             if (!(model instanceof Model)) return true
             if (!model.$loadedObject) return true
-
-            // self.placeAt
-            // self.$object.add()
-
+            self.model = model
             return false
         }
     }

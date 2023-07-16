@@ -8,6 +8,7 @@ import Nullable from "../interface/utils/Nullable"
 import CharacterRigJoint from "./CharacterRigJoint"
 import { AppendableNode } from "../api/serializer/types"
 import MeshAppendable from "./core/MeshAppendable"
+import Model from "./Model"
 
 export default class CharacterRig
     extends MeshAppendable
@@ -19,6 +20,7 @@ export default class CharacterRig
 
     public jointMap = new Map<CharacterRigJointName, CharacterRigJoint>()
     public $jointNodes?: Array<AppendableNode>
+    public model?: Model
 
     public target: Nullable<string>
 
