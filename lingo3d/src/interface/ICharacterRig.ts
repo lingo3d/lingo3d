@@ -1,7 +1,7 @@
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { ExtractProps } from "./utils/extractProps"
@@ -30,7 +30,7 @@ export type CharacterRigJointName =
     | "rightFoot"
     | "rightForeFoot"
 
-export default interface ICharacterRig extends IAppendable {
+export default interface ICharacterRig extends IMeshAppendable {
     target: Nullable<string>
     enabled: boolean
 
@@ -63,7 +63,7 @@ export default interface ICharacterRig extends IAppendable {
 }
 
 export const characterRigSchema: Required<ExtractProps<ICharacterRig>> = {
-    ...appendableSchema,
+    ...meshAppendableSchema,
 
     target: String,
     enabled: Boolean,
@@ -97,7 +97,7 @@ export const characterRigSchema: Required<ExtractProps<ICharacterRig>> = {
 }
 
 export const characterRigDefaults = extendDefaults<ICharacterRig>(
-    [appendableDefaults],
+    [meshAppendableDefaults],
     {
         target: undefined,
         enabled: false,

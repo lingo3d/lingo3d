@@ -1,4 +1,3 @@
-import Appendable from "./core/Appendable"
 import ICharacterRig, {
     CharacterRigJointName,
     characterRigDefaults,
@@ -8,8 +7,12 @@ import { configCharacterRigSystem } from "../systems/configLoadedSystems/configC
 import Nullable from "../interface/utils/Nullable"
 import CharacterRigJoint from "./CharacterRigJoint"
 import { AppendableNode } from "../api/serializer/types"
+import MeshAppendable from "./core/MeshAppendable"
 
-export default class CharacterRig extends Appendable implements ICharacterRig {
+export default class CharacterRig
+    extends MeshAppendable
+    implements ICharacterRig
+{
     public static componentName = "characterRig"
     public static defaults = characterRigDefaults
     public static schema = characterRigSchema
