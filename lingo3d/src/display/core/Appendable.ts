@@ -203,7 +203,7 @@ const disposeObject = (instance: InstanceType<any>) => {
     while (currentPrototype) {
         for (const key of Object.getOwnPropertyNames(currentPrototype)) {
             if (key === "done" || key === "dispose") continue
-            Object.defineProperty(instance, key, { value: undefined })
+            delete instance[key]
         }
         currentPrototype = Object.getPrototypeOf(currentPrototype)
     }
