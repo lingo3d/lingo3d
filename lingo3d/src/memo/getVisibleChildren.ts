@@ -1,14 +1,13 @@
-import { Mesh, Object3D } from "three"
+import { Object3D } from "three"
 import computePerFrame from "./utils/computePerFrame"
 
-export default computePerFrame((object: Object3D) => {
-    const result: Array<Object3D> = []
-    object.traverse(
-        (child: Object3D | Mesh) =>
-            "material" in child &&
-            child.material &&
-            child.visible &&
-            result.push(child)
-    )
+const getVisibleChildren = (object: Object3D, result: Array<Object3D> = []) => {
+    for (const child of object.children) {
+        //@ts-ignore
+        child.material && child.visible && result.push(child)
+        child.visible && getVisibleChildren(child, result)
+    }
     return result
-})
+}
+
+export default computePerFrame(getVisibleChildren)
