@@ -12,7 +12,9 @@ import {
     deleteBusyProcess
 } from "../../../collections/busyProcesses"
 
-const cache = createUnloadMap<string, Promise<[GLTF, boolean]>>()
+type Result = [GLTF, boolean, boolean]
+
+const cache = createUnloadMap<string, Promise<Result>>()
 const loader = new GLTFLoader()
 
 const createDracoLoader = lazy(() => {
@@ -23,21 +25,22 @@ const createDracoLoader = lazy(() => {
 
 export default async (url: string, clone: boolean) => {
     createDracoLoader()
-    const [gltf, noBone] = await forceGet(
+    const [gltf, noBone, noMesh] = await forceGet(
         cache,
         url,
         () =>
-            new Promise<[GLTF, boolean]>((resolve, reject) => {
+            new Promise<Result>((resolve, reject) => {
                 addBusyProcess("loadGLTF")
                 loader.load(
                     url,
                     (gltf: GLTF) => {
                         const noBonePtr: [boolean] = [true]
+                        const noMeshPtr: [boolean] = [true]
                         for (const scene of gltf.scenes)
-                            processChildren(scene, noBonePtr)
+                            processChildren(scene, noBonePtr, noMeshPtr)
 
                         deleteBusyProcess("loadGLTF")
-                        resolve([gltf, noBonePtr[0]])
+                        resolve([gltf, noBonePtr[0], noMeshPtr[0]])
                     },
                     handleProgress(url),
                     () => {
@@ -47,7 +50,8 @@ export default async (url: string, clone: boolean) => {
                 )
             })
     )
-    if (clone) return cloneSkinnedMesh(gltf.scene, noBone, gltf.animations)
+    if (clone)
+        return cloneSkinnedMesh(gltf.scene, noBone, noMesh, gltf.animations)
 
     return gltf.scene
 }
