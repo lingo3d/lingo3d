@@ -11,7 +11,7 @@ import { Point3dType } from "../../typeGuards/isPoint"
 import { forceGet, omit } from "@lincode/utils"
 import { AppendableNode } from "../../api/serializer/types"
 import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
-import { quaternion, vector3 } from "../../display/utils/reusables"
+import { quaternion, testObject, vector3 } from "../../display/utils/reusables"
 
 const setRotation = (
     parentJoint: CharacterRigJoint,
@@ -98,7 +98,8 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     {
         data: {
             position: vector3,
-            quaternion: quaternion
+            quaternion: quaternion,
+            parent: testObject
         },
         effect: (self: CharacterRig, data) => {
             const model = self.model!
@@ -151,6 +152,9 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             )
             self.position.copy(data.position)
             self.quaternion.copy(data.quaternion)
+            data.parent = model.$object.parent!
+            self.$object.add(model.$object)
+
             self.$jointNodes && assignSerializedProperties(self.$jointNodes)
         },
         cleanup: (self, data) => {
@@ -161,6 +165,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
             model.src = model.src
             model.position.copy(data.position)
             model.quaternion.copy(data.quaternion)
+            data.parent.add(model.$object)
         },
         loading: (self) => {
             if (!self.target) return true
