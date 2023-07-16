@@ -309,12 +309,12 @@ const characterRig = deserialize(JSON.parse(json) as any).find(
 ) as CharacterRig
 
 const dummy = new Model()
-dummy.src = "Running.fbx"
-// dummy.animations = {
-//     running: "Running.fbx"
-// }
-// dummy.animation = "running"
-// dummy.x = 50
-// dummy.remove()
+dummy.src = ybotUrlPtr[0]
+dummy.animations = {
+    running: "Running.fbx"
+}
+dummy.animation = "running"
+dummy.x = 50
+dummy.remove()
 
-// configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
+configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
