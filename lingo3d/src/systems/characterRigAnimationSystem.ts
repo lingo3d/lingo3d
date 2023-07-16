@@ -6,6 +6,7 @@ import { quaternion_, quaternion__, vector3 } from "../display/utils/reusables"
 import direction3d from "../math/direction3d"
 import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
+import { frameSyncAlpha } from "../api/frameSync"
 
 const setDirection = (
     parentDst: CharacterRigJoint | undefined,
@@ -21,7 +22,9 @@ const setDirection = (
         )
     )
     quaternion__.copy(parentDst.quaternion)
-    parentDst.quaternion.copy(quaternion_).slerp(quaternion__, 0.5)
+    parentDst.quaternion
+        .copy(quaternion_)
+        .slerp(quaternion__, frameSyncAlpha(0.5))
 }
 
 export const characterRigAnimationSystem = createInternalSystem(
