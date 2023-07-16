@@ -63,13 +63,17 @@ export default class CharacterRig
             : configCharacterRigSystem.delete(this)
     }
 
-    public override append(object: Model) {
+    public override append(object: Model | CharacterRigJoint) {
         super.append(object)
+        if (!(object instanceof Model)) return
+        this.target = object.uuid
         appendToCharacterRigSystem.add(this)
     }
 
-    public override attach(object: Model) {
+    public override attach(object: Model | CharacterRigJoint) {
         super.attach(object)
+        if (!(object instanceof Model)) return
+        this.target = object.uuid
         appendToCharacterRigSystem.add(this)
     }
 }
