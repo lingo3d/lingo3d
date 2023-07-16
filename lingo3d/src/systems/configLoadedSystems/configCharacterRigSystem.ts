@@ -81,10 +81,7 @@ const attachJoints = (
         parentJoint.attach(childJoint)
         childJoint = parentJoint
     }
-    for (const joint of joints) {
-        joint.$attachBone()
-        // joint.quaternion.set(0, 0, 0, 1)
-    }
+    for (const joint of joints) joint.$attachBone()
 }
 
 const assignSerializedProperties = (children: Array<AppendableNode>) => {
