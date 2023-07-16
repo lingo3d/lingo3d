@@ -99,6 +99,7 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     "configCharacterRigSystem",
     {
         effect: (self: CharacterRig) => {
+            self.placeAt(self.model!)
             attachJoints(
                 [
                     "leftHand",
