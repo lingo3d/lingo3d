@@ -71,6 +71,16 @@ export default class Model extends Loaded<Group> implements IModel {
         const [{ x, y, z }, center, ratio] = this._resize
             ? measureResize(src, { target: loadedObject })
             : measure(src, { target: loadedObject })
+
+        if (Number.isNaN(x)) {
+            this.resizeScale = 1
+            this.runtimeDefaults = undefined
+            !this.widthSet && (this.$innerObject.scale.x = 1)
+            !this.heightSet && (this.$innerObject.scale.y = 1)
+            !this.depthSet && (this.$innerObject.scale.z = 1)
+            return loadedObject
+        }
+
         if (this._resize) {
             loadedObject.scale.multiplyScalar(ratio)
             loadedObject.position.copy(center).multiplyScalar(-1)
@@ -84,7 +94,6 @@ export default class Model extends Loaded<Group> implements IModel {
         !this.widthSet && (this.$innerObject.scale.x = x)
         !this.heightSet && (this.$innerObject.scale.y = y)
         !this.depthSet && (this.$innerObject.scale.z = z)
-
         return loadedObject
     }
 

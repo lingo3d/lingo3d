@@ -4,16 +4,15 @@ import computeOnceWithData from "./utils/computeOnceWithData"
 
 const _box = new Box3()
 
-const expandByObject = (object: any) => {
+const expandByObject = (object: Object3D) => {
     object.updateMatrixWorld()
-
+    //@ts-ignore
     const { geometry } = object
     if (geometry) {
         if (object instanceof SkinnedMesh) {
             const position = geometry.attributes.position
             for (let i = 0, il = position.count; i < il; i++) {
                 vector3.fromBufferAttribute(position, i)
-                //@ts-ignore
                 object.applyBoneTransform(i, vector3)
                 object.localToWorld(vector3)
                 box3.expandByPoint(vector3)

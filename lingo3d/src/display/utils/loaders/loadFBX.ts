@@ -10,13 +10,13 @@ import {
     deleteBusyProcess
 } from "../../../collections/busyProcesses"
 
-type Result = [Group, boolean, boolean]
+type Result = [Group, boolean]
 
 const cache = createUnloadMap<string, Promise<Result>>()
 const loader = new FBXLoader()
 
 export default async (url: string, clone: boolean) => {
-    const [group, noBone, noMesh] = await forceGet(
+    const [group, noBone] = await forceGet(
         cache,
         url,
         () =>
@@ -26,10 +26,9 @@ export default async (url: string, clone: boolean) => {
                     url,
                     (group: Group) => {
                         const noBonePtr: [boolean] = [true]
-                        const noMeshPtr: [boolean] = [true]
-                        processChildren(group, noBonePtr, noMeshPtr)
+                        processChildren(group, noBonePtr)
                         deleteBusyProcess("loadFBX")
-                        resolve([group, noBonePtr[0], noMeshPtr[0]])
+                        resolve([group, noBonePtr[0]])
                     },
                     handleProgress(url),
                     () => {
@@ -39,7 +38,7 @@ export default async (url: string, clone: boolean) => {
                 )
             })
     )
-    if (clone) return cloneSkinnedMesh(group, noBone, noMesh)
+    if (clone) return cloneSkinnedMesh(group, noBone)
 
     return group
 }
