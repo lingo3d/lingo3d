@@ -150,8 +150,8 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
         loading: (self) => {
             if (!self.target) return true
             const model = uuidMap.get(self.target)
-            if (!model) return true
-            return "$loadedObject" in model && !model.$loadedObject
+            if (!(model instanceof Model)) return true
+            return !model.$loadedObject
         }
     }
 )
