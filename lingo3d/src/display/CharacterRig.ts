@@ -9,6 +9,7 @@ import CharacterRigJoint from "./CharacterRigJoint"
 import { AppendableNode } from "../api/serializer/types"
 import MeshAppendable from "./core/MeshAppendable"
 import Model from "./Model"
+import { appendToCharacterRigSystem } from "../systems/configLoadedSystems/appendToCharacterRigSystem"
 
 export default class CharacterRig
     extends MeshAppendable
@@ -60,5 +61,15 @@ export default class CharacterRig
         val
             ? configCharacterRigSystem.add(this)
             : configCharacterRigSystem.delete(this)
+    }
+
+    public override append(object: Model) {
+        super.append(object)
+        appendToCharacterRigSystem.add(this)
+    }
+
+    public override attach(object: Model) {
+        super.attach(object)
+        appendToCharacterRigSystem.add(this)
     }
 }

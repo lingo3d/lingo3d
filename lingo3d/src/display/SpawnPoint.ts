@@ -3,8 +3,6 @@ import ISpawnPoint, {
     spawnPointSchema
 } from "../interface/ISpawnPoint"
 import GimbalObjectManager from "./core/GimbalObjectManager"
-import SimpleObjectManager from "./core/SimpleObjectManager"
-import scene from "../engine/scene"
 import HelperCylinder from "./core/helperPrimitives/HelperCylinder"
 import { getWorldMode } from "../states/useWorldMode"
 import { worldModePtr } from "../pointers/worldModePtr"
@@ -30,11 +28,5 @@ export default class SpawnPoint
                 helper.dispose()
             }
         }, [getWorldMode])
-    }
-
-    public override append(child: SimpleObjectManager) {
-        this.$appendNode(child)
-        scene.add(child.$object)
-        child.placeAt(this, true)
     }
 }

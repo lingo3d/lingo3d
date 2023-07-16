@@ -304,17 +304,22 @@ const json = `
   }
 ]  
 `
-const characterRig = deserialize(JSON.parse(json) as any).find(
-    (child) => child instanceof CharacterRig
-) as CharacterRig
+// const characterRig = deserialize(JSON.parse(json) as any).find(
+//     (child) => child instanceof CharacterRig
+// ) as CharacterRig
 
-const dummy = new Model()
-dummy.src = ybotUrlPtr[0]
-dummy.animations = {
-    running: "Running.fbx"
-}
-dummy.animation = "running"
-dummy.x = 50
-dummy.remove()
+// const dummy = new Model()
+// dummy.src = ybotUrlPtr[0]
+// dummy.animations = {
+//     running: "Running.fbx"
+// }
+// dummy.animation = "running"
+// dummy.x = 50
+// dummy.remove()
 
-configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
+// configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
+
+const rig = new CharacterRig()
+
+const model = new Model()
+model.src = "player2.glb"
