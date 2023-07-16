@@ -3,7 +3,7 @@ import { SkeletonHelper } from "three"
 import Loaded from "../display/core/Loaded"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
-import { skinnedMeshSet } from "../collections/skinnedMeshSet"
+import { noBoneSet } from "../collections/noBoneSet"
 import { selectionTargetPtr } from "../pointers/selectionTargetPtr"
 import FoundManager from "../display/core/FoundManager"
 
@@ -19,7 +19,7 @@ createEffect(() => {
         return
 
     const { $loadedObject } = target
-    if (!$loadedObject || !skinnedMeshSet.has($loadedObject)) return
+    if (!$loadedObject || noBoneSet.has($loadedObject)) return
 
     const helper = new SkeletonHelper($loadedObject)
     scene.add(helper)
