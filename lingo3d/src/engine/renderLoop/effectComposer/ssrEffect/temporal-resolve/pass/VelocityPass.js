@@ -4,24 +4,18 @@ import {
     DataTexture,
     FloatType,
     HalfFloatType,
-    Quaternion,
     RGBAFormat,
-    Vector3,
     VideoTexture,
     WebGLRenderTarget
 } from "three"
-import { getVisibleChildren } from "../../utils/Utils"
 import { VelocityMaterial } from "../material/VelocityMaterial"
+import getVisibleChildren from "../../../../../../memo/getVisibleChildren"
 
 const backgroundColor = new Color(0)
 const updateProperties = ["visible", "wireframe", "side"]
 
 export class VelocityPass extends Pass {
     cachedMaterials = new WeakMap()
-    lastCameraTransform = {
-        position: new Vector3(),
-        quaternion: new Quaternion()
-    }
     visibleMeshes = []
     renderedMeshesThisFrame = 0
     renderedMeshesLastFrame = 0

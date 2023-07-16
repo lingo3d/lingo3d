@@ -2,7 +2,7 @@ import { Vector3 } from "three"
 import CharacterRig from "../display/CharacterRig"
 import CharacterRigJoint from "../display/CharacterRigJoint"
 import FoundManager from "../display/core/FoundManager"
-import { vector3 } from "../display/utils/reusables"
+import { quaternion_, quaternion__, vector3 } from "../display/utils/reusables"
 import direction3d from "../math/direction3d"
 import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
@@ -13,12 +13,15 @@ const setDirection = (
     childSrc: FoundManager
 ) => {
     if (!parentDst || parentDst.done) return
+    quaternion_.copy(parentDst.quaternion)
     parentDst.setRotationFromDirection(
         direction3d(
             getWorldPosition(childSrc.$object),
             getWorldPosition(parentSrc.$object)
         )
     )
+    quaternion__.copy(parentDst.quaternion)
+    parentDst.quaternion.copy(quaternion_).slerp(quaternion__, 0.5)
 }
 
 export const characterRigAnimationSystem = createInternalSystem(

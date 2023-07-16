@@ -23,6 +23,7 @@ export const vector3__ = new Vector3()
 
 export const quaternion = new Quaternion()
 export const quaternion_ = new Quaternion()
+export const quaternion__ = new Quaternion()
 
 export const obb = new OBB()
 export const obb_ = new OBB()

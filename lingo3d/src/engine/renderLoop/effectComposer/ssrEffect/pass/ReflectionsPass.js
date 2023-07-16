@@ -7,7 +7,7 @@ import {
 } from "three"
 import { MRTMaterial } from "../material/MRTMaterial"
 import { ReflectionsMaterial } from "../material/ReflectionsMaterial"
-import { getVisibleChildren } from "../utils/Utils"
+import getVisibleChildren from "../../../../../memo/getVisibleChildren"
 
 const isWebGL2 = (() => {
     try {
