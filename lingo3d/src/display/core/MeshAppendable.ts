@@ -1,7 +1,7 @@
 import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
 import getWorldDirection from "../../memo/getWorldDirection"
 import getWorldPosition from "../../memo/getWorldPosition"
-import { matrix4, quaternion, ray, vector3 } from "../utils/reusables"
+import { quaternion, ray, vector3 } from "../utils/reusables"
 import { point2Vec, vec2Point } from "../utils/vec2Point"
 import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
