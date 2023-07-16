@@ -97,8 +97,10 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
     {
         effect: (self: CharacterRig) => {
             const model = self.model!
-            const position = model.position.clone()
-            const quaternion = model.quaternion.clone()
+            const modelPosition = model.position.clone()
+            const modelQuaternion = model.quaternion.clone()
+            const selfPosition = self.position.clone()
+            const selfQuaternion = self.quaternion.clone()
 
             model.position.set(0, 0, 0)
             model.quaternion.set(0, 0, 0, 1)
@@ -144,8 +146,13 @@ export const configCharacterRigSystem = createLoadedEffectSystem(
                 self,
                 true
             )
-            self.position.copy(position)
-            self.quaternion.copy(quaternion)
+            if (model.parent === self) {
+                self.position.copy(selfPosition)
+                self.quaternion.copy(selfQuaternion)
+            } else {
+                self.position.copy(modelPosition)
+                self.quaternion.copy(modelQuaternion)
+            }
             self.$jointNodes && assignSerializedProperties(self.$jointNodes)
         },
         cleanup: (self) => {
