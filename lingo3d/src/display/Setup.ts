@@ -4,6 +4,7 @@ import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { defaultSetupPtr } from "../pointers/defaultSetupPtr"
+import { emitEditorRefresh } from "../events/onEditorRefresh"
 
 const setupStructDefaults = { ...setupStruct }
 
@@ -17,6 +18,7 @@ class Setup extends Appendable {
         this.$disableSceneGraph = true
         defaultSetupPtr[0]?.dispose()
         defaultSetupPtr[0] = this
+        emitEditorRefresh()
     }
 
     protected override disposeNode() {
