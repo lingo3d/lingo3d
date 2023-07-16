@@ -315,5 +315,6 @@ dummy.animations = {
 }
 dummy.animation = "running"
 dummy.x = 50
+dummy.remove()
 
 configCharacterRigAnimationSystem.add(characterRig, { target: dummy })

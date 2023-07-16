@@ -93,10 +93,14 @@ export default class Appendable extends Disposable implements IAppendable {
             !template && disposeObject(this)
             return this
         }
-        ;(this.parent?.children ?? appendableRoot).delete(this)
-        !this.$disableSceneGraph && emitSceneGraphChange()
+        this.remove()
         !template && disposeObject(this)
         return this
+    }
+
+    public remove() {
+        ;(this.parent?.children ?? appendableRoot).delete(this)
+        !this.$disableSceneGraph && emitSceneGraphChange()
     }
 
     public traverse(cb: (appendable: Appendable) => void) {
