@@ -45,8 +45,7 @@ createEffect(() => {
         selectionTarget && "$object" in selectionTarget
             ? selectionTarget.$object
             : undefined
-
-    if (!target) return
+    if (!target?.parent) return
 
     const _mode = getEditorModeComputed()
     const mode = _mode === "curve" ? "translate" : _mode
@@ -59,7 +58,7 @@ createEffect(() => {
 
     const handle = new Cancellable()
     lazyTransformControls().then((transformControls) => {
-        if (handle.done || !target.parent) return
+        if (handle.done) return
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
