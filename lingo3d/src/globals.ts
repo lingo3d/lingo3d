@@ -37,8 +37,7 @@ export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
 export const LIBRARY_WIDTH = 200
 export const TREE_ITEM_HEIGHT = 18
-// export const BACKGROUND_COLOR = "#121316"
-export const BACKGROUND_COLOR = "#000000"
+export const BACKGROUND_COLOR = "#121316"
 
 export const IS_MOBILE = (() => {
     const ua = navigator.userAgent

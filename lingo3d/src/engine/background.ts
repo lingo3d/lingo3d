@@ -27,8 +27,6 @@ createEffect(() => {
             }
         }
     } else if (image) scene.background = loadTexture(image)
-    else if (color) {
-        if (color === "transparent") scene.background = null
-        else scene.background = new Color(color)
-    } else scene.background = new Color(0)
+    else if (color === "transparent") scene.background = null
+    else scene.background = new Color(color)
 }, [getBackgroundColor, getBackgroundImage, getSkyboxStack])
