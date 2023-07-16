@@ -176,9 +176,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public override placeAt(
-        target: MeshAppendable | Point3dType | SpawnPoint | string
+        target: MeshAppendable | Point3dType | SpawnPoint | string,
+        rotate?: boolean
     ) {
-        super.placeAt(target)
+        super.placeAt(target, rotate)
         this.$actor && configPhysicsTransformSystem.add(this)
     }
 

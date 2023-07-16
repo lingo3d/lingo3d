@@ -109,10 +109,10 @@ createEffect(() => {
                     .applyQuaternion(_parentQuaternionInv)
                     .divide(_parentScale)
             }
-            snapRaycastSystem.add(transformControls, {
-                direction0: vector3.clone().normalize(),
-                direction1: vector3.clone().multiplyScalar(-1).normalize()
-            })
+            // snapRaycastSystem.add(transformControls, {
+            //     direction0: vector3.clone().normalize(),
+            //     direction1: vector3.clone().multiplyScalar(-1).normalize()
+            // })
         })
 
         handle.then(() => {

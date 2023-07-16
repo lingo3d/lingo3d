@@ -164,7 +164,10 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         ogParent !== scene && fastAttach(ogParent, this.$object)
     }
 
-    public placeAt(target: MeshAppendable | Point3dType | SpawnPoint | string) {
+    public placeAt(
+        target: MeshAppendable | Point3dType | SpawnPoint | string,
+        rotate?: boolean
+    ) {
         if (typeof target === "string") {
             const [found] = userIdMap.get(target) ?? []
             if (!found || !("$object" in found)) return
@@ -174,7 +177,8 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             if ("isSpawnPoint" in target)
                 target.$innerObject.position.y = getActualScale(this).y * 0.5
             this.position.copy(getWorldPosition(target.$innerObject))
-            "quaternion" in this &&
+            rotate &&
+                "quaternion" in this &&
                 this.quaternion.copy(getWorldQuaternion(target.$object))
         } else this.position.copy(point2Vec(target))
     }

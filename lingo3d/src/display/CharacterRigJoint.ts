@@ -48,7 +48,7 @@ export default class CharacterRigJoint
         this._target = val
         if (!val) return
         this.boneManager = uuidMapAssertGet(this.characterRig[val]!)
-        this.placeAt(this.boneManager.getWorldPosition())
+        this.placeAt(this.boneManager)
         this.characterRig.jointMap.set(val, this)
     }
 
