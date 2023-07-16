@@ -6,17 +6,17 @@ export default toFixed
 export const toNullableFixed = (v: number | undefined) =>
     v === undefined ? undefined : toFixed(v)
 
-export const toFixedPoint = (value: PointType | Point3dType) => {
+export const toFixedPoint = <T extends PointType | Point3dType>(value: T) => {
     if ("z" in value)
         return {
             x: toFixed(value.x),
             y: toFixed(value.y),
             z: toFixed(value.z)
-        }
+        } as T
     return {
         x: toFixed(value.x),
         y: toFixed(value.y)
-    }
+    } as T
 }
 
 export const getFixedValue = (target: any, key: string) => {
