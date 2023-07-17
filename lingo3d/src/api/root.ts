@@ -6,8 +6,7 @@ import scene from "../engine/scene"
 class Root extends Appendable {
     public constructor() {
         super()
-        this.$ghost()
-        this.$disableUnload = true
+        this.remove()
     }
 
     public override children = appendableRoot

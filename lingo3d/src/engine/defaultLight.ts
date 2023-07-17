@@ -10,8 +10,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import { texturesUrlPtr } from "../pointers/assetsPathPointers"
 
 const defaultEnvironment = new Environment()
-defaultEnvironment.$ghost()
-defaultEnvironment.$disableUnload = true
+defaultEnvironment.remove()
 defaultEnvironment.texture = undefined
 
 export const environmentToUrl = (value: string) =>

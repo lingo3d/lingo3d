@@ -6,7 +6,7 @@ import { emitUnload } from "../../events/onUnload"
 import { setFileCurrent } from "../../states/useFileCurrent"
 
 export const unloadFile = () => {
-    for (const child of appendableRoot) !child.$disableUnload && child.dispose()
+    for (const child of appendableRoot) child.dispose()
     resetMainCameraManager()
     new DefaultSkyLight()
     new Setup()

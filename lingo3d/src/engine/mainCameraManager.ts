@@ -13,8 +13,7 @@ import { editorBehaviorPtr } from "../pointers/editorBehaviorPtr"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
-mainCameraManager.$ghost()
-mainCameraManager.$disableUnload = true
+mainCameraManager.remove()
 mainCameraManager.name = "camera"
 mainCameraManager.enableZoom = true
 mainCameraManager.enableFly = true

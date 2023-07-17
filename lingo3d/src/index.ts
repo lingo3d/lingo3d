@@ -92,12 +92,10 @@ import { setAssetsPath } from "./pointers/assetsPathPointers"
 import { VERSION } from "./globals"
 
 const keyboard = new Keyboard()
-keyboard.$ghost()
-keyboard.$disableUnload = true
+keyboard.remove()
 
 const mouse = new Mouse()
-mouse.$ghost()
-mouse.$disableUnload = true
+mouse.remove()
 
 type GameObject = Model & Primitive
 export type {

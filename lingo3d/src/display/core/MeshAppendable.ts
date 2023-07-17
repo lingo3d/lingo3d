@@ -79,11 +79,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.querySphere && physxPtr[0].destroy(this.querySphere)
     }
 
-    public override remove() {
-        super.remove()
-        configMeshAppendableSystem.delete(this)
-    }
-
     public override get name() {
         return super.name
     }

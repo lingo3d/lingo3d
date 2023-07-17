@@ -63,8 +63,7 @@ import {
 } from "../../states/useSpotLightPool"
 
 const defaultSkybox = new Skybox()
-defaultSkybox.$ghost()
-defaultSkybox.$disableUnload = true
+defaultSkybox.remove()
 
 export default {
     get defaultLight() {
