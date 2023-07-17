@@ -10,7 +10,7 @@ import {
 const textureLoader = new TextureLoader()
 const rgbeLoader = new RGBELoader()
 
-Texture.DEFAULT_ANISOTROPY = 8
+Texture.DEFAULT_ANISOTROPY = 4
 
 export default (url: string, onLoad?: (texture: Texture) => void) => {
     addBusyProcess("loadTexture")
