@@ -10,18 +10,26 @@ import { getEditorBehavior } from "./useEditorBehavior"
 import { getWorldMode } from "./useWorldMode"
 import Plane from "../display/primitives/Plane"
 import { texturesUrlPtr } from "../pointers/assetsPathPointers"
+import { lazy } from "@lincode/utils"
 
 export const [setGrid, getGrid] = store(true)
+
+const lazyGrid = lazy(() => {
+    const grid = new Plane()
+    grid.remove()
+    grid.scale = 100
+    grid.rotationX = -90
+    grid.texture = texturesUrlPtr[0] + "/grid.jpg"
+    grid.textureRepeat = 10
+    return grid
+})
 
 createEffect(() => {
     if (!getGrid() || !editorBehaviorPtr[0] || worldModePtr[0] !== "editor")
         return
 
-    const grid = new Plane()
-    grid.scale = 100
-    grid.rotationX = -90
-    grid.texture = texturesUrlPtr[0] + "/grid.jpg"
-    grid.textureRepeat = 10
+    const grid = lazyGrid()
+    grid.visible = true
 
     const editorPlane = (editorPlanePtr[0] = new Mesh(
         new PlaneGeometry(1000, 1000),
@@ -32,6 +40,7 @@ createEffect(() => {
     scene.add(editorPlane)
 
     return () => {
+        grid.visible = false
         editorPlane.geometry.dispose()
         scene.remove(editorPlane)
         editorPlanePtr[0] = undefined
