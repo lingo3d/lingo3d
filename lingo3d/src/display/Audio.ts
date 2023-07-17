@@ -6,8 +6,8 @@ import loadAudio from "./utils/loaders/loadAudio"
 import MeshAppendable from "./core/MeshAppendable"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { getWorldMode } from "../states/useWorldMode"
-import { worldModePtr } from "../pointers/worldModePtr"
+import { helperSystem } from "../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../systems/configSystems/configHelperSystem"
 
 const audioListener = new AudioListener()
 
@@ -28,17 +28,16 @@ export default class Audio
     public static defaults = audioDefaults
     public static schema = audioSchema
 
+    public $createHelper() {
+        return new HelperSprite("audio", this)
+    }
+
     public constructor() {
         const sound = new PositionalAudio(audioListener)
         super(sound)
 
-        this.createEffect(() => {
-            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
-            const helper = new HelperSprite("audio", this)
-            return () => {
-                helper.dispose()
-            }
-        }, [getWorldMode])
+        helperSystem.add(this)
+        configHelperSystem.add(this)
 
         const [setReady, getReady] = store(false)
 

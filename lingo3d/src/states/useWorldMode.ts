@@ -1,8 +1,9 @@
 import store from "@lincode/reactivity"
 import { worldModePtr } from "../pointers/worldModePtr"
+import { emitWorldMode } from "../events/onWorldMode"
 
-export const [setWorldMode, getWorldMode] = store<
-    "default" | "editor" | "runtime"
->("default")
+export type WorldMode = "default" | "editor" | "runtime"
 
-getWorldMode((val) => (worldModePtr[0] = val))
+export const [setWorldMode, getWorldMode] = store<WorldMode>("default")
+
+getWorldMode((val) => emitWorldMode((worldModePtr[0] = val)))
