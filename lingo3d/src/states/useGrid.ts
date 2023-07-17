@@ -19,6 +19,7 @@ const lazyGrid = lazy(() => {
     grid.remove()
     grid.scale = 100
     grid.rotationX = -90
+    grid.y = -50
     grid.texture = texturesUrlPtr[0] + "/grid.jpg"
     grid.textureRepeat = 10
     return grid
