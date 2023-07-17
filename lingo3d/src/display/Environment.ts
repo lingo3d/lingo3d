@@ -10,8 +10,8 @@ import IEnvironment, {
 } from "../interface/IEnvironment"
 import HelperSprite from "./core/helperPrimitives/HelperSprite"
 import MeshAppendable from "./core/MeshAppendable"
-import { getWorldMode } from "../states/useWorldMode"
-import { worldModePtr } from "../pointers/worldModePtr"
+import { helperSystem } from "../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../systems/configSystems/configHelperSystem"
 
 export default class Environment
     extends MeshAppendable
@@ -21,17 +21,15 @@ export default class Environment
     public static defaults = environmentDefaults
     public static schema = environmentSchema
 
+    public $createHelper() {
+        return new HelperSprite("light", this)
+    }
+
     public constructor() {
         super()
         pushEnvironmentStack(this)
-
-        this.createEffect(() => {
-            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
-            const helper = new HelperSprite("light", this)
-            return () => {
-                helper.dispose()
-            }
-        }, [getWorldMode])
+        helperSystem.add(this)
+        configHelperSystem.add(this)
     }
 
     protected override disposeNode() {

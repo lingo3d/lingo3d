@@ -4,8 +4,8 @@ import ISpawnPoint, {
 } from "../interface/ISpawnPoint"
 import GimbalObjectManager from "./core/GimbalObjectManager"
 import HelperCylinder from "./core/helperPrimitives/HelperCylinder"
-import { getWorldMode } from "../states/useWorldMode"
-import { worldModePtr } from "../pointers/worldModePtr"
+import { helperSystem } from "../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../systems/configSystems/configHelperSystem"
 
 export default class SpawnPoint
     extends GimbalObjectManager
@@ -17,16 +17,15 @@ export default class SpawnPoint
 
     protected isSpawnPoint = true
 
+    public $createHelper() {
+        const helper = new HelperCylinder(this)
+        helper.height = 10
+        return helper
+    }
+
     public constructor() {
         super()
-
-        this.createEffect(() => {
-            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
-            const helper = new HelperCylinder(this)
-            helper.height = 10
-            return () => {
-                helper.dispose()
-            }
-        }, [getWorldMode])
+        helperSystem.add(this)
+        configHelperSystem.add(this)
     }
 }
