@@ -326,7 +326,3 @@ const model = new Model()
 model.src = "player2.glb"
 model.scale = 1.7
 model.y = 85
-
-const audio = new Audio()
-audio.y = 100
-audio.x = 100

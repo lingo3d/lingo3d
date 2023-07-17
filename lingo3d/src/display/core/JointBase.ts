@@ -11,6 +11,8 @@ import { configJointSystem } from "../../systems/configSystems/configJointSystem
 import { getWorldMode } from "../../states/useWorldMode"
 import { worldModePtr } from "../../pointers/worldModePtr"
 import { configPhysicsTransformSystem } from "../../systems/configSystems/configPhysicsTransformSystem"
+import { helperSystem } from "../../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../../systems/configSystems/configHelperSystem"
 
 export default abstract class JointBase
     extends MeshAppendable
@@ -33,9 +35,18 @@ export default abstract class JointBase
         jointSet.delete(this)
     }
 
+    public $createHelper() {
+        const helper = new HelperSphere(this)
+        helper.scale = 0.1
+        helper.depthTest = false
+        return helper
+    }
+
     public constructor() {
         super()
         jointSet.add(this)
+        helperSystem.add(this)
+        configHelperSystem.add(this)
 
         this.createEffect(() => {
             if (worldModePtr[0] !== "default" || !editorBehaviorPtr[0]) return
@@ -44,18 +55,6 @@ export default abstract class JointBase
                 flushMultipleSelectionTargets(() => this.restorePos())
             }
         }, [getWorldMode, getEditorBehavior])
-
-        this.createEffect(() => {
-            if (worldModePtr[0] !== "editor" || this.$disableSceneGraph) return
-
-            const helper = new HelperSphere(this)
-            helper.scale = 0.1
-            helper.depthTest = false
-
-            return () => {
-                helper.dispose()
-            }
-        }, [getWorldMode])
     }
 
     private fromPos: Vector3 | undefined
