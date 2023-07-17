@@ -24,8 +24,8 @@ export default abstract class PointLightBase<
     extends LightBase<T>
     implements IPointLightBase
 {
-    public constructor(light: T, helper?: typeof SpotLightHelper) {
-        super(light, helper)
+    public constructor(light: T, Helper?: typeof SpotLightHelper) {
+        super(light, Helper)
         light.shadow.autoUpdate = false
         this.distance = POINTLIGHT_DISTANCE
         this.intensity = POINTLIGHT_INTENSITY

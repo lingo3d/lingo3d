@@ -7,6 +7,8 @@ import HelperSprite from "./helperPrimitives/HelperSprite"
 import SpotLight from "../lights/SpotLight"
 import Cube from "../primitives/Cube"
 import { POINTLIGHT_DISTANCE, POINTLIGHT_INTENSITY } from "../../globals"
+import { helperSystem } from "../../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../../systems/configSystems/configHelperSystem"
 
 export default abstract class PooledPointLightBase<
         T extends PointLight | SpotLight = PointLight
@@ -17,16 +19,14 @@ export default abstract class PooledPointLightBase<
     public $light?: T
     public $boundingSphere = new Sphere()
 
-    private helperSprite: HelperSprite
+    public $createHelper() {
+        return new HelperSprite("light", this)
+    }
 
     public constructor() {
         super()
-        this.helperSprite = new HelperSprite("light", this)
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        this.helperSprite.dispose()
+        helperSystem.add(this)
+        configHelperSystem.add(this)
     }
 
     private _distance = POINTLIGHT_DISTANCE

@@ -8,8 +8,6 @@ export const configHelperSystem = createInternalSystem("configHelperSystem", {
         self: MeshAppendable & { $createHelper: () => MeshAppendable },
         data
     ) => {
-        console.log("config")
-
         if (worldModePtr[0] !== "editor" || self.$disableSceneGraph) {
             data.helper = undefined
             return false
