@@ -6,7 +6,6 @@ import IHTMLMesh, {
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
-import HelperCube from "../core/helperPrimitives/HelperCube"
 import { setManager } from "../core/utils/getManager"
 import { ColorString } from "../../interface/ITexturedStandard"
 
@@ -34,12 +33,7 @@ export default class HTMLMesh
                         ? innerHTML
                         : `<div>${innerHTML}</div>`
                 )
-            if (!element) {
-                const helper = new HelperCube(this)
-                return () => {
-                    helper.dispose()
-                }
-            }
+            if (!element) return
 
             const elementContainer =
                 elementContainerTemplate.cloneNode() as HTMLElement
