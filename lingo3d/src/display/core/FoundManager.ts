@@ -14,7 +14,7 @@ import type Model from "../Model"
 import { MaterialParams } from "../../pools/materialPool"
 import { materialDefaultsMap } from "../../collections/materialDefaultsMap"
 import CharacterRig from "../CharacterRig"
-import { getFoundManager } from "./utils/getFoundManager"
+import { getFoundManagerPtr } from "../../pointers/getFoundManagerPtr"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -62,7 +62,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public get parentNode(): FoundManager | undefined {
         const { parent } = this.$object
         if (parent === this.owner.$loadedObject) return undefined
-        return getFoundManager(parent!, this.owner)
+        return getFoundManagerPtr[0](parent!, this.owner)
     }
 }
 interface FoundManager
