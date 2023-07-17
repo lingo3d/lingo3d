@@ -15,17 +15,15 @@ import getWorldDirection from "../../../memo/getWorldDirection"
 import HelperSprite from "../helperPrimitives/HelperSprite"
 import { setManager } from "../utils/getManager"
 import MeshAppendable from "../MeshAppendable"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 import { Point3dType } from "../../../typeGuards/isPoint"
 import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 import { cameraTransitionSet } from "../../../collections/cameraTransitionSet"
 import { renderCheckExcludeSet } from "../../../collections/renderCheckExcludeSet"
 import { configCameraSystem } from "../../../systems/configSystems/configCameraSystem"
 import { gyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
-import { getWorldMode } from "../../../states/useWorldMode"
-import { worldModePtr } from "../../../pointers/worldModePtr"
 import { DEG2RAD } from "three/src/math/MathUtils"
+import { helperSystem } from "../../../systems/eventSystems/helperSystem"
+import { configHelperSystem } from "../../../systems/configSystems/configHelperSystem"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -35,35 +33,30 @@ export default abstract class CameraBase<
 {
     public $midObject3d = this.$object
 
+    public $createHelper() {
+        const helper = new CameraHelper(this.$camera)
+        ssrExcludeSet.add(helper)
+        renderCheckExcludeSet.add(helper)
+        scene.add(helper)
+
+        const sprite = new HelperSprite("camera", this)
+        helper.add(sprite.$object)
+        sprite.then(() => {
+            helper.dispose()
+            ssrExcludeSet.delete(helper)
+            renderCheckExcludeSet.delete(helper)
+            scene.remove(helper)
+        })
+        return sprite
+    }
+
     public constructor(public $camera: T) {
         super()
         this.$innerObject.add($camera)
         setManager($camera, this)
         pushCameraList($camera)
-
-        this.createEffect(() => {
-            if (
-                worldModePtr[0] !== "editor" ||
-                cameraRenderedPtr[0] === $camera ||
-                this.$disableSceneGraph
-            )
-                return
-
-            const helper = new CameraHelper($camera)
-            ssrExcludeSet.add(helper)
-            renderCheckExcludeSet.add(helper)
-            scene.add(helper)
-
-            const sprite = new HelperSprite("camera", this)
-            helper.add(sprite.$object)
-            return () => {
-                helper.dispose()
-                ssrExcludeSet.delete(helper)
-                renderCheckExcludeSet.delete(helper)
-                scene.remove(helper)
-                sprite.dispose()
-            }
-        }, [getWorldMode, getCameraRendered])
+        helperSystem.add(this)
+        configHelperSystem.add(this)
     }
 
     protected override disposeNode(): void {
