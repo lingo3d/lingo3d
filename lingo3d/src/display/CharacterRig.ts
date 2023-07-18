@@ -71,9 +71,13 @@ export default class CharacterRig
     }
 
     public override attach(object: Model | CharacterRigJoint) {
+        if (object instanceof Model) {
+            this.placeAt(object, true)
+            super.attach(object)
+            this.target = object.uuid
+            appendToCharacterRigSystem.add(this)
+            return
+        }
         super.attach(object)
-        if (!(object instanceof Model)) return
-        this.target = object.uuid
-        appendToCharacterRigSystem.add(this)
     }
 }
