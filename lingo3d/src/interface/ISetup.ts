@@ -20,6 +20,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     environment: String,
     skybox: [String, Array],
     grid: Boolean,
+    gridY: Number,
     stats: Boolean,
     fps: Number,
     gravity: Number,
@@ -52,6 +53,7 @@ export const setupDefaults = extendDefaults<ISetup>(
     [],
     { ...setupStruct, uuid: "" },
     {
+        gridY: new Range(-500, 0),
         lightDistance: new Range(500, 5000),
         pointLightPool: new Range(1, 10, 1),
         spotLightPool: new Range(1, 10, 1),

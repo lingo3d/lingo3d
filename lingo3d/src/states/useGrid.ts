@@ -11,6 +11,8 @@ import { getWorldMode } from "./useWorldMode"
 import Plane from "../display/primitives/Plane"
 import { texturesUrlPtr } from "../pointers/assetsPathPointers"
 import { lazy } from "@lincode/utils"
+import { getGridY } from "./useGridY"
+import { CM2M } from "../globals"
 
 export const [setGrid, getGrid] = store(true)
 
@@ -39,10 +41,15 @@ createEffect(() => {
     editorPlane.visible = false
     scene.add(editorPlane)
 
+    const handle = getGridY((val) => {
+        grid.y = val
+        editorPlane.position.y = val * CM2M
+    })
     return () => {
         grid.visible = false
         editorPlane.geometry.dispose()
         scene.remove(editorPlane)
         editorPlanePtr[0] = undefined
+        handle.cancel()
     }
 }, [getGrid, getEditorBehavior, getWorldMode])

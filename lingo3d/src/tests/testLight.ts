@@ -1,20 +1,9 @@
-import {
-    DefaultSkyLight,
-    Dummy,
-    PooledPointLight,
-    Sprite,
-    onBeforeRender
-} from ".."
-import Cube from "../display/primitives/Cube"
+import { DefaultSkyLight, Dummy, PooledPointLight, settings } from ".."
+
+settings.gridY = -230
 
 const skylight = new DefaultSkyLight()
 skylight.intensity = 0.2
-
-const ground = new Cube()
-ground.y = -300
-ground.scaleX = 1000
-ground.scaleZ = 1000
-
 
 for (let i = 0; i < 10; ++i) {
     const light = new PooledPointLight()

@@ -61,6 +61,7 @@ import {
     getSpotLightPool,
     setSpotLightPool
 } from "../../states/useSpotLightPool"
+import { getGridY, setGridY } from "../../states/useGridY"
 
 const defaultSkybox = new Skybox()
 defaultSkybox.remove()
@@ -114,6 +115,13 @@ export default {
     },
     set grid(value) {
         setGrid(value)
+    },
+
+    get gridY() {
+        return getGridY()
+    },
+    set gridY(value) {
+        setGridY(value)
     },
 
     get stats() {

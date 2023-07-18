@@ -13,8 +13,8 @@ export default (pane: Pane, includeKeys: Array<string> | undefined) => {
     const manager = targetSetup
     const params = createParams(targetSetup, includeKeys)
 
-    const [rendererParams, rendererRest] = splitObject(params, ["fps"])
-    addInputs(handle, pane, "renderer", manager, rendererParams)
+    const [rendererParams, rendererRest] = splitObject(params, ["fps", "gridY"])
+    addInputs(handle, pane, "settings", manager, rendererParams)
 
     const [physicsParams, physicsRest] = splitObject(rendererRest, ["gravity"])
     addInputs(handle, pane, "physics", manager, physicsParams)
