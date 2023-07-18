@@ -32,6 +32,6 @@ aura.blending = "additive"
 aura.depthTest = false
 aura.$disableSelection = true
 
-onBeforeRender(() => {
-    aura.visible = firstLight!.isRendered
-})
+// onBeforeRender(() => {
+//     aura.visible = firstLight!.isRendered
+// })
