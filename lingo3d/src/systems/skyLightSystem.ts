@@ -5,11 +5,12 @@ export const skyLightSystem = createInternalSystem("skyLightSystem", {
     update: (self: SkyLight) => {
         const csm = self.$csm
         if (csm) {
-            csm.lightDirection.copy(
-                self.position.clone().normalize().multiplyScalar(-1)
-            )
+            csm.lightDirection
+                .copy(self.position)
+                .normalize()
+                .multiplyScalar(-1)
             csm.update()
         }
-        self.$backLight.position.copy(self.position.clone().multiplyScalar(-1))
+        self.$backLight.position.copy(self.position).multiplyScalar(-1)
     }
 })

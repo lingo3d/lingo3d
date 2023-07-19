@@ -14,6 +14,7 @@ import {
 } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
 import Point3d from "../../math/Point3d"
+import { materialSet } from "../../collections/materialSet"
 
 export const vector2 = new Vector2()
 
@@ -44,8 +45,8 @@ export const matrix4 = new Matrix4()
 
 export const color = new Color()
 
-export const wireframeMaterial = new MeshStandardMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })
+materialSet.add(standardMaterial)
 
 export const pt3d0 = Object.freeze(new Point3d(0, 0, 0))
 

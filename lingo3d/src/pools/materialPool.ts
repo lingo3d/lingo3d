@@ -8,6 +8,7 @@ import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
 import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { castBlending } from "../display/utils/castBlending"
 import { texturePool } from "./texturePool"
+import { materialSet } from "../collections/materialSet"
 
 export type MaterialParams = [
     color: ColorString,
@@ -181,9 +182,10 @@ export const materialPool = createSharedPool<
             setMaterial(material, "depthTest", params[27], defaults)
             setMaterial(material, "blending", params[28], defaults)
 
+            materialSet.add(material)
             return material
         }
-        return new MeshStandardMaterial(
+        const material = new MeshStandardMaterial(
             filter(
                 {
                     side: DoubleSide,
@@ -268,6 +270,8 @@ export const materialPool = createSharedPool<
                 filterNotDefault
             )
         )
+        materialSet.add(material)
+        return material
     },
     (material) => {
         texturePool.release(material.map)
@@ -280,6 +284,7 @@ export const materialPool = createSharedPool<
         texturePool.release(material.metalnessMap)
         texturePool.release(material.roughnessMap)
         texturePool.release(material.normalMap)
+        materialSet.delete(material)
         material.dispose()
     }
 )
