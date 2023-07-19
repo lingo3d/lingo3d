@@ -9,6 +9,7 @@ import { materialDefaultsMap } from "../collections/materialDefaultsMap"
 import { castBlending } from "../display/utils/castBlending"
 import { texturePool } from "./texturePool"
 import { csmMaterialSet } from "../collections/csmMaterialSet"
+import { skyLightPtr } from "../pointers/skyLightPtr"
 
 export type MaterialParams = [
     color: ColorString,
@@ -285,6 +286,7 @@ export const materialPool = createSharedPool<
         texturePool.release(material.roughnessMap)
         texturePool.release(material.normalMap)
         csmMaterialSet.delete(material)
+        skyLightPtr[0]?.$csmMaterials.delete(material)
         material.dispose()
     }
 )
