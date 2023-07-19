@@ -5,9 +5,10 @@ import { LingoKeyboardEvent } from "../../interface/IKeyboard"
 import createInternalSystem from "../utils/createInternalSystem"
 
 export const keyPressSystem = createInternalSystem("keyPressSystem", {
-    update: (keyboard: Keyboard) =>
-        keyboard.onKeyPress?.(
+    update: (self: Keyboard) => {
+        self.onKeyPress?.(
             new LingoKeyboardEvent([...keyPressSet].at(-1) ?? "", keyPressSet)
-        ),
+        )
+    },
     updateTicker: onKeyPress
 })
