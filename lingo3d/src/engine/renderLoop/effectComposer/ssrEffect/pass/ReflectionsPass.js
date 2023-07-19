@@ -7,7 +7,7 @@ import {
 } from "three"
 import { MRTMaterial } from "../material/MRTMaterial"
 import { ReflectionsMaterial } from "../material/ReflectionsMaterial"
-import { renderedOpaqueObjectsPtr } from "../../../../../pointers/renderedOpaqueObjectsPtr"
+import getRenderedOpaque from "../../../../../throttle/getRenderedOpaque"
 
 const isWebGL2 = (() => {
     try {
@@ -159,7 +159,7 @@ export class ReflectionsPass extends Pass {
     }
 
     setMRTMaterialInScene() {
-        this.visibleMeshes = renderedOpaqueObjectsPtr[0]
+        this.visibleMeshes = getRenderedOpaque()
 
         for (const c of this.visibleMeshes) {
             if (c.material) {

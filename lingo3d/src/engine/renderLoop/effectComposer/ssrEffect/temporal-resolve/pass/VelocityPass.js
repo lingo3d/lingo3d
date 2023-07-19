@@ -1,7 +1,7 @@
 ﻿import { Pass } from "postprocessing"
 import { Color, HalfFloatType, VideoTexture, WebGLRenderTarget } from "three"
 import { VelocityMaterial } from "../material/VelocityMaterial"
-import { renderedOpaqueObjectsPtr } from "../../../../../../pointers/renderedOpaqueObjectsPtr"
+import getRenderedOpaque from "../../../../../../throttle/getRenderedOpaque"
 
 const backgroundColor = new Color(0)
 const updateProperties = ["visible", "wireframe", "side"]
@@ -30,7 +30,7 @@ export class VelocityPass extends Pass {
     setVelocityMaterialInScene() {
         this.renderedMeshesThisFrame = 0
 
-        this.visibleMeshes = renderedOpaqueObjectsPtr[0]
+        this.visibleMeshes = getRenderedOpaque()
 
         for (const c of this.visibleMeshes) {
             const originalMaterial = c.material

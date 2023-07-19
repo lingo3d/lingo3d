@@ -1,7 +1,11 @@
 import { Object3D } from "three"
-import computePerFrame from "./utils/computePerFrame"
+import throttleFrame from "./utils/throttleFrame"
+import scene from "../engine/scene"
 
-const getVisibleChildren = (object: Object3D, result: Array<Object3D> = []) => {
+const getVisibleChildren = (
+    object: Object3D = scene,
+    result: Array<Object3D> = []
+) => {
     for (const child of object.children) {
         //@ts-ignore
         child.material && child.visible && result.push(child)
@@ -10,4 +14,4 @@ const getVisibleChildren = (object: Object3D, result: Array<Object3D> = []) => {
     return result
 }
 
-export default computePerFrame(getVisibleChildren)
+export default throttleFrame(getVisibleChildren)
