@@ -16,10 +16,17 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { dtPtr } from "../../pointers/dtPtr"
 import { rendererPtr } from "../../pointers/rendererPtr"
 import { resolutionPtr } from "../../pointers/resolutionPtr"
+import { sceneGraphChangePtr } from "../../pointers/sceneGraphChangePtr"
+import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 
 createEffect(() => {
     const [renderer] = rendererPtr
     const [camera] = cameraRenderedPtr
+
+    if (sceneGraphChangePtr[0]) {
+        sceneGraphChangePtr[0] = false
+        emitSceneGraphChange()
+    }
 
     if (getSplitView()) {
         const [[resX, resY]] = resolutionPtr

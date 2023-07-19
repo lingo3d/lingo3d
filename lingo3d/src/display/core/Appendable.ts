@@ -13,11 +13,10 @@ import { appendableRoot } from "../../collections/appendableRoot"
 import { userIdMap, uuidMap } from "../../collections/idCollections"
 import { emitId } from "../../events/onId"
 import { loopSystem } from "../../systems/loopSystem"
-import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
 import type { System } from "../../systems/utils/createInternalSystem"
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import { updateSystemsSystem } from "../../systems/updateSystemsSystem"
-import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
+import { sceneGraphChangePtr } from "../../pointers/sceneGraphChangePtr"
 
 type EventName = "name" | "loaded"
 
@@ -27,7 +26,7 @@ export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()
         appendableRoot.add(this)
-        emitSceneGraphChangeSystem.add(this)
+        sceneGraphChangePtr[0] = true
     }
 
     public get componentName() {
@@ -44,10 +43,10 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
-        !child.$disableSceneGraph && emitSceneGraphChangeSystem.add(child)
         child.parent?.children!.delete(child)
         child.parent = this
         ;(this.children ??= new Set()).add(child)
+        sceneGraphChangePtr[0] = true
     }
 
     public append(child: Appendable) {
@@ -100,8 +99,8 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public remove() {
         ;(this.parent?.children ?? appendableRoot).delete(this)
-        !this.$disableSceneGraph && emitSceneGraphChange()
         this.$disableSceneGraph = true
+        sceneGraphChangePtr[0] = true
     }
 
     public traverse(cb: (appendable: Appendable) => void) {
@@ -198,7 +197,6 @@ export default class Appendable extends Disposable implements IAppendable {
         this.$disableSerialize = true
         this.$disableSceneGraph = true
         this.$disableSelection = disableSelection
-        emitSceneGraphChangeSystem.delete(this)
     }
 }
 

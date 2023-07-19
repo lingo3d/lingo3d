@@ -19,7 +19,7 @@ import groupSelected from "../../engine/hotkeys/groupSelected"
 import root from "../../api/root"
 import moveSelected from "../../engine/hotkeys/moveSelected"
 import { isTemplate } from "../../typeGuards/isTemplate"
-import { emitSceneGraphChangeSystem } from "../../systems/configSystems/emitSceneGraphChangeSystem"
+import { sceneGraphChangePtr } from "../../pointers/sceneGraphChangePtr"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
@@ -49,7 +49,7 @@ const AccordionSceneGraph = () => {
                         selectionTarget.$disableSerialize = false
                         selectionTarget.$disableSceneGraph = false
                         selectionTarget.$disableSelection = false
-                        emitSceneGraphChangeSystem.add(selectionTarget)
+                        sceneGraphChangePtr[0] = true
                     }}
                 >
                     <FindIcon />
