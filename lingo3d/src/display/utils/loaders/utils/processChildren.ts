@@ -12,6 +12,7 @@ import { blackColor } from "../../reusables"
 import { castBackBlending } from "../../castBlending"
 import isOpaque from "../../../../memo/isOpaque"
 import { RAD2DEG } from "three/src/math/MathUtils"
+import { csmMaterialSet } from "../../../../collections/csmMaterialSet"
 
 export default (group: Object3D, noBonePtr: [boolean]) => {
     const lights: Array<Light> = []
@@ -23,6 +24,7 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
         if (Array.isArray(child.material)) child.material = child.material[0]
 
         const material = child.material as MeshStandardMaterial
+        csmMaterialSet.add(material)
         material.side = DoubleSide
         uuidMaterialMap.set(material.uuid, material)
         materialDefaultsMap.set(material, {
