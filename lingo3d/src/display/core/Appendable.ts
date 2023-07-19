@@ -44,7 +44,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public $appendNode(child: Appendable) {
         appendableRoot.delete(child)
-        emitSceneGraphChangeSystem.add(child)
+        !child.$disableSceneGraph && emitSceneGraphChangeSystem.add(child)
         child.parent?.children!.delete(child)
         child.parent = this
         ;(this.children ??= new Set()).add(child)

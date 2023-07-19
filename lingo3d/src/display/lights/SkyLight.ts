@@ -12,7 +12,7 @@ import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { ColorString } from "../../interface/ITexturedStandard"
 import MeshAppendable from "../core/MeshAppendable"
 import { skyLightSystem } from "../../systems/skyLightSystem"
-import { csmPtr } from "../../pointers/csmPtr"
+import { skyLightPtr } from "../../pointers/skyLightPtr"
 
 export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static componentName = "skyLight"
@@ -25,14 +25,14 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
 
     public constructor() {
         super()
-
+        skyLightPtr[0] = this
         skyLightSystem.add(this)
 
         const backLight = (this.$backLight = new DirectionalLight())
-        backLight.$ghost()
+        backLight.remove()
 
         const ambientLight = (this._ambientLight = new AmbientLight())
-        ambientLight.$ghost()
+        ambientLight.remove()
 
         this.createEffect(() => {
             const intensity = this.intensityState.get()
@@ -45,7 +45,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
 
             if (!this.shadowsState.get()) {
                 const light = new DirectionalLight()
-                light.$ghost()
+                light.remove()
                 light.intensity = intensity
                 light.color = color
                 this.append(light)
@@ -53,23 +53,19 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                     light.dispose()
                 }
             }
-            const csm =
-                (csmPtr[0] =
-                this.$csm =
-                    new CSM({
-                        maxFar: 50,
-                        shadowMapSize: 2048,
-                        shadowBias: -0.0002,
-                        cascades: 1,
-                        parent: scene,
-                        camera: cameraRenderedPtr[0],
-                        lightIntensity: intensity
-                    }))
+            const csm = (this.$csm = new CSM({
+                maxFar: 50,
+                shadowMapSize: 2048,
+                shadowBias: -0.0002,
+                cascades: 1,
+                parent: scene,
+                camera: cameraRenderedPtr[0],
+                lightIntensity: intensity
+            }))
             for (const light of csm.lights) light.color.set(color)
 
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
-                csmPtr[0] = undefined
                 handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {
@@ -88,6 +84,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
         super.disposeNode()
         this.$backLight.dispose()
         this._ambientLight.dispose()
+        skyLightPtr[0] = undefined
     }
 
     private intensityState = new Reactive(1)
