@@ -1,3 +1,12 @@
 import { event } from "@lincode/events"
+import { onBeforeRender } from "./onBeforeRender"
+import { sceneGraphChangePtr } from "../pointers/sceneGraphChangePtr"
 
-export const [emitSceneGraphChange, onSceneGraphChange] = event()
+const [emitSceneGraphChange, onSceneGraphChange] = event()
+export { onSceneGraphChange }
+
+onBeforeRender(() => {
+    if (!sceneGraphChangePtr[0]) return
+    sceneGraphChangePtr[0] = false
+    emitSceneGraphChange()
+})
