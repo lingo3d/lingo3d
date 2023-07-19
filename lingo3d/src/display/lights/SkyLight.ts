@@ -13,6 +13,9 @@ import { ColorString } from "../../interface/ITexturedStandard"
 import MeshAppendable from "../core/MeshAppendable"
 import { skyLightSystem } from "../../systems/skyLightSystem"
 import { skyLightPtr } from "../../pointers/skyLightPtr"
+import { onBeforeRender } from "../../events/onBeforeRender"
+import { csmMaterialSet } from "../../collections/csmMaterialSet"
+import { MeshStandardMaterial } from "three"
 
 export default class SkyLight extends MeshAppendable implements ISkyLight {
     public static componentName = "skyLight"
@@ -62,11 +65,24 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
                 camera: cameraRenderedPtr[0],
                 lightIntensity: intensity
             }))
+            csm.fade = true
             for (const light of csm.lights) light.color.set(color)
 
             const handle = getCameraRendered((val) => (csm.camera = val))
+
+            const materials: Array<MeshStandardMaterial> = []
+            const handle1 = onBeforeRender(() => {
+                if (!csmMaterialSet.size) return
+                for (const material of csmMaterialSet) {
+                    csm.setupMaterial(material)
+                    materials.push(material)
+                }
+                csmMaterialSet.clear()
+            })
             return () => {
                 handle.cancel()
+                handle1.cancel()
+                for (const material of materials) csmMaterialSet.add(material)
                 csm.dispose()
                 for (const light of csm.lights) {
                     light.dispose()
