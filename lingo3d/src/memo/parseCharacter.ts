@@ -4,7 +4,7 @@ import { CharacterRigJointName } from "../interface/ICharacterRig"
 import FoundManager from "../display/core/FoundManager"
 import { indexChildrenNames } from "./indexChildrenNames"
 import { getFoundManager } from "../display/core/utils/getFoundManager"
-import { Object3D } from "three"
+import { Bone, Object3D } from "three"
 import { getManager } from "../display/core/utils/getManager"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
@@ -59,6 +59,8 @@ export const parseCharacter = computeOnce((loadedObject: Object3D) => {
     if (!(model instanceof Model)) return map
 
     const pool = new Map(indexChildrenNames(loadedObject))
+    for (const [name, child] of pool)
+        !(child instanceof Bone) && pool.delete(name)
 
     take(pool, map, model, "leftHand", testLeftHand)
     take(pool, map, model, "leftForeArm", testLeftForeArm)
