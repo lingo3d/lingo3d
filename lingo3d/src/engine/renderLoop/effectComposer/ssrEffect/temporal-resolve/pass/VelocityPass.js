@@ -1,15 +1,7 @@
 ﻿import { Pass } from "postprocessing"
-import {
-    Color,
-    DataTexture,
-    FloatType,
-    HalfFloatType,
-    RGBAFormat,
-    VideoTexture,
-    WebGLRenderTarget
-} from "three"
+import { Color, HalfFloatType, VideoTexture, WebGLRenderTarget } from "three"
 import { VelocityMaterial } from "../material/VelocityMaterial"
-import getVisibleChildren from "../../../../../../memo/getVisibleChildren"
+import { renderedOpaqueObjectsPtr } from "../../../../../../pointers/renderedOpaqueObjectsPtr"
 
 const backgroundColor = new Color(0)
 const updateProperties = ["visible", "wireframe", "side"]
@@ -38,7 +30,7 @@ export class VelocityPass extends Pass {
     setVelocityMaterialInScene() {
         this.renderedMeshesThisFrame = 0
 
-        this.visibleMeshes = getVisibleChildren(this._scene)
+        this.visibleMeshes = renderedOpaqueObjectsPtr[0]
 
         for (const c of this.visibleMeshes) {
             const originalMaterial = c.material
@@ -50,8 +42,6 @@ export class VelocityPass extends Pass {
                 velocityMaterial = new VelocityMaterial()
 
                 c.material = velocityMaterial
-
-                if (c.skeleton?.boneTexture) this.saveBoneTexture(c)
 
                 this.cachedMaterials.set(c, [
                     originalMaterial,
@@ -86,42 +76,6 @@ export class VelocityPass extends Pass {
 
             for (const prop of updateProperties)
                 velocityMaterial[prop] = originalMaterial[prop]
-
-            if (c.skeleton?.boneTexture) {
-                velocityMaterial.defines.USE_SKINNING = ""
-                velocityMaterial.defines.BONE_TEXTURE = ""
-
-                velocityMaterial.uniforms.boneTexture.value =
-                    c.skeleton.boneTexture
-            }
-        }
-    }
-
-    saveBoneTexture(object) {
-        let boneTexture = object.material.uniforms.prevBoneTexture.value
-
-        if (
-            boneTexture &&
-            boneTexture.image.width === object.skeleton.boneTexture.width
-        ) {
-            boneTexture = object.material.uniforms.prevBoneTexture.value
-            boneTexture.image.data.set(object.skeleton.boneTexture.image.data)
-        } else {
-            boneTexture?.dispose()
-
-            const boneMatrices = object.skeleton.boneTexture.image.data.slice()
-            const size = object.skeleton.boneTexture.image.width
-
-            boneTexture = new DataTexture(
-                boneMatrices,
-                size,
-                size,
-                RGBAFormat,
-                FloatType
-            )
-            object.material.uniforms.prevBoneTexture.value = boneTexture
-
-            boneTexture.needsUpdate = true
         }
     }
 
@@ -132,8 +86,6 @@ export class VelocityPass extends Pass {
                     this._camera.projectionMatrix,
                     c.modelViewMatrix
                 )
-
-                if (c.skeleton?.boneTexture) this.saveBoneTexture(c)
 
                 c.material = this.cachedMaterials.get(c)[0]
             }

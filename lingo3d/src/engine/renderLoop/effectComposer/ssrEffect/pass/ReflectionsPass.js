@@ -7,7 +7,7 @@ import {
 } from "three"
 import { MRTMaterial } from "../material/MRTMaterial"
 import { ReflectionsMaterial } from "../material/ReflectionsMaterial"
-import getVisibleChildren from "../../../../../memo/getVisibleChildren"
+import { renderedOpaqueObjectsPtr } from "../../../../../pointers/renderedOpaqueObjectsPtr"
 
 const isWebGL2 = (() => {
     try {
@@ -159,7 +159,7 @@ export class ReflectionsPass extends Pass {
     }
 
     setMRTMaterialInScene() {
-        this.visibleMeshes = getVisibleChildren(this._scene)
+        this.visibleMeshes = renderedOpaqueObjectsPtr[0]
 
         for (const c of this.visibleMeshes) {
             if (c.material) {
