@@ -1,4 +1,4 @@
-import { BVH, BVHLoader } from "three/examples/jsm/loaders/BVHLoader"
+import { BVHLoader } from "three/examples/jsm/loaders/BVHLoader"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./utils/bytesLoaded"
 import { createUnloadMap } from "../../../utils/createUnloadMap"
@@ -6,11 +6,9 @@ import {
     addBusyProcess,
     deleteBusyProcess
 } from "../../../collections/busyProcesses"
-import { AnimationClip } from "three"
+import { Group } from "three"
 
-type Result = { animations: [AnimationClip] }
-
-const cache = createUnloadMap<string, Promise<Result>>()
+const cache = createUnloadMap<string, Promise<Group>>()
 export const loader = new BVHLoader()
 
 export default (url: string) =>
@@ -18,13 +16,15 @@ export default (url: string) =>
         cache,
         url,
         () =>
-            new Promise<Result>((resolve, reject) => {
+            new Promise<Group>((resolve, reject) => {
                 addBusyProcess("loadBVH")
                 loader.load(
                     url,
                     (bvh) => {
                         deleteBusyProcess("loadBVH")
-                        resolve({ animations: [bvh.clip] })
+                        const result = new Group()
+                        result.animations = [bvh.clip]
+                        resolve(result)
                     },
                     handleProgress(url),
                     () => {

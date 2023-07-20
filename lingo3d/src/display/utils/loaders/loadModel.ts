@@ -1,5 +1,5 @@
 import { Group } from "three"
-import { splitFileName } from "@lincode/utils"
+import { assert, splitFileName } from "@lincode/utils"
 import {
     addBusyProcess,
     deleteBusyProcess
@@ -18,7 +18,13 @@ export default async (url: string, clone: boolean) => {
     const module =
         extension === "fbx"
             ? await import("./loadFBX")
-            : await import("./loadGLTF")
+            : extension === "gltf"
+            ? await import("./loadGLTF")
+            : extension === "bvh"
+            ? await import("./loadBVH")
+            : undefined
+
+    assert(module, "Failed to load model, check if src is correct")
 
     let result: Group
     try {
