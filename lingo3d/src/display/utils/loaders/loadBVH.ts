@@ -24,7 +24,7 @@ export default (url: string) =>
                         deleteBusyProcess("loadBVH")
                         const group = new Group()
                         group.animations = [bvh.clip]
-                        for (const bone of bvh.skeleton.bones) group.add(bone)
+                        group.add(bvh.skeleton.bones[0])
                         resolve(group)
                     },
                     handleProgress(url),
