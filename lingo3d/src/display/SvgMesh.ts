@@ -24,7 +24,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         try {
             result = await module.default(url)
         } catch {
-            throw new Error("Failed to load svg, check if src is correct")
+            throw new Error(`Failed to load ${url}, check if src is correct`)
         }
         return result
     }

@@ -18,20 +18,20 @@ export default async (url: string, clone: boolean) => {
     const module =
         extension === "fbx"
             ? await import("./loadFBX")
-            : extension === "gltf"
+            : extension === "gltf" || extension === "glb"
             ? await import("./loadGLTF")
             : extension === "bvh"
             ? await import("./loadBVH")
             : undefined
 
-    assert(module, "Failed to load model, check if src is correct")
+    assert(module, `Failed to load ${url}, check if src is correct`)
 
     let result: Group
     try {
         result = await module.default(url, clone)
     } catch {
         deleteBusyProcess("loadModel")
-        throw new Error("Failed to load model, check if src is correct")
+        throw new Error(`Failed to load ${url}, check if src is correct`)
     }
     deleteBusyProcess("loadModel")
     return result
