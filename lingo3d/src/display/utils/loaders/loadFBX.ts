@@ -25,11 +25,9 @@ export default async (url: string, clone: boolean) => {
                 loader.load(
                     url,
                     (group: Group) => {
-                        const noBonePtr: [boolean] = [true]
-                        const noMeshPtr: [boolean] = [true]
-                        processChildren(group, noBonePtr, noMeshPtr)
+                        const [noBone, noMesh] = processChildren(group)
                         deleteBusyProcess("loadFBX")
-                        resolve([group, noBonePtr[0], noMeshPtr[0]])
+                        resolve([group, noBone, noMesh])
                     },
                     handleProgress(url),
                     () => {

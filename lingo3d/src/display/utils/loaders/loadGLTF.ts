@@ -34,13 +34,9 @@ export default async (url: string, clone: boolean) => {
                 loader.load(
                     url,
                     (gltf: GLTF) => {
-                        const noBonePtr: [boolean] = [true]
-                        const noMeshPtr: [boolean] = [true]
-                        for (const scene of gltf.scenes)
-                            processChildren(scene, noBonePtr, noMeshPtr)
-
+                        const [noBone, noMesh] = processChildren(gltf.scene)
                         deleteBusyProcess("loadGLTF")
-                        resolve([gltf, noBonePtr[0], noMeshPtr[0]])
+                        resolve([gltf, noBone, noMesh])
                     },
                     handleProgress(url),
                     () => {

@@ -14,16 +14,14 @@ import isOpaque from "../../../../memo/isOpaque"
 import { RAD2DEG } from "three/src/math/MathUtils"
 import { csmMaterialSet } from "../../../../collections/csmMaterialSet"
 
-export default (
-    group: Object3D,
-    noBonePtr: [boolean],
-    noMeshPtr: [boolean]
-) => {
+export default (group: Object3D) => {
     const lights: Array<Light> = []
+    let noBone = true
+    let noMesh = true
     group.traverse((child: Object3D | Mesh | Light | Bone) => {
         if ("isLight" in child) lights.push(child)
-        else if (noBonePtr[0] && "isBone" in child) noBonePtr[0] = false
-        else if (noMeshPtr[0] && "isMesh" in child) noMeshPtr[0] = false
+        else if (noBone && "isBone" in child) noBone = false
+        else if (noMesh && "isMesh" in child) noMesh = false
 
         if (!("material" in child)) return
         if (Array.isArray(child.material)) child.material = child.material[0]
@@ -70,4 +68,5 @@ export default (
         child.receiveShadow = true
     })
     for (const light of lights) light.parent!.remove(light)
+    return [noBone, noMesh]
 }
