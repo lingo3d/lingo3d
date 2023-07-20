@@ -5,6 +5,7 @@ type Processes =
     | "loadGLTF"
     | "loadJSON"
     | "loadSVG"
+    | "loadBVH"
     | "loadTexture"
     | "runtime"
     | "physx"
