@@ -28,36 +28,43 @@ export const appendToCharacterRigSystem = createInternalSystem(
             appendToCharacterRigSystem.delete(self)
 
             const characterMap = parseCharacter(model.$loadedObject)
-            const scorePtr: [number] = [0]
+            const leftPtr: [number] = [0]
+            const rightPtr: [number] = [0]
+            const spinePtr: [number] = [0]
 
-            setJoint(self, characterMap, "hips", scorePtr)
-            setJoint(self, characterMap, "spine0", scorePtr)
-            setJoint(self, characterMap, "spine1", scorePtr)
-            setJoint(self, characterMap, "spine2", scorePtr)
-            setJoint(self, characterMap, "neck", scorePtr)
-            setJoint(self, characterMap, "head", scorePtr)
+            setJoint(self, characterMap, "hips", spinePtr)
+            setJoint(self, characterMap, "spine0", spinePtr)
+            setJoint(self, characterMap, "spine1", spinePtr)
+            setJoint(self, characterMap, "spine2", spinePtr)
+            setJoint(self, characterMap, "neck", spinePtr)
+            setJoint(self, characterMap, "head", spinePtr)
 
-            setJoint(self, characterMap, "leftShoulder", scorePtr)
-            setJoint(self, characterMap, "leftArm", scorePtr)
-            setJoint(self, characterMap, "leftForeArm", scorePtr)
-            setJoint(self, characterMap, "leftHand", scorePtr)
+            setJoint(self, characterMap, "leftShoulder", leftPtr)
+            setJoint(self, characterMap, "leftArm", leftPtr)
+            setJoint(self, characterMap, "leftForeArm", leftPtr)
+            setJoint(self, characterMap, "leftHand", leftPtr)
 
-            setJoint(self, characterMap, "rightShoulder", scorePtr)
-            setJoint(self, characterMap, "rightArm", scorePtr)
-            setJoint(self, characterMap, "rightForeArm", scorePtr)
-            setJoint(self, characterMap, "rightHand", scorePtr)
+            setJoint(self, characterMap, "rightShoulder", rightPtr)
+            setJoint(self, characterMap, "rightArm", rightPtr)
+            setJoint(self, characterMap, "rightForeArm", rightPtr)
+            setJoint(self, characterMap, "rightHand", rightPtr)
 
-            setJoint(self, characterMap, "leftThigh", scorePtr)
-            setJoint(self, characterMap, "leftLeg", scorePtr)
-            setJoint(self, characterMap, "leftFoot", scorePtr)
-            setJoint(self, characterMap, "leftForeFoot", scorePtr)
+            setJoint(self, characterMap, "leftThigh", leftPtr)
+            setJoint(self, characterMap, "leftLeg", leftPtr)
+            setJoint(self, characterMap, "leftFoot", leftPtr)
+            setJoint(self, characterMap, "leftForeFoot", leftPtr)
 
-            setJoint(self, characterMap, "rightThigh", scorePtr)
-            setJoint(self, characterMap, "rightLeg", scorePtr)
-            setJoint(self, characterMap, "rightFoot", scorePtr)
-            setJoint(self, characterMap, "rightForeFoot", scorePtr)
+            setJoint(self, characterMap, "rightThigh", rightPtr)
+            setJoint(self, characterMap, "rightLeg", rightPtr)
+            setJoint(self, characterMap, "rightFoot", rightPtr)
+            setJoint(self, characterMap, "rightForeFoot", rightPtr)
 
-            if (scorePtr[0] === 22) self.enabled = true
+            if (
+                leftPtr[0] === rightPtr[0] &&
+                leftPtr[0] >= 6 &&
+                spinePtr[0] >= 4
+            )
+                self.enabled = true
         }
     }
 )

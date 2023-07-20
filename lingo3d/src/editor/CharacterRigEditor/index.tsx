@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { LIBRARY_WIDTH } from "../../globals"
 import Tooltip from "../component/Tooltip"
 import useInitCSS from "../hooks/useInitCSS"
@@ -13,6 +13,7 @@ import Switch from "../component/Switch"
 import Segments from "../component/Segments"
 import useSyncState from "../hooks/useSyncState"
 import { PointType } from "../../typeGuards/isPoint"
+import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 
 const CharacterRigEditor = () => {
     useInitCSS()
@@ -22,6 +23,11 @@ const CharacterRigEditor = () => {
     const selectedSignal = useSignal<Array<string>>([])
     const characterRig = useSyncState(getCharacterRig)
     const [enabled, setEnabled] = useState(characterRig?.enabled)
+    const refresh = useSceneGraphRefresh()
+
+    useEffect(() => {
+        characterRig && setEnabled(characterRig.enabled)
+    }, [refresh, characterRig])
 
     return (
         <>
