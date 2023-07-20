@@ -314,7 +314,6 @@ const dummy = new Model()
 dummy.src = "dance.bvh"
 dummy.x = 50
 dummy.y = 85
-dummy.scaleX = 1.7
 // dummy.remove()
 
 // configCharacterRigAnimationSystem.add(characterRig, { target: dummy })

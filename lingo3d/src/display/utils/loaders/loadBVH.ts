@@ -22,9 +22,10 @@ export default (url: string) =>
                     url,
                     (bvh) => {
                         deleteBusyProcess("loadBVH")
-                        const result = new Group()
-                        result.animations = [bvh.clip]
-                        resolve(result)
+                        const group = new Group()
+                        group.animations = [bvh.clip]
+                        for (const bone of bvh.skeleton.bones) group.add(bone)
+                        resolve(group)
                     },
                     handleProgress(url),
                     () => {
