@@ -67,7 +67,7 @@ export const configAnimationSystem = createLoadedEffectSystem(
     "configAnimationSystem",
     {
         effect: (self: AnimatedObjectManager | Model) => {
-            //await configModelAnimationSystem
+            //await configAnimationLoadSystem
             queueMicrotask(() => setAnimation(self, self.animation))
         },
         loading: (self) =>

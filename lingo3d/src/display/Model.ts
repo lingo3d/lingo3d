@@ -20,7 +20,7 @@ import { configCastShadowSystem } from "../systems/configLoadedSystems/configCas
 import { configRenderCheckModelSystem } from "../systems/configSystems/configRenderCheckModelSystem"
 import { returnTrue } from "./utils/reusables"
 import { configModelSrcSystem } from "../systems/configLoadedSystems/configModelSrcSystem"
-import { configModelAnimationSystem } from "../systems/configLoadedSystems/configModelAnimationSystem"
+import { configAnimationLoadSystem } from "../systems/configLoadedSystems/configAnimationLoadSystem"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -35,7 +35,7 @@ export default class Model extends Loaded<Group> implements IModel {
         const clip = (await loadModel(url, false)).animations[0]
         if (!clip) return
         ;(this.$animationClips ??= {})[name] = clip
-        configModelAnimationSystem.add(this)
+        configAnimationLoadSystem.add(this)
     }
 
     public override get animations(): Record<string, AnimationManager> {
@@ -66,7 +66,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public $resolveLoaded(loadedObject: Group, src: string) {
         for (const clip of loadedObject.animations)
             (this.$animationClips ??= {})[clip.name] = clip
-        configModelAnimationSystem.add(this)
+        configAnimationLoadSystem.add(this)
 
         const [{ x, y, z }, center, scale] = this._resize
             ? measureResize(src, { target: loadedObject })

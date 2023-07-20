@@ -3,8 +3,8 @@ import Model from "../../display/Model"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { createLoadedEffectSystem } from "../utils/createLoadedEffectSystem"
 
-export const configModelAnimationSystem = createLoadedEffectSystem(
-    "configModelAnimationSystem",
+export const configAnimationLoadSystem = createLoadedEffectSystem(
+    "configAnimationLoadSystem",
     {
         data: { animations: [] as Array<AnimationManager> },
         effect: (self: Model, data) => {
