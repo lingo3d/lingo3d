@@ -6,8 +6,11 @@ import {
     addBusyProcess,
     deleteBusyProcess
 } from "../../../collections/busyProcesses"
+import { AnimationClip } from "three"
 
-const cache = createUnloadMap<string, Promise<BVH>>()
+type Result = { animations: [AnimationClip] }
+
+const cache = createUnloadMap<string, Promise<Result>>()
 export const loader = new BVHLoader()
 
 export default (url: string) =>
@@ -15,13 +18,13 @@ export default (url: string) =>
         cache,
         url,
         () =>
-            new Promise<BVH>((resolve, reject) => {
+            new Promise<Result>((resolve, reject) => {
                 addBusyProcess("loadBVH")
                 loader.load(
                     url,
                     (bvh) => {
                         deleteBusyProcess("loadBVH")
-                        resolve(bvh)
+                        resolve({ animations: [bvh.clip] })
                     },
                     handleProgress(url),
                     () => {

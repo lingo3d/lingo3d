@@ -2,6 +2,7 @@ import deserialize from "../api/serializer/deserialize"
 import Audio from "../display/Audio"
 import CharacterRig from "../display/CharacterRig"
 import Model from "../display/Model"
+import loadBVH from "../display/utils/loaders/loadBVH"
 import { ybotUrlPtr } from "../pointers/assetsPathPointers"
 import { configCharacterRigAnimationSystem } from "../systems/configLoadedSystems/configCharacterRigAnimationSystem"
 
@@ -309,13 +310,13 @@ const json = `
 //     (child) => child instanceof CharacterRig
 // ) as CharacterRig
 
-// const dummy = new Model()
-// dummy.src = ybotUrlPtr[0]
-// dummy.animations = {
-//     running: "Running.fbx"
-// }
-// dummy.animation = "running"
-// dummy.x = 50
+const dummy = new Model()
+dummy.src = ybotUrlPtr[0]
+dummy.animations = {
+    running: "Running.fbx"
+}
+dummy.animation = "running"
+dummy.x = 50
 // dummy.remove()
 
 // configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
@@ -326,3 +327,5 @@ const model = new Model()
 model.src = "player2.glb"
 model.scale = 1.7
 model.y = 85
+
+loadBVH("dance.bvh")
