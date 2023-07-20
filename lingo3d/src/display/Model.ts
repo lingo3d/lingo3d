@@ -72,15 +72,6 @@ export default class Model extends Loaded<Group> implements IModel {
             ? measureResize(src, { target: loadedObject })
             : measure(src, { target: loadedObject })
 
-        if (Number.isNaN(x)) {
-            this.resizeScale = 1
-            this.runtimeDefaults = undefined
-            !this.widthSet && (this.$innerObject.scale.x = 1)
-            !this.heightSet && (this.$innerObject.scale.y = 1)
-            !this.depthSet && (this.$innerObject.scale.z = 1)
-            return loadedObject
-        }
-
         if (this._resize) {
             loadedObject.scale.multiplyScalar(scale)
             loadedObject.position.copy(center).multiplyScalar(-1)

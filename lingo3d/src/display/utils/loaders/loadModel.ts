@@ -30,5 +30,6 @@ export default async (url: string, clone: boolean) => {
         throw new Error(`Failed to load ${url}, check if src is correct`)
     }
     deleteBusyProcess("loadModel")
+    result.position.set(0, 0, 0)
     return result
 }

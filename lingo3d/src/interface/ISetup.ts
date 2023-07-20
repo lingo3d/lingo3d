@@ -48,6 +48,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 editorHideSet.add("grid")
 editorHideSet.add("stats")
+editorHideSet.add("ssrJitter")
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],

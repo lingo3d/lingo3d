@@ -46,6 +46,9 @@ export const measure = computeOnceWithData(
         noMeshSet.has(data.target)
             ? expandBySkeleton(data.target)
             : expandByObject(data.target)
+
+        if (box3.isEmpty()) return <const>[size.set(1, 1, 1), center, 1]
+
         box3.getSize(size)
         box3.getCenter(center)
         return <const>[size, center, 1]
