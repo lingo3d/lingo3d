@@ -314,6 +314,7 @@ const dummy = new Model()
 dummy.src = "Running.fbx"
 dummy.x = 50
 dummy.y = 85
+dummy.animation = true
 // dummy.remove()
 
 // configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
