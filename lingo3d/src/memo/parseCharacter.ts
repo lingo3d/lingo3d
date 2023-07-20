@@ -9,34 +9,32 @@ import { getManager } from "../display/core/utils/getManager"
 
 const makePredicate = (regEx: RegExp) => (name: string) => regEx.test(name)
 
-const testLeftHand = makePredicate(/left.*hand/i)
-const testLeftForeArm = makePredicate(/left.*(fore|up).*arm/i)
-const testLeftArm = makePredicate(/left.*arm/i)
-const testLeftShoulder = makePredicate(/left.*shoulder/i)
+const testLeftHand = makePredicate(/l.*hand$/i)
+const testLeftForeArm = makePredicate(/l.*fore.*arm$/i)
+const testLeftShoulder = makePredicate(/l.*(collar$|(sh.*l.*d.*r$))/i)
+const testLeftArm = makePredicate(/l.*(arm$|(sh.*l.*d.*r$))/i)
 
-const testRightHand = makePredicate(/right.*hand/i)
-const testRightForeArm = makePredicate(/right.*(fore|up).*arm/i)
-const testRightArm = makePredicate(/right.*arm/i)
-const testRightShoulder = makePredicate(/right.*shoulder/i)
+const testRightHand = makePredicate(/r.*hand$/i)
+const testRightForeArm = makePredicate(/r.*fore.*arm$/i)
+const testRightShoulder = makePredicate(/r.*(collar$|(sh.*l.*d.*r$))/i)
+const testRightArm = makePredicate(/r.*(arm$|(sh.*l.*d.*r$))/i)
 
-const testLeftForeFoot = makePredicate(/left.*((fore.*foot)|(toe.*base)|toe)/i)
-const testLeftFoot = makePredicate(/left.*foot/i)
-const testLeftThigh = makePredicate(/left.*((up*leg)|thigh)/i)
-const testLeftLeg = makePredicate(/left.*leg/i)
+const testLeftForeFoot = makePredicate(/l.*((fore.*foot$)|toe)/i)
+const testLeftFoot = makePredicate(/l.*foot$/i)
+const testLeftThigh = makePredicate(/l.*((up*leg$)|thigh$)/i)
+const testLeftLeg = makePredicate(/l.*(leg$|shin$)/i)
 
-const testRightForeFoot = makePredicate(
-    /right.*((fore.*foot)|(toe.*base)|toe)/i
-)
-const testRightFoot = makePredicate(/right.*foot/i)
-const testRightThigh = makePredicate(/right.*((up*leg)|thigh)/i)
-const testRightLeg = makePredicate(/right.*leg/i)
+const testRightForeFoot = makePredicate(/r.*((fore.*foot$)|toe)/i)
+const testRightFoot = makePredicate(/r.*foot$/i)
+const testRightThigh = makePredicate(/r.*((up*leg$)|thigh$)/i)
+const testRightLeg = makePredicate(/r.*(leg$|shin$)/i)
 
-const testSpine2 = makePredicate(/spine.*2/i)
-const testSpine1 = makePredicate(/spine.*1/i)
-const testSpine0 = makePredicate(/(spine.*0)|spine/i)
-const testNeck = makePredicate(/neck/i)
-const testHead = makePredicate(/head/i)
-const testHips = makePredicate(/hip|pelvis|root/i)
+const testSpine2 = makePredicate(/(spine.*2$)|chest$/i)
+const testSpine1 = makePredicate(/spine.*1$/i)
+const testSpine0 = makePredicate(/(spine.*0$)|spine$|abdomen$/i)
+const testNeck = makePredicate(/neck$/i)
+const testHead = makePredicate(/head$/i)
+const testHips = makePredicate(/hip$|hips$|pelvis$|root$/i)
 
 const take = (
     pool: Map<string, Object3D>,
@@ -64,13 +62,13 @@ export const parseCharacter = computeOnce((loadedObject: Object3D) => {
 
     take(pool, map, model, "leftHand", testLeftHand)
     take(pool, map, model, "leftForeArm", testLeftForeArm)
-    take(pool, map, model, "leftArm", testLeftArm)
     take(pool, map, model, "leftShoulder", testLeftShoulder)
+    take(pool, map, model, "leftArm", testLeftArm)
 
     take(pool, map, model, "rightHand", testRightHand)
     take(pool, map, model, "rightForeArm", testRightForeArm)
-    take(pool, map, model, "rightArm", testRightArm)
     take(pool, map, model, "rightShoulder", testRightShoulder)
+    take(pool, map, model, "rightArm", testRightArm)
 
     take(pool, map, model, "leftForeFoot", testLeftForeFoot)
     take(pool, map, model, "leftFoot", testLeftFoot)
