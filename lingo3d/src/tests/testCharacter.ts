@@ -318,11 +318,10 @@ dummy.y = 85
 
 // configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
 
-const rig = new CharacterRig()
+// const rig = new CharacterRig()
 
-const model = new Model()
-model.src = "player2.glb"
-model.scale = 1.7
-model.y = 85
+// const model = new Model()
+// model.src = "player2.glb"
+// model.scale = 1.7
+// model.y = 85
 
-loadBVH("dance.bvh")

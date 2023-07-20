@@ -7,25 +7,29 @@ import {
     deleteBusyProcess
 } from "../../../collections/busyProcesses"
 import { Group } from "three"
+import cloneSkinnedMesh from "../cloneSkinnedMesh"
 
-const cache = createUnloadMap<string, Promise<Group>>()
+type Result = [Group, boolean, boolean]
+
+const cache = createUnloadMap<string, Promise<Result>>()
 export const loader = new BVHLoader()
 
-export default (url: string) =>
-    forceGet(
+export default async (url: string, clone: boolean) => {
+    const [group, noBone, noMesh] = await forceGet(
         cache,
         url,
         () =>
-            new Promise<Group>((resolve, reject) => {
+            new Promise<Result>((resolve, reject) => {
                 addBusyProcess("loadBVH")
                 loader.load(
                     url,
                     (bvh) => {
-                        deleteBusyProcess("loadBVH")
                         const group = new Group()
                         group.animations = [bvh.clip]
                         group.add(bvh.skeleton.bones[0])
-                        resolve(group)
+
+                        deleteBusyProcess("loadBVH")
+                        resolve([group, false, true])
                     },
                     handleProgress(url),
                     () => {
@@ -35,3 +39,6 @@ export default (url: string) =>
                 )
             })
     )
+    if (clone) return cloneSkinnedMesh(group, noBone, noMesh)
+    return group
+}

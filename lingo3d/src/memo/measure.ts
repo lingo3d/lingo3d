@@ -1,16 +1,17 @@
-import { Box3, Object3D, SkinnedMesh, Vector3 } from "three"
+import { Bone, Box3, Object3D, SkinnedMesh, Vector3 } from "three"
 import { box3, vector3 } from "../display/utils/reusables"
 import computeOnceWithData from "./utils/computeOnceWithData"
+import { noMeshSet } from "../collections/noMeshSet"
 
 const _box = new Box3()
 
 const expandByObject = (object: Object3D) => {
     object.updateMatrixWorld()
     //@ts-ignore
-    const { geometry } = object
+    const { geometry, children } = object
     if (geometry) {
         if (object instanceof SkinnedMesh) {
-            const position = geometry.attributes.position
+            const { position } = geometry.attributes
             for (let i = 0, il = position.count; i < il; i++) {
                 vector3.fromBufferAttribute(position, i)
                 object.applyBoneTransform(i, vector3)
@@ -18,14 +19,23 @@ const expandByObject = (object: Object3D) => {
                 box3.expandByPoint(vector3)
             }
         } else {
-            if (geometry.boundingBox === null) geometry.computeBoundingBox()
+            !geometry.boundingBox && geometry.computeBoundingBox()
             _box.copy(geometry.boundingBox)
             _box.applyMatrix4(object.matrixWorld)
             box3.union(_box)
         }
     }
-    const children = object.children
     for (let i = 0, l = children.length; i < l; i++) expandByObject(children[i])
+}
+
+const expandBySkeleton = (object: Object3D) => {
+    const { children } = object
+    if (object instanceof Bone) {
+        object.getWorldPosition(vector3)
+        box3.expandByPoint(vector3)
+    }
+    for (let i = 0, l = children.length; i < l; i++)
+        expandBySkeleton(children[i])
 }
 
 export const measure = computeOnceWithData(
@@ -33,7 +43,9 @@ export const measure = computeOnceWithData(
         const size = new Vector3()
         const center = new Vector3()
         box3.makeEmpty()
-        expandByObject(data.target)
+        noMeshSet.has(data.target)
+            ? expandBySkeleton(data.target)
+            : expandByObject(data.target)
         box3.getSize(size)
         box3.getCenter(center)
         return <const>[size, center, 1]
