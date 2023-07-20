@@ -6,7 +6,6 @@ import { noMeshSet } from "../collections/noMeshSet"
 const _box = new Box3()
 
 const expandByObject = (object: Object3D) => {
-    object.updateMatrixWorld()
     //@ts-ignore
     const { geometry, children } = object
     if (geometry) {
@@ -43,6 +42,7 @@ export const measure = computeOnceWithData(
         const size = new Vector3()
         const center = new Vector3()
         box3.makeEmpty()
+        data.target.updateMatrixWorld()
         noMeshSet.has(data.target)
             ? expandBySkeleton(data.target)
             : expandByObject(data.target)
