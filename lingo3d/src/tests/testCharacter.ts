@@ -311,17 +311,20 @@ const json = `
 // ) as CharacterRig
 
 const dummy = new Model()
-dummy.src = "dance.bvh"
+dummy.src = "Running.fbx"
 dummy.x = 50
 dummy.y = 85
+dummy.animation = true
 // dummy.remove()
 
-// configCharacterRigAnimationSystem.add(characterRig, { target: dummy })
 
-// const rig = new CharacterRig()
 
-// const model = new Model()
-// model.src = "player2.glb"
-// model.scale = 1.7
-// model.y = 85
+const model = new Model()
+model.src = "player2.glb"
+model.scale = 1.7
+model.y = 85
 
+const rig = new CharacterRig()
+rig.attach(model)
+
+configCharacterRigAnimationSystem.add(rig, { target: dummy })
