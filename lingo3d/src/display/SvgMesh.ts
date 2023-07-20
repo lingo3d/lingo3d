@@ -41,10 +41,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             mesh.receiveShadow = true
         }
 
-        const [{ x, y, z }, center, ratio] = measureResize(src, {
+        const [{ x, y, z }, center, scale] = measureResize(src, {
             target: loadedObject
         })
-        loadedObject.scale.multiplyScalar(ratio)
+        loadedObject.scale.multiplyScalar(scale)
         loadedObject.position.copy(center).multiplyScalar(-1)
         this.runtimeDefaults = {
             width: x * M2CM,

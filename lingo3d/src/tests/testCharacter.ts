@@ -311,7 +311,7 @@ const json = `
 // ) as CharacterRig
 
 const dummy = new Model()
-dummy.src = "dance.bvh"
+dummy.src = "Running.fbx"
 dummy.x = 50
 dummy.y = 85
 // dummy.remove()

@@ -68,7 +68,7 @@ export default class Model extends Loaded<Group> implements IModel {
             (this.$animationClips ??= {})[clip.name] = clip
         configModelAnimationSystem.add(this)
 
-        const [{ x, y, z }, center, ratio] = this._resize
+        const [{ x, y, z }, center, scale] = this._resize
             ? measureResize(src, { target: loadedObject })
             : measure(src, { target: loadedObject })
 
@@ -82,10 +82,10 @@ export default class Model extends Loaded<Group> implements IModel {
         }
 
         if (this._resize) {
-            loadedObject.scale.multiplyScalar(ratio)
+            loadedObject.scale.multiplyScalar(scale)
             loadedObject.position.copy(center).multiplyScalar(-1)
         }
-        this.resizeScale = ratio
+        this.resizeScale = scale
         this.runtimeDefaults = {
             width: x * M2CM,
             height: y * M2CM,
