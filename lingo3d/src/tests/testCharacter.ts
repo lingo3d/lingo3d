@@ -3,7 +3,7 @@ import Model from "../display/Model"
 import { configCharacterRigAnimationSystem } from "../systems/configLoadedSystems/configCharacterRigAnimationSystem"
 
 const dummy = new Model()
-dummy.src = "dance.bvh"
+dummy.src = "Running.fbx"
 dummy.x = 50
 dummy.y = 85
 dummy.animation = true

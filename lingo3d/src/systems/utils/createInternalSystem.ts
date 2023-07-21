@@ -1,34 +1,9 @@
 import { Cancellable } from "@lincode/promiselikes"
 import type Appendable from "../../display/core/Appendable"
-import { onBeforeRender } from "../../events/onBeforeRender"
-import { onAfterRender } from "../../events/onAfterRender"
-import { onRender } from "../../events/onRender"
-import { assertExhaustive } from "@lincode/utils"
 import { createEffectSystem } from "./createEffectSystem"
 import { onDispose } from "../../events/onDispose"
-
-type Ticker = "beforeRender" | "afterRender" | "render"
-type EffectTicker = Ticker | typeof queueMicrotask | [() => Promise<void>]
-type On<T> = (cb: (val: T) => void, once?: boolean) => Cancellable
-
-const mapTicker = (ticker: Ticker) => {
-    switch (ticker) {
-        case "beforeRender":
-            return onBeforeRender
-        case "afterRender":
-            return onAfterRender
-        case "render":
-            return onRender
-        default:
-            assertExhaustive(ticker)
-    }
-}
-
-const mapEffectTicker = (ticker: EffectTicker) => {
-    if (Array.isArray(ticker)) return (cb: () => void) => ticker[0]().then(cb)
-    if (typeof ticker === "function") return ticker
-    return mapTicker(ticker)
-}
+import { onBeforeRender } from "../../events/onBeforeRender"
+import { EffectTicker, On } from "./types"
 
 export type SystemOptions<
     GameObject extends object | Appendable,
@@ -46,7 +21,7 @@ export type SystemOptions<
     effect?: (gameObject: GameObject, data: Data) => void | false
     cleanup?: (gameObject: GameObject, data: Data) => void
     update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
-    updateTicker?: Ticker | On<EventData>
+    updateTicker?: On<EventData | void>
     effectTicker?: EffectTicker
     beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
     afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
@@ -85,7 +60,7 @@ export default <
         effect,
         cleanup,
         update,
-        updateTicker = "beforeRender",
+        updateTicker = onBeforeRender,
         effectTicker = queueMicrotask,
         beforeTick,
         afterTick,
@@ -99,7 +74,7 @@ export default <
         ? createEffectSystem(
               effect,
               cleanup,
-              mapEffectTicker(effectTicker),
+              effectTicker,
               data ? queued : undefined
           )
         : [placeholderFn, placeholderFn]
@@ -155,11 +130,7 @@ export default <
               })
 
     let handle: Cancellable | undefined
-    const onUpdate =
-        update &&
-        (typeof updateTicker === "string"
-            ? mapTicker(updateTicker)
-            : updateTicker)
+    const onUpdate = update && updateTicker
 
     const startUpdateLoop =
         update && (() => (handle = onUpdate!(executeUpdate!)))

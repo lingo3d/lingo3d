@@ -1,5 +1,10 @@
 import Appendable from "../../display/core/Appendable"
-import { onBeforeRender } from "../../events/onBeforeRender"
+import { EffectTicker } from "./types"
+
+const mapEffectTicker = (ticker: EffectTicker) => {
+    if (Array.isArray(ticker)) return (cb: () => void) => ticker[0]().then(cb)
+    return ticker
+}
 
 export const createEffectSystem = <
     GameObject extends object | Appendable,
@@ -7,7 +12,7 @@ export const createEffectSystem = <
 >(
     effect: (target: GameObject, data: Data) => void | false,
     cleanup: ((target: GameObject, data: Data) => void) | undefined,
-    ticker: typeof onBeforeRender | typeof queueMicrotask,
+    effectTicker: EffectTicker,
     dataMap?: Map<GameObject, Data>
 ) => {
     const queued = new Set<GameObject>()
@@ -52,6 +57,7 @@ export const createEffectSystem = <
               started = false
           }
 
+    const ticker = mapEffectTicker(effectTicker)
     let started = false
     const start = () => {
         if (started) return

@@ -5,6 +5,7 @@ import { INVERSE_STANDARD_FRAME } from "../../globals"
 import getContext from "../../memo/getContext"
 import { updateDTSystem } from "../updateDTSystem"
 import createInternalSystem from "../utils/createInternalSystem"
+import { onAfterRender } from "../../events/onAfterRender"
 
 export const configAnimationPlaybackSystem = createInternalSystem(
     "configAnimationPlaybackSystem",
@@ -66,6 +67,6 @@ export const configAnimationPlaybackSystem = createInternalSystem(
             context.playCount = context.playCount! - 1
             context.playCount === 0 && updateDTSystem.delete(mixer)
         },
-        effectTicker: "afterRender"
+        effectTicker: onAfterRender
     }
 )

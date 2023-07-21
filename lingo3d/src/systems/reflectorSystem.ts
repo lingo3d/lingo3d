@@ -1,5 +1,6 @@
 import Reflector from "../display/Reflector"
 import MeshReflectorMaterial from "../display/Reflector/MeshReflectorMaterial"
+import { onRender } from "../events/onRender"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import createInternalSystem from "./utils/createInternalSystem"
 
@@ -9,5 +10,5 @@ export const reflectorSystem = createInternalSystem("reflectorSystem", {
         cameraRenderedPtr[0].updateWorldMatrix(true, false)
         data.material.update()
     },
-    updateTicker: "render"
+    updateTicker: onRender
 })
