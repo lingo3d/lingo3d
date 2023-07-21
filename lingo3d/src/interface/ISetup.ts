@@ -67,7 +67,7 @@ export const setupDefaults = extendDefaults<ISetup>(
         bloomRadius: new Range(0, 1),
         ssrIntensity: new Range(0, 2),
         ssrJitter: new Range(0, 1),
-        ssaoIntensity: new Range(0, 2),
+        ssaoIntensity: new Range(0, 4),
         ssaoRadius: new Range(0, 2),
         outlinePulse: new Range(0, 2),
         outlineStrength: new Range(0, 4)
