@@ -41,4 +41,4 @@ createEffect(() => {
     return () => {
         dynamicResolutionSystem.delete(renderer)
     }
-}, [getFps, getRenderer, getResolution, getSessionToken, getDynamicResolution])
+}, [getFps, getRenderer, getResolution, getDynamicResolution])
