@@ -5,7 +5,8 @@ import IDefaultSkyLight, {
 import { getDefaultLight, setDefaultLight } from "../../states/useDefaultLight"
 import SkyLight from "./SkyLight"
 import throttleFrameTrailing from "../../throttle/utils/throttleFrameTrailing"
-import { onUnload } from "../../events/onUnload"
+import { getSessionToken } from "../../states/useSessionToken"
+import { createEffect } from "@lincode/reactivity"
 
 let defaultSkyLight: DefaultSkyLight | undefined
 
@@ -37,8 +38,6 @@ export default class DefaultSkyLight
     }
 }
 
-getDefaultLight((val) =>
-    val ? new DefaultSkyLight() : defaultSkyLight?.dispose()
-)
-// await appendableRoot to clear
-onUnload(() => queueMicrotask(() => new DefaultSkyLight()))
+createEffect(() => {
+    getDefaultLight() ? new DefaultSkyLight() : defaultSkyLight?.dispose()
+}, [getDefaultLight, getSessionToken])

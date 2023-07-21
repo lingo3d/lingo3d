@@ -1,9 +1,9 @@
 import Appendable from "../display/core/Appendable"
 import MeshAppendable from "../display/core/MeshAppendable"
-import { onUnload } from "../events/onUnload"
+import { getSessionToken } from "../states/useSessionToken"
 
 export const appendableRoot = new Set<Appendable | MeshAppendable>()
 
-onUnload(() => {
+getSessionToken(() => {
     for (const child of appendableRoot) child.dispose()
 })

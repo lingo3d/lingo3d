@@ -5,7 +5,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { defaultSetupPtr } from "../pointers/defaultSetupPtr"
 import { emitEditorRefresh } from "../events/onEditorRefresh"
-import { onUnload } from "../events/onUnload"
+import { getSessionToken } from "../states/useSessionToken"
 
 const setupStructDefaults = { ...setupStruct }
 
@@ -41,6 +41,4 @@ for (const key of Object.keys(setupSchema))
 interface Setup extends Appendable, ISetup {}
 export default Setup
 
-new Setup()
-// await appendableRoot to clear
-onUnload(() => queueMicrotask(() => new Setup()))
+getSessionToken(() => new Setup())

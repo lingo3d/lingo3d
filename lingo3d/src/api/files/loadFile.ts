@@ -1,7 +1,6 @@
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import deserialize from "../serializer/deserialize"
-import { emitUnload } from "../../events/onUnload"
 
 export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false
@@ -9,7 +8,6 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
         const text = await file.text()
         if (!text.includes(`"type": "lingo3d"`)) return false
 
-        emitUnload()
         setFileCurrent(file)
         await new Promise((resolve) => setTimeout(resolve))
         deserialize(JSON.parse(text) as any)

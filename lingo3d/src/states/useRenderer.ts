@@ -4,10 +4,10 @@ import { getBackgroundColor } from "./useBackgroundColor"
 import { rendererPtr } from "../pointers/rendererPtr"
 import { getSplitView } from "./useSplitView"
 import { dynamicResolutionSystem } from "../systems/dynamicResolutionSystem"
-import { getFileCurrent } from "./useFileCurrent"
 import { getFps } from "./useFps"
 import { getResolution } from "./useResolution"
 import { getDynamicResolution } from "./useDynamicResolution"
+import { getSessionToken } from "./useSessionToken"
 
 const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
@@ -30,7 +30,7 @@ createEffect(() => {
     return () => {
         renderer.dispose()
     }
-}, [getBackgroundColor, getSplitView])
+}, [getBackgroundColor, getSplitView, getSessionToken])
 
 createEffect(() => {
     if (!getDynamicResolution()) return
@@ -41,4 +41,4 @@ createEffect(() => {
     return () => {
         dynamicResolutionSystem.delete(renderer)
     }
-}, [getFps, getRenderer, getResolution, getFileCurrent, getDynamicResolution])
+}, [getFps, getRenderer, getResolution, getSessionToken, getDynamicResolution])
