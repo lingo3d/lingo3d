@@ -130,13 +130,11 @@ export default <
               })
 
     let handle: Cancellable | undefined
-    const onUpdate = update && updateTicker
 
     const startUpdateLoop =
-        update && (() => (handle = onUpdate!(executeUpdate!)))
+        update && (() => (handle = updateTicker(executeUpdate!)))
 
-    //@ts-ignore
-    const autoDelete = onUpdate !== onDispose
+    const autoDelete = !Object.is(updateTicker, onDispose)
     const executeDelete = (item: GameObject) => {
         deleteEffectSystem(item)
         const deleted = queued.delete(item)
