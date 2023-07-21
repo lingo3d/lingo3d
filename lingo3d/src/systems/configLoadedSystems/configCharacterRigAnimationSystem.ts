@@ -25,54 +25,74 @@ export const configCharacterRigAnimationSystem = createInternalSystem(
             const hipsDst = jointMap.get("hips")
 
             characterRigAnimationSystem.add(self, {
-                leftHandSrc: characterMap.get("leftHand")!,
-                leftForeArmSrc: characterMap.get("leftForeArm")!,
-                leftArmSrc: characterMap.get("leftArm")!,
-                leftShoulderSrc: characterMap.get("leftShoulder")!,
-                leftHandDst: jointMap.get("leftHand"),
-                leftForeArmDst: jointMap.get("leftForeArm"),
-                leftArmDst: jointMap.get("leftArm"),
-                leftShoulderDst: jointMap.get("leftShoulder"),
+                leftHand: [
+                    characterMap.get("leftHand"),
+                    jointMap.get("leftHand")
+                ],
+                leftForeArm: [
+                    characterMap.get("leftForeArm"),
+                    jointMap.get("leftForeArm")
+                ],
+                leftArm: [characterMap.get("leftArm"), jointMap.get("leftArm")],
+                leftShoulder: [
+                    characterMap.get("leftShoulder"),
+                    jointMap.get("leftShoulder")
+                ],
 
-                rightHandSrc: characterMap.get("rightHand")!,
-                rightForeArmSrc: characterMap.get("rightForeArm")!,
-                rightArmSrc: characterMap.get("rightArm")!,
-                rightShoulderSrc: characterMap.get("rightShoulder")!,
-                rightHandDst: jointMap.get("rightHand"),
-                rightForeArmDst: jointMap.get("rightForeArm"),
-                rightArmDst: jointMap.get("rightArm"),
-                rightShoulderDst: jointMap.get("rightShoulder"),
+                rightHand: [
+                    characterMap.get("rightHand"),
+                    jointMap.get("rightHand")
+                ],
+                rightForeArm: [
+                    characterMap.get("rightForeArm"),
+                    jointMap.get("rightForeArm")
+                ],
+                rightArm: [
+                    characterMap.get("rightArm"),
+                    jointMap.get("rightArm")
+                ],
+                rightShoulder: [
+                    characterMap.get("rightShoulder"),
+                    jointMap.get("rightShoulder")
+                ],
 
-                leftForeFootSrc: characterMap.get("leftForeFoot")!,
-                leftFootSrc: characterMap.get("leftFoot")!,
-                leftLegSrc: characterMap.get("leftLeg")!,
-                leftThighSrc: characterMap.get("leftThigh")!,
-                leftForeFootDst: jointMap.get("leftForeFoot"),
-                leftFootDst: jointMap.get("leftFoot"),
-                leftLegDst: jointMap.get("leftLeg"),
-                leftThighDst: jointMap.get("leftThigh"),
+                leftForeFoot: [
+                    characterMap.get("leftForeFoot"),
+                    jointMap.get("leftForeFoot")
+                ],
+                leftFoot: [
+                    characterMap.get("leftFoot"),
+                    jointMap.get("leftFoot")
+                ],
+                leftLeg: [characterMap.get("leftLeg"), jointMap.get("leftLeg")],
+                leftThigh: [
+                    characterMap.get("leftThigh"),
+                    jointMap.get("leftThigh")
+                ],
 
-                rightForeFootSrc: characterMap.get("rightForeFoot")!,
-                rightFootSrc: characterMap.get("rightFoot")!,
-                rightLegSrc: characterMap.get("rightLeg")!,
-                rightThighSrc: characterMap.get("rightThigh")!,
-                rightForeFootDst: jointMap.get("rightForeFoot"),
-                rightFootDst: jointMap.get("rightFoot"),
-                rightLegDst: jointMap.get("rightLeg"),
-                rightThighDst: jointMap.get("rightThigh"),
+                rightForeFoot: [
+                    characterMap.get("rightForeFoot"),
+                    jointMap.get("rightForeFoot")
+                ],
+                rightFoot: [
+                    characterMap.get("rightFoot"),
+                    jointMap.get("rightFoot")
+                ],
+                rightLeg: [
+                    characterMap.get("rightLeg"),
+                    jointMap.get("rightLeg")
+                ],
+                rightThigh: [
+                    characterMap.get("rightThigh"),
+                    jointMap.get("rightThigh")
+                ],
 
-                headSrc: characterMap.get("head")!,
-                neckSrc: characterMap.get("neck")!,
-                spine2Src: characterMap.get("spine2")!,
-                spine1Src: characterMap.get("spine1")!,
-                spine0Src: characterMap.get("spine0")!,
-                hipsSrc,
-                headDst: jointMap.get("head"),
-                neckDst: jointMap.get("neck"),
-                spine2Dst: jointMap.get("spine2"),
-                spine1Dst: jointMap.get("spine1"),
-                spine0Dst: jointMap.get("spine0"),
-                hipsDst,
+                head: [characterMap.get("head"), jointMap.get("head")],
+                neck: [characterMap.get("neck"), jointMap.get("neck")],
+                spine2: [characterMap.get("spine2"), jointMap.get("spine2")],
+                spine1: [characterMap.get("spine1"), jointMap.get("spine1")],
+                spine0: [characterMap.get("spine0"), jointMap.get("spine0")],
+                hips: [characterMap.get("hips"), jointMap.get("hips")],
 
                 hipsPositionSrc: hipsSrc.position.clone(),
                 hipsPositionDst: hipsDst?.position.clone()

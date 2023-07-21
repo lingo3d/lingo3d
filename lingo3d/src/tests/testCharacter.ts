@@ -7,7 +7,7 @@ dummy.src = "Running.fbx"
 dummy.x = 50
 dummy.y = 85
 dummy.animation = true
-dummy.remove()
+// dummy.remove()
 
 const model = new Model()
 model.src = "player2.glb"

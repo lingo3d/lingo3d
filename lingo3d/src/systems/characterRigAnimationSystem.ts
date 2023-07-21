@@ -8,74 +8,73 @@ import getWorldPosition from "../memo/getWorldPosition"
 import createInternalSystem from "./utils/createInternalSystem"
 
 const setDirection = (
-    parentDst: CharacterRigJoint | undefined,
-    parentSrc: FoundManager,
-    childSrc: FoundManager
+    parentPair: [FoundManager | undefined, CharacterRigJoint | undefined],
+    childPair: [FoundManager | undefined, CharacterRigJoint | undefined]
 ) => {
-    if (!parentDst || parentDst.done) return
-    quaternion_.copy(parentDst.quaternion)
-    parentDst.setRotationFromDirection(
+    if (!parentPair[0] || !parentPair[1] || !childPair[0] || !childPair[1])
+        return
+    quaternion_.copy(parentPair[1].quaternion)
+    parentPair[1].setRotationFromDirection(
         direction3d(
-            getWorldPosition(childSrc.$object),
-            getWorldPosition(parentSrc.$object)
+            getWorldPosition(childPair[0].$object),
+            getWorldPosition(parentPair[0].$object)
         )
     )
-    quaternion__.copy(parentDst.quaternion)
-    parentDst.quaternion.copy(quaternion_).slerp(quaternion__, 0.5)
+    quaternion__.copy(parentPair[1].quaternion)
+    parentPair[1].quaternion.copy(quaternion_).slerp(quaternion__, 0.5)
 }
 
 export const characterRigAnimationSystem = createInternalSystem(
     "characterRigAnimationSystem",
     {
         data: {} as {
-            leftHandSrc: FoundManager
-            leftForeArmSrc: FoundManager
-            leftArmSrc: FoundManager
-            leftShoulderSrc: FoundManager
-            leftHandDst?: CharacterRigJoint
-            leftForeArmDst?: CharacterRigJoint
-            leftArmDst?: CharacterRigJoint
-            leftShoulderDst?: CharacterRigJoint
+            leftHand: [FoundManager | undefined, CharacterRigJoint | undefined]
+            leftForeArm: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
+            leftArm: [FoundManager | undefined, CharacterRigJoint | undefined]
+            leftShoulder: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
 
-            rightHandSrc: FoundManager
-            rightForeArmSrc: FoundManager
-            rightArmSrc: FoundManager
-            rightShoulderSrc: FoundManager
-            rightHandDst?: CharacterRigJoint
-            rightForeArmDst?: CharacterRigJoint
-            rightArmDst?: CharacterRigJoint
-            rightShoulderDst?: CharacterRigJoint
+            rightHand: [FoundManager | undefined, CharacterRigJoint | undefined]
+            rightForeArm: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
+            rightArm: [FoundManager | undefined, CharacterRigJoint | undefined]
+            rightShoulder: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
 
-            leftForeFootSrc: FoundManager
-            leftFootSrc: FoundManager
-            leftLegSrc: FoundManager
-            leftThighSrc: FoundManager
-            leftForeFootDst?: CharacterRigJoint
-            leftFootDst?: CharacterRigJoint
-            leftLegDst?: CharacterRigJoint
-            leftThighDst?: CharacterRigJoint
+            leftForeFoot: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
+            leftFoot: [FoundManager | undefined, CharacterRigJoint | undefined]
+            leftLeg: [FoundManager | undefined, CharacterRigJoint | undefined]
+            leftThigh: [FoundManager | undefined, CharacterRigJoint | undefined]
 
-            rightForeFootSrc: FoundManager
-            rightFootSrc: FoundManager
-            rightLegSrc: FoundManager
-            rightThighSrc: FoundManager
-            rightForeFootDst?: CharacterRigJoint
-            rightFootDst?: CharacterRigJoint
-            rightLegDst?: CharacterRigJoint
-            rightThighDst?: CharacterRigJoint
+            rightForeFoot: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
+            rightFoot: [FoundManager | undefined, CharacterRigJoint | undefined]
+            rightLeg: [FoundManager | undefined, CharacterRigJoint | undefined]
+            rightThigh: [
+                FoundManager | undefined,
+                CharacterRigJoint | undefined
+            ]
 
-            headSrc: FoundManager
-            neckSrc: FoundManager
-            spine2Src: FoundManager
-            spine1Src: FoundManager
-            spine0Src: FoundManager
-            hipsSrc: FoundManager
-            headDst?: CharacterRigJoint
-            neckDst?: CharacterRigJoint
-            spine2Dst?: CharacterRigJoint
-            spine1Dst?: CharacterRigJoint
-            spine0Dst?: CharacterRigJoint
-            hipsDst?: CharacterRigJoint
+            head: [FoundManager | undefined, CharacterRigJoint | undefined]
+            neck: [FoundManager | undefined, CharacterRigJoint | undefined]
+            spine2: [FoundManager | undefined, CharacterRigJoint | undefined]
+            spine1: [FoundManager | undefined, CharacterRigJoint | undefined]
+            spine0: [FoundManager | undefined, CharacterRigJoint | undefined]
+            hips: [FoundManager | undefined, CharacterRigJoint | undefined]
 
             hipsPositionSrc: Vector3
             hipsPositionDst?: Vector3
@@ -83,89 +82,68 @@ export const characterRigAnimationSystem = createInternalSystem(
         update: (
             _: CharacterRig,
             {
-                leftHandSrc,
-                leftForeArmSrc,
-                leftArmSrc,
-                leftShoulderSrc,
-                leftHandDst,
-                leftForeArmDst,
-                leftArmDst,
-                leftShoulderDst,
+                leftHand,
+                leftForeArm,
+                leftArm,
+                leftShoulder,
 
-                rightHandSrc,
-                rightForeArmSrc,
-                rightArmSrc,
-                rightShoulderSrc,
-                rightHandDst,
-                rightForeArmDst,
-                rightArmDst,
-                rightShoulderDst,
+                rightHand,
+                rightForeArm,
+                rightArm,
+                rightShoulder,
 
-                leftForeFootSrc,
-                leftFootSrc,
-                leftLegSrc,
-                leftThighSrc,
-                leftForeFootDst,
-                leftFootDst,
-                leftLegDst,
-                leftThighDst,
+                leftForeFoot,
+                leftFoot,
+                leftLeg,
+                leftThigh,
 
-                rightForeFootSrc,
-                rightFootSrc,
-                rightLegSrc,
-                rightThighSrc,
-                rightForeFootDst,
-                rightFootDst,
-                rightLegDst,
-                rightThighDst,
+                rightForeFoot,
+                rightFoot,
+                rightLeg,
+                rightThigh,
 
-                headSrc,
-                neckSrc,
-                spine2Src,
-                spine1Src,
-                spine0Src,
-                hipsSrc,
-                headDst,
-                neckDst,
-                spine2Dst,
-                spine1Dst,
-                spine0Dst,
-                hipsDst,
+                head,
+                neck,
+                spine2,
+                spine1,
+                spine0,
+                hips,
 
                 hipsPositionSrc,
                 hipsPositionDst
             }
         ) => {
-            setDirection(leftShoulderDst, leftShoulderSrc, leftArmSrc)
-            setDirection(leftArmDst, leftArmSrc, leftForeArmSrc)
-            setDirection(leftForeArmDst, leftForeArmSrc, leftHandSrc)
+            setDirection(leftShoulder, leftArm)
+            setDirection(leftArm, leftForeArm)
+            setDirection(leftForeArm, leftHand)
 
-            setDirection(rightShoulderDst, rightShoulderSrc, rightArmSrc)
-            setDirection(rightArmDst, rightArmSrc, rightForeArmSrc)
-            setDirection(rightForeArmDst, rightForeArmSrc, rightHandSrc)
+            setDirection(rightShoulder, rightArm)
+            setDirection(rightArm, rightForeArm)
+            setDirection(rightForeArm, rightHand)
 
-            setDirection(leftThighDst, leftThighSrc, leftLegSrc)
-            setDirection(leftLegDst, leftLegSrc, leftFootSrc)
-            setDirection(leftFootDst, leftFootSrc, leftForeFootSrc)
+            setDirection(leftThigh, leftLeg)
+            setDirection(leftLeg, leftFoot)
+            setDirection(leftFoot, leftForeFoot)
 
-            setDirection(rightThighDst, rightThighSrc, rightLegSrc)
-            setDirection(rightLegDst, rightLegSrc, rightFootSrc)
-            setDirection(rightFootDst, rightFootSrc, rightForeFootSrc)
+            setDirection(rightThigh, rightLeg)
+            setDirection(rightLeg, rightFoot)
+            setDirection(rightFoot, rightForeFoot)
 
-            setDirection(headDst, headSrc, neckSrc)
-            setDirection(neckDst, neckSrc, spine2Src)
-            setDirection(spine2Dst, spine2Src, spine1Src)
-            setDirection(spine1Dst, spine1Src, spine0Src)
-            setDirection(spine0Dst, spine0Src, hipsSrc)
+            setDirection(head, neck)
+            setDirection(neck, spine2)
+            setDirection(spine2, spine1)
+            setDirection(spine1, spine0)
+            setDirection(spine0, hips)
 
-            hipsDst?.position
-                .copy(hipsPositionDst!)
-                .add(
-                    vector3
-                        .copy(hipsSrc.position)
-                        .sub(hipsPositionSrc)
-                        .multiplyScalar(hipsSrc.owner.resizeScale)
-                )
+            if (hips[1] && hips[0])
+                hips[1].position
+                    .copy(hipsPositionDst!)
+                    .add(
+                        vector3
+                            .copy(hips[0].position)
+                            .sub(hipsPositionSrc)
+                            .multiplyScalar(hips[0].owner.resizeScale)
+                    )
         }
     }
 )
