@@ -71,6 +71,7 @@ export default class SkyLight extends MeshAppendable implements ISkyLight {
             const handle = getCameraRendered((val) => (csm.camera = val))
 
             return () => {
+                skyLightSystem.delete(this)
                 handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {
