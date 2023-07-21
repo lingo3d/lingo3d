@@ -79,72 +79,44 @@ export const characterRigAnimationSystem = createInternalSystem(
             hipsPositionSrc?: Vector3
             hipsPositionDst?: Vector3
         },
-        update: (
-            _: CharacterRig,
-            {
-                leftHand,
-                leftForeArm,
-                leftArm,
-                leftShoulder,
+        update: (_: CharacterRig, data) => {
+            setDirection(data.leftShoulder, data.leftArm)
+            setDirection(data.leftArm, data.leftForeArm)
+            setDirection(data.leftForeArm, data.leftHand)
 
-                rightHand,
-                rightForeArm,
-                rightArm,
-                rightShoulder,
+            setDirection(data.rightShoulder, data.rightArm)
+            setDirection(data.rightArm, data.rightForeArm)
+            setDirection(data.rightForeArm, data.rightHand)
 
-                leftForeFoot,
-                leftFoot,
-                leftLeg,
-                leftThigh,
+            setDirection(data.leftThigh, data.leftLeg)
+            setDirection(data.leftLeg, data.leftFoot)
+            setDirection(data.leftFoot, data.leftForeFoot)
 
-                rightForeFoot,
-                rightFoot,
-                rightLeg,
-                rightThigh,
+            setDirection(data.rightThigh, data.rightLeg)
+            setDirection(data.rightLeg, data.rightFoot)
+            setDirection(data.rightFoot, data.rightForeFoot)
 
-                head,
-                neck,
-                spine2,
-                spine1,
-                spine0,
-                hips,
+            setDirection(data.head, data.neck)
+            setDirection(data.neck, data.spine2)
+            setDirection(data.spine2, data.spine1)
+            setDirection(data.spine1, data.spine0)
+            setDirection(data.spine0, data.hips)
 
-                hipsPositionSrc,
-                hipsPositionDst
-            }
-        ) => {
-            setDirection(leftShoulder, leftArm)
-            setDirection(leftArm, leftForeArm)
-            setDirection(leftForeArm, leftHand)
-
-            setDirection(rightShoulder, rightArm)
-            setDirection(rightArm, rightForeArm)
-            setDirection(rightForeArm, rightHand)
-
-            setDirection(leftThigh, leftLeg)
-            setDirection(leftLeg, leftFoot)
-            setDirection(leftFoot, leftForeFoot)
-
-            setDirection(rightThigh, rightLeg)
-            setDirection(rightLeg, rightFoot)
-            setDirection(rightFoot, rightForeFoot)
-
-            setDirection(head, neck)
-            setDirection(neck, spine2)
-            setDirection(spine2, spine1)
-            setDirection(spine1, spine0)
-            setDirection(spine0, hips)
-
-            if (!hips[1] || !hips[0] || !hipsPositionDst || !hipsPositionSrc)
+            if (
+                !data.hips[1] ||
+                !data.hips[0] ||
+                !data.hipsPositionDst ||
+                !data.hipsPositionSrc
+            )
                 return
 
-            hips[1].position
-                .copy(hipsPositionDst)
+            data.hips[1].position
+                .copy(data.hipsPositionDst)
                 .add(
                     vector3
-                        .copy(hips[0].position)
-                        .sub(hipsPositionSrc)
-                        .multiplyScalar(hips[0].owner.resizeScale)
+                        .copy(data.hips[0].position)
+                        .sub(data.hipsPositionSrc)
+                        .multiplyScalar(data.hips[0].owner.resizeScale)
                 )
         }
     }
