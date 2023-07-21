@@ -1,8 +1,8 @@
 import { createPortal } from "preact/compat"
-import { Point } from "../.."
+import { PointType } from "../../typeGuards/isPoint"
 
 type TooltipProps = {
-    position?: Point
+    position?: PointType
 }
 
 const Tooltip = ({ position }: TooltipProps) => {

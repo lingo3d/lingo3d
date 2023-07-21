@@ -1,6 +1,7 @@
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import Appendable from "../../display/core/Appendable"
-import createInternalSystem, { SystemOptions } from "./createInternalSystem"
+import createInternalSystem from "./createInternalSystem"
+import { SystemOptions } from "./types"
 
 export default <
     GameObject extends object | Appendable,

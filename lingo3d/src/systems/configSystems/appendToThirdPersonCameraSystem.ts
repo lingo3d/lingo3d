@@ -2,7 +2,8 @@ import CharacterCamera from "../../display/core/CharacterCamera"
 import MeshAppendable from "../../display/core/MeshAppendable"
 import { characterCameraSystem } from "../characterCameraSystem"
 import { thirdPersonCameraSystem } from "../thirdPersonCameraSystem"
-import createInternalSystem, { System } from "../utils/createInternalSystem"
+import createInternalSystem from "../utils/createInternalSystem"
+import { System } from "../utils/types"
 
 export const appendToThirdPersonCameraSystem = createInternalSystem(
     "appendToThirdPersonCameraSystem",

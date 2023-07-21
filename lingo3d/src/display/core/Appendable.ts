@@ -13,10 +13,10 @@ import { appendableRoot } from "../../collections/appendableRoot"
 import { userIdMap, uuidMap } from "../../collections/idCollections"
 import { emitId } from "../../events/onId"
 import { loopSystem } from "../../systems/loopSystem"
-import type { System } from "../../systems/utils/createInternalSystem"
 import { userlandNameSystemMap } from "../../collections/userlandNameSystemMap"
 import { updateSystemsSystem } from "../../systems/updateSystemsSystem"
 import { sceneGraphChangePtr } from "../../pointers/sceneGraphChangePtr"
+import { System } from "../../systems/utils/types"
 
 type EventName = "name" | "loaded"
 

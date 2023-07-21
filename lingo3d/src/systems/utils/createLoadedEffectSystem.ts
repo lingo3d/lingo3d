@@ -1,6 +1,7 @@
 import Appendable from "../../display/core/Appendable"
 import Loaded from "../../display/core/Loaded"
-import createInternalSystem, { SystemOptions } from "./createInternalSystem"
+import createInternalSystem from "./createInternalSystem"
+import { SystemOptions } from "./types"
 
 const _loading = (self: Appendable | Loaded | object) =>
     "$loadedObject" in self && !self.$loadedObject

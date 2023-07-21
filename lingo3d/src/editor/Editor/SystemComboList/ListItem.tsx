@@ -1,4 +1,4 @@
-import { System } from "../../../systems/utils/createInternalSystem"
+import { System } from "../../../systems/utils/types"
 import DeleteIcon from "../../FileBrowser/icons/DeleteIcon"
 import MenuButton from "../../component/MenuButton"
 

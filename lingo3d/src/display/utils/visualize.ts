@@ -1,10 +1,10 @@
 import { forceGet } from "@lincode/utils"
-import { Sphere } from "../.."
 import IPrimitive from "../../interface/IPrimitive"
 import { Point3dType } from "../../typeGuards/isPoint"
 import { Vector3 } from "three"
 import { vec2Point } from "./vec2Point"
 import { createUnloadMap } from "../../utils/createUnloadMap"
+import Sphere from "../primitives/Sphere"
 
 const sphereMap = createUnloadMap<string, Sphere>()
 

@@ -3,42 +3,7 @@ import type Appendable from "../../display/core/Appendable"
 import { createEffectSystem } from "./createEffectSystem"
 import { onDispose } from "../../events/onDispose"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { EffectTicker, On } from "./types"
-
-export type SystemOptions<
-    GameObject extends object | Appendable,
-    Data extends Record<string, any> | void,
-    EventData extends
-        | Record<string, any>
-        | string
-        | boolean
-        | number
-        | Array<any>
-        | Function
-        | void
-> = {
-    data?: Data | ((gameObject: GameObject) => Data)
-    effect?: (gameObject: GameObject, data: Data) => void | false
-    cleanup?: (gameObject: GameObject, data: Data) => void
-    update?: (gameObject: GameObject, data: Data, eventData: EventData) => void
-    updateTicker?: On<EventData | void>
-    effectTicker?: EffectTicker
-    beforeTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
-    afterTick?: (queued: Map<GameObject, Data> | Set<GameObject>) => void
-    sort?: (a: GameObject, b: GameObject) => number
-    disableRepeatAdd?: boolean
-}
-
-export type System<
-    GameObject extends object | Appendable = any,
-    Data extends Record<string, any> | void = any
-> = {
-    name: string
-    add: (item: GameObject, initData?: Data) => void
-    delete: (item: GameObject) => void
-    dispose: () => void
-    queued: Array<GameObject>
-}
+import { System, SystemOptions } from "./types"
 
 const placeholderFn = () => {}
 

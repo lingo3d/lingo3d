@@ -1,7 +1,6 @@
 import "./engine"
 
 import Primitive from "./display/core/Primitive"
-import { System } from "./systems/utils/createInternalSystem"
 import { LingoMouseEvent } from "./interface/IMouse"
 import { LingoKeyboardEvent } from "./interface/IKeyboard"
 
@@ -98,13 +97,7 @@ const mouse = new Mouse()
 mouse.remove()
 
 type GameObject = Model & Primitive
-export type {
-    Primitive,
-    System,
-    GameObject,
-    LingoMouseEvent,
-    LingoKeyboardEvent
-}
+export type { Primitive, GameObject, LingoMouseEvent, LingoKeyboardEvent }
 
 export {
     Cube,
