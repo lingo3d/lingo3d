@@ -95,7 +95,6 @@ export default <
               })
 
     let handle: Cancellable | undefined
-
     const startUpdateLoop =
         update && (() => (handle = updateTicker(executeUpdate!)))
 
@@ -122,7 +121,6 @@ export default <
               queued.set(
                   item,
                   initData ??
-                      queued.get(item) ??
                       (typeof data === "function"
                           ? data(item)
                           : data
