@@ -76,7 +76,7 @@ export const characterRigAnimationSystem = createInternalSystem(
             spine0: [FoundManager | undefined, CharacterRigJoint | undefined]
             hips: [FoundManager | undefined, CharacterRigJoint | undefined]
 
-            hipsPositionSrc: Vector3
+            hipsPositionSrc?: Vector3
             hipsPositionDst?: Vector3
         },
         update: (
@@ -135,15 +135,17 @@ export const characterRigAnimationSystem = createInternalSystem(
             setDirection(spine1, spine0)
             setDirection(spine0, hips)
 
-            if (hips[1] && hips[0])
-                hips[1].position
-                    .copy(hipsPositionDst!)
-                    .add(
-                        vector3
-                            .copy(hips[0].position)
-                            .sub(hipsPositionSrc)
-                            .multiplyScalar(hips[0].owner.resizeScale)
-                    )
+            if (!hips[1] || !hips[0] || !hipsPositionDst || !hipsPositionSrc)
+                return
+
+            hips[1].position
+                .copy(hipsPositionDst)
+                .add(
+                    vector3
+                        .copy(hips[0].position)
+                        .sub(hipsPositionSrc)
+                        .multiplyScalar(hips[0].owner.resizeScale)
+                )
         }
     }
 )
