@@ -10,6 +10,7 @@ import { getEditorBehavior } from "../states/useEditorBehavior"
 import { container } from "./renderLoop/containers"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 import { editorBehaviorPtr } from "../pointers/editorBehaviorPtr"
+import { onUnload } from "../events/onUnload"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
@@ -42,7 +43,7 @@ createEffect(() => {
     }
 }, [getEditorBehavior, getTransformControlsDragging, getCameraRendered])
 
-export const resetMainCameraManager = () => {
+const resetMainCameraManager = () => {
     mainCameraManager.x = 0
     mainCameraManager.y = 0
     mainCameraManager.z = 0
@@ -52,7 +53,7 @@ export const resetMainCameraManager = () => {
     mainCameraManager.polarAngle = editorBehaviorPtr[0] ? 120 : 0
     mainCameraManager.azimuthAngle = 0
 }
-
 getEditorBehavior(
     (editorBehavior) => editorBehavior && resetMainCameraManager()
 )
+onUnload(() => resetMainCameraManager())

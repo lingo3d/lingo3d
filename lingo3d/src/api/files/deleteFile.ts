@@ -7,8 +7,8 @@ import { unset } from "@lincode/utils"
 import { getFileSelected } from "../../states/useFileSelected"
 import { pathFileMap } from "../../collections/pathFileMap"
 import type { FileWithDirectoryAndFileHandle } from "browser-fs-access"
-import { unloadFile } from "./unloadFile"
 import { pathObjectURLMap } from "../../collections/pathObjectURLMap"
+import { emitUnload } from "../../events/onUnload"
 
 export default async () => {
     const file = getFileSelected() as FileWithDirectoryAndFileHandle
@@ -21,5 +21,5 @@ export default async () => {
     pathObjectURLMap.delete(file.webkitRelativePath)
     setFileStructure({ ...fileStructure })
 
-    file === getFileCurrent() && unloadFile()
+    file === getFileCurrent() && emitUnload()
 }

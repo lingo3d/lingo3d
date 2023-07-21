@@ -5,6 +5,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { defaultSetupPtr } from "../pointers/defaultSetupPtr"
 import { emitEditorRefresh } from "../events/onEditorRefresh"
+import { onUnload } from "../events/onUnload"
 
 const setupStructDefaults = { ...setupStruct }
 
@@ -41,3 +42,5 @@ interface Setup extends Appendable, ISetup {}
 export default Setup
 
 new Setup()
+// await appendableRoot to clear
+onUnload(() => queueMicrotask(() => new Setup()))
