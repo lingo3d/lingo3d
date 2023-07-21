@@ -1,9 +1,1 @@
-export default [
-    "type",
-    "children",
-    "scale",
-    "velocity",
-    "proxy",
-    "grid",
-    "stats"
-]
+export default ["type", "children", "scale", "velocity", "proxy", "stats"]

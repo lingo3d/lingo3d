@@ -46,7 +46,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-editorHideSet.add("grid")
 editorHideSet.add("stats")
 editorHideSet.add("ssrJitter")
 

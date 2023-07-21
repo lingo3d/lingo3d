@@ -2,7 +2,6 @@ import {
     getDynamicResolution,
     setDynamicResolution
 } from "../../states/useDynamicResolution"
-import { getGrid, setGrid } from "../../states/useGrid"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { getStats, setStats } from "../../states/useStats"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
@@ -17,7 +16,6 @@ import useSyncState from "../hooks/useSyncState"
 const WorldToggles = () => {
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
-    const grid = useSyncState(getGrid)
     const stats = useSyncState(getStats)
     const dynamicResolution = useSyncState(getDynamicResolution)
     const worldExpanded = useSyncState(getWorldExpanded)
@@ -38,12 +36,6 @@ const WorldToggles = () => {
                 label="ui"
                 on={uiLayer}
                 onChange={(val) => setUILayer(val)}
-            />
-            <Switch
-                compact
-                label="grid"
-                on={grid}
-                onChange={(val) => setGrid(val)}
             />
             <Switch
                 compact
